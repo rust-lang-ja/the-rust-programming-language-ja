@@ -1,4 +1,4 @@
-% Guessing Game
+% 推測ゲーム
 
 Let’s learn some Rust! For our first project, we’ll implement a classic
 beginner programming problem: the guessing game. Here’s how it works: Our
@@ -7,14 +7,27 @@ prompt us to enter a guess. Upon entering our guess, it will tell us if we’re
 too low or too high. Once we guess correctly, it will congratulate us. Sounds
 good?
 
+Rustを学びましょう! 最初のプロジェクトとして、古典的な初心者向けのプログラミングの問題、推測ゲームを実装します。
+動作: プログラムは1から100の間のあるランダムな数字を生成します。
+そしてその値の推測値の入力を促します。
+推測値を入力すると大きすぎたあるいは小さすぎたと教えてくれます。
+当たったらおめでとうと言ってくれます。良さそうでしょう?
+
+
 Along the way, we’ll learn a little bit about Rust. The next chapter, ‘Syntax
 and Semantics’, will dive deeper into each part.
+
+実装していきながらRustについて少しばかり学びます。次の章、「シンタックスとセマンティクス」で
+それぞれについて深掘りしていきます。
 
 # Set up
 
 Let’s set up a new project. Go to your projects directory. Remember how we had
 to create our directory structure and a `Cargo.toml` for `hello_world`? Cargo
 has a command that does that for us. Let’s give it a shot:
+
+新しいプロジェクトを作りましょう。プロジジェクトのディレクトリ
+
 
 ```bash
 $ cd ~/projects
