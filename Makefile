@@ -1,5 +1,5 @@
 VERSION=1.6
-LANG=en
+LANG=ja
 
 all: book
 
