@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Structs</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='ownership.html'><b>4.7.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.9.</b> 生存期</a>
+</li>
+<li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
+</li>
+<li><a class='active' href='structs.html'><b>4.11.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.12.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.13.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.14.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.15.</b> メソッド構文</a>
+</li>
+<li><a  href='vectors.html'><b>4.16.</b> ベクタ</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレイトとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const`と`static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type`エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ無し型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> FFI</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> イントリンシック</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語事項</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンク</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Structs</h1>
+    <p><code>struct</code>s are a way of creating more complex data types. For example, if we were
+doing calculations involving coordinates in 2D space, we would need both an <code>x</code>
+and a <code>y</code> value:</p>
+<span class='rusttest'>fn main() {
+    let origin_x = 0;
+    let origin_y = 0;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>origin_x</span> <span class='op'>=</span> <span class='number'>0</span>;
+<span class='kw'>let</span> <span class='ident'>origin_y</span> <span class='op'>=</span> <span class='number'>0</span>;</pre>
+
+<p>A <code>struct</code> lets us combine these two into a single, unified datatype with <code>x</code>
+and <code>y</code> as field labels:</p>
+<span class='rusttest'>struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let origin = Point { x: 0, y: 0 }; // origin: Point
+
+    println!(&quot;The origin is at ({}, {})&quot;, origin.x, origin.y);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> }; <span class='comment'>// origin: Point</span>
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The origin is at ({}, {})&quot;</span>, <span class='ident'>origin</span>.<span class='ident'>x</span>, <span class='ident'>origin</span>.<span class='ident'>y</span>);
+}</pre>
+
+<p>There’s a lot going on here, so let’s break it down. We declare a <code>struct</code> with
+the <code>struct</code> keyword, and then with a name. By convention, <code>struct</code>s begin with
+a capital letter and are camel cased: <code>PointInSpace</code>, not <code>Point_In_Space</code>.</p>
+
+<p>We can create an instance of our <code>struct</code> via <code>let</code>, as usual, but we use a <code>key: value</code> style syntax to set each field. The order doesn’t need to be the same as
+in the original declaration.</p>
+
+<p>Finally, because fields have names, we can access them through dot
+notation: <code>origin.x</code>.</p>
+
+<p>The values in <code>struct</code>s are immutable by default, like other bindings in Rust.
+Use <code>mut</code> to make them mutable:</p>
+<span class='rusttest'>struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let mut point = Point { x: 0, y: 0 };
+
+    point.x = 5;
+
+    println!(&quot;The point is at ({}, {})&quot;, point.x, point.y);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+
+    <span class='ident'>point</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The point is at ({}, {})&quot;</span>, <span class='ident'>point</span>.<span class='ident'>x</span>, <span class='ident'>point</span>.<span class='ident'>y</span>);
+}</pre>
+
+<p>This will print <code>The point is at (5, 0)</code>.</p>
+
+<p>Rust does not support field mutability at the language level, so you cannot
+write something like this:</p>
+<span class='rusttest'>fn main() {
+    struct Point {
+        mut x: i32,
+        y: i32,
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='kw-2'>mut</span> <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}</pre>
+
+<p>Mutability is a property of the binding, not of the structure itself. If you’re
+used to field-level mutability, this may seem strange at first, but it
+significantly simplifies things. It even lets you make things mutable on a temporary
+basis:</p>
+<span class='rusttest'>struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let mut point = Point { x: 0, y: 0 };
+
+    point.x = 5;
+
+    let point = point; // now immutable
+
+    point.y = 6; // this causes an error
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+
+    <span class='ident'>point</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>point</span>; <span class='comment'>// now immutable</span>
+
+    <span class='ident'>point</span>.<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>; <span class='comment'>// this causes an error</span>
+}</pre>
+
+<p>Your structure can still contain <code>&amp;mut</code> pointers, which will let
+you do some kinds of mutation:</p>
+<span class='rusttest'>struct Point {
+    x: i32,
+    y: i32,
+}
+
+struct PointRef&lt;&#39;a&gt; {
+    x: &amp;&#39;a mut i32,
+    y: &amp;&#39;a mut i32,
+}
+
+fn main() {
+    let mut point = Point { x: 0, y: 0 };
+
+    {
+        let r = PointRef { x: &amp;mut point.x, y: &amp;mut point.y };
+
+        *r.x = 5;
+        *r.y = 6;
+    }
+
+    assert_eq!(5, point.x);
+    assert_eq!(6, point.y);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>struct</span> <span class='ident'>PointRef</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>i32</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+
+    {
+        <span class='kw'>let</span> <span class='ident'>r</span> <span class='op'>=</span> <span class='ident'>PointRef</span> { <span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>point</span>.<span class='ident'>x</span>, <span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>point</span>.<span class='ident'>y</span> };
+
+        <span class='op'>*</span><span class='ident'>r</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+        <span class='op'>*</span><span class='ident'>r</span>.<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>;
+    }
+
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='ident'>point</span>.<span class='ident'>x</span>);
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>point</span>.<span class='ident'>y</span>);
+}</pre>
+
+<h1 id='update-syntax' class='section-header'><a href='#update-syntax'>Update syntax</a></h1>
+<p>A <code>struct</code> can include <code>..</code> to indicate that you want to use a copy of some
+other <code>struct</code> for some of the values. For example:</p>
+<span class='rusttest'>fn main() {
+    struct Point3d {
+        x: i32,
+        y: i32,
+        z: i32,
+    }
+    
+    let mut point = Point3d { x: 0, y: 0, z: 0 };
+    point = Point3d { y: 1, .. point };
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point3d</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+    <span class='ident'>z</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point3d</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span>, <span class='ident'>z</span>: <span class='number'>0</span> };
+<span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point3d</span> { <span class='ident'>y</span>: <span class='number'>1</span>, .. <span class='ident'>point</span> };</pre>
+
+<p>This gives <code>point</code> a new <code>y</code>, but keeps the old <code>x</code> and <code>z</code> values. It doesn’t
+have to be the same <code>struct</code> either, you can use this syntax when making new
+ones, and it will copy the values you don’t specify:</p>
+<span class='rusttest'>fn main() {
+    struct Point3d {
+        x: i32,
+        y: i32,
+        z: i32,
+    }
+    let origin = Point3d { x: 0, y: 0, z: 0 };
+    let point = Point3d { z: 1, x: 2, .. origin };
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>Point3d</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span>, <span class='ident'>z</span>: <span class='number'>0</span> };
+<span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point3d</span> { <span class='ident'>z</span>: <span class='number'>1</span>, <span class='ident'>x</span>: <span class='number'>2</span>, .. <span class='ident'>origin</span> };</pre>
+
+<h1 id='tuple-structs' class='section-header'><a href='#tuple-structs'>Tuple structs</a></h1>
+<p>Rust has another data type that’s like a hybrid between a <a href="primitive-types.html#tuples">tuple</a> and a
+<code>struct</code>, called a ‘tuple struct’. Tuple structs have a name, but their fields
+don&#39;t. They are declared with the <code>struct</code> keyword, and then with a name
+followed by a tuple:</p>
+<span class='rusttest'>fn main() {
+    struct Color(i32, i32, i32);
+    struct Point(i32, i32, i32);
+    
+    let black = Color(0, 0, 0);
+    let origin = Point(0, 0, 0);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Color</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>);
+<span class='kw'>struct</span> <span class='ident'>Point</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>);
+
+<span class='kw'>let</span> <span class='ident'>black</span> <span class='op'>=</span> <span class='ident'>Color</span>(<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>);
+<span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>Point</span>(<span class='number'>0</span>, <span class='number'>0</span>, <span class='number'>0</span>);</pre>
+
+<p>Here, <code>black</code> and <code>origin</code> are not equal, even though they contain the same
+values.</p>
+
+<p>It is almost always better to use a <code>struct</code> than a tuple struct. We
+would write <code>Color</code> and <code>Point</code> like this instead:</p>
+<span class='rusttest'>fn main() {
+    struct Color {
+        red: i32,
+        blue: i32,
+        green: i32,
+    }
+    
+    struct Point {
+        x: i32,
+        y: i32,
+        z: i32,
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Color</span> {
+    <span class='ident'>red</span>: <span class='ident'>i32</span>,
+    <span class='ident'>blue</span>: <span class='ident'>i32</span>,
+    <span class='ident'>green</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+    <span class='ident'>z</span>: <span class='ident'>i32</span>,
+}</pre>
+
+<p>Good names are important, and while values in a tuple struct can be
+referenced with dot notation as well, a <code>struct</code> gives us actual names,
+rather than positions.</p>
+
+<p>There <em>is</em> one case when a tuple struct is very useful, though, and that is when
+it has only one element. We call this the ‘newtype’ pattern, because
+it allows you to create a new type that is distinct from its contained value
+and also expresses its own semantic meaning:</p>
+<span class='rusttest'>fn main() {
+    struct Inches(i32);
+    
+    let length = Inches(10);
+    
+    let Inches(integer_length) = length;
+    println!(&quot;length is {} inches&quot;, integer_length);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Inches</span>(<span class='ident'>i32</span>);
+
+<span class='kw'>let</span> <span class='ident'>length</span> <span class='op'>=</span> <span class='ident'>Inches</span>(<span class='number'>10</span>);
+
+<span class='kw'>let</span> <span class='ident'>Inches</span>(<span class='ident'>integer_length</span>) <span class='op'>=</span> <span class='ident'>length</span>;
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;length is {} inches&quot;</span>, <span class='ident'>integer_length</span>);</pre>
+
+<p>As you can see here, you can extract the inner integer type through a
+destructuring <code>let</code>, as with regular tuples. In this case, the
+<code>let Inches(integer_length)</code> assigns <code>10</code> to <code>integer_length</code>.</p>
+
+<h1 id='unit-like-structs' class='section-header'><a href='#unit-like-structs'>Unit-like structs</a></h1>
+<p>You can define a <code>struct</code> with no members at all:</p>
+<span class='rusttest'>fn main() {
+    struct Electron;
+    
+    let x = Electron;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Electron</span>;
+
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Electron</span>;</pre>
+
+<p>Such a <code>struct</code> is called ‘unit-like’ because it resembles the empty
+tuple, <code>()</code>, sometimes called ‘unit’. Like a tuple struct, it defines a
+new type.</p>
+
+<p>This is rarely useful on its own (although sometimes it can serve as a
+marker type), but in combination with other features, it can become
+useful. For instance, a library may ask you to create a structure that
+implements a certain <a href="traits.html">trait</a> to handle events. If you don’t have
+any data you need to store in the structure, you can create a
+unit-like <code>struct</code>.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Benchmark tests</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='ownership.html'><b>4.7.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.9.</b> 生存期</a>
+</li>
+<li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
+</li>
+<li><a  href='structs.html'><b>4.11.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.12.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.13.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.14.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.15.</b> メソッド構文</a>
+</li>
+<li><a  href='vectors.html'><b>4.16.</b> ベクタ</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレイトとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const`と`static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type`エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ無し型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> FFI</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> イントリンシック</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語事項</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンク</a>
+</li>
+<li><a class='active' href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Benchmark tests</h1>
+    <p>Rust supports benchmark tests, which can test the performance of your
+code. Let&#39;s make our <code>src/lib.rs</code> look like this (comments elided):</p>
+<span class='rusttest'>#![feature(test)]
+
+fn main() {
+    extern crate test;
+    
+    pub fn add_two(a: i32) -&gt; i32 {
+        a + 2
+    }
+    
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+        use test::Bencher;
+    
+        #[test]
+        fn it_works() {
+            assert_eq!(4, add_two(2));
+        }
+    
+        #[bench]
+        fn bench_add_two(b: &amp;mut Bencher) {
+            b.iter(|| add_two(2));
+        }
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>test</span>)]</span>
+
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>test</span>;
+
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>add_two</span>(<span class='ident'>a</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='ident'>a</span> <span class='op'>+</span> <span class='number'>2</span>
+}
+
+<span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
+<span class='kw'>mod</span> <span class='ident'>tests</span> {
+    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='ident'>test</span>::<span class='ident'>Bencher</span>;
+
+    <span class='attribute'>#[<span class='ident'>test</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>it_works</span>() {
+        <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>add_two</span>(<span class='number'>2</span>));
+    }
+
+    <span class='attribute'>#[<span class='ident'>bench</span>]</span>
+    <span class='kw'>fn</span> <span class='ident'>bench_add_two</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Bencher</span>) {
+        <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> <span class='ident'>add_two</span>(<span class='number'>2</span>));
+    }
+}</pre>
+
+<p>Note the <code>test</code> feature gate, which enables this unstable feature.</p>
+
+<p>We&#39;ve imported the <code>test</code> crate, which contains our benchmarking support.
+We have a new function as well, with the <code>bench</code> attribute. Unlike regular
+tests, which take no arguments, benchmark tests take a <code>&amp;mut Bencher</code>. This
+<code>Bencher</code> provides an <code>iter</code> method, which takes a closure. This closure
+contains the code we&#39;d like to benchmark.</p>
+
+<p>We can run benchmark tests with <code>cargo bench</code>:</p>
+
+<pre><code class="language-bash">$ cargo bench
+   Compiling adder v0.0.1 (file:///home/steve/tmp/adder)
+     Running target/release/adder-91b3e234d4ed382a
+
+running 2 tests
+test tests::it_works ... ignored
+test tests::bench_add_two ... bench:         1 ns/iter (+/- 0)
+
+test result: ok. 0 passed; 0 failed; 1 ignored; 1 measured
+</code></pre>
+
+<p>Our non-benchmark test was ignored. You may have noticed that <code>cargo bench</code>
+takes a bit longer than <code>cargo test</code>. This is because Rust runs our benchmark
+a number of times, and then takes the average. Because we&#39;re doing so little
+work in this example, we have a <code>1 ns/iter (+/- 0)</code>, but this would show
+the variance if there was one.</p>
+
+<p>Advice on writing benchmarks:</p>
+
+<ul>
+<li>Move setup code outside the <code>iter</code> loop; only put the part you want to measure inside</li>
+<li>Make the code do &quot;the same thing&quot; on each iteration; do not accumulate or change state</li>
+<li>Make the outer function idempotent too; the benchmark runner is likely to run
+it many times</li>
+<li> Make the inner <code>iter</code> loop short and fast so benchmark runs are fast and the
+calibrator can adjust the run-length at fine resolution</li>
+<li>Make the code in the <code>iter</code> loop do something simple, to assist in pinpointing
+performance improvements (or regressions)</li>
+</ul>
+
+<h2 id='gotcha-optimizations' class='section-header'><a href='#gotcha-optimizations'>Gotcha: optimizations</a></h2>
+<p>There&#39;s another tricky part to writing benchmarks: benchmarks compiled with
+optimizations activated can be dramatically changed by the optimizer so that
+the benchmark is no longer benchmarking what one expects. For example, the
+compiler might recognize that some calculation has no external effects and
+remove it entirely.</p>
+<span class='rusttest'>#![feature(test)]
+
+fn main() {
+    extern crate test;
+    use test::Bencher;
+    
+    #[bench]
+    fn bench_xor_1000_ints(b: &amp;mut Bencher) {
+        b.iter(|| {
+            (0..1000).fold(0, |old, new| old ^ new);
+        });
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>test</span>)]</span>
+
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>test</span>;
+<span class='kw'>use</span> <span class='ident'>test</span>::<span class='ident'>Bencher</span>;
+
+<span class='attribute'>#[<span class='ident'>bench</span>]</span>
+<span class='kw'>fn</span> <span class='ident'>bench_xor_1000_ints</span>(<span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Bencher</span>) {
+    <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
+        (<span class='number'>0</span>..<span class='number'>1000</span>).<span class='ident'>fold</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>old</span>, <span class='ident'>new</span><span class='op'>|</span> <span class='ident'>old</span> <span class='op'>^</span> <span class='ident'>new</span>);
+    });
+}</pre>
+
+<p>gives the following results</p>
+
+<pre><code class="language-text">running 1 test
+test bench_xor_1000_ints ... bench:         0 ns/iter (+/- 0)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
+</code></pre>
+
+<p>The benchmarking runner offers two ways to avoid this. Either, the closure that
+the <code>iter</code> method receives can return an arbitrary value which forces the
+optimizer to consider the result used and ensures it cannot remove the
+computation entirely. This could be done for the example above by adjusting the
+<code>b.iter</code> call to</p>
+<span class='rusttest'>fn main() {
+    struct X;
+    impl X { fn iter&lt;T, F&gt;(&amp;self, _: F) where F: FnMut() -&gt; T {} } let b = X;
+    b.iter(|| {
+        // note lack of `;` (could also use an explicit `return`).
+        (0..1000).fold(0, |old, new| old ^ new)
+    });
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
+    <span class='comment'>// note lack of `;` (could also use an explicit `return`).</span>
+    (<span class='number'>0</span>..<span class='number'>1000</span>).<span class='ident'>fold</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>old</span>, <span class='ident'>new</span><span class='op'>|</span> <span class='ident'>old</span> <span class='op'>^</span> <span class='ident'>new</span>)
+});</pre>
+
+<p>Or, the other option is to call the generic <code>test::black_box</code> function, which
+is an opaque &quot;black box&quot; to the optimizer and so forces it to consider any
+argument as used.</p>
+<span class='rusttest'>#![feature(test)]
+
+extern crate test;
+
+fn main() {
+struct X;
+impl X { fn iter&lt;T, F&gt;(&amp;self, _: F) where F: FnMut() -&gt; T {} } let b = X;
+b.iter(|| {
+    let n = test::black_box(1000);
+
+    (0..n).fold(0, |a, b| a ^ b)
+})
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>test</span>)]</span>
+
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>test</span>;
+
+<span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
+    <span class='kw'>let</span> <span class='ident'>n</span> <span class='op'>=</span> <span class='ident'>test</span>::<span class='ident'>black_box</span>(<span class='number'>1000</span>);
+
+    (<span class='number'>0</span>..<span class='ident'>n</span>).<span class='ident'>fold</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>b</span><span class='op'>|</span> <span class='ident'>a</span> <span class='op'>^</span> <span class='ident'>b</span>)
+})</pre>
+
+<p>Neither of these read or modify the value, and are very cheap for small values.
+Larger values can be passed indirectly to reduce overhead (e.g.
+<code>black_box(&amp;huge_struct)</code>).</p>
+
+<p>Performing either of the above changes gives the following benchmarking results</p>
+
+<pre><code class="language-text">running 1 test
+test bench_xor_1000_ints ... bench:       131 ns/iter (+/- 3)
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
+</code></pre>
+
+<p>However, the optimizer can still modify a testcase in an undesirable manner
+even when using either of the above.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

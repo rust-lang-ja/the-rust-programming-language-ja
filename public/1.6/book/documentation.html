@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Documentation</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='ownership.html'><b>4.7.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.9.</b> 生存期</a>
+</li>
+<li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
+</li>
+<li><a  href='structs.html'><b>4.11.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.12.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.13.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.14.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.15.</b> メソッド構文</a>
+</li>
+<li><a  href='vectors.html'><b>4.16.</b> ベクタ</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレイトとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const`と`static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type`エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ無し型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a class='active' href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> FFI</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> イントリンシック</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語事項</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンク</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Documentation</h1>
+    <p>Documentation is an important part of any software project, and it&#39;s
+first-class in Rust. Let&#39;s talk about the tooling Rust gives you to
+document your project.</p>
+
+<h2 id='about-rustdoc' class='section-header'><a href='#about-rustdoc'>About <code>rustdoc</code></a></h2>
+<p>The Rust distribution includes a tool, <code>rustdoc</code>, that generates documentation.
+<code>rustdoc</code> is also used by Cargo through <code>cargo doc</code>.</p>
+
+<p>Documentation can be generated in two ways: from source code, and from
+standalone Markdown files.</p>
+
+<h2 id='documenting-source-code' class='section-header'><a href='#documenting-source-code'>Documenting source code</a></h2>
+<p>The primary way of documenting a Rust project is through annotating the source
+code. You can use documentation comments for this purpose:</p>
+<span class='rusttest'>fn main() {
+    /// Constructs a new `Rc&lt;T&gt;`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use std::rc::Rc;
+    ///
+    /// let five = Rc::new(5);
+    /// ```
+    pub fn new(value: T) -&gt; Rc&lt;T&gt; {
+        // implementation goes here
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// Constructs a new `Rc&lt;T&gt;`.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>value</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='comment'>// implementation goes here</span>
+}</pre>
+
+<p>This code generates documentation that looks <a href="https://doc.rust-lang.org/nightly/std/rc/struct.Rc.html#method.new">like this</a>. I&#39;ve left the
+implementation out, with a regular comment in its place.</p>
+
+<p>The first thing to notice about this annotation is that it uses
+<code>///</code> instead of <code>//</code>. The triple slash
+indicates a documentation comment.</p>
+
+<p>Documentation comments are written in Markdown.</p>
+
+<p>Rust keeps track of these comments, and uses them when generating
+documentation. This is important when documenting things like enums:</p>
+<span class='rusttest'>fn main() {
+    /// The `Option` type. See [the module level documentation](index.html) for more.
+    enum Option&lt;T&gt; {
+        /// No value
+        None,
+        /// Some value `T`
+        Some(T),
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// The `Option` type. See [the module level documentation](index.html) for more.</span>
+<span class='kw'>enum</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='doccomment'>/// No value</span>
+    <span class='prelude-val'>None</span>,
+    <span class='doccomment'>/// Some value `T`</span>
+    <span class='prelude-val'>Some</span>(<span class='ident'>T</span>),
+}</pre>
+
+<p>The above works, but this does not:</p>
+<span class='rusttest'>fn main() {
+    /// The `Option` type. See [the module level documentation](index.html) for more.
+    enum Option&lt;T&gt; {
+        None, /// No value
+        Some(T), /// Some value `T`
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// The `Option` type. See [the module level documentation](index.html) for more.</span>
+<span class='kw'>enum</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='prelude-val'>None</span>, <span class='doccomment'>/// No value</span>
+    <span class='prelude-val'>Some</span>(<span class='ident'>T</span>), <span class='doccomment'>/// Some value `T`</span>
+}</pre>
+
+<p>You&#39;ll get an error:</p>
+
+<pre><code class="language-text">hello.rs:4:1: 4:2 error: expected ident, found `}`
+hello.rs:4 }
+           ^
+</code></pre>
+
+<p>This <a href="https://github.com/rust-lang/rust/issues/22547">unfortunate error</a> is
+correct; documentation comments apply to the thing after them, and there&#39;s
+nothing after that last comment.</p>
+
+<h3 id='writing-documentation-comments' class='section-header'><a href='#writing-documentation-comments'>Writing documentation comments</a></h3>
+<p>Anyway, let&#39;s cover each part of this comment in detail:</p>
+<span class='rusttest'>fn main() {
+    /// Constructs a new `Rc&lt;T&gt;`.
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// Constructs a new `Rc&lt;T&gt;`.</span></pre>
+
+<p>The first line of a documentation comment should be a short summary of its
+functionality. One sentence. Just the basics. High level.</p>
+<span class='rusttest'>fn main() {
+    ///
+    /// Other details about constructing `Rc&lt;T&gt;`s, maybe describing complicated
+    /// semantics, maybe additional options, all kinds of stuff.
+    ///
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Other details about constructing `Rc&lt;T&gt;`s, maybe describing complicated</span>
+<span class='doccomment'>/// semantics, maybe additional options, all kinds of stuff.</span>
+<span class='doccomment'>///</span></pre>
+
+<p>Our original example had just a summary line, but if we had more things to say,
+we could have added more explanation in a new paragraph.</p>
+
+<h4 id='special-sections' class='section-header'><a href='#special-sections'>Special sections</a></h4>
+<p>Next, are special sections. These are indicated with a header, <code>#</code>. There
+are four kinds of headers that are commonly used. They aren&#39;t special syntax,
+just convention, for now.</p>
+<span class='rusttest'>fn main() {
+    /// # Panics
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Panics</span></pre>
+
+<p>Unrecoverable misuses of a function (i.e. programming errors) in Rust are
+usually indicated by panics, which kill the whole current thread at the very
+least. If your function has a non-trivial contract like this, that is
+detected/enforced by panics, documenting it is very important.</p>
+<span class='rusttest'>fn main() {
+    /// # Failures
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Failures</span></pre>
+
+<p>If your function or method returns a <code>Result&lt;T, E&gt;</code>, then describing the
+conditions under which it returns <code>Err(E)</code> is a nice thing to do. This is
+slightly less important than <code>Panics</code>, because failure is encoded into the type
+system, but it&#39;s still a good thing to do.</p>
+<span class='rusttest'>fn main() {
+    /// # Safety
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Safety</span></pre>
+
+<p>If your function is <code>unsafe</code>, you should explain which invariants the caller is
+responsible for upholding.</p>
+<span class='rusttest'>fn main() {
+    /// # Examples
+    ///
+    /// ```
+    /// use std::rc::Rc;
+    ///
+    /// let five = Rc::new(5);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>Fourth, <code>Examples</code>. Include one or more examples of using your function or
+method, and your users will love you for it. These examples go inside of
+code block annotations, which we&#39;ll talk about in a moment, and can have
+more than one section:</p>
+<span class='rusttest'>fn main() {
+    /// # Examples
+    ///
+    /// Simple `&amp;str` patterns:
+    ///
+    /// ```
+    /// let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lamb&quot;.split(&#39; &#39;).collect();
+    /// assert_eq!(v, vec![&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;]);
+    /// ```
+    ///
+    /// More complex patterns with a lambda:
+    ///
+    /// ```
+    /// let v: Vec&lt;&amp;str&gt; = &quot;abc1def2ghi&quot;.split(|c: char| c.is_numeric()).collect();
+    /// assert_eq!(v, vec![&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Simple `&amp;str` patterns:</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lamb&quot;.split(&#39; &#39;).collect();</span>
+<span class='doccomment'>/// assert_eq!(v, vec![&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;]);</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// More complex patterns with a lambda:</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// let v: Vec&lt;&amp;str&gt; = &quot;abc1def2ghi&quot;.split(|c: char| c.is_numeric()).collect();</span>
+<span class='doccomment'>/// assert_eq!(v, vec![&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>Let&#39;s discuss the details of these code blocks.</p>
+
+<h4 id='code-block-annotations' class='section-header'><a href='#code-block-annotations'>Code block annotations</a></h4>
+<p>To write some Rust code in a comment, use the triple graves:</p>
+<span class='rusttest'>fn main() {
+    /// ```
+    /// println!(&quot;Hello, world&quot;);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// println!(&quot;Hello, world&quot;);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>If you want something that&#39;s not Rust code, you can add an annotation:</p>
+<span class='rusttest'>fn main() {
+    /// ```c
+    /// printf(&quot;Hello, world\n&quot;);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```c</span>
+<span class='doccomment'>/// printf(&quot;Hello, world\n&quot;);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>This will highlight according to whatever language you&#39;re showing off.
+If you&#39;re only showing plain text, choose <code>text</code>.</p>
+
+<p>It&#39;s important to choose the correct annotation here, because <code>rustdoc</code> uses it
+in an interesting way: It can be used to actually test your examples in a
+library crate, so that they don&#39;t get out of date. If you have some C code but
+<code>rustdoc</code> thinks it&#39;s Rust because you left off the annotation, <code>rustdoc</code> will
+complain when trying to generate the documentation.</p>
+
+<h2 id='documentation-as-tests' class='section-header'><a href='#documentation-as-tests'>Documentation as tests</a></h2>
+<p>Let&#39;s discuss our sample example documentation:</p>
+<span class='rusttest'>fn main() {
+    /// ```
+    /// println!(&quot;Hello, world&quot;);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// println!(&quot;Hello, world&quot;);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>You&#39;ll notice that you don&#39;t need a <code>fn main()</code> or anything here. <code>rustdoc</code> will
+automatically add a <code>main()</code> wrapper around your code, using heuristics to attempt
+to put it in the right place. For example:</p>
+<span class='rusttest'>fn main() {
+    /// ```
+    /// use std::rc::Rc;
+    ///
+    /// let five = Rc::new(5);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>This will end up testing:</p>
+<span class='rusttest'>fn main() {
+    use std::rc::Rc;
+    let five = Rc::new(5);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
+    <span class='kw'>let</span> <span class='ident'>five</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='number'>5</span>);
+}</pre>
+
+<p>Here&#39;s the full algorithm rustdoc uses to preprocess examples:</p>
+
+<ol>
+<li>Any leading <code>#![foo]</code> attributes are left intact as crate attributes.</li>
+<li>Some common <code>allow</code> attributes are inserted, including
+<code>unused_variables</code>, <code>unused_assignments</code>, <code>unused_mut</code>,
+<code>unused_attributes</code>, and <code>dead_code</code>. Small examples often trigger
+these lints.</li>
+<li>If the example does not contain <code>extern crate</code>, then <code>extern crate &lt;mycrate&gt;;</code> is inserted (note the lack of <code>#[macro_use]</code>).</li>
+<li>Finally, if the example does not contain <code>fn main</code>, the remainder of the
+text is wrapped in <code>fn main() { your_code }</code>.</li>
+</ol>
+
+<p>This generated <code>fn main</code> can be a problem! If you have <code>extern crate</code> or a <code>mod</code>
+statements in the example code that are referred to by <code>use</code> statements, they will
+fail to resolve unless you include at least <code>fn main() {}</code> to inhibit step 4.
+<code>#[macro_use] extern crate</code> also does not work except at the crate root, so when
+testing macros an explicit <code>main</code> is always required. It doesn&#39;t have to clutter
+up your docs, though -- keep reading!</p>
+
+<p>Sometimes this algorithm isn&#39;t enough, though. For example, all of these code samples
+with <code>///</code> we&#39;ve been talking about? The raw text:</p>
+
+<pre><code class="language-text">/// Some documentation.
+# fn foo() {}
+</code></pre>
+
+<p>looks different than the output:</p>
+<span class='rusttest'>fn main() {
+    /// Some documentation.
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// Some documentation.</span></pre>
+
+<p>Yes, that&#39;s right: you can add lines that start with <code>#</code>, and they will
+be hidden from the output, but will be used when compiling your code. You
+can use this to your advantage. In this case, documentation comments need
+to apply to some kind of function, so if I want to show you just a
+documentation comment, I need to add a little function definition below
+it. At the same time, it&#39;s only there to satisfy the compiler, so hiding
+it makes the example more clear. You can use this technique to explain
+longer examples in detail, while still preserving the testability of your
+documentation.</p>
+
+<p>For example, imagine that we wanted to document this code:</p>
+<span class='rusttest'>fn main() {
+    let x = 5;
+    let y = 6;
+    println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>;
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>);</pre>
+
+<p>We might want the documentation to end up looking like this:</p>
+
+<blockquote>
+<p>First, we set <code>x</code> to five:</p>
+<span class='rusttest'>fn main() {
+    let x = 5;
+    let y = 6;
+    println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;</pre>
+
+<p>Next, we set <code>y</code> to six:</p>
+<span class='rusttest'>fn main() {
+    let x = 5;
+    let y = 6;
+    println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>;</pre>
+
+<p>Finally, we print the sum of <code>x</code> and <code>y</code>:</p>
+<span class='rusttest'>fn main() {
+    let x = 5;
+    let y = 6;
+    println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>);</pre>
+</blockquote>
+
+<p>To keep each code block testable, we want the whole program in each block, but
+we don&#39;t want the reader to see every line every time.  Here&#39;s what we put in
+our source code:</p>
+
+<pre><code class="language-text">    First, we set `x` to five:
+
+    ```text
+    let x = 5;
+    # let y = 6;
+    # println!(&quot;{}&quot;, x + y);
+    ```
+
+    Next, we set `y` to six:
+
+    ```text
+    # let x = 5;
+    let y = 6;
+    # println!(&quot;{}&quot;, x + y);
+    ```
+
+    Finally, we print the sum of `x` and `y`:
+
+    ```text
+    # let x = 5;
+    # let y = 6;
+    println!(&quot;{}&quot;, x + y);
+    ```
+</code></pre>
+
+<p>By repeating all parts of the example, you can ensure that your example still
+compiles, while only showing the parts that are relevant to that part of your
+explanation.</p>
+
+<h3 id='documenting-macros' class='section-header'><a href='#documenting-macros'>Documenting macros</a></h3>
+<p>Here’s an example of documenting a macro:</p>
+<span class='rusttest'>/// Panic with a given message unless an expression evaluates to true.
+///
+/// # Examples
+///
+/// ```
+/// # #[macro_use] extern crate foo;
+/// # fn main() {
+/// panic_unless!(1 + 1 == 2, “Math is broken.”);
+/// # }
+/// ```
+///
+/// ```should_panic
+/// # #[macro_use] extern crate foo;
+/// # fn main() {
+/// panic_unless!(true == false, “I’m broken.”);
+/// # }
+/// ```
+#[macro_export]
+macro_rules! panic_unless {
+    ($condition:expr, $($rest:expr),+) =&gt; ({ if ! $condition { panic!($($rest),+); } });
+}
+fn main() {}
+</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// Panic with a given message unless an expression evaluates to true.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// # #[macro_use] extern crate foo;</span>
+<span class='doccomment'>/// # fn main() {</span>
+<span class='doccomment'>/// panic_unless!(1 + 1 == 2, “Math is broken.”);</span>
+<span class='doccomment'>/// # }</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```should_panic</span>
+<span class='doccomment'>/// # #[macro_use] extern crate foo;</span>
+<span class='doccomment'>/// # fn main() {</span>
+<span class='doccomment'>/// panic_unless!(true == false, “I’m broken.”);</span>
+<span class='doccomment'>/// # }</span>
+<span class='doccomment'>/// ```</span>
+<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>panic_unless</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>condition</span>:<span class='ident'>expr</span>, $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>:<span class='ident'>expr</span>),<span class='op'>+</span>) <span class='op'>=&gt;</span> ({ <span class='kw'>if</span> <span class='op'>!</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>condition</span> { <span class='macro'>panic</span><span class='macro'>!</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>),<span class='op'>+</span>); } });
+}</pre>
+
+<p>You’ll note three things: we need to add our own <code>extern crate</code> line, so that
+we can add the <code>#[macro_use]</code> attribute. Second, we’ll need to add our own
+<code>main()</code> as well (for reasons discussed above). Finally, a judicious use of
+<code>#</code> to comment out those two things, so they don’t show up in the output.</p>
+
+<p>Another case where the use of <code>#</code> is handy is when you want to ignore
+error handling. Lets say you want the following,</p>
+<span class='rusttest'>fn main() {
+    /// use std::io;
+    /// let mut input = String::new();
+    /// try!(io::stdin().read_line(&amp;mut input));
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// use std::io;</span>
+<span class='doccomment'>/// let mut input = String::new();</span>
+<span class='doccomment'>/// try!(io::stdin().read_line(&amp;mut input));</span></pre>
+
+<p>The problem is that <code>try!</code> returns a <code>Result&lt;T, E&gt;</code> and test functions
+don&#39;t return anything so this will give a mismatched types error.</p>
+<span class='rusttest'>fn main() {
+    /// A doc test using try!
+    ///
+    /// ```
+    /// use std::io;
+    /// # fn foo() -&gt; io::Result&lt;()&gt; {
+    /// let mut input = String::new();
+    /// try!(io::stdin().read_line(&amp;mut input));
+    /// # Ok(())
+    /// # }
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// A doc test using try!</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::io;</span>
+<span class='doccomment'>/// # fn foo() -&gt; io::Result&lt;()&gt; {</span>
+<span class='doccomment'>/// let mut input = String::new();</span>
+<span class='doccomment'>/// try!(io::stdin().read_line(&amp;mut input));</span>
+<span class='doccomment'>/// # Ok(())</span>
+<span class='doccomment'>/// # }</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>You can get around this by wrapping the code in a function. This catches
+and swallows the <code>Result&lt;T, E&gt;</code> when running tests on the docs. This
+pattern appears regularly in the standard library.</p>
+
+<h3 id='running-documentation-tests' class='section-header'><a href='#running-documentation-tests'>Running documentation tests</a></h3>
+<p>To run the tests, either:</p>
+
+<pre><code class="language-bash">$ rustdoc --test path/to/my/crate/root.rs
+# or
+$ cargo test
+</code></pre>
+
+<p>That&#39;s right, <code>cargo test</code> tests embedded documentation too. <strong>However,
+<code>cargo test</code> will not test binary crates, only library ones.</strong> This is
+due to the way <code>rustdoc</code> works: it links against the library to be tested,
+but with a binary, there’s nothing to link to.</p>
+
+<p>There are a few more annotations that are useful to help <code>rustdoc</code> do the right
+thing when testing your code:</p>
+<span class='rusttest'>fn main() {
+    /// ```ignore
+    /// fn foo() {
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```ignore</span>
+<span class='doccomment'>/// fn foo() {</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>The <code>ignore</code> directive tells Rust to ignore your code. This is almost never
+what you want, as it&#39;s the most generic. Instead, consider annotating it
+with <code>text</code> if it&#39;s not code, or using <code>#</code>s to get a working example that
+only shows the part you care about.</p>
+<span class='rusttest'>fn main() {
+    /// ```should_panic
+    /// assert!(false);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```should_panic</span>
+<span class='doccomment'>/// assert!(false);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p><code>should_panic</code> tells <code>rustdoc</code> that the code should compile correctly, but
+not actually pass as a test.</p>
+<span class='rusttest'>fn main() {
+    /// ```no_run
+    /// loop {
+    ///     println!(&quot;Hello, world&quot;);
+    /// }
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```no_run</span>
+<span class='doccomment'>/// loop {</span>
+<span class='doccomment'>///     println!(&quot;Hello, world&quot;);</span>
+<span class='doccomment'>/// }</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>The <code>no_run</code> attribute will compile your code, but not run it. This is
+important for examples such as &quot;Here&#39;s how to start up a network service,&quot;
+which you would want to make sure compile, but might run in an infinite loop!</p>
+
+<h3 id='documenting-modules' class='section-header'><a href='#documenting-modules'>Documenting modules</a></h3>
+<p>Rust has another kind of doc comment, <code>//!</code>. This comment doesn&#39;t document the next item, but the enclosing item. In other words:</p>
+<span class='rusttest'>fn main() {
+    mod foo {
+        //! This is documentation for the `foo` module.
+        //!
+        //! # Examples
+    
+        // ...
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>mod</span> <span class='ident'>foo</span> {
+    <span class='doccomment'>//! This is documentation for the `foo` module.</span>
+    <span class='doccomment'>//!</span>
+    <span class='doccomment'>//! # Examples</span>
+
+    <span class='comment'>// ...</span>
+}</pre>
+
+<p>This is where you&#39;ll see <code>//!</code> used most often: for module documentation. If
+you have a module in <code>foo.rs</code>, you&#39;ll often open its code and see this:</p>
+<span class='rusttest'>fn main() {
+    //! A module for using `foo`s.
+    //!
+    //! The `foo` module contains a lot of useful functionality blah blah blah
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>//! A module for using `foo`s.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! The `foo` module contains a lot of useful functionality blah blah blah</span></pre>
+
+<h3 id='documentation-comment-style' class='section-header'><a href='#documentation-comment-style'>Documentation comment style</a></h3>
+<p>Check out <a href="https://github.com/rust-lang/rfcs/blob/master/text/0505-api-comment-conventions.md">RFC 505</a> for full conventions around the style and format of
+documentation.</p>
+
+<h2 id='other-documentation' class='section-header'><a href='#other-documentation'>Other documentation</a></h2>
+<p>All of this behavior works in non-Rust source files too. Because comments
+are written in Markdown, they&#39;re often <code>.md</code> files.</p>
+
+<p>When you write documentation in Markdown files, you don&#39;t need to prefix
+the documentation with comments. For example:</p>
+<span class='rusttest'>fn main() {
+    /// # Examples
+    ///
+    /// ```
+    /// use std::rc::Rc;
+    ///
+    /// let five = Rc::new(5);
+    /// ```
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<p>is:</p>
+
+<pre><code class="language-markdown"># Examples
+
+```
+use std::rc::Rc;
+
+let five = Rc::new(5);
+```
+</code></pre>
+
+<p>when it&#39;s in a Markdown file. There is one wrinkle though: Markdown files need
+to have a title like this:</p>
+
+<pre><code class="language-markdown">% The title
+
+This is the example documentation.
+</code></pre>
+
+<p>This <code>%</code> line needs to be the very first line of the file.</p>
+
+<h2 id='doc-attributes' class='section-header'><a href='#doc-attributes'><code>doc</code> attributes</a></h2>
+<p>At a deeper level, documentation comments are syntactic sugar for documentation
+attributes:</p>
+<span class='rusttest'>fn main() {
+    /// this
+    fn foo() {}
+    
+    #[doc=&quot;this&quot;]
+    fn bar() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// this</span>
+
+<span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot;this&quot;</span>]</span></pre>
+
+<p>are the same, as are these:</p>
+<span class='rusttest'>fn main() {
+    //! this
+    
+    #![doc=&quot;this&quot;]
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>//! this</span>
+
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot;this&quot;</span>]</span></pre>
+
+<p>You won&#39;t often see this attribute used for writing documentation, but it
+can be useful when changing some options, or when writing a macro.</p>
+
+<h3 id='re-exports' class='section-header'><a href='#re-exports'>Re-exports</a></h3>
+<p><code>rustdoc</code> will show the documentation for a public re-export in both places:</p>
+<span class='rusttest'>fn main() {
+    extern crate foo;
+    
+    pub use foo::bar;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>foo</span>;
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>foo</span>::<span class='ident'>bar</span>;</pre>
+
+<p>This will create documentation for <code>bar</code> both inside the documentation for the
+crate <code>foo</code>, as well as the documentation for your crate. It will use the same
+documentation in both places.</p>
+
+<p>This behavior can be suppressed with <code>no_inline</code>:</p>
+<span class='rusttest'>fn main() {
+    extern crate foo;
+    
+    #[doc(no_inline)]
+    pub use foo::bar;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>foo</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>no_inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>foo</span>::<span class='ident'>bar</span>;</pre>
+
+<h2 id='missing-documentation' class='section-header'><a href='#missing-documentation'>Missing documentation</a></h2>
+<p>Sometimes you want to make sure that every single public thing in your project
+is documented, especially when you are working on a library. Rust allows you to
+to generate warnings or errors, when an item is missing documentation.
+To generate warnings you use <code>warn</code>:</p>
+<span class='rusttest'>fn main() {
+    #![warn(missing_docs)]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span></pre>
+
+<p>And to generate errors you use <code>deny</code>:</p>
+<span class='rusttest'>fn main() {
+    #![deny(missing_docs)]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_docs</span>)]</span></pre>
+
+<p>There are cases where you want to disable these warnings/errors to explicitly
+leave something undocumented. This is done by using <code>allow</code>:</p>
+<span class='rusttest'>fn main() {
+    #[allow(missing_docs)]
+    struct Undocumented;
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>missing_docs</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>Undocumented</span>;</pre>
+
+<p>You might even want to hide items from the documentation completely:</p>
+<span class='rusttest'>fn main() {
+    #[doc(hidden)]
+    struct Hidden;
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>Hidden</span>;</pre>
+
+<h3 id='controlling-html' class='section-header'><a href='#controlling-html'>Controlling HTML</a></h3>
+<p>You can control a few aspects of the HTML that <code>rustdoc</code> generates through the
+<code>#![doc]</code> version of the attribute:</p>
+<span class='rusttest'>fn main() {
+    #![doc(html_logo_url = &quot;https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png&quot;,
+           html_favicon_url = &quot;https://www.rust-lang.org/favicon.ico&quot;,
+           html_root_url = &quot;https://doc.rust-lang.org/&quot;)]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png&quot;</span>,
+       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;https://www.rust-lang.org/favicon.ico&quot;</span>,
+       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;https://doc.rust-lang.org/&quot;</span>)]</span></pre>
+
+<p>This sets a few different options, with a logo, favicon, and a root URL.</p>
+
+<h3 id='configuring-documentation-tests' class='section-header'><a href='#configuring-documentation-tests'>Configuring documentation tests</a></h3>
+<p>You can also configure the way that <code>rustdoc</code> tests your documentation examples
+through the <code>#![doc(test(..))]</code> attribute.</p>
+<span class='rusttest'>fn main() {
+    #![doc(test(attr(allow(unused_variables), deny(warnings))))]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>test</span>(<span class='ident'>attr</span>(<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>), <span class='ident'>deny</span>(<span class='ident'>warnings</span>))))]</span></pre>
+
+<p>This allows unused variables within the examples, but will fail the test for any
+other lint warning thrown.</p>
+
+<h2 id='generation-options' class='section-header'><a href='#generation-options'>Generation options</a></h2>
+<p><code>rustdoc</code> also contains a few other options on the command line, for further customization:</p>
+
+<ul>
+<li><code>--html-in-header FILE</code>: includes the contents of FILE at the end of the
+<code>&lt;head&gt;...&lt;/head&gt;</code> section.</li>
+<li><code>--html-before-content FILE</code>: includes the contents of FILE directly after
+<code>&lt;body&gt;</code>, before the rendered content (including the search bar).</li>
+<li><code>--html-after-content FILE</code>: includes the contents of FILE after all the rendered content.</li>
+</ul>
+
+<h2 id='security-note' class='section-header'><a href='#security-note'>Security note</a></h2>
+<p>The Markdown in documentation comments is placed without processing into
+the final webpage. Be careful with literal HTML:</p>
+<span class='rusttest'>fn main() {
+    /// &lt;script&gt;alert(document.cookie)&lt;/script&gt;
+    fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// &lt;script&gt;alert(document.cookie)&lt;/script&gt;</span></pre>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>
