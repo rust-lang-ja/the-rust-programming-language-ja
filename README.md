@@ -1,5 +1,7 @@
 translation project of rust documents, mainly [TRPL](https://doc.rust-lang.org/book/).
 
+translated documents are [here](http://keens.github.io/the-rust-programming-language-ja/1.6/book/)
+
 # How to build
 
 You must find out your `rustbook` executable from source or like that

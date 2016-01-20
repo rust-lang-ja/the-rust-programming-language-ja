@@ -1,5 +1,7 @@
 [TRPL](https://doc.rust-lang.org/book/)を主としたRustドキュメントの翻訳プロジェクトです。
 
+飜訳文書は[こちら](http://keens.github.io/the-rust-programming-language-ja/1.6/book/)にあります。
+
 # ビルド方法
 
 `rustbook`コマンドが必要です。rustコンパイラをソースからビルドした時にstage2にいる
