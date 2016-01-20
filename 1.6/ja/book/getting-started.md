@@ -1,14 +1,21 @@
-% Getting Started
+% はじめよう
 
 This first chapter of the book will get us going with Rust and its tooling.
 First, we’ll install Rust. Then, the classic ‘Hello World’ program. Finally,
 we’ll talk about Cargo, Rust’s build system and package manager.
 
-# Installing Rust
+この一番最初の章でRustとツールを準備します。
+最初にRustをインストールします。そしてお決まりの「Hello World」をやります。
+最後にRustのパッケージマネージャのCargoについて話します。
+
+# Rustのインストール
 
 The first step to using Rust is to install it. Generally speaking, you’ll need
 an Internet connection to run the commands in this section, as we’ll be
 downloading Rust from the internet.
+
+Rustを使い始める最初のステップはインストールです。
+この章のコマンドでインターネットからRustのダウンロードをするのでインターネットへの接続が必要でしょう。
 
 We’ll be showing off a number of commands using a terminal, and those lines all
 start with `$`. We don't need to type in the `$`s, they are there to indicate
@@ -16,26 +23,45 @@ the start of each command. We’ll see many tutorials and examples around the we
 that follow this convention: `$` for commands run as our regular user, and `#`
 for commands we should be running as an administrator.
 
-## Platform support
+コマンドを色々出しますが、それらは全て`$`から始まります。`$`を入力する必要はありません。
+`$`はただコマンドの先頭を示しているだけです。
+これから、Web上でも「`$`で始まるものは一般ユーザで実行し`#`で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになります。
+
+## プラットフォームのサポート
 
 The Rust compiler runs on, and compiles to, a great number of platforms, though
 not all platforms are equally supported. Rust's support levels are organized
 into three tiers, each with a different set of guarantees.
 
+Rustのコンパイラは個々の違いはあるものの様々なプラットフォーム上で動き、様々なプラットフォームへとコンパイル出来ます。
+Rustのサポートレベルは3段階に分かれていて、それぞれ違う保証をします。
+
 Platforms are identified by their "target triple" which is the string to inform
 the compiler what kind of output should be produced. The columns below indicate
 whether the corresponding component works on the specified platform.
 
-### Tier 1
+プラットフォームはその「ターゲットトリプル」というどの種類のアウトプットを出すべきかをコンパイラに伝える文字列で識別されます。
+下記の表は対応するコンポーネントがそのプラットフォームで動作するかを示します。
+
+### 段階1
 
 Tier 1 platforms can be thought of as "guaranteed to build and work".
 Specifically they will each satisfy the following requirements:
+
+段階1のプラットフォームは「ビルド出来るし動くことを保証する」ものと思えます。
+特に以下の要求それぞれを満たします。
 
 * Automated testing is set up to run tests for the platform.
 * Landing changes to the `rust-lang/rust` repository's master branch is gated on
   tests passing.
 * Official release artifacts are provided for the platform.
 * Documentation for how to use and how to build the platform is available.
+
+* 自動テストがそのプラットフォーム上で走るようセットアップされている
+* `rust-lang/rust`レポジトリのmasterブランチへの変更はテストが通ってからされる
+* 公式のリリースがそのプラットフォーム向けに提供される
+* 使用方法及びビルド方法のドキュメントがある
+
 
 |  Target                       | std |rustc|cargo| notes                      |
 |-------------------------------|-----|-----|-----|----------------------------|
@@ -47,18 +73,30 @@ Specifically they will each satisfy the following requirements:
 | `i686-unknown-linux-gnu`      |  ✓  |  ✓  |  ✓  | 32-bit Linux (2.6.18+)     |
 | `x86_64-unknown-linux-gnu`    |  ✓  |  ✓  |  ✓  | 64-bit Linux (2.6.18+)     |
 
-### Tier 2
+### 段階 2
 
 Tier 2 platforms can be thought of as "guaranteed to build". Automated tests
 are not run so it's not guaranteed to produce a working build, but platforms
 often work to quite a good degree and patches are always welcome! Specifically,
 these platforms are required to have each of the following:
 
+段階2のプラットフォームは「ビルドを保証する」ものと思えます。
+自動テストは走っておらず、ビルド出来たとしてもちゃんと動く保証はありませんが大抵ほぼ動きますしパッチはいつでも歓迎しています!
+特に、以下が要求されています。
+
+
 * Automated building is set up, but may not be running tests.
 * Landing changes to the `rust-lang/rust` repository's master branch is gated on
   platforms **building**. Note that this means for some platforms only the
   standard library is compiled, but for others the full bootstrap is run.
 * Official release artifacts are provided for the platform.
+
+* 自動ビルドはセットアップされているがテストは走っていない
+* `rust-lang/rust`レポジトリのmasterブランチへの変更は **ビルドが** 通ってからされる。
+  これは標準ライブラリしかコンパイル出来ないものもあれば完全なブートストラップまで出来るものもあるということに注意してください。
+* 公式のリリースがそのプラットフォーム向けに提供される
+
+
 
 |  Target                       | std |rustc|cargo| notes                      |
 |-------------------------------|-----|-----|-----|----------------------------|
@@ -71,7 +109,7 @@ these platforms are required to have each of the following:
 | `mips-unknown-linux-gnu`      |  ✓  |     |     | MIPS Linux (2.6.18+)       |
 | `mipsel-unknown-linux-gnu`    |  ✓  |     |     | MIPS (LE) Linux (2.6.18+)  |
 
-### Tier 3
+### 段階3
 
 Tier 3 platforms are those which Rust has support for, but landing changes is
 not gated on the platform either building or passing tests. Working builds for
@@ -79,6 +117,12 @@ these platforms may be spotty as their reliability is often defined in terms of
 community contributions. Additionally, release artifacts and installers are not
 provided, but there may be community infrastructure producing these in
 unofficial locations.
+
+段階3のプラットフォームはサポートはされているものの、テストやビルドによる変更の管理は行なっていないものたちです。
+コミュニティの貢献の観点で信頼性が定義されるのでビルドが通るかはまちまちです。
+さらに、リリースやインストーラは提供されません。
+しかしコミュニティが非公式な場所にリリースやインストーラを作れるインフラを持っているかもしれません。
+
 
 |  Target                       | std |rustc|cargo| notes                      |
 |-------------------------------|-----|-----|-----|----------------------------|
@@ -103,9 +147,15 @@ unofficial locations.
 Note that this table can be expanded over time, this isn't the exhaustive set of
 tier 3 platforms that will ever be!
 
-## Installing on Linux or Mac
+このテーブルはしたいだいに拡大するかもしれないことに注意して下さい。
+全ての段階3のプラットフォームは知り尽せないのです!
+
+
+## LinuxまたはMacにインストールする
 
 If we're on Linux or a Mac, all we need to do is open a terminal and type this:
+
+LinuxかMacを使っているなら以下を入力するだけです
 
 ```bash
 $ curl -sSf https://static.rust-lang.org/rustup.sh | sh
@@ -113,6 +163,11 @@ $ curl -sSf https://static.rust-lang.org/rustup.sh | sh
 
 This will download a script, and stat the installation. If it all goes well,
 you’ll see this appear:
+
+このコマンドでスクリプトをダウンロードしインストールを始めます。
+全て上手くいったら以下が表示される筈です。
+
+
 
 ```text
 Welcome to Rust.
@@ -132,16 +187,23 @@ Continue? (y/N)
 
 From here, press `y` for ‘yes’, and then follow the rest of the prompts.
 
-## Installing on Windows
+ここで「はい」の意味で`y`を押しましょう。そして以後のプロンプトに従って下さい。
+
+## Windowsにインストール
 
 If you're on Windows, please download the appropriate [installer][install-page].
 
+Windowsを使っているなら適切な[インストーラ][install-page]をダウンロードして下さい。
+
 [install-page]: https://www.rust-lang.org/install.html
 
-## Uninstalling
+## アンインストール
 
 Uninstalling Rust is as easy as installing it. On Linux or Mac, run
 the uninstall script:
+
+Rustのアンイストールはインストールと同じくらい簡単です。
+LinuxかMacならアンインストールスクリプトを使って下さい。
 
 ```bash
 $ sudo /usr/local/lib/rustlib/uninstall.sh
@@ -150,9 +212,13 @@ $ sudo /usr/local/lib/rustlib/uninstall.sh
 If we used the Windows installer, we can re-run the `.msi` and it will give us
 an uninstall option.
 
-## Troubleshooting
+Windowsのインストーラを使ったなら`.msi`をもう一度実行すればアンインストールのオプショが出てきます。
+
+## トラブルシューティング
 
 If we've got Rust installed, we can open up a shell, and type this:
+
+既にRustをインストールしているならシェルを開いて以下を打ちましょう。
 
 ```bash
 $ rustc --version
@@ -160,18 +226,33 @@ $ rustc --version
 
 You should see the version number, commit hash, and commit date.
 
+バージョン番号、コミットハッシュ、そしてコミット日時が表示される筈です。
+
 If you do, Rust has been installed successfully! Congrats!
+
+表示されたならRustはちゃんとインストールされています!おめでとう!
 
 If you don't and you're on Windows, check that Rust is in your %PATH% system
 variable. If it isn't, run the installer again, select "Change" on the "Change,
 repair, or remove installation" page and ensure "Add to PATH" is installed on
 the local hard drive.
 
+Windowsを使っていて、表示されないなら%PATHI%システム変数にRustが入っているか確認して下さい。
+入っていなければもう一度インストーラを実行し、「Change,
+repair, or remove installation」ページのの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。
+
 If not, there are a number of places where we can get help. The easiest is
 [the #rust IRC channel on irc.mozilla.org][irc], which we can access through
 [Mibbit][mibbit]. Click that link, and we'll be chatting with other Rustaceans
 (a silly nickname we call ourselves) who can help us out. Other great resources
 include [the user’s forum][users], and [Stack Overflow][stackoverflow].
+
+もし上手くいかないなら様々な場所で助けを得られます。
+最も簡単なのは[Mibbit][mibbit]からアクセス出来る[the #rust IRC channel on irc.mozilla.org][irc]です。
+リンクをクリックしたら他の助けを求めれるRustacean達(我々のことをふざけてこう呼ぶのです)とチャット出来ます。
+他には[the user’s forum][users]や[Stack Overflow][stackoverflow]などがあります。
+
+[訳注] TODO:日本語で会話出来るリソースを探す
 
 [irc]: irc://irc.mozilla.org/#rust
 [mibbit]: http://chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust
@@ -183,12 +264,21 @@ read it offline. On UNIX systems, `/usr/local/share/doc/rust` is the location.
 On Windows, it's in a `share/doc` directory, inside the directory to which Rust
 was installed.
 
+インストーラはドキュメントのコピーもローカルにインストールしますので、オフラインで読めます。
+UNIXでは`/usr/local/share/doc/rust`にあります。
+WindowsではRustをインストールした所の`share/doc`ディレクトリにあります。
+
+
 # Hello, world!
 
 Now that you have Rust installed, we'll help you write your first Rust program.
 It's traditional when learning a new language to write a little program to
 print the text “Hello, world!” to the screen, and in this section, we'll follow
 that tradition.
+
+Rustをインストールしたので最初のRustのプログラムを書いていきましょう。
+新しい言語を学ぶ時に「Hello, World!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
+
 
 The nice thing about starting with such a simple program is that you can
 quickly verify that your compiler is installed, and that it's working properly.
