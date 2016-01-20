@@ -1,12 +1,12 @@
-VERSION=1.5
+VERSION=1.6
 LANG=en
 
-all: trpl
+all: book
 
 
-trpl: public/$(VERSION)/book/index.html
+book: public/$(VERSION)/book/index.html
 
-public/$(VERSION)/book/index.html: $(wildcard $(VERSION)/$(LANG)/trpl/*.md)
+public/$(VERSION)/book/index.html: $(wildcard $(VERSION)/$(LANG)/book/*.md)
 	rm -rf public/$(VERSION)/book
 	mkdir -p public/$(VERSION)
-	$(RUSTBOOK) build $(VERSION)/$(LANG)/trpl public/$(VERSION)/book 
+	$(RUSTBOOK) build $(VERSION)/$(LANG)/book public/$(VERSION)/book 
