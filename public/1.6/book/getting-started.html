@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Getting Started</title>
+    <title>はじめよう</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -177,15 +177,22 @@
 <div id='page'>
 
 
-    <h1 class="title">Getting Started</h1>
+    <h1 class="title">はじめよう</h1>
     <p>This first chapter of the book will get us going with Rust and its tooling.
 First, we’ll install Rust. Then, the classic ‘Hello World’ program. Finally,
 we’ll talk about Cargo, Rust’s build system and package manager.</p>
 
-<h1 id='installing-rust' class='section-header'><a href='#installing-rust'>Installing Rust</a></h1>
+<p>この一番最初の章でRustとツールを準備します。
+最初にRustをインストールします。そしてお決まりの「Hello World」をやります。
+最後にRustのパッケージマネージャのCargoについて話します。</p>
+
+<h1 id='rustのインストール' class='section-header'><a href='#rustのインストール'>Rustのインストール</a></h1>
 <p>The first step to using Rust is to install it. Generally speaking, you’ll need
 an Internet connection to run the commands in this section, as we’ll be
 downloading Rust from the internet.</p>
+
+<p>Rustを使い始める最初のステップはインストールです。
+この章のコマンドでインターネットからRustのダウンロードをするのでインターネットへの接続が必要でしょう。</p>
 
 <p>We’ll be showing off a number of commands using a terminal, and those lines all
 start with <code>$</code>. We don&#39;t need to type in the <code>$</code>s, they are there to indicate
@@ -193,25 +200,42 @@ the start of each command. We’ll see many tutorials and examples around the we
 that follow this convention: <code>$</code> for commands run as our regular user, and <code>#</code>
 for commands we should be running as an administrator.</p>
 
-<h2 id='platform-support' class='section-header'><a href='#platform-support'>Platform support</a></h2>
+<p>コマンドを色々出しますが、それらは全て<code>$</code>から始まります。<code>$</code>を入力する必要はありません。
+<code>$</code>はただコマンドの先頭を示しているだけです。
+これから、Web上でも「<code>$</code>で始まるものは一般ユーザで実行し<code>#</code>で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになります。</p>
+
+<h2 id='プラットフォームのサポート' class='section-header'><a href='#プラットフォームのサポート'>プラットフォームのサポート</a></h2>
 <p>The Rust compiler runs on, and compiles to, a great number of platforms, though
 not all platforms are equally supported. Rust&#39;s support levels are organized
 into three tiers, each with a different set of guarantees.</p>
+
+<p>Rustのコンパイラは個々の違いはあるものの様々なプラットフォーム上で動き、様々なプラットフォームへとコンパイル出来ます。
+Rustのサポートレベルは3段階に分かれていて、それぞれ違う保証をします。</p>
 
 <p>Platforms are identified by their &quot;target triple&quot; which is the string to inform
 the compiler what kind of output should be produced. The columns below indicate
 whether the corresponding component works on the specified platform.</p>
 
-<h3 id='tier-1' class='section-header'><a href='#tier-1'>Tier 1</a></h3>
+<p>プラットフォームはその「ターゲットトリプル」というどの種類のアウトプットを出すべきかをコンパイラに伝える文字列で識別されます。
+下記の表は対応するコンポーネントがそのプラットフォームで動作するかを示します。</p>
+
+<h3 id='段階1' class='section-header'><a href='#段階1'>段階1</a></h3>
 <p>Tier 1 platforms can be thought of as &quot;guaranteed to build and work&quot;.
 Specifically they will each satisfy the following requirements:</p>
+
+<p>段階1のプラットフォームは「ビルド出来るし動くことを保証する」ものと思えます。
+特に以下の要求それぞれを満たします。</p>
 
 <ul>
 <li>Automated testing is set up to run tests for the platform.</li>
 <li>Landing changes to the <code>rust-lang/rust</code> repository&#39;s master branch is gated on
 tests passing.</li>
 <li>Official release artifacts are provided for the platform.</li>
-<li>Documentation for how to use and how to build the platform is available.</li>
+<li><p>Documentation for how to use and how to build the platform is available.</p></li>
+<li><p>自動テストがそのプラットフォーム上で走るようセットアップされている</p></li>
+<li><p><code>rust-lang/rust</code>レポジトリのmasterブランチへの変更はテストが通ってからされる</p></li>
+<li><p>公式のリリースがそのプラットフォーム向けに提供される</p></li>
+<li><p>使用方法及びビルド方法のドキュメントがある</p></li>
 </ul>
 
 <table>
@@ -278,18 +302,26 @@ tests passing.</li>
 </tbody>
 </table>
 
-<h3 id='tier-2' class='section-header'><a href='#tier-2'>Tier 2</a></h3>
+<h3 id='段階-2' class='section-header'><a href='#段階-2'>段階 2</a></h3>
 <p>Tier 2 platforms can be thought of as &quot;guaranteed to build&quot;. Automated tests
 are not run so it&#39;s not guaranteed to produce a working build, but platforms
 often work to quite a good degree and patches are always welcome! Specifically,
 these platforms are required to have each of the following:</p>
+
+<p>段階2のプラットフォームは「ビルドを保証する」ものと思えます。
+自動テストは走っておらず、ビルド出来たとしてもちゃんと動く保証はありませんが大抵ほぼ動きますしパッチはいつでも歓迎しています!
+特に、以下が要求されています。</p>
 
 <ul>
 <li>Automated building is set up, but may not be running tests.</li>
 <li>Landing changes to the <code>rust-lang/rust</code> repository&#39;s master branch is gated on
 platforms <strong>building</strong>. Note that this means for some platforms only the
 standard library is compiled, but for others the full bootstrap is run.</li>
-<li>Official release artifacts are provided for the platform.</li>
+<li><p>Official release artifacts are provided for the platform.</p></li>
+<li><p>自動ビルドはセットアップされているがテストは走っていない</p></li>
+<li><p><code>rust-lang/rust</code>レポジトリのmasterブランチへの変更は <strong>ビルドが</strong> 通ってからされる。
+これは標準ライブラリしかコンパイル出来ないものもあれば完全なブートストラップまで出来るものもあるということに注意してください。</p></li>
+<li><p>公式のリリースがそのプラットフォーム向けに提供される</p></li>
 </ul>
 
 <table>
@@ -363,13 +395,18 @@ standard library is compiled, but for others the full bootstrap is run.</li>
 </tbody>
 </table>
 
-<h3 id='tier-3' class='section-header'><a href='#tier-3'>Tier 3</a></h3>
+<h3 id='段階3' class='section-header'><a href='#段階3'>段階3</a></h3>
 <p>Tier 3 platforms are those which Rust has support for, but landing changes is
 not gated on the platform either building or passing tests. Working builds for
 these platforms may be spotty as their reliability is often defined in terms of
 community contributions. Additionally, release artifacts and installers are not
 provided, but there may be community infrastructure producing these in
 unofficial locations.</p>
+
+<p>段階3のプラットフォームはサポートはされているものの、テストやビルドによる変更の管理は行なっていないものたちです。
+コミュニティの貢献の観点で信頼性が定義されるのでビルドが通るかはまちまちです。
+さらに、リリースやインストーラは提供されません。
+しかしコミュニティが非公式な場所にリリースやインストーラを作れるインフラを持っているかもしれません。</p>
 
 <table>
 <thead>
@@ -508,14 +545,22 @@ unofficial locations.</p>
 <p>Note that this table can be expanded over time, this isn&#39;t the exhaustive set of
 tier 3 platforms that will ever be!</p>
 
-<h2 id='installing-on-linux-or-mac' class='section-header'><a href='#installing-on-linux-or-mac'>Installing on Linux or Mac</a></h2>
+<p>このテーブルはしたいだいに拡大するかもしれないことに注意して下さい。
+全ての段階3のプラットフォームは知り尽せないのです!</p>
+
+<h2 id='linuxまたはmacにインストールする' class='section-header'><a href='#linuxまたはmacにインストールする'>LinuxまたはMacにインストールする</a></h2>
 <p>If we&#39;re on Linux or a Mac, all we need to do is open a terminal and type this:</p>
+
+<p>LinuxかMacを使っているなら以下を入力するだけです</p>
 
 <pre><code class="language-bash">$ curl -sSf https://static.rust-lang.org/rustup.sh | sh
 </code></pre>
 
 <p>This will download a script, and stat the installation. If it all goes well,
 you’ll see this appear:</p>
+
+<p>このコマンドでスクリプトをダウンロードしインストールを始めます。
+全て上手くいったら以下が表示される筈です。</p>
 
 <pre><code class="language-text">Welcome to Rust.
 
@@ -534,12 +579,19 @@ Continue? (y/N)
 
 <p>From here, press <code>y</code> for ‘yes’, and then follow the rest of the prompts.</p>
 
-<h2 id='installing-on-windows' class='section-header'><a href='#installing-on-windows'>Installing on Windows</a></h2>
+<p>ここで「はい」の意味で<code>y</code>を押しましょう。そして以後のプロンプトに従って下さい。</p>
+
+<h2 id='windowsにインストール' class='section-header'><a href='#windowsにインストール'>Windowsにインストール</a></h2>
 <p>If you&#39;re on Windows, please download the appropriate <a href="https://www.rust-lang.org/install.html">installer</a>.</p>
 
-<h2 id='uninstalling' class='section-header'><a href='#uninstalling'>Uninstalling</a></h2>
+<p>Windowsを使っているなら適切な<a href="https://www.rust-lang.org/install.html">インストーラ</a>をダウンロードして下さい。</p>
+
+<h2 id='アンインストール' class='section-header'><a href='#アンインストール'>アンインストール</a></h2>
 <p>Uninstalling Rust is as easy as installing it. On Linux or Mac, run
 the uninstall script:</p>
+
+<p>Rustのアンイストールはインストールと同じくらい簡単です。
+LinuxかMacならアンインストールスクリプトを使って下さい。</p>
 
 <pre><code class="language-bash">$ sudo /usr/local/lib/rustlib/uninstall.sh
 </code></pre>
@@ -547,20 +599,32 @@ the uninstall script:</p>
 <p>If we used the Windows installer, we can re-run the <code>.msi</code> and it will give us
 an uninstall option.</p>
 
-<h2 id='troubleshooting' class='section-header'><a href='#troubleshooting'>Troubleshooting</a></h2>
+<p>Windowsのインストーラを使ったなら<code>.msi</code>をもう一度実行すればアンインストールのオプショが出てきます。</p>
+
+<h2 id='トラブルシューティング' class='section-header'><a href='#トラブルシューティング'>トラブルシューティング</a></h2>
 <p>If we&#39;ve got Rust installed, we can open up a shell, and type this:</p>
+
+<p>既にRustをインストールしているならシェルを開いて以下を打ちましょう。</p>
 
 <pre><code class="language-bash">$ rustc --version
 </code></pre>
 
 <p>You should see the version number, commit hash, and commit date.</p>
 
+<p>バージョン番号、コミットハッシュ、そしてコミット日時が表示される筈です。</p>
+
 <p>If you do, Rust has been installed successfully! Congrats!</p>
+
+<p>表示されたならRustはちゃんとインストールされています!おめでとう!</p>
 
 <p>If you don&#39;t and you&#39;re on Windows, check that Rust is in your %PATH% system
 variable. If it isn&#39;t, run the installer again, select &quot;Change&quot; on the &quot;Change,
 repair, or remove installation&quot; page and ensure &quot;Add to PATH&quot; is installed on
 the local hard drive.</p>
+
+<p>Windowsを使っていて、表示されないなら%PATHI%システム変数にRustが入っているか確認して下さい。
+入っていなければもう一度インストーラを実行し、「Change,
+repair, or remove installation」ページのの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。</p>
 
 <p>If not, there are a number of places where we can get help. The easiest is
 <a href="irc://irc.mozilla.org/#rust">the #rust IRC channel on irc.mozilla.org</a>, which we can access through
@@ -568,16 +632,30 @@ the local hard drive.</p>
 (a silly nickname we call ourselves) who can help us out. Other great resources
 include <a href="https://users.rust-lang.org/">the user’s forum</a>, and <a href="http://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>.</p>
 
+<p>もし上手くいかないなら様々な場所で助けを得られます。
+最も簡単なのは<a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">Mibbit</a>からアクセス出来る<a href="irc://irc.mozilla.org/#rust">the #rust IRC channel on irc.mozilla.org</a>です。
+リンクをクリックしたら他の助けを求めれるRustacean達(我々のことをふざけてこう呼ぶのです)とチャット出来ます。
+他には<a href="https://users.rust-lang.org/">the user’s forum</a>や<a href="http://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>などがあります。</p>
+
+<p>[訳注] TODO:日本語で会話出来るリソースを探す</p>
+
 <p>This installer also installs a copy of the documentation locally, so we can
 read it offline. On UNIX systems, <code>/usr/local/share/doc/rust</code> is the location.
 On Windows, it&#39;s in a <code>share/doc</code> directory, inside the directory to which Rust
 was installed.</p>
+
+<p>インストーラはドキュメントのコピーもローカルにインストールしますので、オフラインで読めます。
+UNIXでは<code>/usr/local/share/doc/rust</code>にあります。
+WindowsではRustをインストールした所の<code>share/doc</code>ディレクトリにあります。</p>
 
 <h1 id='hello-world' class='section-header'><a href='#hello-world'>Hello, world!</a></h1>
 <p>Now that you have Rust installed, we&#39;ll help you write your first Rust program.
 It&#39;s traditional when learning a new language to write a little program to
 print the text “Hello, world!” to the screen, and in this section, we&#39;ll follow
 that tradition.</p>
+
+<p>Rustをインストールしたので最初のRustのプログラムを書いていきましょう。
+新しい言語を学ぶ時に「Hello, World!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。</p>
 
 <p>The nice thing about starting with such a simple program is that you can
 quickly verify that your compiler is installed, and that it&#39;s working properly.
