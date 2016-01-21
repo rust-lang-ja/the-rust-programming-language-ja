@@ -136,16 +136,19 @@ fn main() {
 ```
 
 > [訳注] それぞれの文言は
+>
 > Guess the number!: 数字を当ててみて!
 > Please input your guess.: 予想値を入力して下さい
 > Failed to read line: 行の読み取りに失敗しました
 > You guessed: {}: あなたの予想値は {}です
-> の意味ですが、エディタの設定によってはソースコード中に日本語を使うと
-> コンパイル出来ないことがあるのでそのままにしてあります。
-
-
+>
+> の意味ですが、エディタの設定などによってはソースコード中に日本語を使うと
+> コンパイル出来ないことがあるので英文のままにしてあります。
 
 There’s a lot here! Let’s go over it, bit by bit.
+
+いろいろなことあります！少しづつやっていきましょう。
+
 
 ```rust,ignore
 use std::io;
@@ -157,6 +160,13 @@ by default into every program, [the ‘prelude’][prelude]. If it’s not in th
 prelude, you’ll have to `use` it directly. There is also a second ‘prelude’, the
 [`io` prelude][ioprelude], which serves a similar function: you import it, and it
 imports a number of useful, `io`-related things.
+
+ユーザの入力を取得して結果を出力する必要があります。
+なので`io`標準ライブラリからライブラリが必要になります。
+Rustが全てのプログラムにデフォルトで読み込むものは少しだけで、[「プレリュード」][prelude]といいます。
+プレリュードになければ、直接`use`しなければいけません。
+2つめの「プレリュード」、[`io`プレリュード][ioprelude]もあり、同様にそれをインポートすると`io`に関連した多数の有用なものがインポートされます。
+
 
 [prelude]: ../std/prelude/index.html
 [ioprelude]: ../std/io/prelude/index.html
@@ -171,6 +181,11 @@ there are no arguments, and `{` starts the body of the function. Because
 we didn’t include a return type, it’s assumed to be `()`, an empty
 [tuple][tuples].
 
+以前見たように`main()`関数がプログラムのエントリーポイントになります。
+`fn`構文で新たな関数を宣言し、`()`が引数がないことを示し、`{`が関数の本体部の始まりです。
+返り値の型は書いていないので`()`、空の[タプル][tuples]として扱われます。
+
+
 [tuples]: primitive-types.html#tuples
 
 ```rust,ignore
@@ -181,6 +196,8 @@ we didn’t include a return type, it’s assumed to be `()`, an empty
 
 We previously learned that `println!()` is a [macro][macros] that
 prints a [string][strings] to the screen.
+
+前に`println!()`が[文字列][strings]をスクリーンに印字する[マクロ][macros]であることを学びました。
 
 [macros]: macros.html
 [strings]: strings.html
@@ -193,6 +210,11 @@ Now we’re getting interesting! There’s a lot going on in this little line.
 The first thing to notice is that this is a [let statement][let], which is
 used to create ‘variable bindings’. They take this form:
 
+面白くなってきました!この小さな1行で色々なことが行われています。
+最初に気付くのはこれが「変数束縛」を作る[let文][let]であることです。
+let文はこの形を取ります。
+
+
 ```rust,ignore
 let foo = bar;
 ```
@@ -203,15 +225,23 @@ This will create a new binding named `foo`, and bind it to the value `bar`. In
 many languages, this is called a ‘variable’, but Rust’s variable bindings have
 a few tricks up their sleeves.
 
+これは`foo`という名前の束縛を作り、それを値`bar`に束縛します。
+多くの言語ではこれは「変数」と呼ばれるものですが、Rustの変数束縛は少しばかり皮を被せてあります。
+
 For example, they’re [immutable][immutable] by default. That’s why our example
 uses `mut`: it makes a binding mutable, rather than immutable. `let` doesn’t
 take a name on the left hand side of the assignment, it actually accepts a
 ‘[pattern][patterns]’. We’ll use patterns later. It’s easy enough
 to use for now:
 
+例えば、束縛はデフォルトで[イミュータブル][immutable] (不変)です。
+なので、この例ではイミュータブルではなくミュータブル(可変)な束縛にするために`mut`を使っているのです。
+`let`は代入の左辺に名前を取る訳ではなくて実際には[パターン][patterns]を受け取ります。
+後程パターンを使います。これでもう簡単に使えますね。
+
 ```rust
-let foo = 5; // immutable.
-let mut bar = 5; // mutable
+let foo = 5; // イミュータブル
+let mut bar = 5; // ミュータブル
 ```
 
 [immutable]: mutability.html
@@ -220,14 +250,22 @@ let mut bar = 5; // mutable
 Oh, and `//` will start a comment, until the end of the line. Rust ignores
 everything in [comments][comments].
 
+ああ、そして`//`から行末までがコメントです。Rustは[コメント][comments]にある全てのものを無視します。
+
 [comments]: comments.html
 
 So now we know that `let mut guess` will introduce a mutable binding named
 `guess`, but we have to look at the other side of the `=` for what it’s
 bound to: `String::new()`.
 
+という訳で`let mut guess`がミュータブルな束縛`guess`を導入することを知りました。
+しかし`=`の逆側、`String::new()`が何であるかを見る必要があります。
+
 `String` is a string type, provided by the standard library. A
 [`String`][string] is a growable, UTF-8 encoded bit of text.
+
+`String`は文字列型で、標準ライブラリで提供されています。
+[`String`][string]は伸長可能なUTF-8でエンコードされたテキスト片です。
 
 [string]: ../std/string/struct.String.html
 
@@ -236,11 +274,21 @@ a particular type. That is to say, it’s associated with `String` itself,
 rather than a particular instance of a `String`. Some languages call this a
 ‘static method’.
 
+`::new()`構文は特定の型の「関連関数」なので`::`構文を使っています。
+つまり、これは`String`のインスタンスではなく`String`自体に関連付けられているということです。
+これを「スタティックメソッド」と呼ぶ言語もあります。
+
 This function is named `new()`, because it creates a new, empty `String`.
 You’ll find a `new()` function on many types, as it’s a common name for making
 a new value of some kind.
 
+この関数は新たな空の`String`を作るので`new()`の名付けられています。
+`new()`関数はある種の新たな値を作るのによく使われる名前なので様々な型でこの関数を見るでしょう。
+
+
 Let’s move forward:
+
+先に進みましょう。
 
 ```rust,ignore
     io::stdin().read_line(&mut guess)
@@ -249,6 +297,10 @@ Let’s move forward:
 
 That’s a lot more! Let’s go bit-by-bit. The first line has two parts. Here’s
 the first:
+
+さらに色々あります!一歩一歩進んでいきましょう。最初の行は2つの部分を持ちます。
+これが最初の部分です。
+
 
 ```rust,ignore
 io::stdin()
