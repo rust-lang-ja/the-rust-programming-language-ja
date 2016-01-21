@@ -52,7 +52,7 @@ A type without a statically known size or alignment. ([more info][link])
 
 [link]: ../nomicon/exotic-sizes.html#dynamically-sized-types-dsts
 
-### Expression
+### 式
 
 In computer programming, an expression is a combination of values, constants,
 variables, operators and functions that evaluate to a single value. For example,
@@ -60,7 +60,13 @@ variables, operators and functions that evaluate to a single value. For example,
 that expressions can have side-effects. For example, a function included in an
 expression might perform actions other than simply returning a value.
 
-### Expression-Oriented Language
+コンピュータプログラミングに於いて、式は値、定数、変数、演算子、1つの値へと評価される関数の組み合わせです。
+例えば、`2 + (3 * 4)`は値14を返す式です。式が副作用を持ちうることに意味はありません。
+例えば、ある式に含まれる関数がただ値を返す以外にも何か作用をするかもしれません。
+
+
+
+### 式指向言語
 
 In early programming languages, [expressions][expression] and
 [statements][statement] were two separate syntactic categories: expressions had
@@ -70,10 +76,17 @@ In an expression-oriented language, (nearly) every statement is an expression
 and therefore returns a value. Consequently, these expression statements can
 themselves form part of larger expressions.
 
-[expression]: glossary.html#expression
-[statement]: glossary.html#statement
+早期のプログラミング言語では[式][]と[文][]は文法上違うものでした。式は値を持ち、文は何かをします。
+しかしながあら後の言語ではこれらの溝は埋まり式で何かを出来るようになり文が値を持てるようになりました。
+式指向言語では(ほとんど)全ての文が式であり値を返します。同時にこれらの式文はより大きな式の一部を成します。
 
-### Statement
+
+[式]: glossary.html#式
+[文]: glossary.html#文
+
+### 文
 
 In computer programming, a statement is the smallest standalone element of a
 programming language that commands a computer to perform an action.
+
+コンピュータプログラミングに於いて、文とはコンピュータに何かしらの作用をさせるプログラミング言語の最小要素です。
