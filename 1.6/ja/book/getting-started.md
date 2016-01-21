@@ -277,13 +277,17 @@ print the text “Hello, world!” to the screen, and in this section, we'll fol
 that tradition.
 
 Rustをインストールしたので最初のRustのプログラムを書いていきましょう。
-新しい言語を学ぶ時に「Hello, World!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
+新しい言語を学ぶ時に「Hello, world!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
 
 
 The nice thing about starting with such a simple program is that you can
 quickly verify that your compiler is installed, and that it's working properly.
 Printing information to the screen is also a pretty common thing to do, so
 practicing it early on is good.
+
+このように小さなプログラムから始める利点はコンパイラがインストールされていて、正しく動くことを素早く確認出来ることです。
+情報をスクリーンに表示することは非常によくやることなので早い内に練習しておくのが良いです。
+
 
 > Note: This book assumes basic familiarity with the command line. Rust itself
 > makes no specific demands about your editing, tooling, or where your code
@@ -294,15 +298,27 @@ practicing it early on is good.
 > IDE is out of the scope of this tutorial, so check the documentation for your
 > specific setup.
 
-[SolidOak]: https://github.com/oakes/SolidOak
-[various editors]: https://github.com/rust-lang/rust/blob/master/src/etc/CONFIGS.md
+> 留意: 本書はコマンドラインをある程度使えることを仮定しています。Rust本体はコードの編集やツール群、
+> コードの置き場には特に要求を設けませんのでコマンドラインよりIDEを好むならそうしても構いません。
+> Rustを念頭に置いて作られたIDE、[SolidOak]を試してみるといいかもしれません。
+> コミュニティにより多数の拡張が開発されていますし、Rustチームも[様々なエディタ]向けにプラグインを用意しています。
+> このチュートリアルではエディタやIDEの設定は扱いませんのでそれぞれに合ったドキュメントを参照して下さい。
 
-## Creating a Project File
+
+[SolidOak]: https://github.com/oakes/SolidOak
+[様々なエディタ]: https://github.com/rust-lang/rust/blob/master/src/etc/CONFIGS.md
+
+## プロジェクトファイルを作る
 
 First, make a file to put your Rust code in. Rust doesn't care where your code
 lives, but for this book, I suggest making a *projects* directory in your home
 directory, and keeping all your projects there. Open a terminal and enter the
 following commands to make a directory for this particular project:
+
+まず、Rustのコードを書くファイルを用意します。
+Rustはコードがどこにあるかは気にしませんが本書ではホームディレクトリ下に
+*projects* ディレクトリを作って全てのプロジェクトをそのディレクトリ下に入れることを勧めます。
+ターミナルを開いて以下のコマンドで今回のプロジェクトのディレクトリを作りましょう。
 
 ```bash
 $ mkdir ~/projects
@@ -314,14 +330,23 @@ $ cd hello_world
 > Note: If you’re on Windows and not using PowerShell, the `~` may not work.
 > Consult the documentation for your shell for more details.
 
-## Writing and Running a Rust Program
+> 留意: WindowsでかつPowerShellを使っていないのなら `~`は上手く動かないかもしれません。
+> 使っているシェルのドキュメントをあたってみて下さい。
+
+## Rustのコードを書いて走らせる
 
 Next, make a new source file and call it *main.rs*. Rust files always end
 in a *.rs* extension. If you’re using more than one word in your filename, use
 an underscore to separate them; for example, you'd use *hello_world.rs* rather
 than *helloworld.rs*.
 
+次に、新しいソースファイルを作ります。それを *main.rs* としましょう。
+Rustのファイルは常に *.rs* 拡張子で終わります。ファイル名に1つ以上の単語を使うならアンダースコアで区切りましょう。
+例えば、 *helloworld.rs* ではなく *hello_world.rs* を使うことになります。
+
 Now open the *main.rs* file you just created, and type the following code:
+
+では作った *main.rs* を開いて以下のコードを打ち込みましょう。
 
 ```rust
 fn main() {
@@ -331,6 +356,9 @@ fn main() {
 
 Save the file, and go back to your terminal window. On Linux or OSX, enter the
 following commands:
+
+ファイルを保存して、ターミナルのウィンドウに戻ります。LinuxかOSXでは以下のコマンドを打ちます。
+
 
 ```bash
 $ rustc main.rs
@@ -343,10 +371,18 @@ system, you should see the string `Hello, world!` print to the terminal. If you
 did, then congratulations! You've officially written a Rust program. That makes
 you a Rust programmer! Welcome.
 
-## Anatomy of a Rust Program
+Windowsでは`main`の代わりに`main.exe`を打ちます。使っているOSに関わらず、`Hello, world!`の文字列を目にする筈です。
+目にしたなら、おめでとうございます！あなたは正式にRustのプログラムを記述しました。これであなたもRustプログラマです！ようこそ。
+
+
+## Rustプログラムの解剖
 
 Now, let’s go over what just happened in your "Hello, world!" program in
 detail. Here's the first piece of the puzzle:
+
+さて、「Hello, world!」プログラムで何が起きていたのがつぶさに見ていきましょう。
+パズルの最初のピースがこれです。
+
 
 ```rust
 fn main() {
@@ -361,12 +397,23 @@ were arguments, they would go inside the parentheses (`(` and `)`), and because
 we aren’t returning anything from this function, we can omit the return type
 entirely.
 
+これら行はRustの *関数* を定義します。`main`関数は特別です。全てのRustプログラムの開始点になります。
+最初の行は「引数を取らず、返り値も返さない関数`main`を宣言します」といっています。
+引数があれば、括弧(`(`と`)`)の中に入りますし、今回はこの関数から何も値を返さないので返り値の型を完全に省略出来ます。
+
 Also note that the function body is wrapped in curly braces (`{` and `}`). Rust
 requires these around all function bodies. It's considered good style to put
 the opening curly brace on the same line as the function declaration, with one
 space in between.
 
+さらに、関数の本体部がくるくる括弧(`{`と`}`)で括られていることに留意して下さい。
+Rustは全ての関数の本体部にくるくる括弧を要請します。
+関数宣言と同じ行に1スペース空けて開きくるくる括弧を置くのが良いスタイルとされます。
+
+
 Inside the `main()` function:
+
+`main()`関数の中では
 
 ```rust
     println!("Hello, world!");
@@ -376,6 +423,9 @@ This line does all of the work in this little program: it prints text to the
 screen. There are a number of details that are important here. The first is
 that it’s indented with four spaces, not tabs.
 
+この行はが今回の小さなプログラムの全てを担っています。これがテキストをスクリーンに印字するのです。
+ここで重要な詳細がいくつもあります。1つ目はインデントが4スペースであり、タブでない点です。
+
 The second important part is the `println!()` line. This is calling a Rust
 *[macro]*, which is how metaprogramming is done in Rust. If it were calling a
 function instead, it would look like this: `println()` (without the !). We'll
@@ -383,31 +433,49 @@ discuss Rust macros in more detail later, but for now you only need to
 know that when you see a `!` that means that you’re calling a macro instead of
 a normal function.
 
+2つ目の重要な部分は`println!()`の行です。これはRustのメタプログラミング機構、 *[マクロ]* の呼び出しです。
+もし関数を呼び出しているのなら、`println()`のようになります(! がありません)。
+Rustのマクロについては後程詳細に議論しますが、今のところ`!`を見たら普通の関数ではなくマクロを呼んでいることを意味するということを知っておいて下さい。
 
-[macro]: macros.html
+
+[マクロ]: macros.html
 
 Next is `"Hello, world!"` which is a *string*. Strings are a surprisingly
 complicated topic in a systems programming language, and this is a *[statically
 allocated]* string. We pass this string as an argument to `println!`, which
 prints the string to the screen. Easy enough!
 
-[statically allocated]: the-stack-and-the-heap.html
+次は 文字列の`"Hello, world"`です。
+システムプログラミング言語では文字列は驚くほど複雑なトピックで、これは *[静的に確保された]* 文字列です。
+文字列をスクリーンに印字してくれる`println!`にこれを引数として渡します。簡単ですね！
+
+[静的に確保された]: the-stack-and-the-heap.html
 
 The line ends with a semicolon (`;`). Rust is an *[expression-oriented
 language]*, which means that most things are expressions, rather than
 statements. The `;` indicates that this expression is over, and the next one is
 ready to begin. Most lines of Rust code end with a `;`.
 
-[expression-oriented language]: glossary.html#expression-oriented-language
+件の行はセミコロン(`;`)で終わります。Rustは *[式指向言語]* で、ほとんどのものは文ではなく式になります。
+`;`は式が終わり、次の式が始まることを示します。Rustのコードのほとんどの行は`;`で終わります。
 
-## Compiling and Running Are Separate Steps
+[式指向言語]: glossary.html#expression-oriented-language
+
+## コンパイルと実行は別の手順
 
 In "Writing and Running a Rust Program", we showed you how to run a newly
 created program. We'll break that process down and examine each step now.
 
+「Rustのプログラムを書いて走らせる」で、新しく作ったプログラムをどうやって実行するか示しました。
+それぞれを分解して手順毎に見ていきましょう。
+
+
 Before running a Rust program, you have to compile it. You can use the Rust
 compiler by entering the `rustc` command and passing it the name of your source
 file, like this:
+
+Rustのプログラムを走らせる前に、コンパイルする必要があります。
+Rustのコンパイラは以下のように`rustc`と入力してソースファイルの名前を渡してあげることで使えます。
 
 ```bash
 $ rustc main.rs
@@ -418,12 +486,19 @@ If you come from a C or C++ background, you'll notice that this is similar to
 executable, which you can see on Linux or OSX by entering the `ls` command in
 your shell as follows:
 
+CまたはC++のバックグラウンドを持つなら`gcc`や`clang`に似ていことに気付くでしょう。
+コンパイルが成功したら、Rustは実行可能バイナリを吐いている筈です。
+LinuxかOSXなら以下のように`ls`コマンドで確認出来ます。
+
+
 ```bash
 $ ls
 main  main.rs
 ```
 
 On Windows, you'd enter:
+Windowsなら、こうなります。
+
 
 ```bash
 $ dir
@@ -434,12 +509,18 @@ This shows we have two files: the source code, with an `.rs` extension, and the
 executable (`main.exe` on Windows, `main` everywhere else). All that's left to
 do from here is run the `main` or `main.exe` file, like this:
 
+2つのファイルがあるといっています。`.rs`拡張子を持ったソースコードと実行可能ファイル(Windowsでは`main.exe`、それ以外では`main`)。
+ここからあとは`main`または`main.exe`のファイルをこのように実行するだけです。
+
+
 ```bash
-$ ./main  # or main.exe on Windows
+$ ./main  # あるいはWindowsならmain.exe
 ```
 
 If *main.rs* were your "Hello, world!" program, this would print `Hello,
 world!` to your terminal.
+
+もし *main.rs* が「Hello, world!」プログラムなら、これで`Hello, world!`とターミナルに印字されることでしょう。
 
 If you come from a dynamic language like Ruby, Python, or JavaScript, you may
 not be used to compiling and running a program being separate steps. Rust is an
@@ -450,11 +531,19 @@ to have a Ruby, Python, or JavaScript implementation installed (respectively),
 but you only need one command to both compile and run your program. Everything
 is a tradeoff in language design.
 
+もしRubyやPython、JavaScriptなどの動的な言語から来たのならコンパイルと実行が別の手順になっていることに馴れないでしょう。
+Rustは、プログラムをコンパイルしてそれを別の誰かに渡したらRustがなくても動く、 *事前コンパイル* 言語です。
+他方別の誰かに`.rb`や`.py`、`.js`を渡したら(それぞれ)Ruby、PythonあるいはJavaScriptの実装が必要になりますが、コンパイルにも実行にも1つのコマンドで事足ります。
+全ては言語設計上のトレードオフです。
+
 Just compiling with `rustc` is fine for simple programs, but as your project
 grows, you'll want to be able to manage all of the options your project has,
 and make it easy to share your code with other people and projects. Next, I'll
 introduce you to a tool called Cargo, which will help you write real-world Rust
 programs.
+
+単純なプログラムなら単に`rustc`でコンパイルすれば十分ですがプロジェクトが大きくなるにつれてプロジェクトの全てのオプションを管理したり他の人やプロジェクトと容易に共有出来るようにしたくなるでしょう。
+次は現実的なRustプログラムを書く手助けになるCargoというツールを紹介します。
 
 # Hello, Cargo!
 
@@ -464,15 +553,26 @@ downloading the libraries your code depends on, and building those libraries.
 We call libraries your code needs ‘dependencies’ since your code depends on
 them.
 
+CargoはRustのビルドシステムであり、パッケージマネージャでありRustaceanはCargoをRustプロジェクトの管理にも使います。
+Cargoは3つのものを管理します、則ち、コードのビルド、コードが依存するライブラリのダウンロード、そしてそれらのライブラリのビルド。
+コードが必要とするライブラリをそれに依存するので「依存」と呼びます。
+
 The simplest Rust programs don’t have any dependencies, so right now, you'd
 only use the first part of its functionality. As you write more complex Rust
 programs, you’ll want to add dependencies, and if you start off using Cargo,
 that will be a lot easier to do.
 
+最も簡単なRustのプログラムは依存を持たないのでここではCargoの1つめの機能だけを使います。
+もっと複雑なRustのコードを書くにつれて、依存を追加したくなるでしょうが、Cargoを使えばそれがとても簡単に出来ます。
+
 As the vast, vast majority of Rust projects use Cargo, we will assume that
 you’re using it for the rest of the book. Cargo comes installed with Rust
 itself, if you used the official installers. If you installed Rust through some
 other means, you can check if you have Cargo installed by typing:
+
+ほとんどもほとんどのRustのプロジェクトがCargoを使うのでこれ以後はCargoを使うものと仮定します。
+公式のインストーラを使ったならCargoはRustに同梱されています。
+他の手段でRustをインストールしたなら、以下のコマンドでCargoがインストールされているか確認出来ます。
 
 ```bash
 $ cargo --version
@@ -481,6 +581,10 @@ $ cargo --version
 Into a terminal. If you see a version number, great! If you see an error like
 ‘`command not found`’, then you should look at the documentation for the system
 in which you installed Rust, to determine if Cargo is separate.
+
+バージョン番号を確認出来たなら、良かった！`コマンドが見つかりません`などのエラーが出たなら
+Rustをインストールしたシステムのドキュメントを見て、Cargoが分離されているか判断しましょう。
+
 
 ## Converting to Cargo
 
