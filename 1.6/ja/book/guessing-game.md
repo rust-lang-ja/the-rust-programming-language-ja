@@ -1,4 +1,4 @@
-% 推測ゲーム
+% 数当てゲーム
 
 Let’s learn some Rust! For our first project, we’ll implement a classic
 beginner programming problem: the guessing game. Here’s how it works: Our
@@ -7,11 +7,11 @@ prompt us to enter a guess. Upon entering our guess, it will tell us if we’re
 too low or too high. Once we guess correctly, it will congratulate us. Sounds
 good?
 
-Rustを学びましょう! 最初のプロジェクトとして、古典的な初心者向けのプログラミングの問題、推測ゲームを実装します。
+Rustを学びましょう! 最初のプロジェクトとして、古典的な初心者向けのプログラミングの問題、数当てゲームを実装します。
 動作: プログラムは1から100の間のあるランダムな数字を生成します。
 そしてその値の推測値の入力を促します。
-推測値を入力すると大きすぎたあるいは小さすぎたと教えてくれます。
-当たったらおめでとうと言ってくれます。良さそうでしょう?
+推測値を入力すると大きすぎるあるいは小さすぎると教えてくれます。
+当たったらおめでとうと言ってくれます。良さそうですか?
 
 
 Along the way, we’ll learn a little bit about Rust. The next chapter, ‘Syntax
@@ -26,8 +26,9 @@ Let’s set up a new project. Go to your projects directory. Remember how we had
 to create our directory structure and a `Cargo.toml` for `hello_world`? Cargo
 has a command that does that for us. Let’s give it a shot:
 
-新しいプロジェクトを作りましょう。プロジジェクトのディレクトリ
-
+新しいプロジェクトを作りましょう。プロジジェクトのディレクトリへ行って下さい。
+`hello_world`の時にどのようなディレクトリ構成で、どのように`Cargo.toml`を作る必要があったか覚えてますか?
+Cargoにはそれらのことをしてくれるコマンドがあるのでした。使いましょう。
 
 ```bash
 $ cd ~/projects
@@ -38,20 +39,30 @@ $ cd guessing_game
 We pass the name of our project to `cargo new`, and then the `--bin` flag,
 since we’re making a binary, rather than a library.
 
+`cargo new`にプロジェクトの名前と、そしてライブラリではなくバイナリを作るので`--bin`フラグを渡します。
+
 Check out the generated `Cargo.toml`:
+
+生成された`Cargo.toml`を確認しましょう。
 
 ```toml
 [package]
 
 name = "guessing_game"
 version = "0.1.0"
-authors = ["Your Name <you@example.com>"]
+authors = ["あなたの名前 <you@example.com>"]
 ```
 
 Cargo gets this information from your environment. If it’s not correct, go ahead
 and fix that.
 
+Cargoはこれらの情報を環境から取得します。もし間違っていたら、どうぞ修正して下さい。
+
+
 Finally, Cargo generated a ‘Hello, world!’ for us. Check out `src/main.rs`:
+
+最後に、Cargoは「Hello, world!」を生成します。`src/main.rs`を確認します。
+
 
 ```rust
 fn main() {
@@ -61,6 +72,9 @@ fn main() {
 
 Let’s try compiling what Cargo gave us:
 
+Cargoが用意してくれたものをコンパイルしてみましょう。
+
+
 ```{bash}
 $ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -69,9 +83,16 @@ $ cargo build
 Excellent! Open up your `src/main.rs` again. We’ll be writing all of
 our code in this file.
 
+素晴しい!もう一度`src/main.rs`を開きます。全てのコードをこの中に書いていきます。
+
+
 Before we move on, let me show you one more Cargo command: `run`. `cargo run`
 is kind of like `cargo build`, but it also then runs the produced executable.
 Try it out:
+
+行動する前に、もう一つCargoのコマンドを紹介させて下さい。`run`です。
+`cargo run`は`cargo build`のようなものですが、生成された実行可能ファイルの実行までします。
+試してみましょう。
 
 ```bash
 $ cargo run
@@ -84,10 +105,18 @@ Great! The `run` command comes in handy when you need to rapidly iterate on a
 project. Our game is such a project, we need to quickly test each
 iteration before moving on to the next one.
 
-# Processing a Guess
+すごい! `run`コマンドはプロジェクトで細かく回す必要があるときに手頃なコマンドです。
+今回のゲームがそのようなプロジェクトです。すぐに試してから次の行動に移るの繰り返しをする必要があります。
+
+# 推測値を処理する
 
 Let’s get to it! The first thing we need to do for our guessing game is
 allow our player to input a guess. Put this in your `src/main.rs`:
+
+とりかかりましょう!
+数当てゲームでまずしなければいけないことはプレイヤーに推測値を入力させることです。
+これを`src/main.rs`に書きましょう。
+
 
 ```rust,no_run
 use std::io;
@@ -105,6 +134,16 @@ fn main() {
     println!("You guessed: {}", guess);
 }
 ```
+
+> [訳注] それぞれの文言は
+> Guess the number!: 数字を当ててみて!
+> Please input your guess.: 推測値を入力して下さい
+> Failed to read line: 行の読み取りに失敗しました
+> You guessed: {}: あなたの推測値は {}です
+> の意味ですが、エディタの設定によってはソースコード中に日本語を使うと
+> コンパイル出来ないことがあるのでそのままにしてあります。
+
+
 
 There’s a lot here! Let’s go over it, bit by bit.
 

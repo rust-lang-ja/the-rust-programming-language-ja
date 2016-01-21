@@ -1,7 +1,7 @@
 # Summary
 
 * [はじめる](getting-started.md)
-* [チュートリアル: 推測ゲーム](guessing-game.md)
+* [チュートリアル: 数当てゲーム](guessing-game.md)
 * [シンタックスとセマンティクス](syntax-and-semantics.md)
     * [変数束縛](variable-bindings.md)
     * [関数](functions.md)
