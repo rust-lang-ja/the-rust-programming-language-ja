@@ -1015,6 +1015,19 @@ exact type of number we want. Hence, `let guess: u32`. The colon (`:`) after
 thirty-two bit integer. Rust has [a number of built-in number types][number],
 but we’ve chosen `u32`. It’s a good default choice for a small positive number.
 
+ここでは、`guess`は古い`guess`、入力を保持している`String`のものです。
+`String`の`trim()`メソッドは文字列の最初と最後にある空白を取り除きます。
+`read_line()`を満たすには「リターン」キーを押す必要があるのでこれは重要です。
+つまり、`5`と入力してリターンを押したら、`guess`は`5\n`のようになっています。
+`\n`「は改行」、エンターキーを表しています。`trim()`で`5`だけを残してこれを取り除けます。
+[文字列の`parse()`メソッド][parse]は文字列を何かの数値へとパースします。
+様々な数値をパース出来るので、Rustに正確にどの型の数値が欲しいのかを伝える必要があります。
+なので、`let guess: u32`なのです。
+`guess`の後のコロン(`:`)は型注釈を付けようとしていることをRustに伝えます。
+`u32`は符号なし32bit整数です。
+Rustには[様々なビルトインの数値型][number]がありますが、今回は`u32`を選びました。
+小さな正整数にはちょうどいいデフォルトの選択肢です。
+
 [parse]: ../std/primitive.str.html#method.parse
 [number]: primitive-types.html#numeric-types
 
@@ -1023,7 +1036,13 @@ our string contained `A👍%`? There’d be no way to convert that to a number. 
 such, we’ll do the same thing we did with `read_line()`: use the `expect()`
 method to crash if there’s an error.
 
+`read_line()`と同じように、`parse()`の呼び出しでもエラーが起き得ます。
+文字列に`A %`が含まれていたらどうなるでしょう?それは文字列には変換出来ません。
+なので、`read_line()`と同じように`expect()`を使ってエラーがあったらクラッシュするようにします。
+
 Let’s try our program out!
+
+プログラムを試してみましょう。
 
 ```bash
 $ cargo run
@@ -1041,10 +1060,17 @@ Nice! You can see I even added spaces before my guess, and it still figured
 out that I guessed 76. Run the program a few times, and verify that guessing
 the number works, as well as guessing a number too small.
 
+よし!予想値の前にスペースも入れてみましたがそれでもちゃんと76と予想したんだと理解してくれます。
+何度か動かしてみて、当たりが動くこと、小さい数字も動くことを確認してみて下さい。
+
 Now we’ve got most of the game working, but we can only make one guess. Let’s
 change that by adding loops!
 
+ゲームのほとんどが完成するようになりましたが、1回しか予想出来ません。
+ループを使って書き換えましょう!
+
 # Looping
+#ループ
 
 The `loop` keyword gives us an infinite loop. Let’s add that in:
 
