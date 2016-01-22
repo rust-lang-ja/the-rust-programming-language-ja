@@ -3,7 +3,7 @@
 * [はじめる](getting-started.md)
 * [Rustを学ぶ](learn-rust.md)
     * [数当てゲーム](guessing-game.md)
-    * [哲学者の晩餐](dining-philosophers.md)
+    * [晩餐する哲学者](dining-philosophers.md)
     * [他言語と共存する](rust-inside-other-languages.md)
 * [シンタックスとセマンティクス](syntax-and-semantics.md)
     * [変数束縛](variable-bindings.md)
