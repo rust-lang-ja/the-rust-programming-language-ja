@@ -311,11 +311,13 @@ have written this line as `std::io::stdin()`.
 This particular function returns a handle to the standard input for your
 terminal. More specifically, a [std::io::Stdin][iostdin].
 
-
+この関数はターミナルの標準入力へのハンドルを返します。詳しくは[std::io::Stdin][iostdin]を見て下さい。
 
 [iostdin]: ../std/io/struct.Stdin.html
 
 The next part will use this handle to get input from the user:
+
+次の部分はこのハンドルを使ってユーザからの入力を取得します。
 
 ```rust,ignore
 .read_line(&mut guess)
@@ -325,6 +327,10 @@ Here, we call the [`read_line()`][read_line] method on our handle.
 [Methods][method] are like associated functions, but are only available on a
 particular instance of a type, rather than the type itself. We’re also passing
 one argument to `read_line()`: `&mut guess`.
+
+ここで、ハンドルに対して[`read_line()`][read_line]メソッドを呼んでいます。
+[Methods][method]メソッドは関連関数のようなものですが、型自体ではなくあるインスタンスに対してだけ使えます。
+`read_line()`に1つ引数を渡してもいます。`&mut guess`です。
 
 [read_line]: ../std/io/struct.Stdin.html#method.read_line
 [method]: method-syntax.html
@@ -339,16 +345,30 @@ finish our program right now, though. For now, all we need to know is that
 like `let` bindings, references are immutable by default. Hence, we need to
 write `&mut guess`, rather than `&guess`.
 
+`guess`がどのように束縛されたか覚えてますか?ミュータブルであると言いました。
+しかしながら`read_line`は`String`を引数に取りません。`&mut String`を取るのです。
+Rustには[参照][references]と呼ばれる機能があって、1つのデータに対して複数の参照を持つことが出来、コピーを減らすことが出来ます。
+Rustの大きな長所の1つが参照をかに安全に簡単に使えるかなので、参照は複雑な機能です。
+しかしこのプログラムを作り終えるのに今すぐ詳細を知る必要はありません。
+今のところ、`let`と同じように参照はデフォルトでイミュータブルであるということだけ覚えておいて下さい。
+なので`&guess`ではなく`&mut guess`と書く必要があるのです。
+
 Why does `read_line()` take a mutable reference to a string? Its job is
 to take what the user types into standard input, and place that into a
 string. So it takes that string as an argument, and in order to add
 the input, it needs to be mutable.
+
+何故`read_line()`は文字列へのミュータブルな参照を取るのでしょうか?
+`read_line()`はユーザが標準入力に打ったものを取得し、それを文字列に入れる役割を果たします。
+なのでその文字列を引数として受け取り、そして入力文字列を追加するためにミュータブルである必要があるのです。
 
 [references]: references-and-borrowing.html
 
 But we’re not quite done with this line of code, though. While it’s
 a single line of text, it’s only the first part of the single logical line of
 code:
+
+しかしまだこの行について終わっていません。テキスト上では1行ですが、コードの論理行の1部でしかないのです。
 
 ```rust,ignore
         .expect("Failed to read line");
@@ -357,6 +377,10 @@ code:
 When you call a method with the `.foo()` syntax, you may introduce a newline
 and other whitespace. This helps you split up long lines. We _could_ have
 done:
+
+メソッドを`.foo()`構文で呼び出す時、改行してスペースを入れても構いません。
+そうすることで長い行を分割出来ます。
+こうすることだって _出来ました_
 
 ```rust,ignore
     io::stdin().read_line(&mut guess).expect("failed to read line");
@@ -370,6 +394,12 @@ String` we pass it. But it also returns a value: in this case, an
 standard library: a generic [`Result`][result], and then specific versions for
 sub-libraries, like `io::Result`.
 
+ですがこれだと読み辛いです。ですので3つのメソッド呼び出しを3行に分割します。
+`read_line()`については話しましたが`expect`についてはどうでしょう?
+さて、`read_line()`がユーザの入力を`&mut String`に入れることには言及しました。
+しかし値も返します。
+この場合、標準ライブラリにある一般の[`Result`][result]であり、そしてそれをサブライブラリに特殊化したバージョンの`io::Result`になります。
+
 [ioresult]: ../std/io/type.Result.html
 [result]: ../std/result/enum.Result.html
 
@@ -379,6 +409,11 @@ this case, `io::Result` has an [`expect()` method][expect] that takes a value
 it’s called on, and if it isn’t a successful one, [`panic!`][panic]s with a
 message you passed it. A `panic!` like this will cause our program to crash,
 displaying the message.
+
+これらの`Result`型の目的は、エラーハンドリング情報をエンコードすることです。
+`Result`型の値には、他の型と同じように、メソッドが定義されています。
+今回は`io::Result`に[`expect()`メソッド][expect]が定義されていて、それが呼び出された値が成功でなければ与えたメッセージと共に[`panic!`][panic]します。
+今回のように`panic!`はメッセージを表示してプログラムをクラッシュさせます。
 
 [expect]: ../std/option/enum.Option.html#method.expect
 [panic]: error-handling.html
