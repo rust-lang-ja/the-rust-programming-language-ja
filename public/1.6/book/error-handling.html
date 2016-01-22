@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -183,17 +191,17 @@ errors in a particular way. Generally speaking, error handling is divided into
 two broad categories: exceptions and return values. Rust opts for return
 values.</p>
 
-<p>In this section, we intend to provide a comprehensive treatment of how to deal
+<p>In this chapter, we intend to provide a comprehensive treatment of how to deal
 with errors in Rust. More than that, we will attempt to introduce error handling
 one piece at a time so that you&#39;ll come away with a solid working knowledge of
 how everything fits together.</p>
 
 <p>When done naïvely, error handling in Rust can be verbose and annoying. This
-section will explore those stumbling blocks and demonstrate how to use the
+chapter will explore those stumbling blocks and demonstrate how to use the
 standard library to make error handling concise and ergonomic.</p>
 
 <h1 id='table-of-contents' class='section-header'><a href='#table-of-contents'>Table of Contents</a></h1>
-<p>This section is very long, mostly because we start at the very beginning with
+<p>This chapter is very long, mostly because we start at the very beginning with
 sum types and combinators, and try to motivate the way Rust does error handling
 incrementally. As such, programmers with experience in other expressive type
 systems may want to jump around.</p>
@@ -327,8 +335,8 @@ the first example. This is because the
 panic is embedded in the calls to <code>unwrap</code>.</p>
 
 <p>To “unwrap” something in Rust is to say, “Give me the result of the
-computation, and if there was an error, panic and stop the program.”
-It would be better if we showed the code for unwrapping because it is so
+computation, and if there was an error, just panic and stop the program.”
+It would be better if we just showed the code for unwrapping because it is so
 simple, but to do that, we will first need to explore the <code>Option</code> and <code>Result</code>
 types. Both of these types have a method called <code>unwrap</code> defined on them.</p>
 
@@ -375,7 +383,7 @@ to find a character in a string:</p>
     <span class='prelude-val'>None</span>
 }</pre>
 
-<p>Notice that when this function finds a matching character, it doesn&#39;t only
+<p>Notice that when this function finds a matching character, it doesn&#39;t just
 return the <code>offset</code>. Instead, it returns <code>Some(offset)</code>. <code>Some</code> is a variant or
 a <em>value constructor</em> for the <code>Option</code> type. You can think of it as a function
 with the type <code>fn&lt;T&gt;(value: T) -&gt; Option&lt;T&gt;</code>. Correspondingly, <code>None</code> is also a
@@ -408,7 +416,7 @@ analysis is the only way to get at the value stored inside an <code>Option&lt;T&
 means that you, as the programmer, must handle the case when an <code>Option&lt;T&gt;</code> is
 <code>None</code> instead of <code>Some(t)</code>.</p>
 
-<p>But wait, what about <code>unwrap</code>, which we used <a href="#code-unwrap-double">previously</a>?
+<p>But wait, what about <code>unwrap</code>,which we used <a href="#code-unwrap-double"><code>previously</code></a>?
 There was no case analysis there! Instead, the case analysis was put inside the
 <code>unwrap</code> method for you. You could define it yourself if you want:</p>
 
@@ -454,7 +462,7 @@ we saw how to use <code>find</code> to discover the extension in a file name. Of
 not all file names have a <code>.</code> in them, so it&#39;s possible that the file name has
 no extension. This <em>possibility of absence</em> is encoded into the types using
 <code>Option&lt;T&gt;</code>. In other words, the compiler will force us to address the
-possibility that an extension does not exist. In our case, we only print out a
+possibility that an extension does not exist. In our case, we just print out a
 message saying as such.</p>
 
 <p>Getting the extension of a file name is a pretty common operation, so it makes
@@ -494,7 +502,7 @@ tiresome.</p>
 
 <p>In fact, the case analysis in <code>extension_explicit</code> follows a very common
 pattern: <em>map</em> a function on to the value inside of an <code>Option&lt;T&gt;</code>, unless the
-option is <code>None</code>, in which case, return <code>None</code>.</p>
+option is <code>None</code>, in which case, just return <code>None</code>.</p>
 
 <p>Rust has parametric polymorphism, so it is very easy to define a combinator
 that abstracts this pattern:</p>
@@ -626,7 +634,7 @@ file paths have a file name, not <em>all</em> of them do. For example, <code>.</
   <span class='macro'>unimplemented</span><span class='macro'>!</span>()
 }</pre>
 
-<p>You might think that we could use the <code>map</code> combinator to reduce the case
+<p>You might think that we could just use the <code>map</code> combinator to reduce the case
 analysis, but its type doesn&#39;t quite fit. Namely, <code>map</code> takes a function that
 does something only with the inner value. The result of that function is then
 <em>always</em> <a href="#code-option-map">rewrapped with <code>Some</code></a>. Instead, we need something
@@ -965,7 +973,7 @@ library.</p>
 <code>Option</code> and a <code>Result</code>? Or what if you have a <code>Result&lt;T, Error1&gt;</code> and a
 <code>Result&lt;T, Error2&gt;</code>? Handling <em>composition of distinct error types</em> is the next
 challenge in front of us, and it will be the major theme throughout the rest of
-this section.</p>
+this chapter.</p>
 
 <h2 id='composing-option-and-result' class='section-header'><a href='#composing-option-and-result'>Composing <code>Option</code> and <code>Result</code></a></h2>
 <p>So far, I&#39;ve talked about combinators defined for <code>Option</code> and combinators
@@ -976,7 +984,7 @@ different computations without doing explicit case analysis.</p>
 mix of <code>Option</code> and <code>Result</code> types. Must we resort to explicit case analysis,
 or can we continue using combinators?</p>
 
-<p>For now, let&#39;s revisit one of the first examples in this section:</p>
+<p>For now, let&#39;s revisit one of the first examples in this chapter:</p>
 <span class='rusttest'>use std::env;
 
 fn main() {
@@ -1004,7 +1012,7 @@ and the program doesn&#39;t panic if there&#39;s an error.</p>
 with both an <code>Option</code> and a <code>Result</code>, the solution is <em>usually</em> to convert the
 <code>Option</code> to a <code>Result</code>. In our case, the absence of a command line parameter
 (from <code>env::args()</code>) means the user didn&#39;t invoke the program correctly. We
-could use a <code>String</code> to describe the error. Let&#39;s try:</p>
+could just use a <code>String</code> to describe the error. Let&#39;s try:</p>
 
 <p><span id="code-error-double-string"></span></p>
 <span class='rusttest'>use std::env;
@@ -1061,7 +1069,7 @@ Like the other combinators we&#39;ve seen, its definition is very simple:</p>
 
 <p>The other new combinator used here is
 <a href="../std/result/enum.Result.html#method.map_err"><code>Result::map_err</code></a>.
-This is like <code>Result::map</code>, except it maps a function on to the <em>error</em>
+This is just like <code>Result::map</code>, except it maps a function on to the <em>error</em>
 portion of a <code>Result</code> value. If the <code>Result</code> is an <code>Ok(...)</code> value, then it is
 returned unmodified.</p>
 
@@ -1232,7 +1240,7 @@ example, the very last call to <code>map</code> multiplies the <code>Ok(...)</co
 an <code>i32</code>) by <code>2</code>. If an error had occurred before that point, this operation
 would have been skipped because of how <code>map</code> is defined.</p>
 
-<p><code>map_err</code> is the trick that makes all of this work. <code>map_err</code> is like
+<p><code>map_err</code> is the trick that makes all of this work. <code>map_err</code> is just like
 <code>map</code>, except it applies a function to the <code>Err(...)</code> value of a <code>Result</code>. In
 this case, we want to convert all of our errors to one type: <code>String</code>. Since
 both <code>io::Error</code> and <code>num::ParseIntError</code> implement <code>ToString</code>, we can call the
@@ -1301,7 +1309,7 @@ fn main() {
     }
 }</pre>
 
-<p>Reasonable people can disagree over whether this code is better than the code
+<p>Reasonable people can disagree over whether this code is better that the code
 that uses combinators, but if you aren&#39;t familiar with the combinator approach,
 this code looks simpler to read to me. It uses explicit case analysis with
 <code>match</code> and <code>if let</code>. If an error occurs, it simply stops executing the
@@ -1314,7 +1322,7 @@ reduce explicit case analysis. Combinators aren&#39;t the only way.</p>
 
 <h2 id='the-try-macro' class='section-header'><a href='#the-try-macro'>The <code>try!</code> macro</a></h2>
 <p>A cornerstone of error handling in Rust is the <code>try!</code> macro. The <code>try!</code> macro
-abstracts case analysis like combinators, but unlike combinators, it also
+abstracts case analysis just like combinators, but unlike combinators, it also
 abstracts <em>control flow</em>. Namely, it can abstract the <em>early return</em> pattern
 seen above.</p>
 
@@ -1874,7 +1882,7 @@ and <a href="../std/error/trait.Error.html#method.cause"><code>cause</code></a>,
 limitation remains: <code>Box&lt;Error&gt;</code> is opaque. (N.B. This isn&#39;t entirely
 true because Rust does have runtime reflection, which is useful in
 some scenarios that are <a href="https://crates.io/crates/error">beyond the scope of this
-section</a>.)</p>
+chapter</a>.)</p>
 
 <p>It&#39;s time to revisit our custom <code>CliError</code> type and tie everything together.</p>
 
@@ -2071,7 +2079,7 @@ expose its representation (like
 <a href="../std/io/enum.ErrorKind.html"><code>ErrorKind</code></a>) or keep it hidden (like
 <a href="../std/num/struct.ParseIntError.html"><code>ParseIntError</code></a>). Regardless
 of how you do it, it&#39;s usually good practice to at least provide some
-information about the error beyond its <code>String</code>
+information about the error beyond just its <code>String</code>
 representation. But certainly, this will vary depending on use cases.</p>
 
 <p>At a minimum, you should probably implement the
@@ -2095,7 +2103,7 @@ for <a href="../std/io/type.Result.html"><code>io::Result</code></a>
 and <a href="../std/fmt/type.Result.html"><code>fmt::Result</code></a>.</p>
 
 <h1 id='case-study-a-program-to-read-population-data' class='section-header'><a href='#case-study-a-program-to-read-population-data'>Case study: A program to read population data</a></h1>
-<p>This section was long, and depending on your background, it might be
+<p>This chapter was long, and depending on your background, it might be
 rather dense. While there is plenty of example code to go along with
 the prose, most of it was specifically designed to be pedagogical. So,
 we&#39;re going to do something new: a case study.</p>
@@ -2108,7 +2116,7 @@ that can go wrong!</p>
 <p>The data we&#39;ll be using comes from the <a href="https://github.com/petewarden/dstkdata">Data Science
 Toolkit</a>. I&#39;ve prepared some data from it for this exercise. You
 can either grab the <a href="http://burntsushi.net/stuff/worldcitiespop.csv.gz">world population data</a> (41MB gzip compressed,
-145MB uncompressed) or only the <a href="http://burntsushi.net/stuff/uscitiespop.csv.gz">US population data</a> (2.2MB gzip
+145MB uncompressed) or just the <a href="http://burntsushi.net/stuff/uscitiespop.csv.gz">US population data</a> (2.2MB gzip
 compressed, 7.2MB uncompressed).</p>
 
 <p>Up until now, we&#39;ve kept the code limited to Rust&#39;s standard library. For a real
@@ -2120,7 +2128,7 @@ and <a href="https://crates.io/crates/rustc-serialize"><code>rustc-serialize</co
 <h2 id='initial-setup' class='section-header'><a href='#initial-setup'>Initial setup</a></h2>
 <p>We&#39;re not going to spend a lot of time on setting up a project with
 Cargo because it is already covered well in <a href="../book/hello-cargo.html">the Cargo
-section</a> and <a href="http://doc.crates.io/guide.html">Cargo&#39;s documentation</a>.</p>
+chapter</a> and <a href="http://doc.crates.io/guide.html">Cargo&#39;s documentation</a>.</p>
 
 <p>To get started from scratch, run <code>cargo new --bin city-pop</code> and make sure your
 <code>Cargo.toml</code> looks something like this:</p>
@@ -2176,11 +2184,11 @@ fn main() {
 
     let matches = match opts.parse(&amp;args[1..]) {
         Ok(m)  =&gt; { m }
-        Err(e) =&gt; { panic!(e.to_string()) }
+    Err(e) =&gt; { panic!(e.to_string()) }
     };
     if matches.opt_present(&quot;h&quot;) {
         print_usage(&amp;program, opts);
-        return;
+    return;
     }
     let data_path = args[1].clone();
     let city = args[2].clone();
@@ -2207,11 +2215,11 @@ fn main() {
 
     <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>opts</span>.<span class='ident'>parse</span>(<span class='kw-2'>&amp;</span><span class='ident'>args</span>[<span class='number'>1</span>..]) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>m</span>)  <span class='op'>=&gt;</span> { <span class='ident'>m</span> }
-        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> { <span class='macro'>panic</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>to_string</span>()) }
+    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> { <span class='macro'>panic</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>to_string</span>()) }
     };
     <span class='kw'>if</span> <span class='ident'>matches</span>.<span class='ident'>opt_present</span>(<span class='string'>&quot;h&quot;</span>) {
         <span class='ident'>print_usage</span>(<span class='kw-2'>&amp;</span><span class='ident'>program</span>, <span class='ident'>opts</span>);
-        <span class='kw'>return</span>;
+    <span class='kw'>return</span>;
     }
     <span class='kw'>let</span> <span class='ident'>data_path</span> <span class='op'>=</span> <span class='ident'>args</span>[<span class='number'>1</span>].<span class='ident'>clone</span>();
     <span class='kw'>let</span> <span class='ident'>city</span> <span class='op'>=</span> <span class='ident'>args</span>[<span class='number'>2</span>].<span class='ident'>clone</span>();
@@ -2243,10 +2251,7 @@ parts of our program can cause errors.</p>
 <p>In this case study, the logic is really simple. All we need to do is parse the
 CSV data given to us and print out a field in matching rows. Let&#39;s do it. (Make
 sure to add <code>extern crate csv;</code> to the top of your file.)</p>
-<span class='rusttest'>use std::fs::File;
-use std::path::Path;
-
-// This struct represents the data in each row of the CSV file.
+<span class='rusttest'>// This struct represents the data in each row of the CSV file.
 // Type based decoding absolves us of a lot of the nitty gritty error
 // handling, like parsing strings as integers or floats.
 #[derive(Debug, RustcDecodable)]
@@ -2289,7 +2294,7 @@ fn main() {
     let data_path = Path::new(&amp;data_file);
     let city = args[2].clone();
 
-    let file = File::open(data_path).unwrap();
+    let file = fs::File::open(data_path).unwrap();
     let mut rdr = csv::Reader::from_reader(file);
 
     for row in rdr.decode::&lt;Row&gt;() {
@@ -2303,9 +2308,6 @@ fn main() {
     }
 }
 </span><pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>path</span>::<span class='ident'>Path</span>;
-
 <span class='comment'>// This struct represents the data in each row of the CSV file.</span>
 <span class='comment'>// Type based decoding absolves us of a lot of the nitty gritty error</span>
 <span class='comment'>// handling, like parsing strings as integers or floats.</span>
@@ -2349,7 +2351,7 @@ fn main() {
     <span class='kw'>let</span> <span class='ident'>data_path</span> <span class='op'>=</span> <span class='ident'>Path</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='ident'>data_file</span>);
     <span class='kw'>let</span> <span class='ident'>city</span> <span class='op'>=</span> <span class='ident'>args</span>[<span class='number'>2</span>].<span class='ident'>clone</span>();
 
-    <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>data_path</span>).<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>data_path</span>).<span class='ident'>unwrap</span>();
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rdr</span> <span class='op'>=</span> <span class='ident'>csv</span>::<span class='ident'>Reader</span>::<span class='ident'>from_reader</span>(<span class='ident'>file</span>);
 
     <span class='kw'>for</span> <span class='ident'>row</span> <span class='kw'>in</span> <span class='ident'>rdr</span>.<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>Row</span><span class='op'>&gt;</span>() {
@@ -2367,7 +2369,7 @@ fn main() {
 <code>unwrap</code> is called:</p>
 
 <ol>
-<li><a href="../std/fs/struct.File.html#method.open"><code>File::open</code></a>
+<li><a href="../std/fs/struct.File.html#method.open"><code>fs::File::open</code></a>
 can return an
 <a href="../std/io/struct.Error.html"><code>io::Error</code></a>.</li>
 <li><a href="http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode"><code>csv::Reader::decode</code></a>
@@ -2396,7 +2398,7 @@ compiler can no longer reason about its underlying type.</p>
 
 <p><a href="#the-limits-of-combinators">Previously</a> we started refactoring our code by
 changing the type of our function from <code>T</code> to <code>Result&lt;T, OurErrorType&gt;</code>. In
-this case, <code>OurErrorType</code> is only <code>Box&lt;Error&gt;</code>. But what&#39;s <code>T</code>? And can we add
+this case, <code>OurErrorType</code> is just <code>Box&lt;Error&gt;</code>. But what&#39;s <code>T</code>? And can we add
 a return type to <code>main</code>?</p>
 
 <p>The answer to the second question is no, we can&#39;t. That means we&#39;ll need to
@@ -2425,7 +2427,7 @@ fn print_usage(program: &amp;str, opts: Options) {
 
 fn search&lt;P: AsRef&lt;Path&gt;&gt;(file_path: P, city: &amp;str) -&gt; Vec&lt;PopulationCount&gt; {
     let mut found = vec![];
-    let file = File::open(file_path).unwrap();
+    let file = fs::File::open(file_path).unwrap();
     let mut rdr = csv::Reader::from_reader(file);
     for row in rdr.decode::&lt;Row&gt;() {
         let row = row.unwrap();
@@ -2485,7 +2487,7 @@ fn main() {
 
 <span class='kw'>fn</span> <span class='ident'>search</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>(<span class='ident'>file_path</span>: <span class='ident'>P</span>, <span class='ident'>city</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PopulationCount</span><span class='op'>&gt;</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
-    <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>).<span class='ident'>unwrap</span>();
+    <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>).<span class='ident'>unwrap</span>();
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rdr</span> <span class='op'>=</span> <span class='ident'>csv</span>::<span class='ident'>Reader</span>::<span class='ident'>from_reader</span>(<span class='ident'>file</span>);
     <span class='kw'>for</span> <span class='ident'>row</span> <span class='kw'>in</span> <span class='ident'>rdr</span>.<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>Row</span><span class='op'>&gt;</span>() {
         <span class='kw'>let</span> <span class='ident'>row</span> <span class='op'>=</span> <span class='ident'>row</span>.<span class='ident'>unwrap</span>();
@@ -2542,15 +2544,11 @@ caller instead of panicking the program.</li>
 
 <p>Let&#39;s try it:</p>
 <span class='rusttest'>fn main() {
-    use std::error::Error;
-    
-    // The rest of the code before this is unchanged
-    
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: P, city: &amp;str)
              -&gt; Result&lt;Vec&lt;PopulationCount&gt;, Box&lt;Error+Send+Sync&gt;&gt; {
         let mut found = vec![];
-        let file = try!(File::open(file_path));
+        let file = try!(fs::File::open(file_path));
         let mut rdr = csv::Reader::from_reader(file);
         for row in rdr.decode::&lt;Row&gt;() {
             let row = try!(row);
@@ -2572,15 +2570,11 @@ caller instead of panicking the program.</li>
         }
     }
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>error</span>::<span class='ident'>Error</span>;
-
-<span class='comment'>// The rest of the code before this is unchanged</span>
-
 <span class='kw'>fn</span> <span class='ident'>search</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>
          (<span class='ident'>file_path</span>: <span class='ident'>P</span>, <span class='ident'>city</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>)
          <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PopulationCount</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>+</span><span class='ident'>Send</span><span class='op'>+</span><span class='ident'>Sync</span><span class='op'>&gt;&gt;</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
-    <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>));
+    <span class='kw'>let</span> <span class='ident'>file</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>));
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rdr</span> <span class='op'>=</span> <span class='ident'>csv</span>::<span class='ident'>Reader</span>::<span class='ident'>from_reader</span>(<span class='ident'>file</span>);
     <span class='kw'>for</span> <span class='ident'>row</span> <span class='kw'>in</span> <span class='ident'>rdr</span>.<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>Row</span><span class='op'>&gt;</span>() {
         <span class='kw'>let</span> <span class='ident'>row</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>row</span>);
@@ -2701,13 +2695,8 @@ it should know to read from stdin.</li>
         return;
     };
     
-    match search(&amp;data_file, &amp;city) {
-        Ok(pops) =&gt; {
-            for pop in pops {
-                println!(&quot;{}, {}: {:?}&quot;, pop.city, pop.country, pop.count);
-            }
-        }
-        Err(err) =&gt; println!(&quot;{}&quot;, err)
+    for pop in search(&amp;data_file, &amp;city) {
+        println!(&quot;{}, {}: {:?}&quot;, pop.city, pop.country, pop.count);
     }
     ...
 }</span><pre class='rust rust-example-rendered'>
@@ -2726,13 +2715,8 @@ it should know to read from stdin.</li>
     <span class='kw'>return</span>;
 };
 
-<span class='kw'>match</span> <span class='ident'>search</span>(<span class='kw-2'>&amp;</span><span class='ident'>data_file</span>, <span class='kw-2'>&amp;</span><span class='ident'>city</span>) {
-    <span class='prelude-val'>Ok</span>(<span class='ident'>pops</span>) <span class='op'>=&gt;</span> {
-        <span class='kw'>for</span> <span class='ident'>pop</span> <span class='kw'>in</span> <span class='ident'>pops</span> {
-            <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}, {}: {:?}&quot;</span>, <span class='ident'>pop</span>.<span class='ident'>city</span>, <span class='ident'>pop</span>.<span class='ident'>country</span>, <span class='ident'>pop</span>.<span class='ident'>count</span>);
-        }
-    }
-    <span class='prelude-val'>Err</span>(<span class='ident'>err</span>) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>err</span>)
+<span class='kw'>for</span> <span class='ident'>pop</span> <span class='kw'>in</span> <span class='ident'>search</span>(<span class='kw-2'>&amp;</span><span class='ident'>data_file</span>, <span class='kw-2'>&amp;</span><span class='ident'>city</span>) {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}, {}: {:?}&quot;</span>, <span class='ident'>pop</span>.<span class='ident'>city</span>, <span class='ident'>pop</span>.<span class='ident'>country</span>, <span class='ident'>pop</span>.<span class='ident'>count</span>);
 }
 ...</pre>
 
@@ -2751,35 +2735,27 @@ parser out of
 But how can we use the same code over both types? There&#39;s actually a
 couple ways we could go about this. One way is to write <code>search</code> such
 that it is generic on some type parameter <code>R</code> that satisfies
-<code>io::Read</code>. Another way is to use trait objects:</p>
+<code>io::Read</code>. Another way is to just use trait objects:</p>
 <span class='rusttest'>fn main() {
-    use std::io;
-    
-    // The rest of the code before this is unchanged
-    
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: &amp;Option&lt;P&gt;, city: &amp;str)
              -&gt; Result&lt;Vec&lt;PopulationCount&gt;, Box&lt;Error+Send+Sync&gt;&gt; {
         let mut found = vec![];
         let input: Box&lt;io::Read&gt; = match *file_path {
             None =&gt; Box::new(io::stdin()),
-            Some(ref file_path) =&gt; Box::new(try!(File::open(file_path))),
+            Some(ref file_path) =&gt; Box::new(try!(fs::File::open(file_path))),
         };
         let mut rdr = csv::Reader::from_reader(input);
         // The rest remains unchanged!
     }
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;
-
-<span class='comment'>// The rest of the code before this is unchanged</span>
-
 <span class='kw'>fn</span> <span class='ident'>search</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>
          (<span class='ident'>file_path</span>: <span class='kw-2'>&amp;</span><span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>P</span><span class='op'>&gt;</span>, <span class='ident'>city</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>)
          <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>PopulationCount</span><span class='op'>&gt;</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span><span class='op'>+</span><span class='ident'>Send</span><span class='op'>+</span><span class='ident'>Sync</span><span class='op'>&gt;&gt;</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
     <span class='kw'>let</span> <span class='ident'>input</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Read</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>file_path</span> {
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>stdin</span>()),
-        <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>file_path</span>) <span class='op'>=&gt;</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>))),
+        <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>file_path</span>) <span class='op'>=&gt;</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>))),
     };
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rdr</span> <span class='op'>=</span> <span class='ident'>csv</span>::<span class='ident'>Reader</span>::<span class='ident'>from_reader</span>(<span class='ident'>input</span>);
     <span class='comment'>// The rest remains unchanged!</span>
@@ -2897,7 +2873,7 @@ full:</p>
         let mut found = vec![];
         let input: Box&lt;io::Read&gt; = match *file_path {
             None =&gt; Box::new(io::stdin()),
-            Some(ref file_path) =&gt; Box::new(try!(File::open(file_path))),
+            Some(ref file_path) =&gt; Box::new(try!(fs::File::open(file_path))),
         };
         let mut rdr = csv::Reader::from_reader(input);
         for row in rdr.decode::&lt;Row&gt;() {
@@ -2926,7 +2902,7 @@ full:</p>
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>found</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[];
     <span class='kw'>let</span> <span class='ident'>input</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>io</span>::<span class='ident'>Read</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>file_path</span> {
         <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>io</span>::<span class='ident'>stdin</span>()),
-        <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>file_path</span>) <span class='op'>=&gt;</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>))),
+        <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>file_path</span>) <span class='op'>=&gt;</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>))),
     };
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rdr</span> <span class='op'>=</span> <span class='ident'>csv</span>::<span class='ident'>Reader</span>::<span class='ident'>from_reader</span>(<span class='ident'>input</span>);
     <span class='kw'>for</span> <span class='ident'>row</span> <span class='kw'>in</span> <span class='ident'>rdr</span>.<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>Row</span><span class='op'>&gt;</span>() {
@@ -2992,7 +2968,7 @@ string and add a flag to the Option variable. Once we&#39;ve done that, Getopts 
 <span class='ident'>opts</span>.<span class='ident'>optflag</span>(<span class='string'>&quot;q&quot;</span>, <span class='string'>&quot;quiet&quot;</span>, <span class='string'>&quot;Silences errors and warnings.&quot;</span>);
 ...</pre>
 
-<p>Now we only need to implement our “quiet” functionality. This requires us to
+<p>Now we just need to implement our “quiet” functionality. This requires us to
 tweak the case analysis in <code>main</code>:</p>
 <span class='rusttest'>fn main() {
     match search(&amp;args.arg_data_path, &amp;args.arg_city) {
@@ -3024,14 +3000,14 @@ out into the world and write your own programs and libraries with proper error
 handling.</p>
 
 <h1 id='the-short-story' class='section-header'><a href='#the-short-story'>The Short Story</a></h1>
-<p>Since this section is long, it is useful to have a quick summary for error
+<p>Since this chapter is long, it is useful to have a quick summary for error
 handling in Rust. These are some good “rules of thumb.&quot; They are emphatically
 <em>not</em> commandments. There are probably good reasons to break every one of these
 heuristics!</p>
 
 <ul>
 <li>If you&#39;re writing short example code that would be overburdened by error
-handling, it&#39;s probably fine to use <code>unwrap</code> (whether that&#39;s
+handling, it&#39;s probably just fine to use <code>unwrap</code> (whether that&#39;s
 <a href="../std/result/enum.Result.html#method.unwrap"><code>Result::unwrap</code></a>,
 <a href="../std/option/enum.Option.html#method.unwrap"><code>Option::unwrap</code></a>
 or preferably

@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -551,10 +559,10 @@ fn main() {
     }
 }</pre>
 
-<p>We use the <code>mpsc::channel()</code> method to construct a new channel. We <code>send</code>
+<p>We use the <code>mpsc::channel()</code> method to construct a new channel. We just <code>send</code>
 a simple <code>()</code> down the channel, and then wait for ten of them to come back.</p>
 
-<p>While this channel is sending a generic signal, we can send any data that
+<p>While this channel is just sending a generic signal, we can send any data that
 is <code>Send</code> over the channel!</p>
 <span class='rusttest'>use std::thread;
 use std::sync::mpsc;

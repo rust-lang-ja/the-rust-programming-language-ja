@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -240,11 +248,11 @@ and inside it, define a method, <code>area</code>.</p>
 <p>Methods take a special first parameter, of which there are three variants:
 <code>self</code>, <code>&amp;self</code>, and <code>&amp;mut self</code>. You can think of this first parameter as
 being the <code>foo</code> in <code>foo.bar()</code>. The three variants correspond to the three
-kinds of things <code>foo</code> could be: <code>self</code> if it’s a value on the stack,
+kinds of things <code>foo</code> could be: <code>self</code> if it’s just a value on the stack,
 <code>&amp;self</code> if it’s a reference, and <code>&amp;mut self</code> if it’s a mutable reference.
-Because we took the <code>&amp;self</code> parameter to <code>area</code>, we can use it like any
+Because we took the <code>&amp;self</code> parameter to <code>area</code>, we can use it just like any
 other parameter. Because we know it’s a <code>Circle</code>, we can access the <code>radius</code>
-like we would with any other <code>struct</code>.</p>
+just like we would with any other <code>struct</code>.</p>
 
 <p>We should default to using <code>&amp;self</code>, as you should prefer borrowing over taking
 ownership, as well as taking immutable references over mutable ones. Here’s an
@@ -402,7 +410,7 @@ fn main() {
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>grow</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>increment</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>Circle</span> {</pre>
 
-<p>We say we’re returning a <code>Circle</code>. With this method, we can grow a new
+<p>We just say we’re returning a <code>Circle</code>. With this method, we can grow a new
 <code>Circle</code> to any arbitrary size.</p>
 
 <h1 id='associated-functions' class='section-header'><a href='#associated-functions'>Associated functions</a></h1>

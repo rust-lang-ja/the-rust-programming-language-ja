@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -342,7 +350,7 @@ implemented. For this, we need something more dangerous.</p>
 <p>The <code>transmute</code> function is provided by a <a href="intrinsics.html">compiler intrinsic</a>, and
 what it does is very simple, but very scary. It tells Rust to treat a value of
 one type as though it were another type. It does this regardless of the
-typechecking system, and completely trusts you.</p>
+typechecking system, and just completely trusts you.</p>
 
 <p>In our previous example, we know that an array of four <code>u8</code>s represents a <code>u32</code>
 properly, and so we want to do the cast. Using <code>transmute</code> instead of <code>as</code>,

@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -228,7 +236,7 @@ include the newline and the leading spaces:</p>
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;foobar&quot;</span>, <span class='ident'>s</span>);</pre>
 
-<p>Rust has more than only <code>&amp;str</code>s though. A <code>String</code>, is a heap-allocated string.
+<p>Rust has more than just <code>&amp;str</code>s though. A <code>String</code>, is a heap-allocated string.
 This string is growable, and is also guaranteed to be UTF-8. <code>String</code>s are
 commonly created by converting from a string slice using the <code>to_string</code>
 method.</p>

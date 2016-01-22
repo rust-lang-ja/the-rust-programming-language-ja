@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -188,7 +196,7 @@ own allocator up and running.</p>
 <h1 id='default-allocator' class='section-header'><a href='#default-allocator'>Default Allocator</a></h1>
 <p>The compiler currently ships two default allocators: <code>alloc_system</code> and
 <code>alloc_jemalloc</code> (some targets don&#39;t have jemalloc, however). These allocators
-are normal Rust crates and contain an implementation of the routines to
+are just normal Rust crates and contain an implementation of the routines to
 allocate and deallocate memory. The standard library is not compiled assuming
 either one, and the compiler will decide which allocator is in use at
 compile-time depending on the type of output artifact being produced.</p>
@@ -318,7 +326,7 @@ pub extern fn __rust_usable_size(size: usize, _align: usize) -&gt; usize {
     size
 }
 
-// only needed to get rustdoc to test this
+// just needed to get rustdoc to test this
 fn main() {}
 #[lang = &quot;panic_fmt&quot;] fn panic_fmt() {}
 #[lang = &quot;eh_personality&quot;] fn eh_personality() {}

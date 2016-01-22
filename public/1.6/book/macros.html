@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -492,11 +500,9 @@ LOG(state)
 <p>This expands to</p>
 
 <pre><code class="language-text">const char *state = &quot;reticulating splines&quot;;
-{
-    int state = get_log_state();
-    if (state &gt; 0) {
-        printf(&quot;log(%d): %s\n&quot;, state, state);
-    }
+int state = get_log_state();
+if (state &gt; 0) {
+    printf(&quot;log(%d): %s\n&quot;, state, state);
 }
 </code></pre>
 
@@ -750,10 +756,10 @@ which syntactic form it matches.</p>
 breaking existing macros.</p>
 
 <p>The macro system does not deal with parse ambiguity at all. For example, the
-grammar <code>$($i:ident)* $e:expr</code> will always fail to parse, because the parser would
-be forced to choose between parsing <code>$i</code> and parsing <code>$e</code>. Changing the
+grammar <code>$($t:ty)* $e:expr</code> will always fail to parse, because the parser would
+be forced to choose between parsing <code>$t</code> and parsing <code>$e</code>. Changing the
 invocation syntax to put a distinctive token in front can solve the problem. In
-this case, you can write <code>$(I $i:ident)* E $e:expr</code>.</p>
+this case, you can write <code>$(T $t:ty)* E $e:exp</code>.</p>
 
 <h1 id='scoping-and-macro-importexport' class='section-header'><a href='#scoping-and-macro-importexport'>Scoping and macro import/export</a></h1>
 <p>Macros are expanded at an early stage in compilation, before name resolution.
@@ -913,7 +919,8 @@ fn main() { }
 function name will expand to either <code>::increment</code> or <code>::mylib::increment</code>.</p>
 
 <p>To keep this system simple and correct, <code>#[macro_use] extern crate ...</code> may
-only appear at the root of your crate, not inside <code>mod</code>.</p>
+only appear at the root of your crate, not inside <code>mod</code>. This ensures that
+<code>$crate</code> is a single identifier.</p>
 
 <h1 id='the-deep-end' class='section-header'><a href='#the-deep-end'>The deep end</a></h1>
 <p>The introductory chapter mentioned recursive macros, but it did not give the

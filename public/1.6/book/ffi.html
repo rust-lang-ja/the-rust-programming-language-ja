@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -638,7 +646,7 @@ artifact.</p>
 
 <ul>
 <li><p>A native build dependency. Sometimes some C/C++ glue is needed when writing
-some Rust code, but distribution of the C/C++ code in a library format is
+some Rust code, but distribution of the C/C++ code in a library format is just
 a burden. In this case, the code will be archived into <code>libfoo.a</code> and then the
 Rust crate would declare a dependency via <code>#[link(name = &quot;foo&quot;, kind = &quot;static&quot;)]</code>.</p>
 
@@ -779,8 +787,6 @@ are:</p>
 <li><code>aapcs</code></li>
 <li><code>cdecl</code></li>
 <li><code>fastcall</code></li>
-<li><code>vectorcall</code>
-This is currently hidden behind the <code>abi_vectorcall</code> gate and is subject to change.</li>
 <li><code>Rust</code></li>
 <li><code>rust-intrinsic</code></li>
 <li><code>system</code></li>
@@ -794,7 +800,7 @@ interoperating with the target&#39;s libraries. For example, on win32 with a x86
 architecture, this means that the abi used would be <code>stdcall</code>. On x86_64,
 however, windows uses the <code>C</code> calling convention, so <code>C</code> would be used. This
 means that in our previous example, we could have used <code>extern &quot;system&quot; { ... }</code>
-to define a block for all windows systems, not only x86 ones.</p>
+to define a block for all windows systems, not just x86 ones.</p>
 
 <h1 id='interoperability-with-foreign-code' class='section-header'><a href='#interoperability-with-foreign-code'>Interoperability with foreign code</a></h1>
 <p>Rust guarantees that the layout of a <code>struct</code> is compatible with the platform&#39;s

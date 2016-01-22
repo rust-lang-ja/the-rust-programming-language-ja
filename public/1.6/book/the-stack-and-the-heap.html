@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -221,7 +229,7 @@ values ‘go on the stack’. What does that mean?</p>
 <p>Well, when a function gets called, some memory gets allocated for all of its
 local variables and some other information. This is called a ‘stack frame’, and
 for the purpose of this tutorial, we’re going to ignore the extra information
-and only consider the local variables we’re allocating. So in this case, when
+and just consider the local variables we’re allocating. So in this case, when
 <code>main()</code> is run, we’ll allocate a single 32-bit integer for our stack frame.
 This is automatically handled for you, as you can see; we didn’t have to write
 any special Rust code or anything.</p>
@@ -360,43 +368,41 @@ called ‘last in, first out queues’ for this reason, as the last value you pu
 on the stack is the first one you retrieve from it.</p>
 
 <p>Let’s try a three-deep example:</p>
-<span class='rusttest'>fn italic() {
+<span class='rusttest'>fn bar() {
     let i = 6;
 }
 
-fn bold() {
+fn foo() {
     let a = 5;
     let b = 100;
     let c = 1;
 
-    italic();
+    bar();
 }
 
 fn main() {
     let x = 42;
 
-    bold();
+    foo();
 }
 </span><pre class='rust rust-example-rendered'>
-<span class='kw'>fn</span> <span class='ident'>italic</span>() {
+<span class='kw'>fn</span> <span class='ident'>bar</span>() {
     <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>6</span>;
 }
 
-<span class='kw'>fn</span> <span class='ident'>bold</span>() {
+<span class='kw'>fn</span> <span class='ident'>foo</span>() {
     <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='number'>5</span>;
     <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='number'>100</span>;
     <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='number'>1</span>;
 
-    <span class='ident'>italic</span>();
+    <span class='ident'>bar</span>();
 }
 
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>42</span>;
 
-    <span class='ident'>bold</span>();
+    <span class='ident'>foo</span>();
 }</pre>
-
-<p>We have some kooky function names to make the diagrams clearer.</p>
 
 <p>Okay, first, we call <code>main()</code>:</p>
 
@@ -418,7 +424,7 @@ fn main() {
 </tbody>
 </table>
 
-<p>Next up, <code>main()</code> calls <code>bold()</code>:</p>
+<p>Next up, <code>main()</code> calls <code>foo()</code>:</p>
 
 <table>
 <thead>
@@ -431,19 +437,19 @@ fn main() {
 
 <tbody>
 <tr>
-<td><strong>3</strong></td>
-<td><strong>c</strong></td>
-<td><strong>1</strong></td>
+<td>3</td>
+<td>c</td>
+<td>1</td>
 </tr>
 <tr>
-<td><strong>2</strong></td>
-<td><strong>b</strong></td>
-<td><strong>100</strong></td>
+<td>2</td>
+<td>b</td>
+<td>100</td>
 </tr>
 <tr>
-<td><strong>1</strong></td>
-<td><strong>a</strong></td>
-<td><strong>5</strong></td>
+<td>1</td>
+<td>a</td>
+<td>5</td>
 </tr>
 <tr>
 <td>0</td>
@@ -453,7 +459,7 @@ fn main() {
 </tbody>
 </table>
 
-<p>And then <code>bold()</code> calls <code>italic()</code>:</p>
+<p>And then <code>foo()</code> calls <code>bar()</code>:</p>
 
 <table>
 <thead>
@@ -466,24 +472,24 @@ fn main() {
 
 <tbody>
 <tr>
-<td><em>4</em></td>
-<td><em>i</em></td>
-<td><em>6</em></td>
+<td>4</td>
+<td>i</td>
+<td>6</td>
 </tr>
 <tr>
-<td><strong>3</strong></td>
-<td><strong>c</strong></td>
-<td><strong>1</strong></td>
+<td>3</td>
+<td>c</td>
+<td>1</td>
 </tr>
 <tr>
-<td><strong>2</strong></td>
-<td><strong>b</strong></td>
-<td><strong>100</strong></td>
+<td>2</td>
+<td>b</td>
+<td>100</td>
 </tr>
 <tr>
-<td><strong>1</strong></td>
-<td><strong>a</strong></td>
-<td><strong>5</strong></td>
+<td>1</td>
+<td>a</td>
+<td>5</td>
 </tr>
 <tr>
 <td>0</td>
@@ -495,7 +501,7 @@ fn main() {
 
 <p>Whew! Our stack is growing tall.</p>
 
-<p>After <code>italic()</code> is over, its frame is deallocated, leaving only <code>bold()</code> and
+<p>After <code>bar()</code> is over, its frame is deallocated, leaving just <code>foo()</code> and
 <code>main()</code>:</p>
 
 <table>
@@ -509,19 +515,19 @@ fn main() {
 
 <tbody>
 <tr>
-<td><strong>3</strong></td>
-<td><strong>c</strong></td>
-<td><strong>1</strong></td>
+<td>3</td>
+<td>c</td>
+<td>1</td>
 </tr>
 <tr>
-<td><strong>2</strong></td>
-<td><strong>b</strong></td>
-<td><strong>100</strong></td>
+<td>2</td>
+<td>b</td>
+<td>100</td>
 </tr>
 <tr>
-<td><strong>1</strong></td>
-<td><strong>a</strong></td>
-<td><strong>5</strong></td>
+<td>1</td>
+<td>a</td>
+<td>5</td>
 </tr>
 <tr>
 <td>0</td>
@@ -531,7 +537,7 @@ fn main() {
 </tbody>
 </table>
 
-<p>And then <code>bold()</code> ends, leaving only <code>main()</code>:</p>
+<p>And then <code>foo()</code> ends, leaving just <code>main()</code>:</p>
 
 <table>
 <thead>
@@ -646,7 +652,7 @@ location we’ve asked for.</p>
 <p>We haven’t really talked too much about what it actually means to allocate and
 deallocate memory in these contexts. Getting into very deep detail is out of
 the scope of this tutorial, but what’s important to point out here is that
-the heap isn’t a stack that grows from the opposite end. We’ll have an
+the heap isn’t just a stack that grows from the opposite end. We’ll have an
 example of this later in the book, but because the heap can be allocated and
 freed in any order, it can end up with ‘holes’. Here’s a diagram of the memory
 layout of a program which has been running for a while now:</p>
@@ -837,13 +843,13 @@ memory location that <code>x</code> lives at, which in this case is <code>0</cod
 </tbody>
 </table>
 
-<p>Stack frames aren’t only for local bindings, they’re for arguments too. So in
+<p>Stack frames aren’t just for local bindings, they’re for arguments too. So in
 this case, we need to have both <code>i</code>, our argument, and <code>z</code>, our local variable
 binding. <code>i</code> is a copy of the argument, <code>y</code>. Since <code>y</code>’s value is <code>0</code>, so is
 <code>i</code>’s.</p>
 
 <p>This is one reason why borrowing a variable doesn’t deallocate any memory: the
-value of a reference is a pointer to a memory location. If we got rid of
+value of a reference is just a pointer to a memory location. If we got rid of
 the underlying memory, things wouldn’t work very well.</p>
 
 <h1 id='a-complex-example' class='section-header'><a href='#a-complex-example'>A complex example</a></h1>
@@ -1213,7 +1219,7 @@ over, we get rid of its stack frame:</p>
 </table>
 
 <p>We end up allocating another value on the heap, and so we have to subtract one
-from (2<sup>30</sup>) - 1. It’s easier to write that than <code>1,073,741,822</code>. In any
+from (2<sup>30</sup>) - 1. It’s easier to just write that than <code>1,073,741,822</code>. In any
 case, we set up the variables as usual.</p>
 
 <p>At the end of <code>bar()</code>, it calls <code>baz()</code>:</p>
@@ -1508,7 +1514,7 @@ instead.</p>
 
 <h1 id='which-to-use' class='section-header'><a href='#which-to-use'>Which to use?</a></h1>
 <p>So if the stack is faster and easier to manage, why do we need the heap? A big
-reason is that Stack-allocation alone means you only have &#39;Last In First Out (LIFO)&#39; semantics for
+reason is that Stack-allocation alone means you only have LIFO semantics for
 reclaiming storage. Heap-allocation is strictly more general, allowing storage
 to be taken from and returned to the pool in arbitrary order, but at a
 complexity cost.</p>
@@ -1518,12 +1524,12 @@ default. The LIFO model of the stack is simpler, at a fundamental level. This
 has two big impacts: runtime efficiency and semantic impact.</p>
 
 <h2 id='runtime-efficiency' class='section-header'><a href='#runtime-efficiency'>Runtime Efficiency</a></h2>
-<p>Managing the memory for the stack is trivial: The machine
+<p>Managing the memory for the stack is trivial: The machine just
 increments or decrements a single value, the so-called “stack pointer”.
 Managing memory for the heap is non-trivial: heap-allocated memory is freed at
 arbitrary points, and each block of heap-allocated memory can be of arbitrary
-size, so the memory manager must generally work much harder to
-identify memory for reuse.</p>
+size, the memory manager must generally work much harder to identify memory for
+reuse.</p>
 
 <p>If you’d like to dive into this topic in greater detail, <a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.143.4688">this paper</a>
 is a great introduction.</p>

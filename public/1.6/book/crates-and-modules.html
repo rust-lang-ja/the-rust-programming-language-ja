@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -180,7 +188,7 @@
     <h1 class="title">Crates and Modules</h1>
     <p>When a project starts getting large, it’s considered good software
 engineering practice to split it up into a bunch of smaller pieces, and then
-fit them together. It is also important to have a well-defined interface, so
+fit them together. It’s also important to have a well-defined interface, so
 that some of your functionality is private, and some is public. To facilitate
 these kinds of things, Rust has a module system.</p>
 
@@ -416,7 +424,7 @@ both empty at the moment. Let’s add some functions.</p>
     <span class='string'>&quot;こんにちは&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>Of course, you can copy and paste this from this web page, or type
+<p>Of course, you can copy and paste this from this web page, or just type
 something else. It’s not important that you actually put ‘konnichiwa’ to learn
 about the module system.</p>
 
@@ -499,7 +507,7 @@ depth.</p>
 <p>Rust allows you to precisely control which aspects of your interface are
 public, and so private is the default. To make things public, you use the <code>pub</code>
 keyword. Let’s focus on the <code>english</code> module first, so let’s reduce our <code>src/main.rs</code>
-to only this:</p>
+to just this:</p>
 <span class='rusttest'>extern crate phrases;
 
 fn main() {
@@ -675,7 +683,7 @@ twice. Instead of this:</p>
 <span class='kw'>use</span> <span class='ident'>phrases</span>::<span class='ident'>english</span>::{<span class='ident'>greetings</span>, <span class='ident'>farewells</span>};</pre>
 
 <h2 id='re-exporting-with-pub-use' class='section-header'><a href='#re-exporting-with-pub-use'>Re-exporting with <code>pub use</code></a></h2>
-<p>You don’t only use <code>use</code> to shorten identifiers. You can also use it inside of your crate
+<p>You don’t just use <code>use</code> to shorten identifiers. You can also use it inside of your crate
 to re-export a function inside another module. This allows you to present an external
 interface that may not directly map to your internal code organization.</p>
 
@@ -842,7 +850,7 @@ uncompressed form of this statement would be:</p>
 <span class='kw'>use</span> <span class='ident'>sayings</span>::<span class='ident'>english</span>::<span class='ident'>farewells</span> <span class='kw'>as</span> <span class='ident'>en_farewells</span>;</pre>
 
 <p>As you can see, the curly brackets compress <code>use</code> statements for several items
-under the same path, and in this context <code>self</code> refers back to that path.
+under the same path, and in this context <code>self</code> just refers back to that path.
 Note: The curly brackets cannot be nested or mixed with star globbing.</p>
 
     <script type="text/javascript">

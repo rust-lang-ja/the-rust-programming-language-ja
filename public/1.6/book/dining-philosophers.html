@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Dining Philosophers</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a class='active' href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='ownership.html'><b>4.7.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.9.</b> 生存期</a>
+</li>
+<li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
+</li>
+<li><a  href='structs.html'><b>4.11.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.12.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.13.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.14.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.15.</b> メソッド構文</a>
+</li>
+<li><a  href='vectors.html'><b>4.16.</b> ベクタ</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレイトとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const`と`static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type`エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ無し型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> FFI</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> イントリンシック</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語事項</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンク</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Dining Philosophers</h1>
+    <p>For our second project, let’s look at a classic concurrency problem. It’s
+called ‘the dining philosophers’. It was originally conceived by Dijkstra in
+1965, but we’ll use a lightly adapted version from <a href="http://www.usingcsp.com/cspbook.pdf">this paper</a> by Tony
+Hoare in 1985.</p>
+
+<blockquote>
+<p>In ancient times, a wealthy philanthropist endowed a College to accommodate
+five eminent philosophers. Each philosopher had a room in which they could
+engage in their professional activity of thinking; there was also a common
+dining room, furnished with a circular table, surrounded by five chairs, each
+labelled by the name of the philosopher who was to sit in it. They sat
+anticlockwise around the table. To the left of each philosopher there was
+laid a golden fork, and in the center stood a large bowl of spaghetti, which
+was constantly replenished. A philosopher was expected to spend most of
+their time thinking; but when they felt hungry, they went to the dining
+room, sat down in their own chair, picked up their own fork on their left,
+and plunged it into the spaghetti. But such is the tangled nature of
+spaghetti that a second fork is required to carry it to the mouth. The
+philosopher therefore had also to pick up the fork on their right. When
+they were finished they would put down both their forks, get up from their
+chair, and continue thinking. Of course, a fork can be used by only one
+philosopher at a time. If the other philosopher wants it, they just have
+to wait until the fork is available again.</p>
+</blockquote>
+
+<p>This classic problem shows off a few different elements of concurrency. The
+reason is that it&#39;s actually slightly tricky to implement: a simple
+implementation can deadlock. For example, let&#39;s consider a simple algorithm
+that would solve this problem:</p>
+
+<ol>
+<li>A philosopher picks up the fork on their left.</li>
+<li>They then pick up the fork on their right.</li>
+<li>They eat.</li>
+<li>They return the forks.</li>
+</ol>
+
+<p>Now, let’s imagine this sequence of events:</p>
+
+<ol>
+<li>Philosopher 1 begins the algorithm, picking up the fork on their left.</li>
+<li>Philosopher 2 begins the algorithm, picking up the fork on their left.</li>
+<li>Philosopher 3 begins the algorithm, picking up the fork on their left.</li>
+<li>Philosopher 4 begins the algorithm, picking up the fork on their left.</li>
+<li>Philosopher 5 begins the algorithm, picking up the fork on their left.</li>
+<li>... ? All the forks are taken, but nobody can eat!</li>
+</ol>
+
+<p>There are different ways to solve this problem. We’ll get to our solution in
+the tutorial itself. For now, let’s get started and create a new project with
+<code>cargo</code>:</p>
+
+<pre><code class="language-bash">$ cd ~/projects
+$ cargo new dining_philosophers --bin
+$ cd dining_philosophers
+</code></pre>
+
+<p>Now we can start modeling the problem itself. We’ll start with the philosophers
+in <code>src/main.rs</code>:</p>
+<span class='rusttest'>struct Philosopher {
+    name: String,
+}
+
+impl Philosopher {
+    fn new(name: &amp;str) -&gt; Philosopher {
+        Philosopher {
+            name: name.to_string(),
+        }
+    }
+}
+
+fn main() {
+    let p1 = Philosopher::new(&quot;Judith Butler&quot;);
+    let p2 = Philosopher::new(&quot;Gilles Deleuze&quot;);
+    let p3 = Philosopher::new(&quot;Karl Marx&quot;);
+    let p4 = Philosopher::new(&quot;Emma Goldman&quot;);
+    let p5 = Philosopher::new(&quot;Michel Foucault&quot;);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Philosopher</span> {
+    <span class='ident'>name</span>: <span class='ident'>String</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>Philosopher</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {
+        <span class='ident'>Philosopher</span> {
+            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+        }
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>p1</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Judith Butler&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p2</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Gilles Deleuze&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p3</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Karl Marx&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p4</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Emma Goldman&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p5</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Michel Foucault&quot;</span>);
+}</pre>
+
+<p>Here, we make a <a href="structs.html"><code>struct</code></a> to represent a philosopher. For now,
+a name is all we need. We choose the <a href="strings.html"><code>String</code></a> type for the name,
+rather than <code>&amp;str</code>. Generally speaking, working with a type which owns its
+data is easier than working with one that uses references.</p>
+
+<p>Let’s continue:</p>
+<span class='rusttest'>fn main() {
+    struct Philosopher {
+        name: String,
+    }
+    impl Philosopher {
+        fn new(name: &amp;str) -&gt; Philosopher {
+            Philosopher {
+                name: name.to_string(),
+            }
+        }
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>impl</span> <span class='ident'>Philosopher</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {
+        <span class='ident'>Philosopher</span> {
+            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+        }
+    }
+}</pre>
+
+<p>This <code>impl</code> block lets us define things on <code>Philosopher</code> structs. In this case,
+we define an ‘associated function’ called <code>new</code>. The first line looks like this:</p>
+<span class='rusttest'>fn main() {
+    struct Philosopher {
+        name: String,
+    }
+    impl Philosopher {
+    fn new(name: &amp;str) -&gt; Philosopher {
+            Philosopher {
+                name: name.to_string(),
+            }
+        }
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {</pre>
+
+<p>We take one argument, a <code>name</code>, of type <code>&amp;str</code>. This is a reference to another
+string. It returns an instance of our <code>Philosopher</code> struct.</p>
+<span class='rusttest'>fn main() {
+    struct Philosopher {
+        name: String,
+    }
+    impl Philosopher {
+       fn new(name: &amp;str) -&gt; Philosopher {
+    Philosopher {
+        name: name.to_string(),
+    }
+        }
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>Philosopher</span> {
+    <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+}</pre>
+
+<p>This creates a new <code>Philosopher</code>, and sets its <code>name</code> to our <code>name</code> argument.
+Not just the argument itself, though, as we call <code>.to_string()</code> on it. This
+will create a copy of the string that our <code>&amp;str</code> points to, and give us a new
+<code>String</code>, which is the type of the <code>name</code> field of <code>Philosopher</code>.</p>
+
+<p>Why not accept a <code>String</code> directly? It’s nicer to call. If we took a <code>String</code>,
+but our caller had a <code>&amp;str</code>, they’d have to call this method themselves. The
+downside of this flexibility is that we <em>always</em> make a copy. For this small
+program, that’s not particularly important, as we know we’ll just be using
+short strings anyway.</p>
+
+<p>One last thing you’ll notice: we just define a <code>Philosopher</code>, and seemingly
+don’t do anything with it. Rust is an ‘expression based’ language, which means
+that almost everything in Rust is an expression which returns a value. This is
+true of functions as well — the last expression is automatically returned. Since
+we create a new <code>Philosopher</code> as the last expression of this function, we end
+up returning it.</p>
+
+<p>This name, <code>new()</code>, isn’t anything special to Rust, but it is a convention for
+functions that create new instances of structs. Before we talk about why, let’s
+look at <code>main()</code> again:</p>
+<span class='rusttest'>struct Philosopher {
+    name: String,
+}
+
+impl Philosopher {
+    fn new(name: &amp;str) -&gt; Philosopher {
+        Philosopher {
+            name: name.to_string(),
+        }
+    }
+}
+
+fn main() {
+    let p1 = Philosopher::new(&quot;Judith Butler&quot;);
+    let p2 = Philosopher::new(&quot;Gilles Deleuze&quot;);
+    let p3 = Philosopher::new(&quot;Karl Marx&quot;);
+    let p4 = Philosopher::new(&quot;Emma Goldman&quot;);
+    let p5 = Philosopher::new(&quot;Michel Foucault&quot;);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>p1</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Judith Butler&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p2</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Gilles Deleuze&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p3</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Karl Marx&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p4</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Emma Goldman&quot;</span>);
+    <span class='kw'>let</span> <span class='ident'>p5</span> <span class='op'>=</span> <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Michel Foucault&quot;</span>);
+}</pre>
+
+<p>Here, we create five variable bindings with five new philosophers.
+If we <em>didn’t</em> define
+that <code>new()</code> function, it would look like this:</p>
+<span class='rusttest'>struct Philosopher {
+    name: String,
+}
+fn main() {
+    let p1 = Philosopher { name: &quot;Judith Butler&quot;.to_string() };
+    let p2 = Philosopher { name: &quot;Gilles Deleuze&quot;.to_string() };
+    let p3 = Philosopher { name: &quot;Karl Marx&quot;.to_string() };
+    let p4 = Philosopher { name: &quot;Emma Goldman&quot;.to_string() };
+    let p5 = Philosopher { name: &quot;Michel Foucault&quot;.to_string() };
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>p1</span> <span class='op'>=</span> <span class='ident'>Philosopher</span> { <span class='ident'>name</span>: <span class='string'>&quot;Judith Butler&quot;</span>.<span class='ident'>to_string</span>() };
+    <span class='kw'>let</span> <span class='ident'>p2</span> <span class='op'>=</span> <span class='ident'>Philosopher</span> { <span class='ident'>name</span>: <span class='string'>&quot;Gilles Deleuze&quot;</span>.<span class='ident'>to_string</span>() };
+    <span class='kw'>let</span> <span class='ident'>p3</span> <span class='op'>=</span> <span class='ident'>Philosopher</span> { <span class='ident'>name</span>: <span class='string'>&quot;Karl Marx&quot;</span>.<span class='ident'>to_string</span>() };
+    <span class='kw'>let</span> <span class='ident'>p4</span> <span class='op'>=</span> <span class='ident'>Philosopher</span> { <span class='ident'>name</span>: <span class='string'>&quot;Emma Goldman&quot;</span>.<span class='ident'>to_string</span>() };
+    <span class='kw'>let</span> <span class='ident'>p5</span> <span class='op'>=</span> <span class='ident'>Philosopher</span> { <span class='ident'>name</span>: <span class='string'>&quot;Michel Foucault&quot;</span>.<span class='ident'>to_string</span>() };
+}</pre>
+
+<p>That’s much noisier. Using <code>new</code> has other advantages too, but even in
+this simple case, it ends up being nicer to use.</p>
+
+<p>Now that we’ve got the basics in place, there’s a number of ways that we can
+tackle the broader problem here. I like to start from the end first: let’s
+set up a way for each philosopher to finish eating. As a tiny step, let’s make
+a method, and then loop through all the philosophers, calling it:</p>
+<span class='rusttest'>struct Philosopher {
+    name: String,
+}
+
+impl Philosopher {
+    fn new(name: &amp;str) -&gt; Philosopher {
+        Philosopher {
+            name: name.to_string(),
+        }
+    }
+
+    fn eat(&amp;self) {
+        println!(&quot;{} is done eating.&quot;, self.name);
+    }
+}
+
+fn main() {
+    let philosophers = vec![
+        Philosopher::new(&quot;Judith Butler&quot;),
+        Philosopher::new(&quot;Gilles Deleuze&quot;),
+        Philosopher::new(&quot;Karl Marx&quot;),
+        Philosopher::new(&quot;Emma Goldman&quot;),
+        Philosopher::new(&quot;Michel Foucault&quot;),
+    ];
+
+    for p in &amp;philosophers {
+        p.eat();
+    }
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Philosopher</span> {
+    <span class='ident'>name</span>: <span class='ident'>String</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>Philosopher</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {
+        <span class='ident'>Philosopher</span> {
+            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is done eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>philosophers</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Judith Butler&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Gilles Deleuze&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Karl Marx&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Emma Goldman&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Michel Foucault&quot;</span>),
+    ];
+
+    <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>philosophers</span> {
+        <span class='ident'>p</span>.<span class='ident'>eat</span>();
+    }
+}</pre>
+
+<p>Let’s look at <code>main()</code> first. Rather than have five individual variable
+bindings for our philosophers, we make a <code>Vec&lt;T&gt;</code> of them instead. <code>Vec&lt;T&gt;</code> is
+also called a ‘vector’, and it’s a growable array type. We then use a
+<a href="loops.html#for"><code>for</code></a> loop to iterate through the vector, getting a reference to each
+philosopher in turn.</p>
+
+<p>In the body of the loop, we call <code>p.eat()</code>, which is defined above:</p>
+<span class='rusttest'>fn main() {
+    fn eat(&amp;self) {
+        println!(&quot;{} is done eating.&quot;, self.name);
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is done eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+}</pre>
+
+<p>In Rust, methods take an explicit <code>self</code> parameter. That’s why <code>eat()</code> is a
+method, but <code>new</code> is an associated function: <code>new()</code> has no <code>self</code>. For our
+first version of <code>eat()</code>, we just print out the name of the philosopher, and
+mention they’re done eating. Running this program should give you the following
+output:</p>
+
+<pre><code class="language-text">Judith Butler is done eating.
+Gilles Deleuze is done eating.
+Karl Marx is done eating.
+Emma Goldman is done eating.
+Michel Foucault is done eating.
+</code></pre>
+
+<p>Easy enough, they’re all done! We haven’t actually implemented the real problem
+yet, though, so we’re not done yet!</p>
+
+<p>Next, we want to make our philosophers not just finish eating, but actually
+eat. Here’s the next version:</p>
+<span class='rusttest'>use std::thread;
+use std::time::Duration;
+
+struct Philosopher {
+    name: String,
+}
+
+impl Philosopher {
+    fn new(name: &amp;str) -&gt; Philosopher {
+        Philosopher {
+            name: name.to_string(),
+        }
+    }
+
+    fn eat(&amp;self) {
+        println!(&quot;{} is eating.&quot;, self.name);
+
+        thread::sleep(Duration::from_millis(1000));
+
+        println!(&quot;{} is done eating.&quot;, self.name);
+    }
+}
+
+fn main() {
+    let philosophers = vec![
+        Philosopher::new(&quot;Judith Butler&quot;),
+        Philosopher::new(&quot;Gilles Deleuze&quot;),
+        Philosopher::new(&quot;Karl Marx&quot;),
+        Philosopher::new(&quot;Emma Goldman&quot;),
+        Philosopher::new(&quot;Michel Foucault&quot;),
+    ];
+
+    for p in &amp;philosophers {
+        p.eat();
+    }
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
+
+<span class='kw'>struct</span> <span class='ident'>Philosopher</span> {
+    <span class='ident'>name</span>: <span class='ident'>String</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>Philosopher</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {
+        <span class='ident'>Philosopher</span> {
+            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+
+        <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>1000</span>));
+
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is done eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>philosophers</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Judith Butler&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Gilles Deleuze&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Karl Marx&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Emma Goldman&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Michel Foucault&quot;</span>),
+    ];
+
+    <span class='kw'>for</span> <span class='ident'>p</span> <span class='kw'>in</span> <span class='kw-2'>&amp;</span><span class='ident'>philosophers</span> {
+        <span class='ident'>p</span>.<span class='ident'>eat</span>();
+    }
+}</pre>
+
+<p>Just a few changes. Let’s break it down.</p>
+<span class='rusttest'>fn main() {
+    use std::thread;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;</pre>
+
+<p><code>use</code> brings names into scope. We’re going to start using the <code>thread</code> module
+from the standard library, and so we need to <code>use</code> it.</p>
+<span class='rusttest'>fn main() {
+        fn eat(&amp;self) {
+            println!(&quot;{} is eating.&quot;, self.name);
+    
+            thread::sleep(Duration::from_millis(1000));
+    
+            println!(&quot;{} is done eating.&quot;, self.name);
+        }
+}</span><pre class='rust rust-example-rendered'>
+    <span class='kw'>fn</span> <span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+
+        <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>1000</span>));
+
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is done eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+    }</pre>
+
+<p>We now print out two messages, with a <code>sleep</code> in the middle. This will
+simulate the time it takes a philosopher to eat.</p>
+
+<p>If you run this program, you should see each philosopher eat in turn:</p>
+
+<pre><code class="language-text">Judith Butler is eating.
+Judith Butler is done eating.
+Gilles Deleuze is eating.
+Gilles Deleuze is done eating.
+Karl Marx is eating.
+Karl Marx is done eating.
+Emma Goldman is eating.
+Emma Goldman is done eating.
+Michel Foucault is eating.
+Michel Foucault is done eating.
+</code></pre>
+
+<p>Excellent! We’re getting there. There’s just one problem: we aren’t actually
+operating in a concurrent fashion, which is a core part of the problem!</p>
+
+<p>To make our philosophers eat concurrently, we need to make a small change.
+Here’s the next iteration:</p>
+<span class='rusttest'>use std::thread;
+use std::time::Duration;
+
+struct Philosopher {
+    name: String,
+}
+
+impl Philosopher {
+    fn new(name: &amp;str) -&gt; Philosopher {
+        Philosopher {
+            name: name.to_string(),
+        }
+    }
+
+    fn eat(&amp;self) {
+        println!(&quot;{} is eating.&quot;, self.name);
+
+        thread::sleep(Duration::from_millis(1000));
+
+        println!(&quot;{} is done eating.&quot;, self.name);
+    }
+}
+
+fn main() {
+    let philosophers = vec![
+        Philosopher::new(&quot;Judith Butler&quot;),
+        Philosopher::new(&quot;Gilles Deleuze&quot;),
+        Philosopher::new(&quot;Karl Marx&quot;),
+        Philosopher::new(&quot;Emma Goldman&quot;),
+        Philosopher::new(&quot;Michel Foucault&quot;),
+    ];
+
+    let handles: Vec&lt;_&gt; = philosophers.into_iter().map(|p| {
+        thread::spawn(move || {
+            p.eat();
+        })
+    }).collect();
+
+    for h in handles {
+        h.join().unwrap();
+    }
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
+
+<span class='kw'>struct</span> <span class='ident'>Philosopher</span> {
+    <span class='ident'>name</span>: <span class='ident'>String</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>Philosopher</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {
+        <span class='ident'>Philosopher</span> {
+            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+
+        <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>1000</span>));
+
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is done eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>philosophers</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Judith Butler&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Gilles Deleuze&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Karl Marx&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Emma Goldman&quot;</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Michel Foucault&quot;</span>),
+    ];
+
+    <span class='kw'>let</span> <span class='ident'>handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>philosophers</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> {
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='ident'>p</span>.<span class='ident'>eat</span>();
+        })
+    }).<span class='ident'>collect</span>();
+
+    <span class='kw'>for</span> <span class='ident'>h</span> <span class='kw'>in</span> <span class='ident'>handles</span> {
+        <span class='ident'>h</span>.<span class='ident'>join</span>().<span class='ident'>unwrap</span>();
+    }
+}</pre>
+
+<p>All we’ve done is change the loop in <code>main()</code>, and added a second one! Here’s the
+first change:</p>
+<span class='rusttest'>fn main() {
+    let handles: Vec&lt;_&gt; = philosophers.into_iter().map(|p| {
+        thread::spawn(move || {
+            p.eat();
+        })
+    }).collect();
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>philosophers</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> {
+    <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+        <span class='ident'>p</span>.<span class='ident'>eat</span>();
+    })
+}).<span class='ident'>collect</span>();</pre>
+
+<p>While this is only five lines, they’re a dense five. Let’s break it down.</p>
+<span class='rusttest'>fn main() {
+    let handles: Vec&lt;_&gt; =
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span></pre>
+
+<p>We introduce a new binding, called <code>handles</code>. We’ve given it this name because
+we are going to make some new threads, and that will return some handles to those
+threads that let us control their operation. We need to explicitly annotate
+the type here, though, due to an issue we’ll talk about later. The <code>_</code> is
+a type placeholder. We’re saying “<code>handles</code> is a vector of something, but you
+can figure out what that something is, Rust.”</p>
+<span class='rusttest'>fn main() {
+    philosophers.into_iter().map(|p| {
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>philosophers</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> {</pre>
+
+<p>We take our list of philosophers and call <code>into_iter()</code> on it. This creates an
+iterator that takes ownership of each philosopher. We need to do this to pass
+them to our threads. We take that iterator and call <code>map</code> on it, which takes a
+closure as an argument and calls that closure on each element in turn.</p>
+<span class='rusttest'>fn main() {
+        thread::spawn(move || {
+            p.eat();
+        })
+}</span><pre class='rust rust-example-rendered'>
+    <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+        <span class='ident'>p</span>.<span class='ident'>eat</span>();
+    })</pre>
+
+<p>Here’s where the concurrency happens. The <code>thread::spawn</code> function takes a closure
+as an argument and executes that closure in a new thread. This closure needs
+an extra annotation, <code>move</code>, to indicate that the closure is going to take
+ownership of the values it’s capturing. In this case, it&#39;s the <code>p</code> variable of the
+<code>map</code> function.</p>
+
+<p>Inside the thread, all we do is call <code>eat()</code> on <code>p</code>. Also note that
+the call to <code>thread::spawn</code> lacks a trailing semicolon, making this an
+expression. This distinction is important, yielding the correct return
+value. For more details, read <a href="functions.html#expressions-vs-statements">Expressions vs. Statements</a>.</p>
+<span class='rusttest'>fn main() {
+    }).collect();
+}</span><pre class='rust rust-example-rendered'>
+}).<span class='ident'>collect</span>();</pre>
+
+<p>Finally, we take the result of all those <code>map</code> calls and collect them up.
+<code>collect()</code> will make them into a collection of some kind, which is why we
+needed to annotate the return type: we want a <code>Vec&lt;T&gt;</code>. The elements are the
+return values of the <code>thread::spawn</code> calls, which are handles to those threads.
+Whew!</p>
+<span class='rusttest'>fn main() {
+    for h in handles {
+        h.join().unwrap();
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>for</span> <span class='ident'>h</span> <span class='kw'>in</span> <span class='ident'>handles</span> {
+    <span class='ident'>h</span>.<span class='ident'>join</span>().<span class='ident'>unwrap</span>();
+}</pre>
+
+<p>At the end of <code>main()</code>, we loop through the handles and call <code>join()</code> on them,
+which blocks execution until the thread has completed execution. This ensures
+that the threads complete their work before the program exits.</p>
+
+<p>If you run this program, you’ll see that the philosophers eat out of order!
+We have multi-threading!</p>
+
+<pre><code class="language-text">Judith Butler is eating.
+Gilles Deleuze is eating.
+Karl Marx is eating.
+Emma Goldman is eating.
+Michel Foucault is eating.
+Judith Butler is done eating.
+Gilles Deleuze is done eating.
+Karl Marx is done eating.
+Emma Goldman is done eating.
+Michel Foucault is done eating.
+</code></pre>
+
+<p>But what about the forks? We haven’t modeled them at all yet.</p>
+
+<p>To do that, let’s make a new <code>struct</code>:</p>
+<span class='rusttest'>fn main() {
+    use std::sync::Mutex;
+    
+    struct Table {
+        forks: Vec&lt;Mutex&lt;()&gt;&gt;,
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Mutex</span>;
+
+<span class='kw'>struct</span> <span class='ident'>Table</span> {
+    <span class='ident'>forks</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span>()<span class='op'>&gt;&gt;</span>,
+}</pre>
+
+<p>This <code>Table</code> has a vector of <code>Mutex</code>es. A mutex is a way to control
+concurrency: only one thread can access the contents at once. This is exactly
+the property we need with our forks. We use an empty tuple, <code>()</code>, inside the
+mutex, since we’re not actually going to use the value, just hold onto it.</p>
+
+<p>Let’s modify the program to use the <code>Table</code>:</p>
+<span class='rusttest'>use std::thread;
+use std::time::Duration;
+use std::sync::{Mutex, Arc};
+
+struct Philosopher {
+    name: String,
+    left: usize,
+    right: usize,
+}
+
+impl Philosopher {
+    fn new(name: &amp;str, left: usize, right: usize) -&gt; Philosopher {
+        Philosopher {
+            name: name.to_string(),
+            left: left,
+            right: right,
+        }
+    }
+
+    fn eat(&amp;self, table: &amp;Table) {
+        let _left = table.forks[self.left].lock().unwrap();
+        thread::sleep(Duration::from_millis(150));
+        let _right = table.forks[self.right].lock().unwrap();
+
+        println!(&quot;{} is eating.&quot;, self.name);
+
+        thread::sleep(Duration::from_millis(1000));
+
+        println!(&quot;{} is done eating.&quot;, self.name);
+    }
+}
+
+struct Table {
+    forks: Vec&lt;Mutex&lt;()&gt;&gt;,
+}
+
+fn main() {
+    let table = Arc::new(Table { forks: vec![
+        Mutex::new(()),
+        Mutex::new(()),
+        Mutex::new(()),
+        Mutex::new(()),
+        Mutex::new(()),
+    ]});
+
+    let philosophers = vec![
+        Philosopher::new(&quot;Judith Butler&quot;, 0, 1),
+        Philosopher::new(&quot;Gilles Deleuze&quot;, 1, 2),
+        Philosopher::new(&quot;Karl Marx&quot;, 2, 3),
+        Philosopher::new(&quot;Emma Goldman&quot;, 3, 4),
+        Philosopher::new(&quot;Michel Foucault&quot;, 0, 4),
+    ];
+
+    let handles: Vec&lt;_&gt; = philosophers.into_iter().map(|p| {
+        let table = table.clone();
+
+        thread::spawn(move || {
+            p.eat(&amp;table);
+        })
+    }).collect();
+
+    for h in handles {
+        h.join().unwrap();
+    }
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Mutex</span>, <span class='ident'>Arc</span>};
+
+<span class='kw'>struct</span> <span class='ident'>Philosopher</span> {
+    <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class='ident'>left</span>: <span class='ident'>usize</span>,
+    <span class='ident'>right</span>: <span class='ident'>usize</span>,
+}
+
+<span class='kw'>impl</span> <span class='ident'>Philosopher</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>left</span>: <span class='ident'>usize</span>, <span class='ident'>right</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {
+        <span class='ident'>Philosopher</span> {
+            <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+            <span class='ident'>left</span>: <span class='ident'>left</span>,
+            <span class='ident'>right</span>: <span class='ident'>right</span>,
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>table</span>: <span class='kw-2'>&amp;</span><span class='ident'>Table</span>) {
+        <span class='kw'>let</span> <span class='ident'>_left</span> <span class='op'>=</span> <span class='ident'>table</span>.<span class='ident'>forks</span>[<span class='self'>self</span>.<span class='ident'>left</span>].<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+        <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>150</span>));
+        <span class='kw'>let</span> <span class='ident'>_right</span> <span class='op'>=</span> <span class='ident'>table</span>.<span class='ident'>forks</span>[<span class='self'>self</span>.<span class='ident'>right</span>].<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+
+        <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>1000</span>));
+
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is done eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+    }
+}
+
+<span class='kw'>struct</span> <span class='ident'>Table</span> {
+    <span class='ident'>forks</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Mutex</span><span class='op'>&lt;</span>()<span class='op'>&gt;&gt;</span>,
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>table</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Table</span> { <span class='ident'>forks</span>: <span class='macro'>vec</span><span class='macro'>!</span>[
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+    ]});
+
+    <span class='kw'>let</span> <span class='ident'>philosophers</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Judith Butler&quot;</span>, <span class='number'>0</span>, <span class='number'>1</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Gilles Deleuze&quot;</span>, <span class='number'>1</span>, <span class='number'>2</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Karl Marx&quot;</span>, <span class='number'>2</span>, <span class='number'>3</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Emma Goldman&quot;</span>, <span class='number'>3</span>, <span class='number'>4</span>),
+        <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Michel Foucault&quot;</span>, <span class='number'>0</span>, <span class='number'>4</span>),
+    ];
+
+    <span class='kw'>let</span> <span class='ident'>handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>philosophers</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> {
+        <span class='kw'>let</span> <span class='ident'>table</span> <span class='op'>=</span> <span class='ident'>table</span>.<span class='ident'>clone</span>();
+
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='ident'>p</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>table</span>);
+        })
+    }).<span class='ident'>collect</span>();
+
+    <span class='kw'>for</span> <span class='ident'>h</span> <span class='kw'>in</span> <span class='ident'>handles</span> {
+        <span class='ident'>h</span>.<span class='ident'>join</span>().<span class='ident'>unwrap</span>();
+    }
+}</pre>
+
+<p>Lots of changes! However, with this iteration, we’ve got a working program.
+Let’s go over the details:</p>
+<span class='rusttest'>fn main() {
+    use std::sync::{Mutex, Arc};
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Mutex</span>, <span class='ident'>Arc</span>};</pre>
+
+<p>We’re going to use another structure from the <code>std::sync</code> package: <code>Arc&lt;T&gt;</code>.
+We’ll talk more about it when we use it.</p>
+<span class='rusttest'>fn main() {
+    struct Philosopher {
+        name: String,
+        left: usize,
+        right: usize,
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Philosopher</span> {
+    <span class='ident'>name</span>: <span class='ident'>String</span>,
+    <span class='ident'>left</span>: <span class='ident'>usize</span>,
+    <span class='ident'>right</span>: <span class='ident'>usize</span>,
+}</pre>
+
+<p>We need to add two more fields to our <code>Philosopher</code>. Each philosopher is going
+to have two forks: the one on their left, and the one on their right.
+We’ll use the <code>usize</code> type to indicate them, as it’s the type that you index
+vectors with. These two values will be the indexes into the <code>forks</code> our <code>Table</code>
+has.</p>
+<span class='rusttest'>fn main() {
+    fn new(name: &amp;str, left: usize, right: usize) -&gt; Philosopher {
+        Philosopher {
+            name: name.to_string(),
+            left: left,
+            right: right,
+        }
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>name</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>left</span>: <span class='ident'>usize</span>, <span class='ident'>right</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Philosopher</span> {
+    <span class='ident'>Philosopher</span> {
+        <span class='ident'>name</span>: <span class='ident'>name</span>.<span class='ident'>to_string</span>(),
+        <span class='ident'>left</span>: <span class='ident'>left</span>,
+        <span class='ident'>right</span>: <span class='ident'>right</span>,
+    }
+}</pre>
+
+<p>We now need to construct those <code>left</code> and <code>right</code> values, so we add them to
+<code>new()</code>.</p>
+<span class='rusttest'>fn main() {
+    fn eat(&amp;self, table: &amp;Table) {
+        let _left = table.forks[self.left].lock().unwrap();
+        thread::sleep(Duration::from_millis(150));
+        let _right = table.forks[self.right].lock().unwrap();
+    
+        println!(&quot;{} is eating.&quot;, self.name);
+    
+        thread::sleep(Duration::from_millis(1000));
+    
+        println!(&quot;{} is done eating.&quot;, self.name);
+    }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>table</span>: <span class='kw-2'>&amp;</span><span class='ident'>Table</span>) {
+    <span class='kw'>let</span> <span class='ident'>_left</span> <span class='op'>=</span> <span class='ident'>table</span>.<span class='ident'>forks</span>[<span class='self'>self</span>.<span class='ident'>left</span>].<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+    <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>150</span>));
+    <span class='kw'>let</span> <span class='ident'>_right</span> <span class='op'>=</span> <span class='ident'>table</span>.<span class='ident'>forks</span>[<span class='self'>self</span>.<span class='ident'>right</span>].<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+
+    <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>1000</span>));
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{} is done eating.&quot;</span>, <span class='self'>self</span>.<span class='ident'>name</span>);
+}</pre>
+
+<p>We have three new lines. We’ve added an argument, <code>table</code>. We access the
+<code>Table</code>’s list of forks, and then use <code>self.left</code> and <code>self.right</code> to access
+the fork at that particular index. That gives us access to the <code>Mutex</code> at that
+index, and we call <code>lock()</code> on it. If the mutex is currently being accessed by
+someone else, we’ll block until it becomes available. We have also a call to
+<code>thread::sleep</code> between the moment the first fork is picked and the moment the
+second forked is picked, as the process of picking up the fork is not
+immediate.</p>
+
+<p>The call to <code>lock()</code> might fail, and if it does, we want to crash. In this
+case, the error that could happen is that the mutex is <a href="../std/sync/struct.Mutex.html#poisoning">‘poisoned’</a>,
+which is what happens when the thread panics while the lock is held. Since this
+shouldn’t happen, we just use <code>unwrap()</code>.</p>
+
+<p>One other odd thing about these lines: we’ve named the results <code>_left</code> and
+<code>_right</code>. What’s up with that underscore? Well, we aren’t planning on
+<em>using</em> the value inside the lock. We just want to acquire it. As such,
+Rust will warn us that we never use the value. By using the underscore,
+we tell Rust that this is what we intended, and it won’t throw a warning.</p>
+
+<p>What about releasing the lock? Well, that will happen when <code>_left</code> and
+<code>_right</code> go out of scope, automatically.</p>
+<span class='rusttest'>fn main() {
+        let table = Arc::new(Table { forks: vec![
+            Mutex::new(()),
+            Mutex::new(()),
+            Mutex::new(()),
+            Mutex::new(()),
+            Mutex::new(()),
+        ]});
+}</span><pre class='rust rust-example-rendered'>
+    <span class='kw'>let</span> <span class='ident'>table</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Table</span> { <span class='ident'>forks</span>: <span class='macro'>vec</span><span class='macro'>!</span>[
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+        <span class='ident'>Mutex</span>::<span class='ident'>new</span>(()),
+    ]});</pre>
+
+<p>Next, in <code>main()</code>, we make a new <code>Table</code> and wrap it in an <code>Arc&lt;T&gt;</code>.
+‘arc’ stands for ‘atomic reference count’, and we need that to share
+our <code>Table</code> across multiple threads. As we share it, the reference
+count will go up, and when each thread ends, it will go back down.</p>
+<span class='rusttest'>fn main() {
+    let philosophers = vec![
+        Philosopher::new(&quot;Judith Butler&quot;, 0, 1),
+        Philosopher::new(&quot;Gilles Deleuze&quot;, 1, 2),
+        Philosopher::new(&quot;Karl Marx&quot;, 2, 3),
+        Philosopher::new(&quot;Emma Goldman&quot;, 3, 4),
+        Philosopher::new(&quot;Michel Foucault&quot;, 0, 4),
+    ];
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>philosophers</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[
+    <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Judith Butler&quot;</span>, <span class='number'>0</span>, <span class='number'>1</span>),
+    <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Gilles Deleuze&quot;</span>, <span class='number'>1</span>, <span class='number'>2</span>),
+    <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Karl Marx&quot;</span>, <span class='number'>2</span>, <span class='number'>3</span>),
+    <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Emma Goldman&quot;</span>, <span class='number'>3</span>, <span class='number'>4</span>),
+    <span class='ident'>Philosopher</span>::<span class='ident'>new</span>(<span class='string'>&quot;Michel Foucault&quot;</span>, <span class='number'>0</span>, <span class='number'>4</span>),
+];</pre>
+
+<p>We need to pass in our <code>left</code> and <code>right</code> values to the constructors for our
+<code>Philosopher</code>s. But there’s one more detail here, and it’s <em>very</em> important. If
+you look at the pattern, it’s all consistent until the very end. Monsieur
+Foucault should have <code>4, 0</code> as arguments, but instead, has <code>0, 4</code>. This is what
+prevents deadlock, actually: one of our philosophers is left handed! This is
+one way to solve the problem, and in my opinion, it’s the simplest. If you
+change the order of the parameters, you will be able to observe the deadlock
+taking place.</p>
+<span class='rusttest'>fn main() {
+    let handles: Vec&lt;_&gt; = philosophers.into_iter().map(|p| {
+        let table = table.clone();
+    
+        thread::spawn(move || {
+            p.eat(&amp;table);
+        })
+    }).collect();
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>handles</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>philosophers</span>.<span class='ident'>into_iter</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>p</span><span class='op'>|</span> {
+    <span class='kw'>let</span> <span class='ident'>table</span> <span class='op'>=</span> <span class='ident'>table</span>.<span class='ident'>clone</span>();
+
+    <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+        <span class='ident'>p</span>.<span class='ident'>eat</span>(<span class='kw-2'>&amp;</span><span class='ident'>table</span>);
+    })
+}).<span class='ident'>collect</span>();</pre>
+
+<p>Finally, inside of our <code>map()</code>/<code>collect()</code> loop, we call <code>table.clone()</code>. The
+<code>clone()</code> method on <code>Arc&lt;T&gt;</code> is what bumps up the reference count, and when it
+goes out of scope, it decrements the count. This is needed so that we know how
+many references to <code>table</code> exist across our threads. If we didn’t have a count,
+we wouldn’t know how to deallocate it.</p>
+
+<p>You’ll notice we can introduce a new binding to <code>table</code> here, and it will
+shadow the old one. This is often used so that you don’t need to come up with
+two unique names.</p>
+
+<p>With this, our program works! Only two philosophers can eat at any one time,
+and so you’ll get some output like this:</p>
+
+<pre><code class="language-text">Gilles Deleuze is eating.
+Emma Goldman is eating.
+Emma Goldman is done eating.
+Gilles Deleuze is done eating.
+Judith Butler is eating.
+Karl Marx is eating.
+Judith Butler is done eating.
+Michel Foucault is eating.
+Karl Marx is done eating.
+Michel Foucault is done eating.
+</code></pre>
+
+<p>Congrats! You’ve implemented a classic concurrency problem in Rust.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

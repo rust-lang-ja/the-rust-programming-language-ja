@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -178,9 +186,8 @@
 
 
     <h1 class="title">Enums</h1>
-    <p>An <code>enum</code> in Rust is a type that represents data that is one of
-several possible variants. Each variant in the <code>enum</code> can optionally
-have data associated with it:</p>
+    <p>An <code>enum</code> in Rust is a type that represents data that could be one of
+several possible variants:</p>
 <span class='rusttest'>fn main() {
     enum Message {
         Quit,
@@ -196,8 +203,9 @@ have data associated with it:</p>
     <span class='ident'>Write</span>(<span class='ident'>String</span>),
 }</pre>
 
-<p>The syntax for defining variants resembles the syntaxes used to define structs:
-you can have variants with no data (like unit-like structs), variants with named
+<p>Each variant can optionally have data associated with it. The syntax for
+defining variants resembles the syntaxes used to define structs: you can
+have variants with no data (like unit-like structs), variants with named
 data, and variants with unnamed data (like tuple structs). Unlike
 separate struct definitions, however, an <code>enum</code> is a single type. A
 value of the enum can match any of the variants. For this reason, an
@@ -231,7 +239,7 @@ of the <code>enum</code> itself. This allows both of these to work:</p>
 <p>Both variants are named <code>Move</code>, but since they’re scoped to the name of
 the enum, they can both be used without conflict.</p>
 
-<p>A value of an <code>enum</code> type contains information about which variant it is,
+<p>A value of an enum type contains information about which variant it is,
 in addition to any data associated with that variant. This is sometimes
 referred to as a ‘tagged union’, since the data includes a ‘tag’
 indicating what type it is. The compiler uses this information to
@@ -254,7 +262,7 @@ learn in the next section. We don’t know enough about Rust to implement
 equality yet, but we’ll find out in the <a href="traits.html"><code>traits</code></a> section.</p>
 
 <h1 id='constructors-as-functions' class='section-header'><a href='#constructors-as-functions'>Constructors as functions</a></h1>
-<p>An <code>enum</code> constructor can also be used like a function. For example:</p>
+<p>An enum’s constructors can also be used like functions. For example:</p>
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),
@@ -263,7 +271,7 @@ equality yet, but we’ll find out in the <a href="traits.html"><code>traits</co
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='ident'>Message</span>::<span class='ident'>Write</span>(<span class='string'>&quot;Hello, world&quot;</span>.<span class='ident'>to_string</span>());</pre>
 
-<p>is the same as</p>
+<p>Is the same as</p>
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),

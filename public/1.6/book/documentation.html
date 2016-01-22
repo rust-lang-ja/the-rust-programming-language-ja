@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -269,7 +277,7 @@ hello.rs:4 }
 </code></pre>
 
 <p>This <a href="https://github.com/rust-lang/rust/issues/22547">unfortunate error</a> is
-correct; documentation comments apply to the thing after them, and there&#39;s
+correct: documentation comments apply to the thing after them, and there&#39;s
 nothing after that last comment.</p>
 
 <h3 id='writing-documentation-comments' class='section-header'><a href='#writing-documentation-comments'>Writing documentation comments</a></h3>
@@ -411,7 +419,7 @@ more than one section:</p>
 <span class='doccomment'>/// ```</span></pre>
 
 <p>This will highlight according to whatever language you&#39;re showing off.
-If you&#39;re only showing plain text, choose <code>text</code>.</p>
+If you&#39;re just showing plain text, choose <code>text</code>.</p>
 
 <p>It&#39;s important to choose the correct annotation here, because <code>rustdoc</code> uses it
 in an interesting way: It can be used to actually test your examples in a
@@ -498,7 +506,7 @@ be hidden from the output, but will be used when compiling your code. You
 can use this to your advantage. In this case, documentation comments need
 to apply to some kind of function, so if I want to show you just a
 documentation comment, I need to add a little function definition below
-it. At the same time, it&#39;s only there to satisfy the compiler, so hiding
+it. At the same time, it&#39;s just there to satisfy the compiler, so hiding
 it makes the example more clear. You can use this technique to explain
 longer examples in detail, while still preserving the testability of your
 documentation.</p>
@@ -630,11 +638,11 @@ we can add the <code>#[macro_use]</code> attribute. Second, we’ll need to add 
 error handling. Lets say you want the following,</p>
 <span class='rusttest'>fn main() {
     /// use std::io;
-    /// let mut input = String::new();
+    /// let mut input = String::new(); 
     /// try!(io::stdin().read_line(&amp;mut input));
 }</span><pre class='rust rust-example-rendered'>
 <span class='doccomment'>/// use std::io;</span>
-<span class='doccomment'>/// let mut input = String::new();</span>
+<span class='doccomment'>/// let mut input = String::new(); </span>
 <span class='doccomment'>/// try!(io::stdin().read_line(&amp;mut input));</span></pre>
 
 <p>The problem is that <code>try!</code> returns a <code>Result&lt;T, E&gt;</code> and test functions
@@ -645,7 +653,7 @@ don&#39;t return anything so this will give a mismatched types error.</p>
     /// ```
     /// use std::io;
     /// # fn foo() -&gt; io::Result&lt;()&gt; {
-    /// let mut input = String::new();
+    /// let mut input = String::new(); 
     /// try!(io::stdin().read_line(&amp;mut input));
     /// # Ok(())
     /// # }
@@ -657,7 +665,7 @@ don&#39;t return anything so this will give a mismatched types error.</p>
 <span class='doccomment'>/// ```</span>
 <span class='doccomment'>/// use std::io;</span>
 <span class='doccomment'>/// # fn foo() -&gt; io::Result&lt;()&gt; {</span>
-<span class='doccomment'>/// let mut input = String::new();</span>
+<span class='doccomment'>/// let mut input = String::new(); </span>
 <span class='doccomment'>/// try!(io::stdin().read_line(&amp;mut input));</span>
 <span class='doccomment'>/// # Ok(())</span>
 <span class='doccomment'>/// # }</span>
@@ -784,7 +792,7 @@ the documentation with comments. For example:</p>
 <span class='doccomment'>/// let five = Rc::new(5);</span>
 <span class='doccomment'>/// ```</span></pre>
 
-<p>is:</p>
+<p>is just</p>
 
 <pre><code class="language-markdown"># Examples
 

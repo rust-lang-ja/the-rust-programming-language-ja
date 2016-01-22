@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -222,17 +230,55 @@ must abide by that constraint.</p>
 <h3 id='dst-dynamically-sized-type' class='section-header'><a href='#dst-dynamically-sized-type'>DST (Dynamically Sized Type)</a></h3>
 <p>A type without a statically known size or alignment. (<a href="../nomicon/exotic-sizes.html#dynamically-sized-types-dsts">more info</a>)</p>
 
+<!-- ### Expression -->
+
 <h3 id='式' class='section-header'><a href='#式'>式</a></h3>
+<!-- In computer programming, an expression is a combination of values, constants, -->
+
+<!-- variables, operators and functions that evaluate to a single value. For example, -->
+
+<!-- `2 + (3 * 4)` is an expression that returns the value 14. It is worth noting -->
+
+<!-- that expressions can have side-effects. For example, a function included in an -->
+
+<!-- expression might perform actions other than simply returning a value. -->
+
 <p>コンピュータプログラミングに於いて、式は値、定数、変数、演算子、1つの値へと評価される関数の組み合わせです。
 例えば、<code>2 + (3 * 4)</code>は値14を返す式です。式が副作用を持ちうることに意味はありません。
 例えば、ある式に含まれる関数がただ値を返す以外にも何か作用をするかもしれません。</p>
 
+<!-- ### Expression-Oriented Language -->
+
 <h3 id='式指向言語' class='section-header'><a href='#式指向言語'>式指向言語</a></h3>
+<!-- In early programming languages, [expressions][expression] and -->
+
+<!-- [statements][statement] were two separate syntactic categories: expressions had -->
+
+<!-- a value and statements did things. However, later languages blurred this -->
+
+<!-- distinction, allowing expressions to do things and statements to have a value. -->
+
+<!-- In an expression-oriented language, (nearly) every statement is an expression -->
+
+<!-- and therefore returns a value. Consequently, these expression statements can -->
+
+<!-- themselves form part of larger expressions. -->
+
 <p>早期のプログラミング言語では<a href="glossary.html#%E5%BC%8F">式</a>と<a href="glossary.html#%E6%96%87">文</a>は文法上違うものでした。式は値を持ち、文は何かをします。
-しかしながあら後の言語ではこれらの溝は埋まり式で何かを出来るようになり文が値を持てるようになりました。
+しかしながら後の言語ではこれらの溝は埋まり式で何かを出来るようになり文が値を持てるようになりました。
 式指向言語では(ほとんど)全ての文が式であり値を返します。同時にこれらの式文はより大きな式の一部を成します。</p>
 
+<!-- [expression]: glossary.html#expression -->
+
+<!-- [statement]: glossary.html#statement -->
+
+<!-- ### Statement -->
+
 <h3 id='文' class='section-header'><a href='#文'>文</a></h3>
+<!-- In computer programming, a statement is the smallest standalone element of a -->
+
+<!-- programming language that commands a computer to perform an action. -->
+
 <p>コンピュータプログラミングに於いて、文とはコンピュータに何かしらの作用をさせるプログラミング言語の最小要素です。</p>
 
     <script type="text/javascript">

@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -208,7 +216,7 @@ on a whirlwind tour of all of the things patterns can do!</p>
 <p>There’s one pitfall with patterns: like anything that introduces a new binding,
 they introduce shadowing. For example:</p>
 <span class='rusttest'>fn main() {
-    let x = 1;
+    let x = &#39;x&#39;;
     let c = &#39;c&#39;;
     
     match c {
@@ -217,7 +225,7 @@ they introduce shadowing. For example:</p>
     
     println!(&quot;x: {}&quot;, x)
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&#39;x&#39;</span>;
 <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='string'>&#39;c&#39;</span>;
 
 <span class='kw'>match</span> <span class='ident'>c</span> {
@@ -229,14 +237,12 @@ they introduce shadowing. For example:</p>
 <p>This prints:</p>
 
 <pre><code class="language-text">x: c c: c
-x: 1
+x: x
 </code></pre>
 
 <p>In other words, <code>x =&gt;</code> matches the pattern and introduces a new binding named
-<code>x</code>. This new binding is in scope for the match arm and takes on the value of
-<code>c</code>. Notice that the value of <code>x</code> outside the scope of the match has no bearing
-on the value of <code>x</code> within it. Because we already have a binding named <code>x</code>, this
-new <code>x</code> shadows it.</p>
+<code>x</code> that’s in scope for the match arm. Because we already have a binding named
+<code>x</code>, this new <code>x</code> shadows it.</p>
 
 <h1 id='multiple-patterns' class='section-header'><a href='#multiple-patterns'>Multiple patterns</a></h1>
 <p>You can match multiple patterns with <code>|</code>:</p>
@@ -335,7 +341,7 @@ inside of a pattern:</p>
 
 <p>This prints <code>x is 0</code>.</p>
 
-<p>You can do this kind of match on any member, not only the first:</p>
+<p>You can do this kind of match on any member, not just the first:</p>
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -380,7 +386,7 @@ For example, here’s a <code>match</code> against a <code>Result&lt;T, E&gt;</c
 }</pre>
 
 <p>In the first arm, we bind the value inside the <code>Ok</code> variant to <code>value</code>. But
-in the <code>Err</code> arm, we use <code>_</code> to disregard the specific error, and print
+in the <code>Err</code> arm, we use <code>_</code> to disregard the specific error, and just print
 a general error message.</p>
 
 <p><code>_</code> is valid in any pattern that creates a binding. This can be useful to
@@ -615,7 +621,7 @@ of the pattern:</p>
 }</pre>
 
 <p>This prints <code>no</code>, because the <code>if</code> applies to the whole of <code>4 | 5</code>, and not to
-only the <code>5</code>. In other words, the precedence of <code>if</code> behaves like this:</p>
+just the <code>5</code>. In other words, the precedence of <code>if</code> behaves like this:</p>
 
 <pre><code class="language-text">(4 | 5) if y =&gt; ...
 </code></pre>

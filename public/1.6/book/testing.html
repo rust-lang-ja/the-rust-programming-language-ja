@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -584,7 +592,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 <p>It works!</p>
 
 <p>The current convention is to use the <code>tests</code> module to hold your &quot;unit-style&quot;
-tests. Anything that tests one small bit of functionality makes sense to
+tests. Anything that just tests one small bit of functionality makes sense to
 go here. But what about &quot;integration-style&quot; tests instead? For that, we have
 the <code>tests</code> directory.</p>
 
@@ -752,7 +760,7 @@ for the function test. These will auto increment with names like <code>add_two_1
 you add more examples.</p>
 
 <p>We haven’t covered all of the details with writing documentation tests. For more,
-please see the <a href="documentation.html">Documentation chapter</a>.</p>
+please see the <a href="documentation.html">Documentation chapter</a></p>
 
 <p>One final note: documentation tests <em>cannot</em> be run on binary crates.
 To see more on file arrangement see the <a href="crates-and-modules.html">Crates and

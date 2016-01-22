@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -223,7 +231,7 @@ of code.</p>
 <p>These pointers cannot be copied in such a way that they outlive the lifetime associated with them.</p>
 
 <h2 id='const-t-and-mut-t' class='section-header'><a href='#const-t-and-mut-t'><code>*const T</code> and <code>*mut T</code></a></h2>
-<p>These are C-like raw pointers with no lifetime or ownership attached to them. They point to
+<p>These are C-like raw pointers with no lifetime or ownership attached to them. They just point to
 some location in memory with no other restrictions. The only guarantee that these provide is that
 they cannot be dereferenced except in code marked <code>unsafe</code>.</p>
 
@@ -428,7 +436,7 @@ time.</p>
 major ones will be covered below.</p>
 
 <h2 id='arct' class='section-header'><a href='#arct'><code>Arc&lt;T&gt;</code></a></h2>
-<p><a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code></a> is a version of <code>Rc&lt;T&gt;</code> that uses an atomic reference count (hence, &quot;Arc&quot;).
+<p><a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code></a> is just a version of <code>Rc&lt;T&gt;</code> that uses an atomic reference count (hence, &quot;Arc&quot;).
 This can be sent freely between threads.</p>
 
 <p>C++&#39;s <code>shared_ptr</code> is similar to <code>Arc</code>, however in the case of C++ the inner data is always mutable.
@@ -502,11 +510,11 @@ are both shareable, mutable vectors, but they&#39;re not the same.</p>
 mutable. At the same time, there can only be one mutable borrow of the whole <code>Vec</code> at a given time.
 This means that your code cannot simultaneously work on different elements of the vector from
 different <code>Rc</code> handles. However, we are able to push and pop from the <code>Vec&lt;T&gt;</code> at will. This is
-similar to a <code>&amp;mut Vec&lt;T&gt;</code> with the borrow checking done at runtime.</p>
+similar to an <code>&amp;mut Vec&lt;T&gt;</code> with the borrow checking done at runtime.</p>
 
 <p>With the latter, the borrowing is of individual elements, but the overall vector is immutable. Thus,
 we can independently borrow separate elements, but we cannot push or pop from the vector. This is
-similar to a <code>&amp;mut [T]</code><sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>, but, again, the borrow checking is at runtime.</p>
+similar to an <code>&amp;mut [T]</code><sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>, but, again, the borrow checking is at runtime.</p>
 
 <p>In concurrent programs, we have a similar situation with <code>Arc&lt;Mutex&lt;T&gt;&gt;</code>, which provides shared
 mutability and ownership.</p>

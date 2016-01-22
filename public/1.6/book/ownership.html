@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -228,18 +236,11 @@ Rust will free the bound resources. For example:</p>
     <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 }</pre>
 
-<p>When <code>v</code> comes into scope, a new [vector] is created, and it allocates space on
-<a href="the-stack-and-the-heap.html">the heap</a> for each of its elements. When <code>v</code> goes out of scope at the
-end of <code>foo()</code>, Rust will clean up everything related to the vector, even the
-heap-allocated memory. This happens deterministically, at the end of the scope.</p>
-
-<p>We&#39;ll cover <a href="vectors.html">vectors</a> in detail later in this chapter; we only use them
-here as an example of a type that allocates space on the heap at runtime. They
-behave like <a href="primitive-types.html#arrays">arrays</a>, except their size may change by <code>push()</code>ing more
-elements onto them.</p>
-
-<p>Vectors have a <a href="generics.html">generic type</a> <code>Vec&lt;T&gt;</code>, so in this example <code>v</code> will have type
-<code>Vec&lt;i32&gt;</code>. We&#39;ll cover generics in detail later in this chapter.</p>
+<p>When <code>v</code> comes into scope, a new <a href="../std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a> is created. In this case, the
+vector also allocates space on <a href="the-stack-and-the-heap.html">the heap</a>, for the three elements. When
+<code>v</code> goes out of scope at the end of <code>foo()</code>, Rust will clean up everything
+related to the vector, even the heap-allocated memory. This happens
+deterministically, at the end of the scope.</p>
 
 <h1 id='move-semantics' class='section-header'><a href='#move-semantics'>Move semantics</a></h1>
 <p>There’s some more subtlety here, though: Rust ensures that there is <em>exactly

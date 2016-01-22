@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -180,7 +188,7 @@
     <h1 class="title">Variable Bindings</h1>
     <p>Virtually every non-&#39;Hello World’ Rust program uses <em>variable bindings</em>. They
 bind some value to a name, so it can be used later. <code>let</code> is
-used to introduce a binding, like this:</p>
+used to introduce a binding, just like this:</p>
 <span class='rusttest'>fn main() {
     let x = 5;
 }
@@ -196,7 +204,7 @@ function, rather than leaving it off. Otherwise, you’ll get an error.</p>
 <h1 id='patterns' class='section-header'><a href='#patterns'>Patterns</a></h1>
 <p>In many languages, a variable binding would be called a <em>variable</em>, but Rust’s
 variable bindings have a few tricks up their sleeves. For example the
-left-hand side of a <code>let</code> expression is a ‘<a href="patterns.html">pattern</a>’, not a
+left-hand side of a <code>let</code> expression is a ‘<a href="patterns.html">pattern</a>’, not just a
 variable name. This means we can do things like:</p>
 <span class='rusttest'>fn main() {
     let (x, y) = (1, 2);
@@ -205,7 +213,7 @@ variable name. This means we can do things like:</p>
 
 <p>After this expression is evaluated, <code>x</code> will be one, and <code>y</code> will be two.
 Patterns are really powerful, and have <a href="patterns.html">their own section</a> in the
-book. We don’t need those features for now, so we’ll keep this in the back
+book. We don’t need those features for now, so we’ll just keep this in the back
 of our minds as we go forward.</p>
 
 <h1 id='type-annotations' class='section-header'><a href='#type-annotations'>Type annotations</a></h1>
@@ -348,10 +356,10 @@ in the middle of a string.&quot; We add a comma, and then <code>x</code>, to ind
 want <code>x</code> to be the value we’re interpolating. The comma is used to separate
 arguments we pass to functions and macros, if you’re passing more than one.</p>
 
-<p>When you use the curly braces, Rust will attempt to display the value in a
+<p>When you just use the curly braces, Rust will attempt to display the value in a
 meaningful way by checking out its type. If you want to specify the format in a
 more detailed manner, there are a <a href="../std/fmt/index.html">wide number of options available</a>.
-For now, we&#39;ll stick to the default: integers aren&#39;t very complicated to
+For now, we&#39;ll just stick to the default: integers aren&#39;t very complicated to
 print.</p>
 
 <h1 id='scope-and-shadowing' class='section-header'><a href='#scope-and-shadowing'>Scope and shadowing</a></h1>

@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -265,7 +273,7 @@ Before we get to that, though, let’s break the explicit example down:</p>
 discuss the <code>&lt;&gt;</code>s after a function’s name. A function can have ‘generic
 parameters’ between the <code>&lt;&gt;</code>s, of which lifetimes are one kind. We’ll discuss
 other kinds of generics <a href="generics.html">later in the book</a>, but for now, let’s
-focus on the lifetimes aspect.</p>
+just focus on the lifetimes aspect.</p>
 
 <p>We use <code>&lt;&gt;</code> to declare our lifetimes. This says that <code>bar</code> has one lifetime,
 <code>&#39;a</code>. If we had two reference parameters, it would look like this:</p>
@@ -280,13 +288,13 @@ focus on the lifetimes aspect.</p>
 }</span><pre class='rust rust-example-rendered'>
 ...(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>i32</span>)</pre>
 
-<p>If we wanted a <code>&amp;mut</code> reference, we’d do this:</p>
+<p>If we wanted an <code>&amp;mut</code> reference, we’d do this:</p>
 <span class='rusttest'>fn main() {
     ...(x: &amp;&#39;a mut i32)
 }</span><pre class='rust rust-example-rendered'>
 ...(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>i32</span>)</pre>
 
-<p>If you compare <code>&amp;mut i32</code> to <code>&amp;&#39;a mut i32</code>, they’re the same, it’s that
+<p>If you compare <code>&amp;mut i32</code> to <code>&amp;&#39;a mut i32</code>, they’re the same, it’s just that
 the lifetime <code>&#39;a</code> has snuck in between the <code>&amp;</code> and the <code>mut i32</code>. We read <code>&amp;mut i32</code> as ‘a mutable reference to an <code>i32</code>’ and <code>&amp;&#39;a mut i32</code> as ‘a mutable
 reference to an <code>i32</code> with the lifetime <code>&#39;a</code>’.</p>
 
@@ -367,7 +375,7 @@ fn main() {
 }</pre>
 
 <p>As you can see, we need to declare a lifetime for <code>Foo</code> in the <code>impl</code> line. We repeat
-<code>&#39;a</code> twice, like on functions: <code>impl&lt;&#39;a&gt;</code> defines a lifetime <code>&#39;a</code>, and <code>Foo&lt;&#39;a&gt;</code>
+<code>&#39;a</code> twice, just like on functions: <code>impl&lt;&#39;a&gt;</code> defines a lifetime <code>&#39;a</code>, and <code>Foo&lt;&#39;a&gt;</code>
 uses it.</p>
 
 <h2 id='multiple-lifetimes' class='section-header'><a href='#multiple-lifetimes'>Multiple lifetimes</a></h2>
@@ -564,8 +572,8 @@ example of an elided lifetime with its expanded form.</p>
     fn get_mut(&amp;mut self) -&gt; &amp;mut T; // elided
     fn get_mut&lt;&#39;a&gt;(&amp;&#39;a mut self) -&gt; &amp;&#39;a mut T; // expanded
     
-    fn args&lt;T: ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // elided
-    fn args&lt;&#39;a, &#39;b, T: ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // expanded
+    fn args&lt;T:ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // elided
+    fn args&lt;&#39;a, &#39;b, T:ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // expanded
     
     fn new(buf: &amp;mut [u8]) -&gt; BufWriter; // elided
     fn new&lt;&#39;a&gt;(buf: &amp;&#39;a mut [u8]) -&gt; BufWriter&lt;&#39;a&gt;; // expanded
@@ -591,8 +599,8 @@ example of an elided lifetime with its expanded form.</p>
 <span class='kw'>fn</span> <span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>T</span>; <span class='comment'>// elided</span>
 <span class='kw'>fn</span> <span class='ident'>get_mut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>T</span>; <span class='comment'>// expanded</span>
 
-<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// elided</span>
-<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>T</span>: <span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> [<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// expanded</span>
+<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// elided</span>
+<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>T</span>:<span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> [<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// expanded</span>
 
 <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>BufWriter</span>; <span class='comment'>// elided</span>
 <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>BufWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>; <span class='comment'>// expanded</span></pre>

@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -221,8 +229,8 @@ The second use of <code>unsafe</code> is an unsafe block:</p>
 <span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>Scary</span> <span class='kw'>for</span> <span class='ident'>i32</span> {}</pre>
 
 <p>It’s important to be able to explicitly delineate code that may have bugs that
-cause big problems. If a Rust program segfaults, you can be sure the cause is
-related to something marked <code>unsafe</code>.</p>
+cause big problems. If a Rust program segfaults, you can be sure it’s somewhere
+in the sections marked <code>unsafe</code>.</p>
 
 <h1 id='what-does-safe-mean' class='section-header'><a href='#what-does-safe-mean'>What does ‘safe’ mean?</a></h1>
 <p>Safe, in the context of Rust, means ‘doesn’t do anything unsafe’. It’s also
@@ -286,7 +294,7 @@ that you normally can not do. Just three. Here they are:</p>
 
 <p>That’s it. It’s important that <code>unsafe</code> does not, for example, ‘turn off the
 borrow checker’. Adding <code>unsafe</code> to some random Rust code doesn’t change its
-semantics, it won’t start accepting anything. But it will let you write
+semantics, it won’t just start accepting anything. But it will let you write
 things that <em>do</em> break some of the rules.</p>
 
 <p>You will also encounter the <code>unsafe</code> keyword when writing bindings to foreign

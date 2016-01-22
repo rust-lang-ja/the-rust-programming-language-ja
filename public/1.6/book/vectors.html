@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -247,36 +255,6 @@ error: aborting due to previous error
 
 <p>There’s a lot of punctuation in that message, but the core of it makes sense:
 you cannot index with an <code>i32</code>.</p>
-
-<h2 id='out-of-bounds-access' class='section-header'><a href='#out-of-bounds-access'>Out-of-bounds Access</a></h2>
-<p>If you try to access an index that doesn’t exist:</p>
-<span class='rusttest'>fn main() {
-    let v = vec![1, 2, 3];
-    println!(&quot;Item 7 is {}&quot;, v[7]);
-}</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
-<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Item 7 is {}&quot;</span>, <span class='ident'>v</span>[<span class='number'>7</span>]);</pre>
-
-<p>then the current thread will <a href="concurrency.html#panics">panic</a> with a message like this:</p>
-
-<pre><code class="language-text">thread &#39;&lt;main&gt;&#39; panicked at &#39;index out of bounds: the len is 3 but the index is 7&#39;
-</code></pre>
-
-<p>If you want to handle out-of-bounds errors without panicking, you can use
-methods like <a href="http://doc.rust-lang.org/std/vec/struct.Vec.html#method.get"><code>get</code></a> or <a href="http://doc.rust-lang.org/std/vec/struct.Vec.html#method.get_mut"><code>get_mut</code></a> that return <code>None</code> when
-given an invalid index:</p>
-<span class='rusttest'>fn main() {
-    let v = vec![1, 2, 3];
-    match v.get(7) {
-        Some(x) =&gt; println!(&quot;Item 7 is {}&quot;, x),
-        None =&gt; println!(&quot;Sorry, this vector is too short.&quot;)
-    }
-}</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
-<span class='kw'>match</span> <span class='ident'>v</span>.<span class='ident'>get</span>(<span class='number'>7</span>) {
-    <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Item 7 is {}&quot;</span>, <span class='ident'>x</span>),
-    <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Sorry, this vector is too short.&quot;</span>)
-}</pre>
 
 <h2 id='iterating' class='section-header'><a href='#iterating'>Iterating</a></h2>
 <p>Once you have a vector, you can iterate through its elements with <code>for</code>. There

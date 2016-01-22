@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -221,7 +229,6 @@
 <ul>
 <li><code>!</code> (<code>ident!(…)</code>, <code>ident!{…}</code>, <code>ident![…]</code>): denotes macro expansion.  See <a href="macros.html">Macros</a>.</li>
 <li><code>!</code> (<code>!expr</code>): bitwise or logical complement.  Overloadable (<code>Not</code>).</li>
-<li><code>!=</code> (<code>var != expr</code>): nonequality comparison.  Overloadable (<code>PartialEq</code>).</li>
 <li><code>%</code> (<code>expr % expr</code>): arithmetic remainder.  Overloadable (<code>Rem</code>).</li>
 <li><code>%=</code> (<code>var %= expr</code>): arithmetic remainder &amp; assignment.</li>
 <li><code>&amp;</code> (<code>expr &amp; expr</code>): bitwise and.  Overloadable (<code>BitAnd</code>).</li>
@@ -256,13 +263,13 @@
 <li><code>;</code> (<code>[…; len]</code>): part of fixed-size array syntax.  See <a href="primitive-types.html#arrays">Primitive Types (Arrays)</a>.</li>
 <li><code>&lt;&lt;</code> (<code>expr &lt;&lt; expr</code>): left-shift.  Overloadable (<code>Shl</code>).</li>
 <li><code>&lt;&lt;=</code> (<code>var &lt;&lt;= expr</code>): left-shift &amp; assignment.</li>
-<li><code>&lt;</code> (<code>expr &lt; expr</code>): less-than comparison.  Overloadable (<code>PartialOrd</code>).</li>
-<li><code>&lt;=</code> (<code>var &lt;= expr</code>): less-than or equal-to comparison.  Overloadable (<code>PartialOrd</code>).</li>
+<li><code>&lt;</code> (<code>expr &lt; expr</code>): less-than comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
+<li><code>&lt;=</code> (<code>var &lt;= expr</code>): less-than or equal-to comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
 <li><code>=</code> (<code>var = expr</code>, <code>ident = type</code>): assignment/equivalence.  See <a href="variable-bindings.html">Variable Bindings</a>, <a href="type-aliases.html"><code>type</code> Aliases</a>, generic parameter defaults.</li>
-<li><code>==</code> (<code>var == expr</code>): equality comparison.  Overloadable (<code>PartialEq</code>).</li>
+<li><code>==</code> (<code>var == expr</code>): comparison.  Overloadable (<code>Eq</code>, <code>PartialEq</code>).</li>
 <li><code>=&gt;</code> (<code>pat =&gt; expr</code>): part of match arm syntax.  See <a href="match.html">Match</a>.</li>
-<li><code>&gt;</code> (<code>expr &gt; expr</code>): greater-than comparison.  Overloadable (<code>PartialOrd</code>).</li>
-<li><code>&gt;=</code> (<code>var &gt;= expr</code>): greater-than or equal-to comparison.  Overloadable (<code>PartialOrd</code>).</li>
+<li><code>&gt;</code> (<code>expr &gt; expr</code>): greater-than comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
+<li><code>&gt;=</code> (<code>var &gt;= expr</code>): greater-than or equal-to comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
 <li><code>&gt;&gt;</code> (<code>expr &gt;&gt; expr</code>): right-shift.  Overloadable (<code>Shr</code>).</li>
 <li><code>&gt;&gt;=</code> (<code>var &gt;&gt;= expr</code>): right-shift &amp; assignment.</li>
 <li><code>@</code> (<code>ident @ pat</code>): pattern binding.  See <a href="patterns.html#bindings">Patterns (Bindings)</a>.</li>
@@ -321,7 +328,7 @@
 <li><code>T: U</code>: generic parameter <code>T</code> constrained to types that implement <code>U</code>.  See <a href="traits.html">Traits</a>.</li>
 <li><code>T: &#39;a</code>: generic type <code>T</code> must outlive lifetime <code>&#39;a</code>.</li>
 <li><code>&#39;b: &#39;a</code>: generic lifetime <code>&#39;b</code> must outlive lifetime <code>&#39;a</code>.</li>
-<li><code>T: ?Sized</code>: allow generic type parameter to be a dynamically-sized type.  See <a href="unsized-types.html#sized">Unsized Types (<code>?Sized</code>)</a>.</li>
+<li><code>T: ?Sized</code>: allow generic type parameter to be a dynamically-sized type.  See <a href="unsized-types.html#?sized">Unsized Types (<code>?Sized</code>)</a>.</li>
 <li><code>&#39;a + trait</code>, <code>trait + trait</code>: compound type constraint.  See <a href="traits.html#multiple-trait-bounds">Traits (Multiple Trait Bounds)</a>.</li>
 </ul>
 

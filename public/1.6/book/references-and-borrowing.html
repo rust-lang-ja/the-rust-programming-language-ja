@@ -33,7 +33,15 @@
 </li>
 <li><a  href='getting-started.html'><b>2.</b> はじめる</a>
 </li>
-<li><a  href='guessing-game.html'><b>3.</b> チュートリアル: 推測ゲーム</a>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 哲学者の晩餐</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
 </li>
 <li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
 <ul class='section'>
@@ -281,7 +289,7 @@ it borrows ownership. A binding that borrows something does not deallocate the
 resource when it goes out of scope. This means that after the call to <code>foo()</code>,
 we can use our original bindings again.</p>
 
-<p>References are immutable, like bindings. This means that inside of <code>foo()</code>,
+<p>References are immutable, just like bindings. This means that inside of <code>foo()</code>,
 the vectors can’t be changed at all:</p>
 <span class='rusttest'>fn main() {
     fn foo(v: &amp;Vec&lt;i32&gt;) {
@@ -332,10 +340,10 @@ the thing <code>y</code> points at. You’ll notice that <code>x</code> had to b
 If it wasn’t, we couldn’t take a mutable borrow to an immutable value.</p>
 
 <p>You&#39;ll also notice we added an asterisk (<code>*</code>) in front of <code>y</code>, making it <code>*y</code>,
-this is because <code>y</code> is a <code>&amp;mut</code> reference. You&#39;ll also need to use them for
+this is because <code>y</code> is an <code>&amp;mut</code> reference. You&#39;ll also need to use them for
 accessing the contents of a reference as well.</p>
 
-<p>Otherwise, <code>&amp;mut</code> references are like references. There <em>is</em> a large
+<p>Otherwise, <code>&amp;mut</code> references are just like references. There <em>is</em> a large
 difference between the two, and how they interact, though. You can tell
 something is fishy in the above example, because we need that extra scope, with
 the <code>{</code> and <code>}</code>. If we remove them, we get an error:</p>
@@ -488,7 +496,7 @@ happening:</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>i</span>);
 }</pre>
 
-<p>This prints out one through three. As we iterate through the vector, we’re
+<p>This prints out one through three. As we iterate through the vectors, we’re
 only given references to the elements. And <code>v</code> is itself borrowed as immutable,
 which means we can’t change it while we’re iterating:</p>
 <span class='rusttest'>fn main() {
