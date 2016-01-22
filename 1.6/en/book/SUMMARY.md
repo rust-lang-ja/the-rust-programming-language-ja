@@ -1,7 +1,10 @@
 # Summary
 
 * [Getting Started](getting-started.md)
-* [Tutorial: Guessing Game](guessing-game.md)
+* [Learn Rust](learn-rust.md)
+    * [Guessing Game](guessing-game.md)
+    * [Dining Philosophers](dining-philosophers.md)
+    * [Rust Inside Other Languages](rust-inside-other-languages.md)
 * [Syntax and Semantics](syntax-and-semantics.md)
     * [Variable Bindings](variable-bindings.md)
     * [Functions](functions.md)
