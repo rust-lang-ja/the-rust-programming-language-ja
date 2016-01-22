@@ -51,12 +51,12 @@ authors = ["あなたの名前 <you@example.com>"]
 Cargo gets this information from your environment. If it’s not correct, go ahead
 and fix that.
 
-Cargoはこれらの情報を環境から取得します。もし間違っていたら、どうぞ修正して下さい。
+Cargoはこれらの情報を環境から取得します。もし合ってなかったら、どうぞ修正して下さい。
 
 
 Finally, Cargo generated a ‘Hello, world!’ for us. Check out `src/main.rs`:
 
-最後に、Cargoは「Hello, world!」を生成します。`src/main.rs`を確認します。
+最後に、Cargoは「Hello, world!」を生成します。`src/main.rs`を確認しましょう。
 
 
 ```rust
@@ -78,7 +78,7 @@ $ cargo build
 Excellent! Open up your `src/main.rs` again. We’ll be writing all of
 our code in this file.
 
-素晴しい!もう一度`src/main.rs`を開きます。全てのコードをこの中に書いていきます。
+素晴しい!もう一度`src/main.rs`を開きましょう。全てのコードをこの中に書いていきます。
 
 
 Before we move on, let me show you one more Cargo command: `run`. `cargo run`
@@ -100,7 +100,7 @@ Great! The `run` command comes in handy when you need to rapidly iterate on a
 project. Our game is such a project, we need to quickly test each
 iteration before moving on to the next one.
 
-すごい! `run`コマンドはプロジェクトで細かく回す必要があるときに手頃なコマンドです。
+すごい! `run`コマンドはプロジェクトを細かく回す必要があるときに手頃でしょう。
 今回のゲームがまさにそのようなプロジェクトです。すぐに試してから次の行動に移るの繰り返しをする必要があります。
 
 # Processing a Guess
@@ -133,10 +133,10 @@ fn main() {
 
 > [訳注] それぞれの文言は
 >
-> Guess the number!: 数字を当ててみて!
-> Please input your guess.: 予想値を入力して下さい
-> Failed to read line: 行の読み取りに失敗しました
-> You guessed: {}: あなたの予想値: {}
+> * Guess the number!: 数字を当ててみて!
+> * Please input your guess.: 予想値を入力して下さい
+> * Failed to read line: 行の読み取りに失敗しました
+> * You guessed: {}: あなたの予想値: {}
 >
 > の意味ですが、エディタの設定などによってはソースコード中に日本語を使うと
 > コンパイル出来ないことがあるので英文のままにしてあります。
@@ -233,7 +233,7 @@ to use for now:
 例えば、束縛はデフォルトで[イミュータブル][immutable] (不変)です。
 なので、この例ではイミュータブルではなくミュータブル(可変)な束縛にするために`mut`を使っているのです。
 `let`は代入の左辺に名前を取る訳ではなくて実際には[パターン][patterns]を受け取ります。
-後程パターンを使います。これでもう簡単に使えますね。
+後程パターンを使います。簡単なのでもう使えますね。
 
 ```rust
 let foo = 5; // イミュータブル
@@ -305,7 +305,7 @@ Remember how we `use`d `std::io` on the first line of the program? We’re now
 calling an associated function on it. If we didn’t `use std::io`, we could
 have written this line as `std::io::stdin()`.
 
-プログラムの最初の行で`std::io`を`use`したことを覚えていますか?
+プログラムの最初の行でどのように`std::io`を`use`したかを覚えていますか?
 それの関連関数を呼び出しているのです。`use std::io`していないなら`std::io::stdin()`と書くことになります。
 
 This particular function returns a handle to the standard input for your
@@ -329,7 +329,7 @@ particular instance of a type, rather than the type itself. We’re also passing
 one argument to `read_line()`: `&mut guess`.
 
 ここで、ハンドルに対して[`read_line()`][read_line]メソッドを呼んでいます。
-[Methods][method]メソッドは関連関数のようなものですが、型自体ではなくあるインスタンスに対してだけ使えます。
+[メソッド][method]は関連関数のようなものですが、型自体ではなくインスタンスに対してだけ使えます。
 `read_line()`に1つ引数を渡してもいます。`&mut guess`です。
 
 [read_line]: ../std/io/struct.Stdin.html#method.read_line
@@ -348,7 +348,7 @@ write `&mut guess`, rather than `&guess`.
 `guess`がどのように束縛されたか覚えてますか?ミュータブルであると言いました。
 しかしながら`read_line`は`String`を引数に取りません。`&mut String`を取るのです。
 Rustには[参照][references]と呼ばれる機能があって、1つのデータに対して複数の参照を持つことが出来、コピーを減らすことが出来ます。
-Rustの大きな長所の1つが参照をかに安全に簡単に使えるかなので、参照は複雑な機能です。
+Rustの主要な売りの1つが参照をいかに安全に簡単に使えるかなので、参照は複雑な機能です。
 しかしこのプログラムを作り終えるのに今すぐ詳細を知る必要はありません。
 今のところ、`let`と同じように参照はデフォルトでイミュータブルであるということだけ覚えておいて下さい。
 なので`&guess`ではなく`&mut guess`と書く必要があるのです。
@@ -360,7 +360,7 @@ the input, it needs to be mutable.
 
 何故`read_line()`は文字列へのミュータブルな参照を取るのでしょうか?
 `read_line()`はユーザが標準入力に打ったものを取得し、それを文字列に入れる役割を果たします。
-なのでその文字列を引数として受け取り、そして入力文字列を追加するためにミュータブルである必要があるのです。
+なのでその文字列を引数として受け取り、そして入力文字列を追加するために文字列はミュータブルである必要があるのです。
 
 [references]: references-and-borrowing.html
 
@@ -398,7 +398,7 @@ sub-libraries, like `io::Result`.
 `read_line()`については話しましたが`expect`についてはどうでしょう?
 さて、`read_line()`がユーザの入力を`&mut String`に入れることには言及しました。
 しかし値も返します。
-この場合、標準ライブラリにある一般の[`Result`][result]であり、そしてそれをサブライブラリに特殊化したバージョンの`io::Result`になります。
+この場合、標準ライブラリにある汎用の[`Result`][result]であり、そしてそれをサブライブラリに特殊化したバージョンの`io::Result`になります。
 
 [ioresult]: ../std/io/type.Result.html
 [result]: ../std/result/enum.Result.html
@@ -413,7 +413,7 @@ displaying the message.
 これらの`Result`型の目的は、エラーハンドリング情報をエンコードすることです。
 `Result`型の値には、他の型と同じように、メソッドが定義されています。
 今回は`io::Result`に[`expect()`メソッド][expect]が定義されていて、それが呼び出された値が成功でなければ与えたメッセージと共に[`panic!`][panic]します。
-今回のように`panic!`はメッセージを表示してプログラムをクラッシュさせます。
+このような`panic!`はメッセージを表示してプログラムをクラッシュさせます。
 
 [expect]: ../std/option/enum.Option.html#method.expect
 [panic]: error-handling.html
@@ -443,7 +443,7 @@ project.
 Rustは値`Result`を使っていないことを警告します。警告は`io::Result`が持つ特別なアノテーションに由来します。
 Rustはエラーの可能性があるのに処理していないことを教えてくれるのです。
 エラーを出さないためには実際にエラー処理を書くのが正しやり方です。
-幸運にも、問題があった時にそのままクラッシュさせたいならこの小さな2つのメソッドを使えます。
+幸運にも、問題があった時にそのままクラッシュさせたいならこの小さな2つのメソッドをそのまま使えます。
 どうにかしてエラーから回復したいなら、別のことをしないていけませんが、それは将来のプロジェクトに取っておきます。
 
 There’s just one line of this first example left:
@@ -515,7 +515,7 @@ Using external crates is where Cargo really shines. Before we can write
 the code using `rand`, we need to modify our `Cargo.toml`. Open it up, and
 add these few lines at the bottom:
 
-外部のクレーを使う時にこそCargoが光ります。`rand`を使う前に`Cargo.toml`を修正する必要があります。
+外部のクレートを使う時にこそCargoが光ります。`rand`を使う前に`Cargo.toml`を修正する必要があります。
 `Cargo.toml`を開いて、この数行を末尾に追記しましょう。
 
 ```toml
@@ -619,7 +619,7 @@ code?
 
 Cargoには`rand`の`0.3.x`を使うと伝えたので、それが書かれた時点での最新版、`v0.3.8`を取得しました。
 ですが来週`v0.3.9`が出て、重要なバグフィクスがされたらどうなるのでしょう?
-バグフィクスを取得するのは重要ですが、`0.3.9`にコードが動かなくなるようなリグレッションがあったらどうしましょう?
+バグフィクスを取り込むのは重要ですが、`0.3.9`にコードが動かなくなるようなリグレッションがあったらどうしましょう?
 
 The answer to this problem is the `Cargo.lock` file you’ll now find in your
 project directory. When you build your project for the first time, Cargo
@@ -632,10 +632,10 @@ until we explicitly upgrade, and so will anyone who we share our code with,
 thanks to the lock file.
 
 この問題への回答はプロジェクトのディレクトリにある`Cargo.lock`です。
-プロジェクトを最初にビルドした時に、Cargoは基準を満たす全てのバージョンを見付け、`Cargo.lock`ファイルに書き出します。
+プロジェクトを最初にビルドした時に、Cargoは基準を満たす全てのバージョンを探索し、`Cargo.lock`ファイルに書き出します。
 その後のビルドではCargoはまず`Cargo.lock`ファイルがあるか確認し、再度バージョンを探索することなく、そこで指定されたバージョンを使います。
 これで自動的に再現性のあるビルドが手に入ります。
-言い換えると、明示的にアップグレードしない限り我々は`0.3.8`を使い続けますし、ロックファイルのおかげでコードを共有する人もそうなります。
+言い換えると、明示的にアップグレードしない限り我々は`0.3.8`を使い続けますし、ロックファイルのおかげでコードを共有する人も`0.3.8`を使い続けます。
 
 What about when we _do_ want to use `v0.3.9`? Cargo has another command,
 `update`, which says ‘ignore the lock, figure out all the latest versions that
@@ -648,8 +648,8 @@ will update the index and re-evaluate our `rand` requirements.
 `v0.3.9`を使いたい時はどうすればいいのでしょうか?
 Cargoには「ロックを無視して、指定したバージョンを満たす全ての最新版を探しなさい。もし出来たらそれをロックファイルに書きなさい」を意味する別のコマンド、`update`があります。
 しかし、デフォルトではCargoは`0.3.0`より大きく、`0.4.0`より小さいバージョンを探しにいきます。
-`0.4.x`より大きなバージョンを使いたいなら直接`Cargo.toml`をいじる必要があります。
-そうしたら、次に`cargo build`をする時に、Cargoはインデックスをアップデートして`rand`への要請を再度評価します。
+`0.4.x`より大きなバージョンを使いたいなら直接`Cargo.toml`を更新する必要があります。
+そうしたら、次に`cargo build`をする時に、Cargoはインデックスをアップデートして`rand`への制約を再度評価します。
 
 There’s a lot more to say about [Cargo][doccargo] and [its
 ecosystem][doccratesio], but for now, that’s all we need to know. Cargo makes
@@ -692,7 +692,9 @@ fn main() {
 ```
 
 > 訳注: 先程と同じ理由でソースコード内の文言は翻訳していません。意味は
-> The secret number is: {}: 秘密の数字は: {}です
+> 
+> * The secret number is: {}: 秘密の数字は: {}です
+> 
 > です。
 
 
@@ -704,7 +706,7 @@ does the equivalent of a `use rand;` as well, so we can make use of anything
 in the `rand` crate by prefixing it with `rand::`.
 
 まず最初に変更したのは最初の行です。`extern crate rand`となっています。
-`rand`を`[dependencies]`に宣言したので、`extern crate`としてそれを使うことをRustに伝えれます。
+`rand`を`[dependencies]`に宣言したので、`extern crate`でそれを使うことをRustに伝えれます。
 これはまた、`use rand;`とするのと同じこともしますので、`rand`にあるものは`rand::`と前置すれば使えるようになります。
 
 Next, we added another `use` line: `use rand::Rng`. We’re going to use a
@@ -714,7 +716,7 @@ method to work, it needs the trait to be in scope. For more about the
 details, read the [traits][traits] section.
 
 次に、もう1行`use`を追加しました。`use rand::Rng`です。
-すぐにあるメソッドを使うのですが、それが動作するには`Rng`がスコープに入っている必要があるのです。
+すぐに、とあるメソッドを使うのですが、それが動作するには`Rng`がスコープに入っている必要があるのです。
 基本的な考え方はこうです: メソッドは「トレイト」と呼ばれるのもで定義されており、メソッドが動作するにはそのトレイトがスコープにある必要があるのです。
 詳しくは[トレイト][traits]セクションを読んで下さい。
 
@@ -788,7 +790,7 @@ Now that we’ve got user input, let’s compare our guess to the secret number.
 Here’s our next step, though it doesn’t quite compile yet:
 
 ユーザーの入力を受け取れるようになったので、秘密の数字と比較しましょう。
-未完成ですが、これが次のステップです。
+コンパイル出来ませんが、これが次のステップです。
 
 ```rust,ignore
 extern crate rand;
@@ -822,9 +824,10 @@ fn main() {
 ```
 
 > 訳注: 同じく、
-> Too small!: 小さすぎます!
-> Too big!: 大きすぎます!
-> You win!: あなたの勝ちです!
+> 
+> * Too small!: 小さすぎます!
+> * Too big!: 大きすぎます!
+> * You win!: あなたの勝ちです!
 
 
 A few new bits here. The first is another `use`. We bring a type called
@@ -852,7 +855,7 @@ determine exactly what kind of `Ordering` it is. `Ordering` is an
 `cmp()`は比較可能なものに対しならなんでも呼べて、引数に比較したい対象の参照を取ります。
 `cmp()`は先程`use`した`Ordering`を返します。
 [`match`][match]文を使って正確に`Ordering`のどれであるかを判断しています。
-`Ordering`は[`enum`][enum] (訳注: 列挙型)で、「enumeration(訳注: 列挙)」の略です。
+`Ordering`は[`enum`][enum] (訳注: 列挙型)で、enumは「enumeration(訳注: 列挙)」の略です。
 このようなものです。
 
 ```rust
@@ -870,7 +873,7 @@ With this definition, anything of type `Foo` can be either a
 namespace for a particular `enum` variant.
 
 この定義だと、`Foo`のに属するものは`Foo::Bar`あるいは`Foo::Baz`です。
-`::`を使って特定の`enum`のバリアントの名前空間を指示します。
+`::`を使って`enum`のバリアントの名前空間を指示します。
 
 The [`Ordering`][ordering] `enum` has three possible variants: `Less`, `Equal`,
 and `Greater`. The `match` statement takes a value of a type, and lets you
@@ -930,8 +933,8 @@ with three more lines. Here’s our new program:
 
 ふぅ!大きなエラーです。核心になっているのは「型の不一致」です。
 Rustには強い静的な型システムがあります。しかし型推論も持っています。
-`let guess = String::new()`と書いた時、Rustは`guess`が文字列である筈だと推論出来るのでわざわざ型を書かなくてもよいです。
-`secret_number`は1から100までの数字で、32bit数の`i32`、あるいは符号なし32bit数の`u32`、あるいは64bit不動小数点数`f64`あるいはそれ以外、様々な型がありえます。
+`let guess = String::new()`と書いた時、Rustは`guess`が文字列である筈だと推論出来るのでわざわざ型を書かなくてもよいのです。
+`secret_number`には、は1から100までの数字を持っている数値型、32bit数の`i32`、あるいは符号なし32bit数の`u32`、あるいは64bit不動小数点数`f64`あるいはそれ以外、様々な型がありえます。
 これまで、それは問題ではありませんでしたので、Rustは`i32`をデフォルトとしてました。
 しかしながらここで、`guess`と`secret_number`の比較の仕方が分かりません。
 これらは同じ型である必要があります。
@@ -1015,7 +1018,7 @@ exact type of number we want. Hence, `let guess: u32`. The colon (`:`) after
 thirty-two bit integer. Rust has [a number of built-in number types][number],
 but we’ve chosen `u32`. It’s a good default choice for a small positive number.
 
-ここでは、`guess`は古い`guess`、入力を保持している`String`のものです。
+ここでは、`guess`は古い`guess`、入力を保持している`String`の`guess`です。
 `String`の`trim()`メソッドは文字列の最初と最後にある空白を取り除きます。
 `read_line()`を満たすには「リターン」キーを押す必要があるのでこれは重要です。
 つまり、`5`と入力してリターンを押したら、`guess`は`5\n`のようになっています。
@@ -1037,7 +1040,7 @@ such, we’ll do the same thing we did with `read_line()`: use the `expect()`
 method to crash if there’s an error.
 
 `read_line()`と同じように、`parse()`の呼び出しでもエラーが起き得ます。
-文字列に`A %`が含まれていたらどうなるでしょう?それは文字列には変換出来ません。
+文字列に`A %`が含まれていたらどうなるでしょう?それは数値には変換出来ません。
 なので、`read_line()`と同じように`expect()`を使ってエラーがあったらクラッシュするようにします。
 
 Let’s try our program out!
@@ -1073,6 +1076,8 @@ change that by adding loops!
 #ループ
 
 The `loop` keyword gives us an infinite loop. Let’s add that in:
+
+`loop`キーワードで無限ループが出来ます。入れてみましょう。
 
 ```rust,ignore
 extern crate rand;
@@ -1114,6 +1119,10 @@ And try it out. But wait, didn’t we just add an infinite loop? Yup. Remember
 our discussion about `parse()`? If we give a non-number answer, we’ll `panic!`
 and quit. Observe:
 
+そして試してみましょう。でも待って下さい、無限ループを追加しませんでした? そうです。
+`parse()`に関する議論を覚えてますか?数字でない答えを入力すると`panic!`して終了するのでした。
+やってみましょう。
+
 ```bash
 $ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -1139,6 +1148,10 @@ thread '<main>' panicked at 'Please type a number!'
 
 Ha! `quit` actually quits. As does any other non-number input. Well, this is
 suboptimal to say the least. First, let’s actually quit when you win the game:
+
+おっ!`quit`で確かに終了しました。他の数字でないものでも同じことです。
+でもこれは控え目に言っても最適とは言えません。
+まず、ゲームに勝ったら本当に終了するようにしましょう。
 
 ```rust,ignore
 extern crate rand;
@@ -1185,6 +1198,11 @@ thing in `main()`. We have just one more tweak to make: when someone inputs a
 non-number, we don’t want to quit, we just want to ignore it. We can do that
 like this:
 
+`You win!`の後に`break`を加えることで、ゲームに勝った時にループを抜けます。
+ループを抜けることは同時に、それが`main()`の最後の要素なので、プログラムが終了することも意味します。
+もう1つ調整をします。数値でない入力をした時に、終了したくはありません、無視したいです。
+それはこのように出来ます。
+
 ```rust,ignore
 extern crate rand;
 
@@ -1228,6 +1246,9 @@ fn main() {
 
 These are the lines that changed:
 
+変更はこれです。
+
+
 ```rust,ignore
 let guess: u32 = match guess.trim().parse() {
     Ok(num) => num,
@@ -1245,7 +1266,20 @@ side. In the `Err` case, we don’t care what kind of error it is, so we just
 use `_` instead of a name. This ignores the error, and `continue` causes us
 to go to the next iteration of the `loop`.
 
+<!-- INTERNAL: 「‘actually handle the returned by `parse()`...」 と明らかに文書が崩れているので
+「‘actually handle the returned value'. The returned value by `parse()`...」だったんだと思って訳しました
+-->
+
+これが「エラーならクラッシュ」から「実際に返値のエラーをハンドルする」への一般的な移行の仕方です。
+`parse()`の返す値は`Ordering`と同じような`enum`ですが、今回はそれぞれのバリアントにデータが関連付いています。
+`Ok`は成功で、`Err`は失敗です。それぞれには追加の情報もあります。パースに成功した整数、あるいはエラーの種類です。
+このケースでは、`Ok(num)`に対して`match`していて、それで`Ok`に内包された値を`num`という名前に設定しており、右側でそのまま返しています。
+`Err`の場合、エラーの種類は気にしにないので、名前ではなく`_`を使います。
+これはエラーを無視していて、`continue`で`loop`の次の繰り返しに進みます。
+
 Now we should be good! Let’s try:
+
+これで良いはずです。試しましょう!
 
 ```bash
 $ cargo run
@@ -1273,6 +1307,11 @@ Awesome! With one tiny last tweak, we have finished the guessing game. Can you
 think of what it is? That’s right, we don’t want to print out the secret
 number. It was good for testing, but it kind of ruins the game. Here’s our
 final source:
+
+すごい!最後のほんのちょっとだけ修正して、数当てゲームを終えましょう。
+なんだか分かりますか?そうです、秘密の数字は印字したくありません。
+テストには良かったのですがゲームを台無しにしてしまいます。
+これが最終ソースです。
 
 ```rust,ignore
 extern crate rand;
@@ -1314,9 +1353,16 @@ fn main() {
 ```
 
 # Complete!
+# 完成!
 
 At this point, you have successfully built the Guessing Game! Congratulations!
+
+ここにて数当てゲームを作ることが出来ました!おめでとうございます!
 
 This first project showed you a lot: `let`, `match`, methods, associated
 functions, using external crates, and more. Our next project will show off
 even more.
+
+この最初のプロジェクトで色々なものを見せました。
+`let`、`match`、メソッド、関連関数、外部クレートの使い方、などなど。
+次のプロジェクトではさらに色々見せます。
