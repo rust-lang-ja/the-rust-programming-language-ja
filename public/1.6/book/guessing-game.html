@@ -188,11 +188,15 @@
     <h1 class="title">数当てゲーム</h1>
     <!-- % Guessing Game -->
 
-<p>For our first project, we’ll implement a classic beginner programming problem:
-the guessing game. Here’s how it works: Our program will generate a random
-integer between one and a hundred. It will then prompt us to enter a guess.
-Upon entering our guess, it will tell us if we’re too low or too high. Once we
-guess correctly, it will congratulate us. Sounds good?</p>
+<!-- For our first project, we’ll implement a classic beginner programming problem: -->
+
+<!-- the guessing game. Here’s how it works: Our program will generate a random -->
+
+<!-- integer between one and a hundred. It will then prompt us to enter a guess. -->
+
+<!-- Upon entering our guess, it will tell us if we’re too low or too high. Once we -->
+
+<!-- guess correctly, it will congratulate us. Sounds good? -->
 
 <p>最初のプロジェクトとして、古典的な初心者向けのプログラミングの問題、数当てゲームを実装します。
 動作: プログラムは1から100の間のあるランダムな数字を生成します。
@@ -200,11 +204,14 @@ guess correctly, it will congratulate us. Sounds good?</p>
 予想値を入力すると大きすぎるあるいは小さすぎると教えてくれます。
 当たったらおめでとうと言ってくれます。良さそうですか?</p>
 
-<h1 id='set-up' class='section-header'><a href='#set-up'>Set up</a></h1>
+<!-- # Set up -->
+
 <h1 id='セットアップ' class='section-header'><a href='#セットアップ'>セットアップ</a></h1>
-<p>Let’s set up a new project. Go to your projects directory. Remember how we had
-to create our directory structure and a <code>Cargo.toml</code> for <code>hello_world</code>? Cargo
-has a command that does that for us. Let’s give it a shot:</p>
+<!-- Let’s set up a new project. Go to your projects directory. Remember how we had -->
+
+<!-- to create our directory structure and a `Cargo.toml` for `hello_world`? Cargo -->
+
+<!-- has a command that does that for us. Let’s give it a shot: -->
 
 <p>新しいプロジェクトを作りましょう。プロジジェクトのディレクトリへ行って下さい。
 <code>hello_world</code>の時にどのようなディレクトリ構成で、どのように<code>Cargo.toml</code>を作る必要があったか覚えてますか?
@@ -215,12 +222,13 @@ $ cargo new guessing_game --bin
 $ cd guessing_game
 </code></pre>
 
-<p>We pass the name of our project to <code>cargo new</code>, and then the <code>--bin</code> flag,
-since we’re making a binary, rather than a library.</p>
+<!-- We pass the name of our project to `cargo new`, and then the `--bin` flag, -->
+
+<!-- since we’re making a binary, rather than a library. -->
 
 <p><code>cargo new</code>にプロジェクトの名前と、そしてライブラリではなくバイナリを作るので<code>--bin</code>フラグを渡します。</p>
 
-<p>Check out the generated <code>Cargo.toml</code>:</p>
+<!-- Check out the generated `Cargo.toml`: -->
 
 <p>生成された<code>Cargo.toml</code>を確認しましょう。</p>
 
@@ -231,14 +239,15 @@ version = &quot;0.1.0&quot;
 authors = [&quot;あなたの名前 &lt;you@example.com&gt;&quot;]
 </code></pre>
 
-<p>Cargo gets this information from your environment. If it’s not correct, go ahead
-and fix that.</p>
+<!-- Cargo gets this information from your environment. If it’s not correct, go ahead -->
 
-<p>Cargoはこれらの情報を環境から取得します。もし間違っていたら、どうぞ修正して下さい。</p>
+<!-- and fix that. -->
 
-<p>Finally, Cargo generated a ‘Hello, world!’ for us. Check out <code>src/main.rs</code>:</p>
+<p>Cargoはこれらの情報を環境から取得します。もし合ってなかったら、どうぞ修正して下さい。</p>
 
-<p>最後に、Cargoは「Hello, world!」を生成します。<code>src/main.rs</code>を確認します。</p>
+<!-- Finally, Cargo generated a ‘Hello, world!’ for us. Check out `src/main.rs`: -->
+
+<p>最後に、Cargoは「Hello, world!」を生成します。<code>src/main.rs</code>を確認しましょう。</p>
 <span class='rusttest'>fn main() {
     println!(&quot;Hello, world!&quot;);
 }
@@ -247,7 +256,7 @@ and fix that.</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hello, world!&quot;</span>);
 }</pre>
 
-<p>Let’s try compiling what Cargo gave us:</p>
+<!-- Let’s try compiling what Cargo gave us: -->
 
 <p>Cargoが用意してくれたものをコンパイルしてみましょう。</p>
 
@@ -255,14 +264,17 @@ and fix that.</p>
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
 </code></pre>
 
-<p>Excellent! Open up your <code>src/main.rs</code> again. We’ll be writing all of
-our code in this file.</p>
+<!-- Excellent! Open up your `src/main.rs` again. We’ll be writing all of -->
 
-<p>素晴しい!もう一度<code>src/main.rs</code>を開きます。全てのコードをこの中に書いていきます。</p>
+<!-- our code in this file. -->
 
-<p>Before we move on, let me show you one more Cargo command: <code>run</code>. <code>cargo run</code>
-is kind of like <code>cargo build</code>, but it also then runs the produced executable.
-Try it out:</p>
+<p>素晴しい!もう一度<code>src/main.rs</code>を開きましょう。全てのコードをこの中に書いていきます。</p>
+
+<!-- Before we move on, let me show you one more Cargo command: `run`. `cargo run` -->
+
+<!-- is kind of like `cargo build`, but it also then runs the produced executable. -->
+
+<!-- Try it out: -->
 
 <p>行動する前に、もう一つCargoのコマンドを紹介させて下さい。<code>run</code>です。
 <code>cargo run</code>は<code>cargo build</code>のようなものですが、生成された実行可能ファイルの実行までします。
@@ -274,17 +286,21 @@ Try it out:</p>
 Hello, world!
 </code></pre>
 
-<p>Great! The <code>run</code> command comes in handy when you need to rapidly iterate on a
-project. Our game is such a project, we need to quickly test each
-iteration before moving on to the next one.</p>
+<!-- Great! The `run` command comes in handy when you need to rapidly iterate on a -->
 
-<p>すごい! <code>run</code>コマンドはプロジェクトで細かく回す必要があるときに手頃なコマンドです。
+<!-- project. Our game is such a project, we need to quickly test each -->
+
+<!-- iteration before moving on to the next one. -->
+
+<p>すごい! <code>run</code>コマンドはプロジェクトを細かく回す必要があるときに手頃でしょう。
 今回のゲームがまさにそのようなプロジェクトです。すぐに試してから次の行動に移るの繰り返しをする必要があります。</p>
 
-<h1 id='processing-a-guess' class='section-header'><a href='#processing-a-guess'>Processing a Guess</a></h1>
+<!-- # Processing a Guess -->
+
 <h1 id='予想値を処理する' class='section-header'><a href='#予想値を処理する'>予想値を処理する</a></h1>
-<p>Let’s get to it! The first thing we need to do for our guessing game is
-allow our player to input a guess. Put this in your <code>src/main.rs</code>:</p>
+<!-- Let’s get to it! The first thing we need to do for our guessing game is -->
+
+<!-- allow our player to input a guess. Put this in your `src/main.rs`: -->
 
 <p>とりかかりましょう!
 数当てゲームでまずしなければいけないことはプレイヤーに予想値を入力させることです。
@@ -322,16 +338,18 @@ fn main() {
 <blockquote>
 <p>[訳注] それぞれの文言は</p>
 
-<p>Guess the number!: 数字を当ててみて!
-Please input your guess.: 予想値を入力して下さい
-Failed to read line: 行の読み取りに失敗しました
-You guessed: {}: あなたの予想値: {}</p>
+<ul>
+<li>Guess the number!: 数字を当ててみて!</li>
+<li>Please input your guess.: 予想値を入力して下さい</li>
+<li>Failed to read line: 行の読み取りに失敗しました</li>
+<li>You guessed: {}: あなたの予想値: {}</li>
+</ul>
 
 <p>の意味ですが、エディタの設定などによってはソースコード中に日本語を使うと
 コンパイル出来ないことがあるので英文のままにしてあります。</p>
 </blockquote>
 
-<p>There’s a lot here! Let’s go over it, bit by bit.</p>
+<!-- There’s a lot here! Let’s go over it, bit by bit. -->
 
 <p>いろいろなことあります！少しづつやっていきましょう。</p>
 <span class='rusttest'>fn main() {
@@ -339,12 +357,17 @@ You guessed: {}: あなたの予想値: {}</p>
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>;</pre>
 
-<p>We’ll need to take user input, and then print the result as output. As such, we
-need the <code>io</code> library from the standard library. Rust only imports a few things
-by default into every program, <a href="../std/prelude/index.html">the ‘prelude’</a>. If it’s not in the
-prelude, you’ll have to <code>use</code> it directly. There is also a second ‘prelude’, the
-<a href="../std/io/prelude/index.html"><code>io</code> prelude</a>, which serves a similar function: you import it, and it
-imports a number of useful, <code>io</code>-related things.</p>
+<!-- We’ll need to take user input, and then print the result as output. As such, we -->
+
+<!-- need the `io` library from the standard library. Rust only imports a few things -->
+
+<!-- by default into every program, [the ‘prelude’][prelude]. If it’s not in the -->
+
+<!-- prelude, you’ll have to `use` it directly. There is also a second ‘prelude’, the -->
+
+<!-- [`io` prelude][ioprelude], which serves a similar function: you import it, and it -->
+
+<!-- imports a number of useful, `io`-related things. -->
 
 <p>ユーザの入力を取得して結果を出力する必要があります。
 なので<code>io</code>標準ライブラリからライブラリが必要になります。
@@ -355,11 +378,15 @@ Rustが全てのプログラムにデフォルトで読み込むものは少し�
 </span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>main</span>() {</pre>
 
-<p>As you’ve seen before, the <code>main()</code> function is the entry point into your
-program. The <code>fn</code> syntax declares a new function, the <code>()</code>s indicate that
-there are no arguments, and <code>{</code> starts the body of the function. Because
-we didn’t include a return type, it’s assumed to be <code>()</code>, an empty
-<a href="primitive-types.html#tuples">tuple</a>.</p>
+<!-- As you’ve seen before, the `main()` function is the entry point into your -->
+
+<!-- program. The `fn` syntax declares a new function, the `()`s indicate that -->
+
+<!-- there are no arguments, and `{` starts the body of the function. Because -->
+
+<!-- we didn’t include a return type, it’s assumed to be `()`, an empty -->
+
+<!-- [tuple][tuples]. -->
 
 <p>以前見たように<code>main()</code>関数がプログラムのエントリーポイントになります。
 <code>fn</code>構文で新たな関数を宣言し、<code>()</code>が引数がないことを示し、<code>{</code>が関数の本体部の始まりです。
@@ -373,8 +400,9 @@ we didn’t include a return type, it’s assumed to be <code>()</code>, an empt
 
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Please input your guess.&quot;</span>);</pre>
 
-<p>We previously learned that <code>println!()</code> is a <a href="macros.html">macro</a> that
-prints a <a href="strings.html">string</a> to the screen.</p>
+<!-- We previously learned that `println!()` is a [macro][macros] that -->
+
+<!-- prints a [string][strings] to the screen. -->
 
 <p>前に<code>println!()</code>が<a href="strings.html">文字列</a>をスクリーンに印字する<a href="macros.html">マクロ</a>であることを学びました。</p>
 <span class='rusttest'>fn main() {
@@ -382,9 +410,11 @@ prints a <a href="strings.html">string</a> to the screen.</p>
 }</span><pre class='rust rust-example-rendered'>
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();</pre>
 
-<p>Now we’re getting interesting! There’s a lot going on in this little line.
-The first thing to notice is that this is a <a href="variable-bindings.html">let statement</a>, which is
-used to create ‘variable bindings’. They take this form:</p>
+<!-- Now we’re getting interesting! There’s a lot going on in this little line. -->
+
+<!-- The first thing to notice is that this is a [let statement][let], which is -->
+
+<!-- used to create ‘variable bindings’. They take this form: -->
 
 <p>面白くなってきました!この小さな1行で色々なことが行われています。
 最初に気付くのはこれが「変数束縛」を作る<a href="variable-bindings.html">let文</a>であることです。
@@ -394,23 +424,29 @@ let文はこの形を取ります。</p>
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>foo</span> <span class='op'>=</span> <span class='ident'>bar</span>;</pre>
 
-<p>This will create a new binding named <code>foo</code>, and bind it to the value <code>bar</code>. In
-many languages, this is called a ‘variable’, but Rust’s variable bindings have
-a few tricks up their sleeves.</p>
+<!-- This will create a new binding named `foo`, and bind it to the value `bar`. In -->
+
+<!-- many languages, this is called a ‘variable’, but Rust’s variable bindings have -->
+
+<!-- a few tricks up their sleeves. -->
 
 <p>これは<code>foo</code>という名前の束縛を作り、それを値<code>bar</code>に束縛します。
 多くの言語ではこれは「変数」と呼ばれるものですが、Rustの変数束縛は少しばかり皮を被せてあります。</p>
 
-<p>For example, they’re <a href="mutability.html">immutable</a> by default. That’s why our example
-uses <code>mut</code>: it makes a binding mutable, rather than immutable. <code>let</code> doesn’t
-take a name on the left hand side of the assignment, it actually accepts a
-‘<a href="patterns.html">pattern</a>’. We’ll use patterns later. It’s easy enough
-to use for now:</p>
+<!-- For example, they’re [immutable][immutable] by default. That’s why our example -->
+
+<!-- uses `mut`: it makes a binding mutable, rather than immutable. `let` doesn’t -->
+
+<!-- take a name on the left hand side of the assignment, it actually accepts a -->
+
+<!-- ‘[pattern][patterns]’. We’ll use patterns later. It’s easy enough -->
+
+<!-- to use for now: -->
 
 <p>例えば、束縛はデフォルトで<a href="mutability.html">イミュータブル</a> (不変)です。
 なので、この例ではイミュータブルではなくミュータブル(可変)な束縛にするために<code>mut</code>を使っているのです。
 <code>let</code>は代入の左辺に名前を取る訳ではなくて実際には<a href="patterns.html">パターン</a>を受け取ります。
-後程パターンを使います。これでもう簡単に使えますね。</p>
+後程パターンを使います。簡単なのでもう使えますね。</p>
 <span class='rusttest'>fn main() {
     let foo = 5; // イミュータブル
     let mut bar = 5; // ミュータブル
@@ -418,41 +454,50 @@ to use for now:</p>
 <span class='kw'>let</span> <span class='ident'>foo</span> <span class='op'>=</span> <span class='number'>5</span>; <span class='comment'>// イミュータブル</span>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bar</span> <span class='op'>=</span> <span class='number'>5</span>; <span class='comment'>// ミュータブル</span></pre>
 
-<p>Oh, and <code>//</code> will start a comment, until the end of the line. Rust ignores
-everything in <a href="comments.html">comments</a>.</p>
+<!-- Oh, and `//` will start a comment, until the end of the line. Rust ignores -->
+
+<!-- everything in [comments][comments]. -->
 
 <p>ああ、そして<code>//</code>から行末までがコメントです。Rustは<a href="comments.html">コメント</a>にある全てのものを無視します。</p>
 
-<p>So now we know that <code>let mut guess</code> will introduce a mutable binding named
-<code>guess</code>, but we have to look at the other side of the <code>=</code> for what it’s
-bound to: <code>String::new()</code>.</p>
+<!-- So now we know that `let mut guess` will introduce a mutable binding named -->
+
+<!-- `guess`, but we have to look at the other side of the `=` for what it’s -->
+
+<!-- bound to: `String::new()`. -->
 
 <p>という訳で<code>let mut guess</code>がミュータブルな束縛<code>guess</code>を導入することを知りました。
 しかし<code>=</code>の反対側、<code>String::new()</code>が何であるかを見る必要があります。</p>
 
-<p><code>String</code> is a string type, provided by the standard library. A
-<a href="../std/string/struct.String.html"><code>String</code></a> is a growable, UTF-8 encoded bit of text.</p>
+<!-- `String` is a string type, provided by the standard library. A -->
+
+<!-- [`String`][string] is a growable, UTF-8 encoded bit of text. -->
 
 <p><code>String</code>は文字列型で、標準ライブラリで提供されています。
 <a href="../std/string/struct.String.html"><code>String</code></a>は伸長可能でUTF-8でエンコードされたテキスト片です。</p>
 
-<p>The <code>::new()</code> syntax uses <code>::</code> because this is an ‘associated function’ of
-a particular type. That is to say, it’s associated with <code>String</code> itself,
-rather than a particular instance of a <code>String</code>. Some languages call this a
-‘static method’.</p>
+<!-- The `::new()` syntax uses `::` because this is an ‘associated function’ of -->
+
+<!-- a particular type. That is to say, it’s associated with `String` itself, -->
+
+<!-- rather than a particular instance of a `String`. Some languages call this a -->
+
+<!-- ‘static method’. -->
 
 <p><code>::new()</code>構文は特定の型の「関連関数」なので<code>::</code>構文を使っています。
 つまり、これは<code>String</code>のインスタンスではなく<code>String</code>自体に関連付けられているということです。
 これを「スタティックメソッド」と呼ぶ言語もあります。</p>
 
-<p>This function is named <code>new()</code>, because it creates a new, empty <code>String</code>.
-You’ll find a <code>new()</code> function on many types, as it’s a common name for making
-a new value of some kind.</p>
+<!-- This function is named `new()`, because it creates a new, empty `String`. -->
+
+<!-- You’ll find a `new()` function on many types, as it’s a common name for making -->
+
+<!-- a new value of some kind. -->
 
 <p>この関数は新たな空の<code>String</code>を作るので<code>new()</code>の名付けられています。
 <code>new()</code>関数はある種の新たな値を作るのによく使われる名前なので様々な型でこの関数を見るでしょう。</p>
 
-<p>Let’s move forward:</p>
+<!-- Let’s move forward: -->
 
 <p>先に進みましょう。</p>
 <span class='rusttest'>fn main() {
@@ -462,8 +507,9 @@ a new value of some kind.</p>
     <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
         .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);</pre>
 
-<p>That’s a lot more! Let’s go bit-by-bit. The first line has two parts. Here’s
-the first:</p>
+<!-- That’s a lot more! Let’s go bit-by-bit. The first line has two parts. Here’s -->
+
+<!-- the first: -->
 
 <p>さらに色々あります!一歩一歩進んでいきましょう。最初の行は2つの部分を持ちます。
 これが最初の部分です。</p>
@@ -472,19 +518,22 @@ the first:</p>
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>io</span>::<span class='ident'>stdin</span>()</pre>
 
-<p>Remember how we <code>use</code>d <code>std::io</code> on the first line of the program? We’re now
-calling an associated function on it. If we didn’t <code>use std::io</code>, we could
-have written this line as <code>std::io::stdin()</code>.</p>
+<!-- Remember how we `use`d `std::io` on the first line of the program? We’re now -->
 
-<p>プログラムの最初の行で<code>std::io</code>を<code>use</code>したことを覚えていますか?
+<!-- calling an associated function on it. If we didn’t `use std::io`, we could -->
+
+<!-- have written this line as `std::io::stdin()`. -->
+
+<p>プログラムの最初の行でどのように<code>std::io</code>を<code>use</code>したかを覚えていますか?
 それの関連関数を呼び出しているのです。<code>use std::io</code>していないなら<code>std::io::stdin()</code>と書くことになります。</p>
 
-<p>This particular function returns a handle to the standard input for your
-terminal. More specifically, a <a href="../std/io/struct.Stdin.html">std::io::Stdin</a>.</p>
+<!-- This particular function returns a handle to the standard input for your -->
+
+<!-- terminal. More specifically, a [std::io::Stdin][iostdin]. -->
 
 <p>この関数はターミナルの標準入力へのハンドルを返します。詳しくは<a href="../std/io/struct.Stdin.html">std::io::Stdin</a>を見て下さい。</p>
 
-<p>The next part will use this handle to get input from the user:</p>
+<!-- The next part will use this handle to get input from the user: -->
 
 <p>次の部分はこのハンドルを使ってユーザからの入力を取得します。</p>
 <span class='rusttest'>fn main() {
@@ -492,45 +541,61 @@ terminal. More specifically, a <a href="../std/io/struct.Stdin.html">std::io::St
 }</span><pre class='rust rust-example-rendered'>
 .<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)</pre>
 
-<p>Here, we call the <a href="../std/io/struct.Stdin.html#method.read_line"><code>read_line()</code></a> method on our handle.
-<a href="method-syntax.html">Methods</a> are like associated functions, but are only available on a
-particular instance of a type, rather than the type itself. We’re also passing
-one argument to <code>read_line()</code>: <code>&amp;mut guess</code>.</p>
+<!-- Here, we call the [`read_line()`][read_line] method on our handle. -->
+
+<!-- [Methods][method] are like associated functions, but are only available on a -->
+
+<!-- particular instance of a type, rather than the type itself. We’re also passing -->
+
+<!-- one argument to `read_line()`: `&mut guess`. -->
 
 <p>ここで、ハンドルに対して<a href="../std/io/struct.Stdin.html#method.read_line"><code>read_line()</code></a>メソッドを呼んでいます。
-<a href="method-syntax.html">Methods</a>メソッドは関連関数のようなものですが、型自体ではなくあるインスタンスに対してだけ使えます。
+<a href="method-syntax.html">メソッド</a>は関連関数のようなものですが、型自体ではなくインスタンスに対してだけ使えます。
 <code>read_line()</code>に1つ引数を渡してもいます。<code>&amp;mut guess</code>です。</p>
 
-<p>Remember how we bound <code>guess</code> above? We said it was mutable. However,
-<code>read_line</code> doesn’t take a <code>String</code> as an argument: it takes a <code>&amp;mut String</code>.
-Rust has a feature called ‘<a href="references-and-borrowing.html">references</a>’, which allows you to have
-multiple references to one piece of data, which can reduce copying. References
-are a complex feature, as one of Rust’s major selling points is how safe and
-easy it is to use references. We don’t need to know a lot of those details to
-finish our program right now, though. For now, all we need to know is that
-like <code>let</code> bindings, references are immutable by default. Hence, we need to
-write <code>&amp;mut guess</code>, rather than <code>&amp;guess</code>.</p>
+<!-- Remember how we bound `guess` above? We said it was mutable. However, -->
+
+<!-- `read_line` doesn’t take a `String` as an argument: it takes a `&mut String`. -->
+
+<!-- Rust has a feature called ‘[references][references]’, which allows you to have -->
+
+<!-- multiple references to one piece of data, which can reduce copying. References -->
+
+<!-- are a complex feature, as one of Rust’s major selling points is how safe and -->
+
+<!-- easy it is to use references. We don’t need to know a lot of those details to -->
+
+<!-- finish our program right now, though. For now, all we need to know is that -->
+
+<!-- like `let` bindings, references are immutable by default. Hence, we need to -->
+
+<!-- write `&mut guess`, rather than `&guess`. -->
 
 <p><code>guess</code>がどのように束縛されたか覚えてますか?ミュータブルであると言いました。
 しかしながら<code>read_line</code>は<code>String</code>を引数に取りません。<code>&amp;mut String</code>を取るのです。
 Rustには<a href="references-and-borrowing.html">参照</a>と呼ばれる機能があって、1つのデータに対して複数の参照を持つことが出来、コピーを減らすことが出来ます。
-Rustの大きな長所の1つが参照をかに安全に簡単に使えるかなので、参照は複雑な機能です。
+Rustの主要な売りの1つが参照をいかに安全に簡単に使えるかなので、参照は複雑な機能です。
 しかしこのプログラムを作り終えるのに今すぐ詳細を知る必要はありません。
 今のところ、<code>let</code>と同じように参照はデフォルトでイミュータブルであるということだけ覚えておいて下さい。
 なので<code>&amp;guess</code>ではなく<code>&amp;mut guess</code>と書く必要があるのです。</p>
 
-<p>Why does <code>read_line()</code> take a mutable reference to a string? Its job is
-to take what the user types into standard input, and place that into a
-string. So it takes that string as an argument, and in order to add
-the input, it needs to be mutable.</p>
+<!-- Why does `read_line()` take a mutable reference to a string? Its job is -->
+
+<!-- to take what the user types into standard input, and place that into a -->
+
+<!-- string. So it takes that string as an argument, and in order to add -->
+
+<!-- the input, it needs to be mutable. -->
 
 <p>何故<code>read_line()</code>は文字列へのミュータブルな参照を取るのでしょうか?
 <code>read_line()</code>はユーザが標準入力に打ったものを取得し、それを文字列に入れる役割を果たします。
-なのでその文字列を引数として受け取り、そして入力文字列を追加するためにミュータブルである必要があるのです。</p>
+なのでその文字列を引数として受け取り、そして入力文字列を追加するために文字列はミュータブルである必要があるのです。</p>
 
-<p>But we’re not quite done with this line of code, though. While it’s
-a single line of text, it’s only the first part of the single logical line of
-code:</p>
+<!-- But we’re not quite done with this line of code, though. While it’s -->
+
+<!-- a single line of text, it’s only the first part of the single logical line of -->
+
+<!-- code: -->
 
 <p>しかしまだこの行について終わっていません。テキスト上では1行ですが、コードの論理行の1部でしかないのです。</p>
 <span class='rusttest'>fn main() {
@@ -538,9 +603,11 @@ code:</p>
 }</span><pre class='rust rust-example-rendered'>
         .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);</pre>
 
-<p>When you call a method with the <code>.foo()</code> syntax, you may introduce a newline
-and other whitespace. This helps you split up long lines. We <em>could</em> have
-done:</p>
+<!-- When you call a method with the `.foo()` syntax, you may introduce a newline -->
+
+<!-- and other whitespace. This helps you split up long lines. We _could_ have -->
+
+<!-- done: -->
 
 <p>メソッドを<code>.foo()</code>構文で呼び出す時、改行してスペースを入れても構いません。
 そうすることで長い行を分割出来ます。
@@ -550,33 +617,48 @@ done:</p>
 }</span><pre class='rust rust-example-rendered'>
     <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>).<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);</pre>
 
-<p>But that gets hard to read. So we’ve split it up, three lines for three method
-calls. We already talked about <code>read_line()</code>, but what about <code>expect()</code>? Well,
-we already mentioned that <code>read_line()</code> puts what the user types into the <code>&amp;mut String</code> we pass it. But it also returns a value: in this case, an
-<a href="../std/io/type.Result.html"><code>io::Result</code></a>. Rust has a number of types named <code>Result</code> in its
-standard library: a generic <a href="../std/result/enum.Result.html"><code>Result</code></a>, and then specific versions for
-sub-libraries, like <code>io::Result</code>.</p>
+<!-- But that gets hard to read. So we’ve split it up, three lines for three method -->
+
+<!-- calls. We already talked about `read_line()`, but what about `expect()`? Well, -->
+
+<!-- we already mentioned that `read_line()` puts what the user types into the `&mut` -->
+
+<!-- `String` we pass it. But it also returns a value: in this case, an -->
+
+<!-- [`io::Result`][ioresult]. Rust has a number of types named `Result` in its -->
+
+<!-- standard library: a generic [`Result`][result], and then specific versions for -->
+
+<!-- sub-libraries, like `io::Result`. -->
 
 <p>ですがこれだと読み辛いです。ですので3つのメソッド呼び出しを3行に分割します。
 <code>read_line()</code>については話しましたが<code>expect</code>についてはどうでしょう?
 さて、<code>read_line()</code>がユーザの入力を<code>&amp;mut String</code>に入れることには言及しました。
 しかし値も返します。
-この場合、標準ライブラリにある一般の<a href="../std/result/enum.Result.html"><code>Result</code></a>であり、そしてそれをサブライブラリに特殊化したバージョンの<code>io::Result</code>になります。</p>
+この場合、標準ライブラリにある汎用の<a href="../std/result/enum.Result.html"><code>Result</code></a>であり、そしてそれをサブライブラリに特殊化したバージョンの<code>io::Result</code>になります。</p>
 
-<p>The purpose of these <code>Result</code> types is to encode error handling information.
-Values of the <code>Result</code> type, like any type, have methods defined on them. In
-this case, <code>io::Result</code> has an <a href="../std/option/enum.Option.html#method.expect"><code>expect()</code> method</a> that takes a value
-it’s called on, and if it isn’t a successful one, <a href="error-handling.html"><code>panic!</code></a>s with a
-message you passed it. A <code>panic!</code> like this will cause our program to crash,
-displaying the message.</p>
+<!-- The purpose of these `Result` types is to encode error handling information. -->
+
+<!-- Values of the `Result` type, like any type, have methods defined on them. In -->
+
+<!-- this case, `io::Result` has an [`expect()` method][expect] that takes a value -->
+
+<!-- it’s called on, and if it isn’t a successful one, [`panic!`][panic]s with a -->
+
+<!-- message you passed it. A `panic!` like this will cause our program to crash, -->
+
+<!-- displaying the message. -->
 
 <p>これらの<code>Result</code>型の目的は、エラーハンドリング情報をエンコードすることです。
 <code>Result</code>型の値には、他の型と同じように、メソッドが定義されています。
 今回は<code>io::Result</code>に<a href="../std/option/enum.Option.html#method.expect"><code>expect()</code>メソッド</a>が定義されていて、それが呼び出された値が成功でなければ与えたメッセージと共に<a href="error-handling.html"><code>panic!</code></a>します。
-今回のように<code>panic!</code>はメッセージを表示してプログラムをクラッシュさせます。</p>
+このような<code>panic!</code>はメッセージを表示してプログラムをクラッシュさせます。</p>
 
-<p>If we leave off calling these two methods, our program will compile, but
-we’ll get a warning:</p>
+<!-- If we leave off calling these two methods, our program will compile, but -->
+
+<!-- we’ll get a warning: -->
+
+<p>この2つのメソッドを呼び出したままにしておくと、プログラムはコンパイルしますが、警告が出ます。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -586,15 +668,29 @@ src/main.rs:10     io::stdin().read_line(&amp;mut guess);
                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 </code></pre>
 
-<p>Rust warns us that we haven’t used the <code>Result</code> value. This warning comes from
-a special annotation that <code>io::Result</code> has. Rust is trying to tell you that
-you haven’t handled a possible error. The right way to suppress the error is
-to actually write error handling. Luckily, if we just want to crash if there’s
-a problem, we can use these two little methods. If we can recover from the
-error somehow, we’d do something else, but we’ll save that for a future
-project.</p>
+<!-- Rust warns us that we haven’t used the `Result` value. This warning comes from -->
 
-<p>There’s just one line of this first example left:</p>
+<!-- a special annotation that `io::Result` has. Rust is trying to tell you that -->
+
+<!-- you haven’t handled a possible error. The right way to suppress the error is -->
+
+<!-- to actually write error handling. Luckily, if we just want to crash if there’s -->
+
+<!-- a problem, we can use these two little methods. If we can recover from the -->
+
+<!-- error somehow, we’d do something else, but we’ll save that for a future -->
+
+<!-- project. -->
+
+<p>Rustは値<code>Result</code>を使っていないことを警告します。警告は<code>io::Result</code>が持つ特別なアノテーションに由来します。
+Rustはエラーの可能性があるのに処理していないことを教えてくれるのです。
+エラーを出さないためには実際にエラー処理を書くのが正しやり方です。
+幸運にも、問題があった時にそのままクラッシュさせたいならこの小さな2つのメソッドをそのまま使えます。
+どうにかしてエラーから回復したいなら、別のことをしないていけませんが、それは将来のプロジェクトに取っておきます。</p>
+
+<!-- There’s just one line of this first example left: -->
+
+<p>最初の例も残すところあと1行です。</p>
 <span class='rusttest'>fn main() {
         println!(&quot;You guessed: {}&quot;, guess);
     }
@@ -602,9 +698,14 @@ project.</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;You guessed: {}&quot;</span>, <span class='ident'>guess</span>);
 }</pre>
 
-<p>This prints out the string we saved our input in. The <code>{}</code>s are a placeholder,
-and so we pass it <code>guess</code> as an argument. If we had multiple <code>{}</code>s, we would
-pass multiple arguments:</p>
+<!-- This prints out the string we saved our input in. The `{}`s are a placeholder, -->
+
+<!-- and so we pass it `guess` as an argument. If we had multiple `{}`s, we would -->
+
+<!-- pass multiple arguments: -->
+
+<p>これは入力を保持している文字列を印字します。<code>{}</code>はプレースホルダで、引数として<code>guess</code>を渡しています。
+複数の<code>{}</code>があれば、複数を引数を渡すことになります。</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     let y = 10;
@@ -616,9 +717,13 @@ pass multiple arguments:</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x and y: {} and {}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>);</pre>
 
-<p>Easy.</p>
+<!-- Easy. -->
 
-<p>Anyway, that’s the tour. We can run what we have with <code>cargo run</code>:</p>
+<p>簡単簡単。</p>
+
+<!-- Anyway, that’s the tour. We can run what we have with `cargo run`: -->
+
+<p>いずれにせよ、一巡り終えました。これまでのものを<code>cargo run</code>で実行出来ます。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -629,41 +734,85 @@ Please input your guess.
 You guessed: 6
 </code></pre>
 
-<p>All right! Our first part is done: we can get input from the keyboard,
-and then print it back out.</p>
+<!-- All right! Our first part is done: we can get input from the keyboard, -->
 
-<h1 id='generating-a-secret-number' class='section-header'><a href='#generating-a-secret-number'>Generating a secret number</a></h1>
-<p>Next, we need to generate a secret number. Rust does not yet include random
-number functionality in its standard library. The Rust team does, however,
-provide a <a href="https://crates.io/crates/rand"><code>rand</code> crate</a>. A ‘crate’ is a package of Rust code.
-We’ve been building a ‘binary crate’, which is an executable. <code>rand</code> is a
-‘library crate’, which contains code that’s intended to be used with other
-programs.</p>
+<!-- and then print it back out. -->
 
-<p>Using external crates is where Cargo really shines. Before we can write
-the code using <code>rand</code>, we need to modify our <code>Cargo.toml</code>. Open it up, and
-add these few lines at the bottom:</p>
+<p>よし!最初の部分は終わりました。キーボードから入力を取得して、出力し返すまで出来ました。</p>
+
+<!-- # Generating a secret number -->
+
+<h1 id='秘密の数を生成する' class='section-header'><a href='#秘密の数を生成する'>秘密の数を生成する</a></h1>
+<!-- Next, we need to generate a secret number. Rust does not yet include random -->
+
+<!-- number functionality in its standard library. The Rust team does, however, -->
+
+<!-- provide a [`rand` crate][randcrate]. A ‘crate’ is a package of Rust code. -->
+
+<!-- We’ve been building a ‘binary crate’, which is an executable. `rand` is a -->
+
+<!-- ‘library crate’, which contains code that’s intended to be used with other -->
+
+<!-- programs. -->
+
+<p>次に、秘密の数を生成する必要があります。Rustの標準ライブラリには乱数の機能がまだありません。
+ですが、Rustチームは<a href="https://crates.io/crates/rand"><code>rand</code>クレート</a>を提供します。
+「クレート」はRustのコードのパッケージです。今まで作ってきたのは実行可能な「バイナリクレート」です。
+<code>rand</code>は「ライブラリクレート」で、他のプログラムから使われることを意図したコードが入っています。</p>
+
+<!-- Using external crates is where Cargo really shines. Before we can write -->
+
+<!-- the code using `rand`, we need to modify our `Cargo.toml`. Open it up, and -->
+
+<!-- add these few lines at the bottom: -->
+
+<p>外部のクレートを使う時にこそCargoが光ります。<code>rand</code>を使う前に<code>Cargo.toml</code>を修正する必要があります。
+<code>Cargo.toml</code>を開いて、この数行を末尾に追記しましょう。</p>
 
 <pre><code class="language-toml">[dependencies]
 
 rand=&quot;0.3.0&quot;
 </code></pre>
 
-<p>The <code>[dependencies]</code> section of <code>Cargo.toml</code> is like the <code>[package]</code> section:
-everything that follows it is part of it, until the next section starts.
-Cargo uses the dependencies section to know what dependencies on external
-crates you have, and what versions you require. In this case, we’ve specified version <code>0.3.0</code>,
-which Cargo understands to be any release that’s compatible with this specific version.
-Cargo understands <a href="http://semver.org">Semantic Versioning</a>, which is a standard for writing version
-numbers. A bare number like above is actually shorthand for <code>^0.3.0</code>,
-meaning &quot;anything compatible with 0.3.0&quot;.
-If we wanted to use only <code>0.3.0</code> exactly, we could say <code>rand=&quot;=0.3.0&quot;</code>
-(note the two equal signs).
-And if we wanted to use the latest version we could use <code>*</code>.
-We could also use a range of versions.
-<a href="http://doc.crates.io/crates-io.html">Cargo’s documentation</a> contains more details.</p>
+<!-- The `[dependencies]` section of `Cargo.toml` is like the `[package]` section: -->
 
-<p>Now, without changing any of our code, let’s build our project:</p>
+<!-- everything that follows it is part of it, until the next section starts. -->
+
+<!-- Cargo uses the dependencies section to know what dependencies on external -->
+
+<!-- crates you have, and what versions you require. In this case, we’ve specified version `0.3.0`, -->
+
+<!-- which Cargo understands to be any release that’s compatible with this specific version. -->
+
+<!-- Cargo understands [Semantic Versioning][semver], which is a standard for writing version -->
+
+<!-- numbers. A bare number like above is actually shorthand for `^0.3.0`, -->
+
+<!-- meaning "anything compatible with 0.3.0". -->
+
+<!-- If we wanted to use only `0.3.0` exactly, we could say `rand="=0.3.0"` -->
+
+<!-- (note the two equal signs). -->
+
+<!-- And if we wanted to use the latest version we could use `*`. -->
+
+<!-- We could also use a range of versions. -->
+
+<!-- [Cargo’s documentation][cargodoc] contains more details. -->
+
+<p><code>Cargo.toml</code>の<code>[dependencies]</code>(訳注: 依存)セクションは<code>[package]</code>セクションに似ています。
+後続の行は次のセクションが始まるまでそのセクションに属します。
+Cargoはどの外部クレートのどのバージョンに依存するのかの情報を取得するのにdependenciesセクションを使います。
+今回のケースではバージョン<code>0.3.0</code>を指定していますが、Cargoは指定されたバージョンと互換性のあるバージョンを理解します。
+Cargoはバージョン記述の標準、<a href="http://semver.org">セマンティックバージョニング</a>を理解します。
+上記のようなそのままのバージョンは<code>^0.3.0</code>の略記で、「0.3.0と互換性のあるもの」という意味です。
+正確に<code>0.3.0</code>だけを使いたいなら<code>rand=&quot;=0.3.0&quot;</code>(等号が2つあることに注意して下さい)と書きます。
+そして最新版を使いたいなら<code>*</code>を使います。また、バージョンの範囲を使うことも出来ます。
+<a href="http://doc.crates.io/crates-io.html">Cargoのドキュメント</a>にさらなる詳細があります。</p>
+
+<!-- Now, without changing any of our code, let’s build our project: -->
+
+<p>さて、コードは変更せずにプロジェクトをビルドしてみましょう。</p>
 
 <pre><code class="language-bash">$ cargo build
     Updating registry `https://github.com/rust-lang/crates.io-index`
@@ -674,63 +823,130 @@ We could also use a range of versions.
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
 </code></pre>
 
-<p>(You may see different versions, of course.)</p>
+<!-- (You may see different versions, of course.) -->
 
-<p>Lots of new output! Now that we have an external dependency, Cargo fetches the
-latest versions of everything from the registry, which is a copy of data from
-<a href="https://crates.io">Crates.io</a>. Crates.io is where people in the Rust ecosystem
-post their open source Rust projects for others to use.</p>
+<p>(もちろん、別のバージョンが表示される可能性もあります。)</p>
 
-<p>After updating the registry, Cargo checks our <code>[dependencies]</code> and downloads
-any we don’t have yet. In this case, while we only said we wanted to depend on
-<code>rand</code>, we’ve also grabbed a copy of <code>libc</code>. This is because <code>rand</code> depends on
-<code>libc</code> to work. After downloading them, it compiles them, and then compiles
-our project.</p>
+<!-- Lots of new output! Now that we have an external dependency, Cargo fetches the -->
 
-<p>If we run <code>cargo build</code> again, we’ll get different output:</p>
+<!-- latest versions of everything from the registry, which is a copy of data from -->
+
+<!-- [Crates.io][cratesio]. Crates.io is where people in the Rust ecosystem -->
+
+<!-- post their open source Rust projects for others to use. -->
+
+<p>色々新しい出力があります!
+外部依存が出来たので、Cargoはそれぞれの最新版をレジストリ—<a href="https://crates.io">Crates.io</a>のコピー—から取得します。
+Crates.ioはRustのエコシステムに居る人が他人が使うためにオープンソースのRustプロジェクトを投稿する場所です。</p>
+
+<!-- After updating the registry, Cargo checks our `[dependencies]` and downloads -->
+
+<!-- any we don’t have yet. In this case, while we only said we wanted to depend on -->
+
+<!-- `rand`, we’ve also grabbed a copy of `libc`. This is because `rand` depends on -->
+
+<!-- `libc` to work. After downloading them, it compiles them, and then compiles -->
+
+<!-- our project. -->
+
+<p>レジストリをアップデートした後にCargoは<code>[dependencies]</code>を確認し、まだダウンロードしていないものをダウンロードします。
+今回のケースでは<code>rand</code>に依存するとだけ書いてますが<code>libc</code>も取得されています。これは<code>rand</code>が動作するのに<code>libc</code>に依存するためです。
+これらのダウンロードが終わったら、それらのコンパイル、そしてプロジェクトのコンパイルをします。</p>
+
+<!-- If we run `cargo build` again, we’ll get different output: -->
+
+<p>もう一度<code>cargo build</code>を走らせると、異なった出力になります。</p>
 
 <pre><code class="language-bash">$ cargo build
 </code></pre>
 
-<p>That’s right, no output! Cargo knows that our project has been built, and that
-all of its dependencies are built, and so there’s no reason to do all that
-stuff. With nothing to do, it simply exits. If we open up <code>src/main.rs</code> again,
-make a trivial change, and then save it again, we’ll just see one line:</p>
+<!-- That’s right, no output! Cargo knows that our project has been built, and that -->
+
+<!-- all of its dependencies are built, and so there’s no reason to do all that -->
+
+<!-- stuff. With nothing to do, it simply exits. If we open up `src/main.rs` again, -->
+
+<!-- make a trivial change, and then save it again, we’ll just see one line: -->
+
+<p>そうです、何も出力がありません!Cargoはプロジェクトがビルドされていて、依存もビルドされていることを知っているのでそれらのことをする必要がないのです。
+何もすることがなければそのまま終了します。もし<code>src/main.rs</code>を少し変更して保存したら、次のような行を目にするはずです。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
 </code></pre>
 
-<p>So, we told Cargo we wanted any <code>0.3.x</code> version of <code>rand</code>, and so it fetched the latest
-version at the time this was written, <code>v0.3.8</code>. But what happens when next
-week, version <code>v0.3.9</code> comes out, with an important bugfix? While getting
-bugfixes is important, what if <code>0.3.9</code> contains a regression that breaks our
-code?</p>
+<!-- So, we told Cargo we wanted any `0.3.x` version of `rand`, and so it fetched the latest -->
 
-<p>The answer to this problem is the <code>Cargo.lock</code> file you’ll now find in your
-project directory. When you build your project for the first time, Cargo
-figures out all of the versions that fit your criteria, and then writes them
-to the <code>Cargo.lock</code> file. When you build your project in the future, Cargo
-will see that the <code>Cargo.lock</code> file exists, and then use that specific version
-rather than do all the work of figuring out versions again. This lets you
-have a repeatable build automatically. In other words, we’ll stay at <code>0.3.8</code>
-until we explicitly upgrade, and so will anyone who we share our code with,
-thanks to the lock file.</p>
+<!-- version at the time this was written, `v0.3.8`. But what happens when next -->
 
-<p>What about when we <em>do</em> want to use <code>v0.3.9</code>? Cargo has another command,
-<code>update</code>, which says ‘ignore the lock, figure out all the latest versions that
-fit what we’ve specified. If that works, write those versions out to the lock
-file’. But, by default, Cargo will only look for versions larger than <code>0.3.0</code>
-and smaller than <code>0.4.0</code>. If we want to move to <code>0.4.x</code>, we’d have to update
-the <code>Cargo.toml</code> directly. When we do, the next time we <code>cargo build</code>, Cargo
-will update the index and re-evaluate our <code>rand</code> requirements.</p>
+<!-- week, version `v0.3.9` comes out, with an important bugfix? While getting -->
 
-<p>There’s a lot more to say about <a href="http://doc.crates.io">Cargo</a> and <a href="http://doc.crates.io/crates-io.html">its
-ecosystem</a>, but for now, that’s all we need to know. Cargo makes
-it really easy to re-use libraries, and so Rustaceans tend to write smaller
-projects which are assembled out of a number of sub-packages.</p>
+<!-- bugfixes is important, what if `0.3.9` contains a regression that breaks our -->
 
-<p>Let’s get on to actually <em>using</em> <code>rand</code>. Here’s our next step:</p>
+<!-- code? -->
+
+<p>Cargoには<code>rand</code>の<code>0.3.x</code>を使うと伝えたので、それが書かれた時点での最新版、<code>v0.3.8</code>を取得しました。
+ですが来週<code>v0.3.9</code>が出て、重要なバグフィクスがされたらどうなるのでしょう?
+バグフィクスを取り込むのは重要ですが、<code>0.3.9</code>にコードが動かなくなるようなリグレッションがあったらどうしましょう?</p>
+
+<!-- The answer to this problem is the `Cargo.lock` file you’ll now find in your -->
+
+<!-- project directory. When you build your project for the first time, Cargo -->
+
+<!-- figures out all of the versions that fit your criteria, and then writes them -->
+
+<!-- to the `Cargo.lock` file. When you build your project in the future, Cargo -->
+
+<!-- will see that the `Cargo.lock` file exists, and then use that specific version -->
+
+<!-- rather than do all the work of figuring out versions again. This lets you -->
+
+<!-- have a repeatable build automatically. In other words, we’ll stay at `0.3.8` -->
+
+<!-- until we explicitly upgrade, and so will anyone who we share our code with, -->
+
+<!-- thanks to the lock file. -->
+
+<p>この問題への回答はプロジェクトのディレクトリにある<code>Cargo.lock</code>です。
+プロジェクトを最初にビルドした時に、Cargoは基準を満たす全てのバージョンを探索し、<code>Cargo.lock</code>ファイルに書き出します。
+その後のビルドではCargoはまず<code>Cargo.lock</code>ファイルがあるか確認し、再度バージョンを探索することなく、そこで指定されたバージョンを使います。
+これで自動的に再現性のあるビルドが手に入ります。
+言い換えると、明示的にアップグレードしない限り我々は<code>0.3.8</code>を使い続けますし、ロックファイルのおかげでコードを共有する人も<code>0.3.8</code>を使い続けます。</p>
+
+<!-- What about when we _do_ want to use `v0.3.9`? Cargo has another command, -->
+
+<!-- `update`, which says ‘ignore the lock, figure out all the latest versions that -->
+
+<!-- fit what we’ve specified. If that works, write those versions out to the lock -->
+
+<!-- file’. But, by default, Cargo will only look for versions larger than `0.3.0` -->
+
+<!-- and smaller than `0.4.0`. If we want to move to `0.4.x`, we’d have to update -->
+
+<!-- the `Cargo.toml` directly. When we do, the next time we `cargo build`, Cargo -->
+
+<!-- will update the index and re-evaluate our `rand` requirements. -->
+
+<p><code>v0.3.9</code>を使いたい時はどうすればいいのでしょうか?
+Cargoには「ロックを無視して、指定したバージョンを満たす全ての最新版を探しなさい。もし出来たらそれをロックファイルに書きなさい」を意味する別のコマンド、<code>update</code>があります。
+しかし、デフォルトではCargoは<code>0.3.0</code>より大きく、<code>0.4.0</code>より小さいバージョンを探しにいきます。
+<code>0.4.x</code>より大きなバージョンを使いたいなら直接<code>Cargo.toml</code>を更新する必要があります。
+そうしたら、次に<code>cargo build</code>をする時に、Cargoはインデックスをアップデートして<code>rand</code>への制約を再度評価します。</p>
+
+<!-- There’s a lot more to say about [Cargo][doccargo] and [its -->
+
+<!-- ecosystem][doccratesio], but for now, that’s all we need to know. Cargo makes -->
+
+<!-- it really easy to re-use libraries, and so Rustaceans tend to write smaller -->
+
+<!-- projects which are assembled out of a number of sub-packages. -->
+
+<p><a href="http://doc.crates.io">Cargo</a>と<a href="http://doc.crates.io/crates-io.html">そのエコシステム</a>については色々言うことがあるのですが今のところこれらのことだけを知っておいて下さい。
+Cargoのお陰でライブラリの再利用は本当に簡単になりますし、Rustaceanは他のパッケージをいくつも使った小さなライブラリをよく書きます。</p>
+
+<!-- Let’s get on to actually _using_ `rand`. Here’s our next step: -->
+
+<p><code>rand</code>を実際に <em>使う</em> ところに進みましょう。次のステップはこれです。</p>
 <span class='rusttest'>extern crate rand;
 
 use std::io;
@@ -773,21 +989,51 @@ fn main() {
         .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
 
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;You guessed: {}&quot;</span>, <span class='ident'>guess</span>);
-}</pre>
+}
+</pre>
 
-<p>The first thing we’ve done is change the first line. It now says
-<code>extern crate rand</code>. Because we declared <code>rand</code> in our <code>[dependencies]</code>, we
-can use <code>extern crate</code> to let Rust know we’ll be making use of it. This also
-does the equivalent of a <code>use rand;</code> as well, so we can make use of anything
-in the <code>rand</code> crate by prefixing it with <code>rand::</code>.</p>
+<blockquote>
+<p>訳注: 先程と同じ理由でソースコード内の文言は翻訳していません。意味は</p>
 
-<p>Next, we added another <code>use</code> line: <code>use rand::Rng</code>. We’re going to use a
-method in a moment, and it requires that <code>Rng</code> be in scope to work. The basic
-idea is this: methods are defined on something called ‘traits’, and for the
-method to work, it needs the trait to be in scope. For more about the
-details, read the <a href="traits.html">traits</a> section.</p>
+<ul>
+<li>The secret number is: {}: 秘密の数字は: {}です</li>
+</ul>
 
-<p>There are two other lines we added, in the middle:</p>
+<p>です。</p>
+</blockquote>
+
+<!-- The first thing we’ve done is change the first line. It now says -->
+
+<!-- `extern crate rand`. Because we declared `rand` in our `[dependencies]`, we -->
+
+<!-- can use `extern crate` to let Rust know we’ll be making use of it. This also -->
+
+<!-- does the equivalent of a `use rand;` as well, so we can make use of anything -->
+
+<!-- in the `rand` crate by prefixing it with `rand::`. -->
+
+<p>まず最初に変更したのは最初の行です。<code>extern crate rand</code>となっています。
+<code>rand</code>を<code>[dependencies]</code>に宣言したので、<code>extern crate</code>でそれを使うことをRustに伝えれます。
+これはまた、<code>use rand;</code>とするのと同じこともしますので、<code>rand</code>にあるものは<code>rand::</code>と前置すれば使えるようになります。</p>
+
+<!-- Next, we added another `use` line: `use rand::Rng`. We’re going to use a -->
+
+<!-- method in a moment, and it requires that `Rng` be in scope to work. The basic -->
+
+<!-- idea is this: methods are defined on something called ‘traits’, and for the -->
+
+<!-- method to work, it needs the trait to be in scope. For more about the -->
+
+<!-- details, read the [traits][traits] section. -->
+
+<p>次に、もう1行<code>use</code>を追加しました。<code>use rand::Rng</code>です。
+すぐに、とあるメソッドを使うのですが、それが動作するには<code>Rng</code>がスコープに入っている必要があるのです。
+基本的な考え方はこうです: メソッドは「トレイト」と呼ばれるのもで定義されており、メソッドが動作するにはそのトレイトがスコープにある必要があるのです。
+詳しくは<a href="traits.html">トレイト</a>セクションを読んで下さい。</p>
+
+<!-- There are two other lines we added, in the middle: -->
+
+<p>中ほどにもう2行足してあります。</p>
 <span class='rusttest'>fn main() {
         let secret_number = rand::thread_rng().gen_range(1, 101);
     
@@ -797,19 +1043,39 @@ details, read the <a href="traits.html">traits</a> section.</p>
 
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The secret number is: {}&quot;</span>, <span class='ident'>secret_number</span>);</pre>
 
-<p>We use the <code>rand::thread_rng()</code> function to get a copy of the random number
-generator, which is local to the particular <a href="concurrency.html">thread</a> of execution
-we’re in. Because we <code>use rand::Rng</code>’d above, it has a <code>gen_range()</code> method
-available. This method takes two arguments, and generates a number between
-them. It’s inclusive on the lower bound, but exclusive on the upper bound,
-so we need <code>1</code> and <code>101</code> to get a number ranging from one to a hundred.</p>
+<!-- We use the `rand::thread_rng()` function to get a copy of the random number -->
 
-<p>The second line just prints out the secret number. This is useful while
-we’re developing our program, so we can easily test it out. But we’ll be
-deleting it for the final version. It’s not much of a game if it prints out
-the answer when you start it up!</p>
+<!-- generator, which is local to the particular [thread][concurrency] of execution -->
 
-<p>Try running our new program a few times:</p>
+<!-- we’re in. Because we `use rand::Rng`’d above, it has a `gen_range()` method -->
+
+<!-- available. This method takes two arguments, and generates a number between -->
+
+<!-- them. It’s inclusive on the lower bound, but exclusive on the upper bound, -->
+
+<!-- so we need `1` and `101` to get a number ranging from one to a hundred. -->
+
+<p><code>rand::thread_rng()</code>を使って現在いる<a href="concurrency.html">スレッド</a>にローカルな乱数生成器のコピーを取得しています。
+上で<code>use rand::Rnd</code>したので生成器は<code>gen_range()</code>メソッドを使えます。
+このメソッドは2つの引数を取り、それらの間にある数を生成します。
+下限は含みますが、上限は含まないので1から100までの数を生成するには<code>1</code>と<code>101</code>を渡す必要があります。</p>
+
+<!-- The second line just prints out the secret number. This is useful while -->
+
+<!-- we’re developing our program, so we can easily test it out. But we’ll be -->
+
+<!-- deleting it for the final version. It’s not much of a game if it prints out -->
+
+<!-- the answer when you start it up! -->
+
+<p>2つ目の行は秘密の数字を印字します。
+これは開発する時には有用で、簡単に動作確認出来ます。
+しかし最終版では削除します。
+最初に答えが印字されたらゲームじゃなくなってしまいます!</p>
+
+<!-- Try running our new program a few times: -->
+
+<p>何度か新たなプログラムを実行してみましょう。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -828,11 +1094,19 @@ Please input your guess.
 You guessed: 5
 </code></pre>
 
-<p>Great! Next up: comparing our guess to the secret number.</p>
+<!-- Great! Next up: comparing our guess to the secret number. -->
 
-<h1 id='comparing-guesses' class='section-header'><a href='#comparing-guesses'>Comparing guesses</a></h1>
-<p>Now that we’ve got user input, let’s compare our guess to the secret number.
-Here’s our next step, though it doesn’t quite compile yet:</p>
+<p>良し良し。次は予想値と秘密の数字を比較します。</p>
+
+<!-- # Comparing guesses -->
+
+<h1 id='予想値と比較する' class='section-header'><a href='#予想値と比較する'>予想値と比較する</a></h1>
+<!-- Now that we’ve got user input, let’s compare our guess to the secret number. -->
+
+<!-- Here’s our next step, though it doesn’t quite compile yet: -->
+
+<p>ユーザーの入力を受け取れるようになったので、秘密の数字と比較しましょう。
+コンパイル出来ませんが、これが次のステップです。</p>
 <span class='rusttest'>extern crate rand;
 
 use std::io;
@@ -891,9 +1165,24 @@ fn main() {
     }
 }</pre>
 
-<p>A few new bits here. The first is another <code>use</code>. We bring a type called
-<code>std::cmp::Ordering</code> into scope. Then, five new lines at the bottom that use
-it:</p>
+<blockquote>
+<p>訳注: 同じく、</p>
+
+<ul>
+<li>Too small!: 小さすぎます!</li>
+<li>Too big!: 大きすぎます!</li>
+<li>You win!: あなたの勝ちです!</li>
+</ul>
+</blockquote>
+
+<!-- A few new bits here. The first is another `use`. We bring a type called -->
+
+<!-- `std::cmp::Ordering` into scope. Then, five new lines at the bottom that use -->
+
+<!-- it: -->
+
+<p>いくか新しいことがあります。まず、新たに<code>use</code>が増えました。<code>std::cmp::Ordering</code>をスコープに導入します。
+そして、末尾にそれを使うコードが5行増えてます。</p>
 <span class='rusttest'>fn main() {
     match guess.cmp(&amp;secret_number) {
         Ordering::Less    =&gt; println!(&quot;Too small!&quot;),
@@ -907,11 +1196,21 @@ it:</p>
     <span class='ident'>Ordering</span>::<span class='ident'>Equal</span>   <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;You win!&quot;</span>),
 }</pre>
 
-<p>The <code>cmp()</code> method can be called on anything that can be compared, and it
-takes a reference to the thing you want to compare it to. It returns the
-<code>Ordering</code> type we <code>use</code>d earlier. We use a <a href="match.html"><code>match</code></a> statement to
-determine exactly what kind of <code>Ordering</code> it is. <code>Ordering</code> is an
-<a href="enums.html"><code>enum</code></a>, short for ‘enumeration’, which looks like this:</p>
+<!-- The `cmp()` method can be called on anything that can be compared, and it -->
+
+<!-- takes a reference to the thing you want to compare it to. It returns the -->
+
+<!-- `Ordering` type we `use`d earlier. We use a [`match`][match] statement to -->
+
+<!-- determine exactly what kind of `Ordering` it is. `Ordering` is an -->
+
+<!-- [`enum`][enum], short for ‘enumeration’, which looks like this: -->
+
+<p><code>cmp()</code>は比較可能なものに対しならなんでも呼べて、引数に比較したい対象の参照を取ります。
+<code>cmp()</code>は先程<code>use</code>した<code>Ordering</code>を返します。
+<a href="match.html"><code>match</code></a>文を使って正確に<code>Ordering</code>のどれであるかを判断しています。
+<code>Ordering</code>は<a href="enums.html"><code>enum</code></a> (訳注: 列挙型)で、enumは「enumeration(訳注: 列挙)」の略です。
+このようなものです。</p>
 <span class='rusttest'>fn main() {
     enum Foo {
         Bar,
@@ -923,14 +1222,26 @@ determine exactly what kind of <code>Ordering</code> it is. <code>Ordering</code
     <span class='ident'>Baz</span>,
 }</pre>
 
-<p>With this definition, anything of type <code>Foo</code> can be either a
-<code>Foo::Bar</code> or a <code>Foo::Baz</code>. We use the <code>::</code> to indicate the
-namespace for a particular <code>enum</code> variant.</p>
+<!-- With this definition, anything of type `Foo` can be either a -->
 
-<p>The <a href="../std/cmp/enum.Ordering.html"><code>Ordering</code></a> <code>enum</code> has three possible variants: <code>Less</code>, <code>Equal</code>,
-and <code>Greater</code>. The <code>match</code> statement takes a value of a type, and lets you
-create an ‘arm’ for each possible value. Since we have three types of
-<code>Ordering</code>, we have three arms:</p>
+<!-- `Foo::Bar` or a `Foo::Baz`. We use the `::` to indicate the -->
+
+<!-- namespace for a particular `enum` variant. -->
+
+<p>この定義だと、<code>Foo</code>のに属するものは<code>Foo::Bar</code>あるいは<code>Foo::Baz</code>です。
+<code>::</code>を使って<code>enum</code>のバリアントの名前空間を指示します。</p>
+
+<!-- The [`Ordering`][ordering] `enum` has three possible variants: `Less`, `Equal`, -->
+
+<!-- and `Greater`. The `match` statement takes a value of a type, and lets you -->
+
+<!-- create an ‘arm’ for each possible value. Since we have three types of -->
+
+<!-- `Ordering`, we have three arms: -->
+
+<p><a href="../std/cmp/enum.Ordering.html"><code>Ordering</code></a><code>enum</code>は3つのバリアントを持ちます。<code>Less</code>、<code>Equal</code>そして<code>Greater</code>です。
+<code>match</code>文ではある型の値を取って、それぞれの可能な値に対する「腕」を作れます。
+<code>Ordering</code>には3種類あるので、3つの腕を作っています。</p>
 <span class='rusttest'>fn main() {
     match guess.cmp(&amp;secret_number) {
         Ordering::Less    =&gt; println!(&quot;Too small!&quot;),
@@ -944,10 +1255,16 @@ create an ‘arm’ for each possible value. Since we have three types of
     <span class='ident'>Ordering</span>::<span class='ident'>Equal</span>   <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;You win!&quot;</span>),
 }</pre>
 
-<p>If it’s <code>Less</code>, we print <code>Too small!</code>, if it’s <code>Greater</code>, <code>Too big!</code>, and if
-<code>Equal</code>, <code>You win!</code>. <code>match</code> is really useful, and is used often in Rust.</p>
+<!-- If it’s `Less`, we print `Too small!`, if it’s `Greater`, `Too big!`, and if -->
 
-<p>I did mention that this won’t quite compile yet, though. Let’s try it:</p>
+<!-- `Equal`, `You win!`. `match` is really useful, and is used often in Rust. -->
+
+<p><code>Less</code>なら<code>Too small!</code>を、<code>Greater</code>なら<code>Too big!</code>を、<code>Equal</code>なら<code>You win!</code>を印字します。
+<code>match</code>はとても便利で、Rustでよく使われます。</p>
+
+<!-- I did mention that this won’t quite compile yet, though. Let’s try it: -->
+
+<p>これはコンパイルが通らないと言いました。試してみましょう。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -962,18 +1279,40 @@ error: aborting due to previous error
 Could not compile `guessing_game`.
 </code></pre>
 
-<p>Whew! This is a big error. The core of it is that we have ‘mismatched types’.
-Rust has a strong, static type system. However, it also has type inference.
-When we wrote <code>let guess = String::new()</code>, Rust was able to infer that <code>guess</code>
-should be a <code>String</code>, and so it doesn’t make us write out the type. And with
-our <code>secret_number</code>, there are a number of types which can have a value
-between one and a hundred: <code>i32</code>, a thirty-two-bit number, or <code>u32</code>, an
-unsigned thirty-two-bit number, or <code>i64</code>, a sixty-four-bit number or others.
-So far, that hasn’t mattered, and so Rust defaults to an <code>i32</code>. However, here,
-Rust doesn’t know how to compare the <code>guess</code> and the <code>secret_number</code>. They
-need to be the same type. Ultimately, we want to convert the <code>String</code> we
-read as input into a real number type, for comparison. We can do that
-with three more lines. Here’s our new program:</p>
+<!-- Whew! This is a big error. The core of it is that we have ‘mismatched types’. -->
+
+<!-- Rust has a strong, static type system. However, it also has type inference. -->
+
+<!-- When we wrote `let guess = String::new()`, Rust was able to infer that `guess` -->
+
+<!-- should be a `String`, and so it doesn’t make us write out the type. And with -->
+
+<!-- our `secret_number`, there are a number of types which can have a value -->
+
+<!-- between one and a hundred: `i32`, a thirty-two-bit number, or `u32`, an -->
+
+<!-- unsigned thirty-two-bit number, or `i64`, a sixty-four-bit number or others. -->
+
+<!-- So far, that hasn’t mattered, and so Rust defaults to an `i32`. However, here, -->
+
+<!-- Rust doesn’t know how to compare the `guess` and the `secret_number`. They -->
+
+<!-- need to be the same type. Ultimately, we want to convert the `String` we -->
+
+<!-- read as input into a real number type, for comparison. We can do that -->
+
+<!-- with three more lines. Here’s our new program: -->
+
+<p>ふぅ!大きなエラーです。核心になっているのは「型の不一致」です。
+Rustには強い静的な型システムがあります。しかし型推論も持っています。
+<code>let guess = String::new()</code>と書いた時、Rustは<code>guess</code>が文字列である筈だと推論出来るのでわざわざ型を書かなくてもよいのです。
+<code>secret_number</code>には、は1から100までの数字を持っている数値型、32bit数の<code>i32</code>、あるいは符号なし32bit数の<code>u32</code>、あるいは64bit不動小数点数<code>f64</code>あるいはそれ以外、様々な型がありえます。
+これまで、それは問題ではありませんでしたので、Rustは<code>i32</code>をデフォルトとしてました。
+しかしながらここで、<code>guess</code>と<code>secret_number</code>の比較の仕方が分かりません。
+これらは同じ型である必要があります。
+究極には入力として読み取った<code>String</code>を比較のために実数の型にしたいです。
+それは3行追加すれば出来ます。
+新しいプログラムです。</p>
 <span class='rusttest'>extern crate rand;
 
 use std::io;
@@ -1038,7 +1377,9 @@ fn main() {
     }
 }</pre>
 
-<p>The new three lines:</p>
+<!-- The new three lines: -->
+
+<p>新しい3行はこれです。</p>
 <span class='rusttest'>fn main() {
         let guess: u32 = guess.trim().parse()
             .expect(&quot;Please type a number!&quot;);
@@ -1046,38 +1387,83 @@ fn main() {
     <span class='kw'>let</span> <span class='ident'>guess</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='ident'>guess</span>.<span class='ident'>trim</span>().<span class='ident'>parse</span>()
         .<span class='ident'>expect</span>(<span class='string'>&quot;Please type a number!&quot;</span>);</pre>
 
-<p>Wait a minute, I thought we already had a <code>guess</code>? We do, but Rust allows us
-to ‘shadow’ the previous <code>guess</code> with a new one. This is often used in this
-exact situation, where <code>guess</code> starts as a <code>String</code>, but we want to convert it
-to an <code>u32</code>. Shadowing lets us re-use the <code>guess</code> name, rather than forcing us
-to come up with two unique names like <code>guess_str</code> and <code>guess</code>, or something
-else.</p>
+<!-- Wait a minute, I thought we already had a `guess`? We do, but Rust allows us -->
 
-<p>We bind <code>guess</code> to an expression that looks like something we wrote earlier:</p>
+<!-- to ‘shadow’ the previous `guess` with a new one. This is often used in this -->
+
+<!-- exact situation, where `guess` starts as a `String`, but we want to convert it -->
+
+<!-- to an `u32`. Shadowing lets us re-use the `guess` name, rather than forcing us -->
+
+<!-- to come up with two unique names like `guess_str` and `guess`, or something -->
+
+<!-- else. -->
+
+<p>ちょっと待って下さい、既に<code>guess</code>を定義してありますよね?
+してあります、が、Rustでは以前の<code>guess</code>の定義を新しいもので「隠す」ことが出来ます(訳注: このように隠すことをシャドイングといいます)。
+まさにこのように、最初<code>String</code>であった<code>guess</code>を<code>u32</code>に変換したい、というような状況でよく使われます。
+シャドイングのおかげで<code>guess_str</code>と<code>guess</code>のように別々の名前を考える必要はなくなり、<code>guess</code>の名前を再利用出来ます。</p>
+
+<!-- We bind `guess` to an expression that looks like something we wrote earlier: -->
+
+<p><code>guess</code>を先に書いたような値に束縛します。</p>
 <span class='rusttest'>fn main() {
     guess.trim().parse()
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>guess</span>.<span class='ident'>trim</span>().<span class='ident'>parse</span>()</pre>
 
-<p>Here, <code>guess</code> refers to the old <code>guess</code>, the one that was a <code>String</code> with our
-input in it. The <code>trim()</code> method on <code>String</code>s will eliminate any white space at
-the beginning and end of our string. This is important, as we had to press the
-‘return’ key to satisfy <code>read_line()</code>. This means that if we type <code>5</code> and hit
-return, <code>guess</code> looks like this: <code>5\n</code>. The <code>\n</code> represents ‘newline’, the
-enter key. <code>trim()</code> gets rid of this, leaving our string with just the <code>5</code>. The
-<a href="../std/primitive.str.html#method.parse"><code>parse()</code> method on strings</a> parses a string into some kind of number.
-Since it can parse a variety of numbers, we need to give Rust a hint as to the
-exact type of number we want. Hence, <code>let guess: u32</code>. The colon (<code>:</code>) after
-<code>guess</code> tells Rust we’re going to annotate its type. <code>u32</code> is an unsigned,
-thirty-two bit integer. Rust has <a href="primitive-types.html#numeric-types">a number of built-in number types</a>,
-but we’ve chosen <code>u32</code>. It’s a good default choice for a small positive number.</p>
+<!-- Here, `guess` refers to the old `guess`, the one that was a `String` with our -->
 
-<p>Just like <code>read_line()</code>, our call to <code>parse()</code> could cause an error. What if
-our string contained <code>A👍%</code>? There’d be no way to convert that to a number. As
-such, we’ll do the same thing we did with <code>read_line()</code>: use the <code>expect()</code>
-method to crash if there’s an error.</p>
+<!-- input in it. The `trim()` method on `String`s will eliminate any white space at -->
 
-<p>Let’s try our program out!</p>
+<!-- the beginning and end of our string. This is important, as we had to press the -->
+
+<!-- ‘return’ key to satisfy `read_line()`. This means that if we type `5` and hit -->
+
+<!-- return, `guess` looks like this: `5\n`. The `\n` represents ‘newline’, the -->
+
+<!-- enter key. `trim()` gets rid of this, leaving our string with just the `5`. The -->
+
+<!-- [`parse()` method on strings][parse] parses a string into some kind of number. -->
+
+<!-- Since it can parse a variety of numbers, we need to give Rust a hint as to the -->
+
+<!-- exact type of number we want. Hence, `let guess: u32`. The colon (`:`) after -->
+
+<!-- `guess` tells Rust we’re going to annotate its type. `u32` is an unsigned, -->
+
+<!-- thirty-two bit integer. Rust has [a number of built-in number types][number], -->
+
+<!-- but we’ve chosen `u32`. It’s a good default choice for a small positive number. -->
+
+<p>ここでは、<code>guess</code>は古い<code>guess</code>、入力を保持している<code>String</code>の<code>guess</code>です。
+<code>String</code>の<code>trim()</code>メソッドは文字列の最初と最後にある空白を取り除きます。
+<code>read_line()</code>を満たすには「リターン」キーを押す必要があるのでこれは重要です。
+つまり、<code>5</code>と入力してリターンを押したら、<code>guess</code>は<code>5\n</code>のようになっています。
+<code>\n</code>「は改行」、エンターキーを表しています。<code>trim()</code>で<code>5</code>だけを残してこれを取り除けます。
+<a href="../std/primitive.str.html#method.parse">文字列の<code>parse()</code>メソッド</a>は文字列を何かの数値へとパースします。
+様々な数値をパース出来るので、Rustに正確にどの型の数値が欲しいのかを伝える必要があります。
+なので、<code>let guess: u32</code>なのです。
+<code>guess</code>の後のコロン(<code>:</code>)は型注釈を付けようとしていることをRustに伝えます。
+<code>u32</code>は符号なし32bit整数です。
+Rustには<a href="primitive-types.html#numeric-types">様々なビルトインの数値型</a>がありますが、今回は<code>u32</code>を選びました。
+小さな正整数にはちょうどいいデフォルトの選択肢です。</p>
+
+<!-- Just like `read_line()`, our call to `parse()` could cause an error. What if -->
+
+<!-- our string contained `A👍%`? There’d be no way to convert that to a number. As -->
+
+<!-- such, we’ll do the same thing we did with `read_line()`: use the `expect()` -->
+
+<!-- method to crash if there’s an error. -->
+
+<p><code>read_line()</code>と同じように、<code>parse()</code>の呼び出しでもエラーが起き得ます。
+文字列に<code>A %</code>が含まれていたらどうなるでしょう?それは数値には変換出来ません。
+なので、<code>read_line()</code>と同じように<code>expect()</code>を使ってエラーがあったらクラッシュするようにします。</p>
+
+<!-- Let’s try our program out! -->
+
+<p>プログラムを試してみましょう。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -1090,15 +1476,28 @@ You guessed: 76
 Too big!
 </code></pre>
 
-<p>Nice! You can see I even added spaces before my guess, and it still figured
-out that I guessed 76. Run the program a few times, and verify that guessing
-the number works, as well as guessing a number too small.</p>
+<!-- Nice! You can see I even added spaces before my guess, and it still figured -->
 
-<p>Now we’ve got most of the game working, but we can only make one guess. Let’s
-change that by adding loops!</p>
+<!-- out that I guessed 76. Run the program a few times, and verify that guessing -->
 
-<h1 id='looping' class='section-header'><a href='#looping'>Looping</a></h1>
-<p>The <code>loop</code> keyword gives us an infinite loop. Let’s add that in:</p>
+<!-- the number works, as well as guessing a number too small. -->
+
+<p>よし!予想値の前にスペースも入れてみましたがそれでもちゃんと76と予想したんだと理解してくれます。
+何度か動かしてみて、当たりが動くこと、小さい数字も動くことを確認してみて下さい。</p>
+
+<!-- Now we’ve got most of the game working, but we can only make one guess. Let’s -->
+
+<!-- change that by adding loops! -->
+
+<p>ゲームのほとんどが完成するようになりましたが、1回しか予想出来ません。
+ループを使って書き換えましょう!</p>
+
+<!-- # Looping -->
+
+<h1 id='ループ' class='section-header'><a href='#ループ'>ループ</a></h1>
+<!-- The `loop` keyword gives us an infinite loop. Let’s add that in: -->
+
+<p><code>loop</code>キーワードで無限ループが出来ます。入れてみましょう。</p>
 <span class='rusttest'>extern crate rand;
 
 use std::io;
@@ -1167,9 +1566,15 @@ fn main() {
     }
 }</pre>
 
-<p>And try it out. But wait, didn’t we just add an infinite loop? Yup. Remember
-our discussion about <code>parse()</code>? If we give a non-number answer, we’ll <code>panic!</code>
-and quit. Observe:</p>
+<!-- And try it out. But wait, didn’t we just add an infinite loop? Yup. Remember -->
+
+<!-- our discussion about `parse()`? If we give a non-number answer, we’ll `panic!` -->
+
+<!-- and quit. Observe: -->
+
+<p>そして試してみましょう。でも待って下さい、無限ループを追加しませんでした? そうです。
+<code>parse()</code>に関する議論を覚えてますか?数字でない答えを入力すると<code>panic!</code>して終了するのでした。
+やってみましょう。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -1193,8 +1598,13 @@ quit
 thread &#39;&lt;main&gt;&#39; panicked at &#39;Please type a number!&#39;
 </code></pre>
 
-<p>Ha! <code>quit</code> actually quits. As does any other non-number input. Well, this is
-suboptimal to say the least. First, let’s actually quit when you win the game:</p>
+<!-- Ha! `quit` actually quits. As does any other non-number input. Well, this is -->
+
+<!-- suboptimal to say the least. First, let’s actually quit when you win the game: -->
+
+<p>おっ!<code>quit</code>で確かに終了しました。他の数字でないものでも同じことです。
+でもこれは控え目に言っても最適とは言えません。
+まず、ゲームに勝ったら本当に終了するようにしましょう。</p>
 <span class='rusttest'>extern crate rand;
 
 use std::io;
@@ -1269,11 +1679,20 @@ fn main() {
     }
 }</pre>
 
-<p>By adding the <code>break</code> line after the <code>You win!</code>, we’ll exit the loop when we
-win. Exiting the loop also means exiting the program, since it’s the last
-thing in <code>main()</code>. We have just one more tweak to make: when someone inputs a
-non-number, we don’t want to quit, we just want to ignore it. We can do that
-like this:</p>
+<!-- By adding the `break` line after the `You win!`, we’ll exit the loop when we -->
+
+<!-- win. Exiting the loop also means exiting the program, since it’s the last -->
+
+<!-- thing in `main()`. We have just one more tweak to make: when someone inputs a -->
+
+<!-- non-number, we don’t want to quit, we just want to ignore it. We can do that -->
+
+<!-- like this: -->
+
+<p><code>You win!</code>の後に<code>break</code>を加えることで、ゲームに勝った時にループを抜けます。
+ループを抜けることは同時に、それが<code>main()</code>の最後の要素なので、プログラムが終了することも意味します。
+もう1つ調整をします。数値でない入力をした時に、終了したくはありません、無視したいです。
+それはこのように出来ます。</p>
 <span class='rusttest'>extern crate rand;
 
 use std::io;
@@ -1352,7 +1771,9 @@ fn main() {
     }
 }</pre>
 
-<p>These are the lines that changed:</p>
+<!-- These are the lines that changed: -->
+
+<p>変更はこれです。</p>
 <span class='rusttest'>fn main() {
     let guess: u32 = match guess.trim().parse() {
         Ok(num) =&gt; num,
@@ -1364,17 +1785,38 @@ fn main() {
     <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='kw'>continue</span>,
 };</pre>
 
-<p>This is how you generally move from ‘crash on error’ to ‘actually handle the
-returned by <code>parse()</code> is an <code>enum</code> just like <code>Ordering</code>, but in this case, each
-variant has some data associated with it: <code>Ok</code> is a success, and <code>Err</code> is a
-failure. Each contains more information: the successfully parsed integer, or an
-error type. In this case, we <code>match</code> on <code>Ok(num)</code>, which sets the inner value
-of the <code>Ok</code> to the name <code>num</code>, and then we just return it on the right-hand
-side. In the <code>Err</code> case, we don’t care what kind of error it is, so we just
-use <code>_</code> instead of a name. This ignores the error, and <code>continue</code> causes us
-to go to the next iteration of the <code>loop</code>.</p>
+<!-- This is how you generally move from ‘crash on error’ to ‘actually handle the -->
 
-<p>Now we should be good! Let’s try:</p>
+<!-- returned by `parse()` is an `enum` just like `Ordering`, but in this case, each -->
+
+<!-- variant has some data associated with it: `Ok` is a success, and `Err` is a -->
+
+<!-- failure. Each contains more information: the successfully parsed integer, or an -->
+
+<!-- error type. In this case, we `match` on `Ok(num)`, which sets the inner value -->
+
+<!-- of the `Ok` to the name `num`, and then we just return it on the right-hand -->
+
+<!-- side. In the `Err` case, we don’t care what kind of error it is, so we just -->
+
+<!-- use `_` instead of a name. This ignores the error, and `continue` causes us -->
+
+<!-- to go to the next iteration of the `loop`. -->
+
+<!-- INTERNAL: 「‘actually handle the returned by `parse()`...」 と明らかに文書が崩れているので
+「‘actually handle the returned value'. The returned value by `parse()`...」だったんだと思って訳しました
+-->
+
+<p>これが「エラーならクラッシュ」から「実際に返値のエラーをハンドルする」への一般的な移行の仕方です。
+<code>parse()</code>の返す値は<code>Ordering</code>と同じような<code>enum</code>ですが、今回はそれぞれのバリアントにデータが関連付いています。
+<code>Ok</code>は成功で、<code>Err</code>は失敗です。それぞれには追加の情報もあります。パースに成功した整数、あるいはエラーの種類です。
+このケースでは、<code>Ok(num)</code>に対して<code>match</code>していて、それで<code>Ok</code>に内包された値を<code>num</code>という名前に設定しており、右側でそのまま返しています。
+<code>Err</code>の場合、エラーの種類は気にしにないので、名前ではなく<code>_</code>を使います。
+これはエラーを無視していて、<code>continue</code>で<code>loop</code>の次の繰り返しに進みます。</p>
+
+<!-- Now we should be good! Let’s try: -->
+
+<p>これで良いはずです。試しましょう!</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -1397,10 +1839,18 @@ You guessed: 61
 You win!
 </code></pre>
 
-<p>Awesome! With one tiny last tweak, we have finished the guessing game. Can you
-think of what it is? That’s right, we don’t want to print out the secret
-number. It was good for testing, but it kind of ruins the game. Here’s our
-final source:</p>
+<!-- Awesome! With one tiny last tweak, we have finished the guessing game. Can you -->
+
+<!-- think of what it is? That’s right, we don’t want to print out the secret -->
+
+<!-- number. It was good for testing, but it kind of ruins the game. Here’s our -->
+
+<!-- final source: -->
+
+<p>すごい!最後のほんのちょっとだけ修正して、数当てゲームを終えましょう。
+なんだか分かりますか?そうです、秘密の数字は印字したくありません。
+テストには良かったのですがゲームを台無しにしてしまいます。
+これが最終ソースです。</p>
 <span class='rusttest'>extern crate rand;
 
 use std::io;
@@ -1475,12 +1925,22 @@ fn main() {
     }
 }</pre>
 
-<h1 id='complete' class='section-header'><a href='#complete'>Complete!</a></h1>
-<p>At this point, you have successfully built the Guessing Game! Congratulations!</p>
+<!-- # Complete! -->
 
-<p>This first project showed you a lot: <code>let</code>, <code>match</code>, methods, associated
-functions, using external crates, and more. Our next project will show off
-even more.</p>
+<h1 id='完成' class='section-header'><a href='#完成'>完成!</a></h1>
+<!-- At this point, you have successfully built the Guessing Game! Congratulations! -->
+
+<p>ここにて数当てゲームを作ることが出来ました!おめでとうございます!</p>
+
+<!-- This first project showed you a lot: `let`, `match`, methods, associated -->
+
+<!-- functions, using external crates, and more. Our next project will show off -->
+
+<!-- even more. -->
+
+<p>この最初のプロジェクトで色々なものを見せました。
+<code>let</code>、<code>match</code>、メソッド、関連関数、外部クレートの使い方、などなど。
+次のプロジェクトではさらに色々見せます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
