@@ -688,7 +688,14 @@ fn main() {
 
     println!("You guessed: {}", guess);
 }
+
 ```
+
+> 訳注: 先程と同じ理由でソースコード内の文言は翻訳していません。意味は
+> The secret number is: {}: 秘密の数字は: {}です
+> です。
+
+
 
 The first thing we’ve done is change the first line. It now says
 `extern crate rand`. Because we declared `rand` in our `[dependencies]`, we
@@ -775,9 +782,13 @@ Great! Next up: comparing our guess to the secret number.
 
 
 # Comparing guesses
+# 予想値と比較する
 
 Now that we’ve got user input, let’s compare our guess to the secret number.
 Here’s our next step, though it doesn’t quite compile yet:
+
+ユーザーの入力を受け取れるようになったので、秘密の数字と比較しましょう。
+未完成ですが、これが次のステップです。
 
 ```rust,ignore
 extern crate rand;
@@ -810,9 +821,19 @@ fn main() {
 }
 ```
 
+> 訳注: 同じく、
+> Too small!: 小さすぎます!
+> Too big!: 大きすぎます!
+> You win!: あなたの勝ちです!
+
+
 A few new bits here. The first is another `use`. We bring a type called
 `std::cmp::Ordering` into scope. Then, five new lines at the bottom that use
 it:
+
+いくか新しいことがあります。まず、新たに`use`が増えました。`std::cmp::Ordering`をスコープに導入します。
+そして、末尾にそれを使うコードが5行増えてます。
+
 
 ```rust,ignore
 match guess.cmp(&secret_number) {
@@ -828,6 +849,12 @@ takes a reference to the thing you want to compare it to. It returns the
 determine exactly what kind of `Ordering` it is. `Ordering` is an
 [`enum`][enum], short for ‘enumeration’, which looks like this:
 
+`cmp()`は比較可能なものに対しならなんでも呼べて、引数に比較したい対象の参照を取ります。
+`cmp()`は先程`use`した`Ordering`を返します。
+[`match`][match]文を使って正確に`Ordering`のどれであるかを判断しています。
+`Ordering`は[`enum`][enum] (訳注: 列挙型)で、「enumeration(訳注: 列挙)」の略です。
+このようなものです。
+
 ```rust
 enum Foo {
     Bar,
@@ -842,10 +869,17 @@ With this definition, anything of type `Foo` can be either a
 `Foo::Bar` or a `Foo::Baz`. We use the `::` to indicate the
 namespace for a particular `enum` variant.
 
+この定義だと、`Foo`のに属するものは`Foo::Bar`あるいは`Foo::Baz`です。
+`::`を使って特定の`enum`のバリアントの名前空間を指示します。
+
 The [`Ordering`][ordering] `enum` has three possible variants: `Less`, `Equal`,
 and `Greater`. The `match` statement takes a value of a type, and lets you
 create an ‘arm’ for each possible value. Since we have three types of
 `Ordering`, we have three arms:
+
+[`Ordering`][ordering]`enum`は3つのバリアントを持ちます。`Less`、`Equal`そして`Greater`です。
+`match`文ではある型の値を取って、それぞれの可能な値に対する「腕」を作れます。
+`Ordering`には3種類あるので、3つの腕を作っています。
 
 ```rust,ignore
 match guess.cmp(&secret_number) {
@@ -860,7 +894,12 @@ match guess.cmp(&secret_number) {
 If it’s `Less`, we print `Too small!`, if it’s `Greater`, `Too big!`, and if
 `Equal`, `You win!`. `match` is really useful, and is used often in Rust.
 
+`Less`なら`Too small!`を、`Greater`なら`Too big!`を、`Equal`なら`You win!`を印字します。
+`match`はとても便利で、Rustでよく使われます。
+
 I did mention that this won’t quite compile yet, though. Let’s try it:
+
+これはコンパイルが通らないと言いました。試してみましょう。
 
 ```bash
 $ cargo build
@@ -888,6 +927,17 @@ Rust doesn’t know how to compare the `guess` and the `secret_number`. They
 need to be the same type. Ultimately, we want to convert the `String` we
 read as input into a real number type, for comparison. We can do that
 with three more lines. Here’s our new program:
+
+ふぅ!大きなエラーです。核心になっているのは「型の不一致」です。
+Rustには強い静的な型システムがあります。しかし型推論も持っています。
+`let guess = String::new()`と書いた時、Rustは`guess`が文字列である筈だと推論出来るのでわざわざ型を書かなくてもよいです。
+`secret_number`は1から100までの数字で、32bit数の`i32`、あるいは符号なし32bit数の`u32`、あるいは64bit不動小数点数`f64`あるいはそれ以外、様々な型がありえます。
+これまで、それは問題ではありませんでしたので、Rustは`i32`をデフォルトとしてました。
+しかしながらここで、`guess`と`secret_number`の比較の仕方が分かりません。
+これらは同じ型である必要があります。
+究極には入力として読み取った`String`を比較のために実数の型にしたいです。
+それは3行追加すれば出来ます。
+新しいプログラムです。
 
 ```rust,ignore
 extern crate rand;
@@ -925,6 +975,8 @@ fn main() {
 
 The new three lines:
 
+新しい3行はこれです。
+
 ```rust,ignore
     let guess: u32 = guess.trim().parse()
         .expect("Please type a number!");
@@ -937,7 +989,14 @@ to an `u32`. Shadowing lets us re-use the `guess` name, rather than forcing us
 to come up with two unique names like `guess_str` and `guess`, or something
 else.
 
+ちょっと待って下さい、既に`guess`を定義してありますよね?
+してあります、が、Rustでは以前の`guess`の定義を新しいもので「隠す」ことが出来ます(訳注: このように隠すことをシャドイングといいます)。
+まさにこのように、最初`String`であった`guess`を`u32`に変換したい、というような状況でよく使われます。
+シャドイングのおかげで`guess_str`と`guess`のように別々の名前を考える必要はなくなり、`guess`の名前を再利用出来ます。
+
 We bind `guess` to an expression that looks like something we wrote earlier:
+
+`guess`を先に書いたような値に束縛します。
 
 ```rust,ignore
 guess.trim().parse()
