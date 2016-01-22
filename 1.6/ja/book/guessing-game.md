@@ -421,6 +421,8 @@ displaying the message.
 If we leave off calling these two methods, our program will compile, but
 we’ll get a warning:
 
+この2つのメソッドを呼び出したままにしておくと、プログラムはコンパイルしますが、警告が出ます。
+
 ```bash
 $ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -438,7 +440,16 @@ a problem, we can use these two little methods. If we can recover from the
 error somehow, we’d do something else, but we’ll save that for a future
 project.
 
+Rustは値`Result`を使っていないことを警告します。警告は`io::Result`が持つ特別なアノテーションに由来します。
+Rustはエラーの可能性があるのに処理していないことを教えてくれるのです。
+エラーを出さないためには実際にエラー処理を書くのが正しやり方です。
+幸運にも、問題があった時にそのままクラッシュさせたいならこの小さな2つのメソッドを使えます。
+どうにかしてエラーから回復したいなら、別のことをしないていけませんが、それは将来のプロジェクトに取っておきます。
+
 There’s just one line of this first example left:
+
+最初の例も残すところあと1行です。
+
 
 ```rust,ignore
     println!("You guessed: {}", guess);
@@ -449,6 +460,9 @@ This prints out the string we saved our input in. The `{}`s are a placeholder,
 and so we pass it `guess` as an argument. If we had multiple `{}`s, we would
 pass multiple arguments:
 
+これは入力を保持している文字列を印字します。`{}`はプレースホルダで、引数として`guess`を渡しています。
+複数の`{}`があれば、複数を引数を渡すことになります。
+
 ```rust
 let x = 5;
 let y = 10;
@@ -458,7 +472,12 @@ println!("x and y: {} and {}", x, y);
 
 Easy.
 
+簡単簡単。
+
+
 Anyway, that’s the tour. We can run what we have with `cargo run`:
+
+いずれにせよ、一巡り終えました。これまでのものを`cargo run`で実行出来ます。
 
 ```bash
 $ cargo run
@@ -473,7 +492,10 @@ You guessed: 6
 All right! Our first part is done: we can get input from the keyboard,
 and then print it back out.
 
+よし!最初の部分は終わりました。キーボードから入力を取得して、出力し返すまで出来ました。
+
 # Generating a secret number
+# 秘密の数を生成する
 
 Next, we need to generate a secret number. Rust does not yet include random
 number functionality in its standard library. The Rust team does, however,
@@ -482,11 +504,19 @@ We’ve been building a ‘binary crate’, which is an executable. `rand` is a
 ‘library crate’, which contains code that’s intended to be used with other
 programs.
 
+次に、秘密の数を生成する必要があります。Rustの標準ライブラリには乱数の機能がまだありません。
+ですが、Rustチームは[`rand`クレート][randcrate]を提供します。
+「クレート」はRustのコードのパッケージです。今まで作ってきたのは実行可能な「バイナリクレート」です。
+`rand`は「ライブラリクレート」で、他のプログラムから使われることを意図したコードが入っています。
+
 [randcrate]: https://crates.io/crates/rand
 
 Using external crates is where Cargo really shines. Before we can write
 the code using `rand`, we need to modify our `Cargo.toml`. Open it up, and
 add these few lines at the bottom:
+
+外部のクレーを使う時にこそCargoが光ります。`rand`を使う前に`Cargo.toml`を修正する必要があります。
+`Cargo.toml`を開いて、この数行を末尾に追記しましょう。
 
 ```toml
 [dependencies]
@@ -508,10 +538,22 @@ And if we wanted to use the latest version we could use `*`.
 We could also use a range of versions.
 [Cargo’s documentation][cargodoc] contains more details.
 
+`Cargo.toml`の`[dependencies]`(訳注: 依存)セクションは`[package]`セクションに似ています。
+後続の行は次のセクションが始まるまでそのセクションに属します。
+Cargoはどの外部クレートのどのバージョンに依存するのかの情報を取得するのにdependenciesセクションを使います。
+今回のケースではバージョン`0.3.0`を指定していますが、Cargoは指定されたバージョンと互換性のあるバージョンを理解します。
+Cargoはバージョン記述の標準、[セマンティックバージョニング][semver]を理解します。
+上記のようなそのままのバージョンは`^0.3.0`の略記で、「0.3.0と互換性のあるもの」という意味です。
+正確に`0.3.0`だけを使いたいなら`rand="=0.3.0"`(等号が2つあることに注意して下さい)と書きます。
+そして最新版を使いたいなら`*`を使います。また、バージョンの範囲を使うことも出来ます。
+[Cargoのドキュメント][cargodoc]にさらなる詳細があります。
+
 [semver]: http://semver.org
 [cargodoc]: http://doc.crates.io/crates-io.html
 
 Now, without changing any of our code, let’s build our project:
+
+さて、コードは変更せずにプロジェクトをビルドしてみましょう。
 
 ```bash
 $ cargo build
@@ -525,10 +567,16 @@ $ cargo build
 
 (You may see different versions, of course.)
 
+(もちろん、別のバージョンが表示される可能性もあります。)
+
 Lots of new output! Now that we have an external dependency, Cargo fetches the
 latest versions of everything from the registry, which is a copy of data from
 [Crates.io][cratesio]. Crates.io is where people in the Rust ecosystem
 post their open source Rust projects for others to use.
+
+色々新しい出力があります!
+外部依存が出来たので、Cargoはそれぞれの最新版をレジストリ—[Crates.io][cratesio]のコピー—から取得します。
+Crates.ioはRustのエコシステムに居る人が他人が使うためにオープンソースのRustプロジェクトを投稿する場所です。
 
 [cratesio]: https://crates.io
 
@@ -538,7 +586,13 @@ any we don’t have yet. In this case, while we only said we wanted to depend on
 `libc` to work. After downloading them, it compiles them, and then compiles
 our project.
 
+レジストリをアップデートした後にCargoは`[dependencies]`を確認し、まだダウンロードしていないものをダウンロードします。
+今回のケースでは`rand`に依存するとだけ書いてますが`libc`も取得されています。これは`rand`が動作するのに`libc`に依存するためです。
+これらのダウンロードが終わったら、それらのコンパイル、そしてプロジェクトのコンパイルをします。
+
 If we run `cargo build` again, we’ll get different output:
+
+もう一度`cargo build`を走らせると、異なった出力になります。
 
 ```bash
 $ cargo build
@@ -548,6 +602,9 @@ That’s right, no output! Cargo knows that our project has been built, and that
 all of its dependencies are built, and so there’s no reason to do all that
 stuff. With nothing to do, it simply exits. If we open up `src/main.rs` again,
 make a trivial change, and then save it again, we’ll just see one line:
+
+そうです、何も出力がありません!Cargoはプロジェクトがビルドされていて、依存もビルドされていることを知っているのでそれらのことをする必要がないのです。
+何もすることがなければそのまま終了します。もし`src/main.rs`を少し変更して保存したら、次のような行を目にするはずです。
 
 ```bash
 $ cargo build
@@ -560,6 +617,10 @@ week, version `v0.3.9` comes out, with an important bugfix? While getting
 bugfixes is important, what if `0.3.9` contains a regression that breaks our
 code?
 
+Cargoには`rand`の`0.3.x`を使うと伝えたので、それが書かれた時点での最新版、`v0.3.8`を取得しました。
+ですが来週`v0.3.9`が出て、重要なバグフィクスがされたらどうなるのでしょう?
+バグフィクスを取得するのは重要ですが、`0.3.9`にコードが動かなくなるようなリグレッションがあったらどうしましょう?
+
 The answer to this problem is the `Cargo.lock` file you’ll now find in your
 project directory. When you build your project for the first time, Cargo
 figures out all of the versions that fit your criteria, and then writes them
@@ -570,6 +631,12 @@ have a repeatable build automatically. In other words, we’ll stay at `0.3.8`
 until we explicitly upgrade, and so will anyone who we share our code with,
 thanks to the lock file.
 
+この問題への回答はプロジェクトのディレクトリにある`Cargo.lock`です。
+プロジェクトを最初にビルドした時に、Cargoは基準を満たす全てのバージョンを見付け、`Cargo.lock`ファイルに書き出します。
+その後のビルドではCargoはまず`Cargo.lock`ファイルがあるか確認し、再度バージョンを探索することなく、そこで指定されたバージョンを使います。
+これで自動的に再現性のあるビルドが手に入ります。
+言い換えると、明示的にアップグレードしない限り我々は`0.3.8`を使い続けますし、ロックファイルのおかげでコードを共有する人もそうなります。
+
 What about when we _do_ want to use `v0.3.9`? Cargo has another command,
 `update`, which says ‘ignore the lock, figure out all the latest versions that
 fit what we’ve specified. If that works, write those versions out to the lock
@@ -578,15 +645,26 @@ and smaller than `0.4.0`. If we want to move to `0.4.x`, we’d have to update
 the `Cargo.toml` directly. When we do, the next time we `cargo build`, Cargo
 will update the index and re-evaluate our `rand` requirements.
 
+`v0.3.9`を使いたい時はどうすればいいのでしょうか?
+Cargoには「ロックを無視して、指定したバージョンを満たす全ての最新版を探しなさい。もし出来たらそれをロックファイルに書きなさい」を意味する別のコマンド、`update`があります。
+しかし、デフォルトではCargoは`0.3.0`より大きく、`0.4.0`より小さいバージョンを探しにいきます。
+`0.4.x`より大きなバージョンを使いたいなら直接`Cargo.toml`をいじる必要があります。
+そうしたら、次に`cargo build`をする時に、Cargoはインデックスをアップデートして`rand`への要請を再度評価します。
+
 There’s a lot more to say about [Cargo][doccargo] and [its
 ecosystem][doccratesio], but for now, that’s all we need to know. Cargo makes
 it really easy to re-use libraries, and so Rustaceans tend to write smaller
 projects which are assembled out of a number of sub-packages.
 
+[Cargo][doccargo]と[そのエコシステム][doccratesio]については色々言うことがあるのですが今のところこれらのことだけを知っておいて下さい。
+Cargoのお陰でライブラリの再利用は本当に簡単になりますし、Rustaceanは他のパッケージをいくつも使った小さなライブラリをよく書きます。
+
 [doccargo]: http://doc.crates.io
 [doccratesio]: http://doc.crates.io/crates-io.html
 
 Let’s get on to actually _using_ `rand`. Here’s our next step:
+
+`rand`を実際に _使う_ ところに進みましょう。次のステップはこれです。
 
 ```rust,ignore
 extern crate rand;
@@ -618,15 +696,26 @@ can use `extern crate` to let Rust know we’ll be making use of it. This also
 does the equivalent of a `use rand;` as well, so we can make use of anything
 in the `rand` crate by prefixing it with `rand::`.
 
+まず最初に変更したのは最初の行です。`extern crate rand`となっています。
+`rand`を`[dependencies]`に宣言したので、`extern crate`としてそれを使うことをRustに伝えれます。
+これはまた、`use rand;`とするのと同じこともしますので、`rand`にあるものは`rand::`と前置すれば使えるようになります。
+
 Next, we added another `use` line: `use rand::Rng`. We’re going to use a
 method in a moment, and it requires that `Rng` be in scope to work. The basic
 idea is this: methods are defined on something called ‘traits’, and for the
 method to work, it needs the trait to be in scope. For more about the
 details, read the [traits][traits] section.
 
+次に、もう1行`use`を追加しました。`use rand::Rng`です。
+すぐにあるメソッドを使うのですが、それが動作するには`Rng`がスコープに入っている必要があるのです。
+基本的な考え方はこうです: メソッドは「トレイト」と呼ばれるのもで定義されており、メソッドが動作するにはそのトレイトがスコープにある必要があるのです。
+詳しくは[トレイト][traits]セクションを読んで下さい。
+
 [traits]: traits.html
 
 There are two other lines we added, in the middle:
+
+中ほどにもう2行足してあります。
 
 ```rust,ignore
     let secret_number = rand::thread_rng().gen_range(1, 101);
@@ -641,6 +730,11 @@ available. This method takes two arguments, and generates a number between
 them. It’s inclusive on the lower bound, but exclusive on the upper bound,
 so we need `1` and `101` to get a number ranging from one to a hundred.
 
+`rand::thread_rng()`を使って現在いる[スレッド][concurrency]にローカルな乱数生成器のコピーを取得しています。
+上で`use rand::Rnd`したので生成器は`gen_range()`メソッドを使えます。
+このメソッドは2つの引数を取り、それらの間にある数を生成します。
+下限は含みますが、上限は含まないので1から100までの数を生成するには`1`と`101`を渡す必要があります。
+
 [concurrency]: concurrency.html
 
 The second line just prints out the secret number. This is useful while
@@ -648,7 +742,14 @@ we’re developing our program, so we can easily test it out. But we’ll be
 deleting it for the final version. It’s not much of a game if it prints out
 the answer when you start it up!
 
+2つ目の行は秘密の数字を印字します。
+これは開発する時には有用で、簡単に動作確認出来ます。
+しかし最終版では削除します。
+最初に答えが印字されたらゲームじゃなくなってしまいます!
+
 Try running our new program a few times:
+
+何度か新たなプログラムを実行してみましょう。
 
 ```bash
 $ cargo run
@@ -669,6 +770,9 @@ You guessed: 5
 ```
 
 Great! Next up: comparing our guess to the secret number.
+
+良し良し。次は予想値と秘密の数字を比較します。
+
 
 # Comparing guesses
 
