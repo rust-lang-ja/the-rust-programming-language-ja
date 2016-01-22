@@ -305,8 +305,13 @@ Remember how we `use`d `std::io` on the first line of the program? We’re now
 calling an associated function on it. If we didn’t `use std::io`, we could
 have written this line as `std::io::stdin()`.
 
+プログラムの最初の行で`std::io`を`use`したことを覚えていますか?
+それの関連関数を呼び出しているのです。`use std::io`していないなら`std::io::stdin()`と書くことになります。
+
 This particular function returns a handle to the standard input for your
 terminal. More specifically, a [std::io::Stdin][iostdin].
+
+
 
 [iostdin]: ../std/io/struct.Stdin.html
 
