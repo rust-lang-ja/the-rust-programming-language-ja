@@ -1,26 +1,21 @@
+<!-- % Guessing Game -->
 % 数当てゲーム
 
-Let’s learn some Rust! For our first project, we’ll implement a classic
-beginner programming problem: the guessing game. Here’s how it works: Our
-program will generate a random integer between one and a hundred. It will then
-prompt us to enter a guess. Upon entering our guess, it will tell us if we’re
-too low or too high. Once we guess correctly, it will congratulate us. Sounds
-good?
+For our first project, we’ll implement a classic beginner programming problem:
+the guessing game. Here’s how it works: Our program will generate a random
+integer between one and a hundred. It will then prompt us to enter a guess.
+Upon entering our guess, it will tell us if we’re too low or too high. Once we
+guess correctly, it will congratulate us. Sounds good?
 
-Rustを学びましょう! 最初のプロジェクトとして、古典的な初心者向けのプログラミングの問題、数当てゲームを実装します。
+最初のプロジェクトとして、古典的な初心者向けのプログラミングの問題、数当てゲームを実装します。
 動作: プログラムは1から100の間のあるランダムな数字を生成します。
 そしてその値の予想値の入力を促します。
 予想値を入力すると大きすぎるあるいは小さすぎると教えてくれます。
 当たったらおめでとうと言ってくれます。良さそうですか?
 
 
-Along the way, we’ll learn a little bit about Rust. The next chapter, ‘Syntax
-and Semantics’, will dive deeper into each part.
-
-実装していきながらRustについて少しばかり学びます。次の章、「シンタックスとセマンティクス」で
-それぞれについて深掘りしていきます。
-
 # Set up
+# セットアップ
 
 Let’s set up a new project. Go to your projects directory. Remember how we had
 to create our directory structure and a `Cargo.toml` for `hello_world`? Cargo
@@ -106,8 +101,9 @@ project. Our game is such a project, we need to quickly test each
 iteration before moving on to the next one.
 
 すごい! `run`コマンドはプロジェクトで細かく回す必要があるときに手頃なコマンドです。
-今回のゲームがそのようなプロジェクトです。すぐに試してから次の行動に移るの繰り返しをする必要があります。
+今回のゲームがまさにそのようなプロジェクトです。すぐに試してから次の行動に移るの繰り返しをする必要があります。
 
+# Processing a Guess
 # 予想値を処理する
 
 Let’s get to it! The first thing we need to do for our guessing game is
@@ -140,7 +136,7 @@ fn main() {
 > Guess the number!: 数字を当ててみて!
 > Please input your guess.: 予想値を入力して下さい
 > Failed to read line: 行の読み取りに失敗しました
-> You guessed: {}: あなたの予想値は {}です
+> You guessed: {}: あなたの予想値: {}
 >
 > の意味ですが、エディタの設定などによってはソースコード中に日本語を使うと
 > コンパイル出来ないことがあるので英文のままにしてあります。
@@ -259,13 +255,13 @@ So now we know that `let mut guess` will introduce a mutable binding named
 bound to: `String::new()`.
 
 という訳で`let mut guess`がミュータブルな束縛`guess`を導入することを知りました。
-しかし`=`の逆側、`String::new()`が何であるかを見る必要があります。
+しかし`=`の反対側、`String::new()`が何であるかを見る必要があります。
 
 `String` is a string type, provided by the standard library. A
 [`String`][string] is a growable, UTF-8 encoded bit of text.
 
 `String`は文字列型で、標準ライブラリで提供されています。
-[`String`][string]は伸長可能なUTF-8でエンコードされたテキスト片です。
+[`String`][string]は伸長可能でUTF-8でエンコードされたテキスト片です。
 
 [string]: ../std/string/struct.String.html
 
@@ -300,7 +296,6 @@ the first:
 
 さらに色々あります!一歩一歩進んでいきましょう。最初の行は2つの部分を持ちます。
 これが最初の部分です。
-
 
 ```rust,ignore
 io::stdin()
@@ -398,12 +393,12 @@ src/main.rs:10     io::stdin().read_line(&mut guess);
 Rust warns us that we haven’t used the `Result` value. This warning comes from
 a special annotation that `io::Result` has. Rust is trying to tell you that
 you haven’t handled a possible error. The right way to suppress the error is
-to actually write error handling. Luckily, if we want to crash if there’s
+to actually write error handling. Luckily, if we just want to crash if there’s
 a problem, we can use these two little methods. If we can recover from the
 error somehow, we’d do something else, but we’ll save that for a future
 project.
 
-There’s only one line of this first example left:
+There’s just one line of this first example left:
 
 ```rust,ignore
     println!("You guessed: {}", guess);
@@ -512,7 +507,7 @@ $ cargo build
 That’s right, no output! Cargo knows that our project has been built, and that
 all of its dependencies are built, and so there’s no reason to do all that
 stuff. With nothing to do, it simply exits. If we open up `src/main.rs` again,
-make a trivial change, and then save it again, we’ll only see one line:
+make a trivial change, and then save it again, we’ll just see one line:
 
 ```bash
 $ cargo build
@@ -608,7 +603,7 @@ so we need `1` and `101` to get a number ranging from one to a hundred.
 
 [concurrency]: concurrency.html
 
-The second line prints out the secret number. This is useful while
+The second line just prints out the secret number. This is useful while
 we’re developing our program, so we can easily test it out. But we’ll be
 deleting it for the final version. It’s not much of a game if it prints out
 the answer when you start it up!
@@ -809,7 +804,7 @@ input in it. The `trim()` method on `String`s will eliminate any white space at
 the beginning and end of our string. This is important, as we had to press the
 ‘return’ key to satisfy `read_line()`. This means that if we type `5` and hit
 return, `guess` looks like this: `5\n`. The `\n` represents ‘newline’, the
-enter key. `trim()` gets rid of this, leaving our string with only the `5`. The
+enter key. `trim()` gets rid of this, leaving our string with just the `5`. The
 [`parse()` method on strings][parse] parses a string into some kind of number.
 Since it can parse a variety of numbers, we need to give Rust a hint as to the
 exact type of number we want. Hence, `let guess: u32`. The colon (`:`) after
@@ -957,8 +952,8 @@ fn main() {
 
 By adding the `break` line after the `You win!`, we’ll exit the loop when we
 win. Exiting the loop also means exiting the program, since it’s the last
-thing in `main()`. We have only one more tweak to make: when someone inputs a
-non-number, we don’t want to quit, we want to ignore it. We can do that
+thing in `main()`. We have just one more tweak to make: when someone inputs a
+non-number, we don’t want to quit, we just want to ignore it. We can do that
 like this:
 
 ```rust,ignore
@@ -1012,12 +1007,12 @@ let guess: u32 = match guess.trim().parse() {
 ```
 
 This is how you generally move from ‘crash on error’ to ‘actually handle the
-returned by `parse()` is an `enum`  like `Ordering`, but in this case, each
+returned by `parse()` is an `enum` just like `Ordering`, but in this case, each
 variant has some data associated with it: `Ok` is a success, and `Err` is a
 failure. Each contains more information: the successfully parsed integer, or an
 error type. In this case, we `match` on `Ok(num)`, which sets the inner value
-of the `Ok` to the name `num`, and then we  return it on the right-hand
-side. In the `Err` case, we don’t care what kind of error it is, so we
+of the `Ok` to the name `num`, and then we just return it on the right-hand
+side. In the `Err` case, we don’t care what kind of error it is, so we just
 use `_` instead of a name. This ignores the error, and `continue` causes us
 to go to the next iteration of the `loop`.
 
