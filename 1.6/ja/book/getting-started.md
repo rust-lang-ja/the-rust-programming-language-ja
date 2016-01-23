@@ -1,4 +1,4 @@
-% はじめよう
+% はじめる
 <!-- % Getting Started -->
 
 <!-- This first section of the book will get us going with Rust and its tooling. -->
