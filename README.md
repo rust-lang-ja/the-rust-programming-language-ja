@@ -1,18 +1,18 @@
-translation project of rust documents, mainly [TRPL](https://doc.rust-lang.org/book/).
+[TRPL](https://doc.rust-lang.org/book/)を主としたRustドキュメントの翻訳プロジェクトです。
 
-translated documents are [here](http://keens.github.io/the-rust-programming-language-ja/1.6/book/)
+飜訳文書は[こちら](http://keens.github.io/the-rust-programming-language-ja/1.6/book/)にあります。
 
-# How to build
+# ビルド方法
 
-You must find out your `rustbook` executable from source or like that
+`rustbook`コマンドが必要です。rustコンパイラをソースからビルドした時にstage2にいる
+ようです。汎用のインストール方法は知りません。
 
 ```
 make RUSTBOOK=/path/to/rustbook
 ```
 
 
-# LICENSE
-The original english documents are dual-licensed under Apache 2.0 and MIT terms.
+# ライセンス
+元のドキュメントはRustのソースと同じくApache2.0とMITのデュアルライセンスです。
 
-The translated documents are licensed under [CC-By 3.0 License](http://creativecommons.org/licenses/by/3.0/)
-
+翻訳ドキュメントは[CC-By 3.0 License](http://creativecommons.org/licenses/by/3.0/)でライセンスされます。
