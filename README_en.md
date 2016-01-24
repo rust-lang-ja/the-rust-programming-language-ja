@@ -14,5 +14,5 @@ make RUSTBOOK=/path/to/rustbook
 # LICENSE
 The original english documents are dual-licensed under Apache 2.0 and MIT terms.
 
-The translated documents are licensed under [CC-By 3.0 License](http://creativecommons.org/licenses/by/3.0/)
+The translated documents are dual-licensed under Apache 2.0 and MIT terms too.
 

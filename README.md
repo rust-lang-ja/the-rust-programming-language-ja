@@ -1,4 +1,5 @@
 [TRPL](https://doc.rust-lang.org/book/)を主としたRustドキュメントの翻訳プロジェクトです。
+余力があれば他の文書の翻訳もするかもしれません。
 
 飜訳文書は[こちら](http://keens.github.io/the-rust-programming-language-ja/1.6/book/)にあります。
 
@@ -15,4 +16,5 @@ make RUSTBOOK=/path/to/rustbook
 # ライセンス
 元のドキュメントはRustのソースと同じくApache2.0とMITのデュアルライセンスです。
 
-翻訳ドキュメントは[CC-By 3.0 License](http://creativecommons.org/licenses/by/3.0/)でライセンスされます。
+翻訳ドキュメントも同じくApache2.0とMITのデュアルライセンスとします。
+
