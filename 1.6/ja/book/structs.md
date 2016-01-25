@@ -30,12 +30,12 @@ fn main() {
 <!-- There’s a lot going on here, so let’s break it down. We declare a `struct` with
 the `struct` keyword, and then with a name. By convention, `struct`s begin with
 a capital letter and are camel cased: `PointInSpace`, not `Point_In_Space`. -->
-ここで多くの情報が出てきましたから、順番に見ていきましょう。私たちは`struct`キーワードを使って構造体とその名前を宣言しています。慣習により、構造体は初めが大文字のキャメルケースで記述しています。`PointInSpace`であり、`Point_In_Space`ではありません。
+ここで多くの情報が出てきましたから、順番に見ていきましょう。まず、`struct`キーワードを使って構造体とその名前を宣言しています。慣習により、構造体は初めが大文字のキャメルケースで記述しています。`PointInSpace`であり、`Point_In_Space`ではありません。
 
 <!-- We can create an instance of our `struct` via `let`, as usual, but we use a `key:
 value` style syntax to set each field. The order doesn’t need to be the same as
 in the original declaration. -->
-いつものように、`let`で`struct`のインスタンスを作ることができますが、私たちは`key: value`スタイルの構文でそれぞれのフィールドに値をセットしています。順序は元の宣言と同じである必要はありません。
+いつものように、`let`で`struct`のインスタンスを作ることができますが、ここでは`key: value`スタイルの構文でそれぞれのフィールドに値をセットしています。順序は元の宣言と同じである必要はありません。
 
 <!-- Finally, because fields have names, we can access the field through dot
 notation: `origin.x`. -->
@@ -211,7 +211,7 @@ println!("length is {} inches", integer_length);
 <!-- As you can see here, you can extract the inner integer type through a
 destructuring `let`, just as with regular tuples. In this case, the
 `let Inches(integer_length)` assigns `10` to `integer_length`. -->
-上記の通り、あなたは`let`を使って分解することで、標準のタプルと同じように内部の整数型を取り出すことができます。
+上記の通り、`let`を使って分解することで、標準のタプルと同じように内部の整数型を取り出すことができます。
 このケースでは`let Inches(integer_length)`が`integer_length`へ`10`を束縛します。
 
 # Unit-like 構造体
