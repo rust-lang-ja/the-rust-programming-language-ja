@@ -1,13 +1,15 @@
 #!/bin/sh
 VERSION=$1
+DIR=$(cd "$(dirname "$0")"; pwd)
+ROOT="${DIR}/../"
 
 build() {
-    make RUSTBOOK=${RUSTBOOK}
+    make -C "${ROOT}" RUSTBOOK=${RUSTBOOK}
 }
 
 watch_linux(){    
     while  inotifywait -r -e modify "$1"; do
-        make RUSTBOOK=${RUSTBOOK}
+        build
     done
 }
 
@@ -26,4 +28,4 @@ watch(){
 }
 
 
-watch ./${VERSION}/ja
+watch "${ROOT}/${VERSION}/ja"
