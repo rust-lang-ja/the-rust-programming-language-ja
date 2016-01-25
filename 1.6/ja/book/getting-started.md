@@ -219,7 +219,7 @@ $ sudo /usr/local/lib/rustlib/uninstall.sh
 
 <!-- If we used the Windows installer, we can re-run the `.msi` and it will give us -->
 <!-- an uninstall option. -->
-Windowsのインストーラを使ったなら`.msi`をもう一度実行すればアンインストールのオプショが出てきます。
+Windowsのインストーラを使ったなら`.msi`をもう一度実行すればアンインストールのオプションが出てきます。
 
 <!-- ## Troubleshooting -->
 ## トラブルシューティング
