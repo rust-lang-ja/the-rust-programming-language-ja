@@ -12,6 +12,6 @@ public/$(VERSION)/book/index.html: $(wildcard $(VERSION)/$(LANG)/book/*.md)
 	$(RUSTBOOK) build $(VERSION)/$(LANG)/book public/$(VERSION)/book 
 
 publish:
-	git subtree -P public push "git@github.com:KeenS/the-rust-programming-language-ja.git" gh-pages
+	git subtree -P public push "git@github.com:rust-lang-ja/the-rust-programming-language-ja.git" gh-pages
 
 .PHONY: publish
