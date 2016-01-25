@@ -73,7 +73,8 @@ Rustは高級言語のような抽象化も含めた「ゼロコスト抽象化�
 
 [book]: https://github.com/rust-lang/rust/tree/master/src/doc/book
 
-訳注 日本語の翻訳文書は以下から入手出来ます。
-[GitHub][bookja].
+> 訳注: 日本語の翻訳文書は以下から入手出来ます。
+> [GitHub][bookja].
+> 
 
 [bookja]: https://github.com/KeenS/the-rust-programming-language-ja/tree/master/1.6/ja/book

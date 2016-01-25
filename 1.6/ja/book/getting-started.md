@@ -172,27 +172,27 @@ or by running this script again with the --uninstall flag.
 Continue? (y/N) 
 ```
 
-[訳注]:
-
-
-```text
-Rustへようこそ。
-
-このスクリプトはRustコンパイラとそのパッケジマネージャCargoをダウンロードし、/usr/local
-へとインストールします。--prefix=<path> オプションを使うことで他の場所へインストール
-出来ます。
-
-インストーラは「sudo」下で走るのでパスワードを尋きます。もし'sudo'を使ってほしくないなら
---disable-sudo フラグを渡します。
-
-You may uninstall later by running /usr/local/lib/rustlib/uninstall.sh,
-or by running this script again with the --uninstall flag.
-
-/usr/local/lib/rustlib/uninstall.shを実行するかこのスクリプトに--uninstallフラグを
-付けて実行することで後程アインストール出来ます。
-
-続けますか? (y/N) 
-```
+> 訳注:
+> 
+> 
+> ```text
+> Rustへようこそ。
+> 
+> このスクリプトはRustコンパイラとそのパッケジマネージャCargoをダウンロードし、/usr/local
+> へとインストールします。--prefix=<path> オプションを使うことで他の場所へインストール
+> 出来ます。
+> 
+> インストーラは「sudo」下で走るのでパスワードを尋きます。もし'sudo'を使ってほしくないなら
+> --disable-sudo フラグを渡します。
+> 
+> You may uninstall later by running /usr/local/lib/rustlib/uninstall.sh,
+> or by running this script again with the --uninstall flag.
+> 
+> /usr/local/lib/rustlib/uninstall.shを実行するかこのスクリプトに--uninstallフラグを
+> 付けて実行することで後程アインストール出来ます。
+> 
+> 続けますか? (y/N) 
+> ```
 
 <!-- From here, press `y` for ‘yes’, and then follow the rest of the prompts. -->
 ここで「はい」の意味で`y`を押しましょう。そして以後のプロンプトに従って下さい。
@@ -255,7 +255,7 @@ repair, or remove installation」ページのの「Change」を選択し、「Ad
 リンクをクリックしたら他の助けを求めれるRustacean達(我々のことをふざけてこう呼ぶのです)とチャット出来ます。
 他には[ユーザフォーラム][users]や[Stack Overflow][stackoverflow]などがあります。
 
-[訳注] TODO:日本語で会話出来るリソースを探す
+> 訳注: TODO:日本語で会話出来るリソースを探す
 
 [irc]: irc://irc.mozilla.org/#rust
 [mibbit]: http://chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust
