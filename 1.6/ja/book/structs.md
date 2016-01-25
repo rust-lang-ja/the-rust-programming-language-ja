@@ -4,7 +4,7 @@
 <!-- `struct`s are a way of creating more complex data types. For example, if we were
 doing calculations involving coordinates in 2D space, we would need both an `x`
 and a `y` value: -->
-構造体はより複雑なデータ型を作る方法の1つです。例えば、もし私たちが2次元空間の座標に関する計算を行っているとして、`x`と`y`、両方の値が必要になるでしょう。
+`struct`はより複雑なデータ型を作る方法の1つです。例えば、もし私たちが2次元空間の座標に関する計算を行っているとして、`x`と`y`、両方の値が必要になるでしょう。
 
 ```rust
 let origin_x = 0;
@@ -236,4 +236,5 @@ implements a certain [trait][trait] to handle events. If you don’t have
 any data you need to store in the structure, you can just create a
 unit-like `struct`. -->
 これは単体でもごくまれに役立ちます(もっとも、時々型をマーク代わりとして役立てる程度です)が、他の機能と組み合わせることにより便利になります。例えば、ライブラリはあなたにイベントを処理できる特定の[トレイト][trait]が実装されたストラクチャの作成を要求するかもしれません。もしそのストラクチャの中に保存すべき値が何もなければ、あなたはダミーのデータを作成する必要はなく、ただunit-likeな`struct`を作るだけで良いのです。
+
 [trait]: traits.html
