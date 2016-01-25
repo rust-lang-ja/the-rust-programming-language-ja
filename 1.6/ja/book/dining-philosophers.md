@@ -1,5 +1,5 @@
-<!-- % Dining Philosophers -->
 % 食事する哲学者
+<!-- % Dining Philosophers -->
 
 <!-- For our second project, let's look at a classic concurrency problem. It's called 'the dining philosophers'. It was originally conceived by Dijkstra in 1965, but we'll use the version from [this paper][paper] by Tony Hoare in 1985. -->
 私たちの2番目のプロジェクトとして、古典的な並行処理問題を考えていきましょう。「食事する哲学者(the dining philosophers)」とよばれる問題です。オリジナルは1965年にダイクストラ(Dijkstra)により考案されましたが、ここではトニー・ホーア(Tony Hoare)による1985年の[この論文][paper]バージョンを用います。
