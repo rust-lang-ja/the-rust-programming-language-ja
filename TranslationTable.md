@@ -8,17 +8,26 @@
 
 # 対訳表
 
-| English    | 日本語
-|:-----------|:------
-| mutable    | ミュータブル
-| mutability | ミュータビリティ
-| `mut`      | `mut`
-| structure  | 構造 (コンピュータ用語でない)
-| structure  | ストラクチャ (コンピュータ用語)
-| struct     | ストラクト
-| `struct`   | `struct`
-|  enum      | ?????
-| `enum`     | `enum`
-| lifetime   | 生存期間
-| move       | ムーブ
-| borrowing  | 借用
+| English      | 日本語
+|:-------------|:------
+| associated - | 関連-
+| attribute    | アトリビュート
+| binding      | 束縛
+| borrowing    | 借用
+| coercion     | 型強制
+| crate        | クレート
+|  enum        | ?????
+| `enum`       | `enum`
+| Intrinsics   | イントリンシック
+| Lang Items   | Lang Items
+| lifetime     | 生存期
+| move         | ムーブ
+| `mut`        | `mut`
+| mutable      | ミュータブル
+| mutability   | ミュータビリティ
+| ownership    | 所有権
+| struct       | ストラクト
+| `struct`     | `struct`
+| structure    | ストラクチャ
+| trait        | トレイト
+| unsized type | サイズ無し型
