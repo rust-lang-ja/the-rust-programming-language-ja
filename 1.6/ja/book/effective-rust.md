@@ -3,7 +3,7 @@
 
 <!-- So you’ve learned how to write some Rust code. But there’s a difference between -->
 <!-- writing *any* Rust code and writing *good* Rust code. -->
-これまでRustコードの書き方について学んできましたが，*とりあえず*Rustが書けるということと
+これまでRustコードの書き方について学んできましたが，*とりあえず*Rustのコードが書けるということと
 *良い*Rustのコードが書けるということの間には違いが有ります．
 
 
