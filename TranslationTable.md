@@ -20,7 +20,7 @@
 | `enum`       | `enum`
 | Intrinsics   | Intrinsic
 | Lang Items   | Lang Item
-| lifetime     | 生存期
+| lifetime     | ライフタイム
 | move         | ムーブ
 | `mut`        | `mut`
 | mutable      | ミュータブル
