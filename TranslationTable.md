@@ -16,18 +16,18 @@
 | borrowing    | 借用
 | coercion     | 型強制
 | crate        | クレート
-|  enum        | ?????
+|  enum        | 列挙型
 | `enum`       | `enum`
-| Intrinsics   | イントリンシック
-| Lang Items   | Lang Items
+| Intrinsics   | Intrinsic
+| Lang Items   | Lang Item
 | lifetime     | 生存期
 | move         | ムーブ
 | `mut`        | `mut`
 | mutable      | ミュータブル
 | mutability   | ミュータビリティ
 | ownership    | 所有権
-| struct       | ストラクト
+| struct       | 構造体
 | `struct`     | `struct`
 | structure    | ストラクチャ
 | trait        | トレイト
-| unsized type | サイズ無し型
+| unsized type | サイズ不定型
