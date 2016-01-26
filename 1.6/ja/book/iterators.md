@@ -1,20 +1,25 @@
-% Iterators
+% イテレータ
+<!-- % Iterators -->
 
-Let's talk about loops.
+<!-- Let's talk about loops. -->
+ループの話をしましょう。
 
-Remember Rust's `for` loop? Here's an example:
-
+<!-- Remember Rust's `for` loop? Here's an example: -->
+Rustの`for`ループを覚えていますか？以下が例です。
 ```rust
 for x in 0..10 {
     println!("{}", x);
 }
 ```
 
-Now that you know more Rust, we can talk in detail about how this works.
+<!-- Now that you know more Rust, we can talk in detail about how this works.
 Ranges (the `0..10`) are 'iterators'. An iterator is something that we can
-call the `.next()` method on repeatedly, and it gives us a sequence of things.
+call the `.next()` method on repeatedly, and it gives us a sequence of things. -->
+今やあなたはRustに詳しいですから、私たちはどのようにこれが動作しているのか詳しく話すことができます。
+レンジ(Ranges、ここでは`0..10`)は「イテレータ」です。イテレータは`.next()`メソッドを繰り返し呼び出すことができ、その都度順番に値を返すものです。
 
-Like this:
+<!-- Like this: -->
+こんな風に:
 
 ```rust
 let mut range = 0..10;
@@ -29,26 +34,29 @@ loop {
 }
 ```
 
-We make a mutable binding to the range, which is our iterator. We then `loop`,
+<!-- We make a mutable binding to the range, which is our iterator. We then `loop`,
 with an inner `match`. This `match` is used on the result of `range.next()`,
 which gives us a reference to the next value of the iterator. `next` returns an
 `Option<i32>`, in this case, which will be `Some(i32)` when we have a value and
 `None` once we run out. If we get `Some(i32)`, we print it out, and if we get
-`None`, we `break` out of the loop.
+`None`, we `break` out of the loop. -->
+初めに変数rangeへイテレータをミュータブル束縛しています。その次には中に`match`が入った`loop`があります。この`match`は`range.next()`を呼び出すことで返ってくるイテレータの次の値への参照を使用しています。`next`は`Option<i32>`を返します。このケースでは、次の値が返ってくればその値は`Some(i32)`であり、返ってくる値が無くなれば`None`が返ってきます。もし`Some(i32)`であればそれを表示し、`None`であれば`break`によりループから脱出しています。
 
-This code sample is basically the same as our `for` loop version. The `for`
-loop is just a handy way to write this `loop`/`match`/`break` construct.
+<!-- This code sample is basically the same as our `for` loop version. The `for`
+loop is just a handy way to write this `loop`/`match`/`break` construct. -->
+このコードは、基本的に`for`ループバージョンと同じ動作です。`for`ループはこの`loop`/`match`/`break`で構成された処理を手軽に書ける方法というわけです。
 
-`for` loops aren't the only thing that uses iterators, however. Writing your
+<!-- `for` loops aren't the only thing that uses iterators, however. Writing your
 own iterator involves implementing the `Iterator` trait. While doing that is
 outside of the scope of this guide, Rust provides a number of useful iterators
-to accomplish various tasks. But first, a few notes about limitations of ranges.
+to accomplish various tasks. But first, a few notes about limitations of ranges. -->
+しかしながら、`for`ループはイテレータに使うだけのものではありません。`Iterator`トレイトを実装し組み込むことで、あなた自作のイテレータを書くこともできます。このガイドの範囲外ですが、Rustは多様な反復処理を実現するために便利なイテレータを幾つか提供しています。ただその前に、少しばかりレンジの限界について言及しておきましょう。
 
-Ranges are very primitive, and we often can use better alternatives. Consider the
+<!-- Ranges are very primitive, and we often can use better alternatives. Consider the
 following Rust anti-pattern: using ranges to emulate a C-style `for` loop. Let’s
 suppose you needed to iterate over the contents of a vector. You may be tempted
-to write this:
-
+to write this: -->
+レンジはとても素朴な機能ですから、度々別のより良い手段を用いることもあります。ここであるRustのアンチパターンについて考えてみましょう。それはレンジをC言語ライクな`for`ループの再現に用いることです。例えばvectorの中身をイテレートする必要があったとしましょう。あなたはこう書きたくなるかもしれません。
 ```rust
 let nums = vec![1, 2, 3];
 
@@ -57,8 +65,9 @@ for i in 0..nums.len() {
 }
 ```
 
-This is strictly worse than using an actual iterator. You can iterate over vectors
-directly, so write this:
+<!-- This is strictly worse than using an actual iterator. You can iterate over vectors
+directly, so write this: -->
+これは実際のイテレータの使い方からすれば全く正しくありません。あなたはvectorを直接反復処理できるのですから、こう書くべきです。
 
 ```rust
 let nums = vec![1, 2, 3];
@@ -68,19 +77,22 @@ for num in &nums {
 }
 ```
 
-There are two reasons for this. First, this more directly expresses what we
+<!-- There are two reasons for this. First, this more directly expresses what we
 mean. We iterate through the entire vector, rather than iterating through
 indexes, and then indexing the vector. Second, this version is more efficient:
 the first version will have extra bounds checking because it used indexing,
 `nums[i]`. But since we yield a reference to each element of the vector in turn
 with the iterator, there's no bounds checking in the second example. This is
 very common with iterators: we can ignore unnecessary bounds checks, but still
-know that we're safe.
+know that we're safe. -->
+これには2つの理由があります。第一に、この方がコードの意味をはっきり表せています。私たちはvectorのインデックスを作成してからその要素を繰り返し参照したいのではなく、vector自体を反復処理したいのです。第二に、このバージョンのほうがより効率的です。1つ目の例では`num[i]`というようにインデックスを介し参照しているため、余計な境界チェックが発生します。しかし、イテレータが順番にvectorの各要素への参照を生成していくため、2つ目の例では境界チェックが発生しません。これはイテレータにとってごく一般的な性質です。不要な境界チェックを取り除いても安全だなんて分かりきってますからね。
 
-There's another detail here that's not 100% clear because of how `println!`
+<!-- There's another detail here that's not 100% clear because of how `println!`
 works. `num` is actually of type `&i32`. That is, it's a reference to an `i32`,
 not an `i32` itself. `println!` handles the dereferencing for us, so we don't
-see it. This code works fine too:
+see it. This code works fine too: -->
+
+ここにはもう1つ、`println!`の動作という詳細が100%はっきりしていない処理があります。`num`は実際には`&i32`型です。これは`i32`の参照であり、`i32`それ自体ではありません。`println!`は上手い具合に参照外しをしてくれますから、これ以上深追いはしないことにします。以下のコードも正しく動作します。
 
 ```rust
 let nums = vec![1, 2, 3];
@@ -90,27 +102,35 @@ for num in &nums {
 }
 ```
 
-Now we're explicitly dereferencing `num`. Why does `&nums` give us
+<!-- Now we're explicitly dereferencing `num`. Why does `&nums` give us
 references?  Firstly, because we explicitly asked it to with
 `&`. Secondly, if it gave us the data itself, we would have to be its
 owner, which would involve making a copy of the data and giving us the
 copy. With references, we're just borrowing a reference to the data,
-and so it's just passing a reference, without needing to do the move.
+and so it's just passing a reference, without needing to do the move. -->
+今、私たちは明示的に`num`の参照外しを行いました。なぜ`&nums`は私たちに参照を渡すのでしょうか？第一に、`&`を用いて私たちが明示的に要求したからです。第二に、もしデータそれ自体を渡す場合、私たちはデータのownerでなければならないため、データの複製と、それを私たちに渡す操作が伴います。参照を使えば、データへの参照を借用して渡すだけで済み、ムーブを行う必要がなくなります。
 
-So, now that we've established that ranges are often not what you want, let's
-talk about what you do want instead.
+<!-- So, now that we've established that ranges are often not what you want, let's
+talk about what you do want instead. -->
+ここまでで、レンジはあまりあなたが欲しいと思える物では無いという話をしてきましたから、代わりに欲しくなるような物について話しましょう。
 
-There are three broad classes of things that are relevant here: iterators,
-*iterator adaptors*, and *consumers*. Here's some definitions:
 
-* *iterators* give you a sequence of values.
+<!-- There are three broad classes of things that are relevant here: iterators,
+*iterator adaptors*, and *consumers*. Here's some definitions: -->
+それは大きく分けてイテレータ、*イテレータアダプタ*、そして*コンシューマ*の3つです。以下が定義となります。
+
+<!-- * *iterators* give you a sequence of values.
 * *iterator adaptors* operate on an iterator, producing a new iterator with a
   different output sequence.
-* *consumers* operate on an iterator, producing some final set of values.
+* *consumers* operate on an iterator, producing some final set of values. -->
+* *イテレータ*は値のシーケンスを渡します。
+* *イテレータアダプタ*はイテレータに作用し、出力の異なるイテレータを生成します。
+* *コンシューマ*はイテレータに作用し、幾つかの最終的な値の組を生成します。
 
 Let's talk about consumers first, since you've already seen an iterator, ranges.
+既にイテレータとレンジについて見てきましたから、初めにコンシューマについて話しましょう。
 
-## Consumers
+## コンシューマ
 
 A *consumer* operates on an iterator, returning some kind of value or values.
 The most common consumer is `collect()`. This code doesn't quite compile,
