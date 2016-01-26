@@ -64,7 +64,7 @@ fn main() {
 
 <!-- Rust does not support field mutability at the language level, so you cannot
 write something like this: -->
-Rustは言語レベルでフィールドのミュータブル化に対応していないため、以下の様に書くことはできません。
+Rustは言語レベルでフィールドのミュータビリティに対応していないため、以下の様に書くことはできません。
 
 
 ```rust,ignore
@@ -78,7 +78,7 @@ struct Point {
 used to field-level mutability, this may seem strange at first, but it
 significantly simplifies things. It even lets you make things mutable for a short
 time only: -->
-ミュータブルは束縛に付与できる属性であり、構造体自体に付与できる属性ではありません。もしあなたがフィールドレベルのミュータブルを使うのであれば、初めこそ奇妙に見えるものの、非常に簡単に実現できる方法があります。以下の方法で少しの間だけミュータブルな構造体を作ることができます。
+ミュータビリティは束縛に付与できる属性であり、構造体自体に付与できる属性ではありません。もしあなたがフィールドレベルのミュータビリティを使うのであれば、初めこそ奇妙に見えるものの、非常に簡単に実現できる方法があります。以下の方法で少しの間だけミュータブルな構造体を作ることができます。
 <!-- ```rust,ignore
 struct Point {
     x: i32,
@@ -151,7 +151,7 @@ let point = Point3d { z: 1, x: 2, .. origin };
 <!-- Rust has another data type that’s like a hybrid between a [tuple][tuple] and a
 `struct`, called a ‘tuple struct’. Tuple structs have a name, but
 their fields don’t:-->
-Rustには'タプル構造体'と呼ばれる、[タプル][tuple]と`struct`のハイブリットのようなデータ型があります。タプル構造体自体には名前がありますが、そのフィールドには名前がありません。
+Rustには「タプル構造体」と呼ばれる、[タプル][tuple]と`struct`のハイブリットのようなデータ型があります。タプル構造体自体には名前がありますが、そのフィールドには名前がありません。
 
 ```rust
 struct Color(i32, i32, i32);
@@ -190,7 +190,7 @@ struct Point {
 
 <!-- Now, we have actual names, rather than positions. Good names are important,
 and with a `struct`, we have actual names. -->
-今、私たちはフィールドの位置ではなくフィールドの名前そのものを持っています。良い名前は重要で、`struct`を使うということは、名前そのものを持っているということです。
+今、私たちはフィールドの位置ではなく実際のフィールドの名前を持っています。良い名前は重要で、`struct`を使うということは、実際に名前を持っているということです。
 
 > 訳注: 原文を元に噛み砕くと、「タプルはフィールドの並びによって区別され、構造体はフィールドの名前によって区別されます。これはタプルと構造体の最たる違いであり、構造体を持つことは名前を付けられたデータの集まりを持つことに等しいため、構造体における名前付けは重要です。」といった所でしょうか。
 
@@ -199,6 +199,7 @@ tuple struct with only one element. We call this the ‘newtype’ pattern, beca
 it allows you to create a new type, distinct from that of its contained value
 and expressing its own semantic meaning: -->
 タプル構造体が非常に便利な場合も_あります_が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを'newtype'パターンと呼んでいます。
+
 ```rust
 struct Inches(i32);
 
