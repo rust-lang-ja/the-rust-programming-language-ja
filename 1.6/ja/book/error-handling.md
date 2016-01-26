@@ -1,55 +1,103 @@
-% Error Handling
+% エラーハンドリング
+<!-- % Error Handling -->
 
-Like most programming languages, Rust encourages the programmer to handle
-errors in a particular way. Generally speaking, error handling is divided into
-two broad categories: exceptions and return values. Rust opts for return
-values.
+<!-- Like most programming languages, Rust encourages the programmer to handle -->
+<!-- errors in a particular way. Generally speaking, error handling is divided into -->
+<!-- two broad categories: exceptions and return values. Rust opts for return -->
+<!-- values. -->
 
-In this chapter, we intend to provide a comprehensive treatment of how to deal
-with errors in Rust. More than that, we will attempt to introduce error handling
-one piece at a time so that you'll come away with a solid working knowledge of
-how everything fits together.
+他のほとんどのプログラミング言語と同様に、Rustはプログラマに、エラーを扱うための、ある決まった作法を求めます。
+一般的にエラーハンドリングは、例外、あるいは、戻り値を使ったものの、大きく２つに分類されます。
+Rustでは戻り値を使います。（用語集候補：return value）
 
-When done naïvely, error handling in Rust can be verbose and annoying. This
-chapter will explore those stumbling blocks and demonstrate how to use the
-standard library to make error handling concise and ergonomic.
+<!-- In this chapter, we intend to provide a comprehensive treatment of how to deal -->
+<!-- with errors in Rust. More than that, we will attempt to introduce error handling -->
+<!-- one piece at a time so that you'll come away with a solid working knowledge of -->
+<!-- how everything fits together. -->
 
-# Table of Contents
+この章では、Rustでのエラー処理に関わる、包括的な対処方法を提供しようと思います。
+単にそれだけではなく、エラー処理のやり方を、ひとつひとつ、順番に積み上げていきます。
+こうすることで、全体がどう組み合わさっているのかの理解が進み、より実用的な知識が身につくでしょう。
 
-This chapter is very long, mostly because we start at the very beginning with
-sum types and combinators, and try to motivate the way Rust does error handling
-incrementally. As such, programmers with experience in other expressive type
-systems may want to jump around.
+<!-- When done naïvely, error handling in Rust can be verbose and annoying. This -->
+<!-- chapter will explore those stumbling blocks and demonstrate how to use the -->
+<!-- standard library to make error handling concise and ergonomic. -->
 
-* [The Basics](#the-basics)
-    * [Unwrapping explained](#unwrapping-explained)
-    * [The `Option` type](#the-option-type)
-        * [Composing `Option<T>` values](#composing-optiont-values)
-    * [The `Result` type](#the-result-type)
-        * [Parsing integers](#parsing-integers)
-        * [The `Result` type alias idiom](#the-result-type-alias-idiom)
-    * [A brief interlude: unwrapping isn't evil](#a-brief-interlude-unwrapping-isnt-evil)
-* [Working with multiple error types](#working-with-multiple-error-types)
-    * [Composing `Option` and `Result`](#composing-option-and-result)
-    * [The limits of combinators](#the-limits-of-combinators)
-    * [Early returns](#early-returns)
-    * [The `try!` macro](#the-try-macro)
-    * [Defining your own error type](#defining-your-own-error-type)
-* [Standard library traits used for error handling](#standard-library-traits-used-for-error-handling)
-    * [The `Error` trait](#the-error-trait)
-    * [The `From` trait](#the-from-trait)
-    * [The real `try!` macro](#the-real-try-macro)
-    * [Composing custom error types](#composing-custom-error-types)
-    * [Advice for library writers](#advice-for-library-writers)
-* [Case study: A program to read population data](#case-study-a-program-to-read-population-data)
-    * [Initial setup](#initial-setup)
-    * [Argument parsing](#argument-parsing)
-    * [Writing the logic](#writing-the-logic)
-    * [Error handling with `Box<Error>`](#error-handling-with-boxerror)
-    * [Reading from stdin](#reading-from-stdin)
-    * [Error handling with a custom type](#error-handling-with-a-custom-type)
-    * [Adding functionality](#adding-functionality)
-* [The short story](#the-short-story)
+もし素朴なやりかたで取り組んだなら、Rustにおけるエラー処理は、冗長で面倒なものになり得ます。
+この章では、エラー処理をする上でどのような課題があるか探求し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
+
+<!-- # Table of Contents -->
+# 目次
+
+<!-- This chapter is very long, mostly because we start at the very beginning with -->
+<!-- sum types and combinators, and try to motivate the way Rust does error handling -->
+<!-- incrementally. As such, programmers with experience in other expressive type -->
+<!-- systems may want to jump around. -->
+
+この章はとても長くなります。
+というのは、sum types（訳）とコンビネータから始めて、Restでどのようにエラー処理をするか考えるための動機を、徐々に高めていこうとしているからです。
+そのため、もしすでに他の表現豊かな型システムの経験があるプログラマは、あちこち拾い読みしたくなるかもしれません。
+（用語集候補：sum type、combinator）
+
+<!-- * [The Basics](#the-basics) -->
+<!--     * [Unwrapping explained](#unwrapping-explained) -->
+<!--     * [The `Option` type](#the-option-type) -->
+<!--         * [Composing `Option<T>` values](#composing-optiont-values) -->
+<!--     * [The `Result` type](#the-result-type) -->
+<!--         * [Parsing integers](#parsing-integers) -->
+<!--         * [The `Result` type alias idiom](#the-result-type-alias-idiom) -->
+<!--     * [A brief interlude: unwrapping isn't evil](#a-brief-interlude-unwrapping-isnt-evil) -->
+<!-- * [Working with multiple error types](#working-with-multiple-error-types) -->
+<!--     * [Composing `Option` and `Result`](#composing-option-and-result) -->
+<!--     * [The limits of combinators](#the-limits-of-combinators) -->
+<!--     * [Early returns](#early-returns) -->
+<!--     * [The `try!` macro](#the-try-macro) -->
+<!--     * [Defining your own error type](#defining-your-own-error-type) -->
+<!--  [Standard library traits used for error handling](#standard-library-traits-used-for-error-handling) -->
+<!--    * [The `Error` trait](#the-error-trait) -->
+<!--    * [The `From` trait](#the-from-trait) -->
+<!--    * [The real `try!` macro](#the-real-try-macro) -->
+<!--    * [Composing custom error types](#composing-custom-error-types) -->
+<!--    * [Advice for library writers](#advice-for-library-writers) -->
+<!--  [Case study: A program to read population data](#case-study-a-program-to-read-population-data) -->
+<!--    * [Initial setup](#initial-setup) -->
+<!--    * [Argument parsing](#argument-parsing) -->
+<!--    * [Writing the logic](#writing-the-logic) -->
+<!--    * [Error handling with `Box<Error>`](#error-handling-with-boxerror) -->
+<!--    * [Reading from stdin](#reading-from-stdin) -->
+<!--    * [Error handling with a custom type](#error-handling-with-a-custom-type) -->
+<!--    * [Adding functionality](#adding-functionality) -->
+<!--  [The short story](#the-short-story) -->
+
+* [基礎](#the-basics)
+    * [Unwrap とは](#unwrapping-explained)
+    * [`Option` 型](#the-option-type)
+        * [`Option<T>` 値で構成する](#composing-optiont-values)
+    * [`Result` 型](#the-result-type)
+        * [整数をパースする](#parsing-integers)
+        * [`Result` 型エイリアスを用いたイディオム](#the-result-type-alias-idiom)
+    * [小休止：unwrap は悪ではない](#a-brief-interlude-unwrapping-isnt-evil)
+* [複数のエラー型を扱う](#working-with-multiple-error-types)
+    * [`Option` と `Result` で構成する](#composing-option-and-result)
+    * [コンビネータの限界](#the-limits-of-combinators)
+    * [アーリーリターン](#early-returns)
+    * [`try!` マクロ](#the-try-macro)
+    * [独自のエラー型を定義する](#defining-your-own-error-type)
+* [標準ライブラリのトレイトによるエラー処理](#standard-library-traits-used-for-error-handling)
+    * [`Error` トレイト](#the-error-trait)
+    * [`From` トレイト](#the-from-trait)
+    * [本当の `try!` マクロ](#the-real-try-macro)
+    * [独自のエラー型で構成する](#composing-custom-error-types)
+    * [ライブラリ作者へのアドバイス](#advice-for-library-writers)
+* [ケーススタディ：人口データを読み込むプログラム](#case-study-a-program-to-read-population-data)
+    * [最初のセットアップ](#initial-setup)
+    * [引数のパース](#argument-parsing)
+    * [ロジックを書く](#writing-the-logic)
+    * [`Box<Error>` によるエラー処理](#error-handling-with-boxerror)
+    * [標準入力から読み込む](#reading-from-stdin)
+    * [独自のエラー型によるエラー処理](#error-handling-with-a-custom-type)
+    * [機能を追加する](#adding-functionality)
+* [ショートストーリー](#the-short-story)
 
 # The Basics
 
