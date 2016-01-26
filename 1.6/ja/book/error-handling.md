@@ -24,7 +24,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- standard library to make error handling concise and ergonomic. -->
 
 もし素朴なやりかたで取り組んだなら、Rustにおけるエラー処理は、冗長で面倒なものになり得ます。
-この章では、エラー処理をする上でどのような課題があるか探求し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
+この章では、エラー処理をする上でどのような課題があるかを調査し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
 
 <!-- # Table of Contents -->
 # 目次
@@ -35,8 +35,8 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- systems may want to jump around. -->
 
 この章はとても長くなります。
-というのは、sum types（訳）とコンビネータから始めて、Restでどのようにエラー処理をするか考えるための動機を、徐々に高めていこうとしているからです。
-そのため、もしすでに他の表現豊かな型システムの経験があるプログラマは、あちこち拾い読みしたくなるかもしれません。
+というのは、sum types（訳）とコンビネータから始めて、Restにおけるエラー処理を徐々に良くしていくための、動機づけをしていくからです。
+このような構成ですので、もしすでに他の表現豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
 （用語集候補：sum type、combinator）
 
 <!-- * [The Basics](#the-basics) -->
@@ -88,7 +88,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
     * [`From` トレイト](#the-from-trait)
     * [本当の `try!` マクロ](#the-real-try-macro)
     * [独自のエラー型で構成する](#composing-custom-error-types)
-    * [ライブラリ作者へのアドバイス](#advice-for-library-writers)
+    * [ライブラリ作者たちへのアドバイス](#advice-for-library-writers)
 * [ケーススタディ：人口データを読み込むプログラム](#case-study-a-program-to-read-population-data)
     * [最初のセットアップ](#initial-setup)
     * [引数のパース](#argument-parsing)
@@ -99,17 +99,26 @@ Rustでは戻り値を使います。（用語集候補：return value）
     * [機能を追加する](#adding-functionality)
 * [ショートストーリー](#the-short-story)
 
-# The Basics
+<!-- # The Basics -->
+# 基礎
 
-You can think of error handling as using *case analysis* to determine whether
-a computation was successful or not. As you will see, the key to ergonomic error
-handling is reducing the amount of explicit case analysis the programmer has to
-do while keeping code composable.
+<!-- You can think of error handling as using *case analysis* to determine whether -->
+<!-- a computation was successful or not. As you will see, the key to ergonomic error -->
+<!-- handling is reducing the amount of explicit case analysis the programmer has to -->
+<!-- do while keeping code composable. -->
 
-Keeping code composable is important, because without that requirement, we
-could [`panic`](../std/macro.panic!.html) whenever we
-come across something unexpected. (`panic` causes the current task to unwind,
-and in most cases, the entire program aborts.) Here's an example:
+エラー処理というものは、 **ケース分析** に基づいて、ある処理の結果が成功したのかどうかを判断していくものだと考えられます。
+この後、見ていくように、使いやすいエラー処理であるために重要なのは、プログラマが、コードをコンポーザブル（構成可能）に保ったまま、明示的なケース分析の量をいかに減らしていくかということです。
+
+<!-- Keeping code composable is important, because without that requirement, we -->
+<!-- could [`panic`](../std/macro.panic!.html) whenever we -->
+<!-- come across something unexpected. (`panic` causes the current task to unwind, -->
+<!-- and in most cases, the entire program aborts.) Here's an example: -->
+
+コードをコンポーザブルに保つのは重要です。
+なぜなら、もしこの要求がなかったら、なにか想定外のことが起こる度に [`panic`](../std/macro.panic!.html) を選ぶかもしれないからです。
+（`panic` は現タスクをunwind（訳）し、ほとんどの場合、プログラム全体をアボートします。）
+（用語集候補：unwind）
 
 ```rust,should_panic
 // Guess a number between 1 and 10.
@@ -156,7 +165,8 @@ You can think of this style of error handling as similar to a bull running
 through a china shop. The bull will get to where it wants to go, but it will
 trample everything in the process.
 
-## Unwrapping explained
+<!-- ## Unwrapping explained -->
+## Unwap とは
 
 In the previous example, we claimed
 that the program would simply panic if it reached one of the two error
@@ -170,7 +180,8 @@ It would be better if we just showed the code for unwrapping because it is so
 simple, but to do that, we will first need to explore the `Option` and `Result`
 types. Both of these types have a method called `unwrap` defined on them.
 
-### The `Option` type
+<!-- ### The `Option` type -->
+### `Option` 型
 
 The `Option` type is [defined in the standard library][5]:
 
@@ -257,7 +268,8 @@ The `unwrap` method *abstracts away the case analysis*. This is precisely the th
 that makes `unwrap` ergonomic to use. Unfortunately, that `panic!` means that
 `unwrap` is not composable: it is the bull in the china shop.
 
-### Composing `Option<T>` values
+<!--- ### Composing `Option<T>` values -->
+### `Option<T>` 値で構成する
 
 In an [example from before](#code-option-ex-string-find),
 we saw how to use `find` to discover the extension in a file name. Of course,
@@ -437,7 +449,8 @@ explicit case analysis. They are also composable because they permit the caller
 to handle the possibility of absence in their own way. Methods like `unwrap`
 remove choices because they will panic if `Option<T>` is `None`.
 
-## The `Result` type
+<!-- ## The `Result` type -->
+## `Result` 型
 
 The `Result` type is also
 [defined in the standard library][6]:
@@ -499,7 +512,8 @@ way to print a human readable description of values with that type.)
 
 OK, let's move on to an example.
 
-### Parsing integers
+<!-- ### Parsing integers -->
+### 整数をパースする
 
 The Rust standard library makes converting strings to integers dead simple.
 It's so easy in fact, that it is very tempting to write something like the
@@ -607,7 +621,8 @@ combinators that affect only the error type, such as
 `map`) and [`or_else`](../std/result/enum.Result.html#method.or_else)
 (instead of `and_then`).
 
-### The `Result` type alias idiom
+<!-- ### The `Result` type alias idiom -->
+### `Result` 型エイリアスを用いたイディオム
 
 In the standard library, you may frequently see types like
 `Result<i32>`. But wait, [we defined `Result`](#code-result-def) to
@@ -639,7 +654,8 @@ module's type alias instead of the plain definition from
 `std::result`. (This idiom is also used for
 [`fmt::Result`](../std/fmt/type.Result.html).)
 
-## A brief interlude: unwrapping isn't evil
+<!-- ## A brief interlude: unwrapping isn't evil -->
+## 小休止：unwrap は悪ではない
 
 If you've been following along, you might have noticed that I've taken a pretty
 hard line against calling methods like `unwrap` that could `panic` and abort
@@ -677,7 +693,8 @@ Now that we've covered the basics of error handling in Rust, and
 explained unwrapping, let's start exploring more of the standard
 library.
 
-# Working with multiple error types
+<!-- # Working with multiple error types -->
+# 複数のエラー型を扱う
 
 Thus far, we've looked at error handling where everything was either an
 `Option<T>` or a `Result<T, SomeError>`. But what happens when you have both an
@@ -686,7 +703,8 @@ Thus far, we've looked at error handling where everything was either an
 challenge in front of us, and it will be the major theme throughout the rest of
 this chapter.
 
-## Composing `Option` and `Result`
+<!-- ## Composing `Option` and `Result` -->
+## `Option` と `Result` で構成する
 
 So far, I've talked about combinators defined for `Option` and combinators
 defined for `Result`. We can use these combinators to compose results of
@@ -766,7 +784,8 @@ the same (because of our use of `and_then`). Since we chose to convert the
 `Option<String>` (from `argv.nth(1)`) to a `Result<String, String>`, we must
 also convert the `ParseIntError` from `arg.parse()` to a `String`.
 
-## The limits of combinators
+<!-- ## The limits of combinators -->
+## コンビネータの限界
 
 Doing IO and parsing input is a very common task, and it's one that I
 personally have done a lot of in Rust. Therefore, we will use (and continue to
@@ -899,7 +918,8 @@ With all of that said, the code is still hairy. Mastering use of combinators is
 important, but they have their limits. Let's try a different approach: early
 returns.
 
-## Early returns
+<!-- ## Early returns -->
+## アーリーリターン
 
 I'd like to take the code from the previous section and rewrite it using *early
 returns*. Early returns let you exit the function early. We can't return early
@@ -946,7 +966,8 @@ ergonomic error handling is reducing explicit case analysis, yet we've reverted
 back to explicit case analysis here. It turns out, there are *multiple* ways to
 reduce explicit case analysis. Combinators aren't the only way.
 
-## The `try!` macro
+<!-- ## The `try!` macro -->
+## `try!` マクロ
 
 A cornerstone of error handling in Rust is the `try!` macro. The `try!` macro
 abstracts case analysis just like combinators, but unlike combinators, it also
@@ -1001,7 +1022,8 @@ The good news is that we will soon learn how to remove those `map_err` calls!
 The bad news is that we will need to learn a bit more about a couple important
 traits in the standard library before we can remove the `map_err` calls.
 
-## Defining your own error type
+<!-- ## Defining your own error type -->
+## 独自のエラー型を定義する
 
 Before we dive into some of the standard library error traits, I'd like to wrap
 up this section by removing the use of `String` as our error type in the
@@ -1095,7 +1117,8 @@ will do in a pinch, particularly if you're writing an application. If you're
 writing a library, defining your own error type should be strongly preferred so
 that you don't remove choices from the caller unnecessarily.
 
-# Standard library traits used for error handling
+<!-- # Standard library traits used for error handling -->
+# 標準ライブラリのトレイトによるエラー処理
 
 The standard library defines two integral traits for error handling:
 [`std::error::Error`](../std/error/trait.Error.html) and
@@ -1104,7 +1127,8 @@ is designed specifically for generically describing errors, the `From`
 trait serves a more general role for converting values between two
 distinct types.
 
-## The `Error` trait
+<!-- ## The `Error` trait -->
+## `Error` トレイト
 
 The `Error` trait is [defined in the standard
 library](../std/error/trait.Error.html):
@@ -1207,7 +1231,8 @@ We note that this is a very typical implementation of `Error`: match on your
 different error types and satisfy the contracts defined for `description` and
 `cause`.
 
-## The `From` trait
+<!-- ## The `From` trait -->
+## `From` トレイト
 
 The `std::convert::From` trait is
 [defined in the standard
@@ -1279,7 +1304,8 @@ us a way to reliably convert errors to the same type using the same function.
 
 Time to revisit an old friend; the `try!` macro.
 
-## The real `try!` macro
+<!-- ## The real `try!` macro -->
+## 本当の `try!` マクロ
 
 Previously, we presented this definition of `try!`:
 
@@ -1371,7 +1397,8 @@ chapter](https://crates.io/crates/error).)
 
 It's time to revisit our custom `CliError` type and tie everything together.
 
-## Composing custom error types
+<!-- ## Composing custom error types -->
+## 独自のエラー型で構成する
 
 In the last section, we looked at the real `try!` macro and how it does
 automatic type conversion for us by calling `From::from` on the error value.
@@ -1501,7 +1528,8 @@ impl From<num::ParseFloatError> for CliError {
 
 And that's it!
 
-## Advice for library writers
+<!-- ## Advice for library writers -->
+## ライブラリ作者たちへのアドバイス
 
 If your library needs to report custom errors, then you should
 probably define your own error type. It's up to you whether or not to
@@ -1532,7 +1560,8 @@ library defines a single error type. This is used in the standard library
 for [`io::Result`](../std/io/type.Result.html)
 and [`fmt::Result`](../std/fmt/type.Result.html).
 
-# Case study: A program to read population data
+<!-- # Case study: A program to read population data -->
+# ケーススタディ：人口データを読み込むプログラム
 
 This chapter was long, and depending on your background, it might be
 rather dense. While there is plenty of example code to go along with
@@ -1556,7 +1585,8 @@ parse the program arguments and decode that stuff into Rust types automatically.
 [`csv`](https://crates.io/crates/csv),
 and [`rustc-serialize`](https://crates.io/crates/rustc-serialize) crates.
 
-## Initial setup
+<!-- ## Initial setup -->
+## 最初のセットアップ
 
 We're not going to spend a lot of time on setting up a project with
 Cargo because it is already covered well in [the Cargo
@@ -1588,7 +1618,8 @@ cargo build --release
 # Outputs: Hello, world!
 ```
 
-## Argument parsing
+<!-- ## Argument parsing -->
+## 引数のパース
 
 Let's get argument parsing out of the way. We won't go into too much
 detail on Getopts, but there is [some good documentation][15]
@@ -1648,7 +1679,8 @@ print for the program name and template. If the user has not passed in
 the help flag, we assign the proper variables to their corresponding
 arguments.
 
-## Writing the logic
+<!-- ## Writing the logic -->
+## ロジックを書く
 
 We all write code differently, but error handling is usually the last thing we
 want to think about. This isn't great for the overall design of a program, but
@@ -1742,7 +1774,8 @@ explore two different ways to approach handling these errors.
 I'd like to start with `Box<Error>`. Later, we'll see how defining our own
 error type can be useful.
 
-## Error handling with `Box<Error>`
+<!-- ## Error handling with `Box<Error>` -->
+## `Box<Error>` によるエラー処理
 
 `Box<Error>` is nice because it *just works*. You don't need to define your own
 error types and you don't need any `From` implementations. The downside is that
@@ -1907,7 +1940,8 @@ Now that we've seen how to do proper error handling with `Box<Error>`, let's
 try a different approach with our own custom error type. But first, let's take
 a quick break from error handling and add support for reading from `stdin`.
 
-## Reading from stdin
+<!-- ## Reading from stdin -->
+## 標準入力から読み込む
 
 In our program, we accept a single file for input and do one pass over the
 data. This means we probably should be able to accept input on stdin. But maybe
@@ -1985,7 +2019,8 @@ fn search<P: AsRef<Path>>
 }
 ```
 
-## Error handling with a custom type
+<!-- ## Error handling with a custom type -->
+## 独自のエラー型によるエラー処理
 
 Previously, we learned how to
 [compose errors using a custom error type](#composing-custom-error-types).
@@ -2091,7 +2126,8 @@ fn search<P: AsRef<Path>>
 
 No other changes are necessary.
 
-## Adding functionality
+<!-- ## Adding functionality -->
+## 機能を追加する
 
 Writing generic code is great, because generalizing stuff is cool, and
 it can then be useful later. But sometimes, the juice isn't worth the
@@ -2151,7 +2187,8 @@ This pretty much sums up our case study. From here, you should be ready to go
 out into the world and write your own programs and libraries with proper error
 handling.
 
-# The Short Story
+<!-- # The Short Story -->
+# ショートストーリー
 
 Since this chapter is long, it is useful to have a quick summary for error
 handling in Rust. These are some good “rules of thumb." They are emphatically
