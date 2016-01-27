@@ -18,6 +18,7 @@
 | crate        | クレート
 |  enum        | 列挙型
 | `enum`       | `enum`
+| feature      | フィーチャ
 | Intrinsics   | Intrinsic
 | Lang Items   | Lang Item
 | lifetime     | ライフタイム
