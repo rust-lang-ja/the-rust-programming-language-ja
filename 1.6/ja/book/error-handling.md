@@ -7,7 +7,7 @@
 <!-- values. -->
 
 他のほとんどのプログラミング言語と同様に、Rustはプログラマに、エラーを扱うための、ある決まった作法を求めます。
-一般的にエラーハンドリングは、例外、あるいは、戻り値を使ったものの、大きく２つに分類されます。
+一般的にエラー処理は、例外、あるいは、戻り値を使ったものの、大きく２つに分類されます。
 Rustでは戻り値を使います。（用語集候補：return value）
 
 <!-- In this chapter, we intend to provide a comprehensive treatment of how to deal -->
@@ -15,7 +15,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- one piece at a time so that you'll come away with a solid working knowledge of -->
 <!-- how everything fits together. -->
 
-この章では、Rustでのエラー処理に関わる、包括的な対処方法を提供しようと思います。
+この章では、Rustでのエラー処理に関わる包括的な対処方法を提示しようと思います。
 単にそれだけではなく、エラー処理のやり方を、ひとつひとつ、順番に積み上げていきます。
 こうすることで、全体がどう組み合わさっているのかの理解が進み、より実用的な知識が身につくでしょう。
 
@@ -24,7 +24,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- standard library to make error handling concise and ergonomic. -->
 
 もし素朴なやりかたで取り組んだなら、Rustにおけるエラー処理は、冗長で面倒なものになり得ます。
-この章では、エラー処理をする上でどのような課題があるかを調査し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
+この章では、エラー処理をする上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
 
 <!-- # Table of Contents -->
 # 目次
@@ -107,7 +107,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- handling is reducing the amount of explicit case analysis the programmer has to -->
 <!-- do while keeping code composable. -->
 
-エラー処理というものは、 **ケース分析** に基づいて、ある処理の結果が成功したのかどうかを判断していくものだと考えられます。
+エラー処理とは、 **ケース分析** に基づいて、ある処理の結果が成功したのかどうかを判断していくものだと考えられます。
 この後、見ていくように、使いやすいエラー処理であるために重要なのは、プログラマが、コードをコンポーザブル（構成可能）に保ったまま、明示的なケース分析の量をいかに減らしていくかということです。
 
 <!-- Keeping code composable is important, because without that requirement, we -->
@@ -116,13 +116,15 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- and in most cases, the entire program aborts.) Here's an example: -->
 
 コードをコンポーザブルに保つのは重要です。
-なぜなら、もしこの要求がなかったら、なにか想定外のことが起こる度に [`panic`](../std/macro.panic!.html) を選ぶかもしれないからです。
+なぜなら、もしこの要求がなかったら、なにか想定外のことが起こる度に [`panic`](../std/macro.panic!.html) することを選ぶかもしれないからです。
 （`panic` は現タスクをunwind（訳）し、ほとんどの場合、プログラム全体をアボートします。）
 （用語集候補：unwind）
 
 ```rust,should_panic
-// Guess a number between 1 and 10.
-// If it matches the number we had in mind, return true. Else, return false.
+<!-- // Guess a number between 1 and 10. -->
+<!-- // If it matches the number we had in mind, return true. Else, return false. -->
+// 1から10までの数字を予想します。
+// もし予想した数字にマッチしたらtrueを返し、そうでなけれは、falseを返します。
 fn guess(n: i32) -> bool {
     if n < 1 || n > 10 {
         panic!("Invalid number: {}", n);
@@ -135,14 +137,19 @@ fn main() {
 }
 ```
 
-If you try running this code, the program will crash with a message like this:
+<!-- If you try running this code, the program will crash with a message like this: -->
+
+このコードを実行すると、プログラムがクラッシュして、以下のようなメッセージが表示されます。
 
 ```text
 thread '<main>' panicked at 'Invalid number: 11', src/bin/panic-simple.rs:5
 ```
 
-Here's another example that is slightly less contrived. A program that accepts
-an integer as an argument, doubles it and prints it.
+<!-- Here's another example that is slightly less contrived. A program that accepts -->
+<!-- an integer as an argument, doubles it and prints it. -->
+
+もう少し自然な、別の例を示します。
+このプログラムは引数として整数を受け取り、２倍した後に表示します。
 
 <span id="code-unwrap-double"></span>
 
@@ -151,39 +158,57 @@ use std::env;
 
 fn main() {
     let mut argv = env::args();
-    let arg: String = argv.nth(1).unwrap(); // error 1
-    let n: i32 = arg.parse().unwrap(); // error 2
+    let arg: String = argv.nth(1).unwrap(); // エラー１
+    let n: i32 = arg.parse().unwrap(); // エラー２
     println!("{}", 2 * n);
 }
 ```
 
-If you give this program zero arguments (error 1) or if the first argument
-isn't an integer (error 2), the program will panic just like in the first
-example.
+<!-- If you give this program zero arguments (error 1) or if the first argument -->
+<!-- isn't an integer (error 2), the program will panic just like in the first -->
+<!-- example. -->
 
-You can think of this style of error handling as similar to a bull running
-through a china shop. The bull will get to where it wants to go, but it will
-trample everything in the process.
+もし、このプログラムに引数を与えなかったら（エラー１）、あるいは、最初の引数が整数でなかったら（エラー２）、このプログラムは、最初の例と同じようにパニックするでしょう。
+
+<!-- You can think of this style of error handling as similar to a bull running -->
+<!-- through a china shop. The bull will get to where it wants to go, but it will -->
+<!-- trample everything in the process. -->
+
+このようなスタイルのエラー処理は、まるで、陶器店の中を駆け抜ける雄牛のようなものです。
+雄牛は自分の行きたいところへたどり着くでしょう。
+でも彼は、途中にある、あらゆるものを蹴散らしてしまいます。
 
 <!-- ## Unwrapping explained -->
 ## Unwap とは
 
-In the previous example, we claimed
-that the program would simply panic if it reached one of the two error
-conditions, yet, the program does not include an explicit call to `panic` like
-the first example. This is because the
-panic is embedded in the calls to `unwrap`.
+<!-- In the previous example, we claimed -->
+<!-- that the program would simply panic if it reached one of the two error -->
+<!-- conditions, yet, the program does not include an explicit call to `panic` like -->
+<!-- the first example. This is because the -->
+<!-- panic is embedded in the calls to `unwrap`. -->
 
-To “unwrap” something in Rust is to say, “Give me the result of the
-computation, and if there was an error, just panic and stop the program.”
-It would be better if we just showed the code for unwrapping because it is so
-simple, but to do that, we will first need to explore the `Option` and `Result`
-types. Both of these types have a method called `unwrap` defined on them.
+先ほどの例で、プログラムが２つのエラー条件のいずれかを満たした時に、パニックすると言いました。
+でもこのプログラムは、最初の例とは違って明示的に `panic` を呼び出してはいません。
+実はパニックは `unwrap` の呼び出しの中に埋め込まれているのです。
+
+<!-- To “unwrap” something in Rust is to say, “Give me the result of the -->
+<!-- computation, and if there was an error, just panic and stop the program.” -->
+<!-- It would be better if we just showed the code for unwrapping because it is so -->
+<!-- simple, but to do that, we will first need to explore the `Option` and `Result` -->
+<!-- types. Both of these types have a method called `unwrap` defined on them. -->
+
+Rustでなにかを「unwrapする」時、こう言っているのと同じです。
+「計算結果を取り出しなさい。もしエラーになっていたのなら、パニックを起こしてプログラムを終了させなさい」
+unwrap のコードはとても単純なので、多分、それを見せたほうが早いでしょう。
+でもそのためには、最初に `Option` と `Result` 型について調べる必要があります。
+どちらの型にも、 `unwrap` という名前のメソッドが定義されています。
 
 <!-- ### The `Option` type -->
 ### `Option` 型
 
-The `Option` type is [defined in the standard library][5]:
+<!-- The `Option` type is [defined in the standard library][5]: -->
+
+`Option` 型は [標準ライブラリで定義されています][5]：
 
 ```rust
 enum Option<T> {
@@ -192,17 +217,25 @@ enum Option<T> {
 }
 ```
 
-The `Option` type is a way to use Rust's type system to express the
-*possibility of absence*. Encoding the possibility of absence into the type
-system is an important concept because it will cause the compiler to force the
-programmer to handle that absence. Let's take a look at an example that tries
-to find a character in a string:
+<!-- The `Option` type is a way to use Rust's type system to express the -->
+<!-- *possibility of absence*. Encoding the possibility of absence into the type -->
+<!-- system is an important concept because it will cause the compiler to force the -->
+<!-- programmer to handle that absence. Let's take a look at an example that tries -->
+<!-- to find a character in a string:
+
+`Option` 型は、Rustの型システムを使って **不在の可能性** を表現するためのものです。
+型システムに不在の可能性をencode（訳）することは、重要な概念です。
+なぜなら、コンパイラが、その不在に対処することをプログラマに強制させるからです。
+文字列から文字を検索する例を見てみましょう。
 
 <span id="code-option-ex-string-find"></span>
 
 ```rust
-// Searches `haystack` for the Unicode character `needle`. If one is found, the
-// byte offset of the character is returned. Otherwise, `None` is returned.
+<!-- // Searches `haystack` for the Unicode character `needle`. If one is found, the -->
+<!-- // byte offset of the character is returned. Otherwise, `None` is returned. -->
+// `haystack` （干し草の山）からユニコード文字 `needle` （縫い針）を検索します。
+// もし見つかったら、文字のバイトオフセットを返します。そうでなければ、`None` を
+// 返します。
 fn find(haystack: &str, needle: char) -> Option<usize> {
     for (offset, c) in haystack.char_indices() {
         if c == needle {
@@ -213,24 +246,36 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 }
 ```
 
-Notice that when this function finds a matching character, it doesn't just
-return the `offset`. Instead, it returns `Some(offset)`. `Some` is a variant or
-a *value constructor* for the `Option` type. You can think of it as a function
-with the type `fn<T>(value: T) -> Option<T>`. Correspondingly, `None` is also a
-value constructor, except it has no arguments. You can think of `None` as a
-function with the type `fn<T>() -> Option<T>`.
+<!-- Notice that when this function finds a matching character, it doesn't just -->
+<!-- return the `offset`. Instead, it returns `Some(offset)`. `Some` is a variant or -->
+<!-- a *value constructor* for the `Option` type. You can think of it as a function -->
+<!-- with the type `fn<T>(value: T) -> Option<T>`. Correspondingly, `None` is also a -->
+<!-- value constructor, except it has no arguments. You can think of `None` as a -->
+<!-- function with the type `fn<T>() -> Option<T>`. -->
 
-This might seem like much ado about nothing, but this is only half of the
-story. The other half is *using* the `find` function we've written. Let's try
-to use it to find the extension in a file name.
+この関数がマッチする文字を見つけた時、単に `offset` を返すだけではないことに注目してください。
+その代わりに、 `Some(offset)` を返します。
+`Some` は `Option` 型の **値コンストラクタ** のひとつです。
+これは、 `fn<T>(value: T) -> Option<T>` という型の関数だと考えることもできます。
+これに対応して、 `None` もまた値コンストラクタですが、こちらは引数がありません。
+`None` は `fn<T>() -> Option<T>` という型の関数だと考えることもできます。
+
+<!-- This might seem like much ado about nothing, but this is only half of the -->
+<!-- story. The other half is *using* the `find` function we've written. Let's try -->
+<!-- to use it to find the extension in a file name. -->
+
+これは、何も見つからないことに対する、大げさな騒動に思えるかもしれません。
+でもまだこれは、物語の半分に過ぎません。
+残りの半分は、いま書いた `find` 関数を **使う** 場面です。
+これを使って、ファイル名から拡張子を見つてみましょう。
 
 ```rust
 # fn find(_: &str, _: char) -> Option<usize> { None }
 fn main() {
     let file_name = "foobar.rs";
     match find(file_name, '.') {
-        None => println!("No file extension found."),
-        Some(i) => println!("File extension: {}", &file_name[i+1..]),
+        None => println!("ファイル拡張子は見つかりませんでした。"),
+        Some(i) => println!("ファイル拡張子は{}です。", &file_name[i+1..]),
     }
 }
 ```
