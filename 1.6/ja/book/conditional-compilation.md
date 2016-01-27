@@ -1,4 +1,5 @@
-% Conditional Compilation
+% 条件付きコンパイル
+<!-- % Conditional Compilation -->
 
 Rust has a special attribute, `#[cfg]`, which allows you to compile code
 based on a flag passed to the compiler. It has two forms:
