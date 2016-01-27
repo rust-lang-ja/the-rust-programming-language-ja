@@ -14,7 +14,7 @@
     * [ループ](loops.md)
     * [所有権](ownership.md)
     * [参照と借用](references-and-borrowing.md)
-    * [生存期](lifetimes.md)
+    * [ライフタイム](lifetimes.md)
     * [可変性](mutability.md)
     * [構造体](structs.md)
     * [列挙型](enums.md)
