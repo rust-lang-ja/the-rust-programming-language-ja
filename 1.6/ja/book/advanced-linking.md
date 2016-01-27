@@ -5,7 +5,6 @@
 <!-- but supporting the range of linking possibilities made available by other -->
 <!-- languages is important for Rust to achieve seamless interaction with native -->
 <!-- libraries. -->
-
 Rustにおけるリンクの一般的なケースについては本書の前の方で説明しましたが、他言語から利用できるような幅広いリンクをサポートすることは、ネイティブライブラリーとのシームレスな相互利用を実現するために、Rustにとって重要です。
 
 <!-- # Link args -->
@@ -15,7 +14,6 @@ Rustにおけるリンクの一般的なケースについては本書の前の�
 <!-- the `link_args` attribute. This attribute is applied to `extern` blocks and -->
 <!-- specifies raw flags which need to get passed to the linker when producing an -->
 <!-- artifact. An example usage would be: -->
-
 どのようにリンクをカスタマイズするかを`rustc`に指示するために、1つの方法があります。それは、`link_args`属性を使うことです。
 この属性は`extern`ブロックに適用され、生成物を作るときにリンカーに渡したいフラグをそのまま指定します。
 使い方の例は次のようになります。
@@ -36,7 +34,6 @@ extern {}
 <!-- LLVM directly to link native libraries, in which case `link_args` will have no -->
 <!-- meaning. You can achieve the same effect as the `link_args` attribute with the -->
 <!-- `-C link-args` argument to `rustc`. -->
-
 これはリンクを実行するための認められた方法ではないため、この機能は現在`feature(link_args)`ゲートによって隠されているということに注意しましょう。
 今は`rustc`がシステムリンカー（多くのシステムでは`gcc`、MSVCでは`link.exe`）に渡すので、追加のコマンドライン引数を提供することには意味がありますが、それが今後もそうだとは限りません。
 将来、`rustc`がネイティブライブラリーをリンクするためにLLVMを直接使うようになるかもしれませんし、そのような場合には`link_args`は意味がなくなるでしょう。
@@ -44,7 +41,6 @@ extern {}
 
 <!-- It is highly recommended to *not* use this attribute, and rather use the more -->
 <!-- formal `#[link(...)]` attribute on `extern` blocks instead. -->
-
 この属性は使わ *ない* ことが強く推奨されているので、代わりにもっと正式な`#[link(...)]`属性を`extern`ブロックに使いましょう。
 
 <!-- # Static linking -->
@@ -57,7 +53,6 @@ extern {}
 <!-- installing Rust everywhere. By contrast, native libraries -->
 <!-- (e.g. `libc` and `libm`) are usually dynamically linked, but it is possible to -->
 <!-- change this and statically link them as well. -->
-
 スタティックリンクとは全ての必要なライブラリーを含めた出力を生成する手順のことで、そうすればコンパイルされたプロジェクトを使いたいシステム全てにライブラリーをインストールする必要がなくなります。
 Rustのみで構築された依存関係はデフォルトでスタティックリンクされます。そのため、Rustをインストールしなくても、作成されたバイナリーやライブラリーを使うことができます。
 対照的に、ネイティブライブラリー（例えば`libc`や`libm`）はダイナミックリンクされるのが普通です。しかし、これを変更してそれらを同様にスタティックリンクすることも可能です。
@@ -65,7 +60,6 @@ Rustのみで構築された依存関係はデフォルトでスタティック�
 <!-- Linking is a very platform-dependent topic, and static linking may not even be -->
 <!-- possible on some platforms! This section assumes some basic familiarity with -->
 <!-- linking on your platform of choice. -->
-
 リンクは非常にプラットフォームに依存した話題であり、スタティックリンクのできないプラットフォームすらあるかもしれません!
 このセクションは選んだプラットフォームにおけるリンクについての基本が理解できていることを前提とします。
 
@@ -75,7 +69,6 @@ Rustのみで構築された依存関係はデフォルトでスタティック�
 <!-- By default, all Rust programs on Linux will link to the system `libc` along with -->
 <!-- a number of other libraries. Let's look at an example on a 64-bit Linux machine -->
 <!-- with GCC and `glibc` (by far the most common `libc` on Linux): -->
-
 デフォルトでは、Linux上の全てのRustのプログラムはシステムの`libc`とその他のいくつかのライブラリーとリンクされます。
 GCCと`glibc`（Linuxにおける最も一般的な`libc`）を使った64ビットLinuxマシンでの例を見てみましょう。
 
@@ -97,13 +90,11 @@ $ ldd example
 <!-- Dynamic linking on Linux can be undesirable if you wish to use new library -->
 <!-- features on old systems or target systems which do not have the required -->
 <!-- dependencies for your program to run. -->
-
 古いシステムで新しいライブラリーの機能を使いたいときや、実行するプログラムに必要な依存関係を満たさないシステムをターゲットにしたいときは、Linuxにおけるダイナミックリンクは望ましくないかもしれません。
 
 <!-- Static linking is supported via an alternative `libc`, [`musl`](http://www.musl-libc.org). You can compile -->
 <!-- your own version of Rust with `musl` enabled and install it into a custom -->
 <!-- directory with the instructions below: -->
-
 スタティックリンクは代わりの`libc`である[`musl`](http://www.musl-libc.org/)によってサポートされています。
 以下の手順に従い、`musl`を有効にした独自バージョンのRustをコンパイルして独自のディレクトリーにインストールすることができます。
 
@@ -151,7 +142,6 @@ $ du -h musldist/bin/rustc
 <!-- You now have a build of a `musl`-enabled Rust! Because we've installed it to a -->
 <!-- custom prefix we need to make sure our system can find the binaries and appropriate -->
 <!-- libraries when we try and run it: -->
-
 これで`musl`が有効になったRustのビルドが手に入りました!
 独自のプレフィックスを付けてインストールしたので、試しに実行するときにはシステムがバイナリーと適切なライブラリーを見付けられることを確かめなければなりません。
 
@@ -161,7 +151,6 @@ $ export LD_LIBRARY_PATH=$PREFIX/lib:$LD_LIBRARY_PATH
 ```
 
 <!-- Let's try it out! -->
-
 試してみましょう!
 
 ```text
@@ -176,13 +165,11 @@ thread '<main>' panicked at 'failed', example.rs:1
 
 <!-- Success! This binary can be copied to almost any Linux machine with the same -->
 <!-- machine architecture and run without issues. -->
-
 成功しました!
 このバイナリーは同じマシンアーキテクチャーであればほとんど全てのLinuxマシンにコピーして問題なく実行することができます。
 
 <!-- `cargo build` also permits the `--target` option so you should be able to build -->
 <!-- your crates as normal. However, you may need to recompile your native libraries -->
 <!-- against `musl` before they can be linked against. -->
-
 `cargo build`も`--target`オプションを受け付けるので、あなたのクレートも普通にビルドできるはずです。
 ただし、リンクする前にネイティブライブラリーを`musl`向けにリコンパイルする必要はあるかもしれません。
