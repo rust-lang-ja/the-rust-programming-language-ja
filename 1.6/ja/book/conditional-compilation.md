@@ -39,7 +39,7 @@ Rustには `#[cfg]` という特別なアトリビュートがあり，
 
 <!-- As for how to enable or disable these switches, if you’re using Cargo, -->
 <!-- they get set in the [`[features]` section][features] of your `Cargo.toml`: -->
-このようなスイッチの有効・無効の切り替えはCargoを利用している場合「Cargo.toml」中の [`[フィーチャ]` セクション][features] で設定できます．
+このようなスイッチの有効・無効の切り替えはCargoを利用している場合「Cargo.toml」中の [`[features]` セクション][features] で設定できます．
 
 [フィーチャ]: http://doc.crates.io/manifest.html#the-features-section
 
