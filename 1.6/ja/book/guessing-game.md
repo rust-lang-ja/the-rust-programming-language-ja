@@ -19,7 +19,7 @@
 <!-- Let’s set up a new project. Go to your projects directory. Remember how we had -->
 <!-- to create our directory structure and a `Cargo.toml` for `hello_world`? Cargo -->
 <!-- has a command that does that for us. Let’s give it a shot: -->
-新しいプロジェクトを作りましょう。プロジジェクトのディレクトリへ行って下さい。
+新しいプロジェクトを作りましょう。プロジェクトのディレクトリへ行って下さい。
 `hello_world`の時にどのようなディレクトリ構成で、どのように`Cargo.toml`を作る必要があったか覚えてますか?
 Cargoにはそれらのことをしてくれるコマンドがあるのでした。使いましょう。
 
