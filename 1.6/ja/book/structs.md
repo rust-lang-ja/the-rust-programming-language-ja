@@ -12,7 +12,7 @@ let origin_y = 0;
 ```
 
 <!-- A `struct` lets us combine these two into a single, unified datatype: -->
-`struct`はこれら2つを1つのデータ型にまとめることができます。
+`struct`でこれら2つを1つのデータ型にまとめることができます。
 
 ```rust
 struct Point {
@@ -198,7 +198,7 @@ and with a `struct`, we have actual names. -->
 tuple struct with only one element. We call this the ‘newtype’ pattern, because
 it allows you to create a new type, distinct from that of its contained value
 and expressing its own semantic meaning: -->
-タプル構造体が非常に便利な場合も_あります_が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを'newtype'パターンと呼んでいます。
+タプル構造体が非常に便利な場合も_あります_が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。
 
 ```rust
 struct Inches(i32);
