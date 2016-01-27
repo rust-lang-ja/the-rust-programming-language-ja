@@ -8,26 +8,36 @@
 
 # 対訳表
 
-| English      | 日本語
-|:-------------|:------
-| associated - | 関連-
-| attribute    | アトリビュート
-| binding      | 束縛
-| borrowing    | 借用
-| coercion     | 型強制
-| crate        | クレート
-|  enum        | 列挙型
-| `enum`       | `enum`
-| Intrinsics   | Intrinsic
-| Lang Items   | Lang Item
-| lifetime     | ライフタイム
-| move         | ムーブ
-| `mut`        | `mut`
-| mutable      | ミュータブル
-| mutability   | ミュータビリティ
-| ownership    | 所有権
-| struct       | 構造体
-| `struct`     | `struct`
-| structure    | ストラクチャ
-| trait        | トレイト
-| unsized type | サイズ不定型
+| English           | 日本語
+|:------------------|:------
+| associated -      | 関連-
+| attribute         | アトリビュート
+| binding           | 束縛
+| borrowing         | 借用
+| closure           | クロージャ
+| coercion          | 型強制
+| consumers         | コンシューマ
+| crate             | クレート
+| dereferencing     | 参照外し
+|  enum             | 列挙型
+| `enum`            | `enum`
+| Intrinsics        | Intrinsic
+| iterator adaptors | イテレータアダプタ
+| Lang Items        | Lang Item
+| lazy              | lazy
+| lifetime          | ライフタイム
+| move              | ムーブ
+| `mut`             | `mut`
+| mutable           | ミュータブル
+| mutability        | ミュータビリティ
+| owner             | owner
+| ownership         | 所有権
+| ranges            | レンジ
+| struct            | 構造体
+| `struct`          | `struct`
+| structure         | ストラクチャ
+| trait             | トレイト
+| type hint         | 型ヒント
+| type placeholder  | 型プレースホルダ
+| unsized type      | サイズ不定型
+| vector            | vector

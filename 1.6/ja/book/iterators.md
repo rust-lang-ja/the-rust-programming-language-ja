@@ -127,7 +127,7 @@ talk about what you do want instead. -->
 * *イテレータアダプタ*はイテレータに作用し、出力の異なるイテレータを生成します。
 * *コンシューマ*はイテレータに作用し、幾つかの最終的な値の組を生成します。
 
-Let's talk about consumers first, since you've already seen an iterator, ranges.
+<!-- Let's talk about consumers first, since you've already seen an iterator, ranges. -->
 既にイテレータとレンジについて見てきましたから、初めにコンシューマについて話しましょう。
 
 ## コンシューマ
