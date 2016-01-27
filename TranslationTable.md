@@ -25,7 +25,6 @@
 | Intrinsics        | Intrinsic
 | iterator adaptors | イテレータアダプタ
 | Lang Items        | Lang Item
-| laziness          | 遅延性
 | lifetime          | ライフタイム
 | move              | ムーブ
 | `mut`             | `mut`
