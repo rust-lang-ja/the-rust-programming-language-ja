@@ -39,16 +39,16 @@ Rustには `#[cfg]` という特別なアトリビュートがあり，
 
 <!-- As for how to enable or disable these switches, if you’re using Cargo, -->
 <!-- they get set in the [`[features]` section][features] of your `Cargo.toml`: -->
-このようなスイッチの有効・無効の切り替えはCargoを利用している場合「Cargo.toml」中の [`[features]` セクション][features] で設定できます．
+このようなスイッチの有効・無効の切り替えはCargoを利用している場合「Cargo.toml」中の [`[フィーチャ]` セクション][features] で設定できます．
 
-[features]: http://doc.crates.io/manifest.html#the-features-section
+[フィーチャ]: http://doc.crates.io/manifest.html#the-features-section
 
 ```toml
 [features]
 # no features by default
 default = []
 
-# The “secure-password” feature depends on the bcrypt package.
+# フィーチャ「secure-password」は bcrypt パッケージに依存しています
 secure-password = ["bcrypt"]
 ```
 
