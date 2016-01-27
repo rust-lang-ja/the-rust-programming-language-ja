@@ -743,7 +743,7 @@ fn eat(&self, table: &Table) {
 <!-- which is what happens when the thread panics while the lock is held. Since this -->
 <!-- shouldn’t happen, we just use `unwrap()`. -->
 `lock()`呼び出しは失敗する可能性があり、その場合は、プログラムをクラッシュさせます。この状況は、ミューテックスが[「poisoned」][poison]状態、
-つまりロック保持中のスレッドがpanicした場合にしか発生しません。つまり今は起こりえないため、単に`unwrap()`を使っています。
+つまりロック保持中のスレッドがパニックした場合にしか発生しません。つまり今は起こりえないため、単に`unwrap()`を使っています。
 
 [poison]: ../std/sync/struct.Mutex.html#poisoning
 
