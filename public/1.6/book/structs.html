@@ -245,26 +245,32 @@ notation: `origin.x`. -->
 <!-- The values in `struct`s are immutable by default, like other bindings in Rust.
 Use `mut` to make them mutable -->
 
-<p>Rustの他の束縛のように、<code>struct</code>が持つ値はイミュータブルがデフォルトです。<code>mut</code>を使うと値をミュータブルにできます。
-```rust
-struct Point {
+<p>Rustの他の束縛のように、<code>struct</code>が持つ値はイミュータブルがデフォルトです。<code>mut</code>を使うと値をミュータブルにできます。</p>
+<span class='rusttest'>struct Point {
     x: i32,
     y: i32,
-}</p>
+}
 
-<p>fn main() {
-    let mut point = Point { x: 0, y: 0 };</p>
-<span class='rusttest'>fn main() {
+fn main() {
+    let mut point = Point { x: 0, y: 0 };
+
     point.x = 5;
-    
+
     println!(&quot;The point is at ({}, {})&quot;, point.x, point.y);
-}</span><pre class='rust rust-example-rendered'>
-<span class='ident'>point</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
 
-<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The point is at ({}, {})&quot;</span>, <span class='ident'>point</span>.<span class='ident'>x</span>, <span class='ident'>point</span>.<span class='ident'>y</span>);</pre>
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
 
-<p>}
-```</p>
+    <span class='ident'>point</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The point is at ({}, {})&quot;</span>, <span class='ident'>point</span>.<span class='ident'>x</span>, <span class='ident'>point</span>.<span class='ident'>y</span>);
+}</pre>
 
 <!-- This will print `The point is at (5, 0)`. -->
 
@@ -290,30 +296,7 @@ used to field-level mutability, this may seem strange at first, but it
 significantly simplifies things. It even lets you make things mutable for a short
 time only: -->
 
-<p>ミュータビリティは束縛に付与できる属性であり、構造体自体に付与できる属性ではありません。もしあなたがフィールドレベルのミュータビリティを使うのであれば、初めこそ奇妙に見えるものの、非常に簡単に実現できる方法があります。以下の方法で少しの間だけミュータブルな構造体を作ることができます。
-&lt;!-- ```rust,ignore
-struct Point {
-    x: i32,
-    y: i32,
-}</p>
-
-<p>fn main() {
-    let mut point = Point { x: 0, y: 0 };</p>
-<span class='rusttest'>fn main() {
-    point.x = 5;
-    
-    let point = point; // this new binding can’t change now
-    
-    point.y = 6; // this causes an error
-}</span><pre class='rust rust-example-rendered'>
-<span class='ident'>point</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
-
-<span class='kw'>let</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>point</span>; <span class='comment'>// this new binding can’t change now</span>
-
-<span class='ident'>point</span>.<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>; <span class='comment'>// this causes an error</span></pre>
-
-<p>}
-``` --&gt;</p>
+<p>ミュータビリティは束縛に付与できる属性であり、構造体自体に付与できる属性ではありません。もしあなたがフィールドレベルのミュータビリティを使うのであれば、初めこそ奇妙に見えるものの、非常に簡単に実現できる方法があります。以下の方法で少しの間だけミュータブルな構造体を作ることができます。</p>
 <span class='rusttest'>struct Point {
     x: i32,
     y: i32,
@@ -350,17 +333,25 @@ fn main() {
 <!-- A `struct` can include `..` to indicate that you want to use a copy of some
 other `struct` for some of the values. For example: -->
 
-<p><code>struct</code>の初期化時には、値の一部を他の構造体からコピーしたいことを示す<code>..</code>を含めることができます。例えば、
-```rust
-struct Point3d {
-    x: i32,
-    y: i32,
-    z: i32,
-}</p>
+<p><code>struct</code>の初期化時には、値の一部を他の構造体からコピーしたいことを示す<code>..</code>を含めることができます。例えば、</p>
+<span class='rusttest'>fn main() {
+    struct Point3d {
+        x: i32,
+        y: i32,
+        z: i32,
+    }
+    
+    let mut point = Point3d { x: 0, y: 0, z: 0 };
+    point = Point3d { y: 1, .. point };
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point3d</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+    <span class='ident'>z</span>: <span class='ident'>i32</span>,
+}
 
-<p>let mut point = Point3d { x: 0, y: 0, z: 0 };
-point = Point3d { y: 1, .. point };
-```</p>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point3d</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span>, <span class='ident'>z</span>: <span class='number'>0</span> };
+<span class='ident'>point</span> <span class='op'>=</span> <span class='ident'>Point3d</span> { <span class='ident'>y</span>: <span class='number'>1</span>, .. <span class='ident'>point</span> };</pre>
 
 <!-- This gives `point` a new `y`, but keeps the old `x` and `z` values. It doesn’t
 have to be the same `struct` either, you can use this syntax when making new
@@ -475,12 +466,15 @@ destructuring `let`, just as with regular tuples. In this case, the
 <h1 id='unit-like-構造体' class='section-header'><a href='#unit-like-構造体'>Unit-like 構造体</a></h1>
 <!-- You can define a `struct` with no members at all: -->
 
-<p>あなたは全くメンバを持たない<code>struct</code>を定義できます。
-```rust
-struct Electron;</p>
+<p>あなたは全くメンバを持たない<code>struct</code>を定義できます。</p>
+<span class='rusttest'>fn main() {
+    struct Electron;
+    
+    let x = Electron;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Electron</span>;
 
-<p>let x = Electron;
-```</p>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Electron</span>;</pre>
 
 <!-- Such a `struct` is called ‘unit-like’ because it resembles the empty
 tuple, `()`, sometimes called ‘unit’. Like a tuple struct, it defines a
