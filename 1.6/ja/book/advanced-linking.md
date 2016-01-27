@@ -1,16 +1,24 @@
-% Advanced Linking
+% 高度なリンキング
+<!-- % Advanced Linking -->
 
-The common cases of linking with Rust have been covered earlier in this book,
-but supporting the range of linking possibilities made available by other
-languages is important for Rust to achieve seamless interaction with native
-libraries.
+<!-- The common cases of linking with Rust have been covered earlier in this book, -->
+<!-- but supporting the range of linking possibilities made available by other -->
+<!-- languages is important for Rust to achieve seamless interaction with native -->
+<!-- libraries. -->
 
-# Link args
+Rustにおけるリンクの一般的なケースについては本書の前の方で説明しましたが、他言語から利用できるような幅広いリンクをサポートすることは、ネイティブライブラリーとのシームレスな相互利用を実現するために、Rustにとって重要です。
 
-There is one other way to tell `rustc` how to customize linking, and that is via
-the `link_args` attribute. This attribute is applied to `extern` blocks and
-specifies raw flags which need to get passed to the linker when producing an
-artifact. An example usage would be:
+<!-- # Link args -->
+# リンク引数
+
+<!-- There is one other way to tell `rustc` how to customize linking, and that is via -->
+<!-- the `link_args` attribute. This attribute is applied to `extern` blocks and -->
+<!-- specifies raw flags which need to get passed to the linker when producing an -->
+<!-- artifact. An example usage would be: -->
+
+どのようにリンクをカスタマイズするかを`rustc`に指示するために、1つの方法があります。それは、`link_args`属性を使うことです。
+この属性は`extern`ブロックに適用され、生成物を作るときにリンカーに渡したいフラグをそのまま指定します。
+使い方の例は次のようになります。
 
 ``` no_run
 #![feature(link_args)]
@@ -20,37 +28,56 @@ extern {}
 # fn main() {}
 ```
 
-Note that this feature is currently hidden behind the `feature(link_args)` gate
-because this is not a sanctioned way of performing linking. Right now `rustc`
-shells out to the system linker (`gcc` on most systems, `link.exe` on MSVC),
-so it makes sense to provide extra command line
-arguments, but this will not always be the case. In the future `rustc` may use
-LLVM directly to link native libraries, in which case `link_args` will have no
-meaning. You can achieve the same effect as the `link_args` attribute with the
-`-C link-args` argument to `rustc`.
+<!-- Note that this feature is currently hidden behind the `feature(link_args)` gate -->
+<!-- because this is not a sanctioned way of performing linking. Right now `rustc` -->
+<!-- shells out to the system linker (`gcc` on most systems, `link.exe` on MSVC), -->
+<!-- so it makes sense to provide extra command line -->
+<!-- arguments, but this will not always be the case. In the future `rustc` may use -->
+<!-- LLVM directly to link native libraries, in which case `link_args` will have no -->
+<!-- meaning. You can achieve the same effect as the `link_args` attribute with the -->
+<!-- `-C link-args` argument to `rustc`. -->
 
-It is highly recommended to *not* use this attribute, and rather use the more
-formal `#[link(...)]` attribute on `extern` blocks instead.
+これはリンクを実行するための認められた方法ではないため、この機能は現在`feature(link_args)`ゲートによって隠されているということに注意しましょう。
+今は`rustc`がシステムリンカー（多くのシステムでは`gcc`、MSVCでは`link.exe`）に渡すので、追加のコマンドライン引数を提供することには意味がありますが、それが今後もそうだとは限りません。
+将来、`rustc`がネイティブライブラリーをリンクするためにLLVMを直接使うようになるかもしれませんし、そのような場合には`link_args`は意味がなくなるでしょう。
+`rustc`に`-C link-args`引数をつけることで、`link_args`属性と同じような効果を得ることができます。
 
-# Static linking
+<!-- It is highly recommended to *not* use this attribute, and rather use the more -->
+<!-- formal `#[link(...)]` attribute on `extern` blocks instead. -->
 
-Static linking refers to the process of creating output that contains all
-required libraries and so doesn't need libraries installed on every system where
-you want to use your compiled project. Pure-Rust dependencies are statically
-linked by default so you can use created binaries and libraries without
-installing Rust everywhere. By contrast, native libraries
-(e.g. `libc` and `libm`) are usually dynamically linked, but it is possible to
-change this and statically link them as well.
+この属性は使わ *ない* ことが強く推奨されているので、代わりにもっと正式な`#[link(...)]`属性を`extern`ブロックに使いましょう。
 
-Linking is a very platform-dependent topic, and static linking may not even be
-possible on some platforms! This section assumes some basic familiarity with
-linking on your platform of choice.
+<!-- # Static linking -->
+# スタティックリンク
 
+<!-- Static linking refers to the process of creating output that contains all -->
+<!-- required libraries and so doesn't need libraries installed on every system where -->
+<!-- you want to use your compiled project. Pure-Rust dependencies are statically -->
+<!-- linked by default so you can use created binaries and libraries without -->
+<!-- installing Rust everywhere. By contrast, native libraries -->
+<!-- (e.g. `libc` and `libm`) are usually dynamically linked, but it is possible to -->
+<!-- change this and statically link them as well. -->
+
+スタティックリンクとは全ての必要なライブラリーを含めた出力を生成する手順のことで、そうすればコンパイルされたプロジェクトを使いたいシステム全てにライブラリーをインストールする必要がなくなります。
+Rustのみで構築された依存関係はデフォルトでスタティックリンクされます。そのため、Rustをインストールしなくても、作成されたバイナリーやライブラリーを使うことができます。
+対照的に、ネイティブライブラリー（例えば`libc`や`libm`）はダイナミックリンクされるのが普通です。しかし、これを変更してそれらを同様にスタティックリンクすることも可能です。
+
+<!-- Linking is a very platform-dependent topic, and static linking may not even be -->
+<!-- possible on some platforms! This section assumes some basic familiarity with -->
+<!-- linking on your platform of choice. -->
+
+リンクは非常にプラットフォームに依存した話題であり、スタティックリンクのできないプラットフォームすらあるかもしれません!
+このセクションは選んだプラットフォームにおけるリンクについての基本が理解できていることを前提とします。
+
+<!-- ## Linux -->
 ## Linux
 
-By default, all Rust programs on Linux will link to the system `libc` along with
-a number of other libraries. Let's look at an example on a 64-bit Linux machine
-with GCC and `glibc` (by far the most common `libc` on Linux):
+<!-- By default, all Rust programs on Linux will link to the system `libc` along with -->
+<!-- a number of other libraries. Let's look at an example on a 64-bit Linux machine -->
+<!-- with GCC and `glibc` (by far the most common `libc` on Linux): -->
+
+デフォルトでは、Linux上の全てのRustのプログラムはシステムの`libc`とその他のいくつかのライブラリーとリンクされます。
+GCCと`glibc`（Linuxにおける最も一般的な`libc`）を使った64ビットLinuxマシンでの例を見てみましょう。
 
 ``` text
 $ cat example.rs
@@ -67,13 +94,18 @@ $ ldd example
         libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fa817b93000)
 ```
 
-Dynamic linking on Linux can be undesirable if you wish to use new library
-features on old systems or target systems which do not have the required
-dependencies for your program to run.
+<!-- Dynamic linking on Linux can be undesirable if you wish to use new library -->
+<!-- features on old systems or target systems which do not have the required -->
+<!-- dependencies for your program to run. -->
 
-Static linking is supported via an alternative `libc`, [`musl`](http://www.musl-libc.org). You can compile
-your own version of Rust with `musl` enabled and install it into a custom
-directory with the instructions below:
+古いシステムで新しいライブラリーの機能を使いたいときや、実行するプログラムに必要な依存関係を満たさないシステムをターゲットにしたいときは、Linuxにおけるダイナミックリンクは望ましくないかもしれません。
+
+<!-- Static linking is supported via an alternative `libc`, [`musl`](http://www.musl-libc.org). You can compile -->
+<!-- your own version of Rust with `musl` enabled and install it into a custom -->
+<!-- directory with the instructions below: -->
+
+スタティックリンクは代わりの`libc`である[`musl`](http://www.musl-libc.org/)によってサポートされています。
+以下の手順に従い、`musl`を有効にした独自バージョンのRustをコンパイルして独自のディレクトリーにインストールすることができます。
 
 ```text
 $ mkdir musldist
@@ -116,16 +148,21 @@ $ du -h musldist/bin/rustc
 12K     musldist/bin/rustc
 ```
 
-You now have a build of a `musl`-enabled Rust! Because we've installed it to a
-custom prefix we need to make sure our system can find the binaries and appropriate
-libraries when we try and run it:
+<!-- You now have a build of a `musl`-enabled Rust! Because we've installed it to a -->
+<!-- custom prefix we need to make sure our system can find the binaries and appropriate -->
+<!-- libraries when we try and run it: -->
+
+これで`musl`が有効になったRustのビルドが手に入りました!
+独自のプレフィックスを付けてインストールしたので、試しに実行するときにはシステムがバイナリーと適切なライブラリーを見付けられることを確かめなければなりません。
 
 ```text
 $ export PATH=$PREFIX/bin:$PATH
 $ export LD_LIBRARY_PATH=$PREFIX/lib:$LD_LIBRARY_PATH
 ```
 
-Let's try it out!
+<!-- Let's try it out! -->
+
+試してみましょう!
 
 ```text
 $ echo 'fn main() { println!("hi!"); panic!("failed"); }' > example.rs
@@ -137,9 +174,15 @@ hi!
 thread '<main>' panicked at 'failed', example.rs:1
 ```
 
-Success! This binary can be copied to almost any Linux machine with the same
-machine architecture and run without issues.
+<!-- Success! This binary can be copied to almost any Linux machine with the same -->
+<!-- machine architecture and run without issues. -->
 
-`cargo build` also permits the `--target` option so you should be able to build
-your crates as normal. However, you may need to recompile your native libraries
-against `musl` before they can be linked against.
+成功しました!
+このバイナリーは同じマシンアーキテクチャーであればほとんど全てのLinuxマシンにコピーして問題なく実行することができます。
+
+<!-- `cargo build` also permits the `--target` option so you should be able to build -->
+<!-- your crates as normal. However, you may need to recompile your native libraries -->
+<!-- against `musl` before they can be linked against. -->
+
+`cargo build`も`--target`オプションを受け付けるので、あなたのクレートも普通にビルドできるはずです。
+ただし、リンクする前にネイティブライブラリーを`musl`向けにリコンパイルする必要はあるかもしれません。
