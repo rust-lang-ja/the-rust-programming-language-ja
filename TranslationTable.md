@@ -19,18 +19,19 @@
 | consumers         | コンシューマ
 | crate             | クレート
 | dereferencing     | 参照外し
+| feature           | フィーチャ
 |  enum             | 列挙型
 | `enum`            | `enum`
 | Intrinsics        | Intrinsic
 | iterator adaptors | イテレータアダプタ
 | Lang Items        | Lang Item
-| lazy              | lazy
+| laziness          | 遅延性
 | lifetime          | ライフタイム
 | move              | ムーブ
 | `mut`             | `mut`
 | mutable           | ミュータブル
 | mutability        | ミュータビリティ
-| owner             | owner
+| owner             | 所有者
 | ownership         | 所有権
 | ranges            | レンジ
 | struct            | 構造体
