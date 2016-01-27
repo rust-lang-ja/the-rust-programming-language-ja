@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Conditional Compilation</title>
+    <title>条件付きコンパイル</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,9 +185,16 @@
 <div id='page'>
 
 
-    <h1 class="title">Conditional Compilation</h1>
-    <p>Rust has a special attribute, <code>#[cfg]</code>, which allows you to compile code
-based on a flag passed to the compiler. It has two forms:</p>
+    <h1 class="title">条件付きコンパイル</h1>
+    <!-- % Conditional Compilation -->
+
+<!-- Rust has a special attribute, `#[cfg]`, which allows you to compile code -->
+
+<!-- based on a flag passed to the compiler. It has two forms: -->
+
+<p>Rustには <code>#[cfg]</code> という特別なアトリビュートがあり、
+コンパイラに渡されたフラグに合わせてコードをコンパイルすることを可能にします。
+<code>#[cfg]</code> アトリビュートは以下の2つの形式で利用することができます:</p>
 <span class='rusttest'>fn main() {
     #[cfg(foo)]
     fn foo() {}
@@ -199,7 +206,9 @@ based on a flag passed to the compiler. It has two forms:</p>
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>bar</span> <span class='op'>=</span> <span class='string'>&quot;baz&quot;</span>)]</span></pre>
 
-<p>They also have some helpers:</p>
+<!-- They also have some helpers: -->
+
+<p>また、以下の様なヘルパーが存在します:</p>
 <span class='rusttest'>fn main() {
     #[cfg(any(unix, windows))]
     fn foo() {}
@@ -216,31 +225,42 @@ based on a flag passed to the compiler. It has two forms:</p>
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>foo</span>))]</span></pre>
 
-<p>These can nest arbitrarily:</p>
+<!-- These can nest arbitrarily: -->
+
+<p>ヘルパーは以下のように自由にネストすることが可能です:</p>
 <span class='rusttest'>fn main() {
     #[cfg(any(not(unix), all(target_os=&quot;macos&quot;, target_arch = &quot;powerpc&quot;)))]
     fn foo() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>not</span>(<span class='ident'>unix</span>), <span class='ident'>all</span>(<span class='ident'>target_os</span><span class='op'>=</span><span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_arch</span> <span class='op'>=</span> <span class='string'>&quot;powerpc&quot;</span>)))]</span></pre>
 
-<p>As for how to enable or disable these switches, if you’re using Cargo,
-they get set in the <a href="http://doc.crates.io/manifest.html#the-features-section"><code>[features]</code> section</a> of your <code>Cargo.toml</code>:</p>
+<!-- As for how to enable or disable these switches, if you’re using Cargo, -->
+
+<!-- they get set in the [`[features]` section][features] of your `Cargo.toml`: -->
+
+<p>このようなスイッチの有効・無効の切り替えはCargoを利用している場合「Cargo.toml」中の [<code>[features]</code> セクション][features] で設定できます。</p>
 
 <pre><code class="language-toml">[features]
 # no features by default
 default = []
 
-# The “secure-password” feature depends on the bcrypt package.
+# フィーチャ「secure-password」は bcrypt パッケージに依存しています
 secure-password = [&quot;bcrypt&quot;]
 </code></pre>
 
-<p>When you do this, Cargo passes along a flag to <code>rustc</code>:</p>
+<!-- When you do this, Cargo passes along a flag to `rustc`: -->
+
+<p>もしこのように設定した場合、Cargoは <code>rustc</code> に以下のようにフラグを渡します:</p>
 
 <pre><code class="language-text">--cfg feature=&quot;${feature_name}&quot;
 </code></pre>
 
-<p>The sum of these <code>cfg</code> flags will determine which ones get activated, and
-therefore, which code gets compiled. Let’s take this code:</p>
+<!-- The sum of these `cfg` flags will determine which ones get activated, and -->
+
+<!-- therefore, which code gets compiled. Let’s take this code: -->
+
+<p>渡されたすべての <code>cfg</code> フラグによってどのフラグが有効に成るか決定され、
+それによってどのコードがコンパイルされるかも決定されます。以下のコードを見てみましょう:</p>
 <span class='rusttest'>fn main() {
     #[cfg(feature = &quot;foo&quot;)]
     mod foo {
@@ -250,23 +270,39 @@ therefore, which code gets compiled. Let’s take this code:</p>
 <span class='kw'>mod</span> <span class='ident'>foo</span> {
 }</pre>
 
-<p>If we compile it with <code>cargo build --features &quot;foo&quot;</code>, it will send the <code>--cfg feature=&quot;foo&quot;</code> flag to <code>rustc</code>, and the output will have the <code>mod foo</code> in it.
-If we compile it with a regular <code>cargo build</code>, no extra flags get passed on,
-and so, no <code>foo</code> module will exist.</p>
+<!-- If we compile it with `cargo build --features "foo"`, it will send the `--cfg -->
+
+<!-- feature="foo"` flag to `rustc`, and the output will have the `mod foo` in it. -->
+
+<!-- If we compile it with a regular `cargo build`, no extra flags get passed on, -->
+
+<!-- and so, no `foo` module will exist. -->
+
+<p>もしこのコードを <code>cargo build --features &quot;foo&quot;</code> としてコンパイルを行うと、
+<code>--cfg features=&quot;foo&quot;</code> が <code>rustc</code> に渡され，出力には <code>mod foo</code> が含まれます。
+もし標準的な <code>cargo build</code> でコンパイルを行った場合、<code>rustc</code> に追加のフラグは渡されず<code>foo</code> モジュールは存在しない事になります。</p>
 
 <h1 id='cfg_attr' class='section-header'><a href='#cfg_attr'>cfg_attr</a></h1>
-<p>You can also set another attribute based on a <code>cfg</code> variable with <code>cfg_attr</code>:</p>
+<!-- You can also set another attribute based on a `cfg` variable with `cfg_attr`: -->
+
+<p>また、<code>cfg_attr</code> を用いることで、<code>cfg</code> に設定された値によってアトリビュートを有効にすることができます:</p>
 <span class='rusttest'>fn main() {
     #[cfg_attr(a, b)]
     fn foo() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>a</span>, <span class='ident'>b</span>)]</span></pre>
 
-<p>Will be the same as <code>#[b]</code> if <code>a</code> is set by <code>cfg</code> attribute, and nothing otherwise.</p>
+<!-- Will be the same as `#[b]` if `a` is set by `cfg` attribute, and nothing otherwise. -->
+
+<p>このようにすると、<code>cfg</code> アトリビュートによって <code>a</code> が有効になっている場合に限り <code>#[b]</code> と設定されている
+場合と同じ効果が得られます。</p>
 
 <h1 id='cfg' class='section-header'><a href='#cfg'>cfg!</a></h1>
-<p>The <code>cfg!</code> <a href="compiler-plugins.html">syntax extension</a> lets you use these kinds of flags
-elsewhere in your code, too:</p>
+<!-- The `cfg!` [syntax extension][compilerplugins] lets you use these kinds of flags -->
+
+<!-- elsewhere in your code, too: -->
+
+<p><code>cfg!</code> [拡張構文][compilerplugins] は以下のようにコード中でフラグを利用することを可能にします:</p>
 <span class='rusttest'>fn main() {
     if cfg!(target_os = &quot;macos&quot;) || cfg!(target_os = &quot;ios&quot;) {
         println!(&quot;Think Different!&quot;);
@@ -276,8 +312,11 @@ elsewhere in your code, too:</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Think Different!&quot;</span>);
 }</pre>
 
-<p>These will be replaced by a <code>true</code> or <code>false</code> at compile-time, depending on the
-configuration settings.</p>
+<!-- These will be replaced by a `true` or `false` at compile-time, depending on the -->
+
+<!-- configuration settings. -->
+
+<p>このようなコードは設定に応じてコンパイル時に <code>true</code> または <code>false</code> に置き換えられます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
