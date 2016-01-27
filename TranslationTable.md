@@ -19,9 +19,9 @@
 | consumers         | コンシューマ
 | crate             | クレート
 | dereferencing     | 参照外し
-| feature           | フィーチャ
 |  enum             | 列挙型
 | `enum`            | `enum`
+| feature           | フィーチャ
 | Intrinsics        | Intrinsic
 | iterator adaptors | イテレータアダプタ
 | Lang Items        | Lang Item
