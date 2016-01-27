@@ -397,9 +397,9 @@ fn main() {
 <!-- requires these around all function bodies. It's considered good style to put -->
 <!-- the opening curly brace on the same line as the function declaration, with one -->
 <!-- space in between. -->
-さらに、関数の本体部がくるくる括弧(`{`と`}`)で括られていることに留意して下さい。
-Rustは全ての関数の本体部にくるくる括弧を要請します。
-関数宣言と同じ行に1スペース空けて開きくるくる括弧を置くのが良いスタイルとされます。
+さらに、関数の本体部が波括弧(`{`と`}`)で括られていることに留意して下さい。
+Rustは全ての関数の本体部に波括弧を要請します。
+関数宣言と同じ行に1スペース空けて開き波括弧を置くのが良いスタイルとされます。
 
 <!-- Inside the `main()` function: -->
 `main()`関数の中では
