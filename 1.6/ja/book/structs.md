@@ -44,6 +44,7 @@ notation: `origin.x`. -->
 <!-- The values in `struct`s are immutable by default, like other bindings in Rust.
 Use `mut` to make them mutable -->
 Rustの他の束縛のように、`struct`が持つ値はイミュータブルがデフォルトです。`mut`を使うと値をミュータブルにできます。
+
 ```rust
 struct Point {
     x: i32,
@@ -79,22 +80,6 @@ used to field-level mutability, this may seem strange at first, but it
 significantly simplifies things. It even lets you make things mutable for a short
 time only: -->
 ミュータビリティは束縛に付与できる属性であり、構造体自体に付与できる属性ではありません。もしあなたがフィールドレベルのミュータビリティを使うのであれば、初めこそ奇妙に見えるものの、非常に簡単に実現できる方法があります。以下の方法で少しの間だけミュータブルな構造体を作ることができます。
-<!-- ```rust,ignore
-struct Point {
-    x: i32,
-    y: i32,
-}
-
-fn main() {
-    let mut point = Point { x: 0, y: 0 };
-
-    point.x = 5;
-
-    let point = point; // this new binding can’t change now
-
-    point.y = 6; // this causes an error
-}
-``` -->
 
 ```rust,ignore
 struct Point {
@@ -119,6 +104,7 @@ fn main() {
 <!-- A `struct` can include `..` to indicate that you want to use a copy of some
 other `struct` for some of the values. For example: -->
 `struct`の初期化時には、値の一部を他の構造体からコピーしたいことを示す`..`を含めることができます。例えば、
+
 ```rust
 struct Point3d {
     x: i32,
@@ -219,6 +205,7 @@ destructuring `let`, just as with regular tuples. In this case, the
 
 <!-- You can define a `struct` with no members at all: -->
 あなたは全くメンバを持たない`struct`を定義できます。
+
 ```rust
 struct Electron;
 
