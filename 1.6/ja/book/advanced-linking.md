@@ -14,8 +14,8 @@ Rustにおけるリンクの一般的なケースについては本書の前の�
 <!-- the `link_args` attribute. This attribute is applied to `extern` blocks and -->
 <!-- specifies raw flags which need to get passed to the linker when producing an -->
 <!-- artifact. An example usage would be: -->
-どのようにリンクをカスタマイズするかを`rustc`に指示するために、1つの方法があります。それは、`link_args`属性を使うことです。
-この属性は`extern`ブロックに適用され、生成物を作るときにリンカに渡したいフラグをそのまま指定します。
+どのようにリンクをカスタマイズするかを`rustc`に指示するために、1つの方法があります。それは、`link_args`アトリビュートを使うことです。
+このアトリビュートは`extern`ブロックに適用され、生成物を作るときにリンカに渡したいフラグをそのまま指定します。
 使い方の例は次のようになります。
 
 ``` no_run
@@ -37,11 +37,11 @@ extern {}
 これはリンクを実行するための認められた方法ではないため、この機能は現在`feature(link_args)`ゲートによって隠されているということに注意しましょう。
 今は`rustc`がシステムリンカ（多くのシステムでは`gcc`、MSVCでは`link.exe`）に渡すので、追加のコマンドライン引数を提供することには意味がありますが、それが今後もそうだとは限りません。
 将来、`rustc`がネイティブライブラリをリンクするためにLLVMを直接使うようになるかもしれませんし、そのような場合には`link_args`は意味がなくなるでしょう。
-`rustc`に`-C link-args`引数をつけることで、`link_args`属性と同じような効果を得ることができます。
+`rustc`に`-C link-args`引数をつけることで、`link_args`アトリビュートと同じような効果を得ることができます。
 
 <!-- It is highly recommended to *not* use this attribute, and rather use the more -->
 <!-- formal `#[link(...)]` attribute on `extern` blocks instead. -->
-この属性は使わ *ない* ことが強く推奨されているので、代わりにもっと正式な`#[link(...)]`属性を`extern`ブロックに使いましょう。
+このアトリビュートは使わ *ない* ことが強く推奨されているので、代わりにもっと正式な`#[link(...)]`アトリビュートを`extern`ブロックに使いましょう。
 
 <!-- # Static linking -->
 # スタティックリンク
@@ -53,7 +53,7 @@ extern {}
 <!-- installing Rust everywhere. By contrast, native libraries -->
 <!-- (e.g. `libc` and `libm`) are usually dynamically linked, but it is possible to -->
 <!-- change this and statically link them as well. -->
-スタティックリンクとは全ての必要なライブラリを含めた出力を生成する手順のことで、そうすればコンパイルされたプロジェクトを使いたいシステム全てにライブラリをインストールする必要がなくなります。
+スタティックリンクとは全ての必要なライブラリを含めた成果物を生成する手順のことで、そうすればコンパイルされたプロジェクトを使いたいシステム全てにライブラリをインストールする必要がなくなります。
 Rustのみで構築された依存関係はデフォルトでスタティックリンクされます。そのため、Rustをインストールしなくても、作成されたバイナリやライブラリを使うことができます。
 対照的に、ネイティブライブラリ（例えば`libc`や`libm`）はダイナミックリンクされるのが普通です。しかし、これを変更してそれらを同様にスタティックリンクすることも可能です。
 
@@ -69,7 +69,7 @@ Rustのみで構築された依存関係はデフォルトでスタティック�
 <!-- By default, all Rust programs on Linux will link to the system `libc` along with -->
 <!-- a number of other libraries. Let's look at an example on a 64-bit Linux machine -->
 <!-- with GCC and `glibc` (by far the most common `libc` on Linux): -->
-デフォルトでは、Linux上の全てのRustのプログラムはシステムの`libc`とその他のいくつかのライブラリとリンクされます。
+デフォルトでは、Linux上の全てのRustのプログラムはシステムの`libc`とその他のいくつものライブラリとリンクされます。
 GCCと`glibc`（Linuxにおける最も一般的な`libc`）を使った64ビットLinuxマシンでの例を見てみましょう。
 
 ``` text
