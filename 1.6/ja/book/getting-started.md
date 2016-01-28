@@ -76,7 +76,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <!-- are not run so it's not guaranteed to produce a working build, but platforms -->
 <!-- often work to quite a good degree and patches are always welcome! Specifically, -->
 <!-- these platforms are required to have each of the following: -->
-段階2のプラットフォームは「ビルドを保証する」ものと思えます。
+2級のプラットフォームは「ビルドを保証する」ものと思えます。
 自動テストは走っておらず、ビルド出来たとしてもちゃんと動く保証はありませんが大抵ほぼ動きますしパッチはいつでも歓迎しています!
 特に、以下が要請されています。
 
@@ -243,7 +243,7 @@ $ rustc --version
 <!-- the local hard drive. -->
 Windowsを使っていて、表示されないなら%PATH%システム変数にRustが入っているか確認して下さい。
 入っていなければもう一度インストーラを実行し、「Change,
-repair, or remove installation」ページのの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。
+repair, or remove installation」ページの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。
 
 <!-- If not, there are a number of places where we can get help. The easiest is -->
 <!-- [the #rust IRC channel on irc.mozilla.org][irc], which we can access through -->
@@ -397,9 +397,9 @@ fn main() {
 <!-- requires these around all function bodies. It's considered good style to put -->
 <!-- the opening curly brace on the same line as the function declaration, with one -->
 <!-- space in between. -->
-さらに、関数の本体部がくるくる括弧(`{`と`}`)で括られていることに留意して下さい。
-Rustは全ての関数の本体部にくるくる括弧を要請します。
-関数宣言と同じ行に1スペース空けて開きくるくる括弧を置くのが良いスタイルとされます。
+さらに、関数の本体部が波括弧(`{`と`}`)で括られていることに留意して下さい。
+Rustは全ての関数の本体部に波括弧を要請します。
+関数宣言と同じ行に1スペース空けて開き波括弧を置くのが良いスタイルとされます。
 
 <!-- Inside the `main()` function: -->
 `main()`関数の中では
@@ -545,7 +545,7 @@ Cargoは3つのものを管理します、則ち、コードのビルド、コ�
 <!-- you’re using it for the rest of the book. Cargo comes installed with Rust -->
 <!-- itself, if you used the official installers. If you installed Rust through some -->
 <!-- other means, you can check if you have Cargo installed by typing: -->
-ほとんどもほとんどのRustのプロジェクトがCargoを使うのでこれ以後はCargoを使うものと仮定します。
+ほとんどのRustのプロジェクトがCargoを使うのでこれ以後はCargoを使うものと仮定します。
 公式のインストーラを使ったならCargoはRustに同梱されています。
 他の手段でRustをインストールしたなら、以下のコマンドでCargoがインストールされているか確認出来ます。
 
@@ -560,7 +560,7 @@ $ cargo --version
 Rustをインストールしたシステムのドキュメントを見て、Cargoが別になっているか判断しましょう。
 
 <!-- ## Converting to Cargo -->
-## Corgoへ変換する
+## Cargoへ変換する
 
 <!-- Let’s convert the Hello World program to Cargo. To Cargo-fy a project, you need -->
 <!-- to do three things:  -->
