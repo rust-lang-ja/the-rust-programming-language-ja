@@ -61,7 +61,7 @@
 </li>
 <li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
 </li>
-<li><a  href='lifetimes.html'><b>4.9.</b> 生存期</a>
+<li><a  href='lifetimes.html'><b>4.9.</b> ライフタイム</a>
 </li>
 <li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
 </li>
@@ -105,7 +105,7 @@
 </li>
 <li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
 </li>
-<li><a  href='unsized-types.html'><b>4.31.</b> サイズ無し型</a>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
 </li>
 <li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
 </li>
@@ -155,7 +155,7 @@
 </li>
 <li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
 </li>
-<li><a  href='intrinsics.html'><b>6.4.</b> イントリンシック</a>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
 </li>
 <li><a  href='lang-items.html'><b>6.5.</b> Lang Items</a>
 </li>
@@ -440,7 +440,7 @@ tuple struct with only one element. We call this the ‘newtype’ pattern, beca
 it allows you to create a new type, distinct from that of its contained value
 and expressing its own semantic meaning: -->
 
-<p>タプル構造体が非常に便利な場合も_あります_が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。</p>
+<p>タプル構造体が非常に便利な場合も <em>あります</em> が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。</p>
 <span class='rusttest'>fn main() {
     struct Inches(i32);
     

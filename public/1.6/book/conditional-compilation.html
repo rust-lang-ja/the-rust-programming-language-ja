@@ -61,7 +61,7 @@
 </li>
 <li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
 </li>
-<li><a  href='lifetimes.html'><b>4.9.</b> 生存期</a>
+<li><a  href='lifetimes.html'><b>4.9.</b> ライフタイム</a>
 </li>
 <li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
 </li>
@@ -105,7 +105,7 @@
 </li>
 <li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
 </li>
-<li><a  href='unsized-types.html'><b>4.31.</b> サイズ無し型</a>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
 </li>
 <li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
 </li>
@@ -155,7 +155,7 @@
 </li>
 <li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
 </li>
-<li><a  href='intrinsics.html'><b>6.4.</b> イントリンシック</a>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
 </li>
 <li><a  href='lang-items.html'><b>6.5.</b> Lang Items</a>
 </li>
@@ -238,7 +238,7 @@
 
 <!-- they get set in the [`[features]` section][features] of your `Cargo.toml`: -->
 
-<p>このようなスイッチの有効・無効の切り替えはCargoを利用している場合「Cargo.toml」中の [<code>[features]</code> セクション][features] で設定できます。</p>
+<p>このようなスイッチの有効・無効の切り替えはCargoを利用している場合<code>Cargo.toml</code>中の [<code>[features]</code> セクション][features] で設定できます。</p>
 
 <pre><code class="language-toml">[features]
 # no features by default
@@ -279,7 +279,7 @@ secure-password = [&quot;bcrypt&quot;]
 <!-- and so, no `foo` module will exist. -->
 
 <p>もしこのコードを <code>cargo build --features &quot;foo&quot;</code> としてコンパイルを行うと、
-<code>--cfg features=&quot;foo&quot;</code> が <code>rustc</code> に渡され，出力には <code>mod foo</code> が含まれます。
+<code>--cfg features=&quot;foo&quot;</code> が <code>rustc</code> に渡され、出力には <code>mod foo</code> が含まれます。
 もし標準的な <code>cargo build</code> でコンパイルを行った場合、<code>rustc</code> に追加のフラグは渡されず<code>foo</code> モジュールは存在しない事になります。</p>
 
 <h1 id='cfg_attr' class='section-header'><a href='#cfg_attr'>cfg_attr</a></h1>
