@@ -394,4 +394,4 @@ all kinds of lists. They're a little unusual at first, but if you play with
 them, you'll get hooked. For a full list of the different iterators and
 consumers, check out the [iterator module documentation](../std/iter/index.html). -->
 
-イテレータ、イテレータアダプタ、そしてコンシューマがあなたの助けになることをほんの少しだけ体験できました。本当に便利なイテレータが幾つも用意されていますし、あなたがイテレータを自作することもできます。イテレータは全ての種類のリストに対し効率的な処理方法と安全性を提供します。これらは初めこそ珍しいかもしれませんが、もし使えばあなたは夢中になることでしょう。全てのイテレータとコンシューマのリストは [iterator module documentation](../std/iter/index.html) を参照して下さい。
+イテレータ、イテレータアダプタ、そしてコンシューマがあなたの助けになることをほんの少しだけ体験できました。本当に便利なイテレータが幾つも用意されていますし、あなたがイテレータを自作することもできます。イテレータは全ての種類のリストに対し効率的な処理方法と安全性を提供します。これらは初めこそ珍しいかもしれませんが、もし使えばあなたは夢中になることでしょう。全てのイテレータとコンシューマのリストは [イテレータモジュールのドキュメンテーション](../std/iter/index.html) を参照して下さい。
