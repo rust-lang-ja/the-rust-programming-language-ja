@@ -120,11 +120,12 @@ Rustでは戻り値を使います。（用語集候補：return value）
 （`panic` は現タスクをunwind（訳）し、ほとんどの場合、プログラム全体をアボートします。）
 （用語集候補：unwind）
 
-```rust,should_panic
 <!-- // Guess a number between 1 and 10. -->
 <!-- // If it matches the number we had in mind, return true. Else, return false. -->
+
+```rust,should_panic
 // 1から10までの数字を予想します。
-// もし予想した数字にマッチしたらtrueを返し、そうでなけれは、falseを返します。
+// もし予想した数字に一致したらtrueを返し、そうでなけれは、falseを返します。
 fn guess(n: i32) -> bool {
     if n < 1 || n > 10 {
         panic!("Invalid number: {}", n);
@@ -148,7 +149,7 @@ thread '<main>' panicked at 'Invalid number: 11', src/bin/panic-simple.rs:5
 <!-- Here's another example that is slightly less contrived. A program that accepts -->
 <!-- an integer as an argument, doubles it and prints it. -->
 
-もう少し自然な、別の例を示します。
+こちらは、もう少し自然な例です。
 このプログラムは引数として整数を受け取り、２倍した後に表示します。
 
 <span id="code-unwrap-double"></span>
@@ -221,7 +222,7 @@ enum Option<T> {
 <!-- *possibility of absence*. Encoding the possibility of absence into the type -->
 <!-- system is an important concept because it will cause the compiler to force the -->
 <!-- programmer to handle that absence. Let's take a look at an example that tries -->
-<!-- to find a character in a string:
+<!-- to find a character in a string: -->
 
 `Option` 型は、Rustの型システムを使って **不在の可能性** を表現するためのものです。
 型システムに不在の可能性をencode（訳）することは、重要な概念です。
@@ -230,11 +231,12 @@ enum Option<T> {
 
 <span id="code-option-ex-string-find"></span>
 
-```rust
 <!-- // Searches `haystack` for the Unicode character `needle`. If one is found, the -->
 <!-- // byte offset of the character is returned. Otherwise, `None` is returned. -->
+
+```rust
 // `haystack` （干し草の山）からユニコード文字 `needle` （縫い針）を検索します。
-// もし見つかったら、文字のバイトオフセットを返します。そうでなければ、`None` を
+// もし見つかったら、文字のバイトオフセットを返します。見つからなければ、`None` を
 // 返します。
 fn find(haystack: &str, needle: char) -> Option<usize> {
     for (offset, c) in haystack.char_indices() {
@@ -264,10 +266,10 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 <!-- story. The other half is *using* the `find` function we've written. Let's try -->
 <!-- to use it to find the extension in a file name. -->
 
-これは、何も見つからないことに対する、大げさな騒動に思えるかもしれません。
+何も見つからないことが、ずいぶん面倒なのだなと思うかもしれません。
 でもまだこれは、物語の半分に過ぎません。
 残りの半分は、いま書いた `find` 関数を **使う** 場面です。
-これを使って、ファイル名から拡張子を見つてみましょう。
+これを使って、ファイル名から拡張子を見つけてみましょう。
 
 ```rust
 # fn find(_: &str, _: char) -> Option<usize> { None }
