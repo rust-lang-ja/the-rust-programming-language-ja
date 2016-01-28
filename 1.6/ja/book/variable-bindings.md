@@ -95,13 +95,14 @@ fn main() {
 }
 ```
 
-Note the similarities between this annotation and the syntax you use with
-`let`. Including these kinds of comments is not idiomatic Rust, but we'll
-occasionally include them to help you understand what the types that Rust
-infers are.
+<!-- Note the similarities between this annotation and the syntax you use with -->
+<!-- `let`. Including these kinds of comments is not idiomatic Rust, but we'll -->
+<!-- occasionally include them to help you understand what the types that Rust -->
+<!-- infers are. -->
+この注釈と`let`の時に使う記法の類似性に留意して下さい。
+このようなコメントを書くのはRust的ではありませんが、時折理解の手助けのためにRustが推論する型をコメントで注釈します。
 
 # Mutability
-
 By default, bindings are *immutable*. This code will not compile:
 
 ```rust,ignore
