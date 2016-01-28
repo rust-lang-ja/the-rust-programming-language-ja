@@ -228,10 +228,10 @@ fn add_one(x: i32) -> i32 {
 Rustはこの挙動がおそらく求めているものではないということを理解するので、前に見たエラーの中で、セミコロンを削除することを提案するのです。
 
 <!--## Early returns-->
-## 早期のリターン
+## 途中でのリターン
 
 <!--But what about early returns? Rust does have a keyword for that, `return`:-->
-しかし、早期のリターンについてはどうでしょうか。
+しかし、途中でのリターンについてはどうでしょうか。
 Rustはそのためのキーワード`return`を持っています。
 
 ```rust
