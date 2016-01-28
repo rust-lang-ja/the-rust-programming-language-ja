@@ -5,7 +5,6 @@
 <!-- errors in a particular way. Generally speaking, error handling is divided into -->
 <!-- two broad categories: exceptions and return values. Rust opts for return -->
 <!-- values. -->
-
 他のほとんどのプログラミング言語と同様に、Rustはプログラマに、エラーを扱うための、ある決まった作法を求めます。
 一般的にエラー処理は、例外、あるいは、戻り値を使ったものの、大きく２つに分類されます。
 Rustでは戻り値を使います。（用語集候補：return value）
@@ -14,7 +13,6 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- with errors in Rust. More than that, we will attempt to introduce error handling -->
 <!-- one piece at a time so that you'll come away with a solid working knowledge of -->
 <!-- how everything fits together. -->
-
 この章では、Rustでのエラー処理に関わる包括的な対処方法を提示しようと思います。
 単にそれだけではなく、エラー処理のやり方を、ひとつひとつ、順番に積み上げていきます。
 こうすることで、全体がどう組み合わさっているのかの理解が進み、より実用的な知識が身につくでしょう。
@@ -22,7 +20,6 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- When done naïvely, error handling in Rust can be verbose and annoying. This -->
 <!-- chapter will explore those stumbling blocks and demonstrate how to use the -->
 <!-- standard library to make error handling concise and ergonomic. -->
-
 もし素朴なやりかたで取り組んだなら、Rustにおけるエラー処理は、冗長で面倒なものになり得ます。
 この章では、エラー処理をする上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
 
@@ -33,7 +30,6 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- sum types and combinators, and try to motivate the way Rust does error handling -->
 <!-- incrementally. As such, programmers with experience in other expressive type -->
 <!-- systems may want to jump around. -->
-
 この章はとても長くなります。
 というのは、sum types（訳）とコンビネータから始めて、Restにおけるエラー処理を徐々に良くしていくための、動機づけをしていくからです。
 このような構成ですので、もしすでに他の表現豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
@@ -99,6 +95,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
     * [機能を追加する](#adding-functionality)
 * [ショートストーリー](#the-short-story)
 
+<span id="the-basics"></span>
 <!-- # The Basics -->
 # 基礎
 
@@ -106,15 +103,13 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- a computation was successful or not. As you will see, the key to ergonomic error -->
 <!-- handling is reducing the amount of explicit case analysis the programmer has to -->
 <!-- do while keeping code composable. -->
-
-エラー処理とは、 **ケース分析** に基づいて、ある処理の結果が成功したのかどうかを判断していくものだと考えられます。
-この後、見ていくように、使いやすいエラー処理であるために重要なのは、プログラマが、コードをコンポーザブル（構成可能）に保ったまま、明示的なケース分析の量をいかに減らしていくかということです。
+エラー処理とは、 *ケース分析* に基づいて、ある処理の結果が成功したのかどうかを判断していくものだと考えられます。
+この後、見ていくように、使いやすいエラー処理であるために重要なのは、プログラマが、コードをコンポーザブル（構成可能）に保ったまま、明示的なケース分析の回数をいかに減らしていくかということです。
 
 <!-- Keeping code composable is important, because without that requirement, we -->
 <!-- could [`panic`](../std/macro.panic!.html) whenever we -->
 <!-- come across something unexpected. (`panic` causes the current task to unwind, -->
 <!-- and in most cases, the entire program aborts.) Here's an example: -->
-
 コードをコンポーザブルに保つのは重要です。
 なぜなら、もしこの要求がなかったら、なにか想定外のことが起こる度に [`panic`](../std/macro.panic!.html) することを選ぶかもしれないからです。
 （`panic` は現タスクをunwind（訳）し、ほとんどの場合、プログラム全体をアボートします。）
@@ -138,8 +133,15 @@ fn main() {
 }
 ```
 
-<!-- If you try running this code, the program will crash with a message like this: -->
+> ［訳注］文言の意味は
+>
+> * Invalid number: {}：無効な数字です
+>
+> ですが、エディタの設定などによっては、ソースコード中の
+> コメント以外の場所に日本語を使うとコンパイルできないことがあるので、
+> 英文のままにしてあります。
 
+<!-- If you try running this code, the program will crash with a message like this: -->
 このコードを実行すると、プログラムがクラッシュして、以下のようなメッセージが表示されます。
 
 ```text
@@ -148,7 +150,6 @@ thread '<main>' panicked at 'Invalid number: 11', src/bin/panic-simple.rs:5
 
 <!-- Here's another example that is slightly less contrived. A program that accepts -->
 <!-- an integer as an argument, doubles it and prints it. -->
-
 こちらは、もう少し自然な例です。
 このプログラムは引数として整数を受け取り、２倍した後に表示します。
 
@@ -168,17 +169,16 @@ fn main() {
 <!-- If you give this program zero arguments (error 1) or if the first argument -->
 <!-- isn't an integer (error 2), the program will panic just like in the first -->
 <!-- example. -->
-
 もし、このプログラムに引数を与えなかったら（エラー１）、あるいは、最初の引数が整数でなかったら（エラー２）、このプログラムは、最初の例と同じようにパニックするでしょう。
 
 <!-- You can think of this style of error handling as similar to a bull running -->
 <!-- through a china shop. The bull will get to where it wants to go, but it will -->
 <!-- trample everything in the process. -->
-
 このようなスタイルのエラー処理は、まるで、陶器店の中を駆け抜ける雄牛のようなものです。
 雄牛は自分の行きたいところへたどり着くでしょう。
 でも彼は、途中にある、あらゆるものを蹴散らしてしまいます。
 
+<span id="unwrapping-explained"></span>
 <!-- ## Unwrapping explained -->
 ## Unwap とは
 
@@ -187,7 +187,6 @@ fn main() {
 <!-- conditions, yet, the program does not include an explicit call to `panic` like -->
 <!-- the first example. This is because the -->
 <!-- panic is embedded in the calls to `unwrap`. -->
-
 先ほどの例で、プログラムが２つのエラー条件のいずれかを満たした時に、パニックすると言いました。
 でもこのプログラムは、最初の例とは違って明示的に `panic` を呼び出してはいません。
 実はパニックは `unwrap` の呼び出しの中に埋め込まれているのです。
@@ -197,13 +196,13 @@ fn main() {
 <!-- It would be better if we just showed the code for unwrapping because it is so -->
 <!-- simple, but to do that, we will first need to explore the `Option` and `Result` -->
 <!-- types. Both of these types have a method called `unwrap` defined on them. -->
-
 Rustでなにかを「unwrapする」時、こう言っているのと同じです。
 「計算結果を取り出しなさい。もしエラーになっていたのなら、パニックを起こしてプログラムを終了させなさい」
 unwrap のコードはとても単純なので、多分、それを見せたほうが早いでしょう。
 でもそのためには、最初に `Option` と `Result` 型について調べる必要があります。
 どちらの型にも、 `unwrap` という名前のメソッドが定義されています。
 
+<span id="the-option-type"></span>
 <!-- ### The `Option` type -->
 ### `Option` 型
 
@@ -223,9 +222,8 @@ enum Option<T> {
 <!-- system is an important concept because it will cause the compiler to force the -->
 <!-- programmer to handle that absence. Let's take a look at an example that tries -->
 <!-- to find a character in a string: -->
-
-`Option` 型は、Rustの型システムを使って **不在の可能性** を表現するためのものです。
-型システムに不在の可能性をencode（訳）することは、重要な概念です。
+`Option` 型は、Rustの型システムを使って *不在の可能性* を表現するためのものです。
+型システムに不在の可能性をエンコードすることは、重要な概念です。
 なぜなら、コンパイラが、その不在に対処することをプログラマに強制させるからです。
 文字列から文字を検索する例を見てみましょう。
 
@@ -254,10 +252,9 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 <!-- with the type `fn<T>(value: T) -> Option<T>`. Correspondingly, `None` is also a -->
 <!-- value constructor, except it has no arguments. You can think of `None` as a -->
 <!-- function with the type `fn<T>() -> Option<T>`. -->
-
 この関数がマッチする文字を見つけた時、単に `offset` を返すだけではないことに注目してください。
 その代わりに、 `Some(offset)` を返します。
-`Some` は `Option` 型の **値コンストラクタ** のひとつです。
+`Some` は `Option` 型の *値コンストラクタ* のひとつです。
 これは、 `fn<T>(value: T) -> Option<T>` という型の関数だと考えることもできます。
 これに対応して、 `None` もまた値コンストラクタですが、こちらは引数がありません。
 `None` は `fn<T>() -> Option<T>` という型の関数だと考えることもできます。
@@ -265,10 +262,9 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 <!-- This might seem like much ado about nothing, but this is only half of the -->
 <!-- story. The other half is *using* the `find` function we've written. Let's try -->
 <!-- to use it to find the extension in a file name. -->
-
-何も見つからないことが、ずいぶん面倒なのだなと思うかもしれません。
+何も見つからないことを示すのが、ずいぶん面倒だと感じるかもしれません。
 でもまだこれは、物語の半分に過ぎません。
-残りの半分は、いま書いた `find` 関数を **使う** 場面です。
+残りの半分は、いま書いた `find` 関数を *使う* 場面です。
 これを使って、ファイル名から拡張子を見つけてみましょう。
 
 ```rust
@@ -276,21 +272,35 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 fn main() {
     let file_name = "foobar.rs";
     match find(file_name, '.') {
-        None => println!("ファイル拡張子は見つかりませんでした。"),
-        Some(i) => println!("ファイル拡張子は{}です。", &file_name[i+1..]),
+        None => println!("No file extension found."),
+        Some(i) => println!("", &file_name[i+1..]),
     }
 }
 ```
 
-This code uses [pattern matching][1] to do *case
-analysis* on the `Option<usize>` returned by the `find` function. In fact, case
-analysis is the only way to get at the value stored inside an `Option<T>`. This
-means that you, as the programmer, must handle the case when an `Option<T>` is
-`None` instead of `Some(t)`.
+> 訳注：先程と同じ理由でソースコード内の文言は翻訳していません。意味は
+>
+> * No file extension found：ファイル拡張子は見つかりませんでした
+> * File extension: {}：ファイル拡張子は{}です
+>
+> です。
 
-But wait, what about `unwrap`,which we used [`previously`](#code-unwrap-double)?
-There was no case analysis there! Instead, the case analysis was put inside the
-`unwrap` method for you. You could define it yourself if you want:
+<!-- This code uses [pattern matching][1] to do *case -->
+<!-- analysis* on the `Option<usize>` returned by the `find` function. In fact, case -->
+<!-- analysis is the only way to get at the value stored inside an `Option<T>`. This -->
+<!-- means that you, as the programmer, must handle the case when an `Option<T>` is -->
+<!-- `None` instead of `Some(t)`. -->
+このコードは `find` 関数が返した `Option<usize>` の *ケース分析* に、 [パターンマッチ][1] を使っています。
+実のところ、ケース分析が、`Option<T>` に格納された値を取り出すための唯一の方法なのです。
+これは、`Option<T>` が `Some(t)` ではなく `None` だった時、プログラマであるあなたが、このケースを処理しなければならないことを意味します。
+
+<!-- But wait, what about `unwrap`,which we used [`previously`](#code-unwrap-double)? -->
+<!-- There was no case analysis there! Instead, the case analysis was put inside the -->
+<!-- `unwrap` method for you. You could define it yourself if you want: -->
+でも、ちょっと待ってください。 [さっき](#code-unwrap-double) 使った `unwrap` はどうだったでしょうか?
+ケース分析はどこにもありませんでした!
+実は、ケース分析は `unwrap` メソッドの中に埋め込まれていたのです。
+もし望むなら、自分で定義することもできます：
 
 <span id="code-option-def-unwrap"></span>
 
@@ -311,10 +321,19 @@ impl<T> Option<T> {
 }
 ```
 
-The `unwrap` method *abstracts away the case analysis*. This is precisely the thing
-that makes `unwrap` ergonomic to use. Unfortunately, that `panic!` means that
-`unwrap` is not composable: it is the bull in the china shop.
+> 訳注：意味は
+>
+> * called `Option::unwrap()` on a `None` value：`None` な値に対して `Option:unwpal()` が呼ばれました
+>
+> です。
 
+<!-- The `unwrap` method *abstracts away the case analysis*. This is precisely the thing -->
+<!-- that makes `unwrap` ergonomic to use. Unfortunately, that `panic!` means that -->
+<!-- `unwrap` is not composable: it is the bull in the china shop. -->
+`unwrap` メソッドは *ケース分析を抽象化します* 。このことは、`unwrap` を確実に使いやすいものにしています。
+あいにく、その `panic!` が意味するのは、`unwrap` がコンポーザブルではない、つまり、陶器店の中の雄牛だということです。
+
+<span id="composing-optiont-values"></span>
 <!--- ### Composing `Option<T>` values -->
 ### `Option<T>` 値で構成する
 
@@ -496,6 +515,7 @@ explicit case analysis. They are also composable because they permit the caller
 to handle the possibility of absence in their own way. Methods like `unwrap`
 remove choices because they will panic if `Option<T>` is `None`.
 
+<span id="the-result-type"></span>
 <!-- ## The `Result` type -->
 ## `Result` 型
 
@@ -548,6 +568,12 @@ impl<T, E: ::std::fmt::Debug> Result<T, E> {
 }
 ```
 
+> 訳注：意味は
+>
+>
+>
+> です。
+
 This is effectively the same as our [definition for
 `Option::unwrap`](#code-option-def-unwrap), except it includes the
 error value in the `panic!` message. This makes debugging easier, but
@@ -559,6 +585,7 @@ way to print a human readable description of values with that type.)
 
 OK, let's move on to an example.
 
+<span id="parsing-integers"></span>
 <!-- ### Parsing integers -->
 ### 整数をパースする
 
@@ -668,6 +695,7 @@ combinators that affect only the error type, such as
 `map`) and [`or_else`](../std/result/enum.Result.html#method.or_else)
 (instead of `and_then`).
 
+<span id="the-result-type-alias-idiom"></span>
 <!-- ### The `Result` type alias idiom -->
 ### `Result` 型エイリアスを用いたイディオム
 
@@ -701,6 +729,7 @@ module's type alias instead of the plain definition from
 `std::result`. (This idiom is also used for
 [`fmt::Result`](../std/fmt/type.Result.html).)
 
+<span id="a-brief-interlude-unwrapping-isnt-evil"></span>
 <!-- ## A brief interlude: unwrapping isn't evil -->
 ## 小休止：unwrap は悪ではない
 
@@ -740,6 +769,7 @@ Now that we've covered the basics of error handling in Rust, and
 explained unwrapping, let's start exploring more of the standard
 library.
 
+<span id="working-with-multiple-error-types"></span>
 <!-- # Working with multiple error types -->
 # 複数のエラー型を扱う
 
@@ -750,6 +780,7 @@ Thus far, we've looked at error handling where everything was either an
 challenge in front of us, and it will be the major theme throughout the rest of
 this chapter.
 
+<span id="composing-option-and-result"></span>
 <!-- ## Composing `Option` and `Result` -->
 ## `Option` と `Result` で構成する
 
@@ -768,8 +799,8 @@ use std::env;
 
 fn main() {
     let mut argv = env::args();
-    let arg: String = argv.nth(1).unwrap(); // error 1
-    let n: i32 = arg.parse().unwrap(); // error 2
+    let arg: String = argv.nth(1).unwrap(); // エラー１
+    let n: i32 = arg.parse().unwrap(); // エラー２
     println!("{}", 2 * n);
 }
 ```
@@ -831,6 +862,7 @@ the same (because of our use of `and_then`). Since we chose to convert the
 `Option<String>` (from `argv.nth(1)`) to a `Result<String, String>`, we must
 also convert the `ParseIntError` from `arg.parse()` to a `String`.
 
+<span id="the-limits-of-combinators"></span>
 <!-- ## The limits of combinators -->
 ## コンビネータの限界
 
@@ -854,10 +886,10 @@ use std::io::Read;
 use std::path::Path;
 
 fn file_double<P: AsRef<Path>>(file_path: P) -> i32 {
-    let mut file = File::open(file_path).unwrap(); // error 1
+    let mut file = File::open(file_path).unwrap(); // エラー１
     let mut contents = String::new();
-    file.read_to_string(&mut contents).unwrap(); // error 2
-    let n: i32 = contents.trim().parse().unwrap(); // error 3
+    file.read_to_string(&mut contents).unwrap(); // エラー２
+    let n: i32 = contents.trim().parse().unwrap(); // エラー３
     2 * n
 }
 
@@ -965,6 +997,7 @@ With all of that said, the code is still hairy. Mastering use of combinators is
 important, but they have their limits. Let's try a different approach: early
 returns.
 
+<span id="early-returns"></span>
 <!-- ## Early returns -->
 ## アーリーリターン
 
@@ -1013,6 +1046,7 @@ ergonomic error handling is reducing explicit case analysis, yet we've reverted
 back to explicit case analysis here. It turns out, there are *multiple* ways to
 reduce explicit case analysis. Combinators aren't the only way.
 
+<span id="the-try-macro"></span>
 <!-- ## The `try!` macro -->
 ## `try!` マクロ
 
@@ -1069,6 +1103,7 @@ The good news is that we will soon learn how to remove those `map_err` calls!
 The bad news is that we will need to learn a bit more about a couple important
 traits in the standard library before we can remove the `map_err` calls.
 
+<span id="defining-your-own-error-type"></span>
 <!-- ## Defining your own error type -->
 ## 独自のエラー型を定義する
 
@@ -1164,6 +1199,7 @@ will do in a pinch, particularly if you're writing an application. If you're
 writing a library, defining your own error type should be strongly preferred so
 that you don't remove choices from the caller unnecessarily.
 
+<span id="standard-library-traits-used-for-error-handling"></span>
 <!-- # Standard library traits used for error handling -->
 # 標準ライブラリのトレイトによるエラー処理
 
@@ -1174,6 +1210,7 @@ is designed specifically for generically describing errors, the `From`
 trait serves a more general role for converting values between two
 distinct types.
 
+<span id="the-error-trait"></span>
 <!-- ## The `Error` trait -->
 ## `Error` トレイト
 
@@ -1274,10 +1311,18 @@ impl error::Error for CliError {
 }
 ```
 
+> 訳注：意味は
+>
+>
+>
+> です。
+
+
 We note that this is a very typical implementation of `Error`: match on your
 different error types and satisfy the contracts defined for `description` and
 `cause`.
 
+<span id="the-from-trait"></span>
 <!-- ## The `From` trait -->
 ## `From` トレイト
 
@@ -1351,6 +1396,7 @@ us a way to reliably convert errors to the same type using the same function.
 
 Time to revisit an old friend; the `try!` macro.
 
+<span id="the-real-try-macro"></span>
 <!-- ## The real `try!` macro -->
 ## 本当の `try!` マクロ
 
@@ -1444,6 +1490,7 @@ chapter](https://crates.io/crates/error).)
 
 It's time to revisit our custom `CliError` type and tie everything together.
 
+<span id="composing-custom-error-types"></span>
 <!-- ## Composing custom error types -->
 ## 独自のエラー型で構成する
 
@@ -1575,6 +1622,7 @@ impl From<num::ParseFloatError> for CliError {
 
 And that's it!
 
+<span id="advice-for-library-writers"></span>
 <!-- ## Advice for library writers -->
 ## ライブラリ作者たちへのアドバイス
 
@@ -1607,6 +1655,7 @@ library defines a single error type. This is used in the standard library
 for [`io::Result`](../std/io/type.Result.html)
 and [`fmt::Result`](../std/fmt/type.Result.html).
 
+<span id="case-study-a-program-to-read-population-data"></span>
 <!-- # Case study: A program to read population data -->
 # ケーススタディ：人口データを読み込むプログラム
 
@@ -1632,6 +1681,7 @@ parse the program arguments and decode that stuff into Rust types automatically.
 [`csv`](https://crates.io/crates/csv),
 and [`rustc-serialize`](https://crates.io/crates/rustc-serialize) crates.
 
+<span id="initial-setup"></span>
 <!-- ## Initial setup -->
 ## 最初のセットアップ
 
@@ -1665,6 +1715,7 @@ cargo build --release
 # Outputs: Hello, world!
 ```
 
+<span id="argument-parsing"></span>
 <!-- ## Argument parsing -->
 ## 引数のパース
 
@@ -1712,6 +1763,12 @@ fn main() {
 }
 ```
 
+> 訳注：意味は
+>
+>
+>
+> です。
+
 First, we get a vector of the arguments passed into our program. We
 then store the first one, knowing that it is our program's name. Once
 that's done, we set up our argument flags, in this case a simplistic
@@ -1726,6 +1783,7 @@ print for the program name and template. If the user has not passed in
 the help flag, we assign the proper variables to their corresponding
 arguments.
 
+<span id="writing-the-logic"></span>
 <!-- ## Writing the logic -->
 ## ロジックを書く
 
@@ -1821,6 +1879,7 @@ explore two different ways to approach handling these errors.
 I'd like to start with `Box<Error>`. Later, we'll see how defining our own
 error type can be useful.
 
+<span id="error-handling-with-boxerror"></span>
 <!-- ## Error handling with `Box<Error>` -->
 ## `Box<Error>` によるエラー処理
 
@@ -1947,6 +2006,12 @@ fn search<P: AsRef<Path>>
 }
 ```
 
+> 訳注：意味は
+>
+>
+>
+> です。
+
 Instead of `x.unwrap()`, we now have `try!(x)`. Since our function returns a
 `Result<T, E>`, the `try!` macro will return early from the function if an
 error occurs.
@@ -1987,6 +2052,7 @@ Now that we've seen how to do proper error handling with `Box<Error>`, let's
 try a different approach with our own custom error type. But first, let's take
 a quick break from error handling and add support for reading from `stdin`.
 
+<span id="reading-from-stdin"></span>
 <!-- ## Reading from stdin -->
 ## 標準入力から読み込む
 
@@ -2066,6 +2132,7 @@ fn search<P: AsRef<Path>>
 }
 ```
 
+<span id="error-handling-with-a-custom-type"></span>
 <!-- ## Error handling with a custom type -->
 ## 独自のエラー型によるエラー処理
 
@@ -2110,6 +2177,12 @@ impl Error for CliError {
     }
 }
 ```
+
+> 訳注：意味は
+>
+>
+>
+> です。
 
 Before we can use our `CliError` type in our `search` function, we need to
 provide a couple `From` impls. How do we know which impls to provide? Well,
@@ -2173,6 +2246,7 @@ fn search<P: AsRef<Path>>
 
 No other changes are necessary.
 
+<span id="adding-functionality"></span>
 <!-- ## Adding functionality -->
 ## 機能を追加する
 
@@ -2234,6 +2308,7 @@ This pretty much sums up our case study. From here, you should be ready to go
 out into the world and write your own programs and libraries with proper error
 handling.
 
+<span id="the-short-story"></span>
 <!-- # The Short Story -->
 # ショートストーリー
 
