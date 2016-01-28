@@ -189,7 +189,7 @@ Continue? (y/N)
 > or by running this script again with the --uninstall flag.
 > 
 > /usr/local/lib/rustlib/uninstall.shを実行するかこのスクリプトに--uninstallフラグを
-> 付けて実行することで後程アインストール出来ます。
+> 付けて実行することで後程アンインストール出来ます。
 > 
 > 続けますか? (y/N) 
 > ```
@@ -210,7 +210,7 @@ Windowsを使っているなら適切な[インストーラ][install-page]をダ
 
 <!-- Uninstalling Rust is as easy as installing it. On Linux or Mac, just run -->
 <!-- the uninstall script: -->
-Rustのアンイストールはインストールと同じくらい簡単です。
+Rustのアンインストールはインストールと同じくらい簡単です。
 LinuxかMacならアンインストールスクリプトを使うだけです。
 
 ```bash
@@ -241,7 +241,7 @@ $ rustc --version
 <!-- variable. If it isn't, run the installer again, select "Change" on the "Change, -->
 <!-- repair, or remove installation" page and ensure "Add to PATH" is installed on -->
 <!-- the local hard drive. -->
-Windowsを使っていて、表示されないなら%PATHI%システム変数にRustが入っているか確認して下さい。
+Windowsを使っていて、表示されないなら%PATH%システム変数にRustが入っているか確認して下さい。
 入っていなければもう一度インストーラを実行し、「Change,
 repair, or remove installation」ページのの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。
 
@@ -630,7 +630,7 @@ READMEやライセンス情報、他のコードに関係ないものはプロ�
 <!-- similar to INI, but has some extra goodies, and is used as Cargo’s -->
 <!-- configuration format. -->
 このファイルは *[TOML]* (Tom's Obvious, Minimal Language ([訳注] Tomの理解しやすい、極小な言語) ) フォーマットで書かれます。
-TOMLはINIに似ていますがいくつかの素晴しい機能が追加されていて、Cargoの設定フォーマットとして使わています。
+TOMLはINIに似ていますがいくつかの素晴しい機能が追加されていて、Cargoの設定フォーマットとして使われています。
 
 [TOML]: https://github.com/toml-lang/toml
 
