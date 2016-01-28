@@ -1,4 +1,5 @@
-% Custom Allocators
+% カスタムアロケータ
+<!-- % Custom Allocators -->
 
 Allocating memory isn't always the easiest thing to do, and while Rust generally
 takes care of this by default it often becomes necessary to customize how
