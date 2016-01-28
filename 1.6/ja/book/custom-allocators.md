@@ -7,7 +7,7 @@
 <!-- out the default global allocator in use at compile time. The design is currently -->
 <!-- spelled out in [RFC 1183][rfc] but this will walk you through how to get your -->
 <!-- own allocator up and running. -->
-メモリ割り当ては常に簡単に出来るとは限りません。通常はRustが既定の方法でメモリ割り当てを行いますが、しばしば割り当て方をカスタマイズする必要が出てきます。現在、コンパイラと標準ライブラリはコンパイル時に既定のグローバル・アロケータを変更することが出来ます。詳細は[RFC 1183][rfc]に書かれていますが、ここではどのように独自のアロケータを作成するか順を追って説明します。
+メモリ割り当ては常に簡単に出来るとは限りません。通常はRustが既定の方法でメモリ割り当てを行いますが、しばしば割り当て方法をカスタマイズする必要が出てきます。現在、コンパイラと標準ライブラリはコンパイル時に既定のグローバルアロケータを切り替えることが出来ます。詳細は[RFC 1183][rfc]に書かれていますが、ここではどのように独自のアロケータを作成するか順を追って説明します。
 
 [rfc]: https://github.com/rust-lang/rfcs/blob/master/text/1183-swap-out-jemalloc.md
 
@@ -27,35 +27,39 @@
 <!-- available). In this situation the compiler "controls the world" in the sense of -->
 <!-- it has power over the final link. Primarily this means that the allocator -->
 <!-- decision can be left up the compiler. -->
-バイナリを生成する場合、既定では(もし可能なら)`alloc_jemalloc`を使用します。この場合、コンパイラは最後のリンクにまで影響力を持っているという意味で、「全世界を支配」します。従ってアロケータの選択はコンパイラに委ねることができます。
+バイナリを生成する場合、既定では(もし可能なら)`alloc_jemalloc`を使用します。この場合、コンパイラは最後のリンクにまで影響力を持っているという意味で、「全世界を支配」しています。従ってアロケータの選択はコンパイラに委ねることができます。
 
 <!-- Dynamic and static libraries, however, will use `alloc_system` by default. Here -->
 <!-- Rust is typically a 'guest' in another application or another world where it -->
 <!-- cannot authoritatively decide what allocator is in use. As a result it resorts -->
 <!-- back to the standard APIs (e.g. `malloc` and `free`) for acquiring and releasing -->
 <!-- memory. -->
-しかし、動的あるいは静的ライブラリの場合、既定では`alloc_system`を使用します。他のアプリケーションや使用するアロケータの決定権がない他の世界において、通常Rustは「お客」です。そのため、メモリの割り当てと解放を行うには、標準API(例えば`malloc`と`free`)に頼らざるを得ません。
+一方、動的あるいは静的ライブラリの場合、既定では`alloc_system`を使用します。他のアプリケーションや使用するアロケータの決定権がない他の世界において、通常Rustは「お客」です。そのため、メモリの割り当てと解放を行うには、標準API(例えば`malloc`と`free`)に頼らざるを得ません。
 
-# Switching Allocators
+<!-- # Switching Allocators -->
+# アロケータの切り替え
 
-Although the compiler's default choices may work most of the time, it's often
-necessary to tweak certain aspects. Overriding the compiler's decision about
-which allocator is in use is done simply by linking to the desired allocator:
+<!-- Although the compiler's default choices may work most of the time, it's often -->
+<!-- necessary to tweak certain aspects. Overriding the compiler's decision about -->
+<!-- which allocator is in use is done simply by linking to the desired allocator: -->
+コンパイラの既定の選択はほとんどの場合うまく動きますが、しばしば多少の調整が必要になることがあります。コンパイラのアロケータ選択を上書きするには、単に希望のアロケータをリンクするだけです。
 
 ```rust,no_run
+
 #![feature(alloc_system)]
 
 extern crate alloc_system;
 
 fn main() {
-    let a = Box::new(4); // allocates from the system allocator
+    let a = Box::new(4); // システムアロケータからのメモリ割り当て
     println!("{}", a);
 }
 ```
 
-In this example the binary generated will not link to jemalloc by default but
-instead use the system allocator. Conversely to generate a dynamic library which
-uses jemalloc by default one would write:
+<!-- In this example the binary generated will not link to jemalloc by default but -->
+<!-- instead use the system allocator. Conversely to generate a dynamic library which -->
+<!-- uses jemalloc by default one would write: -->
+この例では生成されるバイナリは既定のjemallocにリンクするのではなく、システムアロケータを使います。逆に既定でjemallocを使う動的ライブラリを生成するには次のようにします。
 
 ```rust,ignore
 #![feature(alloc_jemalloc)]
@@ -64,19 +68,21 @@ uses jemalloc by default one would write:
 extern crate alloc_jemalloc;
 
 pub fn foo() {
-    let a = Box::new(4); // allocates from jemalloc
+    let a = Box::new(4); // jemallocからのメモリ割り当て
     println!("{}", a);
 }
 # fn main() {}
 ```
 
-# Writing a custom allocator
+<!-- # Writing a custom allocator -->
+# カスタムアロケータを書く
 
-Sometimes even the choices of jemalloc vs the system allocator aren't enough and
-an entirely new custom allocator is required. In this you'll write your own
-crate which implements the allocator API (e.g. the same as `alloc_system` or
-`alloc_jemalloc`). As an example, let's take a look at a simplified and
-annotated version of `alloc_system`
+<!-- Sometimes even the choices of jemalloc vs the system allocator aren't enough and -->
+<!-- an entirely new custom allocator is required. In this you'll write your own -->
+<!-- crate which implements the allocator API (e.g. the same as `alloc_system` or -->
+<!-- `alloc_jemalloc`). As an example, let's take a look at a simplified and -->
+<!-- annotated version of `alloc_system` -->
+時々jemallocとシステムアロケータの選択では足りず、全く新しいカスタムアロケータが必要になることがあります。この場合、アロケータAPI(例えば`alloc_system`や`alloc_jemalloc`と同様の)を実装した独自のクレートを書くことになります。例として、`alloc_system`の簡素な注釈付きバージョンを見てみましょう。
 
 ```rust,no_run
 # // only needed for rustdoc --test down below
@@ -84,15 +90,20 @@ annotated version of `alloc_system`
 // The compiler needs to be instructed that this crate is an allocator in order
 // to realize that when this is linked in another allocator like jemalloc should
 // not be linked in
+// コンパイラにjemallocのような他のアロケータにリンクすべきでないと理解させるため、
+// このクレートがアロケータであることを示す必要があります。
 #![feature(allocator)]
 #![allocator]
 
 // Allocators are not allowed to depend on the standard library which in turn
 // requires an allocator in order to avoid circular dependencies. This crate,
 // however, can use all of libcore.
+// 循環依存を避けるため、アロケータがアロケータを要求する標準ライブラリに依存することは出来ません。
+// しかしlibcoreは全て使用できます。
 #![no_std]
 
 // Let's give a unique name to our custom allocator
+// カスタムアロケータ固有の名前を付けてください。
 #![crate_name = "my_allocator"]
 #![crate_type = "rlib"]
 
@@ -100,17 +111,10 @@ annotated version of `alloc_system`
 // that currently the external (crates.io) libc cannot be used because it links
 // to the standard library (e.g. `#![no_std]` isn't stable yet), so that's why
 // this specifically requires the in-tree version.
+// この独自アロケータはFFIバインディングのためにin-treeのlibcクレートを使います。
+// 注記: 現在の外部(crate.io)libcは標準ライブラリにリンクしているため使用できません
+// (`#![no_std]`がまだstableではないためです)。そのため特別にin-treeのlibcが必要になります。
 #![feature(libc)]
-extern crate libc;
-
-// Listed below are the five allocation functions currently required by custom
-// allocators. Their signatures and symbol names are not currently typechecked
-// by the compiler, but this is a future extension and are required to match
-// what is found below.
-//
-// Note that the standard `malloc` and `realloc` functions do not provide a way
-// to communicate alignment so this implementation would need to be improved
-// with respect to alignment in that aspect.
 
 #[no_mangle]
 pub extern fn __rust_allocate(size: usize, _align: usize) -> *mut u8 {
@@ -133,7 +137,7 @@ pub extern fn __rust_reallocate(ptr: *mut u8, _old_size: usize, size: usize,
 #[no_mangle]
 pub extern fn __rust_reallocate_inplace(_ptr: *mut u8, old_size: usize,
                                         _size: usize, _align: usize) -> usize {
-    old_size // this api is not supported by libc
+    old_size // このAPIはlibcではサポートされていません。
 }
 
 #[no_mangle]
@@ -150,29 +154,34 @@ pub extern fn __rust_usable_size(size: usize, _align: usize) -> usize {
 # #[no_mangle] pub extern fn rust_eh_unregister_frames () {}
 ```
 
-After we compile this crate, it can be used as follows:
+<!-- After we compile this crate, it can be used as follows: -->
+このクレートをコンパイルすると、次のように使えるようになります。
 
 ```rust,ignore
 extern crate my_allocator;
 
 fn main() {
-    let a = Box::new(8); // allocates memory via our custom allocator crate
+    let a = Box::new(8); // カスタムアロケータによるメモリ割り当て
     println!("{}", a);
 }
 ```
 
-# Custom allocator limitations
+<!-- # Custom allocator limitations -->
+# カスタムアロケータの制限
 
-There are a few restrictions when working with custom allocators which may cause
-compiler errors:
+<!-- There are a few restrictions when working with custom allocators which may cause -->
+<!-- compiler errors: -->
+カスタムアロケータを使用する場合、コンパイルエラーの原因となりうるいくつかの制限があります。
 
-* Any one artifact may only be linked to at most one allocator. Binaries,
-  dylibs, and staticlibs must link to exactly one allocator, and if none have
-  been explicitly chosen the compiler will choose one. On the other hand rlibs
-  do not need to link to an allocator (but still can).
+<!-- * Any one artifact may only be linked to at most one allocator. Binaries, -->
+<!--   dylibs, and staticlibs must link to exactly one allocator, and if none have -->
+<!--   been explicitly chosen the compiler will choose one. On the other hand rlibs -->
+<!--   do not need to link to an allocator (but still can). -->
+* 1つの成果物は高々1つのアロケータにしかリンクすることはできません。バイナリ、dynlib、staticlibは必ず1つのアロケータにリンクする必要があり、もし明示的に指定されなければコンパイラが選択します。一方、rlibはアロケータにリンクする必要はありません(リンクすることも可能です)。
 
-* A consumer of an allocator is tagged with `#![needs_allocator]` (e.g. the
-  `liballoc` crate currently) and an `#[allocator]` crate cannot transitively
-  depend on a crate which needs an allocator (e.g. circular dependencies are not
-  allowed). This basically means that allocators must restrict themselves to
-  libcore currently.
+<!-- * A consumer of an allocator is tagged with `#![needs_allocator]` (e.g. the -->
+<!--   `liballoc` crate currently) and an `#[allocator]` crate cannot transitively -->
+<!--   depend on a crate which needs an allocator (e.g. circular dependencies are not -->
+<!--   allowed). This basically means that allocators must restrict themselves to -->
+<!--   libcore currently. -->
+* アロケータを使うコードは`#![needs_allocator]`でタグ付けされ(例えば`liballoc`クレート)、`#[allocator]`(訳注: `#![allocator]`のtypo?)がついたクレートはアロケータを使うクレートに依存することは出来ません(循環依存は許されていません)。このためアロケータは今のところlibcoreにしか依存しないようにする必要があります。
