@@ -128,6 +128,7 @@ impl Circle {
 original example, `foo.bar().baz()`? This is called ‘method chaining’. Let’s
 look at an example: -->
 ここまでで、`foo.bar()` というようなメソッドの呼び出し方が分かりましたね。ですが元の例の `foo.bar().baz()` はどうなっているのでしょう?これは「メソッドチェーン」と呼ばれています。以下の例を見て下さい。
+
 ```rust
 struct Circle {
     x: f64,
