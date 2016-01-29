@@ -173,7 +173,7 @@ fn grow(&self, increment: f64) -> Circle {
 
 <!-- You can also define associated functions that do not take a `self` parameter.
 Here’s a pattern that’s very common in Rust code: -->
-また、あなたは `self` を引数に取らない関連関数を定義することができます。以下のパターンはRustのコードにおいて非常にありふれた物です。
+あなたは `self` を引数に取らない関連関数を定義することもできます。以下のパターンはRustのコードにおいて非常にありふれた物です。
 
 ```rust
 struct Circle {
