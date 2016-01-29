@@ -14,9 +14,11 @@
 | attribute             | アトリビュート
 | binding               | 束縛
 | borrowing             | 借用
+| closure               | クロージャ
 | coercion              | 型強制
 | crate                 | クレート
 | declaration statement | 宣言文
+| dereferencing         | 参照外し
 | diverge               | ダイバージ
 | diverging             | ダイバージング
 | early return          | 途中でのリターン
@@ -36,3 +38,4 @@
 | structure             | ストラクチャ
 | trait                 | トレイト
 | unsized type          | サイズ不定型
+| vector                | vector
