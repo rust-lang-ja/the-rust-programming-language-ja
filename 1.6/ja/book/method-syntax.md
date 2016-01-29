@@ -62,7 +62,7 @@ kinds of things `foo` could be: `self` if it’s just a value on the stack,
 Because we took the `&self` parameter to `area`, we can use it just like any
 other parameter. Because we know it’s a `Circle`, we can access the `radius`
 just like we would with any other `struct`. -->
-メソッドは特別な第1引数をとり、それは `self` 、 `&self` 、 `&mut self` の3種類です。 `foo.bar()` の第1引数は `foo` であると考えて下さい。3種類の引数は `foo` が成り得る3つの状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合です。 `area` が `&self` で受け取っているため、他の引数と同じように扱えます。 その引数が `Circle` であるのは分かっていますから、他の `struct` でするように `radius` へアクセスできます。
+メソッドに渡す特別な第1引数として、 `self` 、 `&self` 、 `&mut self` という3つの変形があります。 `foo.bar()` の第1引数は `foo` であると考えて下さい。3つの変形は `foo` が成り得る3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。 `area` で `&self` を受け取っているため、他の引数と同じように扱えます。引数が `Circle` であるのは分かっていますから、他の `struct` でするように `radius` へアクセスできます。
 
 <!-- We should default to using `&self`, as you should prefer borrowing over taking
 ownership, as well as taking immutable references over mutable ones. Here’s an
