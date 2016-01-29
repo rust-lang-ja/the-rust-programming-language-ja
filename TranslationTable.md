@@ -31,6 +31,7 @@
 | mutability            | ミュータビリティ
 | owner                 | 所有者
 | ownership             | 所有権
+| return                | 返す
 | struct                | 構造体
 | structure             | ストラクチャ
 | trait                 | トレイト
