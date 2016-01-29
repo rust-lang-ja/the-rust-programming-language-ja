@@ -22,9 +22,9 @@ Rustを使い始める最初のステップはインストールです。
 <!-- the start of each command. We’ll see many tutorials and examples around the web -->
 <!-- that follow this convention: `$` for commands run as our regular user, and `#` -->
 <!-- for commands we should be running as an administrator. -->
-コマンドを色々提示しますが、それらは全て`$`から始まります。`$`を入力する必要はありません。
-`$`はただコマンドの先頭を示しているだけです。
-これから、Web上でも「`$`で始まるものは一般ユーザで実行し`#`で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになります。
+コマンドを色々提示しますが、それらは全て `$` から始まります。 `$` を入力する必要はありません。
+`$` はただコマンドの先頭を示しているだけです。
+これから、Web上でも「 `$` で始まるものは一般ユーザで実行し `#` で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになります。
 
 <!-- ## Platform support -->
 ## プラットフォームのサポート
