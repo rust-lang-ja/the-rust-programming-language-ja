@@ -13,7 +13,7 @@
 | arity                 | アリティ
 | associated -          | 関連-
 | attribute             | アトリビュート
-| back tick             | クオート
+| tick                  | クオート
 | binding               | 束縛
 | borrowing             | 借用
 | closure               | クロージャ
