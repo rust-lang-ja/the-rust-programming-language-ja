@@ -39,7 +39,7 @@ Rustには `#[cfg]` という特別なアトリビュートがあり、
 
 <!-- As for how to enable or disable these switches, if you’re using Cargo, -->
 <!-- they get set in the [`[features]` section][features] of your `Cargo.toml`: -->
-このようなスイッチの有効・無効の切り替えはCargoを利用している場合「Cargo.toml」中の [`[features]` セクション][features] で設定できます。
+このようなスイッチの有効・無効の切り替えはCargoを利用している場合`Cargo.toml`中の [`[features]` セクション][features] で設定できます。
 
 [フィーチャ]: http://doc.crates.io/manifest.html#the-features-section
 
@@ -75,7 +75,7 @@ mod foo {
 <!-- If we compile it with a regular `cargo build`, no extra flags get passed on, -->
 <!-- and so, no `foo` module will exist. -->
 もしこのコードを `cargo build --features "foo"` としてコンパイルを行うと、
-`--cfg features="foo"` が `rustc` に渡され，出力には `mod foo` が含まれます。
+`--cfg features="foo"` が `rustc` に渡され、出力には `mod foo` が含まれます。
 もし標準的な `cargo build` でコンパイルを行った場合、`rustc` に追加のフラグは渡されず`foo` モジュールは存在しない事になります。
 
 # cfg_attr
