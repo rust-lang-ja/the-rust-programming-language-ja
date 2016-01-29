@@ -1,4 +1,5 @@
-% `const` and `static`
+`const` と `static`
+<!-- % `const` and `static` -->
 
 Rust has a way of defining constants with the `const` keyword:
 
