@@ -97,7 +97,7 @@ let y = 1.0; // y has type f64
 * [f64](../std/primitive.f64.html)
 
 <!--Let’s go over them by category:-->
-それらをカテゴリー別に調べましょう。
+それらをカテゴリ別に調べましょう。
 
 <!--## Signed and Unsigned-->
 ## 符号ありと符号なし
@@ -210,7 +210,7 @@ println!("The second name is: {}", names[1]);
 
 <!--You can find more documentation for `array`s [in the standard library-->
 <!--documentation][array].-->
-`array`のさらなるドキュメントは[標準ライブラリーのドキュメントの中][array]で見付けることができます。
+`array`のさらなるドキュメントは[標準ライブラリのドキュメントの中][array]で見付けることができます。
 
 [array]: ../std/primitive.array.html
 
@@ -252,7 +252,7 @@ let middle = &a[1..4]; // A slice of a: just the elements 1, 2, and 3
 
 <!--You can find more documentation for slices [in the standard library-->
 <!--documentation][slice].-->
-`slice`のさらなるドキュメントは[標準ライブラリーのドキュメントの中][slice]で見付けることができます。
+`slice`のさらなるドキュメントは[標準ライブラリのドキュメントの中][slice]で見付けることができます。
 
 [slice]: ../std/primitive.slice.html
 
@@ -271,7 +271,7 @@ Rustの`str`型は最もプリミティブな文字列型です。
 
 <!--You can find more documentation for `str` [in the standard library-->
 <!--documentation][str].-->
-`str`のさらなるドキュメントは[標準ライブラリーのドキュメントの中][str]で見付けることができます。
+`str`のさらなるドキュメントは[標準ライブラリのドキュメントの中][str]で見付けることができます。
 
 [str]: ../std/primitive.str.html
 
