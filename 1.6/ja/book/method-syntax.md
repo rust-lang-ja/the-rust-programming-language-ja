@@ -9,9 +9,9 @@ can be awkward. Consider this code: -->
 baz(bar(foo));
 ```
 
-We would read this left-to-right, and so we see ‘baz bar foo’. But this isn’t the
+<!-- We would read this left-to-right, and so we see ‘baz bar foo’. But this isn’t the
 order that the functions would get called in, that’s inside-out: ‘foo bar baz’.
-Wouldn’t it be nice if we could do this instead?
+Wouldn’t it be nice if we could do this instead? -->
 私たちはこれを左から右へ、'baz bar foo'と読むことになりますが、関数が呼び出される順番は異なり、内側から外へ'foo bar baz'となります。もし代わりにこう書けたらいいとは思いませんか？
 
 ```rust,ignore
