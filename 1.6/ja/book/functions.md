@@ -110,7 +110,7 @@ fn add_one(x: i32) -> i32 {
 <!--line of a function determines what it returns. You’ll note the lack of a-->
 <!--semicolon here. If we added it in:-->
 Rustの関数はちょうど1つだけの値を返します。そして、ダッシュ（`-`）の後ろに大なりの記号（`>`）を続けた「矢印」の後にその型を宣言します。
-関数の最後の行が何を戻すのかを決定します。
+関数の最後の行が何を返すのかを決定します。
 ここにセミコロンがないことに気が付くでしょう。
 もしそれを追加すると、こうなります。
 
@@ -154,8 +154,8 @@ Rustは主として式ベースの言語です。
 <!--Rust: ‘declaration statements’ and ‘expression statements’. Everything else is-->
 <!--an expression. Let’s talk about declaration statements first.-->
 ではその違いは何でしょうか。
-式は値を戻しますが、文は戻しません。
-それが「not all control paths return a value」で終わった理由です。文`x + 1;`は値を戻さないからです。
+式は値を返しますが、文は返しません。
+それが「not all control paths return a value」で終わった理由です。文`x + 1;`は値を返さないからです。
 Rustには2種類の文があります。「宣言文」と「式文」です。
 その他の全ては式です。
 まずは宣言文について話しましょう。
@@ -188,7 +188,7 @@ let x = (let y = 5); // expected identifier, found keyword `let`
 <!--previous example), in Rust the value of an assignment is an empty tuple `()`-->
 <!--because the assigned value can have [just one owner](ownership.html), and any-->
 <!--other returned value would be too surprising:-->
-次のことに注意しましょう。既に束縛されている変数（例えば、`y = 5`）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では`5`）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル`()`です。なぜなら、割り当てられる値には[単一の所有者](ownership.html)しかおらず、他のどんな値を戻したとしても予想外の出来事になってしまうからです。
+次のことに注意しましょう。既に束縛されている変数（例えば、`y = 5`）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では`5`）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル`()`です。なぜなら、割り当てられる値には[単一の所有者](ownership.html)しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。
 
 
 ```rust
@@ -224,7 +224,7 @@ fn add_one(x: i32) -> i32 {
 <!--Our function claims to return an `i32`, but with a semicolon, it would return-->
 <!--`()` instead. Rust realizes this probably isn’t what we want, and suggests-->
 <!--removing the semicolon in the error we saw before.-->
-この関数は`i32`を戻そうとしていますが、セミコロンを付ければ、それは代わりに`()`を戻します。
+この関数は`i32`を返そうとしていますが、セミコロンを付ければ、それは代わりに`()`を返します。
 Rustはこの挙動がおそらく求めているものではないということを理解するので、前に見たエラーの中で、セミコロンを削除することを提案するのです。
 
 <!--## Early returns-->
@@ -356,7 +356,7 @@ let f: fn(i32) -> i32;
 
 <!--`f` is a variable binding which points to a function that takes an `i32` as-->
 <!--an argument and returns an `i32`. For example:-->
-`f`は`i32`を引数として受け取り、`i32`を戻す関数を指示する変数束縛です。
+`f`は`i32`を引数として受け取り、`i32`を返す関数を指示する変数束縛です。
 例えばこうです。
 
 ```rust
