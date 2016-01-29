@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Functions</title>
+    <title>関数</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,18 +185,29 @@
 <div id='page'>
 
 
-    <h1 class="title">Functions</h1>
-    <p>Every Rust program has at least one function, the <code>main</code> function:</p>
+    <h1 class="title">関数</h1>
+    <!-- % Functions -->
+
+<!--Every Rust program has at least one function, the `main` function:-->
+
+<p>Rustのプログラムには全て、少なくとも1つの関数、<code>main</code>関数があります。</p>
 <span class='rusttest'>fn main() {
 }
 </span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
 }</pre>
 
-<p>This is the simplest possible function declaration. As we mentioned before,
-<code>fn</code> says ‘this is a function’, followed by the name, some parentheses because
-this function takes no arguments, and then some curly braces to indicate the
-body. Here’s a function named <code>foo</code>:</p>
+<!--This is the simplest possible function declaration. As we mentioned before,-->
+
+<!--`fn` says ‘this is a function’, followed by the name, some parentheses because-->
+
+<!--this function takes no arguments, and then some curly braces to indicate the-->
+
+<!--body. Here’s a function named `foo`:-->
+
+<p>これは評価可能な関数定義の最も単純なものです。
+前に言ったように、<code>fn</code>は「これは関数です」ということを示します。この関数には引数がないので、名前と丸括弧が続きます。そして、その本文を表す波括弧が続きます。
+これが<code>foo</code>という名前の関数です。</p>
 <span class='rusttest'>fn main() {
     fn foo() {
     }
@@ -204,7 +215,10 @@ body. Here’s a function named <code>foo</code>:</p>
 <span class='kw'>fn</span> <span class='ident'>foo</span>() {
 }</pre>
 
-<p>So, what about taking arguments? Here’s a function that prints a number:</p>
+<!--So, what about taking arguments? Here’s a function that prints a number:-->
+
+<p>それでは、引数を取る場合はどうでしょうか。
+これが数値を出力する関数です。</p>
 <span class='rusttest'>fn main() {
     fn print_number(x: i32) {
         println!(&quot;x is: {}&quot;, x);
@@ -214,7 +228,9 @@ body. Here’s a function named <code>foo</code>:</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is: {}&quot;</span>, <span class='ident'>x</span>);
 }</pre>
 
-<p>Here’s a complete program that uses <code>print_number</code>:</p>
+<!--Here’s a complete program that uses `print_number`:-->
+
+<p>これが<code>print_number</code>を使う完全なプログラムです。</p>
 <span class='rusttest'>fn main() {
     print_number(5);
 }
@@ -231,10 +247,16 @@ fn print_number(x: i32) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is: {}&quot;</span>, <span class='ident'>x</span>);
 }</pre>
 
-<p>As you can see, function arguments work very similar to <code>let</code> declarations:
-you add a type to the argument name, after a colon.</p>
+<!--As you can see, function arguments work very similar to `let` declarations:-->
 
-<p>Here’s a complete program that adds two numbers together and prints them:</p>
+<!--you add a type to the argument name, after a colon.-->
+
+<p>見てのとおり、関数の引数は<code>let</code>宣言と非常によく似た動きをします。
+引数の名前にコロンに続けて型を追加します。</p>
+
+<!--Here’s a complete program that adds two numbers together and prints them:-->
+
+<p>これが2つの数値を足して結果を出力する完全なプログラムです。</p>
 <span class='rusttest'>fn main() {
     print_sum(5, 6);
 }
@@ -251,11 +273,18 @@ fn print_sum(x: i32, y: i32) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;sum is: {}&quot;</span>, <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>);
 }</pre>
 
-<p>You separate arguments with a comma, both when you call the function, as well
-as when you declare it.</p>
+<!--You separate arguments with a comma, both when you call the function, as well-->
 
-<p>Unlike <code>let</code>, you <em>must</em> declare the types of function arguments. This does
-not work:</p>
+<!--as when you declare it.-->
+
+<p>関数を呼び出すときも、それを宣言したときと同様に、引数をコンマで区切ります。</p>
+
+<!--Unlike `let`, you _must_ declare the types of function arguments. This does-->
+
+<!--not work:-->
+
+<p><code>let</code>と異なり、あなたは関数の引数の型を宣言 <em>しなければなりません</em> 。
+これは動きません。</p>
 <span class='rusttest'>fn main() {
     fn print_sum(x, y) {
         println!(&quot;sum is: {}&quot;, x + y);
@@ -265,19 +294,32 @@ not work:</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;sum is: {}&quot;</span>, <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>);
 }</pre>
 
-<p>You get this error:</p>
+<!--You get this error:-->
+
+<p>このエラーが発生します。</p>
 
 <pre><code class="language-text">expected one of `!`, `:`, or `@`, found `)`
 fn print_number(x, y) {
 </code></pre>
 
-<p>This is a deliberate design decision. While full-program inference is possible,
-languages which have it, like Haskell, often suggest that documenting your
-types explicitly is a best-practice. We agree that forcing functions to declare
-types while allowing for inference inside of function bodies is a wonderful
-sweet spot between full inference and no inference.</p>
+<!--This is a deliberate design decision. While full-program inference is possible,-->
 
-<p>What about returning a value? Here’s a function that adds one to an integer:</p>
+<!--languages which have it, like Haskell, often suggest that documenting your-->
+
+<!--types explicitly is a best-practice. We agree that forcing functions to declare-->
+
+<!--types while allowing for inference inside of function bodies is a wonderful-->
+
+<!--sweet spot between full inference and no inference.-->
+
+<p>これはよく考えられた設計上の決断です。
+プログラムによる完全な推論は可能ですが、Haskellのようにそれを行っている言語では、しばしば型を明示的にドキュメント化することがベストプラクティスであるとして提案されます。
+私たちは関数に型の宣言を強制する一方で、関数の本文での推論を認めることが完全な推論と推論なしとの間のすばらしいスイートスポットであるということで意見が一致したのです。</p>
+
+<!--What about returning a value? Here’s a function that adds one to an integer:-->
+
+<p>戻り値についてはどうでしょうか。
+これが整数に1を加える関数です。</p>
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
         x + 1
@@ -287,10 +329,18 @@ sweet spot between full inference and no inference.</p>
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>
 }</pre>
 
-<p>Rust functions return exactly one value, and you declare the type after an
-‘arrow’, which is a dash (<code>-</code>) followed by a greater-than sign (<code>&gt;</code>). The last
-line of a function determines what it returns. You’ll note the lack of a
-semicolon here. If we added it in:</p>
+<!--Rust functions return exactly one value, and you declare the type after an-->
+
+<!--‘arrow’, which is a dash (`-`) followed by a greater-than sign (`>`). The last-->
+
+<!--line of a function determines what it returns. You’ll note the lack of a-->
+
+<!--semicolon here. If we added it in:-->
+
+<p>Rustの関数はちょうど1つだけの値を返します。そして、ダッシュ（<code>-</code>）の後ろに大なりの記号（<code>&gt;</code>）を続けた「矢印」の後にその型を宣言します。
+関数の最後の行が何を返すのかを決定します。
+ここにセミコロンがないことに気が付くでしょう。
+もしそれを追加すると、こうなります。</p>
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
         x + 1;
@@ -300,7 +350,9 @@ semicolon here. If we added it in:</p>
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>;
 }</pre>
 
-<p>We would get an error:</p>
+<!--We would get an error:-->
+
+<p>エラーが発生するでしょう。</p>
 
 <pre><code class="language-text">error: not all control paths return a value
 fn add_one(x: i32) -&gt; i32 {
@@ -312,42 +364,82 @@ help: consider removing this semicolon:
           ^
 </code></pre>
 
-<p>This reveals two interesting things about Rust: it is an expression-based
-language, and semicolons are different from semicolons in other ‘curly brace
-and semicolon’-based languages. These two things are related.</p>
+<!--This reveals two interesting things about Rust: it is an expression-based-->
 
-<h2 id='expressions-vs-statements' class='section-header'><a href='#expressions-vs-statements'>Expressions vs. Statements</a></h2>
-<p>Rust is primarily an expression-based language. There are only two kinds of
-statements, and everything else is an expression.</p>
+<!--language, and semicolons are different from semicolons in other ‘curly brace-->
 
-<p>So what&#39;s the difference? Expressions return a value, and statements do not.
-That’s why we end up with ‘not all control paths return a value’ here: the
-statement <code>x + 1;</code> doesn’t return a value. There are two kinds of statements in
-Rust: ‘declaration statements’ and ‘expression statements’. Everything else is
-an expression. Let’s talk about declaration statements first.</p>
+<!--and semicolon’-based languages. These two things are related.-->
 
-<p>In some languages, variable bindings can be written as expressions, not just
-statements. Like Ruby:</p>
+<p>これはRustについて2つの興味深いことを明らかにします。それが式ベースの言語であること、そしてセミコロンが他の「波括弧とセミコロン」ベースの言語でのセミコロンとは違っているということです。
+これら2つのことは関連します。</p>
+
+<!--## Expressions vs. Statements-->
+
+<h2 id='式対文' class='section-header'><a href='#式対文'>式対文</a></h2>
+<!--Rust is primarily an expression-based language. There are only two kinds of-->
+
+<!--statements, and everything else is an expression.-->
+
+<p>Rustは主として式ベースの言語です。
+文には2種類しかなく、その他の全ては式です。</p>
+
+<!--So what's the difference? Expressions return a value, and statements do not.-->
+
+<!--That’s why we end up with ‘not all control paths return a value’ here: the-->
+
+<!--statement `x + 1;` doesn’t return a value. There are two kinds of statements in-->
+
+<!--Rust: ‘declaration statements’ and ‘expression statements’. Everything else is-->
+
+<!--an expression. Let’s talk about declaration statements first.-->
+
+<p>ではその違いは何でしょうか。
+式は値を返しますが、文は返しません。
+それが「not all control paths return a value」で終わった理由です。文<code>x + 1;</code>は値を返さないからです。
+Rustには2種類の文があります。「宣言文」と「式文」です。
+その他の全ては式です。
+まずは宣言文について話しましょう。</p>
+
+<!--In some languages, variable bindings can be written as expressions, not just-->
+
+<!--statements. Like Ruby:-->
+
+<p>いくつかの言語では、変数束縛を文としてだけではなく、式として書くことができます。
+Rubyではこうなります。</p>
 
 <pre><code class="language-ruby">x = y = 5
 </code></pre>
 
-<p>In Rust, however, using <code>let</code> to introduce a binding is <em>not</em> an expression. The
-following will produce a compile-time error:</p>
+<!--In Rust, however, using `let` to introduce a binding is _not_ an expression. The-->
+
+<!--following will produce a compile-time error:-->
+
+<p>しかし、Rustでは束縛を導入するための<code>let</code>の使用は式では <em>ありません</em> 。
+次の例はコンパイルエラーを起こします。</p>
 <span class='rusttest'>fn main() {
     let x = (let y = 5); // expected identifier, found keyword `let`
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>5</span>); <span class='comment'>// expected identifier, found keyword `let`</span></pre>
 
-<p>The compiler is telling us here that it was expecting to see the beginning of
-an expression, and a <code>let</code> can only begin a statement, not an expression.</p>
+<!--The compiler is telling us here that it was expecting to see the beginning of-->
 
-<p>Note that assigning to an already-bound variable (e.g. <code>y = 5</code>) is still an
-expression, although its value is not particularly useful. Unlike other
-languages where an assignment evaluates to the assigned value (e.g. <code>5</code> in the
-previous example), in Rust the value of an assignment is an empty tuple <code>()</code>
-because the assigned value can have <a href="ownership.html">just one owner</a>, and any
-other returned value would be too surprising:</p>
+<!--an expression, and a `let` can only begin a statement, not an expression.-->
+
+<p>ここでコンパイラは次のことを教えています。式の先頭を検出することが期待されていたところ、<code>let</code>は式ではなく文の先頭にしかなれないということです。</p>
+
+<!--Note that assigning to an already-bound variable (e.g. `y = 5`) is still an-->
+
+<!--expression, although its value is not particularly useful. Unlike other-->
+
+<!--languages where an assignment evaluates to the assigned value (e.g. `5` in the-->
+
+<!--previous example), in Rust the value of an assignment is an empty tuple `()`-->
+
+<!--because the assigned value can have [just one owner](ownership.html), and any-->
+
+<!--other returned value would be too surprising:-->
+
+<p>次のことに注意しましょう。既に束縛されている変数（例えば、<code>y = 5</code>）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では<code>5</code>）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル<code>()</code>です。なぜなら、割り当てられる値には<a href="ownership.html">単一の所有者</a>しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。</p>
 <span class='rusttest'>fn main() {
     let mut y = 5;
     
@@ -357,16 +449,32 @@ other returned value would be too surprising:</p>
 
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>);  <span class='comment'>// x has the value `()`, not `6`</span></pre>
 
-<p>The second kind of statement in Rust is the <em>expression statement</em>. Its
-purpose is to turn any expression into a statement. In practical terms, Rust&#39;s
-grammar expects statements to follow other statements. This means that you use
-semicolons to separate expressions from each other. This means that Rust
-looks a lot like most other languages that require you to use semicolons
-at the end of every line, and you will see semicolons at the end of almost
-every line of Rust code you see.</p>
+<!--The second kind of statement in Rust is the *expression statement*. Its-->
 
-<p>What is this exception that makes us say &quot;almost&quot;? You saw it already, in this
-code:</p>
+<!--purpose is to turn any expression into a statement. In practical terms, Rust's-->
+
+<!--grammar expects statements to follow other statements. This means that you use-->
+
+<!--semicolons to separate expressions from each other. This means that Rust-->
+
+<!--looks a lot like most other languages that require you to use semicolons-->
+
+<!--at the end of every line, and you will see semicolons at the end of almost-->
+
+<!--every line of Rust code you see.-->
+
+<p>Rustでの2種類目の文は <em>式文</em> です。
+これの目的は式を文に変換することです。
+実際にはRustの文法は文の後には他の文が続くことが期待されています。
+これはそれぞれの式を区切るためにセミコロンを使うということを意味します。
+これはRustが全ての行末にセミコロンを使うことを要求する他の言語のほとんどとよく似ていること、そして見られるRustのコードのほとんど全ての行末で、セミコロンが見られるということを意味します。</p>
+
+<!--What is this exception that makes us say "almost"? You saw it already, in this-->
+
+<!--code:-->
+
+<p>「ほとんど」と言ったところの例外は何でしょうか。
+この例で既に見ています。</p>
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
         x + 1
@@ -376,12 +484,22 @@ code:</p>
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>
 }</pre>
 
-<p>Our function claims to return an <code>i32</code>, but with a semicolon, it would return
-<code>()</code> instead. Rust realizes this probably isn’t what we want, and suggests
-removing the semicolon in the error we saw before.</p>
+<!--Our function claims to return an `i32`, but with a semicolon, it would return-->
 
-<h2 id='early-returns' class='section-header'><a href='#early-returns'>Early returns</a></h2>
-<p>But what about early returns? Rust does have a keyword for that, <code>return</code>:</p>
+<!--`()` instead. Rust realizes this probably isn’t what we want, and suggests-->
+
+<!--removing the semicolon in the error we saw before.-->
+
+<p>この関数は<code>i32</code>を返そうとしていますが、セミコロンを付ければ、それは代わりに<code>()</code>を返します。
+Rustはこの挙動がおそらく求めているものではないということを理解するので、前に見たエラーの中で、セミコロンを削除することを提案するのです。</p>
+
+<!--## Early returns-->
+
+<h2 id='早期リターン' class='section-header'><a href='#早期リターン'>早期リターン</a></h2>
+<!--But what about early returns? Rust does have a keyword for that, `return`:-->
+
+<p>しかし、早期リターンについてはどうでしょうか。
+Rustはそのためのキーワード<code>return</code>を持っています。</p>
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
         return x;
@@ -397,8 +515,11 @@ removing the semicolon in the error we saw before.</p>
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>
 }</pre>
 
-<p>Using a <code>return</code> as the last line of a function works, but is considered poor
-style:</p>
+<!--Using a `return` as the last line of a function works, but is considered poor-->
+
+<!--style:-->
+
+<p><code>return</code>を関数の最後の行で使っても動きますが、それはよろしくないスタイルだと考えられています。</p>
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
         return x + 1;
@@ -408,13 +529,22 @@ style:</p>
     <span class='kw'>return</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>;
 }</pre>
 
-<p>The previous definition without <code>return</code> may look a bit strange if you haven’t
-worked in an expression-based language before, but it becomes intuitive over
-time.</p>
+<!--The previous definition without `return` may look a bit strange if you haven’t-->
 
-<h2 id='diverging-functions' class='section-header'><a href='#diverging-functions'>Diverging functions</a></h2>
-<p>Rust has some special syntax for ‘diverging functions’, which are functions that
-do not return:</p>
+<!--worked in an expression-based language before, but it becomes intuitive over-->
+
+<!--time.-->
+
+<p>あなたがこれまで式ベースの言語を使ったことがなければ、<code>return</code>のない前の定義の方がちょっと変に見えるかもしれません。しかし、それは時間とともに直観的に感じられるようになります。</p>
+
+<!--## Diverging functions-->
+
+<h2 id='ダイバージング関数' class='section-header'><a href='#ダイバージング関数'>ダイバージング関数</a></h2>
+<!--Rust has some special syntax for ‘diverging functions’, which are functions that-->
+
+<!--do not return:-->
+
+<p>Rustはリターンしない関数、「ダイバージング関数」のための特別な構文をいくつか持っています。</p>
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
         panic!(&quot;This function never returns!&quot;);
@@ -424,19 +554,32 @@ do not return:</p>
     <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;This function never returns!&quot;</span>);
 }</pre>
 
-<p><code>panic!</code> is a macro, similar to <code>println!()</code> that we’ve already seen. Unlike
-<code>println!()</code>, <code>panic!()</code> causes the current thread of execution to crash with
-the given message. Because this function will cause a crash, it will never
-return, and so it has the type ‘<code>!</code>’, which is read ‘diverges’.</p>
+<!--`panic!` is a macro, similar to `println!()` that we’ve already seen. Unlike-->
 
-<p>If you add a main function that calls <code>diverges()</code> and run it, you’ll get
-some output that looks like this:</p>
+<!--`println!()`, `panic!()` causes the current thread of execution to crash with-->
+
+<!--the given message. Because this function will cause a crash, it will never-->
+
+<!--return, and so it has the type ‘`!`’, which is read ‘diverges’.-->
+
+<p><code>panic!</code>は既に見てきた<code>println!</code>と同様にマクロです。
+<code>println!</code>とは違って、<code>panic!</code>は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
+この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「<code>!</code>」型を持つのです。</p>
+
+<!--If you add a main function that calls `diverges()` and run it, you’ll get-->
+
+<!--some output that looks like this:-->
+
+<p>もし<code>diverges()</code>を呼び出すメイン関数を追加してそれを実行するならば、次のようなものが出力されるでしょう。</p>
 
 <pre><code class="language-text">thread ‘&lt;main&gt;’ panicked at ‘This function never returns!’, hello.rs:2
 </code></pre>
 
-<p>If you want more information, you can get a backtrace by setting the
-<code>RUST_BACKTRACE</code> environment variable:</p>
+<!--If you want more information, you can get a backtrace by setting the-->
+
+<!--`RUST_BACKTRACE` environment variable:-->
+
+<p>もしもっと情報を得たいと思うのであれば、<code>RUST_BACKTRACE</code>環境変数をセットすることでバックトレースを得ることができます。</p>
 
 <pre><code class="language-text">$ RUST_BACKTRACE=1 ./diverges
 thread &#39;&lt;main&gt;&#39; panicked at &#39;This function never returns!&#39;, hello.rs:2
@@ -456,7 +599,9 @@ stack backtrace:
   13:                0x0 - &lt;unknown&gt;
 </code></pre>
 
-<p><code>RUST_BACKTRACE</code> also works with Cargo’s <code>run</code> command:</p>
+<!--`RUST_BACKTRACE` also works with Cargo’s `run` command:-->
+
+<p><code>RUST_BACKTRACE</code>はCargoの<code>run</code>コマンドでも使うことができます。</p>
 
 <pre><code class="language-text">$ RUST_BACKTRACE=1 cargo run
      Running `target/debug/diverges`
@@ -477,7 +622,9 @@ stack backtrace:
   13:                0x0 - &lt;unknown&gt;
 </code></pre>
 
-<p>A diverging function can be used as any type:</p>
+<!--A diverging function can be used as any type:-->
+
+<p>ダイバージング関数は任意の型として使うことができます。</p>
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
        panic!(&quot;This function never returns!&quot;);
@@ -488,15 +635,23 @@ stack backtrace:
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>diverges</span>();
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>diverges</span>();</pre>
 
-<h2 id='function-pointers' class='section-header'><a href='#function-pointers'>Function pointers</a></h2>
-<p>We can also create variable bindings which point to functions:</p>
+<!--## Function pointers-->
+
+<h2 id='関数ポインタ' class='section-header'><a href='#関数ポインタ'>関数ポインタ</a></h2>
+<!--We can also create variable bindings which point to functions:-->
+
+<p>関数を指示する変数束縛を作ることもできます。</p>
 <span class='rusttest'>fn main() {
     let f: fn(i32) -&gt; i32;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>f</span>: <span class='kw'>fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>;</pre>
 
-<p><code>f</code> is a variable binding which points to a function that takes an <code>i32</code> as
-an argument and returns an <code>i32</code>. For example:</p>
+<!--`f` is a variable binding which points to a function that takes an `i32` as-->
+
+<!--an argument and returns an `i32`. For example:-->
+
+<p><code>f</code>は<code>i32</code>を引数として受け取り、<code>i32</code>を返す関数を指示する変数束縛です。
+例えばこうです。</p>
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 {
         i + 1
@@ -518,7 +673,9 @@ an argument and returns an <code>i32</code>. For example:</p>
 <span class='comment'>// with type inference</span>
 <span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>plus_one</span>;</pre>
 
-<p>We can then use <code>f</code> to call the function:</p>
+<!--We can then use `f` to call the function:-->
+
+<p>そして、その関数を呼び出すために<code>f</code>を使うことができます。</p>
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 { i + 1 }
     let f = plus_one;
