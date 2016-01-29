@@ -20,21 +20,18 @@
 | diverge               | ダイバージ
 | diverging             | ダイバージング
 | early return          | 途中でのリターン
-|  enum                 | 列挙型
-| `enum`                | `enum`
+| enum                  | 列挙型
 | expression statement  | 式文
 | feature               | フィーチャ
 | Intrinsics            | Intrinsic
 | Lang Items            | Lang Item
 | lifetime              | ライフタイム
 | move                  | ムーブ
-| `mut`                 | `mut`
 | mutable               | ミュータブル
 | mutability            | ミュータビリティ
 | owner                 | 所有者
 | ownership             | 所有権
 | struct                | 構造体
-| `struct`              | `struct`
 | structure             | ストラクチャ
 | trait                 | トレイト
 | unsized type          | サイズ不定型
