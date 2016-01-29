@@ -276,4 +276,4 @@ also made one more method on `CircleBuilder`: `finalize()`. This method creates
 our final `Circle` from the builder. Now, we’ve used the type system to enforce
 our concerns: we can use the methods on `CircleBuilder` to constrain making
 `Circle`s in any way we choose. -->
-ここではもう1つの `struct` である `CircleBuilder` を作成しています。その中にBuilderメソッドを定義しました。また `Circle` に `area()` メソッドを定義しました。 そして `CircleBuilder` にもう1つ `finalize()` というメソッドを作りました。このメソッドはBuilderから最終的な `Circle` を作成します。今回、最初の仮定をユーザに強制するため型システムを利用しました。用意した方法から選ばせて `Circle` を作るという制約を実現するために、この `CircleBuilder` のメソッドを使うことができます。
+ここではもう1つの `struct` である `CircleBuilder` を作成しています。その中にBuilderメソッドを定義しました。また `Circle` に `area()` メソッドを定義しました。 そして `CircleBuilder` にもう1つ `finalize()` というメソッドを作りました。このメソッドはBuilderから最終的な `Circle` を作成します。私たちが用意した方法によって `Circle` を作らせるという制約を `CircleBuilder` のメソッドで実現し、この制約を強制付ける手段として今回は型システムを利用しました。
