@@ -169,11 +169,11 @@ fn grow(&self, increment: f64) -> Circle {
 単に `Circle` を返しているだけです。このメソッドにより、私たちは新しい `Circle` を任意のサイズに成長させられるようになりました。
 
 <!-- # Associated functions -->
-# 関連付いた関数
+# 関連関数
 
 <!-- You can also define associated functions that do not take a `self` parameter.
 Here’s a pattern that’s very common in Rust code: -->
-また、あなたは `self` を引数に取らずとも `Circle` に関連付けられた関数を定義することができます。
+また、あなたは `self` を引数に取らずとも `Circle` に関連関数を定義することができます。
 
 ```rust
 struct Circle {
@@ -201,7 +201,7 @@ fn main() {
 functions are called with the `Struct::function()` syntax, rather than the
 `ref.method()` syntax. Some other languages call associated functions ‘static
 methods’. -->
-この「関連付いた関数」は新たに `Circle` を生成します。この関数は `ref.method()` ではなく、 `Struct::function()` という構文で呼び出されることに注意して下さい。幾つかの言語では、関連付いた関数を 「静的メソッド」 と呼んでいます。
+この「関連関数」は新たに `Circle` を生成します。この関数は `ref.method()` ではなく、 `Struct::function()` という構文で呼び出されることに注意して下さい。幾つかの言語では、関連関数を 「静的メソッド」 と呼んでいます。
 
 <!-- # Builder Pattern -->
 # Builderパターン
