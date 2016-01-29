@@ -3,7 +3,7 @@
 
 <!-- Functions are great, but if you want to call a bunch of them on some data, it
 can be awkward. Consider this code: -->
-関数は素晴らしいのですが、幾つかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。
+関数は素晴らしいのですが、幾つかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。以下のコードについて考えてみます。
 
 ```rust,ignore
 baz(bar(foo));
