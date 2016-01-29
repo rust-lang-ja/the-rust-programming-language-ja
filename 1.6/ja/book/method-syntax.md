@@ -1,8 +1,9 @@
 % メソッドシンタックス
 <!-- % Method Syntax -->
 
-Functions are great, but if you want to call a bunch of them on some data, it
-can be awkward. Consider this code:
+<!-- Functions are great, but if you want to call a bunch of them on some data, it
+can be awkward. Consider this code: -->
+関数は素晴らしいのですが、幾つかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。
 
 ```rust,ignore
 baz(bar(foo));
@@ -11,17 +12,21 @@ baz(bar(foo));
 We would read this left-to-right, and so we see ‘baz bar foo’. But this isn’t the
 order that the functions would get called in, that’s inside-out: ‘foo bar baz’.
 Wouldn’t it be nice if we could do this instead?
+私たちはこれを左から右へ、'baz bar foo'と読むことになりますが、関数が呼び出される順番は異なり、内側から外へ'foo bar baz'となります。もし代わりにこう書けたらいいとは思いませんか？
 
 ```rust,ignore
 foo.bar().baz();
 ```
 
-Luckily, as you may have guessed with the leading question, you can! Rust provides
-the ability to use this ‘method call syntax’ via the `impl` keyword.
+<!-- Luckily, as you may have guessed with the leading question, you can! Rust provides
+the ability to use this ‘method call syntax’ via the `impl` keyword. -->
+もう分かっているかもしれませんが、あなたは幸いにもこう書けるのです！Rustは `impl` キーワードによってこの「メソッド呼び出し構文」の機能を提供しています。
 
-# Method calls
+<!-- # Method calls -->
+# メソッド呼び出し
 
-Here’s how it works:
+<!-- Here’s how it works: -->
+どんな風に書けるかがこちらになります。
 
 ```rust
 struct Circle {
@@ -42,23 +47,27 @@ fn main() {
 }
 ```
 
-This will print `12.566371`.
+<!-- This will print `12.566371`. -->
+これは `12.566371` と出力します。
 
-We’ve made a `struct` that represents a circle. We then write an `impl` block,
-and inside it, define a method, `area`.
+<!-- We’ve made a `struct` that represents a circle. We then write an `impl` block,
+and inside it, define a method, `area`. -->
+私たちは円を表す構造体を作りました。加えて `impl` ブロックを書き、その中に `area` というメソッドを定義しました。
 
-Methods take a special first parameter, of which there are three variants:
+<!-- Methods take a special first parameter, of which there are three variants:
 `self`, `&self`, and `&mut self`. You can think of this first parameter as
 being the `foo` in `foo.bar()`. The three variants correspond to the three
 kinds of things `foo` could be: `self` if it’s just a value on the stack,
 `&self` if it’s a reference, and `&mut self` if it’s a mutable reference.
 Because we took the `&self` parameter to `area`, we can use it just like any
 other parameter. Because we know it’s a `Circle`, we can access the `radius`
-just like we would with any other `struct`.
+just like we would with any other `struct`. -->
+メソッドは特別に、 `self` 、 `&self` 、 `&mut self` の3種類の内1つを第1引数に取ります。 `foo.bar()` ならメソッドの第1引数は `foo` であると考えて下さい。3種類の引数はそれぞれ、 `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合に対応しています。 `area` は `&self` で受け取っていますから、他の引数と同じように扱えます。 `self` の内容が `Circle` であることも分かっていますから、他の `struct` と同じように `radius` へアクセス可能です。
 
-We should default to using `&self`, as you should prefer borrowing over taking
+<!-- We should default to using `&self`, as you should prefer borrowing over taking
 ownership, as well as taking immutable references over mutable ones. Here’s an
-example of all three variants:
+example of all three variants: -->
+あなたは所有権を渡すよりも借用を好んで使うべきですし、ミュータブルな参照よりもイミュータブルな参照を渡すべきですから、 `&self` を常用すべきです。以下が3種類全ての例です。
 
 ```rust
 struct Circle {
@@ -82,8 +91,9 @@ impl Circle {
 }
 ```
 
-You can use as many `impl` blocks as you’d like. The previous example could
-have also been written like this:
+<!--You can use as many `impl` blocks as you’d like. The previous example could
+have also been written like this: -->
+好きな数だけ `impl` ブロックを使用することができます。前述の例は以下のように書くことも可能です。
 
 ```rust
 struct Circle {
@@ -111,12 +121,13 @@ impl Circle {
 }
 ```
 
-# Chaining method calls
+<!-- # Chaining method calls -->
+# メソッド呼び出しの連鎖
 
-So, now we know how to call a method, such as `foo.bar()`. But what about our
+<!-- So, now we know how to call a method, such as `foo.bar()`. But what about our
 original example, `foo.bar().baz()`? This is called ‘method chaining’. Let’s
-look at an example:
-
+look at an example: -->
+ここまでで、`foo.bar()` というようなメソッドの呼び出し方は分かりましたね。ですが元の例の `foo.bar().baz()` についてはどうでしょう？これは「メソッドチェーン」と呼ばれています。以下の例を見て下さい。
 ```rust
 struct Circle {
     x: f64,
@@ -143,7 +154,8 @@ fn main() {
 }
 ```
 
-Check the return type:
+<!-- Check the return type: -->
+返り値の型を確認して下さい。
 
 ```rust
 # struct Circle;
@@ -152,13 +164,16 @@ fn grow(&self, increment: f64) -> Circle {
 # Circle } }
 ```
 
-We just say we’re returning a `Circle`. With this method, we can grow a new
-`Circle` to any arbitrary size.
+<!-- We just say we’re returning a `Circle`. With this method, we can grow a new
+`Circle` to any arbitrary size. -->
+単に `Circle` を返しているだけです。このメソッドにより、私たちは新しい `Circle` を任意のサイズに成長させられるようになりました。
 
-# Associated functions
+<!-- # Associated functions -->
+# 関連付いた関数
 
-You can also define associated functions that do not take a `self` parameter.
-Here’s a pattern that’s very common in Rust code:
+<!-- You can also define associated functions that do not take a `self` parameter.
+Here’s a pattern that’s very common in Rust code: -->
+また、あなたは `self` を引数に取らずとも `Circle` に関連付けられた関数を定義することができます。
 
 ```rust
 struct Circle {
@@ -182,18 +197,21 @@ fn main() {
 }
 ```
 
-This ‘associated function’ builds a new `Circle` for us. Note that associated
+<!-- This ‘associated function’ builds a new `Circle` for us. Note that associated
 functions are called with the `Struct::function()` syntax, rather than the
 `ref.method()` syntax. Some other languages call associated functions ‘static
-methods’.
+methods’. -->
+この「関連付いた関数」は新たに `Circle` を生成します。この関数は `ref.method()` ではなく、 `Struct::function()` という構文で呼び出されることに注意して下さい。幾つかの言語では、関連付いた関数を 「静的メソッド」 と呼んでいます。
 
-# Builder Pattern
+<!-- # Builder Pattern -->
+# Builderパターン
 
-Let’s say that we want our users to be able to create `Circle`s, but we will
+<!-- Let’s say that we want our users to be able to create `Circle`s, but we will
 allow them to only set the properties they care about. Otherwise, the `x`
 and `y` attributes will be `0.0`, and the `radius` will be `1.0`. Rust doesn’t
 have method overloading, named arguments, or variable arguments. We employ
-the builder pattern instead. It looks like this:
+the builder pattern instead. It looks like this: -->
+ユーザーが `Circle` を作成できるようにしたいものの、ユーザーに許可できるのはプロパティを設定することだけだと仮定しましょう。もし指定が無ければ `x` と `y` を `0.0` に、 `radius` を `1.0` に設定するものとします。Rustはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がない代わりにBuilderパターンを採用しており、それは以下のようになります。
 
 ```rust
 struct Circle {
@@ -252,9 +270,10 @@ fn main() {
 }
 ```
 
-What we’ve done here is make another `struct`, `CircleBuilder`. We’ve defined our
+<!-- What we’ve done here is make another `struct`, `CircleBuilder`. We’ve defined our
 builder methods on it. We’ve also defined our `area()` method on `Circle`. We
 also made one more method on `CircleBuilder`: `finalize()`. This method creates
 our final `Circle` from the builder. Now, we’ve used the type system to enforce
 our concerns: we can use the methods on `CircleBuilder` to constrain making
-`Circle`s in any way we choose.
+`Circle`s in any way we choose. -->
+私たちはここでもう1つの `struct` である `CircleBuilder` を作成し、その中にBuilderメソッドを定義しました。また、 `Circle` に `area()` メソッドを定義し、 そして`CircleBuilder` にもう1つ `finalize()` というメソッドを作りました。このメソッドはBuilderから最終的な `Circle` を生成します。今、私たちは最初の仮定をユーザーに強制させるために型システムを利用しました。用意した方法から選ばせて `Circle` を生成するという制約を実現するために、この `CircleBuilder` のメソッドを使うことができます。
