@@ -10,12 +10,16 @@
 
 | English               | 日本語
 |:----------------------|:------
+| allocator             | アロケータ
+| application           | アプリケーション
 | associated -          | 関連-
 | attribute             | アトリビュート
+| binary                | バイナリ
 | binding               | 束縛
 | borrowing             | 借用
 | closure               | クロージャ
 | coercion              | 型強制
+| compiler              | コンパイラ
 | crate                 | クレート
 | declaration statement | 宣言文
 | dereferencing         | 参照外し
@@ -27,7 +31,10 @@
 | feature               | フィーチャ
 | Intrinsics            | Intrinsic
 | Lang Items            | Lang Item
+| library               | ライブラリ
 | lifetime              | ライフタイム
+| link                  | リンク
+| memory                | メモリ
 | move                  | ムーブ
 | mutable               | ミュータブル
 | mutability            | ミュータビリティ
@@ -36,6 +43,7 @@
 | return                | 返す
 | struct                | 構造体
 | structure             | ストラクチャ
+| system                | システム
 | trait                 | トレイト
 | unsized type          | サイズ不定型
 | vector                | vector
