@@ -13,6 +13,7 @@
 | associated -          | 関連-
 | attribute             | アトリビュート
 | binding               | 束縛
+| block                 | ブロック
 | borrowing             | 借用
 | closure               | クロージャ
 | coercion              | 型強制
