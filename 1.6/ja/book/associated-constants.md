@@ -39,18 +39,10 @@ impl Foo for i32 {
 
 ```text
 error: not all trait items implemented, missing: `ID` [E0046]
+(訳注: エラー。トレイトの全ての要素が実装されていません。 `ID` が未実装です。)
      impl Foo for i32 {
      }
 ```
-
-> 訳注:
->
->
-> ```text
-> エラー: トレイトの全ての要素が実装されていません。 `ID` が未実装です。 [E0046]
->      impl Foo for i32 {
->      }
-> ```
 
 <!-- A default value can be implemented as well: -->
 既定値についても以下のように実装できます。
