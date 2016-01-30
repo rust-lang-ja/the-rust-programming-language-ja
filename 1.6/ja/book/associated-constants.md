@@ -74,7 +74,7 @@ fn main() {
 
 <!-- Associated constants don’t have to be associated with a trait. An `impl` block -->
 <!-- for a `struct` or an `enum` works fine too: -->
-関連定数はトレイトに限定されるものではありません。 `struct` や `enum` の `impl` ブロックにおいても使うことができます。
+関連定数は必ずしもトレイトに関連付けられる必要はありません。 `struct` や `enum` の `impl` ブロックにおいても使うことができます。
 
 ```rust
 #![feature(associated_consts)]
