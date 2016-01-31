@@ -56,7 +56,7 @@ let y: Option<f64> = Some(5.0f64);
 これだけで結構です。1つの定義で、多くの用途が得られます。
 
 <!-- Generics don’t have to only be generic over one type. Consider another type from Rust’s standard library that’s similar, `Result<T, E>`: -->
-ジェネリクスにおいてジェネリックな型が1つだけである必要はありません。Rustの標準ライブラリに入っている類似の型 `Result<T, E>` について考えてみましょう。
+ジェネリクスにおいてジェネリックな型は1つまで、といった制限はありません。Rustの標準ライブラリに入っている類似の型 `Result<T, E>` について考えてみましょう。
 
 ```rust
 enum Result<T, E> {
@@ -161,7 +161,7 @@ many cases: you’ve already seen `Option<T>`, and later you’ll meet universal
 container types like [`Vec<T>`][Vec]. On the other hand, often you want to
 trade that flexibility for increased expressive power. Read about [trait
 bounds][traits] to see why and how. -->
-ここまでで本当にあらゆる型をとる事のできるジェネリクスについて見てきました。多くの場合これらは便利です。 `Option<T>` は既に見た通りですし、のちに `Vec<T>` のような普遍的なコンテナ型を知ることになるでしょう。一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。それが何故か、そしてその方法を知るためには [トレイト束縛][traits] を読んで下さい。
+ここまででありとあらゆる型をとる事のできるジェネリクスについて見てきました。多くの場合これらは便利です。 `Option<T>` は既に見た通りですし、のちに `Vec<T>` のような普遍的なコンテナ型を知ることになるでしょう。一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。それが何故か、そしてその方法を知るためには [トレイト束縛][traits] を読んで下さい。
 
 [traits]: traits.html
 [Vec]: ../std/vec/struct.Vec.html
