@@ -62,3 +62,4 @@
 | trait                 | トレイト
 | unsized type          | サイズ不定型
 | vector                | vector
+| wildcard              | ワイルドカード
