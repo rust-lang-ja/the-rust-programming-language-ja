@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Primitive Types</title>
+    <title>プリミティブ型</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,14 +185,28 @@
 <div id='page'>
 
 
-    <h1 class="title">Primitive Types</h1>
-    <p>The Rust language has a number of types that are considered ‘primitive’. This
-means that they’re built-in to the language. Rust is structured in such a way
-that the standard library also provides a number of useful types built on top
-of these ones, as well, but these are the most primitive.</p>
+    <h1 class="title">プリミティブ型</h1>
+    <!-- % Primitive Types --> 
 
-<h1 id='booleans' class='section-header'><a href='#booleans'>Booleans</a></h1>
-<p>Rust has a built in boolean type, named <code>bool</code>. It has two values, <code>true</code> and <code>false</code>:</p>
+<!-- The Rust language has a number of types that are considered ‘primitive’. This --> 
+
+<!-- means that they’re built-in to the language. Rust is structured in such a way --> 
+
+<!-- that the standard library also provides a number of useful types built on top --> 
+
+<!-- of these ones, as well, but these are the most primitive. --> 
+
+<p>Rust言語は「プリミティブ」であると考えられるかなりの数の型を持ちます。
+これはそれらが言語に組み込まれていることを意味します。
+標準ライブラリも同様にそれらの型の上に構築されたかなりの数の便利な型を提供していて、そのような方法でRustは構造化されています。しかし、プリミティブ型が最もプリミティブです。</p>
+
+<!-- # Booleans --> 
+
+<h1 id='ブーリアン型' class='section-header'><a href='#ブーリアン型'>ブーリアン型</a></h1>
+<!-- Rust has a built in boolean type, named `bool`. It has two values, `true` and `false`: --> 
+
+<p>Rustには<code>bool</code>と名付けられた組込みのブーリアン型があります。
+それは<code>true</code>と<code>false</code>という2つの値を持ちます。</p>
 <span class='rusttest'>fn main() {
     let x = true;
     
@@ -202,14 +216,25 @@ of these ones, as well, but these are the most primitive.</p>
 
 <span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='boolval'>false</span>;</pre>
 
-<p>A common use of booleans is in <a href="if.html"><code>if</code> conditionals</a>.</p>
+<!-- A common use of booleans is in [`if` conditionals][if]. --> 
 
-<p>You can find more documentation for <code>bool</code>s <a href="../std/primitive.bool.html">in the standard library
-documentation</a>.</p>
+<p>ブーリアンの一般的な使い方は、<a href="if.html"><code>if</code>条件</a>の中で用いるものです。</p>
+
+<!-- You can find more documentation for `bool`s [in the standard library --> 
+
+<!-- documentation][bool]. --> 
+
+<p><code>bool</code>のさらなるドキュメントは<a href="../std/primitive.bool.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+
+<!-- # `char` --> 
 
 <h1 id='char' class='section-header'><a href='#char'><code>char</code></a></h1>
-<p>The <code>char</code> type represents a single Unicode scalar value. You can create <code>char</code>s
-with a single tick: (<code>&#39;</code>)</p>
+<!-- The `char` type represents a single Unicode scalar value. You can create `char`s --> 
+
+<!-- with a single tick: (`'`) --> 
+
+<p><code>char</code>型は1つのユニコードのスカラ値を表現します。
+<code>char</code>はシングルクオート（<code>&#39;</code>）で作ることができます。</p>
 <span class='rusttest'>fn main() {
     let x = &#39;x&#39;;
     let two_hearts = &#39;💕&#39;;
@@ -217,21 +242,40 @@ with a single tick: (<code>&#39;</code>)</p>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&#39;x&#39;</span>;
 <span class='kw'>let</span> <span class='ident'>two_hearts</span> <span class='op'>=</span> <span class='string'>&#39;💕&#39;</span>;</pre>
 
-<p>Unlike some other languages, this means that Rust’s <code>char</code> is not a single byte,
-but four.</p>
+<!-- Unlike some other languages, this means that Rust’s `char` is not a single byte, --> 
 
-<p>You can find more documentation for <code>char</code>s <a href="../std/primitive.char.html">in the standard library
-documentation</a>.</p>
+<!-- but four. --> 
 
-<h1 id='numeric-types' class='section-header'><a href='#numeric-types'>Numeric types</a></h1>
-<p>Rust has a variety of numeric types in a few categories: signed and unsigned,
-fixed and variable, floating-point and integer.</p>
+<p><code>char</code>が1バイトである他の言語と異なり、これはRustの<code>char</code>が1バイトではなく4バイトであるということを意味します。</p>
 
-<p>These types consist of two parts: the category, and the size. For example,
-<code>u16</code> is an unsigned type with sixteen bits of size. More bits lets you have
-bigger numbers.</p>
+<!-- You can find more documentation for `char`s [in the standard library --> 
 
-<p>If a number literal has nothing to cause its type to be inferred, it defaults:</p>
+<!-- documentation][char]. --> 
+
+<p><code>char</code>のさらなるドキュメントは<a href="../std/primitive.char.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+
+<!-- # Numeric types --> 
+
+<h1 id='数値型' class='section-header'><a href='#数値型'>数値型</a></h1>
+<!-- Rust has a variety of numeric types in a few categories: signed and unsigned, --> 
+
+<!-- fixed and variable, floating-point and integer. --> 
+
+<p>Rustにはいくつかのカテゴリの中にたくさんの種類の数値型があります。そのカテゴリは符号ありと符号なし、固定長と可変長、浮動小数点数と整数です。</p>
+
+<!-- These types consist of two parts: the category, and the size. For example, --> 
+
+<!-- `u16` is an unsigned type with sixteen bits of size. More bits lets you have --> 
+
+<!-- bigger numbers. --> 
+
+<p>それらの型はカテゴリとサイズという2つの部分から成ります。
+例えば、<code>u16</code>はサイズ16ビットで符号なしの型です。
+ビット数を大きくすれば、より大きな数値を扱うことができます。</p>
+
+<!-- If a number literal has nothing to cause its type to be inferred, it defaults: --> 
+
+<p>もし数値リテラルがその型を推論させるものを何も持たないのであれば、以下のとおりデフォルトになります。</p>
 <span class='rusttest'>fn main() {
     let x = 42; // x has type i32
     
@@ -241,8 +285,11 @@ bigger numbers.</p>
 
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>1.0</span>; <span class='comment'>// y has type f64</span></pre>
 
-<p>Here’s a list of the different numeric types, with links to their documentation
-in the standard library:</p>
+<!-- Here’s a list of the different numeric types, with links to their documentation --> 
+
+<!-- in the standard library: --> 
+
+<p>これはいろいろな数値型のリストにそれらの標準ライブラリのドキュメントへのリンクを付けたものです。</p>
 
 <ul>
 <li><a href="../std/primitive.i8.html">i8</a></li>
@@ -259,37 +306,87 @@ in the standard library:</p>
 <li><a href="../std/primitive.f64.html">f64</a></li>
 </ul>
 
-<p>Let’s go over them by category:</p>
+<!-- Let’s go over them by category: --> 
 
-<h2 id='signed-and-unsigned' class='section-header'><a href='#signed-and-unsigned'>Signed and Unsigned</a></h2>
-<p>Integer types come in two varieties: signed and unsigned. To understand the
-difference, let’s consider a number with four bits of size. A signed, four-bit
-number would let you store numbers from <code>-8</code> to <code>+7</code>. Signed numbers use
-“two’s complement representation”. An unsigned four bit number, since it does
-not need to store negatives, can store values from <code>0</code> to <code>+15</code>.</p>
+<p>それらをカテゴリ別に調べましょう。</p>
 
-<p>Unsigned types use a <code>u</code> for their category, and signed types use <code>i</code>. The <code>i</code>
-is for ‘integer’. So <code>u8</code> is an eight-bit unsigned number, and <code>i8</code> is an
-eight-bit signed number.</p>
+<!-- ## Signed and Unsigned --> 
 
-<h2 id='fixed-size-types' class='section-header'><a href='#fixed-size-types'>Fixed size types</a></h2>
-<p>Fixed size types have a specific number of bits in their representation. Valid
-bit sizes are <code>8</code>, <code>16</code>, <code>32</code>, and <code>64</code>. So, <code>u32</code> is an unsigned, 32-bit integer,
-and <code>i64</code> is a signed, 64-bit integer.</p>
+<h2 id='符号ありと符号なし' class='section-header'><a href='#符号ありと符号なし'>符号ありと符号なし</a></h2>
+<!-- Integer types come in two varieties: signed and unsigned. To understand the --> 
 
-<h2 id='variable-sized-types' class='section-header'><a href='#variable-sized-types'>Variable sized types</a></h2>
-<p>Rust also provides types whose size depends on the size of a pointer of the
-underlying machine. These types have ‘size’ as the category, and come in signed
-and unsigned varieties. This makes for two types: <code>isize</code> and <code>usize</code>.</p>
+<!-- difference, let’s consider a number with four bits of size. A signed, four-bit --> 
 
-<h2 id='floating-point-types' class='section-header'><a href='#floating-point-types'>Floating-point types</a></h2>
-<p>Rust also has two floating point types: <code>f32</code> and <code>f64</code>. These correspond to
-IEEE-754 single and double precision numbers.</p>
+<!-- number would let you store numbers from `-8` to `+7`. Signed numbers use --> 
 
-<h1 id='arrays' class='section-header'><a href='#arrays'>Arrays</a></h1>
-<p>Like many programming languages, Rust has list types to represent a sequence of
-things. The most basic is the <em>array</em>, a fixed-size list of elements of the
-same type. By default, arrays are immutable.</p>
+<!-- “two’s complement representation”. An unsigned four bit number, since it does --> 
+
+<!-- not need to store negatives, can store values from `0` to `+15`. --> 
+
+<p>整数型には符号ありと符号なしという2つの種類があります。
+違いを理解するために、サイズ4ビットの数値を考えましょう。
+符号あり4ビット整数は<code>-8</code>から<code>+7</code>までの数値を保存することができます。
+符号ありの数値は「2の補数表現」を使います。
+符号なし4ビット整数は、マイナスを保存する必要がないため、<code>0</code>から<code>+15</code>までの値を保存することができます。</p>
+
+<!-- Unsigned types use a `u` for their category, and signed types use `i`. The `i` --> 
+
+<!-- is for ‘integer’. So `u8` is an eight-bit unsigned number, and `i8` is an --> 
+
+<!-- eight-bit signed number. --> 
+
+<p>符号なし（訳注：unsigned）型はそれらのカテゴリに<code>u</code>を使い、符号あり型は<code>i</code>を使います。
+<code>i</code>は「整数（訳注：integer）」の頭文字です。
+そのため、<code>u8</code>は8ビット符号なし数値、<code>i8</code>は8ビット符号あり数値です。</p>
+
+<!-- ## Fixed size types --> 
+
+<h2 id='固定長型' class='section-header'><a href='#固定長型'>固定長型</a></h2>
+<!-- Fixed size types have a specific number of bits in their representation. Valid --> 
+
+<!-- bit sizes are `8`, `16`, `32`, and `64`. So, `u32` is an unsigned, 32-bit integer, --> 
+
+<!-- and `i64` is a signed, 64-bit integer. --> 
+
+<p>固定長型はそれらの表現の中に特定のビット数を持ちます。
+指定することのできるビット長は<code>8</code>、<code>16</code>、<code>32</code>、<code>64</code>です。
+そのため、<code>u32</code>は符号なし32ビット整数、<code>i64</code>は符号あり64ビット整数です。</p>
+
+<!-- ## Variable sized types --> 
+
+<h2 id='可変長型' class='section-header'><a href='#可変長型'>可変長型</a></h2>
+<!-- Rust also provides types whose size depends on the size of a pointer of the --> 
+
+<!-- underlying machine. These types have ‘size’ as the category, and come in signed --> 
+
+<!-- and unsigned varieties. This makes for two types: `isize` and `usize`. --> 
+
+<p>Rustはそのサイズが実行しているマシンのポインタのサイズに依存する型も提供します。
+それらの型はカテゴリとして「size」を使い、符号ありと符号なしの種類があります。
+これが<code>isize</code>と<code>usize</code>という2つの型を作ります。</p>
+
+<!-- ## Floating-point types --> 
+
+<h2 id='浮動小数点型' class='section-header'><a href='#浮動小数点型'>浮動小数点型</a></h2>
+<!-- Rust also has two floating point types: `f32` and `f64`. These correspond to --> 
+
+<!-- IEEE-754 single and double precision numbers. --> 
+
+<p>Rustは<code>f32</code>と<code>f64</code>という2つの浮動小数点型を持ちます。
+それらはIEEE-754単精度及び倍精度小数点数に対応します。</p>
+
+<!-- # Arrays --> 
+
+<h1 id='配列' class='section-header'><a href='#配列'>配列</a></h1>
+<!-- Like many programming languages, Rust has list types to represent a sequence of --> 
+
+<!-- things. The most basic is the *array*, a fixed-size list of elements of the --> 
+
+<!-- same type. By default, arrays are immutable. --> 
+
+<p>多くのプログラミング言語のように、Rustには何かのシーケンスを表現するためのリスト型があります。
+最も基本的なものは <em>配列</em> 、固定長の同じ型の要素のリストです。
+デフォルトでは、配列はイミュータブルです。</p>
 <span class='rusttest'>fn main() {
     let a = [1, 2, 3]; // a: [i32; 3]
     let mut m = [1, 2, 3]; // m: [i32; 3]
@@ -297,18 +394,30 @@ same type. By default, arrays are immutable.</p>
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]; <span class='comment'>// a: [i32; 3]</span>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]; <span class='comment'>// m: [i32; 3]</span></pre>
 
-<p>Arrays have type <code>[T; N]</code>. We’ll talk about this <code>T</code> notation <a href="generics.html">in the generics
-section</a>. The <code>N</code> is a compile-time constant, for the length of the
-array.</p>
+<!-- Arrays have type `[T; N]`. We’ll talk about this `T` notation [in the generics --> 
 
-<p>There’s a shorthand for initializing each element of an array to the same
-value. In this example, each element of <code>a</code> will be initialized to <code>0</code>:</p>
+<!-- section][generics]. The `N` is a compile-time constant, for the length of the --> 
+
+<!-- array. --> 
+
+<p>配列は<code>[T; N]</code>という型を持ちます。
+この<code>T</code>記法については<a href="generics.html">ジェネリクスのセクションの中</a>で話します。
+<code>N</code>は配列の長さのためのコンパイル時の定数です。</p>
+
+<!-- There’s a shorthand for initializing each element of an array to the same --> 
+
+<!-- value. In this example, each element of `a` will be initialized to `0`: --> 
+
+<p>配列の各要素を同じ値で初期化するための省略表現があります。
+この例では、<code>a</code>の各要素は<code>0</code>で初期化されます。</p>
 <span class='rusttest'>fn main() {
     let a = [0; 20]; // a: [i32; 20]
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>0</span>; <span class='number'>20</span>]; <span class='comment'>// a: [i32; 20]</span></pre>
 
-<p>You can get the number of elements in an array <code>a</code> with <code>a.len()</code>:</p>
+<!-- You can get the number of elements in an array `a` with `a.len()`: --> 
+
+<p>配列<code>a</code>の要素の個数は<code>a.len()</code>で得ることができます。</p>
 <span class='rusttest'>fn main() {
     let a = [1, 2, 3];
     
@@ -318,7 +427,9 @@ value. In this example, each element of <code>a</code> will be initialized to <c
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;a has {} elements&quot;</span>, <span class='ident'>a</span>.<span class='ident'>len</span>());</pre>
 
-<p>You can access a particular element of an array with <em>subscript notation</em>:</p>
+<!-- You can access a particular element of an array with *subscript notation*: --> 
+
+<p>配列の特定の要素には <em>添字記法</em> でアクセスすることができます。</p>
 <span class='rusttest'>fn main() {
     let names = [&quot;Graydon&quot;, &quot;Brian&quot;, &quot;Niko&quot;]; // names: [&amp;str; 3]
     
@@ -328,27 +439,59 @@ value. In this example, each element of <code>a</code> will be initialized to <c
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The second name is: {}&quot;</span>, <span class='ident'>names</span>[<span class='number'>1</span>]);</pre>
 
-<p>Subscripts start at zero, like in most programming languages, so the first name
-is <code>names[0]</code> and the second name is <code>names[1]</code>. The above example prints
-<code>The second name is: Brian</code>. If you try to use a subscript that is not in the
-array, you will get an error: array access is bounds-checked at run-time. Such
-errant access is the source of many bugs in other systems programming
-languages.</p>
+<!-- Subscripts start at zero, like in most programming languages, so the first name --> 
 
-<p>You can find more documentation for <code>array</code>s <a href="../std/primitive.array.html">in the standard library
-documentation</a>.</p>
+<!-- is `names[0]` and the second name is `names[1]`. The above example prints --> 
 
-<h1 id='slices' class='section-header'><a href='#slices'>Slices</a></h1>
-<p>A ‘slice’ is a reference to (or “view” into) another data structure. They are
-useful for allowing safe, efficient access to a portion of an array without
-copying. For example, you might want to reference just one line of a file read
-into memory. By nature, a slice is not created directly, but from an existing
-variable binding. Slices have a defined length, can be mutable or immutable.</p>
+<!-- `The second name is: Brian`. If you try to use a subscript that is not in the --> 
 
-<h2 id='slicing-syntax' class='section-header'><a href='#slicing-syntax'>Slicing syntax</a></h2>
-<p>You can use a combo of <code>&amp;</code> and <code>[]</code> to create a slice from various things. The
-<code>&amp;</code> indicates that slices are similar to references, and the <code>[]</code>s, with a
-range, let you define the length of the slice:</p>
+<!-- array, you will get an error: array access is bounds-checked at run-time. Such --> 
+
+<!-- errant access is the source of many bugs in other systems programming --> 
+
+<!-- languages. --> 
+
+<p>添字はほとんどのプログラミング言語と同じように0から始まります。そのため、最初の名前は<code>names[0]</code>で2つ目の名前は<code>names[1]</code>です。
+前の例は<code>The second name is: Brian</code>とプリントします。
+もし配列に含まれない添字を使おうとすると、エラーが出ます。配列アクセスは実行時に境界チェックを受けます。
+他のシステムプログラミング言語では、そのような誤ったアクセスは多くのバグの源となります。</p>
+
+<!-- You can find more documentation for `array`s [in the standard library --> 
+
+<!-- documentation][array]. --> 
+
+<p><code>array</code>のさらなるドキュメントは<a href="../std/primitive.array.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+
+<!-- # Slices --> 
+
+<h1 id='スライス' class='section-header'><a href='#スライス'>スライス</a></h1>
+<!-- A ‘slice’ is a reference to (or “view” into) another data structure. They are --> 
+
+<!-- useful for allowing safe, efficient access to a portion of an array without --> 
+
+<!-- copying. For example, you might want to reference just one line of a file read --> 
+
+<!-- into memory. By nature, a slice is not created directly, but from an existing --> 
+
+<!-- variable binding. Slices have a defined length, can be mutable or immutable. --> 
+
+<p>「スライス」は他のデータ構造への参照（又は「ビュー」）です。
+それらはコピーすることなく配列の要素への安全で効率的なアクセスを許すために便利です。
+例えば、メモリに読み込んだファイルの1行だけを参照したいことがあるかもしれません。
+本来、スライスは直接作られるのではなく、既存の変数束縛から作られます。
+スライスは定義された長さを持ち、ミュータブルにもイミュータブルにもできます。</p>
+
+<!-- ## Slicing syntax --> 
+
+<h2 id='スライシング構文' class='section-header'><a href='#スライシング構文'>スライシング構文</a></h2>
+<!-- You can use a combo of `&` and `[]` to create a slice from various things. The --> 
+
+<!-- `&` indicates that slices are similar to references, and the `[]`s, with a --> 
+
+<!-- range, let you define the length of the slice: --> 
+
+<p>様々なものからスライスを作るためには<code>&amp;</code>と<code>[]</code>の組合せを使うことができます。
+<code>&amp;</code>はスライスが参照と同じであることを示し、<code>[]</code>はレンジを持ち、スライスの長さを定義します。</p>
 <span class='rusttest'>fn main() {
     let a = [0, 1, 2, 3, 4];
     let complete = &amp;a[..]; // A slice containing all of the elements in a
@@ -358,43 +501,84 @@ range, let you define the length of the slice:</p>
 <span class='kw'>let</span> <span class='ident'>complete</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>a</span>[..]; <span class='comment'>// A slice containing all of the elements in a</span>
 <span class='kw'>let</span> <span class='ident'>middle</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>a</span>[<span class='number'>1</span>..<span class='number'>4</span>]; <span class='comment'>// A slice of a: just the elements 1, 2, and 3</span></pre>
 
-<p>Slices have type <code>&amp;[T]</code>. We’ll talk about that <code>T</code> when we cover
-<a href="generics.html">generics</a>.</p>
+<!-- Slices have type `&[T]`. We’ll talk about that `T` when we cover --> 
 
-<p>You can find more documentation for slices <a href="../std/primitive.slice.html">in the standard library
-documentation</a>.</p>
+<!-- [generics][generics]. --> 
+
+<p>スライスは型<code>&amp;[T]</code>を持ちます。
+<a href="generics.html">ジェネリクス</a>をカバーするときにその<code>T</code>について話すでしょう。</p>
+
+<!-- You can find more documentation for slices [in the standard library --> 
+
+<!-- documentation][slice]. --> 
+
+<p><code>slice</code>のさらなるドキュメントは<a href="../std/primitive.slice.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+
+<!-- # `str` --> 
 
 <h1 id='str' class='section-header'><a href='#str'><code>str</code></a></h1>
-<p>Rust’s <code>str</code> type is the most primitive string type. As an <a href="unsized-types.html">unsized type</a>,
-it’s not very useful by itself, but becomes useful when placed behind a reference,
-like <a href="strings.html"><code>&amp;str</code></a>. As such, we’ll just leave it at that.</p>
+<!-- Rust’s `str` type is the most primitive string type. As an [unsized type][dst], --> 
 
-<p>You can find more documentation for <code>str</code> <a href="../std/primitive.str.html">in the standard library
-documentation</a>.</p>
+<!-- it’s not very useful by itself, but becomes useful when placed behind a reference, --> 
 
-<h1 id='tuples' class='section-header'><a href='#tuples'>Tuples</a></h1>
-<p>A tuple is an ordered list of fixed size. Like this:</p>
+<!-- like [`&str`][strings]. As such, we’ll just leave it at that. --> 
+
+<p>Rustの<code>str</code>型は最もプリミティブな文字列型です。
+<a href="unsized-types.html">サイズ不定型</a>のように、それはそれ自体で非常に便利なものではありませんが、<a href="strings.html"><code>&amp;str</code></a>のように参照の後ろに置かれたときに便利になります。
+そのため、それはそのまま置いておきましょう。</p>
+
+<!-- You can find more documentation for `str` [in the standard library --> 
+
+<!-- documentation][str]. --> 
+
+<p><code>str</code>のさらなるドキュメントは<a href="../std/primitive.str.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+
+<!-- # Tuples --> 
+
+<h1 id='タプル' class='section-header'><a href='#タプル'>タプル</a></h1>
+<!-- A tuple is an ordered list of fixed size. Like this: --> 
+
+<p>タプルは固定サイズの順序ありリストです。
+このようなものです。</p>
 <span class='rusttest'>fn main() {
     let x = (1, &quot;hello&quot;);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='number'>1</span>, <span class='string'>&quot;hello&quot;</span>);</pre>
 
-<p>The parentheses and commas form this two-length tuple. Here’s the same code, but
-with the type annotated:</p>
+<!-- The parentheses and commas form this two-length tuple. Here’s the same code, but --> 
+
+<!-- with the type annotated: --> 
+
+<p>丸括弧とコンマがこの長さ2のタプルを形成します。
+これは同じコードですが、型注釈が付いています。</p>
 <span class='rusttest'>fn main() {
     let x: (i32, &amp;str) = (1, &quot;hello&quot;);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: (<span class='ident'>i32</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>=</span> (<span class='number'>1</span>, <span class='string'>&quot;hello&quot;</span>);</pre>
 
-<p>As you can see, the type of a tuple looks just like the tuple, but with each
-position having a type name rather than the value. Careful readers will also
-note that tuples are heterogeneous: we have an <code>i32</code> and a <code>&amp;str</code> in this tuple.
-In systems programming languages, strings are a bit more complex than in other
-languages. For now, just read <code>&amp;str</code> as a <em>string slice</em>, and we’ll learn more
-soon.</p>
+<!-- As you can see, the type of a tuple looks just like the tuple, but with each --> 
 
-<p>You can assign one tuple into another, if they have the same contained types
-and <a href="glossary.html#arity">arity</a>. Tuples have the same arity when they have the same length.</p>
+<!-- position having a type name rather than the value. Careful readers will also --> 
+
+<!-- note that tuples are heterogeneous: we have an `i32` and a `&str` in this tuple. --> 
+
+<!-- In systems programming languages, strings are a bit more complex than in other --> 
+
+<!-- languages. For now, just read `&str` as a *string slice*, and we’ll learn more --> 
+
+<!-- soon. --> 
+
+<p>見てのとおり、タプルの型はタプルとちょうど同じように見えます。しかし、各位置には値ではなく型名が付いています。
+注意深い読者は、タプルが異なる型の値を含んでいることにも気が付くでしょう。このタプルには<code>i32</code>と<code>&amp;str</code>が入っています。
+システムプログラミング言語では、文字列は他の言語よりも少し複雑です。
+今のところ、<code>&amp;str</code>を <em>文字列スライス</em> と読むだけにしましょう。それ以上のことは後で学ぶでしょう。</p>
+
+<!-- You can assign one tuple into another, if they have the same contained types --> 
+
+<!-- and [arity]. Tuples have the same arity when they have the same length. --> 
+
+<p>もしそれらの持っている型と<a href="glossary.html#arity">アリティ</a>が同じであれば、あるタプルを他のタプルに割り当てることができます。
+タプルの長さが同じであれば、それらのタプルのアリティは同じです。</p>
 <span class='rusttest'>fn main() {
     let mut x = (1, 2); // x: (i32, i32)
     let y = (2, 3); // y: (i32, i32)
@@ -406,8 +590,12 @@ and <a href="glossary.html#arity">arity</a>. Tuples have the same arity when the
 
 <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>y</span>;</pre>
 
-<p>You can access the fields in a tuple through a <em>destructuring let</em>. Here’s
-an example:</p>
+<!-- You can access the fields in a tuple through a *destructuring let*. Here’s --> 
+
+<!-- an example: --> 
+
+<p>タプルのフィールドには <em>分配束縛let</em> を通じてアクセスすることができます。
+これが例です。</p>
 <span class='rusttest'>fn main() {
     let (x, y, z) = (1, 2, 3);
     
@@ -417,16 +605,30 @@ an example:</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is {}&quot;</span>, <span class='ident'>x</span>);</pre>
 
-<p>Remember <a href="variable-bindings.html">before</a> when I said the left-hand side of a <code>let</code> statement was more
-powerful than just assigning a binding? Here we are. We can put a pattern on
-the left-hand side of the <code>let</code>, and if it matches up to the right-hand side,
-we can assign multiple bindings at once. In this case, <code>let</code> “destructures”
-or “breaks up” the tuple, and assigns the bits to three bindings.</p>
+<!-- Remember [before][let] when I said the left-hand side of a `let` statement was more --> 
 
-<p>This pattern is very powerful, and we’ll see it repeated more later.</p>
+<!-- powerful than just assigning a binding? Here we are. We can put a pattern on --> 
 
-<p>You can disambiguate a single-element tuple from a value in parentheses with a
-comma:</p>
+<!-- the left-hand side of the `let`, and if it matches up to the right-hand side, --> 
+
+<!-- we can assign multiple bindings at once. In this case, `let` “destructures” --> 
+
+<!-- or “breaks up” the tuple, and assigns the bits to three bindings. --> 
+
+<p><a href="variable-bindings.html">前に</a><code>let</code>文の左辺は単なる束縛の割当てよりももっと強力だと言ったときのことを覚えていますか。
+ここで説明します。
+<code>let</code>の左辺にはパターンを書くことができ、もしそれが右辺とマッチしたならば、複数の束縛を一度に割り当てることができます。
+この場合、<code>let</code>が「分配束縛」、つまりタプルを「分解して」、要素を3つの束縛に割り当てます。</p>
+
+<!-- This pattern is very powerful, and we’ll see it repeated more later. --> 
+
+<p>このパターンは非常に強力で、後で繰り返し見るでしょう。</p>
+
+<!-- You can disambiguate a single-element tuple from a value in parentheses with a --> 
+
+<!-- comma: --> 
+
+<p>コンマを付けることで要素1のタプルを丸括弧の中の値と混同しないように明示することができます。</p>
 <span class='rusttest'>fn main() {
     (0,); // single-element tuple
     (0); // zero in parentheses
@@ -434,8 +636,12 @@ comma:</p>
 (<span class='number'>0</span>,); <span class='comment'>// single-element tuple</span>
 (<span class='number'>0</span>); <span class='comment'>// zero in parentheses</span></pre>
 
-<h2 id='tuple-indexing' class='section-header'><a href='#tuple-indexing'>Tuple Indexing</a></h2>
-<p>You can also access fields of a tuple with indexing syntax:</p>
+<!-- ## Tuple Indexing --> 
+
+<h2 id='タプルのインデックス' class='section-header'><a href='#タプルのインデックス'>タプルのインデックス</a></h2>
+<!-- You can also access fields of a tuple with indexing syntax: --> 
+
+<p>タプルのフィールドにはインデックス構文でアクセスすることもできます。</p>
 <span class='rusttest'>fn main() {
     let tuple = (1, 2, 3);
     
@@ -453,14 +659,25 @@ comma:</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is {}&quot;</span>, <span class='ident'>x</span>);</pre>
 
-<p>Like array indexing, it starts at zero, but unlike array indexing, it uses a
-<code>.</code>, rather than <code>[]</code>s.</p>
+<!-- Like array indexing, it starts at zero, but unlike array indexing, it uses a --> 
 
-<p>You can find more documentation for tuples <a href="../std/primitive.tuple.html">in the standard library
-documentation</a>.</p>
+<!-- `.`, rather than `[]`s. --> 
 
-<h1 id='functions' class='section-header'><a href='#functions'>Functions</a></h1>
-<p>Functions also have a type! They look like this:</p>
+<p>配列のインデックスと同じように、それは0から始まります。しかし、配列のインデックスと異なり、それは<code>[]</code>ではなく<code>.</code>を使います。</p>
+
+<!-- You can find more documentation for tuples [in the standard library --> 
+
+<!-- documentation][tuple]. --> 
+
+<p>タプルのさらなるドキュメントは<a href="../std/primitive.tuple.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+
+<!-- # Functions --> 
+
+<h1 id='関数' class='section-header'><a href='#関数'>関数</a></h1>
+<!-- Functions also have a type! They look like this: --> 
+
+<p>関数も型を持ちます!
+それらはこのようになります。</p>
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 { x }
     
@@ -470,8 +687,11 @@ documentation</a>.</p>
 
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='kw'>fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>foo</span>;</pre>
 
-<p>In this case, <code>x</code> is a ‘function pointer’ to a function that takes an <code>i32</code> and
-returns an <code>i32</code>.</p>
+<!-- In this case, `x` is a ‘function pointer’ to a function that takes an `i32` and --> 
+
+<!-- returns an `i32`. --> 
+
+<p>この場合、<code>x</code>は<code>i32</code>を受け取り<code>i32</code>を戻す関数への「関数ポインタ」です。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
