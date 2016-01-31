@@ -18,6 +18,7 @@
 | borrowing             | 借用
 | closure               | クロージャ
 | coercion              | 型強制
+| constant              | 定数
 | crate                 | クレート
 | declaration statement | 宣言文
 | dereferencing         | 参照外し
