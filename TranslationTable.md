@@ -10,6 +10,7 @@
 
 | English               | 日本語
 |:----------------------|:------
+| alignment             | アラインメント
 | allocator             | アロケータ
 | application           | アプリケーション
 | arity                 | アリティ
@@ -47,10 +48,12 @@
 | owner                 | 所有者
 | ownership             | 所有権
 | return                | 返す
+| signature             | シグネチャ
 | slice                 | スライス
 | slicing               | スライシング
 | struct                | 構造体
 | structure             | ストラクチャ
+| symbol                | シンボル
 | system                | システム
 | tick                  | クオート
 | trait                 | トレイト
