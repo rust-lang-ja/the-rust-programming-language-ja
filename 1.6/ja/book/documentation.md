@@ -1,4 +1,5 @@
-% Documentation
+% ドキュメント
+<!-- % Documentation -->
 
 Documentation is an important part of any software project, and it's
 first-class in Rust. Let's talk about the tooling Rust gives you to
