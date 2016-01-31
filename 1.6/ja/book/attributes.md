@@ -36,7 +36,7 @@ mod bar {
 <!-- the `mod` declaration. Otherwise, they’re the same. Both change the meaning of -->
 <!-- the item they’re attached to somehow. -->
 `#[foo]` アトリビュートは次のアイテムに適用され、この場合は `struct` 宣言に適用されます。
-`#![bar]` アトリビュートは `#![bar]` アトリビュートを囲んでいるアイテムに適用され，この場合は `mod` 宣言に適用されます。
+`#![bar]` アトリビュートは `#![bar]` アトリビュートを囲んでいるアイテムに適用され、この場合は `mod` 宣言に適用されます。
 その他の点については同じであり、どちらも適用されたアイテムの意味を変化させます。
 
 
