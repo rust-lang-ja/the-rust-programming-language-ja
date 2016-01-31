@@ -111,7 +111,7 @@ hello.rs:4 }
 
 <!-- The first line of a documentation comment should be a short summary of its -->
 <!-- functionality. One sentence. Just the basics. High level. -->
-ドキュメンテーションコメントの最初の行は、その機能の短いサマリーにすべきです。
+ドキュメンテーションコメントの最初の行は、その機能の短いサマリにすべきです。
 一文で。
 基本だけを。
 高レベルから。
@@ -135,8 +135,8 @@ hello.rs:4 }
 <!-- are four kinds of headers that are commonly used. They aren't special syntax, -->
 <!-- just convention, for now. -->
 次は特別なセクションです。
-それらには`#`が付いていて、ヘッダーであることを示しています。
-一般的には、4種類のヘッダーが使われます。
+それらには`#`が付いていて、ヘッダであることを示しています。
+一般的には、4種類のヘッダが使われます。
 今のところそれらは特別な構文ではなく、単なる慣習です。
 
 ```rust
@@ -247,7 +247,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 <!-- library crate, so that they don't get out of date. If you have some C code but -->
 <!-- `rustdoc` thinks it's Rust because you left off the annotation, `rustdoc` will -->
 <!-- complain when trying to generate the documentation. -->
-ここでは正しい注釈を選ぶことが重要です。なぜなら、`rustdoc`はそれを興味深い方法で使うからです。それらが消費期限切れにならないように、ライブラリークレート内で実際にあなたの例をテストするために使うのです。
+ここでは正しい注釈を選ぶことが重要です。なぜなら、`rustdoc`はそれを興味深い方法で使うからです。それらが消費期限切れにならないように、ライブラリクレート内で実際にあなたの例をテストするために使うのです。
 もし例の中にCのコードが含まれているのに、あなたが注釈を付けるのを忘れてしまい、`rustdoc`がそれをRustのコードだと考えてしまえば、`rustdoc`はドキュメントを生成しようとするときに文句を言うでしょう。
 
 <!-- ## Documentation as tests -->
@@ -349,7 +349,7 @@ fn main() {
 そうです。正解です。あなたは`# `で始まる行を追加することで、コードをコンパイルするときには使われるけれども、出力はされないというようにすることができます。
 あなたはこれを都合のよいように使うことができます。
 この場合、ドキュメンテーションコメントそのものを見せたいので、ドキュメンテーションコメントを何らかの関数に適用する必要があります。そのため、その後に小さい関数定義を追加する必要があります。
-同時に、それは単にコンパイラーを満足させるためだけのものなので、それを隠すことで、例がすっきりするのです。
+同時に、それは単にコンパイラを満足させるためだけのものなので、それを隠すことで、例がすっきりするのです。
 長い例を詳細に説明する一方、テスト可能性を維持するためにこのテクニックを使うことができます。
 
 <!-- For example, imagine that we wanted to document this code: -->
@@ -514,8 +514,8 @@ $ cargo test
 <!-- due to the way `rustdoc` works: it links against the library to be tested, -->
 <!-- but with a binary, there’s nothing to link to. -->
 正解です。`cargo test`は組み込まれたドキュメントもテストします。
-**しかし、`cargo test`がテストするのはライブラリークレートだけで、バイナリークレートはテストしません。**
-これは`rustdoc`の動き方によるものです。それはテストするためにライブラリーをリンクしますが、バイナリーには何もリンクするものがないからです。
+**しかし、`cargo test`がテストするのはライブラリクレートだけで、バイナリクレートはテストしません。**
+これは`rustdoc`の動き方によるものです。それはテストするためにライブラリをリンクしますが、バイナリには何もリンクするものがないからです。
 
 <!-- There are a few more annotations that are useful to help `rustdoc` do the right -->
 <!-- thing when testing your code: -->
@@ -559,8 +559,8 @@ $ cargo test
 <!-- The `no_run` attribute will compile your code, but not run it. This is -->
 <!-- important for examples such as "Here's how to start up a network service," -->
 <!-- which you would want to make sure compile, but might run in an infinite loop! -->
-`no_run`属性はあなたのコードをコンパイルしますが、実行はしません。
-これは「これはネットワークサービスを開始する方法です」というような例や、コンパイルされることは保証したいけれども、無限ループになってしまうような例にとって重要です！
+`no_run`アトリビュートはあなたのコードをコンパイルしますが、実行はしません。
+これは「これはネットワークサービスを開始する方法です」というような例や、コンパイルされることは保証したいけれども、無限ループになってしまうような例にとって重要です!
 
 <!-- ### Documenting modules -->
 ### モジュールのドキュメントの作成
@@ -652,11 +652,11 @@ This is the example documentation.
 この`%`行はそのファイルの一番先頭の行に書く必要があります。
 
 <!-- ## `doc` attributes -->
-## `doc`属性
+## `doc`アトリビュート
 
 <!-- At a deeper level, documentation comments are syntactic sugar for documentation -->
 <!-- attributes: -->
-もっと深いレベルで言えは、ドキュメンテーションコメントはドキュメント属性の糖衣構文です。
+もっと深いレベルで言えは、ドキュメンテーションコメントはドキュメントアトリビュートの糖衣構文です。
 
 ```rust
 /// this
@@ -677,7 +677,7 @@ This is the example documentation.
 
 <!-- You won't often see this attribute used for writing documentation, but it -->
 <!-- can be useful when changing some options, or when writing a macro. -->
-この属性がドキュメントを書くために使われているのを見ることはそんなにないでしょう。しかし、これは何らかのオプションを変更したり、マクロを書いたりするときに便利です。
+このアトリビュートがドキュメントを書くために使われているのを見ることはそんなにないでしょう。しかし、これは何らかのオプションを変更したり、マクロを書いたりするときに便利です。
 
 <!-- ### Re-exports -->
 ### 再エクスポート
@@ -714,7 +714,7 @@ pub use foo::bar;
 <!-- is documented, especially when you are working on a library. Rust allows you to -->
 <!-- to generate warnings or errors, when an item is missing documentation. -->
 <!-- To generate warnings you use `warn`: -->
-ときどき、プロジェクト内の公開されている全てのものについて、ドキュメントが作成されていることを確認したいことがあります。これは特にライブラリーについて作業をしているときにあります。
+ときどき、プロジェクト内の公開されている全てのものについて、ドキュメントが作成されていることを確認したいことがあります。これは特にライブラリについて作業をしているときにあります。
 Rustでは、要素にドキュメントがないときに警告やエラーを生成することができます。
 警告を生成するためには、`warn`を使います。
 
@@ -794,7 +794,7 @@ struct Hidden;
 - `--html-after-content FILE`: FILEの内容を全てのレンダリングされた内容の後に加える
 
 <!-- ## Security note -->
-## セキュリティー上の注意
+## セキュリティ上の注意
 
 <!-- The Markdown in documentation comments is placed without processing into -->
 <!-- the final webpage. Be careful with literal HTML: -->
