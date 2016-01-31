@@ -1,4 +1,4 @@
-`const` と `static`
+% `const` と `static`
 <!-- % `const` and `static` -->
 
 <!-- Rust has a way of defining constants with the `const` keyword: -->
@@ -18,8 +18,8 @@ const N: i32 = 5;
 <!-- effectively inlined to each place that they’re used. References to the same -->
 <!-- constant are not necessarily guaranteed to refer to the same memory address for -->
 <!-- this reason. -->
-定数はプログラム全体のライフタイムにおいて有効です。
-具体的にはRustプログラム中で定数はメモリ中に固定のアドレスを持ちません。
+定数はプログラム全体のライフタイムの間生きています。
+さらに言えば、Rustプログラム中で定数はメモリ中に固定のアドレスを持ちません。
 これは定数が利用されている時にそれらが効率的にインライン化されるためです。
 このため、同じ定数への参照が必ずしも同じアドレスを指しているとは保証されません。
 
@@ -29,8 +29,8 @@ const N: i32 = 5;
 <!-- similar to constants, but static items aren’t inlined upon use. This means that -->
 <!-- there is only one instance for each value, and it’s at a fixed location in -->
 <!-- memory. -->
-Rustは「グローバル変数」と呼ばれる静的なアイテムを提供します。
-「グローバル変数」は定数と似ていますが、静的でありインライン化は行われません。
+Rustは「グローバル変数」と呼ばれる静的アイテムを提供します。
+「グローバル変数」は定数と似ていますが、静的アイテムは使用にあたってインライン化は行われません。
 これは、「グローバル変数」にはそれぞれに対しただひとつのインスタンスのみが存在することを意味し、
 メモリ上に固定の位置を持つことになります。
 
@@ -46,7 +46,7 @@ static N: i32 = 5;
 
 <!-- Statics live for the entire lifetime of a program, and therefore any -->
 <!-- reference stored in a constant has a [`'static` lifetime][lifetimes]: -->
-静的な変数はプログラム全体のライフタイムにおいて有効であり、
+静的アイテムはプログラム全体のライフタイムの間生きています。
 そのため定数に保存されている参照は [`static` ライフタイム][lifetimes]を持ちます:
 
 ```rust
