@@ -28,8 +28,10 @@
 | declaration statement | 宣言文
 | dereferencing         | 参照外し
 | destructuring         | 分配
+| distribution          | 配布物
 | diverge               | ダイバージ
 | diverging             | ダイバージング
+| documentation comment | ドキュメンテーションコメント
 | early return          | 早期リターン
 | enum                  | 列挙型
 | expression statement  | 式文
