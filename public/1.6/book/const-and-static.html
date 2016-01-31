@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>`const` and `static`</title>
+    <title>`const` と `static`</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,52 +185,92 @@
 <div id='page'>
 
 
-    <h1 class="title">`const` and `static`</h1>
-    <p>Rust has a way of defining constants with the <code>const</code> keyword:</p>
+    <h1 class="title">`const` と `static`</h1>
+    <!-- % `const` and `static` -->
+
+<!-- Rust has a way of defining constants with the `const` keyword: -->
+
+<p>Rustでは <code>const</code> を用いることで定数を定義することができます:</p>
 <span class='rusttest'>fn main() {
     const N: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>const</span> <span class='ident'>N</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>5</span>;</pre>
 
-<p>Unlike <a href="variable-bindings.html"><code>let</code></a> bindings, you must annotate the type of a <code>const</code>.</p>
+<!-- Unlike [`let`][let] bindings, you must annotate the type of a `const`. -->
 
-<p>Constants live for the entire lifetime of a program. More specifically,
-constants in Rust have no fixed address in memory. This is because they’re
-effectively inlined to each place that they’re used. References to the same
-constant are not necessarily guaranteed to refer to the same memory address for
-this reason.</p>
+<p><a href="variable-bindings.html"><code>let</code></a> による束縛とは異なり、<code>const</code> を用いるときは型を明示する必要があります。</p>
+
+<!-- Constants live for the entire lifetime of a program. More specifically, -->
+
+<!-- constants in Rust have no fixed address in memory. This is because they’re -->
+
+<!-- effectively inlined to each place that they’re used. References to the same -->
+
+<!-- constant are not necessarily guaranteed to refer to the same memory address for -->
+
+<!-- this reason. -->
+
+<p>定数はプログラム全体のライフタイムの間生きています。
+さらに言えば、Rustプログラム中で定数はメモリ中に固定のアドレスを持ちません。
+これは定数が利用されている時にそれらが効率的にインライン化されるためです。
+このため、同じ定数への参照が必ずしも同じアドレスを指しているとは保証されません。</p>
 
 <h1 id='static' class='section-header'><a href='#static'><code>static</code></a></h1>
-<p>Rust provides a ‘global variable’ sort of facility in static items. They’re
-similar to constants, but static items aren’t inlined upon use. This means that
-there is only one instance for each value, and it’s at a fixed location in
-memory.</p>
+<!-- Rust provides a ‘global variable’ sort of facility in static items. They’re -->
 
-<p>Here’s an example:</p>
+<!-- similar to constants, but static items aren’t inlined upon use. This means that -->
+
+<!-- there is only one instance for each value, and it’s at a fixed location in -->
+
+<!-- memory. -->
+
+<p>Rustは「グローバル変数」と呼ばれる静的アイテムを提供します。
+「グローバル変数」は定数と似ていますが、静的アイテムは使用にあたってインライン化は行われません。
+これは、「グローバル変数」にはそれぞれに対しただひとつのインスタンスのみが存在することを意味し、
+メモリ上に固定の位置を持つことになります。</p>
+
+<!-- Here’s an example: -->
+
+<p>以下に例を示します:</p>
 <span class='rusttest'>fn main() {
     static N: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>static</span> <span class='ident'>N</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>5</span>;</pre>
 
-<p>Unlike <a href="variable-bindings.html"><code>let</code></a> bindings, you must annotate the type of a <code>static</code>.</p>
+<!-- Unlike [`let`][let] bindings, you must annotate the type of a `static`. -->
 
-<p>Statics live for the entire lifetime of a program, and therefore any
-reference stored in a constant has a <a href="lifetimes.html"><code>&#39;static</code> lifetime</a>:</p>
+<p><a href="variable-bindings.html"><code>let</code></a> による束縛とは異なり、<code>static</code> を用いるときは型を明示する必要があります。</p>
+
+<!-- Statics live for the entire lifetime of a program, and therefore any -->
+
+<!-- reference stored in a constant has a [`'static` lifetime][lifetimes]: -->
+
+<p>静的アイテムはプログラム全体のライフタイムの間生きています。
+そのため定数に保存されている参照は <a href="lifetimes.html"><code>static</code> ライフタイム</a>を持ちます:</p>
 <span class='rusttest'>fn main() {
     static NAME: &amp;&#39;static str = &quot;Steve&quot;;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>static</span> <span class='ident'>NAME</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Steve&quot;</span>;</pre>
 
-<h2 id='mutability' class='section-header'><a href='#mutability'>Mutability</a></h2>
-<p>You can introduce mutability with the <code>mut</code> keyword:</p>
+<!-- ## Mutability -->
+
+<h2 id='ミュータビリティ' class='section-header'><a href='#ミュータビリティ'>ミュータビリティ</a></h2>
+<!-- You can introduce mutability with the `mut` keyword: -->
+
+<p><code>mut</code> を利用することでミュータビリティを導入することができます:</p>
 <span class='rusttest'>fn main() {
     static mut N: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>N</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>5</span>;</pre>
 
-<p>Because this is mutable, one thread could be updating <code>N</code> while another is
-reading it, causing memory unsafety. As such both accessing and mutating a
-<code>static mut</code> is <a href="unsafe.html"><code>unsafe</code></a>, and so must be done in an <code>unsafe</code> block:</p>
+<!-- Because this is mutable, one thread could be updating `N` while another is -->
+
+<!-- reading it, causing memory unsafety. As such both accessing and mutating a -->
+
+<!-- `static mut` is [`unsafe`][unsafe], and so must be done in an `unsafe` block: -->
+
+<p>この静的な変数 <code>N</code> はミュータブルであるため、別のスレッドから読まれている間に変更される可能性があり、メモリの不安全性の原因となります。
+そのため <code>static mut</code> な変数にアクセスを行うことは <a href="unsafe.html"><code>unsafe</code></a> であり、 <code>unsafe</code> ブロック中で行う必要があります。</p>
 <span class='rusttest'>fn main() {
     static mut N: i32 = 5;
     
@@ -247,19 +287,37 @@ reading it, causing memory unsafety. As such both accessing and mutating a
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;N: {}&quot;</span>, <span class='ident'>N</span>);
 }</pre>
 
-<p>Furthermore, any type stored in a <code>static</code> must be <code>Sync</code>, and may not have
-a <a href="drop.html"><code>Drop</code></a> implementation.</p>
+<!-- Furthermore, any type stored in a `static` must be `Sync`, and may not have -->
 
-<h1 id='initializing' class='section-header'><a href='#initializing'>Initializing</a></h1>
-<p>Both <code>const</code> and <code>static</code> have requirements for giving them a value. They may
-only be given a value that’s a constant expression. In other words, you cannot
-use the result of a function call or anything similarly complex or at runtime.</p>
+<!-- a [`Drop`][drop] implementation. -->
 
-<h1 id='which-construct-should-i-use' class='section-header'><a href='#which-construct-should-i-use'>Which construct should I use?</a></h1>
-<p>Almost always, if you can choose between the two, choose <code>const</code>. It’s pretty
-rare that you actually want a memory location associated with your constant,
-and using a const allows for optimizations like constant propagation not only
-in your crate but downstream crates.</p>
+<p>さらに言えば、 <code>static</code> な変数に格納される値の型は <code>Sync</code> を実装しており、
+かつ <a href="drop.html"><code>Drop</code></a> は実装していない必要があります。</p>
+
+<h1 id='初期化' class='section-header'><a href='#初期化'>初期化</a></h1>
+<!-- Both `const` and `static` have requirements for giving them a value. They may -->
+
+<!-- only be given a value that’s a constant expression. In other words, you cannot -->
+
+<!-- use the result of a function call or anything similarly complex or at runtime. -->
+
+<p><code>const</code> 、 <code>static</code> どちらも値に対してそれらが定数式でなければならないという要件があります。
+言い換えると、関数の呼び出しのような複雑なものや実行時の値を指定することはできないとうことです。</p>
+
+<!-- # Which construct should I use? -->
+
+<h1 id='どちらを使うべきか' class='section-header'><a href='#どちらを使うべきか'>どちらを使うべきか</a></h1>
+<!-- Almost always, if you can choose between the two, choose `const`. It’s pretty -->
+
+<!-- rare that you actually want a memory location associated with your constant, -->
+
+<!-- and using a const allows for optimizations like constant propagation not only -->
+
+<!-- in your crate but downstream crates. -->
+
+<p>大抵の場合、<code>static</code> か <code>const</code> で選ぶときは <code>const</code> を選ぶと良いでしょう。
+定数を定義したい時に、そのメモリロケーションが固定であることを必要とする場面は珍しく、
+<code>const</code> を用いることで定数伝播によってあなたのクレートだけでなく、それを利用するクレートでも最適化をすることができます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
