@@ -2,7 +2,7 @@
 <!-- % Functions -->
 
 <!--Every Rust program has at least one function, the `main` function:-->
-Rustのプログラムには全て、少なくとも1つの関数、`main`関数があります。
+Rustのプログラムには全て、少なくとも1つの関数、 `main` 関数があります。
 
 ```rust
 fn main() {
@@ -14,8 +14,8 @@ fn main() {
 <!--this function takes no arguments, and then some curly braces to indicate the-->
 <!--body. Here’s a function named `foo`:-->
 これは評価可能な関数定義の最も単純なものです。
-前に言ったように、`fn`は「これは関数です」ということを示します。この関数には引数がないので、名前と丸括弧が続きます。そして、その本文を表す波括弧が続きます。
-これが`foo`という名前の関数です。
+前に言ったように、 `fn` は「これは関数です」ということを示します。この関数には引数がないので、名前と丸括弧が続きます。そして、その本文を表す波括弧が続きます。
+これが `foo` という名前の関数です。
 
 ```rust
 fn foo() {
@@ -33,7 +33,7 @@ fn print_number(x: i32) {
 ```
 
 <!--Here’s a complete program that uses `print_number`:-->
-これが`print_number`を使う完全なプログラムです。
+これが `print_number` を使う完全なプログラムです。
 
 ```rust
 fn main() {
@@ -47,7 +47,7 @@ fn print_number(x: i32) {
 
 <!--As you can see, function arguments work very similar to `let` declarations:-->
 <!--you add a type to the argument name, after a colon.-->
-見てのとおり、関数の引数は`let`宣言と非常によく似た動きをします。
+見てのとおり、関数の引数は `let` 宣言と非常によく似た動きをします。
 引数の名前にコロンに続けて型を追加します。
 
 <!--Here’s a complete program that adds two numbers together and prints them:-->
@@ -69,7 +69,7 @@ fn print_sum(x: i32, y: i32) {
 
 <!--Unlike `let`, you _must_ declare the types of function arguments. This does-->
 <!--not work:-->
-`let`と異なり、あなたは関数の引数の型を宣言 _しなければなりません_ 。
+`let` と異なり、あなたは関数の引数の型を宣言 _しなければなりません_ 。
 これは動きません。
 
 ```rust,ignore
@@ -155,7 +155,7 @@ Rustは主として式ベースの言語です。
 <!--an expression. Let’s talk about declaration statements first.-->
 ではその違いは何でしょうか。
 式は値を返しますが、文は返しません。
-それが「not all control paths return a value」で終わった理由です。文`x + 1;`は値を返さないからです。
+それが「not all control paths return a value」で終わった理由です。文 `x + 1;` は値を返さないからです。
 Rustには2種類の文があります。「宣言文」と「式文」です。
 その他の全ては式です。
 まずは宣言文について話しましょう。
@@ -171,7 +171,7 @@ x = y = 5
 
 <!--In Rust, however, using `let` to introduce a binding is _not_ an expression. The-->
 <!--following will produce a compile-time error:-->
-しかし、Rustでは束縛を導入するための`let`の使用は式では _ありません_ 。
+しかし、Rustでは束縛を導入するための `let` の使用は式では _ありません_ 。
 次の例はコンパイルエラーを起こします。
 
 ```ignore
@@ -180,7 +180,7 @@ let x = (let y = 5); // expected identifier, found keyword `let`
 
 <!--The compiler is telling us here that it was expecting to see the beginning of-->
 <!--an expression, and a `let` can only begin a statement, not an expression.-->
-ここでコンパイラは次のことを教えています。式の先頭を検出することが期待されていたところ、`let`は式ではなく文の先頭にしかなれないということです。
+ここでコンパイラは次のことを教えています。式の先頭を検出することが期待されていたところ、 `let` は式ではなく文の先頭にしかなれないということです。
 
 <!--Note that assigning to an already-bound variable (e.g. `y = 5`) is still an-->
 <!--expression, although its value is not particularly useful. Unlike other-->
@@ -188,7 +188,7 @@ let x = (let y = 5); // expected identifier, found keyword `let`
 <!--previous example), in Rust the value of an assignment is an empty tuple `()`-->
 <!--because the assigned value can have [just one owner](ownership.html), and any-->
 <!--other returned value would be too surprising:-->
-次のことに注意しましょう。既に束縛されている変数（例えば、`y = 5`）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では`5`）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル`()`です。なぜなら、割り当てられる値には[単一の所有者](ownership.html)しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。
+次のことに注意しましょう。既に束縛されている変数（例えば、 `y = 5`）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では `5`）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル `()` です。なぜなら、割り当てられる値には[単一の所有者](ownership.html)しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。
 
 
 ```rust
@@ -224,7 +224,7 @@ fn add_one(x: i32) -> i32 {
 <!--Our function claims to return an `i32`, but with a semicolon, it would return-->
 <!--`()` instead. Rust realizes this probably isn’t what we want, and suggests-->
 <!--removing the semicolon in the error we saw before.-->
-この関数は`i32`を返そうとしていますが、セミコロンを付ければ、それは代わりに`()`を返します。
+この関数は `i32` を返そうとしていますが、セミコロンを付ければ、それは代わりに `()` を返します。
 Rustはこの挙動がおそらく求めているものではないということを理解するので、前に見たエラーの中で、セミコロンを削除することを提案するのです。
 
 <!--## Early returns-->
@@ -232,7 +232,7 @@ Rustはこの挙動がおそらく求めているものではないというこ�
 
 <!--But what about early returns? Rust does have a keyword for that, `return`:-->
 しかし、早期リターンについてはどうでしょうか。
-Rustはそのためのキーワード`return`を持っています。
+Rustはそのためのキーワード `return` を持っています。
 
 ```rust
 fn foo(x: i32) -> i32 {
@@ -245,7 +245,7 @@ fn foo(x: i32) -> i32 {
 
 <!--Using a `return` as the last line of a function works, but is considered poor-->
 <!--style:-->
-`return`を関数の最後の行で使っても動きますが、それはよろしくないスタイルだと考えられています。
+`return` を関数の最後の行で使っても動きますが、それはよろしくないスタイルだと考えられています。
 
 ```rust
 fn foo(x: i32) -> i32 {
@@ -256,7 +256,7 @@ fn foo(x: i32) -> i32 {
 <!--The previous definition without `return` may look a bit strange if you haven’t-->
 <!--worked in an expression-based language before, but it becomes intuitive over-->
 <!--time.-->
-あなたがこれまで式ベースの言語を使ったことがなければ、`return`のない前の定義の方がちょっと変に見えるかもしれません。しかし、それは時間とともに直観的に感じられるようになります。
+あなたがこれまで式ベースの言語を使ったことがなければ、 `return` のない前の定義の方がちょっと変に見えるかもしれません。しかし、それは時間とともに直観的に感じられるようになります。
 
 <!--## Diverging functions-->
 ## ダイバージング関数
@@ -275,13 +275,13 @@ fn diverges() -> ! {
 <!--`println!()`, `panic!()` causes the current thread of execution to crash with-->
 <!--the given message. Because this function will cause a crash, it will never-->
 <!--return, and so it has the type ‘`!`’, which is read ‘diverges’.-->
-`panic!`は既に見てきた`println!`と同様にマクロです。
-`println!`とは違って、`panic!`は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
-この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「`!`」型を持つのです。
+`panic!` は既に見てきた `println!` と同様にマクロです。
+`println!` とは違って、 `panic!` は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
+この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「 `!` 」型を持つのです。
 
 <!--If you add a main function that calls `diverges()` and run it, you’ll get-->
 <!--some output that looks like this:-->
-もし`diverges()`を呼び出すメイン関数を追加してそれを実行するならば、次のようなものが出力されるでしょう。
+もし `diverges()` を呼び出すメイン関数を追加してそれを実行するならば、次のようなものが出力されるでしょう。
 
 ```text
 thread ‘<main>’ panicked at ‘This function never returns!’, hello.rs:2
@@ -289,7 +289,7 @@ thread ‘<main>’ panicked at ‘This function never returns!’, hello.rs:2
 
 <!--If you want more information, you can get a backtrace by setting the-->
 <!--`RUST_BACKTRACE` environment variable:-->
-もしもっと情報を得たいと思うのであれば、`RUST_BACKTRACE`環境変数をセットすることでバックトレースを得ることができます。
+もしもっと情報を得たいと思うのであれば、 `RUST_BACKTRACE` 環境変数をセットすることでバックトレースを得ることができます。
 
 ```text
 $ RUST_BACKTRACE=1 ./diverges
@@ -311,7 +311,7 @@ stack backtrace:
 ```
 
 <!--`RUST_BACKTRACE` also works with Cargo’s `run` command:-->
-`RUST_BACKTRACE`はCargoの`run`コマンドでも使うことができます。
+`RUST_BACKTRACE` はCargoの `run` コマンドでも使うことができます。
 
 ```text
 $ RUST_BACKTRACE=1 cargo run
@@ -356,7 +356,7 @@ let f: fn(i32) -> i32;
 
 <!--`f` is a variable binding which points to a function that takes an `i32` as-->
 <!--an argument and returns an `i32`. For example:-->
-`f`は`i32`を引数として受け取り、`i32`を返す関数を指示する変数束縛です。
+`f` は `i32` を引数として受け取り、 `i32` を返す関数を指示する変数束縛です。
 例えばこうです。
 
 ```rust
@@ -372,7 +372,7 @@ let f = plus_one;
 ```
 
 <!--We can then use `f` to call the function:-->
-そして、その関数を呼び出すために`f`を使うことができます。
+そして、その関数を呼び出すために `f` を使うことができます。
 
 ```rust
 # fn plus_one(i: i32) -> i32 { i + 1 }
