@@ -1,14 +1,20 @@
-% Patterns
-
-Patterns are quite common in Rust. We use them in [variable
-bindings][bindings], [match statements][match], and other places, too. Let’s go
-on a whirlwind tour of all of the things patterns can do!
-
+()[
+  % Patterns
+]
+% パターン Patterns
+()[Patterns are quite common in Rust.] 
+パターンはRustにおいて極めて一般的な方法です。
+()[We use them in [variable
+bindings][bindings], [match statements][match], and other places, too.]
+パターンは、[変数束縛][bindings]、[マッチ宣言][match]、などで使われています。
+()[Let’s go on a whirlwind tour of all of the things patterns can do!]
+さあ、めくるめくパターンの旅を始めましょう！
 [bindings]: variable-bindings.html
 [match]: match.html
 
-A quick refresher: you can match against literals directly, and `_` acts as an
-‘any’ case:
+()[A quick refresher: you can match against literals directly, and `_` acts as an
+‘any’ case:]
+簡単な復習: パターンはリテラルに対しては直接マッチさせることができます。また、`_`は'any'型として振る舞います。
 
 ```rust
 let x = 1;
