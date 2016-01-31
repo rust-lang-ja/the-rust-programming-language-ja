@@ -5,23 +5,23 @@
 <!-- errors in a particular way. Generally speaking, error handling is divided into -->
 <!-- two broad categories: exceptions and return values. Rust opts for return -->
 <!-- values. -->
-他のほとんどのプログラミング言語と同様に、Rustはプログラマに、エラーを扱うための、ある決まった作法を求めます。
-一般的にエラー処理は、例外、あるいは、戻り値を使ったものの、大きく２つに分類されます。
+他のほとんどのプログラミング言語と同様に、Rustはプログラマに、エラーを扱うための、ある決まった作法を促します。
+一般的にエラーハンドリングは、例外、あるいは、戻り値を使ったものの、大きく２つに分類されます。
 Rustでは戻り値を使います。（用語集候補：return value）
 
 <!-- In this chapter, we intend to provide a comprehensive treatment of how to deal -->
 <!-- with errors in Rust. More than that, we will attempt to introduce error handling -->
 <!-- one piece at a time so that you'll come away with a solid working knowledge of -->
 <!-- how everything fits together. -->
-この章では、Rustでのエラー処理に関わる包括的な対処方法を提示しようと思います。
-単にそれだけではなく、エラー処理のやり方を、ひとつひとつ、順番に積み上げていきます。
+この章では、Rustでのエラーハンドリングに関わる包括的な対処方法を提示しようと思います。
+単にそれだけではなく、エラーハンドリングのやり方を、ひとつひとつ、順番に積み上げていきます。
 こうすることで、全体がどう組み合わさっているのかの理解が進み、より実用的な知識が身につくでしょう。
 
 <!-- When done naïvely, error handling in Rust can be verbose and annoying. This -->
 <!-- chapter will explore those stumbling blocks and demonstrate how to use the -->
 <!-- standard library to make error handling concise and ergonomic. -->
-もし素朴なやりかたで取り組んだなら、Rustにおけるエラー処理は、冗長で面倒なものになり得ます。
-この章では、エラー処理をする上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
+もし素朴なやりかたで取り組んだなら、Rustにおけるエラーハンドリングは、冗長で面倒なものになり得ます。
+この章では、エラーを処理する上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
 
 <!-- # Table of Contents -->
 # 目次
@@ -31,7 +31,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- incrementally. As such, programmers with experience in other expressive type -->
 <!-- systems may want to jump around. -->
 この章はとても長くなります。
-というのは、sum types（訳）とコンビネータから始めて、Restにおけるエラー処理を徐々に良くしていくための、動機づけをしていくからです。
+というのは、sum types（訳）とコンビネータから始めることで、Restにおけるエラーハンドリングを徐々に改善したくなる動機を与えるからです。
 このような構成ですので、もしすでに他の表現豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
 （用語集候補：sum type、combinator）
 
@@ -66,7 +66,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!--  [The short story](#the-short-story) -->
 
 * [基礎](#the-basics)
-    * [Unwrap とは](#unwrapping-explained)
+    * [アンラップ（unwap）とは](#unwrapping-explained)
     * [`Option` 型](#the-option-type)
         * [`Option<T>` 値で構成する](#composing-optiont-values)
     * [`Result` 型](#the-result-type)
@@ -76,7 +76,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 * [複数のエラー型を扱う](#working-with-multiple-error-types)
     * [`Option` と `Result` で構成する](#composing-option-and-result)
     * [コンビネータの限界](#the-limits-of-combinators)
-    * [アーリーリターン](#early-returns)
+    * [早期のリターン](#early-returns)
     * [`try!` マクロ](#the-try-macro)
     * [独自のエラー型を定義する](#defining-your-own-error-type)
 * [標準ライブラリのトレイトによるエラー処理](#standard-library-traits-used-for-error-handling)
@@ -95,30 +95,29 @@ Rustでは戻り値を使います。（用語集候補：return value）
     * [機能を追加する](#adding-functionality)
 * [ショートストーリー](#the-short-story)
 
-<span id="the-basics"></span>
 <!-- # The Basics -->
+<span id="the-basics"></span>
 # 基礎
 
 <!-- You can think of error handling as using *case analysis* to determine whether -->
 <!-- a computation was successful or not. As you will see, the key to ergonomic error -->
 <!-- handling is reducing the amount of explicit case analysis the programmer has to -->
 <!-- do while keeping code composable. -->
-エラー処理とは、 *ケース分析* に基づいて、ある処理の結果が成功したのかどうかを判断していくものだと考えられます。
-この後、見ていくように、使いやすいエラー処理であるために重要なのは、プログラマが、コードをコンポーザブル（構成可能）に保ったまま、明示的なケース分析の回数をいかに減らしていくかということです。
+エラーハンドリングとは、ある処理が成功したかどうかを *ケース分析* に基づいて判断するものだと考えてください。
+これから見ていくように、エラーハンドリングを使いやすくするために重要なのは、プログラマがコードをコンポーザブル（組み合わせ可能）に保ったまま、明示的なケース分析の数を、いかに減らしていくかということです。
 
 <!-- Keeping code composable is important, because without that requirement, we -->
 <!-- could [`panic`](../std/macro.panic!.html) whenever we -->
 <!-- come across something unexpected. (`panic` causes the current task to unwind, -->
 <!-- and in most cases, the entire program aborts.) Here's an example: -->
 コードをコンポーザブルに保つのは重要です。
-なぜなら、もしこの要求がなかったら、なにか想定外のことが起こる度に [`panic`](../std/macro.panic!.html) することを選ぶかもしれないからです。
+なぜなら、もしこの要求がなかったら、想定外のことが起こる度に [`panic`](../std/macro.panic!.html) するかもしれないからです。
 （`panic` は現タスクをunwind（訳）し、ほとんどの場合、プログラム全体をアボートします。）
 （用語集候補：unwind）
 
-<!-- // Guess a number between 1 and 10. -->
-<!-- // If it matches the number we had in mind, return true. Else, return false. -->
-
 ```rust,should_panic
+# // Guess a number between 1 and 10.
+# // If it matches the number we had in mind, return true. Else, return false.
 // 1から10までの数字を予想します。
 // もし予想した数字に一致したらtrueを返し、そうでなけれは、falseを返します。
 fn guess(n: i32) -> bool {
@@ -135,7 +134,7 @@ fn main() {
 
 > ［訳注］文言の意味は
 >
-> * Invalid number: {}：無効な数字です
+> * Invalid number: {}：無効な数字です: {}
 >
 > ですが、エディタの設定などによっては、ソースコード中の
 > コメント以外の場所に日本語を使うとコンパイルできないことがあるので、
@@ -150,7 +149,7 @@ thread '<main>' panicked at 'Invalid number: 11', src/bin/panic-simple.rs:5
 
 <!-- Here's another example that is slightly less contrived. A program that accepts -->
 <!-- an integer as an argument, doubles it and prints it. -->
-こちらは、もう少し自然な例です。
+次は、もう少し自然な例です。
 このプログラムは引数として整数を受け取り、２倍した後に表示します。
 
 <span id="code-unwrap-double"></span>
@@ -174,13 +173,13 @@ fn main() {
 <!-- You can think of this style of error handling as similar to a bull running -->
 <!-- through a china shop. The bull will get to where it wants to go, but it will -->
 <!-- trample everything in the process. -->
-このようなスタイルのエラー処理は、まるで、陶器店の中を駆け抜ける雄牛のようなものです。
+このようなスタイルのエラーハンドリングは、まるで、陶器店の中を駆け抜ける雄牛のようなものです。
 雄牛は自分の行きたいところへたどり着くでしょう。
 でも彼は、途中にある、あらゆるものを蹴散らしてしまいます。
 
-<span id="unwrapping-explained"></span>
 <!-- ## Unwrapping explained -->
-## Unwap とは
+<span id="unwrapping-explained"></span>
+## アンラップ（unwap）とは
 
 <!-- In the previous example, we claimed -->
 <!-- that the program would simply panic if it reached one of the two error -->
@@ -196,18 +195,17 @@ fn main() {
 <!-- It would be better if we just showed the code for unwrapping because it is so -->
 <!-- simple, but to do that, we will first need to explore the `Option` and `Result` -->
 <!-- types. Both of these types have a method called `unwrap` defined on them. -->
-Rustでなにかを「unwrapする」時、こう言っているのと同じです。
-「計算結果を取り出しなさい。もしエラーになっていたのなら、パニックを起こしてプログラムを終了させなさい」
-unwrap のコードはとても単純なので、多分、それを見せたほうが早いでしょう。
-でもそのためには、最初に `Option` と `Result` 型について調べる必要があります。
-どちらの型にも、 `unwrap` という名前のメソッドが定義されています。
+Rustでなにかを「アンラップする」時、こう言っているのと同じです。
+「計算結果を取り出しなさい。もしエラーになっていたのなら、パニックを起こしてプログラムを終了させなさい。」
+アンラップのコードはとても単純なので、多分、それを見せたほうが早いでしょう。
+でもそのためには、まず `Option` と `Result` 型について調べる必要があります。
+どちらの型にも `unwrap` という名前のメソッドが定義されています。
 
-<span id="the-option-type"></span>
 <!-- ### The `Option` type -->
+<span id="the-option-type"></span>
 ### `Option` 型
 
 <!-- The `Option` type is [defined in the standard library][5]: -->
-
 `Option` 型は [標準ライブラリで定義されています][5]：
 
 ```rust
@@ -222,18 +220,17 @@ enum Option<T> {
 <!-- system is an important concept because it will cause the compiler to force the -->
 <!-- programmer to handle that absence. Let's take a look at an example that tries -->
 <!-- to find a character in a string: -->
-`Option` 型は、Rustの型システムを使って *不在の可能性* を表現するためのものです。
-型システムに不在の可能性をエンコードすることは、重要な概念です。
-なぜなら、コンパイラが、その不在に対処することをプログラマに強制させるからです。
-文字列から文字を検索する例を見てみましょう。
+`Option` 型は、Rustの型システムを使って *不在の可能性* を示すためのものです。
+不在の可能性を型システムにエンコードすることは、重要なコンセプトです。
+なぜなら、その不在に対処することを、コンパイラがプログラマに強制させるからです。
+では、文字列から文字を検索する例を見てみましょう。
 
 <span id="code-option-ex-string-find"></span>
 
-<!-- // Searches `haystack` for the Unicode character `needle`. If one is found, the -->
-<!-- // byte offset of the character is returned. Otherwise, `None` is returned. -->
-
 ```rust
-// `haystack` （干し草の山）からユニコード文字 `needle` （縫い針）を検索します。
+# // Searches `haystack` for the Unicode character `needle`. If one is found, the
+# // byte offset of the character is returned. Otherwise, `None` is returned.
+// `haystack`（干し草の山）からユニコード文字 `needle`（縫い針）を検索します。
 // もし見つかったら、文字のバイトオフセットを返します。見つからなければ、`None` を
 // 返します。
 fn find(haystack: &str, needle: char) -> Option<usize> {
@@ -253,17 +250,17 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 <!-- value constructor, except it has no arguments. You can think of `None` as a -->
 <!-- function with the type `fn<T>() -> Option<T>`. -->
 この関数がマッチする文字を見つけた時、単に `offset` を返すだけではないことに注目してください。
-その代わりに、 `Some(offset)` を返します。
+その代わりに `Some(offset)` を返します。
 `Some` は `Option` 型の *値コンストラクタ* のひとつです。
-これは、 `fn<T>(value: T) -> Option<T>` という型の関数だと考えることもできます。
-これに対応して、 `None` もまた値コンストラクタですが、こちらは引数がありません。
+これは `fn<T>(value: T) -> Option<T>` という型の関数だと考えることもできます。
+これに対応して `None` もまた値コンストラクタですが、こちらは引数がありません。
 `None` は `fn<T>() -> Option<T>` という型の関数だと考えることもできます。
 
 <!-- This might seem like much ado about nothing, but this is only half of the -->
 <!-- story. The other half is *using* the `find` function we've written. Let's try -->
 <!-- to use it to find the extension in a file name. -->
-何も見つからないことを示すのが、ずいぶん面倒だと感じるかもしれません。
-でもまだこれは、物語の半分に過ぎません。
+何もないことを表すのに、ずいぶん大げさだと感じるかもしれません。
+でもこれはまだ、話の半分に過ぎません。
 残りの半分は、いま書いた `find` 関数を *使う* 場面です。
 これを使って、ファイル名から拡張子を見つけてみましょう。
 
@@ -299,8 +296,8 @@ fn main() {
 <!-- `unwrap` method for you. You could define it yourself if you want: -->
 でも、ちょっと待ってください。 [さっき](#code-unwrap-double) 使った `unwrap` はどうだったでしょうか?
 ケース分析はどこにもありませんでした!
-実は、ケース分析は `unwrap` メソッドの中に埋め込まれていたのです。
-もし望むなら、自分で定義することもできます：
+実はケース分析は `unwrap` メソッドの中に埋め込まれていたのです。
+もし望むなら、このように自分で定義することもできます：
 
 <span id="code-option-def-unwrap"></span>
 
@@ -331,28 +328,37 @@ impl<T> Option<T> {
 <!-- that makes `unwrap` ergonomic to use. Unfortunately, that `panic!` means that -->
 <!-- `unwrap` is not composable: it is the bull in the china shop. -->
 `unwrap` メソッドは *ケース分析を抽象化します* 。このことは、`unwrap` を確実に使いやすいものにしています。
-あいにく、その `panic!` が意味するのは、`unwrap` がコンポーザブルではない、つまり、陶器店の中の雄牛だということです。
+しかし残念なことに、そこにある `panic!` が意味するものは、`unwrap` がコンポーザブルではない、つまり、陶器店の中の雄牛だということです。
 
-<span id="composing-optiont-values"></span>
 <!--- ### Composing `Option<T>` values -->
+<span id="composing-optiont-values"></span>
 ### `Option<T>` 値で構成する
 
-In an [example from before](#code-option-ex-string-find),
-we saw how to use `find` to discover the extension in a file name. Of course,
-not all file names have a `.` in them, so it's possible that the file name has
-no extension. This *possibility of absence* is encoded into the types using
-`Option<T>`. In other words, the compiler will force us to address the
-possibility that an extension does not exist. In our case, we just print out a
-message saying as such.
+<!-- In an [example from before](#code-option-ex-string-find), -->
+<!-- we saw how to use `find` to discover the extension in a file name. Of course, -->
+<!-- not all file names have a `.` in them, so it's possible that the file name has -->
+<!-- no extension. This *possibility of absence* is encoded into the types using -->
+<!-- `Option<T>`. In other words, the compiler will force us to address the -->
+<!-- possibility that an extension does not exist. In our case, we just print out a -->
+<!-- message saying as such. -->
+[先ほどの例](#code-option-ex-string-find) では、ファイル名から拡張子を見つけるために、`find` をどのように使うかを見ました。
+当然ながら、全てのファイル名に `.` があるわけではなく、拡張子のないファイル名もあり得ます。
+このような *不在の可能性* は `Option<T>` を使うことによって、型の中にエンコードされています。
+すなわち、コンパイラは、拡張子が存在しない可能性に対処することを、私達に強制してくるわけです。
+ここでは単に、そうなったことを告げるメッセージを表示するようにしました。
 
-Getting the extension of a file name is a pretty common operation, so it makes
-sense to put it into a function:
+<!-- Getting the extension of a file name is a pretty common operation, so it makes -->
+<!-- sense to put it into a function: -->
+ファイル名から拡張子を取り出すことは一般的な操作ですので、それを関数にすることは理にかなっています。
 
 ```rust
 # fn find(_: &str, _: char) -> Option<usize> { None }
-// Returns the extension of the given file name, where the extension is defined
-// as all characters proceeding the first `.`.
-// If `file_name` has no `.`, then `None` is returned.
+# // Returns the extension of the given file name, where the extension is defined
+# // as all characters proceeding the first `.`.
+# // If `file_name` has no `.`, then `None` is returned.
+// 与えられたファイル名の拡張子を返す。拡張子の定義は、最初の
+// `.` に続く、全ての文字である。
+// もし `file_name` に `.` がなければ、`None` が返される。
 fn extension_explicit(file_name: &str) -> Option<&str> {
     match find(file_name, '.') {
         None => None,
@@ -361,23 +367,32 @@ fn extension_explicit(file_name: &str) -> Option<&str> {
 }
 ```
 
-(Pro-tip: don't use this code. Use the
+<!-- (pro-tip: don't use this code. Use the -->
+<!-- [`extension`](../std/path/struct.Path.html#method.extension) -->
+<!-- method in the standard library instead.) -->
+（プロ向けのヒント：このコードは使わず、代わりに標準ライブラリの
 [`extension`](../std/path/struct.Path.html#method.extension)
-method in the standard library instead.)
+メソッドを使ってください）
 
-The code stays simple, but the important thing to notice is that the type of
-`find` forces us to consider the possibility of absence. This is a good thing
-because it means the compiler won't let us accidentally forget about the case
-where a file name doesn't have an extension. On the other hand, doing explicit
-case analysis like we've done in `extension_explicit` every time can get a bit
-tiresome.
+<!-- The code stays simple, but the important thing to notice is that the type of -->
+<!-- `find` forces us to consider the possibility of absence. This is a good thing -->
+<!-- because it means the compiler won't let us accidentally forget about the case -->
+<!-- where a file name doesn't have an extension. On the other hand, doing explicit -->
+<!-- case analysis like we've done in `extension_explicit` every time can get a bit -->
+<!-- tiresome. -->
+このコードはいたってシンプルですが、ひとつだけ注目して欲しいのは、`find` の型が、不在の可能性について考慮することを強制していることです。
+これは良いことです。なぜなら、コンパイラが私達に、ファイル名が拡張子を持たないケースを、うっかり忘れないようにしてくれるからです。
+しかし一方で、`extension_explicit` でしたような明示的なケース分析を毎回続けるのは、なかなか面倒です。
 
-In fact, the case analysis in `extension_explicit` follows a very common
-pattern: *map* a function on to the value inside of an `Option<T>`, unless the
-option is `None`, in which case, just return `None`.
+<!-- In fact, the case analysis in `extension_explicit` follows a very common -->
+<!-- pattern: *map* a function on to the value inside of an `Option<T>`, unless the -->
+<!-- option is `None`, in which case, just return `None`. -->
+実は `extension_explicit` でのケース分析は、ごく一般的なパターンである、`Option<T>` への *map* の適用に当てはめられます。
+これは、もしオプションが `None` なら `None` を返し、そうでなけれは、オプションの中の値に関数を適用するというパターンです。
 
-Rust has parametric polymorphism, so it is very easy to define a combinator
-that abstracts this pattern:
+<!-- Rust has parametric polymorphism, so it is very easy to define a combinator -->
+<!-- that abstracts this pattern: -->
+Rustはパラメトリック多相をサポートしていますので、このパターンを抽象化するためのコンビネータが簡単に定義できます：
 
 <span id="code-option-map"></span>
 
@@ -390,26 +405,35 @@ fn map<F, T, A>(option: Option<T>, f: F) -> Option<A> where F: FnOnce(T) -> A {
 }
 ```
 
-Indeed, `map` is [defined as a method][2] on `Option<T>` in the standard library.
+<!-- Indeed, `map` is [defined as a method][2] on `Option<T>` in the standard library. -->
+ご想像の通り、 `map` は、標準のライブラリの `Option<T>` で、 [メソッドとして定義されています][2]。
 
-Armed with our new combinator, we can rewrite our `extension_explicit` method
-to get rid of the case analysis:
+<!-- Armed with our new combinator, we can rewrite our `extension_explicit` method -->
+<!-- to get rid of the case analysis: -->
+新しいコンビネータを手に入れましたので、 `extension_explicit` メソッドを書き直して、ケース分析をなくしましょう：
 
 ```rust
 # fn find(_: &str, _: char) -> Option<usize> { None }
-// Returns the extension of the given file name, where the extension is defined
-// as all characters proceeding the first `.`.
-// If `file_name` has no `.`, then `None` is returned.
+# // Returns the extension of the given file name, where the extension is defined
+# // as all characters proceeding the first `.`.
+# // If `file_name` has no `.`, then `None` is returned.
+// 与えられたファイル名の拡張子を返す。拡張子の定義は、最初の
+// `.` に続く、全ての文字である。
+// もし `file_name` に `.` がなければ、`None` が返される。
 fn extension(file_name: &str) -> Option<&str> {
     find(file_name, '.').map(|i| &file_name[i+1..])
 }
 ```
 
-One other pattern we commonly find is assigning a default value to the case
-when an `Option` value is `None`. For example, maybe your program assumes that
-the extension of a file is `rs` even if none is present. As you might imagine,
-the case analysis for this is not specific to file extensions - it can work
-with any `Option<T>`:
+<!-- One other pattern we commonly find is assigning a default value to the case -->
+<!-- when an `Option` value is `None`. For example, maybe your program assumes that -->
+<!-- the extension of a file is `rs` even if none is present. As you might imagine, -->
+<!-- the case analysis for this is not specific to file extensions - it can work -->
+<!-- with any `Option<T>`: -->
+もう一つのよくある共通のパターンは、`Option` の値が `None` の時にデフォルト値を与えることです。
+例えば、ファイルの拡張子がない時は、それを `rs` とみなすようなプログラムを書きたくなるかもしれません。
+ご想像の通り、このようなケース分析は、ファイルの拡張子に特有のものではありません。
+どんな `Option<T>` でも使えるでしょう：
 
 ```rust
 fn unwrap_or<T>(option: Option<T>, default: T) -> T {
@@ -420,8 +444,10 @@ fn unwrap_or<T>(option: Option<T>, default: T) -> T {
 }
 ```
 
-The trick here is that the default value must have the same type as the value
-that might be inside the `Option<T>`. Using it is dead simple in our case:
+<!-- The trick here is that the default value must have the same type as the value -->
+<!-- that might be inside the `Option<T>`. Using it is dead simple in our case: -->
+ここでのからくりは、デフォルト値の型が `Option<T>` の中にあるはずの値のそれと、必ず同じであることです。
+これを使うのは、すごく簡単です：
 
 ```rust
 # fn find(haystack: &str, needle: char) -> Option<usize> {
@@ -442,21 +468,30 @@ fn main() {
 }
 ```
 
-(Note that `unwrap_or` is [defined as a method][3] on `Option<T>` in the
-standard library, so we use that here instead of the free-standing function we
-defined above. Don't forget to check out the more general [`unwrap_or_else`][4]
-method.)
+<!-- (Note that `unwrap_or` is [defined as a method][3] on `Option<T>` in the -->
+<!-- standard library, so we use that here instead of the free-standing function we -->
+<!-- defined above. Don't forget to check out the more general [`unwrap_or_else`][4] -->
+<!-- method.) -->
+（`unwrap_or` は、標準のライブラリの `Option<T>` で、 [メソッドとして定義されています][3] ので、いま定義した free-standing（訳）関数の代わりに、そちらを使いましょう。）
 
-There is one more combinator that we think is worth paying special attention to:
-`and_then`. It makes it easy to compose distinct computations that admit the
-*possibility of absence*. For example, much of the code in this section is
-about finding an extension given a file name. In order to do this, you first
-need the file name which is typically extracted from a file *path*. While most
-file paths have a file name, not *all* of them do. For example, `.`, `..` or
-`/`.
+<!-- There is one more combinator that we think is worth paying special attention to: -->
+<!-- `and_then`. It makes it easy to compose distinct computations that admit the -->
+<!-- *possibility of absence*. For example, much of the code in this section is -->
+<!-- about finding an extension given a file name. In order to do this, you first -->
+<!-- need the file name which is typically extracted from a file *path*. While most -->
+<!-- file paths have a file name, not *all* of them do. For example, `.`, `..` or -->
+<!-- `/`. -->
+もうひとつ、注目すべきコンビネータがあります。それは `and_then` です。これを使うと、 *不在の可能性* を考慮しながら、別々の処理を簡単に組み合わせることができます。
+例えば、この節のほとんどのコードは、与えられたファイル名について拡張子を見つけだします。
+そのためには、まずファイル *パス* から取り出したファイル名が必要です。
+大抵のパスにはファイル名がありますが、 *全て* がそうではありません。
+例えば、`.`, `..`, `/` などは例外です。
 
-So, we are tasked with the challenge of finding an extension given a file
-*path*. Let's start with explicit case analysis:
+<!-- So, we are tasked with the challenge of finding an extension given a file -->
+<!-- *path*. Let's start with explicit case analysis: -->
+つまり、与えられたファイル *パス* から拡張子を見つけることに挑戦しなければなりません。
+まず、明示的なケース分析から始めましょう：
+
 
 ```rust
 # fn extension(file_name: &str) -> Option<&str> { None }
@@ -471,17 +506,23 @@ fn file_path_ext_explicit(file_path: &str) -> Option<&str> {
 }
 
 fn file_name(file_path: &str) -> Option<&str> {
-  // implementation elided
+#  // implementation elided
+  // 実装は省略
   unimplemented!()
 }
 ```
 
-You might think that we could just use the `map` combinator to reduce the case
-analysis, but its type doesn't quite fit. Namely, `map` takes a function that
-does something only with the inner value. The result of that function is then
-*always* [rewrapped with `Some`](#code-option-map). Instead, we need something
-like `map`, but which allows the caller to return another `Option`. Its generic
-implementation is even simpler than `map`:
+<!-- You might think that we could just use the `map` combinator to reduce the case -->
+<!-- analysis, but its type doesn't quite fit. Namely, `map` takes a function that -->
+<!-- does something only with the inner value. The result of that function is then -->
+<!-- *always* [rewrapped with `Some`](#code-option-map). Instead, we need something -->
+<!-- like `map`, but which allows the caller to return another `Option`. Its generic -->
+<!-- implementation is even simpler than `map`: -->
+ケース分析を減らすために単に `map` コンビネータを使えばいいと思うかもしれませんが、型にうまく適合しません。
+なぜなら、`map` が引数にとる関数は、内側の値だけに適用されるからです。
+そして、関数が返した値は *必ず* [`Some` でラップされ直します](#code-option-map) 。
+代わりに、 `map` のようでありながら、呼び出し元が別の `Option` を返せるしくみが必要です。
+これを汎用的に実装したものは、 `map` よりもシンプルです：
 
 ```rust
 fn and_then<F, T, A>(option: Option<T>, f: F) -> Option<A>
@@ -493,7 +534,8 @@ fn and_then<F, T, A>(option: Option<T>, f: F) -> Option<A>
 }
 ```
 
-Now we can rewrite our `file_path_ext` function without explicit case analysis:
+<!-- Now we can rewrite our `file_path_ext` function without explicit case analysis: -->
+では、明示的なケース分析を行わないように、 `file_path_ext` を書き直しましょう：
 
 ```rust
 # fn extension(file_name: &str) -> Option<&str> { None }
@@ -503,24 +545,33 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 }
 ```
 
-The `Option` type has many other combinators [defined in the standard
-library][5]. It is a good idea to skim this list and familiarize
-yourself with what's available—they can often reduce case analysis
-for you. Familiarizing yourself with these combinators will pay
-dividends because many of them are also defined (with similar
-semantics) for `Result`, which we will talk about next.
+<!-- The `Option` type has many other combinators [defined in the standardy
+<!-- library][5]. It is a good idea to skim this list and familiarize -->
+<!-- yourself with what's available—they can often reduce case analysis -->
+<!-- for you. Familiarizing yourself with these combinators will pay -->
+<!-- dividends because many of them are also defined (with similar -->
+<!-- semantics) for `Result`, which we will talk about next. -->
+`Option` 型には、他にもたくさんのコンビネータが [標準ライブラリで定義されています][5] 。
+それらの一覧をざっと眺めて、なにがあるか知っておくといいでしょう。
+大抵の場合、ケース分析を減らすのに役立ちます。
+それらのコンビネータに慣れるための努力は、すぐに報われます。
+なぜなら、そのほとんどは次に話す `Result` 型でも、（よく似たセマンティクスで）定義されているからです。
 
-Combinators make using types like `Option` ergonomic because they reduce
-explicit case analysis. They are also composable because they permit the caller
-to handle the possibility of absence in their own way. Methods like `unwrap`
-remove choices because they will panic if `Option<T>` is `None`.
+<!-- Combinators make using types like `Option` ergonomic because they reduce -->
+<!-- explicit case analysis. They are also composable because they permit the caller -->
+<!-- to handle the possibility of absence in their own way. Methods like `unwrap` -->
+<!-- remove choices because they will panic if `Option<T>` is `None`. -->
+コンビネータは明示的なケース分析を減らしてくれるので、 `Option` のような型の扱いが容易になります。
+またこれらは、呼び出し元が *不在の可能性* を独自の方法で扱うことを可能にするので、コンポーザブルだといえます。
+`unwrap` のようなメソッドは、 `Option<T>` が `None` の時にパニックを起こすので、このような選択肢を排除してしまいます。
 
-<span id="the-result-type"></span>
 <!-- ## The `Result` type -->
+<span id="the-result-type"></span>
 ## `Result` 型
 
-The `Result` type is also
-[defined in the standard library][6]:
+<!-- The `Result` type is also -->
+<!-- [defined in the standard library][6]: -->
+`Result` 型も [標準ライブラリで定義されています][6] 。
 
 <span id="code-result-def"></span>
 
@@ -531,29 +582,43 @@ enum Result<T, E> {
 }
 ```
 
-The `Result` type is a richer version of `Option`. Instead of expressing the
-possibility of *absence* like `Option` does, `Result` expresses the possibility
-of *error*. Usually, the *error* is used to explain why the execution of some
-computation failed. This is a strictly more general form of `Option`. Consider
-the following type alias, which is semantically equivalent to the real
-`Option<T>` in every way:
+<!-- The `Result` type is a richer version of `Option`. Instead of expressing the -->
+<!-- possibility of *absence* like `Option` does, `Result` expresses the possibility -->
+<!-- of *error*. Usually, the *error* is used to explain why the execution of some -->
+<!-- computation failed. This is a strictly more general form of `Option`. Consider -->
+<!-- the following type alias, which is semantically equivalent to the real -->
+<!-- `Option<T>` in every way: -->
+`Result` 型は `Option` 型の豪華バージョンです。
+`Option` のように *不在* の可能性を示す代わりに、`Result` は *エラー* になる可能性を示します。
+通常 *エラー* は、なぜ処理が実行に失敗したのかを説明するために用いられます。
+これは厳密には `Option` をより一般化した形式といえます。
+以下のような型エイリアスがあるとしましょう。
+これは全てにおいて、本物の `Option<T>` と同等のセマンティクスを持ちます。
 
 ```rust
 type Option<T> = Result<T, ()>;
 ```
 
-This fixes the second type parameter of `Result` to always be `()` (pronounced
-“unit” or “empty tuple”). Exactly one value inhabits the `()` type: `()`. (Yup,
-the type and value level terms have the same notation!)
+<!-- This fixes the second type parameter of `Result` to always be `()` (pronounced -->
+<!-- “unit” or “empty tuple”). Exactly one value inhabits the `()` type: `()`. (Yup, -->
+<!-- the type and value level terms have the same notation!) -->
+これは `Result` の2番目の型引数を `()` （「ユニット」または「空タプル」と発音します）に固定したものです。
+`()` 型のただ一つの値は `()` です。
+（そうなんです。型レベルと値レベルの用語が、全く同じ表記法を持ちます!）
 
-The `Result` type is a way of representing one of two possible outcomes in a
-computation. By convention, one outcome is meant to be expected or “`Ok`” while
-the other outcome is meant to be unexpected or “`Err`”.
+（用語集候補：type parameter　型引数、型パラメータ、unit　ユニット、empty tuple　空タプル）
 
-Just like `Option`, the `Result` type also has an
-[`unwrap` method
-defined][7]
-in the standard library. Let's define it:
+<!-- The `Result` type is a way of representing one of two possible outcomes in a -->
+<!-- computation. By convention, one outcome is meant to be expected or “`Ok`” while -->
+<!-- the other outcome is meant to be unexpected or “`Err`”. -->
+`Result` 型は、処理の結果がとりうる２つの可能性のうち、１つを表すための方法です。
+慣例では、一方を期待されている結果、つまり「`Ok`」にして、もう一方を予想外の結果、つまり「`Err`」にします。
+
+<!-- Just like `Option`, the `Result` type also has an -->
+<!-- [`unwrap` method -->
+<!-- defined][7] -->
+<!-- in the standard library. Let's define it: -->
+`Option` と全く同じように、`Result` 型も標準ライブラリで [`unwrap` メソッドが定義されています][7] 。
 
 ```rust
 # enum Result<T, E> { Ok(T), Err(E) }
@@ -570,28 +635,36 @@ impl<T, E: ::std::fmt::Debug> Result<T, E> {
 
 > 訳注：意味は
 >
->
+> called `Result::unwrap()` on an `Err` value: {:?}"：
+> `Err` 値 {:?} に対して `Result::unwrap()` が呼ばれました
 >
 > です。
 
-This is effectively the same as our [definition for
-`Option::unwrap`](#code-option-def-unwrap), except it includes the
-error value in the `panic!` message. This makes debugging easier, but
-it also requires us to add a [`Debug`][8] constraint on the `E` type
-parameter (which represents our error type). Since the vast majority
-of types should satisfy the `Debug` constraint, this tends to work out
-in practice. (`Debug` on a type simply means that there's a reasonable
-way to print a human readable description of values with that type.)
+<!-- This is effectively the same as our [definition for -->
+<!-- `Option::unwrap`](#code-option-def-unwrap), except it includes the -->
+<!-- error value in the `panic!` message. This makes debugging easier, but -->
+<!-- it also requires us to add a [`Debug`][8] constraint on the `E` type -->
+<!-- parameter (which represents our error type). Since the vast majority -->
+<!-- of types should satisfy the `Debug` constraint, this tends to work out -->
+<!-- in practice. (`Debug` on a type simply means that there's a reasonable -->
+<!-- way to print a human readable description of values with that type.) -->
+これは実質的には私達の [`Option::unwrap` の定義](#code-option-def-unwrap) と同じですが、 `panic!` メッセージにエラーの値が含まれているところは異なります。
+これはデバッグをより簡単にしますが、一方で、（エラーの型を表す）型パラメータ `E` に [`Debug`][8] 制約を付けることが求められます。
+大半の型は `Debug` 制約を満たしているので、実際のところ、うまくいく傾向にあります。
+（`Debug` が型に付くということは、単にその型の値が、人間が読める形式で表示できることを意味しています。）
 
-OK, let's move on to an example.
+<!-- OK, let's move on to an example. -->
+では、例を見ていきましょう。
 
-<span id="parsing-integers"></span>
 <!-- ### Parsing integers -->
+<span id="parsing-integers"></span>
 ### 整数をパースする
 
-The Rust standard library makes converting strings to integers dead simple.
-It's so easy in fact, that it is very tempting to write something like the
-following:
+<!-- The Rust standard library makes converting strings to integers dead simple. -->
+<!-- It's so easy in fact, that it is very tempting to write something like the -->
+<!-- following: -->
+Rustの標準ライブラリを使うと、文字列を整数に変換することが、すごく簡単にできます。
+あまりにも簡単なので、実際のところ、以下のように書きたいという誘惑に駆られます：
 
 ```rust
 fn double_number(number_str: &str) -> i32 {
@@ -604,19 +677,27 @@ fn main() {
 }
 ```
 
-At this point, you should be skeptical of calling `unwrap`. For example, if
-the string doesn't parse as a number, you'll get a panic:
+<!-- At this point, you should be skeptical of calling `unwrap`. For example, if -->
+<!-- the string doesn't parse as a number, you'll get a panic: -->
+すでにあなたは、`unwrap` を呼ぶことについて懐疑的になっているはずです。
+例えば、文字列が数字としてパースできなければ、パニックが起こります。
 
 ```text
 thread '<main>' panicked at 'called `Result::unwrap()` on an `Err` value: ParseIntError { kind: InvalidDigit }', /home/rustbuild/src/rust-buildbot/slave/beta-dist-rustc-linux/build/src/libcore/result.rs:729
 ```
 
-This is rather unsightly, and if this happened inside a library you're
-using, you might be understandably annoyed. Instead, we should try to
-handle the error in our function and let the caller decide what to
-do. This means changing the return type of `double_number`. But to
-what? Well, that requires looking at the signature of the [`parse`
-method][9] in the standard library:
+<!-- This is rather unsightly, and if this happened inside a library you're -->
+<!-- using, you might be understandably annoyed. Instead, we should try to -->
+<!-- handle the error in our function and let the caller decide what to -->
+<!-- do. This means changing the return type of `double_number`. But to -->
+<!-- what? Well, that requires looking at the signature of the [`parse` -->
+<!-- method][9] in the standard library: -->
+これは少し目障りです。
+もし使っているライブラリの中でこれを起こされたら、イライラするに違いありません。
+代わりに、私達の関数の中でエラーを処理し、呼び出し元にどうするのかを決めさせるべきです。
+そのためには、`double_number` の戻り値の型を変更しなければなりません。
+でも、一体何に？
+ええと、これはつまり、標準ライブラリの [`parse` メソッド][9] のシグニチャを見る必要があるということです。
 
 ```rust,ignore
 impl str {
@@ -695,8 +776,8 @@ combinators that affect only the error type, such as
 `map`) and [`or_else`](../std/result/enum.Result.html#method.or_else)
 (instead of `and_then`).
 
-<span id="the-result-type-alias-idiom"></span>
 <!-- ### The `Result` type alias idiom -->
+<span id="the-result-type-alias-idiom"></span>
 ### `Result` 型エイリアスを用いたイディオム
 
 In the standard library, you may frequently see types like
@@ -729,8 +810,8 @@ module's type alias instead of the plain definition from
 `std::result`. (This idiom is also used for
 [`fmt::Result`](../std/fmt/type.Result.html).)
 
-<span id="a-brief-interlude-unwrapping-isnt-evil"></span>
 <!-- ## A brief interlude: unwrapping isn't evil -->
+<span id="a-brief-interlude-unwrapping-isnt-evil"></span>
 ## 小休止：unwrap は悪ではない
 
 If you've been following along, you might have noticed that I've taken a pretty
@@ -769,8 +850,8 @@ Now that we've covered the basics of error handling in Rust, and
 explained unwrapping, let's start exploring more of the standard
 library.
 
-<span id="working-with-multiple-error-types"></span>
 <!-- # Working with multiple error types -->
+<span id="working-with-multiple-error-types"></span>
 # 複数のエラー型を扱う
 
 Thus far, we've looked at error handling where everything was either an
@@ -780,8 +861,8 @@ Thus far, we've looked at error handling where everything was either an
 challenge in front of us, and it will be the major theme throughout the rest of
 this chapter.
 
-<span id="composing-option-and-result"></span>
 <!-- ## Composing `Option` and `Result` -->
+<span id="composing-option-and-result"></span>
 ## `Option` と `Result` で構成する
 
 So far, I've talked about combinators defined for `Option` and combinators
@@ -862,8 +943,8 @@ the same (because of our use of `and_then`). Since we chose to convert the
 `Option<String>` (from `argv.nth(1)`) to a `Result<String, String>`, we must
 also convert the `ParseIntError` from `arg.parse()` to a `String`.
 
-<span id="the-limits-of-combinators"></span>
 <!-- ## The limits of combinators -->
+<span id="the-limits-of-combinators"></span>
 ## コンビネータの限界
 
 Doing IO and parsing input is a very common task, and it's one that I
@@ -997,9 +1078,9 @@ With all of that said, the code is still hairy. Mastering use of combinators is
 important, but they have their limits. Let's try a different approach: early
 returns.
 
-<span id="early-returns"></span>
 <!-- ## Early returns -->
-## アーリーリターン
+<span id="early-returns"></span>
+## 早期のリターン
 
 I'd like to take the code from the previous section and rewrite it using *early
 returns*. Early returns let you exit the function early. We can't return early
@@ -1046,8 +1127,8 @@ ergonomic error handling is reducing explicit case analysis, yet we've reverted
 back to explicit case analysis here. It turns out, there are *multiple* ways to
 reduce explicit case analysis. Combinators aren't the only way.
 
-<span id="the-try-macro"></span>
 <!-- ## The `try!` macro -->
+<span id="the-try-macro"></span>
 ## `try!` マクロ
 
 A cornerstone of error handling in Rust is the `try!` macro. The `try!` macro
@@ -1103,8 +1184,8 @@ The good news is that we will soon learn how to remove those `map_err` calls!
 The bad news is that we will need to learn a bit more about a couple important
 traits in the standard library before we can remove the `map_err` calls.
 
-<span id="defining-your-own-error-type"></span>
 <!-- ## Defining your own error type -->
+<span id="defining-your-own-error-type"></span>
 ## 独自のエラー型を定義する
 
 Before we dive into some of the standard library error traits, I'd like to wrap
@@ -1199,8 +1280,8 @@ will do in a pinch, particularly if you're writing an application. If you're
 writing a library, defining your own error type should be strongly preferred so
 that you don't remove choices from the caller unnecessarily.
 
-<span id="standard-library-traits-used-for-error-handling"></span>
 <!-- # Standard library traits used for error handling -->
+<span id="standard-library-traits-used-for-error-handling"></span>
 # 標準ライブラリのトレイトによるエラー処理
 
 The standard library defines two integral traits for error handling:
@@ -1396,8 +1477,8 @@ us a way to reliably convert errors to the same type using the same function.
 
 Time to revisit an old friend; the `try!` macro.
 
-<span id="the-real-try-macro"></span>
 <!-- ## The real `try!` macro -->
+<span id="the-real-try-macro"></span>
 ## 本当の `try!` マクロ
 
 Previously, we presented this definition of `try!`:
@@ -1490,8 +1571,8 @@ chapter](https://crates.io/crates/error).)
 
 It's time to revisit our custom `CliError` type and tie everything together.
 
-<span id="composing-custom-error-types"></span>
 <!-- ## Composing custom error types -->
+<span id="composing-custom-error-types"></span>
 ## 独自のエラー型で構成する
 
 In the last section, we looked at the real `try!` macro and how it does
@@ -1622,8 +1703,8 @@ impl From<num::ParseFloatError> for CliError {
 
 And that's it!
 
-<span id="advice-for-library-writers"></span>
 <!-- ## Advice for library writers -->
+<span id="advice-for-library-writers"></span>
 ## ライブラリ作者たちへのアドバイス
 
 If your library needs to report custom errors, then you should
@@ -1655,8 +1736,8 @@ library defines a single error type. This is used in the standard library
 for [`io::Result`](../std/io/type.Result.html)
 and [`fmt::Result`](../std/fmt/type.Result.html).
 
-<span id="case-study-a-program-to-read-population-data"></span>
 <!-- # Case study: A program to read population data -->
+<span id="case-study-a-program-to-read-population-data"></span>
 # ケーススタディ：人口データを読み込むプログラム
 
 This chapter was long, and depending on your background, it might be
@@ -1681,8 +1762,8 @@ parse the program arguments and decode that stuff into Rust types automatically.
 [`csv`](https://crates.io/crates/csv),
 and [`rustc-serialize`](https://crates.io/crates/rustc-serialize) crates.
 
-<span id="initial-setup"></span>
 <!-- ## Initial setup -->
+<span id="initial-setup"></span>
 ## 最初のセットアップ
 
 We're not going to spend a lot of time on setting up a project with
@@ -1715,8 +1796,8 @@ cargo build --release
 # Outputs: Hello, world!
 ```
 
-<span id="argument-parsing"></span>
 <!-- ## Argument parsing -->
+<span id="argument-parsing"></span>
 ## 引数のパース
 
 Let's get argument parsing out of the way. We won't go into too much
@@ -1783,8 +1864,8 @@ print for the program name and template. If the user has not passed in
 the help flag, we assign the proper variables to their corresponding
 arguments.
 
-<span id="writing-the-logic"></span>
 <!-- ## Writing the logic -->
+<span id="writing-the-logic"></span>
 ## ロジックを書く
 
 We all write code differently, but error handling is usually the last thing we
@@ -1879,8 +1960,8 @@ explore two different ways to approach handling these errors.
 I'd like to start with `Box<Error>`. Later, we'll see how defining our own
 error type can be useful.
 
-<span id="error-handling-with-boxerror"></span>
 <!-- ## Error handling with `Box<Error>` -->
+<span id="error-handling-with-boxerror"></span>
 ## `Box<Error>` によるエラー処理
 
 `Box<Error>` is nice because it *just works*. You don't need to define your own
@@ -2052,8 +2133,8 @@ Now that we've seen how to do proper error handling with `Box<Error>`, let's
 try a different approach with our own custom error type. But first, let's take
 a quick break from error handling and add support for reading from `stdin`.
 
-<span id="reading-from-stdin"></span>
 <!-- ## Reading from stdin -->
+<span id="reading-from-stdin"></span>
 ## 標準入力から読み込む
 
 In our program, we accept a single file for input and do one pass over the
@@ -2132,8 +2213,8 @@ fn search<P: AsRef<Path>>
 }
 ```
 
-<span id="error-handling-with-a-custom-type"></span>
 <!-- ## Error handling with a custom type -->
+<span id="error-handling-with-a-custom-type"></span>
 ## 独自のエラー型によるエラー処理
 
 Previously, we learned how to
@@ -2246,8 +2327,8 @@ fn search<P: AsRef<Path>>
 
 No other changes are necessary.
 
-<span id="adding-functionality"></span>
 <!-- ## Adding functionality -->
+<span id="adding-functionality"></span>
 ## 機能を追加する
 
 Writing generic code is great, because generalizing stuff is cool, and
@@ -2308,8 +2389,8 @@ This pretty much sums up our case study. From here, you should be ready to go
 out into the world and write your own programs and libraries with proper error
 handling.
 
-<span id="the-short-story"></span>
 <!-- # The Short Story -->
+<span id="the-short-story"></span>
 # ショートストーリー
 
 Since this chapter is long, it is useful to have a quick summary for error
