@@ -14,6 +14,7 @@
 | allocator             | アロケータ
 | application           | アプリケーション
 | arity                 | アリティ
+| array                 | 配列
 | associated -          | 関連-
 | attribute             | アトリビュート
 | binary                | バイナリ
@@ -35,12 +36,14 @@
 | expression statement  | 式文
 | feature               | フィーチャ
 | generics              | ジェネリクス
+| identifier            | 識別子
 | immutable             | イミュータブル
 | Intrinsics            | Intrinsic
 | Lang Items            | Lang Item
 | library               | ライブラリ
 | lifetime              | ライフタイム
 | link                  | リンク
+| match                 | マッチ
 | memory                | メモリ
 | move                  | ムーブ
 | mutable               | ミュータブル

@@ -3,7 +3,7 @@
 
 <!-- If you want to match against a slice or array, you can use `&` with the -->
 <!-- `slice_patterns` feature: -->
-スライスや配列に対してマッチを行いたい場合、 `slice_patterns` フィーチャを有効にし `&` を使うことができます。
+スライスや配列に対してマッチを行いたい場合、 `slice_patterns` フィーチャを有効にすると以下のように `&` を使うことができます。
 
 ```rust
 #![feature(slice_patterns)]
@@ -22,7 +22,7 @@ fn main() {
 <!-- elements inside a pattern matching a slice. This wildcard can only be used once -->
 <!-- for a given array. If there's an identifier before the `..`, the result of the -->
 <!-- slice will be bound to that name. For example: -->
-`advanced_slice_patterns` フィーチャを使うと、 `..` によってスライスにマッチするパターンの中で任意数の要素を示すことができます。このワイルドカードは与えられるパターン配列の中で一度だけ使うことができます。もし `..` の前に識別子(訳注: 以下の例では `inside` )があれば、そのスライスの結果はその識別子名に束縛されます。例えば以下のようになります。
+`advanced_slice_patterns` フィーチャを有効にすると、スライスにマッチするパターンの中で `..` を使ってその要素の数が任意であることを示すことができます。このワイルドカードは与えるパターン配列の中で一度だけ使うことができます。もし `..` の前に識別子(訳注: 以下の例では `inside` )があれば、そのスライスの結果はその識別子名に束縛されます。例えば以下のようになります。
 
 ```rust
 #![feature(advanced_slice_patterns, slice_patterns)]
