@@ -93,7 +93,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
     * [標準入力から読み込む](#reading-from-stdin)
     * [独自のエラー型によるエラー処理](#error-handling-with-a-custom-type)
     * [機能を追加する](#adding-functionality)
-* [ショートストーリー](#the-short-story)
+* [ショートストーリー（まとめ）](#the-short-story)
 
 <!-- # The Basics -->
 <span id="the-basics"></span>
@@ -345,7 +345,7 @@ impl<T> Option<T> {
 当然ながら、全てのファイル名に `.` があるわけではなく、拡張子のないファイル名もあり得ます。
 このような *不在の可能性* は `Option<T>` を使うことによって、型の中にエンコードされています。
 すなわち、コンパイラは、拡張子が存在しない可能性に対処することを、私達に強制してくるわけです。
-ここでは単に、そうなったことを告げるメッセージを表示するようにしました。
+今回は単に、そうなったことを告げるメッセージを表示するようにしました。
 
 <!-- Getting the extension of a file name is a pretty common operation, so it makes -->
 <!-- sense to put it into a function: -->
@@ -446,7 +446,7 @@ fn unwrap_or<T>(option: Option<T>, default: T) -> T {
 
 <!-- The trick here is that the default value must have the same type as the value -->
 <!-- that might be inside the `Option<T>`. Using it is dead simple in our case: -->
-ここでのからくりは、デフォルト値の型が `Option<T>` の中にあるはずの値のそれと、必ず同じであることです。
+ここでのからくりは、デフォルト値の型が `Option<T>` の中にあるはずの値のそれと、必ず同じになることです。
 これを使うのは、すごく簡単です：
 
 ```rust
@@ -489,7 +489,7 @@ fn main() {
 
 <!-- So, we are tasked with the challenge of finding an extension given a file -->
 <!-- *path*. Let's start with explicit case analysis: -->
-つまり、与えられたファイル *パス* から拡張子を見つけることに挑戦しなければなりません。
+つまり、与えられたファイル *パス* から拡張子を見つけ出せるかトライしなければなりません。
 まず、明示的なケース分析から始めましょう：
 
 
@@ -563,7 +563,7 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 <!-- remove choices because they will panic if `Option<T>` is `None`. -->
 コンビネータは明示的なケース分析を減らしてくれるので、 `Option` のような型の扱いが容易になります。
 またこれらは、呼び出し元が *不在の可能性* を独自の方法で扱うことを可能にするので、コンポーザブルだといえます。
-`unwrap` のようなメソッドは、 `Option<T>` が `None` の時にパニックを起こすので、このような選択肢を排除してしまいます。
+`unwrap` のようなメソッドは、 `Option<T>` が `None` の時にパニックを起こすので、このような選択の機会を与えません。
 
 <!-- ## The `Result` type -->
 <span id="the-result-type"></span>
@@ -588,7 +588,7 @@ enum Result<T, E> {
 <!-- computation failed. This is a strictly more general form of `Option`. Consider -->
 <!-- the following type alias, which is semantically equivalent to the real -->
 <!-- `Option<T>` in every way: -->
-`Result` 型は `Option` 型の豪華バージョンです。
+`Result` 型は `Option` 型の豪華版です。
 `Option` のように *不在* の可能性を示す代わりに、`Result` は *エラー* になる可能性を示します。
 通常 *エラー* は、なぜ処理が実行に失敗したのかを説明するために用いられます。
 これは厳密には `Option` をより一般化した形式といえます。
@@ -612,7 +612,7 @@ type Option<T> = Result<T, ()>;
 <!-- computation. By convention, one outcome is meant to be expected or “`Ok`” while -->
 <!-- the other outcome is meant to be unexpected or “`Err`”. -->
 `Result` 型は、処理の結果がとりうる２つの可能性のうち、１つを表すための方法です。
-慣例では、一方を期待されている結果、つまり「`Ok`」にして、もう一方を予想外の結果、つまり「`Err`」にします。
+慣例に従い、一方を期待されている結果、つまり「`Ok`」にして、もう一方を予想外の結果、つまり「`Err`」にします。
 
 <!-- Just like `Option`, the `Result` type also has an -->
 <!-- [`unwrap` method -->
@@ -664,7 +664,7 @@ impl<T, E: ::std::fmt::Debug> Result<T, E> {
 <!-- It's so easy in fact, that it is very tempting to write something like the -->
 <!-- following: -->
 Rustの標準ライブラリを使うと、文字列を整数に変換することが、すごく簡単にできます。
-あまりにも簡単なので、実際のところ、以下のように書きたいという誘惑に駆られます：
+あまりにも簡単なので、実際のところ、以下のように書きたいという誘惑に負けることがあります：
 
 ```rust
 fn double_number(number_str: &str) -> i32 {
@@ -705,27 +705,45 @@ impl str {
 }
 ```
 
-Hmm. So we at least know that we need to use a `Result`. Certainly, it's
-possible that this could have returned an `Option`. After all, a string either
-parses as a number or it doesn't, right? That's certainly a reasonable way to
-go, but the implementation internally distinguishes *why* the string didn't
-parse as an integer. (Whether it's an empty string, an invalid digit, too big
-or too small.) Therefore, using a `Result` makes sense because we want to
-provide more information than simply “absence.” We want to say *why* the
-parsing failed. You should try to emulate this line of reasoning when faced
-with a choice between `Option` and `Result`. If you can provide detailed error
-information, then you probably should. (We'll see more on this later.)
+<!-- Hmm. So we at least know that we need to use a `Result`. Certainly, it's -->
+<!-- possible that this could have returned an `Option`. After all, a string either -->
+<!-- parses as a number or it doesn't, right? That's certainly a reasonable way to -->
+<!-- go, but the implementation internally distinguishes *why* the string didn't -->
+<!-- parse as an integer. (Whether it's an empty string, an invalid digit, too big -->
+<!-- or too small.) Therefore, using a `Result` makes sense because we want to -->
+<!-- provide more information than simply “absence.” We want to say *why* the -->
+<!-- parsing failed. You should try to emulate this line of reasoning when faced -->
+<!-- with a choice between `Option` and `Result`. If you can provide detailed error -->
+<!-- information, then you probably should. (We'll see more on this later.) -->
+うむ。最低でも `Result` を使わないといけないことはわかりました。
+もちろん、これが `Option` を戻すようにすることも可能だったでしょう。
+結局のところ、文字列が数字としてパースできたかどうかが知りたいわけですよね?
+それも悪いやり方ではありませんが、実装の内部では *なぜ* 文字列が整数としてパースできなかったを、ちゃんと区別しています。
+（空の文字列だったのか、有効な数字でなかったのか、大きすぎたり、小さすぎたりしたのか。）
+従って、`Result` を使ってより多くの情報を提供するほうが、単に「不在」を示すことよりも理にかなっています。
+今後、もし `Option` と `Result` のどちらを選ぶという状況に直面した時は、このような理由付けのやり方を真似てみてください。
+もし詳細なエラー情報を提供できるのなら、多分、それをしたほうがいいでしょう。
+（後ほど別の例もお見せます。）
 
-OK, but how do we write our return type? The `parse` method as defined
-above is generic over all the different number types defined in the
-standard library. We could (and probably should) also make our
-function generic, but let's favor explicitness for the moment. We only
-care about `i32`, so we need to [find its implementation of
-`FromStr`](../std/primitive.i32.html) (do a `CTRL-F` in your browser
-for “FromStr”) and look at its [associated type][10] `Err`. We did
-this so we can find the concrete error type. In this case, it's
-[`std::num::ParseIntError`](../std/num/struct.ParseIntError.html).
-Finally, we can rewrite our function:
+<!-- OK, but how do we write our return type? The `parse` method as defined -->
+<!-- above is generic over all the different number types defined in the -->
+<!-- standard library. We could (and probably should) also make our -->
+<!-- function generic, but let's favor explicitness for the moment. We only -->
+<!-- care about `i32`, so we need to [find its implementation of -->
+<!-- `FromStr`](../std/primitive.i32.html) (do a `CTRL-F` in your browser -->
+<!-- for “FromStr”) and look at its [associated type][10] `Err`. We did -->
+<!-- this so we can find the concrete error type. In this case, it's -->
+<!-- [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html). -->
+<!-- Finally, we can rewrite our function: -->
+よし。では戻り値の型をどう書きますか？
+上の `parse` メソッドは一般化されており、標準ライブラリにある、あらゆる数値型について定義されています。
+この関数を同じように一般化することもできますが（そして、そうするべきでしょう）、今は明快さを優先しましょう。
+`i32` だけを扱うことにしますので、それの [`FromStr` の実装がどうなっているか探す](../std/primitive.i32.html) 必要があります。
+（ブラウザで `CTRL-F` を押して「FromStr」を探します。）
+そして [関連型（associated type）][10] から `Err` を見つけます。
+こうすれば、具体的なエラー型が見つかります。
+この場合、それは [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) です。
+これでようやく、関数を書き直せます：
 
 ```rust
 use std::num::ParseIntError;
@@ -745,12 +763,18 @@ fn main() {
 }
 ```
 
-This is a little better, but now we've written a lot more code! The case
-analysis has once again bitten us.
+<!-- This is a little better, but now we've written a lot more code! The case -->
+<!-- analysis has once again bitten us. -->
+これで少し良くなりましたが、たくさんコードを書いてしまいました!
+ケース分析にまたしてもやられたわけです。
 
-Combinators to the rescue! Just like `Option`, `Result` has lots of combinators
-defined as methods. There is a large intersection of common combinators between
-`Result` and `Option`. In particular, `map` is part of that intersection:
+<!-- Combinators to the rescue! Just like `Option`, `Result` has lots of combinators -->
+<!-- defined as methods. There is a large intersection of common combinators between -->
+<!-- `Result` and `Option`. In particular, `map` is part of that intersection: -->
+コンビネータが助けてくれます!
+ちょうど `Option` と同じように `Result` にもたくさんのコンビネータが、メソッドとして定義されています。
+`Result` と `Option` の間では、共通のコンビネータが数多く存在します。
+例えば、`map` も共通なものの一つです：
 
 ```rust
 use std::num::ParseIntError;
@@ -767,26 +791,35 @@ fn main() {
 }
 ```
 
-The usual suspects are all there for `Result`, including
-[`unwrap_or`](../std/result/enum.Result.html#method.unwrap_or) and
-[`and_then`](../std/result/enum.Result.html#method.and_then).
-Additionally, since `Result` has a second type parameter, there are
-combinators that affect only the error type, such as
-[`map_err`](../std/result/enum.Result.html#method.map_err) (instead of
-`map`) and [`or_else`](../std/result/enum.Result.html#method.or_else)
-(instead of `and_then`).
+<!-- The usual suspects are all there for `Result`, including -->
+<!-- [`unwrap_or`](../std/result/enum.Result.html#method.unwrap_or) and -->
+<!-- [`and_then`](../std/result/enum.Result.html#method.and_then). -->
+<!-- Additionally, since `Result` has a second type parameter, there are -->
+<!-- combinators that affect only the error type, such as -->
+<!-- [`map_err`](../std/result/enum.Result.html#method.map_err) (instead of -->
+<!-- `map`) and [`or_else`](../std/result/enum.Result.html#method.or_else) -->
+<!-- (instead of `and_then`). -->
+`Result` でいつも候補にあがるのは [`unwrap_or`](../std/result/enum.Result.html#method.unwrap_or) と [`and_then`](../std/result/enum.Result.html#method.and_then) です。
+さらに `Result` は2つ目の型パラメータを取りますので、エラー型だけに影響を与える [`map_err`](../std/result/enum.Result.html#method.map_err) （`map` に相当）と [`or_else`](../std/result/enum.Result.html#method.or_else) （`and_then` に相当）もあります。
 
 <!-- ### The `Result` type alias idiom -->
 <span id="the-result-type-alias-idiom"></span>
 ### `Result` 型エイリアスを用いたイディオム
 
-In the standard library, you may frequently see types like
-`Result<i32>`. But wait, [we defined `Result`](#code-result-def) to
-have two type parameters. How can we get away with only specifying
-one? The key is to define a `Result` type alias that *fixes* one of
-the type parameters to a particular type. Usually the fixed type is
-the error type. For example, our previous example parsing integers
-could be rewritten like this:
+<!-- In the standard library, you may frequently see types like -->
+<!-- `Result<i32>`. But wait, [we defined `Result`](#code-result-def) to -->
+<!-- have two type parameters. How can we get away with only specifying -->
+<!-- one? The key is to define a `Result` type alias that *fixes* one of -->
+<!-- the type parameters to a particular type. Usually the fixed type is -->
+<!-- the error type. For example, our previous example parsing integers -->
+<!-- could be rewritten like this: -->
+標準ライブラリでは `Result<i32>` のような型をよく見ると思います。
+でも、待ってください。
+2つの型パラメータを取るように [`Result` を定義したはずです](#code-result-def) 。
+どうして、1つだけを指定して済んだのでしょう?
+種を明かすと、`Result` の型エイリアスを定義して、一方の型パラメータを特定の型に *固定* したのです。
+通常はエラー型のほうを固定します。
+例えば、先ほどの整数のパースの例は、こう書き換えることもできます。
 
 ```rust
 use std::num::ParseIntError;
@@ -799,56 +832,85 @@ fn double_number(number_str: &str) -> Result<i32> {
 }
 ```
 
-Why would we do this? Well, if we have a lot of functions that could return
-`ParseIntError`, then it's much more convenient to define an alias that always
-uses `ParseIntError` so that we don't have to write it out all the time.
+<!-- Why would we do this? Well, if we have a lot of functions that could return -->
+<!-- `ParseIntError`, then it's much more convenient to define an alias that always -->
+<!-- uses `ParseIntError` so that we don't have to write it out all the time. -->
+なぜ、こうするのでしょうか?
+もし `ParseIntError` を返す関数をたくさん定義するとしたら、常に `ParseIntError` を使うエイリアスを定義したほうが便利だからです。
+こうすれば、同じことを何度も書かずに済みます。
 
-The most prominent place this idiom is used in the standard library is
-with [`io::Result`](../std/io/type.Result.html). Typically, one writes
-`io::Result<T>`, which makes it clear that you're using the `io`
-module's type alias instead of the plain definition from
-`std::result`. (This idiom is also used for
-[`fmt::Result`](../std/fmt/type.Result.html).)
+<!-- The most prominent place this idiom is used in the standard library is -->
+<!-- with [`io::Result`](../std/io/type.Result.html). Typically, one writes -->
+<!-- `io::Result<T>`, which makes it clear that you're using the `io` -->
+<!-- module's type alias instead of the plain definition from -->
+<!-- `std::result`. (This idiom is also used for -->
+<!-- [`fmt::Result`](../std/fmt/type.Result.html).) -->
+標準ライブラリで、このイディオムが際立って多く使われている場所では、[`io::Result`](../std/io/type.Result.html) を用いています。
+それらは通常 `io::Result<T>` のように書かれ、`std::result` のプレーンな定義の代わりに `io` モジュールの型エイリアスを使っていることが、明確にわかるようになっています。
 
 <!-- ## A brief interlude: unwrapping isn't evil -->
 <span id="a-brief-interlude-unwrapping-isnt-evil"></span>
 ## 小休止：unwrap は悪ではない
 
-If you've been following along, you might have noticed that I've taken a pretty
-hard line against calling methods like `unwrap` that could `panic` and abort
-your program. *Generally speaking*, this is good advice.
+<!-- If you've been following along, you might have noticed that I've taken a pretty -->
+<!-- hard line against calling methods like `unwrap` that could `panic` and abort -->
+<!-- your program. *Generally speaking*, this is good advice. -->
+これまでの説明についてきたなら、 `unwrap` のような `panic` を起こし、プログラムをアボートするようなメソッドについて、私がきっぱりと否定する方針をとっていたことに気づいたでしょう。
+*一般的には* これは良いアドバイスです。
 
-However, `unwrap` can still be used judiciously. What exactly justifies use of
-`unwrap` is somewhat of a grey area and reasonable people can disagree. I'll
-summarize some of my *opinions* on the matter.
+<!-- However, `unwrap` can still be used judiciously. What exactly justifies use of -->
+<!-- `unwrap` is somewhat of a grey area and reasonable people can disagree. I'll -->
+<!-- summarize some of my *opinions* on the matter. -->
+しかしながら、`unwrap` を使うのが懸命なこともあります。
+どんな場合が `unwrap` の使用を正当化できるのかについては、グレーな部分があり、人によって意見が分かれます。
+ここで、この問題についての、私の *意見* をまとめたいと思います。
 
-* **In examples and quick 'n' dirty code.** Sometimes you're writing examples
-  or a quick program, and error handling simply isn't important. Beating the
-  convenience of `unwrap` can be hard in such scenarios, so it is very
-  appealing.
-* **When panicking indicates a bug in the program.** When the invariants of
-  your code should prevent a certain case from happening (like, say, popping
-  from an empty stack), then panicking can be permissible. This is because it
-  exposes a bug in your program. This can be explicit, like from an `assert!`
-  failing, or it could be because your index into an array was out of bounds.
+<!-- * **In examples and quick 'n' dirty code.** Sometimes you're writing examples -->
+<!--   or a quick program, and error handling simply isn't important. Beating the -->
+<!--   convenience of `unwrap` can be hard in such scenarios, so it is very -->
+<!--   appealing. -->
+* **即興で書いたサンプルコード。**
+  サンプルコードや簡単なプログラムを書いていて、エラーハンドリングが単に重要でないこともあります。
+  このような時に `unwrap` の便利さは、とても魅力的に映るでしょう。
+  これに打ち勝つのは難しいことです。
 
-This is probably not an exhaustive list. Moreover, when using an
-`Option`, it is often better to use its
-[`expect`](../std/option/enum.Option.html#method.expect)
-method. `expect` does exactly the same thing as `unwrap`, except it
-prints a message you give to `expect`. This makes the resulting panic
-a bit nicer to deal with, since it will show your message instead of
-“called unwrap on a `None` value.”
+<!-- * **When panicking indicates a bug in the program.** When the invariants of -->
+<!--   your code should prevent a certain case from happening (like, say, popping -->
+<!--   from an empty stack), then panicking can be permissible. This is because it -->
+<!--   exposes a bug in your program. This can be explicit, like from an `assert!` -->
+<!--   failing, or it could be because your index into an array was out of bounds. -->
+* **パニックがプログラムのバグの兆候となる時。**
+  コードの中の不変的な条件が、ある特定のケースの発生を未然に防ぐ時（例えば、空のスタックから取り出そうとしたなど）、パニックを起こしても差し支えありません。
+  なぜなら、そうすることでプログラムに潜むバグが明るみに出るからです。
+  これは `assert!` の失敗のような明示的な要因によるものだったり、配列のインデックスが境界から外れたからだったりします。
 
-My advice boils down to this: use good judgment. There's a reason why the words
-“never do X” or “Y is considered harmful” don't appear in my writing. There are
-trade offs to all things, and it is up to you as the programmer to determine
-what is acceptable for your use cases. My goal is only to help you evaluate
-trade offs as accurately as possible.
+<!-- This is probably not an exhaustive list. Moreover, when using an -->
+<!-- `Option`, it is often better to use its -->
+<!-- [`expect`](../std/option/enum.Option.html#method.expect) -->
+<!-- method. `expect` does exactly the same thing as `unwrap`, except it -->
+<!-- prints a message you give to `expect`. This makes the resulting panic -->
+<!-- a bit nicer to deal with, since it will show your message instead of -->
+<!-- “callaed unwrap on a `None` value.” -->
+これは多分、完全なリストではないでしょう。
+さらに `Option` を使う時は、ほとんどの場合で [`expect`](../std/option/enum.Option.html#method.expect) メソッドを使う方がいいでしょう。
+`expect` は `unwrap` とほぼ同じことをしますが、 `expect` では与えられたメッセージを表示するところが異なります。
+この方が結果として起こったパニックを、少し扱いやすいものにします。
+なぜなら「`None` な値に対してアンラップが呼ばれました」というメッセージの代わりに、指定したメッセージが表示されるからです。
 
-Now that we've covered the basics of error handling in Rust, and
-explained unwrapping, let's start exploring more of the standard
-library.
+<!-- My advice boils down to this: use good judgment. There's a reason why the words -->
+<!-- “never do X” or “Y is considered harmful” don't appear in my writing. There are -->
+<!-- trade offs to all things, and it is up to you as the programmer to determine -->
+<!-- what is acceptable for your use cases. My goal is only to help you evaluate -->
+<!-- trade offs as accurately as possible. -->
+私のアドバイスを突き詰めれば、よく見極めなさい、ということです。
+私の書いた文章の中に、「決して、Xをしてはならない」とか「Yは有害だと考えよう」といった言葉が現れないのには、れっきとした理由があります。
+あるユースケースでこれが容認できるものであるかは、プログラマであるあなたの判断に委ねられます。
+私が目指していることは、あなたがトレードオフをできるかぎり正確に評価できるよう、手助けをすることなのです。
+
+<!-- Now that we've covered the basics of error handling in Rust, and -->
+<!-- explained unwrapping, let's start exploring more of the standard -->
+<!-- library. -->
+
 
 <!-- # Working with multiple error types -->
 <span id="working-with-multiple-error-types"></span>
@@ -2391,7 +2453,7 @@ handling.
 
 <!-- # The Short Story -->
 <span id="the-short-story"></span>
-# ショートストーリー
+# ショートストーリー（まとめ）
 
 Since this chapter is long, it is useful to have a quick summary for error
 handling in Rust. These are some good “rules of thumb." They are emphatically
