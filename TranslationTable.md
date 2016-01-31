@@ -21,7 +21,7 @@
 | crate                 | クレート
 | declaration statement | 宣言文
 | dereferencing         | 参照外し
-| destructuring         | 分配束縛
+| destructuring         | 分配
 | diverge               | ダイバージ
 | diverging             | ダイバージング
 | early return          | 早期リターン

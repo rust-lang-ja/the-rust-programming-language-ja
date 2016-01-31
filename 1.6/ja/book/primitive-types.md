@@ -39,7 +39,7 @@ let y: bool = false;
 <!-- The `char` type represents a single Unicode scalar value. You can create `char`s --> 
 <!-- with a single tick: (`'`) --> 
 `char`型は1つのユニコードのスカラ値を表現します。
-`char`はクオート（`'`）で作ることができます。
+`char`はシングルクオート（`'`）で作ることができます。
 
 ```rust
 let x = 'x';
@@ -48,7 +48,7 @@ let two_hearts = '💕';
 
 <!-- Unlike some other languages, this means that Rust’s `char` is not a single byte, --> 
 <!-- but four. --> 
-いくつかの他の言語と異なり、これはRustの`char`が1バイトではなく4バイトであるということを意味します。
+`char`が1バイトである他の言語と異なり、これはRustの`char`が1バイトではなく4バイトであるということを意味します。
 
 <!-- You can find more documentation for `char`s [in the standard library --> 
 <!-- documentation][char]. --> 
@@ -71,7 +71,7 @@ Rustにはいくつかのカテゴリの中にたくさんの種類の数値型�
 ビット数を大きくすれば、より大きな数値を扱うことができます。
 
 <!-- If a number literal has nothing to cause its type to be inferred, it defaults: --> 
-もし数値リテラルがその型を推論させるものを何も持たないのであれば、それはデフォルトになります。
+もし数値リテラルがその型を推論させるものを何も持たないのであれば、以下のとおりデフォルトになります。
 
 ```rust
 let x = 42; // x has type i32
@@ -167,13 +167,13 @@ let mut m = [1, 2, 3]; // m: [i32; 3]
 <!-- section][generics]. The `N` is a compile-time constant, for the length of the --> 
 <!-- array. --> 
 配列は`[T; N]`という型を持ちます。
-この`T`記法については[ジェネリクスのセクションの中][generics]で話すでしょう。
+この`T`記法については[ジェネリクスのセクションの中][generics]で話します。
 `N`は配列の長さのためのコンパイル時の定数です。
 
 <!-- There’s a shorthand for initializing each element of an array to the same --> 
 <!-- value. In this example, each element of `a` will be initialized to `0`: --> 
 配列の各要素を同じ値で初期化するための省略表現があります。
-この例では、`a`の各要素は`0`で初期化されるでしょう。
+この例では、`a`の各要素は`0`で初期化されます。
 
 ```rust
 let a = [0; 20]; // a: [i32; 20]
@@ -348,7 +348,7 @@ println!("x is {}", x);
 
 <!-- You can disambiguate a single-element tuple from a value in parentheses with a --> 
 <!-- comma: --> 
-コンマを付けることで要素1のタプルを丸括弧の中の値と混同しないようにすることができます。
+コンマを付けることで要素1のタプルを丸括弧の中の値と混同しないように明示することができます。
 
 ```rust
 (0,); // single-element tuple
