@@ -10,7 +10,7 @@ is multiple, ‘morph’ is form) over a given parameter (‘parametric’). -->
 
 <!-- Anyway, enough type theory, let’s check out some generic code. Rust’s
 standard library provides a type, `Option<T>`, that’s generic: -->
-さて、型理論はこれで十分です。続いてジェネリックなコードを幾つか見ていきましょう。Rustが標準ライブラリで提供している型 `Option<T>` はジェネリックです。
+さて、型理論はもう十分です。続いてジェネリックなコードを幾つか見ていきましょう。Rustが標準ライブラリで提供している型 `Option<T>` はジェネリックです。
 
 ```rust
 enum Option<T> {
@@ -34,7 +34,7 @@ let x: Option<i32> = Some(5);
 the right-hand side of the binding, we make a `Some(T)`, where `T` is `5`.
 Since that’s an `i32`, the two sides match, and Rust is happy. If they didn’t
 match, we’d get an error: -->
-この型の宣言を `Option<i32>` と言います。 `Option<T>` との違いに注目して下さい。そう、上記の `Option` では `T` の値は `i32` です。この束縛の右辺の `Some(T)` では、 `T` は `5` となります。それが `i32` なので、両辺の型が一致するため、Rustは満足します。型が不一致であれば、以下のようなエラーが発生します。
+この型宣言では `Option<i32>` と書かれています。 `Option<T>` に似ていることに注目して下さい。そう、上記の `Option` では `T` の値は `i32` です。この束縛の右辺の `Some(T)` では、 `T` は `5` となります。それが `i32` なので、両辺の型が一致するため、Rustは満足します。型が不一致であれば、以下のようなエラーが発生します。
 
 ```rust,ignore
 let x: Option<f64> = Some(5);
@@ -44,7 +44,7 @@ let x: Option<f64> = Some(5);
 
 <!-- That doesn’t mean we can’t make `Option<T>`s that hold an `f64`! They just have
 to match up: -->
-これは `f64` で特殊化した `Option<T>` が作れないという意味ではありませんからね!リテラルと宣言の型をぴったり合わせなければなりません。
+これは `f64` を保持する `Option<T>` が作れないという意味ではありませんからね!リテラルと宣言の型をぴったり合わせなければなりません。
 
 ```rust
 let x: Option<i32> = Some(5);
@@ -66,7 +66,7 @@ enum Result<T, E> {
 
 <!-- This type is generic over _two_ types: `T` and `E`. By the way, the capital letters
 can be any letter you’d like. We could define `Result<T, E>` as: -->
-この型では `T` と `E` の_2つ_がジェネリックです。ちなみに、大文字の部分はあなたの好きな文字で構いません。もしあなたが望むなら `Result<T, E>` を、
+この型では `T` と `E` の _2つ_ がジェネリックです。ちなみに、大文字の部分はあなたの好きな文字で構いません。もしあなたが望むなら `Result<T, E>` を、
 
 ```rust
 enum Result<A, Z> {
@@ -81,7 +81,7 @@ enum Result<A, Z> {
 
 <!-- The `Result<T, E>` type is intended to be used to return the result of a
 computation, and to have the ability to return an error if it didn’t work out. -->
-`Result<T, E>` 型は計算の結果を返すために使われることが想定されており、良い結果が出なかった場合にエラーの値を返す機能を持っています。
+`Result<T, E>` 型は計算の結果を返すために使われることが想定されており、正常に動作しなかった場合にエラーの値を返す機能を持っています。
 
 <!-- ## Generic functions -->
 ## ジェネリック関数
@@ -98,7 +98,7 @@ fn takes_anything<T>(x: T) {
 
 <!-- The syntax has two parts: the `<T>` says “this function is generic over one
 type, `T`”, and the `x: T` says “x has the type `T`.” -->
-構文は2つのパーツから成ります。 `<T>` は「この関数は `T` という型がジェネリックである」ということであり、 `x: T` は「xは `T` 型である」という意味です。
+構文は2つのパーツから成ります。 `<T>` は「この関数は1つの型、 `T` に対してジェネリックである」ということであり、 `x: T` は「xは `T` 型である」という意味です。
 
 <!-- Multiple arguments can have the same generic type: -->
 複数の引数が同じジェネリックな型を持つこともできます。
