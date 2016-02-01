@@ -62,7 +62,7 @@ kinds of things `foo` could be: `self` if it’s just a value on the stack,
 Because we took the `&self` parameter to `area`, we can use it just like any
 other parameter. Because we know it’s a `Circle`, we can access the `radius`
 just like we would with any other `struct`. -->
-メソッドに渡す特別な第1引数として、 `self` 、 `&self` 、 `&mut self` という3つの変形があります。 `foo.bar()` の第1引数は `foo` であると考えて下さい。3つの変形は `foo` が成り得る3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。 `area` で `&self` を受け取っているため、他の引数と同じように扱えます。引数が `Circle` であるのは分かっていますから、他の `struct` でするように `radius` へアクセスできます。
+メソッドに渡す特別な第1引数として、 `self` 、 `&self` 、 `&mut self` という3つの変形があります。第一引数は `foo.bar()` に於ける `foo` だと考えて下さい。3つの変形は `foo` が成り得る3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。 `area` では `&self` を受け取っているため、他の引数と同じように扱えます。引数が `Circle` であるのは分かっていますから、他の `struct` でするように `radius` へアクセスできます。
 
 <!-- We should default to using `&self`, as you should prefer borrowing over taking
 ownership, as well as taking immutable references over mutable ones. Here’s an
@@ -122,7 +122,7 @@ impl Circle {
 ```
 
 <!-- # Chaining method calls -->
-# メソッド呼び出しの連鎖
+# メソッドチェーン
 
 <!-- So, now we know how to call a method, such as `foo.bar()`. But what about our
 original example, `foo.bar().baz()`? This is called ‘method chaining’. Let’s
@@ -167,7 +167,7 @@ fn grow(&self, increment: f64) -> Circle {
 
 <!-- We just say we’re returning a `Circle`. With this method, we can grow a new
 `Circle` to any arbitrary size. -->
-単に `Circle` を返しているだけです。このメソッドにより、私たちは新しい `Circle` を任意のサイズに成長させることができます。
+単に `Circle` を返しているだけです。このメソッドにより、私たちは新しい `Circle` を任意の大きさに拡大することができます。
 
 <!-- # Associated functions -->
 # 関連関数
@@ -212,7 +212,7 @@ allow them to only set the properties they care about. Otherwise, the `x`
 and `y` attributes will be `0.0`, and the `radius` will be `1.0`. Rust doesn’t
 have method overloading, named arguments, or variable arguments. We employ
 the builder pattern instead. It looks like this: -->
-ユーザが `Circle` を作成できるようにしたいものの、彼らに許可できるのはプロパティを設定することだけだと仮定しましょう。もし指定が無ければ `x` と `y` が `0.0` 、 `radius` が `1.0` であるものとします。Rustはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がない代わりにBuilderパターンを採用しており、それは以下のようになります。
+ユーザが `Circle` を作成できるようにしつつも、書き換えたいプロパティだけを設定すれば良いようにしたいとしましょう。もし指定が無ければ `x` と `y` が `0.0` 、 `radius` が `1.0` であるものとします。Rustはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がない代わりにBuilderパターンを採用しており、それは以下のようになります。
 
 ```rust
 struct Circle {
@@ -277,4 +277,4 @@ also made one more method on `CircleBuilder`: `finalize()`. This method creates
 our final `Circle` from the builder. Now, we’ve used the type system to enforce
 our concerns: we can use the methods on `CircleBuilder` to constrain making
 `Circle`s in any way we choose. -->
-ここではもう1つの `struct` である `CircleBuilder` を作成しています。その中にBuilderメソッドを定義しました。また `Circle` に `area()` メソッドを定義しました。 そして `CircleBuilder` にもう1つ `finalize()` というメソッドを作りました。このメソッドはBuilderから最終的な `Circle` を作成します。今回、最初の仮定をユーザに強制するため型システムを利用しました。用意した方法から `Circle` を作るという制約を実現するために、この `CircleBuilder` のメソッドを使うことができます。
+ここではもう1つの `struct` である `CircleBuilder` を作成しています。その中にBuilderメソッドを定義しました。また `Circle` に `area()` メソッドを定義しました。 そして `CircleBuilder` にもう1つ `finalize()` というメソッドを作りました。このメソッドはBuilderから最終的な `Circle` を作成します。さて、先程の要求を実施するために型システムを使いました。 `CircleBuilder` のメソッドを好きなように組み合わせ、作る `Circle` への制約を与えることができます。
