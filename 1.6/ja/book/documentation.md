@@ -337,7 +337,6 @@ fn main() {
 生のテキストはこうなっています。
 
 ```text
-# /// Some documentation.
 /// 何らかのドキュメント
 # fn foo() {}
 ```
@@ -412,24 +411,24 @@ println!("{}", x + y);
 ソースコードに挿入するものはこれです。
 
 ```text
-#   First, we set `x` to five:
     まず、`x`に5をセットする
+
     ```text
     let x = 5;
     # let y = 6;
     # println!("{}", x + y);
     ```
 
-#   Next, we set `y` to six:
     次に、`y`に6をセットする
+
     ```text
     # let x = 5;
     let y = 6;
     # println!("{}", x + y);
     ```
 
-#   Finally, we print the sum of `x` and `y`:
     最後に、`x`と`y`との合計を出力する
+
     ```text
     # let x = 5;
     # let y = 6;
