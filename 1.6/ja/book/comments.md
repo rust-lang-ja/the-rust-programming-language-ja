@@ -56,11 +56,8 @@ fn add_one(x: i32) -> i32 {
 一般的にはクレートルート（lib.rs）やモジュールルート（mod.rs）の中で使われます。
 
 ```
-# //! # The Rust Standard Library
 //! # Rust標準ライブラリ
 //!
-# //! The Rust Standard Library provides the essential runtime
-# //! functionality for building portable Rust software.
 //! Rust標準ライブラリはポータブルなRustソフトウェアをビルドするために不可欠な
 //! ランタイム関数を提供する。
 ```
