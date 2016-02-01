@@ -160,8 +160,8 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 <!-- conditions under which it returns `Err(E)` is a nice thing to do. This is -->
 <!-- slightly less important than `Panics`, because failure is encoded into the type -->
 <!-- system, but it's still a good thing to do. -->
-もし関数やメソッドが`Result<T, E>`を戻すのであれば、それが`Err(E)`を戻したときの状況を説明するのはよいことです。
-これは`Panics`に比べると重要性は少し下です。失敗は型システムによってコード化されますが、それでもまだそうすることはよいことだからです。
+もし関数やメソッドが`Result<T, E>`を戻すのであれば、それが`Err(E)`を戻したときの状況をドキュメントで説明するのはよいことです。
+これは`Panics`のときに比べると重要性は少し下です。失敗は型システムによってコード化されますが、それでもまだそうすることはよいことだからです。
 
 ```rust
 /// # Safety
@@ -170,8 +170,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 
 <!-- If your function is `unsafe`, you should explain which invariants the caller is -->
 <!-- responsible for upholding. -->
-もし関数が`unsafe`であれば、呼出元が動作を続けるためにはどの不正について責任を持つべきなのかを説明すべきです。
-
+もし関数が`unsafe`であれば、呼出元が動作を続けるためにはどのインバリアントについて責任を持つべきなのかを説明すべきです。
 
 ```rust
 /// # Examples
@@ -189,7 +188,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 <!-- code block annotations, which we'll talk about in a moment, and can have -->
 <!-- more than one section: -->
 4つ目は`Examples`です。
-関数やメソッドの使い方の例を1つ以上含めてください。
+関数やメソッドの使い方の例を1つ以上含めてください。そうすればユーザから愛されることでしょう。
 それらの例はコードブロック注釈内に入れます。コードブロック注釈についてはすぐ後で話しますが、それらは1つ以上のセクションを持つことができます。
 
 ```rust
@@ -247,7 +246,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 <!-- library crate, so that they don't get out of date. If you have some C code but -->
 <!-- `rustdoc` thinks it's Rust because you left off the annotation, `rustdoc` will -->
 <!-- complain when trying to generate the documentation. -->
-ここでは正しい注釈を選ぶことが重要です。なぜなら、`rustdoc`はそれを興味深い方法で使うからです。それらが消費期限切れにならないように、ライブラリクレート内で実際にあなたの例をテストするために使うのです。
+ここでは正しい注釈を選ぶことが重要です。なぜなら、`rustdoc`はそれを興味深い方法で使うからです。それらが実際のコードと不整合を起こさないように、ライブラリクレート内で実際にあなたの例をテストするために使うのです。
 もし例の中にCのコードが含まれているのに、あなたが注釈を付けるのを忘れてしまい、`rustdoc`がそれをRustのコードだと考えてしまえば、`rustdoc`はドキュメントを生成しようとするときに文句を言うでしょう。
 
 <!-- ## Documentation as tests -->
@@ -267,7 +266,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 <!-- automatically add a `main()` wrapper around your code, using heuristics to attempt -->
 <!-- to put it in the right place. For example: -->
 `fn main()`とかがここでは不要だということに気が付くでしょう。
-`rustdoc`は自動的に`main()`ラッパーをコードの周りの正しい場所に追加します。
+`rustdoc`は自動的に`main()`ラッパーをコードの周りに、正しい場所へ配置するためのヒューリスティクスを使って追加します。
 例えば、こうです。
 
 ```rust
@@ -290,7 +289,7 @@ fn main() {
 ```
 
 <!-- Here's the full algorithm rustdoc uses to preprocess examples: -->
-これが`rustdoc`が例の前処理に使うアルゴリズムの全てです。
+これがrustdocが例の前処理に使うアルゴリズムの全てです。
 
 <!-- 1. Any leading `#![foo]` attributes are left intact as crate attributes. -->
 <!-- 2. Some common `allow` attributes are inserted, including -->
@@ -301,9 +300,9 @@ fn main() {
 <!--    <mycrate>;` is inserted (note the lack of `#[macro_use]`). -->
 <!-- 4. Finally, if the example does not contain `fn main`, the remainder of the -->
 <!--    text is wrapped in `fn main() { your_code }`. -->
-1. 前の方にある全ての`#![foo]アトリビュートは、そのままクレートのアトリビュートとして置いておく
+1. 前の方にある全ての`#![foo]`アトリビュートは、そのままクレートのアトリビュートとして置いておく
 2. `unused_variables`、`unused_assignments`、`unused_mut`、`unused_attributes`、`dead_code`を含むいくつかの一般的な`allow`アトリビュートを追加する。
-   小さな例はしばしばこれらのチェックに引っ掛かる
+   小さな例はしばしばこれらのリントに引っ掛かる
 3. もしその例が`extern crate`を含んでいなければ、`extern crate <mycrate>;`を挿入する（`#[macro_use]`がないことに注意する）
 4. 最後に、もし例が`fn main`を含んでいなければ、テキストの残りの部分を`fn main() { your_code }`で囲む
 
@@ -315,7 +314,7 @@ fn main() {
 <!-- up your docs, though -- keep reading! -->
 こうして生成された`fn main`は問題になり得ます!
 もし`use`文によって参照される例のコードに`extern crate`文や`mod`文が入っていれば、それらはステップ4を抑制するために少なくとも`fn main() {}`を含んでいない限り失敗します。
-`#[macro_use] extern crate`も同様に、クレートのルートでは動作しません。そのため、マクロのテストには明示的な`main`が常に必要なのです。
+`#[macro_use] extern crate`も同様に、クレートのルート以外では動作しません。そのため、マクロのテストには明示的な`main`が常に必要なのです。
 しかし、ドキュメントを散らかす必要はありません……続きを読みましょう!
 
 <!-- Sometimes this algorithm isn't enough, though. For example, all of these code samples -->
@@ -346,8 +345,8 @@ fn main() {
 <!-- it makes the example more clear. You can use this technique to explain -->
 <!-- longer examples in detail, while still preserving the testability of your -->
 <!-- documentation. -->
-そうです。正解です。あなたは`# `で始まる行を追加することで、コードをコンパイルするときには使われるけれども、出力はされないというようにすることができます。
-あなたはこれを都合のよいように使うことができます。
+そうです。正解です。`# `で始まる行を追加することで、コードをコンパイルするときには使われるけれども、出力はされないというようにすることができます。
+これは都合のよいように使うことができます。
 この場合、ドキュメンテーションコメントそのものを見せたいので、ドキュメンテーションコメントを何らかの関数に適用する必要があります。そのため、その後に小さい関数定義を追加する必要があります。
 同時に、それは単にコンパイラを満足させるためだけのものなので、それを隠すことで、例がすっきりするのです。
 長い例を詳細に説明する一方、テスト可能性を維持するためにこのテクニックを使うことができます。
@@ -519,7 +518,7 @@ $ cargo test
 
 <!-- There are a few more annotations that are useful to help `rustdoc` do the right -->
 <!-- thing when testing your code: -->
-`rustdoc`があなたのコードをテストするときに正しく動作するのを助けるために便利な注釈があと少しあります。
+`rustdoc`がコードをテストするときに正しく動作するのを助けるために便利な注釈があと少しあります。
 
 ```rust
 /// ```ignore
@@ -532,7 +531,7 @@ $ cargo test
 <!-- what you want, as it's the most generic. Instead, consider annotating it -->
 <!-- with `text` if it's not code, or using `#`s to get a working example that -->
 <!-- only shows the part you care about. -->
-`ignore`ディレクティブはRustにあなたのコードを無視するよう指示します。
+`ignore`ディレクティブはRustにコードを無視するよう指示します。
 これはあまりに汎用的なので、必要になることはほとんどありません。
 もしそれがコードではなければ、代わりに`text`の注釈を付けること、又は問題となる部分だけが表示された、動作する例を作るために`#`を使うことを検討してください。
 
@@ -559,7 +558,7 @@ $ cargo test
 <!-- The `no_run` attribute will compile your code, but not run it. This is -->
 <!-- important for examples such as "Here's how to start up a network service," -->
 <!-- which you would want to make sure compile, but might run in an infinite loop! -->
-`no_run`アトリビュートはあなたのコードをコンパイルしますが、実行はしません。
+`no_run`アトリビュートはコードをコンパイルしますが、実行はしません。
 これは「これはネットワークサービスを開始する方法です」というような例や、コンパイルされることは保証したいけれども、無限ループになってしまうような例にとって重要です!
 
 <!-- ### Documenting modules -->
@@ -582,8 +581,8 @@ mod foo {
 
 <!-- This is where you'll see `//!` used most often: for module documentation. If -->
 <!-- you have a module in `foo.rs`, you'll often open its code and see this: -->
-あなたが`//!`を頻繁に見る場所はここです。モジュールドキュメントです。
-もしあなたが`foo.rs`内にモジュールを持っていれば、しばしばそのコードを開いてこれを見るでしょう。
+`//!`を頻繁に見る場所がここ、モジュールドキュメントです。
+もし`foo.rs`内にモジュールを持っていれば、しばしばそのコードを開いてこれを見るでしょう。
 
 ```rust
 //! A module for using `foo`s.
@@ -605,12 +604,12 @@ mod foo {
 
 <!-- All of this behavior works in non-Rust source files too. Because comments -->
 <!-- are written in Markdown, they're often `.md` files. -->
-ここにある振舞いは全て、非Rustのソースコードファイルでも働きます。
+ここにある振舞いは全て、Rust以外のソースコードファイルでも働きます。
 コメントはMarkdownで書かれるので、しばしば`.md`ファイルになります。
 
 <!-- When you write documentation in Markdown files, you don't need to prefix -->
 <!-- the documentation with comments. For example: -->
-あなたがドキュメントをMarkdownファイルに書くとき、ドキュメントにコメントのプレフィックスを付ける必要はありません。
+ドキュメントをMarkdownファイルに書くとき、ドキュメントにコメントのプレフィックスを付ける必要はありません。
 例えば、こうする必要はありません。
 
 ```rust

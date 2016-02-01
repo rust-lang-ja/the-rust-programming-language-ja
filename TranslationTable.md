@@ -45,6 +45,7 @@
 | library               | ライブラリ
 | lifetime              | ライフタイム
 | link                  | リンク
+| lint                  | リント
 | memory                | メモリ
 | move                  | ムーブ
 | mutable               | ミュータブル
