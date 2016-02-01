@@ -186,9 +186,16 @@
 
 
     <h1 class="title">Drop</h1>
-    <p>Now that we’ve discussed traits, let’s talk about a particular trait provided
-by the Rust standard library, <a href="../std/ops/trait.Drop.html"><code>Drop</code></a>. The <code>Drop</code> trait provides a way
-to run some code when a value goes out of scope. For example:</p>
+    <!-- % Drop -->
+
+<!-- Now that we’ve discussed traits, let’s talk about a particular trait provided -->
+
+<!-- by the Rust standard library, [`Drop`][drop]. The `Drop` trait provides a way -->
+
+<!-- to run some code when a value goes out of scope. For example: -->
+
+<p>トレイトについて学びましたので、Rustの標準ライブラリによって提供されている具体的なトレイト [<code>Drop</code>][drop]について説明しましょう。
+<code>Drop</code> トレイトは値がスコープ外になった時にコードを実行する方法を提供します:</p>
 <span class='rusttest'>struct HasDrop;
 
 impl Drop for HasDrop {
@@ -200,9 +207,11 @@ impl Drop for HasDrop {
 fn main() {
     let x = HasDrop;
 
-    // do stuff
+  // do stuff
+    // いくつかの処理
 
-} // x goes out of scope here
+// } // x goes out of scope here
+} // x はここでスコープ外になります
 </span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>HasDrop</span>;
 
@@ -215,17 +224,27 @@ fn main() {
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>HasDrop</span>;
 
-    <span class='comment'>// do stuff</span>
+    <span class='comment'>// いくつかの処理</span>
 
-} <span class='comment'>// x goes out of scope here</span></pre>
+} <span class='comment'>// x はここでスコープ外になります</span></pre>
 
-<p>When <code>x</code> goes out of scope at the end of <code>main()</code>, the code for <code>Drop</code> will
-run. <code>Drop</code> has one method, which is also called <code>drop()</code>. It takes a mutable
-reference to <code>self</code>.</p>
+<!-- When `x` goes out of scope at the end of `main()`, the code for `Drop` will -->
 
-<p>That’s it! The mechanics of <code>Drop</code> are very simple, but there are some
-subtleties. For example, values are dropped in the opposite order they are
-declared. Here’s another example:</p>
+<!-- run. `Drop` has one method, which is also called `drop()`. It takes a mutable -->
+
+<!-- reference to `self`. -->
+
+<p><code>x</code> が <code>main()</code> の終わりでスコープ外になった時、 <code>Drop</code> のコードが実行されます。
+<code>Drop</code> は <code>drop()</code> と呼ばれるミュータブルな <code>self</code> への参照を引数に取るメソッドを持っています。</p>
+
+<!-- That’s it! The mechanics of `Drop` are very simple, but there are some -->
+
+<!-- subtleties. For example, values are dropped in the opposite order they are -->
+
+<!-- declared. Here’s another example: -->
+
+<p>これだけです！ <code>Drop</code> のメカニズムは非常にシンプルです、しかし少しだけ注意すべき点があります。
+たとえば、値がドロップされる順序は、それらが定義された順序と反対の順序になります:</p>
 <span class='rusttest'>struct Firework {
     strength: i32,
 }
@@ -256,20 +275,34 @@ fn main() {
     <span class='kw'>let</span> <span class='ident'>tnt</span> <span class='op'>=</span> <span class='ident'>Firework</span> { <span class='ident'>strength</span>: <span class='number'>100</span> };
 }</pre>
 
-<p>This will output:</p>
+<!-- This will output: -->
+
+<p>このコードは以下の様な出力をします:</p>
 
 <pre><code class="language-text">BOOM times 100!!!
 BOOM times 1!!!
 </code></pre>
 
-<p>The TNT goes off before the firecracker does, because it was declared
-afterwards. Last in, first out.</p>
+<!-- The TNT goes off before the firecracker does, because it was declared -->
 
-<p>So what is <code>Drop</code> good for? Generally, <code>Drop</code> is used to clean up any resources
-associated with a <code>struct</code>. For example, the <a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code> type</a> is a
-reference-counted type. When <code>Drop</code> is called, it will decrement the reference
-count, and if the total number of references is zero, will clean up the
-underlying value.</p>
+<!-- afterwards. Last in, first out. -->
+
+<p>TNTが爆竹(firecracker)が鳴る前に爆発してしまいました、これはTNTが定義されたのは爆竹よりも後だったことによります。
+ラストイン・ファーストアウトです。</p>
+
+<!-- So what is `Drop` good for? Generally, `Drop` is used to clean up any resources -->
+
+<!-- associated with a `struct`. For example, the [`Arc<T>` type][arc] is a -->
+
+<!-- reference-counted type. When `Drop` is called, it will decrement the reference -->
+
+<!-- count, and if the total number of references is zero, will clean up the -->
+
+<!-- underlying value. -->
+
+<p><code>Drop</code> は何をするのに適しているのでしょうか？一般的に <code>Drop</code> は <code>struct</code> に関連付けられているリソースのクリーンアップに利用されます。
+たとえば、 <a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code> 型</a> は参照カウントを行う型です。 <code>Drop</code> が呼ばれると、参照カウントがデクリメントされ、
+もし参照の合計数が0になっていたら、内包している値がクリーンアップされます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
