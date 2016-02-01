@@ -6,7 +6,7 @@
 <!-- used to introduce a binding, just like this: -->
 事実上全ての「Hello World」でないRustのプログラムは *変数束縛*を使っています。
 変数束縛は何らかの値を名前へと束縛するので、後でその値を使えます。
-このように、`let`が束縛を導入するのに使われています。
+このように、 `let` が束縛を導入するのに使われています。
 
 > 訳注: 普通、束縛というときは名前を値へと束縛しますが、ドキュメントでは逆になっています。
 >      Rustでは他の言語と違って1つの値に対して1つの名前が対応するのであえてこう書いてるのかもしれません。
@@ -20,8 +20,8 @@ fn main() {
 <!-- Putting `fn main() {` in each example is a bit tedious, so we’ll leave that out -->
 <!-- in the future. If you’re following along, make sure to edit your `main()` -->
 <!-- function, rather than leaving it off. Otherwise, you’ll get an error. -->
-例で毎回`fn main() {`と書くのは長ったらしいのでこれ以後は省略します。
-もし試しながら読んでいるのならそのまま書くのではなくちゃんと`main()`関数の中身を編集するようにしてください、そうしないとエラーになります。
+例で毎回 `fn main() {` と書くのは長ったらしいのでこれ以後は省略します。
+もし試しながら読んでいるのならそのまま書くのではなくちゃんと `main()` 関数の中身を編集するようにしてください、そうしないとエラーになります。
 
 <!-- # Patterns -->
 # パターン
@@ -30,13 +30,8 @@ fn main() {
 <!-- variable bindings have a few tricks up their sleeves. For example the -->
 <!-- left-hand side of a `let` expression is a ‘[pattern][pattern]’, not just a -->
 <!-- variable name. This means we can do things like: -->
-In many languages, a variable binding would be called a *variable*, but Rust’s
-variable bindings have a few tricks up their sleeves. For example the
-left-hand side of a `let` expression is a ‘[pattern][pattern]’, not just a
-variable name. This means we can do things like:
-
 多くの言語では変数束縛は *変数* と呼ばれるでしょうが、Rustの変数束縛は多少皮を被せてあります。
-例えば、`let`の左側の式は「[パターン][pattern]」であって、ただの変数名ではありません。
+例えば、 `let` の左側の式は「[パターン][pattern]」であって、ただの変数名ではありません。
 これはこのようなことが出来るということです。
 
 ```rust
@@ -47,7 +42,7 @@ let (x, y) = (1, 2);
 <!-- Patterns are really powerful, and have [their own section][pattern] in the -->
 <!-- book. We don’t need those features for now, so we’ll just keep this in the back -->
 <!-- of our minds as we go forward. -->
-パターン式が評価されたあと、`x`は1になり、`y`は2になります。
+パターン式が評価されたあと、 `x` は1になり、 `y` は2になります。
 パターンは本当に強力で、本書には[パターンのセクション][pattern]もあります。
 今のところこの機能は必要ないので頭の片隅に留めておいてだけいて下さい。
 
@@ -74,14 +69,14 @@ let x: i32 = 5;
 
 <!-- If I asked you to read this out loud to the rest of the class, you’d say “`x` -->
 <!-- is a binding with the type `i32` and the value `five`.” -->
-これをクラスのみんなに聞こえるように声に出して読むなら、「`x`は型`i32`を持つ束縛で、値は`五`である。」となります。
+これをクラスのみんなに聞こえるように声に出して読むなら、「 `x` は型 `i32` を持つ束縛で、値は `五` である。」となります。
 
 <!-- In this case we chose to represent `x` as a 32-bit signed integer. Rust has -->
 <!-- many different primitive integer types. They begin with `i` for signed integers -->
 <!-- and `u` for unsigned integers. The possible integer sizes are 8, 16, 32, and 64 -->
 <!-- bits. -->
-この場合`x`を32bit符号付き整数として表現することを選びました。
-Rustには多くのプリミティブな整数型があります。プリミティブな整数型は符号付き型は`i`、符号無し型は`u`から始まります。
+この場合 `x` を32bit符号付き整数として表現することを選びました。
+Rustには多くのプリミティブな整数型があります。プリミティブな整数型は符号付き型は `i` 、符号無し型は `u` から始まります。
 整数型として可能なサイズは8、16、32、64です。
 
 <!-- In future examples, we may annotate the type in a comment. The examples will -->
@@ -99,18 +94,21 @@ fn main() {
 <!-- `let`. Including these kinds of comments is not idiomatic Rust, but we'll -->
 <!-- occasionally include them to help you understand what the types that Rust -->
 <!-- infers are. -->
-この注釈と`let`の時に使う記法の類似性に留意して下さい。
+この注釈と `let` の時に使う記法の類似性に留意して下さい。
 このようなコメントを書くのはRust的ではありませんが、時折理解の手助けのためにRustが推論する型をコメントで注釈します。
 
-# Mutability
-By default, bindings are *immutable*. This code will not compile:
+<!-- # Mutability -->
+# 可変性
+<!-- By default, bindings are *immutable*. This code will not compile: -->
+デフォルトで、 束縛は *イミュータブル* です。このコードのコンパイルは通りません。
 
 ```rust,ignore
 let x = 5;
 x = 10;
 ```
 
-It will give you this error:
+<!-- It will give you this error: -->
+次のようなエラーが出ます。
 
 ```text
 error: re-assignment of immutable variable `x`
@@ -118,32 +116,49 @@ error: re-assignment of immutable variable `x`
      ^~~~~~~
 ```
 
-If you want a binding to be mutable, you can use `mut`:
+> 訳注:
+> ```
+> エラー: イミュータブルな変数 `x` に最代入しています
+> ```
+
+
+<!-- If you want a binding to be mutable, you can use `mut`: -->
+束縛をミュータブルにしたいなら、`mut`が使えます。
 
 ```rust
 let mut x = 5; // mut x: i32
 x = 10;
 ```
 
-There is no single reason that bindings are immutable by default, but we can
-think about it through one of Rust’s primary focuses: safety. If you forget to
-say `mut`, the compiler will catch it, and let you know that you have mutated
-something you may not have intended to mutate. If bindings were mutable by
-default, the compiler would not be able to tell you this. If you _did_ intend
-mutation, then the solution is quite easy: add `mut`.
+<!-- There is no single reason that bindings are immutable by default, but we can -->
+<!-- think about it through one of Rust’s primary focuses: safety. If you forget to -->
+<!-- say `mut`, the compiler will catch it, and let you know that you have mutated -->
+<!-- something you may not have intended to mutate. If bindings were mutable by -->
+<!-- default, the compiler would not be able to tell you this. If you _did_ intend -->
+<!-- mutation, then the solution is quite easy: add `mut`. -->
+束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと思うことが出来ます。
+もし `mut` を忘れたらコンパイラが捕捉して、変更するつもりでなかったものを変更した旨を教えてくれます。
+束縛がデフォルトでミュータブルだったらコンパイラはこれを捕捉できません。
+もし _本当に_ 変更を意図していたのなら話は簡単です。 `mut` をつけ加えればいいのです。
 
-There are other good reasons to avoid mutable state when possible, but they’re
-out of the scope of this guide. In general, you can often avoid explicit
-mutation, and so it is preferable in Rust. That said, sometimes, mutation is
-what you need, so it’s not verboten.
+<!-- There are other good reasons to avoid mutable state when possible, but they’re -->
+<!-- out of the scope of this guide. In general, you can often avoid explicit -->
+<!-- mutation, and so it is preferable in Rust. That said, sometimes, mutation is -->
+<!-- what you need, so it’s not verboten. -->
+可能な時にミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
+一般に、明示的な変更は避けれることが多いのでRustでもそうした方が良いのです。
+しかし変更が本当に必要なこともあるという意味でもあるので、厳禁という訳ではないのです。
 
-# Initializing bindings
+<!-- # Initializing bindings -->
+# 束縛を初期化する
 
-Rust variable bindings have one more aspect that differs from other languages:
-bindings are required to be initialized with a value before you're allowed to
-use them.
+<!-- Rust variable bindings have one more aspect that differs from other languages: -->
+<!-- bindings are required to be initialized with a value before you're allowed to -->
+<!-- use them. -->
+Rustの束縛はもう1つ他の言語と異る点があります。束縛を使う前に値で初期化されている必要があるのです。
 
-Let’s try it out. Change your `src/main.rs` file to look like this:
+<!-- Let’s try it out. Change your `src/main.rs` file to look like this: -->
+試してみましょう。 `src/main.rs` をいじってこのようにしてみて下さい。
 
 ```rust
 fn main() {
@@ -153,8 +168,10 @@ fn main() {
 }
 ```
 
-You can use `cargo build` on the command line to build it. You’ll get a
-warning, but it will still print "Hello, world!":
+<!-- You can use `cargo build` on the command line to build it. You’ll get a -->
+<!-- warning, but it will still print "Hello, world!": -->
+コマンドラインで `cargo build` を使ってビルド出来ます。
+ウォーニングが出ますが、それでもまだ「Hello, world!」は印字されます。
 
 ```text
    Compiling hello_world v0.0.1 (file:///home/you/projects/hello_world)
@@ -164,9 +181,12 @@ src/main.rs:2     let x: i32;
                       ^
 ```
 
-Rust warns us that we never use the variable binding, but since we never use
-it, no harm, no foul. Things change if we try to actually use this `x`,
-however. Let’s do that. Change your program to look like this:
+<!-- Rust warns us that we never use the variable binding, but since we never use -->
+<!-- it, no harm, no foul. Things change if we try to actually use this `x`, -->
+<!-- however. Let’s do that. Change your program to look like this: -->
+Rustは一度も使われない変数について警告を出しますが、一度も使われないので人畜無害です。
+ところがこの `x` を使おうとすると事は一変ます。やってみましょう。
+プログラムをこのように変更して下さい。
 
 ```rust,ignore
 fn main() {
@@ -176,7 +196,8 @@ fn main() {
 }
 ```
 
-And try to build it. You’ll get an error:
+<!-- And try to build it. You’ll get an error: -->
+そしてビルドしてみて下さい。このようなエラーが出る筈です。
 
 ```bash
 $ cargo build
@@ -192,21 +213,31 @@ error: aborting due to previous error
 Could not compile `hello_world`.
 ```
 
-Rust will not let us use a value that has not been initialized. Next, let’s
-talk about this stuff we've added to `println!`.
+<!-- Rust will not let us use a value that has not been initialized. Next, let’s -->
+<!-- talk about this stuff we've added to `println!`. -->
+Rustでは未初期化の値を使うことは許されていません。
+次に、 `println!` に追加したものについて話しましょう。
 
-If you include two curly braces (`{}`, some call them moustaches...) in your
-string to print, Rust will interpret this as a request to interpolate some sort
-of value. *String interpolation* is a computer science term that means "stick
-in the middle of a string." We add a comma, and then `x`, to indicate that we
-want `x` to be the value we’re interpolating. The comma is used to separate
-arguments we pass to functions and macros, if you’re passing more than one.
+<!-- If you include two curly braces (`{}`, some call them moustaches...) in your -->
+<!-- string to print, Rust will interpret this as a request to interpolate some sort -->
+<!-- of value. *String interpolation* is a computer science term that means "stick -->
+<!-- in the middle of a string." We add a comma, and then `x`, to indicate that we -->
+<!-- want `x` to be the value we’re interpolating. The comma is used to separate -->
+<!-- arguments we pass to functions and macros, if you’re passing more than one. -->
+印字する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
+Rustはこれを何かの値を入れて(interpolate、インターポーレート)くれという要求だと解します。
+*文字列インターポーレーション* (String interpolation)はコンピュータサイエンスの用語で、「文字列の中に差し込む」という意味です。
+その後に続けてカンマ、そして `x` を置いて `x` がインターポーレートしようとしている値だと指示しています。
+カンマは2つ以上の引数を関数やマクロに渡す時に使われます。
 
-When you just use the curly braces, Rust will attempt to display the value in a
-meaningful way by checking out its type. If you want to specify the format in a
-more detailed manner, there are a [wide number of options available][format].
-For now, we'll just stick to the default: integers aren't very complicated to
-print.
+<!-- When you just use the curly braces, Rust will attempt to display the value in a -->
+<!-- meaningful way by checking out its type. If you want to specify the format in a -->
+<!-- more detailed manner, there are a [wide number of options available][format]. -->
+<!-- For now, we'll just stick to the default: integers aren't very complicated to -->
+<!-- print. -->
+単に波括弧だけを使った時は、Rustはインターポーレートされる値の型を調べて意味のある方法で表示しようとします。
+フォーマットをさらに詳しく指定したいなら[数多くのオプションが利用出来ます][format]。
+とりあえずのところ、デフォルトに従ましょう。整数の印字はそれほど複雑ではありません。
 
 [format]: ../std/fmt/index.html
 
