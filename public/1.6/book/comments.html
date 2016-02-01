@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Comments</title>
+    <title>コメント</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,34 +185,52 @@
 <div id='page'>
 
 
-    <h1 class="title">Comments</h1>
-    <p>Now that we have some functions, it’s a good idea to learn about comments.
-Comments are notes that you leave to other programmers to help explain things
-about your code. The compiler mostly ignores them.</p>
+    <h1 class="title">コメント</h1>
+    <!-- % Comments -->
 
-<p>Rust has two kinds of comments that you should care about: <em>line comments</em>
-and <em>doc comments</em>.</p>
+<!-- Now that we have some functions, it’s a good idea to learn about comments. -->
+
+<!-- Comments are notes that you leave to other programmers to help explain things -->
+
+<!-- about your code. The compiler mostly ignores them. -->
+
+<p>いくつかの関数ができたので、コメントについて学ぶことはよい考えです。
+コメントはコードについての何かを説明する助けになるように、他のプログラマに残すメモです。
+コンパイラはそれらをほとんど無視します。</p>
+
+<!-- Rust has two kinds of comments that you should care about: *line comments* -->
+
+<!-- and *doc comments*. -->
+
+<p>Rustには気にすべき2種類のコメント、 <em>行コメント</em> と <em>ドキュメンテーションコメント</em> があります。</p>
 <span class='rusttest'>fn main() {
     // Line comments are anything after ‘//’ and extend to the end of the line.
+    // 行コメントは「//」以降の全ての文字であり、行末まで続く
     
     let x = 5; // this is also a line comment.
     
     // If you have a long explanation for something, you can put line comments next
     // to each other. Put a space between the // and your comment so that it’s
     // more readable.
+    // もし何かのために長い説明を書くのであれば、行コメントを複数行に渡って書くこと
+    // ができる。//とコメントとの間にスペースを置くことで、より読みやすくなる
 }</span><pre class='rust rust-example-rendered'>
-<span class='comment'>// Line comments are anything after ‘//’ and extend to the end of the line.</span>
+<span class='comment'>// 行コメントは「//」以降の全ての文字であり、行末まで続く</span>
 
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>; <span class='comment'>// this is also a line comment.</span>
 
-<span class='comment'>// If you have a long explanation for something, you can put line comments next</span>
-<span class='comment'>// to each other. Put a space between the // and your comment so that it’s</span>
-<span class='comment'>// more readable.</span></pre>
+<span class='comment'>// もし何かのために長い説明を書くのであれば、行コメントを複数行に渡って書くこと</span>
+<span class='comment'>// ができる。//とコメントとの間にスペースを置くことで、より読みやすくなる</span></pre>
 
-<p>The other kind of comment is a doc comment. Doc comments use <code>///</code> instead of
-<code>//</code>, and support Markdown notation inside:</p>
+<!-- The other kind of comment is a doc comment. Doc comments use `///` instead of -->
+
+<!-- `//`, and support Markdown notation inside: -->
+
+<p>その他の種類のコメントはドキュメンテーションコメントです。
+ドキュメンテーションコメントは<code>//</code>の代わりに<code>///</code>を使い、その中でMarkdown記法をサポートします。</p>
 <span class='rusttest'>fn main() {
     /// Adds one to the number given.
+    /// 与えられた数値に1を加える
     ///
     /// # Examples
     ///
@@ -228,7 +246,7 @@ and <em>doc comments</em>.</p>
         x + 1
     }
 }</span><pre class='rust rust-example-rendered'>
-<span class='doccomment'>/// Adds one to the number given.</span>
+<span class='doccomment'>/// 与えられた数値に1を加える</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
@@ -244,28 +262,46 @@ and <em>doc comments</em>.</p>
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>
 }</pre>
 
-<p>There is another style of doc comment, <code>//!</code>, to comment containing items (e.g.
-crates, modules or functions), instead of the items following it. Commonly used
-inside crates root (lib.rs) or modules root (mod.rs):</p>
+<!-- There is another style of doc comment, `//!`, to comment containing items (e.g. -->
+
+<!-- crates, modules or functions), instead of the items following it. Commonly used -->
+
+<!-- inside crates root (lib.rs) or modules root (mod.rs): -->
+
+<p>もう1つのスタイルのドキュメンテーションコメントに<code>//!</code>があります。これは、その後に続く要素ではなく、それを含んでいる要素（例えばクレート、モジュール、関数）にコメントを付けます。
+一般的にはクレートルート（lib.rs）やモジュールルート（mod.rs）の中で使われます。</p>
 <span class='rusttest'>fn main() {
-    //! # The Rust Standard Library
+    //! # Rust標準ライブラリ
     //!
-    //! The Rust Standard Library provides the essential runtime
-    //! functionality for building portable Rust software.
+    //! Rust標準ライブラリはポータブルなRustソフトウェアをビルドするために不可欠な
+    //! ランタイム関数を提供する。
 }</span><pre class='rust rust-example-rendered'>
-<span class='doccomment'>//! # The Rust Standard Library</span>
+<span class='doccomment'>//! # Rust標準ライブラリ</span>
 <span class='doccomment'>//!</span>
-<span class='doccomment'>//! The Rust Standard Library provides the essential runtime</span>
-<span class='doccomment'>//! functionality for building portable Rust software.</span></pre>
+<span class='doccomment'>//! Rust標準ライブラリはポータブルなRustソフトウェアをビルドするために不可欠な</span>
+<span class='doccomment'>//! ランタイム関数を提供する。</span></pre>
 
-<p>When writing doc comments, providing some examples of usage is very, very
-helpful. You’ll notice we’ve used a new macro here: <code>assert_eq!</code>. This compares
-two values, and <code>panic!</code>s if they’re not equal to each other. It’s very helpful
-in documentation. There’s another macro, <code>assert!</code>, which <code>panic!</code>s if the
-value passed to it is <code>false</code>.</p>
+<!-- When writing doc comments, providing some examples of usage is very, very -->
 
-<p>You can use the <a href="documentation.html"><code>rustdoc</code></a> tool to generate HTML documentation
-from these doc comments, and also to run the code examples as tests!</p>
+<!-- helpful. You’ll notice we’ve used a new macro here: `assert_eq!`. This compares -->
+
+<!-- two values, and `panic!`s if they’re not equal to each other. It’s very helpful -->
+
+<!-- in documentation. There’s another macro, `assert!`, which `panic!`s if the -->
+
+<!-- value passed to it is `false`. -->
+
+<p>ドキュメンテーションコメントを書いているとき、いくつかの使い方の例を提供することは非常に非常に有用です。
+ここでは新しいマクロ、<code>assert_eq!</code>を使っていることに気付くでしょう。
+これは2つの値を比較し、もしそれらが互いに等しくなければ<code>panic!</code>します。
+これはドキュメントの中で非常に便利です。
+もう1つのマクロ、<code>assert!</code>は、それに渡された値が<code>false</code>であれば<code>panic!</code>します。</p>
+
+<!-- You can use the [`rustdoc`](documentation.html) tool to generate HTML documentation -->
+
+<!-- from these doc comments, and also to run the code examples as tests! -->
+
+<p>それらのドキュメンテーションコメントからHTMLドキュメントを生成するため、そしてコード例をテストとして実行するためにも<a href="documentation.html"><code>rustdoc</code></a>ツールを使うことができます!</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
