@@ -21,6 +21,7 @@
 | binding               | 束縛
 | block                 | ブロック
 | borrowing             | 借用
+| capture               | キャプチャ
 | closure               | クロージャ
 | coercion              | 型強制
 | compiler              | コンパイラ
