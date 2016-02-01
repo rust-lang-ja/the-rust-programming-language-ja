@@ -28,7 +28,8 @@ Rustのプロジェクトでドキュメントを書く1つ目の方法は、ソ
 ドキュメンテーションコメントはこの目的のために使うことができます。
 
 ```rust,ignore
-/// Constructs a new `Rc<T>`.
+/// # Constructs a new `Rc<T>`.
+/// 新しい`Rc<T>`の生成
 ///
 /// # Examples
 ///
@@ -38,7 +39,8 @@ Rustのプロジェクトでドキュメントを書く1つ目の方法は、ソ
 /// let five = Rc::new(5);
 /// ```
 pub fn new(value: T) -> Rc<T> {
-    // implementation goes here
+    /// # // implementation goes here
+    // 実装が続く
 }
 ```
 
@@ -62,11 +64,14 @@ Rustはそれらのコメントを把握し、ドキュメントを生成する�
 このことは次のように列挙型のようなもののドキュメントを作成するときに重要です。
 
 ```rust
-/// The `Option` type. See [the module level documentation](index.html) for more.
+/// # The `Option` type. See [the module level documentation](index.html) for more.
+/// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照
 enum Option<T> {
-    /// No value
+    /// # No value
+    /// 値なし
     None,
-    /// Some value `T`
+    /// # Some value `T`
+    /// `T`型の何らかの値
     Some(T),
 }
 ```
@@ -75,10 +80,13 @@ enum Option<T> {
 上記の例は動きますが、これは動きません。
 
 ```rust,ignore
-/// The `Option` type. See [the module level documentation](index.html) for more.
+/// # The `Option` type. See [the module level documentation](index.html) for more.
+/// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照
 enum Option<T> {
-    None, /// No value
-    Some(T), /// Some value `T`
+    /// # None, /// No value
+    None, /// 値なし
+    /// # Some(T), /// Some value `T`
+    Some(T), /// `T`型の何らかの値
 }
 ```
 
@@ -105,7 +113,8 @@ hello.rs:4 }
 とりあえず、このコメントの各部分を詳細にカバーしましょう。
 
 ```rust
-/// Constructs a new `Rc<T>`.
+/// # Constructs a new `Rc<T>`.
+/// 新しい`Rc<T>`の生成
 # fn foo() {}
 ```
 
@@ -118,8 +127,10 @@ hello.rs:4 }
 
 ```rust
 ///
-/// Other details about constructing `Rc<T>`s, maybe describing complicated
-/// semantics, maybe additional options, all kinds of stuff.
+/// # Other details about constructing `Rc<T>`s, maybe describing complicated
+/// # semantics, maybe additional options, all kinds of stuff.
+/// `Rc<T>`の生成についてのその他の詳細。例えば、複雑なセマンティクスの説明、
+/// 追加のオプションなどあらゆる種類のもの
 ///
 # fn foo() {}
 ```
@@ -194,14 +205,16 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 ```rust
 /// # Examples
 ///
-/// Simple `&str` patterns:
+/// # Simple `&str` patterns:
+/// 単純な`&str`パターン
 ///
 /// ```
 /// let v: Vec<&str> = "Mary had a little lamb".split(' ').collect();
 /// assert_eq!(v, vec!["Mary", "had", "a", "little", "lamb"]);
 /// ```
 ///
-/// More complex patterns with a lambda:
+/// # More complex patterns with a lambda:
+/// ラムダを使ったもっと複雑なパターン
 ///
 /// ```
 /// let v: Vec<&str> = "abc1def2ghi".split(|c: char| c.is_numeric()).collect();
@@ -324,7 +337,8 @@ fn main() {
 生のテキストはこうなっています。
 
 ```text
-/// Some documentation.
+/// # Some documentation.
+/// 何らかのドキュメント
 # fn foo() {}
 ```
 
@@ -332,7 +346,8 @@ fn main() {
 それは出力とは違って見えます。
 
 ```rust
-/// Some documentation.
+/// # Some documentation.
+/// 何らかのドキュメント
 # fn foo() {}
 ```
 
@@ -363,7 +378,8 @@ println!("{}", x + y);
 <!-- We might want the documentation to end up looking like this: -->
 最終的にはこのように見えるドキュメントが欲しいのかもしれません。
 
-> First, we set `x` to five:
+<!-- > First, we set `x` to five: -->
+> まず、`x`に5をセットする
 >
 > ```rust
 > let x = 5;
@@ -371,7 +387,8 @@ println!("{}", x + y);
 > # println!("{}", x + y);
 > ```
 >
-> Next, we set `y` to six:
+<!-- > Next, we set `y` to six: -->
+> 次に、`y`に6をセットする
 >
 > ```rust
 > # let x = 5;
@@ -379,7 +396,8 @@ println!("{}", x + y);
 > # println!("{}", x + y);
 > ```
 >
-> Finally, we print the sum of `x` and `y`:
+<!-- > Finally, we print the sum of `x` and `y`: -->
+> 最後に、`x`と`y`との合計を出力する
 >
 > ```rust
 > # let x = 5;
@@ -394,24 +412,24 @@ println!("{}", x + y);
 ソースコードに挿入するものはこれです。
 
 ```text
-    First, we set `x` to five:
-
+    /// # First, we set `x` to five:
+    まず、`x`に5をセットする
     ```text
     let x = 5;
     # let y = 6;
     # println!("{}", x + y);
     ```
 
-    Next, we set `y` to six:
-
+    /// # Next, we set `y` to six:
+    次に、`y`に6をセットする
     ```text
     # let x = 5;
     let y = 6;
     # println!("{}", x + y);
     ```
 
-    Finally, we print the sum of `x` and `y`:
-
+    /// # Finally, we print the sum of `x` and `y`:
+    最後に、`x`と`y`との合計を出力する
     ```text
     # let x = 5;
     # let y = 6;
@@ -431,7 +449,8 @@ println!("{}", x + y);
 これはマクロのドキュメントの例です。
 
 ```rust
-/// Panic with a given message unless an expression evaluates to true.
+/// # Panic with a given message unless an expression evaluates to true.
+/// 式がtrueと評価されない限り、与えられたメッセージとともにパニックする
 ///
 /// # Examples
 ///
@@ -479,7 +498,8 @@ macro_rules! panic_unless {
 問題は`try!`が`Result<T, E>`を返すところ、テスト関数は何も返さないことで、これは型のミスマッチエラーを起こします。
 
 ```rust,ignore
-/// A doc test using try!
+/// # A doc test using try!
+/// try!を使ったドキュメンテーションテスト
 ///
 /// ```
 /// use std::io;
@@ -574,7 +594,8 @@ Rustには別の種類のドキュメンテーションコメント、`//!`が�
 
 ```rust
 mod foo {
-    //! This is documentation for the `foo` module.
+    /// # //! This is documentation for the `foo` module.
+    //! これは`foo`モジュールのドキュメントである
     //!
     //! # Examples
 
@@ -588,7 +609,8 @@ mod foo {
 もし`foo.rs`内にモジュールを持っていれば、しばしばそのコードを開くとこれを見るでしょう。
 
 ```rust
-//! A module for using `foo`s.
+/// # //! A module for using `foo`s.
+//! `foo`で使われるモジュール
 //!
 //! The `foo` module contains a lot of useful functionality blah blah blah
 ```
@@ -645,9 +667,11 @@ Markdownファイルの中ではこうします。
 ただし、1つだけ新しいものがあります。Markdownファイルではこのように題名を付けなければなりません。
 
 ```markdown
-% The title
+<!-- % The title -->
+% タイトル
 
-This is the example documentation.
+<!-- This is the example documentation. -->
+これはサンプルのドキュメントです。
 ```
 
 <!-- This `%` line needs to be the very first line of the file. -->
