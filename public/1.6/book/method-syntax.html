@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Method Syntax</title>
+    <title>メソッドシンタックス</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,27 +185,39 @@
 <div id='page'>
 
 
-    <h1 class="title">Method Syntax</h1>
-    <p>Functions are great, but if you want to call a bunch of them on some data, it
-can be awkward. Consider this code:</p>
+    <h1 class="title">メソッドシンタックス</h1>
+    <!-- % Method Syntax -->
+
+<!-- Functions are great, but if you want to call a bunch of them on some data, it
+can be awkward. Consider this code: -->
+
+<p>関数は素晴らしいのですが、幾つかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。以下のコードについて考えてみます。</p>
 <span class='rusttest'>fn main() {
     baz(bar(foo));
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>baz</span>(<span class='ident'>bar</span>(<span class='ident'>foo</span>));</pre>
 
-<p>We would read this left-to-right, and so we see ‘baz bar foo’. But this isn’t the
+<!-- We would read this left-to-right, and so we see ‘baz bar foo’. But this isn’t the
 order that the functions would get called in, that’s inside-out: ‘foo bar baz’.
-Wouldn’t it be nice if we could do this instead?</p>
+Wouldn’t it be nice if we could do this instead? -->
+
+<p>私たちはこれを左から右へ、「baz bar foo」と読むことになりますが、関数が呼び出される順番は異なり、内側から外へ「foo bar baz」となります。もし代わりにこうできたらいいとは思いませんか?</p>
 <span class='rusttest'>fn main() {
     foo.bar().baz();
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>foo</span>.<span class='ident'>bar</span>().<span class='ident'>baz</span>();</pre>
 
-<p>Luckily, as you may have guessed with the leading question, you can! Rust provides
-the ability to use this ‘method call syntax’ via the <code>impl</code> keyword.</p>
+<!-- Luckily, as you may have guessed with the leading question, you can! Rust provides
+the ability to use this ‘method call syntax’ via the `impl` keyword. -->
 
-<h1 id='method-calls' class='section-header'><a href='#method-calls'>Method calls</a></h1>
-<p>Here’s how it works:</p>
+<p>最初の質問でもう分かっているかもしれませんが、幸いにもこれは可能です!Rustは <code>impl</code> キーワードによってこの「メソッド呼び出し構文」の機能を提供しています。</p>
+
+<!-- # Method calls -->
+
+<h1 id='メソッド呼び出し' class='section-header'><a href='#メソッド呼び出し'>メソッド呼び出し</a></h1>
+<!-- Here’s how it works: -->
+
+<p>どんな風に動作するかが以下になります。</p>
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,
@@ -240,23 +252,31 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>c</span>.<span class='ident'>area</span>());
 }</pre>
 
-<p>This will print <code>12.566371</code>.</p>
+<!-- This will print `12.566371`. -->
 
-<p>We’ve made a <code>struct</code> that represents a circle. We then write an <code>impl</code> block,
-and inside it, define a method, <code>area</code>.</p>
+<p>これは <code>12.566371</code> と出力します。</p>
 
-<p>Methods take a special first parameter, of which there are three variants:
-<code>self</code>, <code>&amp;self</code>, and <code>&amp;mut self</code>. You can think of this first parameter as
-being the <code>foo</code> in <code>foo.bar()</code>. The three variants correspond to the three
-kinds of things <code>foo</code> could be: <code>self</code> if it’s just a value on the stack,
-<code>&amp;self</code> if it’s a reference, and <code>&amp;mut self</code> if it’s a mutable reference.
-Because we took the <code>&amp;self</code> parameter to <code>area</code>, we can use it just like any
-other parameter. Because we know it’s a <code>Circle</code>, we can access the <code>radius</code>
-just like we would with any other <code>struct</code>.</p>
+<!-- We’ve made a `struct` that represents a circle. We then write an `impl` block,
+and inside it, define a method, `area`. -->
 
-<p>We should default to using <code>&amp;self</code>, as you should prefer borrowing over taking
+<p>私たちは円を表す <code>struct</code> を作りました。その際 <code>impl</code> ブロックを書き、その中に <code>area</code> というメソッドを定義しています。</p>
+
+<!-- Methods take a special first parameter, of which there are three variants:
+`self`, `&self`, and `&mut self`. You can think of this first parameter as
+being the `foo` in `foo.bar()`. The three variants correspond to the three
+kinds of things `foo` could be: `self` if it’s just a value on the stack,
+`&self` if it’s a reference, and `&mut self` if it’s a mutable reference.
+Because we took the `&self` parameter to `area`, we can use it just like any
+other parameter. Because we know it’s a `Circle`, we can access the `radius`
+just like we would with any other `struct`. -->
+
+<p>メソッドに渡す特別な第1引数として、 <code>self</code> 、 <code>&amp;self</code> 、 <code>&amp;mut self</code> という3つの変形があります。第一引数は <code>foo.bar()</code> に於ける <code>foo</code> だと考えて下さい。3つの変形は <code>foo</code> が成り得る3種類の状態に対応しており、それぞれ <code>self</code> がスタック上の値である場合、 <code>&amp;self</code> が参照である場合、 <code>&amp;mut self</code> がミュータブルな参照である場合となっています。 <code>area</code> では <code>&amp;self</code> を受け取っているため、他の引数と同じように扱えます。引数が <code>Circle</code> であるのは分かっていますから、他の <code>struct</code> でするように <code>radius</code> へアクセスできます。</p>
+
+<!-- We should default to using `&self`, as you should prefer borrowing over taking
 ownership, as well as taking immutable references over mutable ones. Here’s an
-example of all three variants:</p>
+example of all three variants: -->
+
+<p>所有権を渡すよりも借用を好んで使うべきなのは勿論のこと、ミュータブルな参照よりもイミュータブルな参照を渡すべきですから、 <code>&amp;self</code> を常用すべきです。以下が3種類全ての例です。</p>
 <span class='rusttest'>fn main() {
     struct Circle {
         x: f64,
@@ -298,8 +318,10 @@ example of all three variants:</p>
     }
 }</pre>
 
-<p>You can use as many <code>impl</code> blocks as you’d like. The previous example could
-have also been written like this:</p>
+<!--You can use as many `impl` blocks as you’d like. The previous example could
+have also been written like this: -->
+
+<p>好きな数だけ <code>impl</code> ブロックを使用することができます。前述の例は以下のように書くこともできるでしょう。</p>
 <span class='rusttest'>fn main() {
     struct Circle {
         x: f64,
@@ -349,10 +371,14 @@ have also been written like this:</p>
     }
 }</pre>
 
-<h1 id='chaining-method-calls' class='section-header'><a href='#chaining-method-calls'>Chaining method calls</a></h1>
-<p>So, now we know how to call a method, such as <code>foo.bar()</code>. But what about our
-original example, <code>foo.bar().baz()</code>? This is called ‘method chaining’. Let’s
-look at an example:</p>
+<!-- # Chaining method calls -->
+
+<h1 id='メソッドチェーン' class='section-header'><a href='#メソッドチェーン'>メソッドチェーン</a></h1>
+<!-- So, now we know how to call a method, such as `foo.bar()`. But what about our
+original example, `foo.bar().baz()`? This is called ‘method chaining’. Let’s
+look at an example: -->
+
+<p>ここまでで、<code>foo.bar()</code> というようなメソッドの呼び出し方が分かりましたね。ですが元の例の <code>foo.bar().baz()</code> はどうなっているのでしょう?これは「メソッドチェーン」と呼ばれています。以下の例を見て下さい。</p>
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,
@@ -401,7 +427,9 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>d</span>);
 }</pre>
 
-<p>Check the return type:</p>
+<!-- Check the return type: -->
+
+<p>以下の返す型を確認して下さい。</p>
 <span class='rusttest'>fn main() {
     struct Circle;
     impl Circle {
@@ -410,12 +438,18 @@ fn main() {
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>grow</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>increment</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>Circle</span> {</pre>
 
-<p>We just say we’re returning a <code>Circle</code>. With this method, we can grow a new
-<code>Circle</code> to any arbitrary size.</p>
+<!-- We just say we’re returning a `Circle`. With this method, we can grow a new
+`Circle` to any arbitrary size. -->
 
-<h1 id='associated-functions' class='section-header'><a href='#associated-functions'>Associated functions</a></h1>
-<p>You can also define associated functions that do not take a <code>self</code> parameter.
-Here’s a pattern that’s very common in Rust code:</p>
+<p>単に <code>Circle</code> を返しているだけです。このメソッドにより、私たちは新しい <code>Circle</code> を任意の大きさに拡大することができます。</p>
+
+<!-- # Associated functions -->
+
+<h1 id='関連関数' class='section-header'><a href='#関連関数'>関連関数</a></h1>
+<!-- You can also define associated functions that do not take a `self` parameter.
+Here’s a pattern that’s very common in Rust code: -->
+
+<p>あなたは <code>self</code> を引数に取らない関連関数を定義することもできます。以下のパターンはRustのコードにおいて非常にありふれた物です。</p>
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,
@@ -456,17 +490,23 @@ fn main() {
     <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='ident'>Circle</span>::<span class='ident'>new</span>(<span class='number'>0.0</span>, <span class='number'>0.0</span>, <span class='number'>2.0</span>);
 }</pre>
 
-<p>This ‘associated function’ builds a new <code>Circle</code> for us. Note that associated
-functions are called with the <code>Struct::function()</code> syntax, rather than the
-<code>ref.method()</code> syntax. Some other languages call associated functions ‘static
-methods’.</p>
+<!-- This ‘associated function’ builds a new `Circle` for us. Note that associated
+functions are called with the `Struct::function()` syntax, rather than the
+`ref.method()` syntax. Some other languages call associated functions ‘static
+methods’. -->
 
-<h1 id='builder-pattern' class='section-header'><a href='#builder-pattern'>Builder Pattern</a></h1>
-<p>Let’s say that we want our users to be able to create <code>Circle</code>s, but we will
-allow them to only set the properties they care about. Otherwise, the <code>x</code>
-and <code>y</code> attributes will be <code>0.0</code>, and the <code>radius</code> will be <code>1.0</code>. Rust doesn’t
+<p>この「関連関数」(associated function)は新たに <code>Circle</code> を構築します。この関数は <code>ref.method()</code> ではなく、 <code>Struct::function()</code> という構文で呼び出されることに注意して下さい。幾つかの言語では、関連関数を「静的メソッド」(static methods)と呼んでいます。</p>
+
+<!-- # Builder Pattern -->
+
+<h1 id='builderパターン' class='section-header'><a href='#builderパターン'>Builderパターン</a></h1>
+<!-- Let’s say that we want our users to be able to create `Circle`s, but we will
+allow them to only set the properties they care about. Otherwise, the `x`
+and `y` attributes will be `0.0`, and the `radius` will be `1.0`. Rust doesn’t
 have method overloading, named arguments, or variable arguments. We employ
-the builder pattern instead. It looks like this:</p>
+the builder pattern instead. It looks like this: -->
+
+<p>ユーザが <code>Circle</code> を作成できるようにしつつも、書き換えたいプロパティだけを設定すれば良いようにしたいとしましょう。もし指定が無ければ <code>x</code> と <code>y</code> が <code>0.0</code> 、 <code>radius</code> が <code>1.0</code> であるものとします。Rustはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がない代わりにBuilderパターンを採用しており、それは以下のようになります。</p>
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,
@@ -577,12 +617,14 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;y: {}&quot;</span>, <span class='ident'>c</span>.<span class='ident'>y</span>);
 }</pre>
 
-<p>What we’ve done here is make another <code>struct</code>, <code>CircleBuilder</code>. We’ve defined our
-builder methods on it. We’ve also defined our <code>area()</code> method on <code>Circle</code>. We
-also made one more method on <code>CircleBuilder</code>: <code>finalize()</code>. This method creates
-our final <code>Circle</code> from the builder. Now, we’ve used the type system to enforce
-our concerns: we can use the methods on <code>CircleBuilder</code> to constrain making
-<code>Circle</code>s in any way we choose.</p>
+<!-- What we’ve done here is make another `struct`, `CircleBuilder`. We’ve defined our
+builder methods on it. We’ve also defined our `area()` method on `Circle`. We
+also made one more method on `CircleBuilder`: `finalize()`. This method creates
+our final `Circle` from the builder. Now, we’ve used the type system to enforce
+our concerns: we can use the methods on `CircleBuilder` to constrain making
+`Circle`s in any way we choose. -->
+
+<p>ここではもう1つの <code>struct</code> である <code>CircleBuilder</code> を作成しています。その中にBuilderメソッドを定義しました。また <code>Circle</code> に <code>area()</code> メソッドを定義しました。 そして <code>CircleBuilder</code> にもう1つ <code>finalize()</code> というメソッドを作りました。このメソッドはBuilderから最終的な <code>Circle</code> を作成します。さて、先程の要求を実施するために型システムを使いました。 <code>CircleBuilder</code> のメソッドを好きなように組み合わせ、作る <code>Circle</code> への制約を与えることができます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
