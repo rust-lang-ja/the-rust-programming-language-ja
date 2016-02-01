@@ -149,7 +149,7 @@ hello.rs:4 }
 <!-- least. If your function has a non-trivial contract like this, that is -->
 <!-- detected/enforced by panics, documenting it is very important. -->
 Rustにおいて、関数の回復不可能な誤用（つまり、プログラミングエラー）は普通、パニックによって表現されます。パニックは、少なくとも現在のスレッド全体の息の根を止めてしまいます。
-もし関数にこのような、パニックによって検出されたり強制されたりするような些細とは言えない取決めがあるときには、ドキュメントを作成することは非常に重要です。
+もし関数にこのような、パニックによって検出されたり強制されたりするような自明でない取決めがあるときには、ドキュメントを作成することは非常に重要です。
 
 ```rust
 /// # Failures
@@ -170,7 +170,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 
 <!-- If your function is `unsafe`, you should explain which invariants the caller is -->
 <!-- responsible for upholding. -->
-もし関数が`unsafe`であれば、呼出元が動作を続けるためにはどのインバリアントについて責任を持つべきなのかを説明すべきです。
+もし関数が`unsafe`であれば、呼出元が動作を続けるためにはどの不変条件について責任を持つべきなのかを説明すべきです。
 
 ```rust
 /// # Examples
@@ -247,7 +247,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 <!-- `rustdoc` thinks it's Rust because you left off the annotation, `rustdoc` will -->
 <!-- complain when trying to generate the documentation. -->
 ここでは正しい注釈を選ぶことが重要です。なぜなら、`rustdoc`はそれを興味深い方法で使うからです。それらが実際のコードと不整合を起こさないように、ライブラリクレート内で実際にあなたの例をテストするために使うのです。
-もし例の中にCのコードが含まれているのに、あなたが注釈を付けるのを忘れてしまい、`rustdoc`がそれをRustのコードだと考えてしまえば、`rustdoc`はドキュメントを生成しようとするときに文句を言うでしょう。
+もし例の中にCのコードが含まれているのに、あなたが注釈を付けるのを忘れてしまい、`rustdoc`がそれをRustのコードだと考えてしまえば、`rustdoc`はドキュメントを生成しようとするときに怒るでしょう。
 
 <!-- ## Documentation as tests -->
 ## テストとしてのドキュメント
@@ -301,7 +301,7 @@ fn main() {
 <!-- 4. Finally, if the example does not contain `fn main`, the remainder of the -->
 <!--    text is wrapped in `fn main() { your_code }`. -->
 1. 前の方にある全ての`#![foo]`アトリビュートは、そのままクレートのアトリビュートとして置いておく
-2. `unused_variables`、`unused_assignments`、`unused_mut`、`unused_attributes`、`dead_code`を含むいくつかの一般的な`allow`アトリビュートを追加する。
+2. `unused_variables`、`unused_assignments`、`unused_mut`、`unused_attributes`、`dead_code`などのいくつかの一般的な`allow`アトリビュートを追加する。
    小さな例はしばしばこれらのリントに引っ掛かる
 3. もしその例が`extern crate`を含んでいなければ、`extern crate <mycrate>;`を挿入する（`#[macro_use]`がないことに注意する）
 4. 最後に、もし例が`fn main`を含んでいなければ、テキストの残りの部分を`fn main() { your_code }`で囲む
@@ -352,7 +352,7 @@ fn main() {
 長い例を詳細に説明する一方、テスト可能性を維持するためにこのテクニックを使うことができます。
 
 <!-- For example, imagine that we wanted to document this code: -->
-例えば、このコードをドキュメントをドキュメントに書きたいとします。
+例えば、このコードをドキュメントに書きたいとします。
 
 ```rust
 let x = 5;
@@ -495,6 +495,9 @@ macro_rules! panic_unless {
 <!-- You can get around this by wrapping the code in a function. This catches -->
 <!-- and swallows the `Result<T, E>` when running tests on the docs. This -->
 <!-- pattern appears regularly in the standard library. -->
+これは関数内のコードをラッピングすることで回避できます。
+これはドキュメント上のテストが実行されるときに`Result<T, E>`を捕まえて飲み込みます。
+このパターンは標準ライブラリ内でよく現れます。
 
 <!-- ### Running documentation tests -->
 ### ドキュメンテーションテストの実行
@@ -582,7 +585,7 @@ mod foo {
 <!-- This is where you'll see `//!` used most often: for module documentation. If -->
 <!-- you have a module in `foo.rs`, you'll often open its code and see this: -->
 `//!`を頻繁に見る場所がここ、モジュールドキュメントです。
-もし`foo.rs`内にモジュールを持っていれば、しばしばそのコードを開いてこれを見るでしょう。
+もし`foo.rs`内にモジュールを持っていれば、しばしばそのコードを開くとこれを見るでしょう。
 
 ```rust
 //! A module for using `foo`s.
