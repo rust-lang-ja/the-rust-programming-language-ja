@@ -14,6 +14,7 @@
 | allocator             | アロケータ
 | application           | アプリケーション
 | arity                 | アリティ
+| array                 | 配列
 | associated -          | 関連-
 | attribute             | アトリビュート
 | binary                | バイナリ
@@ -28,19 +29,26 @@
 | declaration statement | 宣言文
 | dereferencing         | 参照外し
 | destructuring         | 分配
+| directive             | ディレクティブ
+| distribution          | 配布物
 | diverge               | ダイバージ
 | diverging             | ダイバージング
+| documentation comment | ドキュメンテーションコメント
+| documentation test    | ドキュメンテーションテスト
 | early return          | 早期リターン
 | enum                  | 列挙型
 | expression statement  | 式文
 | feature               | フィーチャ
 | generics              | ジェネリクス
+| identifier            | 識別子
 | immutable             | イミュータブル
 | Intrinsics            | Intrinsic
 | Lang Items            | Lang Item
 | library               | ライブラリ
 | lifetime              | ライフタイム
 | link                  | リンク
+| lint                  | リント
+| match                 | マッチ
 | memory                | メモリ
 | move                  | ムーブ
 | mutable               | ミュータブル
@@ -54,8 +62,10 @@
 | struct                | 構造体
 | structure             | ストラクチャ
 | symbol                | シンボル
+| syntactic sugar       | 糖衣構文
 | system                | システム
 | tick                  | クオート
 | trait                 | トレイト
 | unsized type          | サイズ不定型
-| vector                | vector
+| vector                | ベクタ
+| wildcard              | ワイルドカード

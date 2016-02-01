@@ -57,7 +57,7 @@ to accomplish various tasks. But first, a few notes about limitations of ranges.
 following Rust anti-pattern: using ranges to emulate a C-style `for` loop. Let’s
 suppose you needed to iterate over the contents of a vector. You may be tempted
 to write this: -->
-レンジはとても素朴な機能ですから、度々別のより良い手段を用いることもあります。ここであるRustのアンチパターンについて考えてみましょう。それはレンジをC言語ライクな `for` ループの再現に用いることです。例えばvectorの中身をイテレートする必要があったとしましょう。あなたはこう書きたくなるかもしれません。
+レンジはとても素朴な機能ですから、度々別のより良い手段を用いることもあります。ここであるRustのアンチパターンについて考えてみましょう。それはレンジをC言語ライクな `for` ループの再現に用いることです。例えばベクタの中身をイテレートする必要があったとしましょう。あなたはこう書きたくなるかもしれません。
 
 ```rust
 let nums = vec![1, 2, 3];
@@ -69,7 +69,7 @@ for i in 0..nums.len() {
 
 <!-- This is strictly worse than using an actual iterator. You can iterate over vectors
 directly, so write this: -->
-これは実際のイテレータの使い方からすれば全く正しくありません。あなたはvectorを直接反復処理できるのですから、こう書くべきです。
+これは実際のイテレータの使い方からすれば全く正しくありません。あなたはベクタを直接反復処理できるのですから、こう書くべきです。
 
 ```rust
 let nums = vec![1, 2, 3];
@@ -87,7 +87,7 @@ the first version will have extra bounds checking because it used indexing,
 with the iterator, there's no bounds checking in the second example. This is
 very common with iterators: we can ignore unnecessary bounds checks, but still
 know that we're safe. -->
-これには2つの理由があります。第一に、この方が書き手の意図をはっきり表せています。私たちはvectorのインデックスを作成してからその要素を繰り返し参照したいのではなく、vector自体を反復処理したいのです。第二に、このバージョンのほうがより効率的です。1つ目の例では `num[i]` というようにインデックスを介し参照しているため、余計な境界チェックが発生します。しかし、イテレータが順番にvectorの各要素への参照を生成していくため、2つ目の例では境界チェックが発生しません。これはイテレータにとってごく一般的な性質です。不要な境界チェックを省くことができ、それでもなお安全なままなのです。
+これには2つの理由があります。第一に、この方が書き手の意図をはっきり表せています。私たちはベクタのインデックスを作成してからその要素を繰り返し参照したいのではなく、ベクタ自体を反復処理したいのです。第二に、このバージョンのほうがより効率的です。1つ目の例では `num[i]` というようにインデックスを介し参照しているため、余計な境界チェックが発生します。しかし、イテレータが順番にベクタの各要素への参照を生成していくため、2つ目の例では境界チェックが発生しません。これはイテレータにとってごく一般的な性質です。不要な境界チェックを省くことができ、それでもなお安全なままなのです。
 
 <!-- There's another detail here that's not 100% clear because of how `println!`
 works. `num` is actually of type `&i32`. That is, it's a reference to an `i32`,
@@ -157,7 +157,7 @@ let one_to_one_hundred = (1..101).collect::<Vec<i32>>();
 and so we tell it that we want a vector of integers. You don't always
 need to use the whole type, though. Using a `_` will let you provide
 a partial hint: -->
-もしあなたが覚えているなら、 `::<>` 構文で型ヒント(type hint)を与え、整数型のvectorが欲しいと伝えることができます。しかし、常に型をまるごとを書く必要はありません。 `_` を用いることで部分的に推論してくれます。
+もしあなたが覚えているなら、 `::<>` 構文で型ヒント(type hint)を与え、整数型のベクタが欲しいと伝えることができます。かといって常に型をまるごとを書く必要はありません。 `_` を用いることで部分的に推論してくれます。
 
 ```rust
 let one_to_one_hundred = (1..101).collect::<Vec<_>>();
@@ -165,7 +165,7 @@ let one_to_one_hundred = (1..101).collect::<Vec<_>>();
 
 <!-- This says "Collect into a `Vec<T>`, please, but infer what the `T` is for me."
 `_` is sometimes called a "type placeholder" for this reason. -->
-これは「値を `Vec<T>` の中に集めて下さい、しかし `T` を私のために推論して下さい」という意味です。このため `_` は「型プレースホルダ」(type placeholder)と呼ばれることもあります。
+これは「値を `Vec<T>` の中に集めて下さい、しかし `T` は私のために推論して下さい」という意味です。このため `_` は「型プレースホルダ」(type placeholder)と呼ばれることもあります。
 
 <!-- `collect()` is the most common consumer, but there are others too. `find()`
 is one: -->
@@ -230,12 +230,12 @@ the second element of the array, `2`. `1 + 2 = 3`, and so that becomes
 the value of the accumulator for the last iteration. On that iteration,
 `x` is the last element, `3`, and `3 + 3 = 6`, which is our final
 result for our sum. `1 + 2 + 3 = 6`, and that's the result we got. -->
-というわけで、 `0` がbaseで、 `sum` がaccumulatorで、xがelementです。1度目の反復では、私たちはsumに0をセットし、 `nums` の1つ目の要素 `1` が `x` になります。その後 `sum` と `x` を足し、 `0 + 1 = 1` を計算します。2度目の反復では前回の `sum` がaccumulatorになり、elementは値の列の2番目の要素 `2` になります。 `1 + 2 = 3` の結果は最後の反復処理におけるaccumulatorの値になります。最後の反復処理において、 `x` は最後の要素 `3` であり、 `3 + 3 = 6` が最終的な結果となります。 `1 + 2 + 3 = 6` が、得られる結果となります。
+というわけで、 `0` がbaseで、 `sum` がaccumulatorで、xがelementです。1度目の反復では、私たちはsumに0をセットし、 `nums` の1つ目の要素 `1` が `x` になります。その後 `sum` と `x` を足し、 `0 + 1 = 1` を計算します。2度目の反復では前回の `sum` がaccumulatorになり、elementは値の列の2番目の要素 `2` になります。 `1 + 2 = 3` の結果は最後の反復処理におけるaccumulatorの値になります。最後の反復処理において、 `x` は最後の要素 `3` であり、 `3 + 3 = 6` が最終的な結果となります。 `1 + 2 + 3 = 6` 、これが得られる結果となります。
 
 <!-- Whew. `fold` can be a bit strange the first few times you see it, but once it
 clicks, you can use it all over the place. Any time you have a list of things,
 and you want a single result, `fold` is appropriate. -->
-ふぅ、ようやく説明し終わりました。 `fold` は初めのうちこそ少し奇妙に見えるかもしれませんが、一度理解すればあらゆる場面で使えるでしょう。何かのリストを持っていて、そこから1つの結果を求めたいときならいつでも、 `fold` は適切な処理です。
+ふぅ、ようやく説明し終わりました。 `fold` は初めのうちこそ少し奇妙に見えるかもしれませんが、一度理解すればあらゆる場面で使えるでしょう。何らかのリストを持っていて、そこから1つの結果を求めたい時ならいつでも、 `fold` は適切な処理です。
 
 <!-- Consumers are important due to one additional property of iterators we haven't
 talked about yet: laziness. Let's talk some more about iterators, and you'll
@@ -267,12 +267,12 @@ let nums = (1..100).collect::<Vec<i32>>();
 
 <!-- Now, `collect()` will require that the range gives it some numbers, and so
 it will do the work of generating the sequence. -->
-今、 `collect()` は幾つかの数値を渡してくれるレンジを要求し、シーケンスを生成する作業を行います。
+`collect()` は幾つかの数値を渡してくれるレンジを要求し、シーケンスを生成する作業を行います。
 
 <!-- Ranges are one of two basic iterators that you'll see. The other is `iter()`.
 `iter()` can turn a vector into a simple iterator that gives you each element
 in turn: -->
-レンジは基本的な2つのイテレータのうちの1つです。もう片方は `iter()` です。 `iter()` はvectorを順番に各要素を渡してくれる単純なイテレータに変換できます。
+レンジは基本的な2つのイテレータのうちの1つです。もう片方は `iter()` です。 `iter()` はベクタを順に各要素を渡すシンプルなイテレータへ変換できます。
 
 ```rust
 let nums = vec![1, 2, 3];
@@ -385,7 +385,7 @@ a few times, and then consume the result. Check it out: -->
 ```
 
 <!-- This will give you a vector containing `6`, `12`, `18`, `24`, and `30`. -->
-これは `6, 12, 18, 24,` 、そして `30` が入ったvectorがあなたに返されます。
+これは `6, 12, 18, 24,` 、そして `30` が入ったベクタがあなたに渡されます。
 
 <!-- This is just a small taste of what iterators, iterator adaptors, and consumers
 can help you with. There are a number of really useful iterators, and you can

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Attributes</title>
+    <title>アトリビュート</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,15 +185,21 @@
 <div id='page'>
 
 
-    <h1 class="title">Attributes</h1>
-    <p>Declarations can be annotated with ‘attributes’ in Rust. They look like this:</p>
+    <h1 class="title">アトリビュート</h1>
+    <!-- % Attributes -->
+
+<!-- Declarations can be annotated with ‘attributes’ in Rust. They look like this: -->
+
+<p>Rustでは以下のように「アトリビュート」によって宣言を修飾することができます。</p>
 <span class='rusttest'>fn main() {
     #[test]
     fn foo() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>test</span>]</span></pre>
 
-<p>or like this:</p>
+<!-- or like this: -->
+
+<p>または以下のように:</p>
 <span class='rusttest'>fn main() {
     mod foo {
     #![test]
@@ -201,8 +207,11 @@
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>test</span>]</span></pre>
 
-<p>The difference between the two is the <code>!</code>, which changes what the attribute
-applies to:</p>
+<!-- The difference between the two is the `!`, which changes what the attribute  -->
+
+<!-- applies to: -->
+
+<p>２つの違いは <code>!</code> に有ります、 <code>!</code> はアトリビュートが適用されるものを変更します:</p>
 <span class='rusttest'>fn main() {
     #[foo]
     struct Foo;
@@ -218,12 +227,21 @@ applies to:</p>
     <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>bar</span>]</span>
 }</pre>
 
-<p>The <code>#[foo]</code> attribute applies to the next item, which is the <code>struct</code>
-declaration. The <code>#![bar]</code> attribute applies to the item enclosing it, which is
-the <code>mod</code> declaration. Otherwise, they’re the same. Both change the meaning of
-the item they’re attached to somehow.</p>
+<!-- The `#[foo]` attribute applies to the next item, which is the `struct` -->
 
-<p>For example, consider a function like this:</p>
+<!-- declaration. The `#![bar]` attribute applies to the item enclosing it, which is -->
+
+<!-- the `mod` declaration. Otherwise, they’re the same. Both change the meaning of -->
+
+<!-- the item they’re attached to somehow. -->
+
+<p><code>#[foo]</code> アトリビュートは次のアイテムに適用され、この場合は <code>struct</code> 宣言に適用されます。
+<code>#![bar]</code> アトリビュートは <code>#![bar]</code> アトリビュートを囲んでいるアイテムに適用され、この場合は <code>mod</code> 宣言に適用されます。
+その他の点については同じであり、どちらも適用されたアイテムの意味を変化させます。</p>
+
+<!-- For example, consider a function like this: -->
+
+<p>例を挙げると、たとえば以下の様な関数では:</p>
 <span class='rusttest'>fn main() {
     #[test]
     fn check() {
@@ -235,11 +253,18 @@ the item they’re attached to somehow.</p>
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>2</span>, <span class='number'>1</span> <span class='op'>+</span> <span class='number'>1</span>);
 }</pre>
 
-<p>It is marked with <code>#[test]</code>. This means it’s special: when you run
-<a href="testing.html">tests</a>, this function will execute. When you compile as usual, it won’t
-even be included. This function is now a test function.</p>
+<!-- It is marked with `#[test]`. This means it’s special: when you run -->
 
-<p>Attributes may also have additional data:</p>
+<!-- [tests][tests], this function will execute. When you compile as usual, it won’t -->
+
+<!-- even be included. This function is now a test function. -->
+
+<p>この関数は <code>#[test]</code> によってマークされており、これは [テスト][tests] を走らせた時に実行されるという特別な意味になります。
+通常通りにコンパイルをした場合は、コンパイル結果に含まれません。この関数は今やテスト関数なのです。</p>
+
+<!-- Attributes may also have additional data: -->
+
+<p>アトリビュートは以下のように、追加のデータを持つことができます:</p>
 <span class='rusttest'>fn main() {
     #[inline(always)]
     fn super_fast_fn() {
@@ -248,7 +273,9 @@ even be included. This function is now a test function.</p>
 <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
 <span class='kw'>fn</span> <span class='ident'>super_fast_fn</span>() {</pre>
 
-<p>Or even keys and values:</p>
+<!-- Or even keys and values: -->
+
+<p>また、キーと値についても持つことができます:</p>
 <span class='rusttest'>fn main() {
     #[cfg(target_os = &quot;macos&quot;)]
     mod macos_only {
@@ -257,9 +284,15 @@ even be included. This function is now a test function.</p>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>macos_only</span> {</pre>
 
-<p>Rust attributes are used for a number of different things. There is a full list
-of attributes <a href="../reference.html#attributes">in the reference</a>. Currently, you are not allowed to
-create your own attributes, the Rust compiler defines them.</p>
+<!-- Rust attributes are used for a number of different things. There is a full list -->
+
+<!-- of attributes [in the reference][reference]. Currently, you are not allowed to -->
+
+<!-- create your own attributes, the Rust compiler defines them. -->
+
+<p>Rustのアトリビュートは様々なことに利用されます。
+すべてのアトリビュートのリストは [リファレンス][reference] に載っています。
+現在は、Rustコンパイラーによって定義されている以外の独自のアトリビュートを作成することは許可されていません。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
