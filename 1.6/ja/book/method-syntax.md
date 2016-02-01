@@ -1,4 +1,4 @@
-% メソッドシンタックス
+% メソッド構文
 <!-- % Method Syntax -->
 
 <!-- Functions are great, but if you want to call a bunch of them on some data, it
