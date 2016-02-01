@@ -29,8 +29,12 @@
 | declaration statement | 宣言文
 | dereferencing         | 参照外し
 | destructuring         | 分配
+| directive             | ディレクティブ
+| distribution          | 配布物
 | diverge               | ダイバージ
 | diverging             | ダイバージング
+| documentation comment | ドキュメンテーションコメント
+| documentation test    | ドキュメンテーションテスト
 | early return          | 早期リターン
 | enum                  | 列挙型
 | expression statement  | 式文
@@ -43,6 +47,7 @@
 | library               | ライブラリ
 | lifetime              | ライフタイム
 | link                  | リンク
+| lint                  | リント
 | match                 | マッチ
 | memory                | メモリ
 | move                  | ムーブ
@@ -57,6 +62,7 @@
 | struct                | 構造体
 | structure             | ストラクチャ
 | symbol                | シンボル
+| syntactic sugar       | 糖衣構文
 | system                | システム
 | tick                  | クオート
 | trait                 | トレイト
