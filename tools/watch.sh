@@ -28,8 +28,8 @@ main() {
         -h|--help) usage; exit 0;;
     esac
 
-    if command -v inotifywait > /dev/null 2>&1 ||
-           command -v fswatch > /dev/null 2>&1
+    if ! command -v inotifywait > /dev/null 2>&1 &&
+          ! command -v fswatch > /dev/null 2>&1
     then
         echo "You need to install 'inotifywait'(in inotify-tools) on Linux or 'fswatch' on OS X" >&2
         exit 1
@@ -48,7 +48,7 @@ build() {
     make -C "${ROOT}" RUSTBOOK=${RUSTBOOK}
 }
 
-watch_linux(){    
+watch_linux(){
     while  inotifywait -r -e modify "$1"; do
         build
     done

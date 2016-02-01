@@ -37,8 +37,8 @@ main() {
     RUBY=ruby
     DIR=$(cd "$(dirname "$0")"; pwd)
     ROOT="${DIR}/../"
-
-    trap "trap - SIGTERM && kill -- -$$" SIGINT SIGTERM EXIT
+    set -e
+    trap "trap - TERM && pkill -P $$" INT TERM EXIT
 
     "$RUBY" -run -e httpd -- "${ROOT}/public" --port 8080 &
     "$DIR/watch.sh" "$@"
