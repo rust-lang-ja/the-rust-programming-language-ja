@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>`type` Aliases</title>
+    <title>`type` エイリアス</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,14 +185,20 @@
 <div id='page'>
 
 
-    <h1 class="title">`type` Aliases</h1>
-    <p>The <code>type</code> keyword lets you declare an alias of another type:</p>
+    <h1 class="title">`type` エイリアス</h1>
+    <!-- % `type` Aliases -->
+
+<!-- The `type` keyword lets you declare an alias of another type: -->
+
+<p><code>type</code> キーワードを用いることで他の型へのエイリアスを宣言することができます:</p>
 <span class='rusttest'>fn main() {
     type Name = String;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>type</span> <span class='ident'>Name</span> <span class='op'>=</span> <span class='ident'>String</span>;</pre>
 
-<p>You can then use this type as if it were a real type:</p>
+<!-- You can then use this type as if it were a real type: -->
+
+<p>このようにすると 定義した型を実際の型であるかのように利用することができます:</p>
 <span class='rusttest'>fn main() {
     type Name = String;
     
@@ -202,9 +208,15 @@
 
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>Name</span> <span class='op'>=</span> <span class='string'>&quot;Hello&quot;</span>.<span class='ident'>to_string</span>();</pre>
 
-<p>Note, however, that this is an <em>alias</em>, not a new type entirely. In other
-words, because Rust is strongly typed, you’d expect a comparison between two
-different types to fail:</p>
+<!-- Note, however, that this is an _alias_, not a new type entirely. In other -->
+
+<!-- words, because Rust is strongly typed, you’d expect a comparison between two -->
+
+<!-- different types to fail: -->
+
+<p>しかしながら、これはあくまで <em>エイリアス</em> であって、新しい型ではありません。
+言い換えると、Rustは強い型付け言語であるため、異なる型同士の比較が失敗することを期待するでしょう。
+例えば:</p>
 <span class='rusttest'>fn main() {
     let x: i32 = 5;
     let y: i64 = 5;
@@ -220,7 +232,9 @@ different types to fail:</p>
    <span class='comment'>// ...</span>
 }</pre>
 
-<p>this gives</p>
+<!-- this gives -->
+
+<p>このようなコードは以下のエラーを発生させます:</p>
 
 <pre><code class="language-text">error: mismatched types:
  expected `i32`,
@@ -231,7 +245,9 @@ different types to fail:</p>
              ^
 </code></pre>
 
-<p>But, if we had an alias:</p>
+<!-- But, if we had an alias: -->
+
+<p>一方で、エイリアス用いた場合は:</p>
 <span class='rusttest'>fn main() {
     type Num = i32;
     
@@ -251,10 +267,16 @@ different types to fail:</p>
    <span class='comment'>// ...</span>
 }</pre>
 
-<p>This compiles without error. Values of a <code>Num</code> type are the same as a value of
-type <code>i32</code>, in every way. You can use <a href="structs.html#tuple-structs">tuple struct</a> to really get a new type.</p>
+<!-- This compiles without error. Values of a `Num` type are the same as a value of -->
 
-<p>You can also use type aliases with generics:</p>
+<!-- type `i32`, in every way. You can use [tuple struct] to really get a new type. -->
+
+<p>このコードはエラーを起こすこと無くコンパイルを通ります。 <code>Num</code> 型の値は <code>i32</code> 型の値とすべての面において等価です。
+本当に新しい型がほしい時は <a href="structs.html#tuple-structs">タプル構造体</a> を使うことができます。</p>
+
+<!-- You can also use type aliases with generics: -->
+
+<p>また、エイリアスをジェネリクスと共に利用する事もできます:</p>
 <span class='rusttest'>fn main() {
     use std::result;
     
@@ -274,10 +296,17 @@ type <code>i32</code>, in every way. You can use <a href="structs.html#tuple-str
 
 <span class='kw'>type</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>result</span>::<span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>ConcreteError</span><span class='op'>&gt;</span>;</pre>
 
-<p>This creates a specialized version of the <code>Result</code> type, which always has a
-<code>ConcreteError</code> for the <code>E</code> part of <code>Result&lt;T, E&gt;</code>. This is commonly used
-in the standard library to create custom errors for each subsection. For
-example, <a href="../std/io/type.Result.html">io::Result</a>.</p>
+<!-- This creates a specialized version of the `Result` type, which always has a -->
+
+<!-- `ConcreteError` for the `E` part of `Result<T, E>`. This is commonly used -->
+
+<!-- in the standard library to create custom errors for each subsection. For -->
+
+<!-- example, [io::Result][ioresult]. -->
+
+<p>このようにすると <code>Result</code> 型の <code>Result&lt;T, E&gt;</code> の <code>E</code> として常に <code>ConcreteError</code> を持っている特殊化されたバージョンが定義されます。
+このような方法は標準ライブラリで細かく分類されたエラーを定義するために頻繁に使われています。
+一例を上げると <a href="../std/io/type.Result.html">io::Result</a> がそれに当たります。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
