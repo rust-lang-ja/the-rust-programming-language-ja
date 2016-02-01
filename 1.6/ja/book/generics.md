@@ -23,7 +23,7 @@ enum Option<T> {
 a generic data type. Inside the declaration of our `enum`, wherever we see a `T`,
 we substitute that type for the same type used in the generic. Here’s an
 example of using `Option<T>`, with some extra type annotations: -->
-`<T>` の部分は、前に少し見たことがあると思いますが、これがジェネリックなデータ型であることを示しています。 `enum` の宣言内であれば、どこでも `T` を使うことができ、宣言内で記述していた共通の型をジェネリック内でこの型に置き換えます。型注釈を用いた`Option<T>`の使用例が以下になります。
+`<T>` の部分は、前に少し見たことがあると思いますが、これがジェネリックなデータ型であることを示しています。 `enum` の宣言内であれば、どこでも `T` を使うことができ、宣言内に登場する同じ型をジェネリック内で `T` 型に置き換えています。型注釈を用いた`Option<T>`の使用例が以下になります。
 
 ```rust
 let x: Option<i32> = Some(5);
@@ -34,7 +34,7 @@ let x: Option<i32> = Some(5);
 the right-hand side of the binding, we make a `Some(T)`, where `T` is `5`.
 Since that’s an `i32`, the two sides match, and Rust is happy. If they didn’t
 match, we’d get an error: -->
-この型宣言では `Option<i32>` と書かれています。 `Option<T>` に似ていることに注目して下さい。そう、上記の `Option` では `T` の値は `i32` です。この束縛の右辺の `Some(T)` では、 `T` は `5` となります。それが `i32` なので、両辺の型が一致するため、Rustは満足します。型が不一致であれば、以下のようなエラーが発生します。
+この型宣言では `Option<i32>` と書かれています。 `Option<T>` の違いに注目して下さい。そう、上記の `Option` では `T` の値は `i32` です。この束縛の右辺の `Some(T)` では、 `T` は `5` となります。それが `i32` なので、両辺の型が一致するため、Rustは満足します。型が不一致であれば、以下のようなエラーが発生します。
 
 ```rust,ignore
 let x: Option<f64> = Some(5);
