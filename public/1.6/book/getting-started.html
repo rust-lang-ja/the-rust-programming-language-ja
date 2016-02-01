@@ -61,7 +61,7 @@
 </li>
 <li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
 </li>
-<li><a  href='lifetimes.html'><b>4.9.</b> 生存期</a>
+<li><a  href='lifetimes.html'><b>4.9.</b> ライフタイム</a>
 </li>
 <li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
 </li>
@@ -105,7 +105,7 @@
 </li>
 <li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
 </li>
-<li><a  href='unsized-types.html'><b>4.31.</b> サイズ無し型</a>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
 </li>
 <li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
 </li>
@@ -155,7 +155,7 @@
 </li>
 <li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
 </li>
-<li><a  href='intrinsics.html'><b>6.4.</b> イントリンシック</a>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
 </li>
 <li><a  href='lang-items.html'><b>6.5.</b> Lang Items</a>
 </li>
@@ -347,7 +347,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 
 <!-- these platforms are required to have each of the following: -->
 
-<p>段階2のプラットフォームは「ビルドを保証する」ものと思えます。
+<p>2級のプラットフォームは「ビルドを保証する」ものと思えます。
 自動テストは走っておらず、ビルド出来たとしてもちゃんと動く保証はありませんが大抵ほぼ動きますしパッチはいつでも歓迎しています!
 特に、以下が要請されています。</p>
 
@@ -648,7 +648,7 @@ You may uninstall later by running /usr/local/lib/rustlib/uninstall.sh,
 or by running this script again with the --uninstall flag.
 
 /usr/local/lib/rustlib/uninstall.shを実行するかこのスクリプトに--uninstallフラグを
-付けて実行することで後程アインストール出来ます。
+付けて実行することで後程アンインストール出来ます。
 
 続けますか? (y/N) 
 </code></pre>
@@ -672,7 +672,7 @@ or by running this script again with the --uninstall flag.
 
 <!-- the uninstall script: -->
 
-<p>Rustのアンイストールはインストールと同じくらい簡単です。
+<p>Rustのアンインストールはインストールと同じくらい簡単です。
 LinuxかMacならアンインストールスクリプトを使うだけです。</p>
 
 <pre><code class="language-bash">$ sudo /usr/local/lib/rustlib/uninstall.sh
@@ -710,9 +710,9 @@ LinuxかMacならアンインストールスクリプトを使うだけです。
 
 <!-- the local hard drive. -->
 
-<p>Windowsを使っていて、表示されないなら%PATHI%システム変数にRustが入っているか確認して下さい。
+<p>Windowsを使っていて、表示されないなら%PATH%システム変数にRustが入っているか確認して下さい。
 入っていなければもう一度インストーラを実行し、「Change,
-repair, or remove installation」ページのの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。</p>
+repair, or remove installation」ページの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。</p>
 
 <!-- If not, there are a number of places where we can get help. The easiest is -->
 
@@ -914,9 +914,9 @@ Hello, world!
 
 <!-- space in between. -->
 
-<p>さらに、関数の本体部がくるくる括弧(<code>{</code>と<code>}</code>)で括られていることに留意して下さい。
-Rustは全ての関数の本体部にくるくる括弧を要請します。
-関数宣言と同じ行に1スペース空けて開きくるくる括弧を置くのが良いスタイルとされます。</p>
+<p>さらに、関数の本体部が波括弧(<code>{</code>と<code>}</code>)で括られていることに留意して下さい。
+Rustは全ての関数の本体部に波括弧を要請します。
+関数宣言と同じ行に1スペース空けて開き波括弧を置くのが良いスタイルとされます。</p>
 
 <!-- Inside the `main()` function: -->
 
@@ -1110,7 +1110,7 @@ Cargoは3つのものを管理します、則ち、コードのビルド、コ�
 
 <!-- other means, you can check if you have Cargo installed by typing: -->
 
-<p>ほとんどもほとんどのRustのプロジェクトがCargoを使うのでこれ以後はCargoを使うものと仮定します。
+<p>ほとんどのRustのプロジェクトがCargoを使うのでこれ以後はCargoを使うものと仮定します。
 公式のインストーラを使ったならCargoはRustに同梱されています。
 他の手段でRustをインストールしたなら、以下のコマンドでCargoがインストールされているか確認出来ます。</p>
 
@@ -1128,7 +1128,7 @@ Rustをインストールしたシステムのドキュメントを見て、Carg
 
 <!-- ## Converting to Cargo -->
 
-<h2 id='corgoへ変換する' class='section-header'><a href='#corgoへ変換する'>Corgoへ変換する</a></h2>
+<h2 id='cargoへ変換する' class='section-header'><a href='#cargoへ変換する'>Cargoへ変換する</a></h2>
 <!-- Let’s convert the Hello World program to Cargo. To Cargo-fy a project, you need -->
 
 <!-- to do three things:  -->
@@ -1226,7 +1226,7 @@ READMEやライセンス情報、他のコードに関係ないものはプロ�
 <!-- configuration format. -->
 
 <p>このファイルは <em><a href="https://github.com/toml-lang/toml">TOML</a></em> (Tom&#39;s Obvious, Minimal Language ([訳注] Tomの理解しやすい、極小な言語) ) フォーマットで書かれます。
-TOMLはINIに似ていますがいくつかの素晴しい機能が追加されていて、Cargoの設定フォーマットとして使わています。</p>
+TOMLはINIに似ていますがいくつかの素晴しい機能が追加されていて、Cargoの設定フォーマットとして使われています。</p>
 
 <!-- Inside this file, type the following information: -->
 

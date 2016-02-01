@@ -4,30 +4,71 @@
   + 気持としては「無理矢理和訳」を避けたい。そのための基準。
   + カタカナ語の方が用語として認識しやすい
 * カタカナ語の末尾の長音記号「ー」は省く(JIS規格)
-* 構文キーワードなどはそののままアルファベットを使う
+* 構文キーワードなどはそのままアルファベットを使う
 
 # 対訳表
 
-| English      | 日本語
-|:-------------|:------
-| associated - | 関連-
-| attribute    | アトリビュート
-| binding      | 束縛
-| borrowing    | 借用
-| coercion     | 型強制
-| crate        | クレート
-|  enum        | 列挙型
-| `enum`       | `enum`
-| Intrinsics   | Intrinsic
-| Lang Items   | Lang Item
-| lifetime     | ライフタイム
-| move         | ムーブ
-| `mut`        | `mut`
-| mutable      | ミュータブル
-| mutability   | ミュータビリティ
-| ownership    | 所有権
-| struct       | 構造体
-| `struct`     | `struct`
-| structure    | ストラクチャ
-| trait        | トレイト
-| unsized type | サイズ不定型
+| English               | 日本語
+|:----------------------|:------
+| alignment             | アラインメント
+| allocator             | アロケータ
+| application           | アプリケーション
+| arity                 | アリティ
+| array                 | 配列
+| associated -          | 関連-
+| attribute             | アトリビュート
+| binary                | バイナリ
+| binding               | 束縛
+| block                 | ブロック
+| borrowing             | 借用
+| capture               | キャプチャ
+| closure               | クロージャ
+| coercion              | 型強制
+| compiler              | コンパイラ
+| constant              | 定数
+| crate                 | クレート
+| declaration statement | 宣言文
+| dereferencing         | 参照外し
+| destructuring         | 分配
+| directive             | ディレクティブ
+| distribution          | 配布物
+| diverge               | ダイバージ
+| diverging             | ダイバージング
+| documentation comment | ドキュメンテーションコメント
+| documentation test    | ドキュメンテーションテスト
+| early return          | 早期リターン
+| enum                  | 列挙型
+| expression statement  | 式文
+| feature               | フィーチャ
+| generics              | ジェネリクス
+| identifier            | 識別子
+| immutable             | イミュータブル
+| Intrinsics            | Intrinsic
+| Lang Items            | Lang Item
+| library               | ライブラリ
+| lifetime              | ライフタイム
+| link                  | リンク
+| lint                  | リント
+| match                 | マッチ
+| memory                | メモリ
+| move                  | ムーブ
+| mutable               | ミュータブル
+| mutability            | ミュータビリティ
+| owner                 | 所有者
+| ownership             | 所有権
+| panic                 | パニック
+| return                | 返す
+| shadow                | 覆い隠す
+| signature             | シグネチャ
+| slice                 | スライス
+| slicing               | スライシング
+| struct                | 構造体
+| structure             | ストラクチャ
+| symbol                | シンボル
+| syntactic sugar       | 糖衣構文
+| system                | システム
+| tick                  | クオート
+| trait                 | トレイト
+| unsized type          | サイズ不定型
+| vector                | ベクタ
+| wildcard              | ワイルドカード
