@@ -186,11 +186,22 @@
 
 
     <h1 class="title">if let</h1>
-    <p><code>if let</code> allows you to combine <code>if</code> and <code>let</code> together to reduce the overhead
-of certain kinds of pattern matches.</p>
+    <!-- % if let -->
 
-<p>For example, let’s say we have some sort of <code>Option&lt;T&gt;</code>. We want to call a function
-on it if it’s <code>Some&lt;T&gt;</code>, but do nothing if it’s <code>None</code>. That looks like this:</p>
+<!-- `if let` allows you to combine `if` and `let` together to reduce the overhead -->
+
+<!-- of certain kinds of pattern matches. -->
+
+<p><code>if let</code> によって<code>if</code> と <code>let</code> を一体化して用いることが可能となり、
+ある種のパターンマッチに伴うオーバーヘッドを削減することができます。</p>
+
+<!-- For example, let’s say we have some sort of `Option<T>`. We want to call a function -->
+
+<!-- on it if it’s `Some<T>`, but do nothing if it’s `None`. That looks like this: -->
+
+<p>例えば今、 <code>Option&lt;T&gt;</code> 型の値が有るとして、
+この値が <code>Some&lt;T&gt;</code> であるならば何らかの関数を呼び出し、<code>None</code> ならば何もしたくないとしましょう
+そのような処理は例えば以下のように書けるでしょう:</p>
 <span class='rusttest'>fn main() {
     let option = Some(5);
     fn foo(x: i32) { }
@@ -204,7 +215,9 @@ on it if it’s <code>Some&lt;T&gt;</code>, but do nothing if it’s <code>None<
     <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> {},
 }</pre>
 
-<p>We don’t have to use <code>match</code> here, for example, we could use <code>if</code>:</p>
+<!-- We don’t have to use `match` here, for example, we could use `if`: -->
+
+<p>このような場合 <code>match</code> を用いなくても良く、 <code>if</code> を使って以下のように書けます:</p>
 <span class='rusttest'>fn main() {
     let option = Some(5);
     fn foo(x: i32) { }
@@ -218,8 +231,11 @@ on it if it’s <code>Some&lt;T&gt;</code>, but do nothing if it’s <code>None<
     <span class='ident'>foo</span>(<span class='ident'>x</span>);
 }</pre>
 
-<p>Neither of these options is particularly appealing. We can use <code>if let</code> to
-do the same thing in a nicer way:</p>
+<!-- Neither of these options is particularly appealing. We can use `if let` to -->
+
+<!-- do the same thing in a nicer way: -->
+
+<p>上述のコードのどちらもまだ理想的ではありません。 <code>if let</code> を用いてより良い方法で記述できます:</p>
 <span class='rusttest'>fn main() {
     let option = Some(5);
     fn foo(x: i32) { }
@@ -231,12 +247,20 @@ do the same thing in a nicer way:</p>
     <span class='ident'>foo</span>(<span class='ident'>x</span>);
 }</pre>
 
-<p>If a <a href="patterns.html">pattern</a> matches successfully, it binds any appropriate parts of
-the value to the identifiers in the pattern, then evaluates the expression. If
-the pattern doesn’t match, nothing happens.</p>
+<!-- If a [pattern][patterns] matches successfully, it binds any appropriate parts of -->
 
-<p>If you want to do something else when the pattern does not match, you can
-use <code>else</code>:</p>
+<!-- the value to the identifiers in the pattern, then evaluates the expression. If -->
+
+<!-- the pattern doesn’t match, nothing happens. -->
+
+<p>もし [パターン][patterns] マッチが成功した場合、パターンに含まれる変数に適切に値が割り当てられ、
+式が評価されます。もしパターンマッチが失敗した場合には何も起こりません。</p>
+
+<!-- If you want to do something else when the pattern does not match, you can -->
+
+<!-- use `else`: -->
+
+<p>もしパターンマッチに失敗した場合に実行したいコードが有る場合は <code>else</code> を使うことができます:</p>
 <span class='rusttest'>fn main() {
     let option = Some(5);
     fn foo(x: i32) { }
@@ -254,8 +278,12 @@ use <code>else</code>:</p>
 }</pre>
 
 <h2 id='while-let' class='section-header'><a href='#while-let'><code>while let</code></a></h2>
-<p>In a similar fashion, <code>while let</code> can be used when you want to conditionally
-loop  as long as a value matches a certain pattern. It turns code like this:</p>
+<!-- In a similar fashion, `while let` can be used when you want to conditionally -->
+
+<!-- loop  as long as a value matches a certain pattern. It turns code like this: -->
+
+<p>同じように、 <code>while let</code> を使うことで、値がパターンにマッチし続ける限り繰り返し実行することができます。
+例えば以下の様なコードが有るときに:</p>
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 3, 5, 7, 11];
     loop {
@@ -273,7 +301,9 @@ loop  as long as a value matches a certain pattern. It turns code like this:</p>
     }
 }</pre>
 
-<p>Into code like this:</p>
+<!-- Into code like this: -->
+
+<p><code>when let</code> を用いることで、以下のように書くことができます:</p>
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 3, 5, 7, 11];
     while let Some(x) = v.pop() {
