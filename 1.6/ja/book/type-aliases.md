@@ -68,7 +68,7 @@ if x == y {
 [タプル構造体]: structs.html#tuple-structs
 
 <!-- You can also use type aliases with generics: -->
-また、エイリアスを総称型と共に利用する事もできます:
+また、エイリアスをジェネリクスと共に利用する事もできます:
 
 ```rust
 use std::result;
