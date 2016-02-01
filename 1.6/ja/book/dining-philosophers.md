@@ -32,7 +32,7 @@
 > 彼らはテーブルを反時計回りに座ります。哲学者の左側にはそれぞれ金のフォークが配され、
 > 中央には大きなボウルに入ったスパゲッティが常に補充されていました。哲学者は大半の時間を思慮に費やすのですが;
 > 空腹になった時は、ダイニングルームに出向き、自分専用のイスに座り、左側のフォークを取上げ、スパゲッティに突き刺します。
-> しかし、絡まり合ったスパゲッティを口元まで運ぶには2本目のフォークが必要でした。そこで哲学者は自分の右側にあるフォークも使うことにしたのです。
+> しかし、絡まり合ったスパゲッティを口元まで運ぶには2本目のフォークが必要でした。なので哲学者は自分の右側にあるフォークも使う必要がありました。
 > 食べ終わったら両側のフォークを元に戻し、席から立ちあがって、思索活動を続けます。
 > もちろん、1本のフォークは同時に1人の哲学者しか使えません。他の哲学者が食事したければ、
 > フォークが再び戻されるまで待たねばなりません。
@@ -41,7 +41,7 @@
 <!-- reason is that it's actually slightly tricky to implement: a simple -->
 <!-- implementation can deadlock. For example, let's consider a simple algorithm -->
 <!-- that would solve this problem: -->
-この古典問題は並行処理特有の要因を際立たせます。その実装にあたっては少し注意が必要です:
+この古典問題は並行処理特有の要因を際立たせます。その実装にあたっては少し注意が必要となるからです:
 単純な実装ではデッドロックの可能性があるのです。例えば、この問題を解く単純なアルゴリズムを考えてみましょう:
 
 <!-- 1. A philosopher picks up the fork on their left. -->
@@ -54,7 +54,7 @@
 4. 2本のフォークを戻します。
 
 <!-- Now, let’s imagine this sequence of events: -->
-さて、このようなイベント順を想像してみましょう:
+さて、このような一連の出来事を想像してみましょう:
 
 <!-- 1. Philosopher 1 begins the algorithm, picking up the fork on their left. -->
 <!-- 2. Philosopher 2 begins the algorithm, picking up the fork on their left. -->
@@ -178,7 +178,7 @@ Philosopher {
 <!-- `String`, which is the type of the `name` field of `Philosopher`. -->
 関数は新しい`Philosopher`インスタンスを作成し、その`name`フィールドに引数`name`を設定します。
 ここでは引数を直接設定するのではなく、`.to_string()`を呼び出しています。これにより`&str`が指す文字列のコピーが作られ、
-`Philosopher`の`name`フィールド型に合わせた新しい`String`がえられます。
+`Philosopher`の`name`フィールド型に合わせた新しい`String`が得られます。
 
 <!-- Why not accept a `String` directly? It’s nicer to call. If we took a `String`, -->
 <!-- but our caller had a `&str`, they’d have to call this method themselves. The -->
@@ -254,8 +254,9 @@ fn main() {
 <!-- tackle the broader problem here. I like to start from the end first: let’s -->
 <!-- set up a way for each philosopher to finish eating. As a tiny step, let’s make -->
 <!-- a method, and then loop through all the philosophers, calling it: -->
-下準備が終わったところで、取り組むべき広い問題がいくつか出てきました。まずは逆順に: 哲学者が食事を終わらせる部分から始めていきましょう。
-この小さなステップでは、メソッドを1つ作り、全ての哲学者に対して呼び出します:
+下準備が終ったので、ここでの残る問題、哲学者の問題に取り組める多くの方法があります。
+まずは逆順に: 哲学者が食事を終わらせる部分から始めていきましょう。この小さなステップでは、
+メソッドを1つ作り、全ての哲学者に対して呼び出します:
 
 ```rust
 struct Philosopher {
@@ -296,7 +297,7 @@ fn main() {
 <!-- philosopher in turn. -->
 最初は`main()`から見ていきます。哲学者たちに5つの変数束縛を個別に行うのではなく、代わりに`Vec<T>`を用いました。
 `Vec<T>`は「ベクトル」とも呼ばれる、可変長の配列型です。ベクトルの走査には[`for`][for]ループを使っているため、
-それぞれの哲学者への参照が順番にえられます。
+それぞれの哲学者への参照が順番に得られれます。
 
 [for]: loops.html#for
 
@@ -328,7 +329,7 @@ Michel Foucault is done eating.
 
 <!-- Easy enough, they’re all done! We haven’t actually implemented the real problem -->
 <!-- yet, though, so we’re not done yet! -->
-これだけなら簡単ですね！私たちはまだ真の問題を実装していませんから、実際のところは何も出来ていませんけど！
+これだけなら簡単ですね、出来ました！私たちはまだ真の問題を実装していませんから、実際のところは出来ていませんけど！
 
 <!-- Next, we want to make our philosophers not just finish eating, but actually -->
 <!-- eat. Here’s the next version: -->
@@ -492,8 +493,9 @@ let handles: Vec<_> =
 <!-- the type here, though, due to an issue we’ll talk about later. The `_` -->
 <!-- is a type placeholder. We’re saying “`handles` is a vector of something, but you -->
 <!-- can figure out what that something is, Rust.” -->
-ここでは新しい束縛、`handles`を導入します。今から新しいスレッドを作成していきますが、そのスレッドを制御するハンドル用にこの名前としました。
-後ほど議論する問題があるため、ここでは明示的な型アノテーションが必要となります。`_`は型プレースホルダです。
+ここでは新しい束縛、`handles`を導入します。今から新しいスレッドを作成していきますが、今から新しいスレッドを作成していきますが、
+スレッドはそのスレッドを制御するハンドルを返すのでこの名前としました。後ほど議論する問題があるため、
+ここでは明示的な型アノテーションが必要となります。`_`は型プレースホルダです。
 つまり「`handles`は何らかの型のベクトルとするが、その型が何であるかはRustが解決せよ。」と言っています。
 
 ```rust,ignore
@@ -743,7 +745,11 @@ fn eat(&self, table: &Table) {
 <!-- which is what happens when the thread panics while the lock is held. Since this -->
 <!-- shouldn’t happen, we just use `unwrap()`. -->
 `lock()`呼び出しは失敗する可能性があり、その場合は、プログラムをクラッシュさせます。この状況は、ミューテックスが[「poisoned」][poison]状態、
+<<<<<<< HEAD
+つまりロック保持中のスレッドがpanicした場合にしか発生しません。つまり今は起こりえないため、単に`unwrap()`を使っています。
+=======
 つまりロック保持中のスレッドがパニックした場合にしか発生しません。つまり今は起こりえないため、単に`unwrap()`を使っています。
+>>>>>>> 88764eee68c871f10b099a7b3e99f7e93a8f8ef4
 
 [poison]: ../std/sync/struct.Mutex.html#poisoning
 
@@ -824,7 +830,7 @@ let handles: Vec<_> = philosophers.into_iter().map(|p| {
 <!-- You’ll notice we can introduce a new binding to `table` here, and it will -->
 <!-- shadow the old one. This is often used so that you don’t need to come up with -->
 <!-- two unique names. -->
-ここでは新しい束縛`table`を導入して、古い方を隠していることに気付くでしょう。
+ここでは新しい束縛`table`を導入して、古い方を覆い隠していることに気付くでしょう。
 これは2つの異なる名前を必要としないため、よく用いられる方法です。
 
 <!-- With this, our program works! Only two philosophers can eat at any one time, ->
