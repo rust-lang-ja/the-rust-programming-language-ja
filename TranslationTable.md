@@ -10,29 +10,56 @@
 
 | English               | 日本語
 |:----------------------|:------
+| alignment             | アラインメント
+| allocator             | アロケータ
+| application           | アプリケーション
+| arity                 | アリティ
+| array                 | 配列
 | associated -          | 関連-
 | attribute             | アトリビュート
+| binary                | バイナリ
 | binding               | 束縛
+| block                 | ブロック
 | borrowing             | 借用
+| closure               | クロージャ
 | coercion              | 型強制
+| compiler              | コンパイラ
+| constant              | 定数
 | crate                 | クレート
 | declaration statement | 宣言文
+| dereferencing         | 参照外し
+| destructuring         | 分配
 | diverge               | ダイバージ
 | diverging             | ダイバージング
-| early return          | 途中でのリターン
+| early return          | 早期リターン
 | enum                  | 列挙型
 | expression statement  | 式文
 | feature               | フィーチャ
+| generics              | ジェネリクス
+| identifier            | 識別子
+| immutable             | イミュータブル
 | Intrinsics            | Intrinsic
 | Lang Items            | Lang Item
+| library               | ライブラリ
 | lifetime              | ライフタイム
+| link                  | リンク
+| match                 | マッチ
+| memory                | メモリ
 | move                  | ムーブ
 | mutable               | ミュータブル
 | mutability            | ミュータビリティ
 | owner                 | 所有者
 | ownership             | 所有権
 | return                | 返す
+| signature             | シグネチャ
+| slice                 | スライス
+| slicing               | スライシング
 | struct                | 構造体
 | structure             | ストラクチャ
+| symbol                | シンボル
+| system                | システム
+| tick                  | クオート
 | trait                 | トレイト
 | unsized type          | サイズ不定型
+| vector                | vector
+| wildcard              | ワイルドカード

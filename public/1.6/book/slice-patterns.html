@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Slice patterns</title>
+    <title>スライスパターン</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,9 +185,14 @@
 <div id='page'>
 
 
-    <h1 class="title">Slice patterns</h1>
-    <p>If you want to match against a slice or array, you can use <code>&amp;</code> with the
-<code>slice_patterns</code> feature:</p>
+    <h1 class="title">スライスパターン</h1>
+    <!-- % Slice patterns -->
+
+<!-- If you want to match against a slice or array, you can use `&` with the -->
+
+<!-- `slice_patterns` feature: -->
+
+<p>スライスや配列に対してマッチを行いたい場合、 <code>slice_patterns</code> フィーチャを有効にすると以下のように <code>&amp;</code> を使うことができます。</p>
 <span class='rusttest'>#![feature(slice_patterns)]
 
 fn main() {
@@ -210,10 +215,15 @@ fn main() {
     }
 }</pre>
 
-<p>The <code>advanced_slice_patterns</code> gate lets you use <code>..</code> to indicate any number of
-elements inside a pattern matching a slice. This wildcard can only be used once
-for a given array. If there&#39;s an identifier before the <code>..</code>, the result of the
-slice will be bound to that name. For example:</p>
+<!-- The `advanced_slice_patterns` gate lets you use `..` to indicate any number of -->
+
+<!-- elements inside a pattern matching a slice. This wildcard can only be used once -->
+
+<!-- for a given array. If there's an identifier before the `..`, the result of the -->
+
+<!-- slice will be bound to that name. For example: -->
+
+<p><code>advanced_slice_patterns</code> フィーチャを有効にすると、スライスにマッチするパターンの中で <code>..</code> を使ってその要素の数が任意であることを示すことができます。このワイルドカードは与えるパターン配列の中で一度だけ使うことができます。もし <code>..</code> の前に識別子(訳注: 以下の例では <code>inside</code> )があれば、そのスライスの結果はその識別子名に束縛されます。例えば以下のようになります。</p>
 <span class='rusttest'>#![feature(advanced_slice_patterns, slice_patterns)]
 
 fn is_symmetric(list: &amp;[u32]) -&gt; bool {
