@@ -1,4 +1,5 @@
-% Comments
+% コメント
+<!-- % Comments -->
 
 Now that we have some functions, it’s a good idea to learn about comments.
 Comments are notes that you leave to other programmers to help explain things
