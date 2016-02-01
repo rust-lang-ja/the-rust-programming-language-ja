@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Unwinding</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='meet-safe-and-unsafe.html'><b>2.</b> Meet Safe and Unsafe</a>
+<ul class='section'>
+<li><a  href='safe-unsafe-meaning.html'><b>2.1.</b> How Safe and Unsafe Interact</a>
+</li>
+<li><a  href='working-with-unsafe.html'><b>2.2.</b> Working with Unsafe</a>
+</li>
+</ul>
+</li>
+<li><a  href='data.html'><b>3.</b> Data Layout</a>
+<ul class='section'>
+<li><a  href='repr-rust.html'><b>3.1.</b> repr(Rust)</a>
+</li>
+<li><a  href='exotic-sizes.html'><b>3.2.</b> Exotically Sized Types</a>
+</li>
+<li><a  href='other-reprs.html'><b>3.3.</b> Other reprs</a>
+</li>
+</ul>
+</li>
+<li><a  href='ownership.html'><b>4.</b> Ownership</a>
+<ul class='section'>
+<li><a  href='references.html'><b>4.1.</b> References</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.2.</b> Lifetimes</a>
+</li>
+<li><a  href='lifetime-mismatch.html'><b>4.3.</b> Limits of Lifetimes</a>
+</li>
+<li><a  href='lifetime-elision.html'><b>4.4.</b> Lifetime Elision</a>
+</li>
+<li><a  href='unbounded-lifetimes.html'><b>4.5.</b> Unbounded Lifetimes</a>
+</li>
+<li><a  href='hrtb.html'><b>4.6.</b> Higher-Rank Trait Bounds</a>
+</li>
+<li><a  href='subtyping.html'><b>4.7.</b> Subtyping and Variance</a>
+</li>
+<li><a  href='dropck.html'><b>4.8.</b> Drop Check</a>
+</li>
+<li><a  href='phantom-data.html'><b>4.9.</b> PhantomData</a>
+</li>
+<li><a  href='borrow-splitting.html'><b>4.10.</b> Splitting Borrows</a>
+</li>
+</ul>
+</li>
+<li><a  href='conversions.html'><b>5.</b> Type Conversions</a>
+<ul class='section'>
+<li><a  href='coercions.html'><b>5.1.</b> Coercions</a>
+</li>
+<li><a  href='dot-operator.html'><b>5.2.</b> The Dot Operator</a>
+</li>
+<li><a  href='casts.html'><b>5.3.</b> Casts</a>
+</li>
+<li><a  href='transmutes.html'><b>5.4.</b> Transmutes</a>
+</li>
+</ul>
+</li>
+<li><a  href='uninitialized.html'><b>6.</b> Uninitialized Memory</a>
+<ul class='section'>
+<li><a  href='checked-uninit.html'><b>6.1.</b> Checked</a>
+</li>
+<li><a  href='drop-flags.html'><b>6.2.</b> Drop Flags</a>
+</li>
+<li><a  href='unchecked-uninit.html'><b>6.3.</b> Unchecked</a>
+</li>
+</ul>
+</li>
+<li><a  href='obrm.html'><b>7.</b> Ownership Based Resource Management</a>
+<ul class='section'>
+<li><a  href='constructors.html'><b>7.1.</b> Constructors</a>
+</li>
+<li><a  href='destructors.html'><b>7.2.</b> Destructors</a>
+</li>
+<li><a  href='leaking.html'><b>7.3.</b> Leaking</a>
+</li>
+</ul>
+</li>
+<li><a class='active' href='unwinding.html'><b>8.</b> Unwinding</a>
+<ul class='section'>
+<li><a  href='exception-safety.html'><b>8.1.</b> Exception Safety</a>
+</li>
+<li><a  href='poisoning.html'><b>8.2.</b> Poisoning</a>
+</li>
+</ul>
+</li>
+<li><a  href='concurrency.html'><b>9.</b> Concurrency</a>
+<ul class='section'>
+<li><a  href='races.html'><b>9.1.</b> Races</a>
+</li>
+<li><a  href='send-and-sync.html'><b>9.2.</b> Send and Sync</a>
+</li>
+<li><a  href='atomics.html'><b>9.3.</b> Atomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='vec.html'><b>10.</b> Implementing Vec</a>
+<ul class='section'>
+<li><a  href='vec-layout.html'><b>10.1.</b> Layout</a>
+</li>
+<li><a  href='vec-alloc.html'><b>10.2.</b> Allocating</a>
+</li>
+<li><a  href='vec-push-pop.html'><b>10.3.</b> Push and Pop</a>
+</li>
+<li><a  href='vec-dealloc.html'><b>10.4.</b> Deallocating</a>
+</li>
+<li><a  href='vec-deref.html'><b>10.5.</b> Deref</a>
+</li>
+<li><a  href='vec-insert-remove.html'><b>10.6.</b> Insert and Remove</a>
+</li>
+<li><a  href='vec-into-iter.html'><b>10.7.</b> IntoIter</a>
+</li>
+<li><a  href='vec-raw.html'><b>10.8.</b> RawVec</a>
+</li>
+<li><a  href='vec-drain.html'><b>10.9.</b> Drain</a>
+</li>
+<li><a  href='vec-zsts.html'><b>10.10.</b> Handling Zero-Sized Types</a>
+</li>
+<li><a  href='vec-final.html'><b>10.11.</b> Final Code</a>
+</li>
+</ul>
+</li>
+<li><a  href='arc-and-mutex.html'><b>11.</b> Implementing Arc and Mutex</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Unwinding</h1>
+    <p>Rust has a <em>tiered</em> error-handling scheme:</p>
+
+<ul>
+<li>If something might reasonably be absent, Option is used.</li>
+<li>If something goes wrong and can reasonably be handled, Result is used.</li>
+<li>If something goes wrong and cannot reasonably be handled, the thread panics.</li>
+<li>If something catastrophic happens, the program aborts.</li>
+</ul>
+
+<p>Option and Result are overwhelmingly preferred in most situations, especially
+since they can be promoted into a panic or abort at the API user&#39;s discretion.
+Panics cause the thread to halt normal execution and unwind its stack, calling
+destructors as if every function instantly returned.</p>
+
+<p>As of 1.0, Rust is of two minds when it comes to panics. In the long-long-ago,
+Rust was much more like Erlang. Like Erlang, Rust had lightweight tasks,
+and tasks were intended to kill themselves with a panic when they reached an
+untenable state. Unlike an exception in Java or C++, a panic could not be
+caught at any time. Panics could only be caught by the owner of the task, at which
+point they had to be handled or <em>that</em> task would itself panic.</p>
+
+<p>Unwinding was important to this story because if a task&#39;s
+destructors weren&#39;t called, it would cause memory and other system resources to
+leak. Since tasks were expected to die during normal execution, this would make
+Rust very poor for long-running systems!</p>
+
+<p>As the Rust we know today came to be, this style of programming grew out of
+fashion in the push for less-and-less abstraction. Light-weight tasks were
+killed in the name of heavy-weight OS threads. Still, on stable Rust as of 1.0
+panics can only be caught by the parent thread. This means catching a panic
+requires spinning up an entire OS thread! This unfortunately stands in conflict
+to Rust&#39;s philosophy of zero-cost abstractions.</p>
+
+<p>There is an unstable API called <code>catch_panic</code> that enables catching a panic
+without spawning a thread. Still, we would encourage you to only do this
+sparingly. In particular, Rust&#39;s current unwinding implementation is heavily
+optimized for the &quot;doesn&#39;t unwind&quot; case. If a program doesn&#39;t unwind, there
+should be no runtime cost for the program being <em>ready</em> to unwind. As a
+consequence, actually unwinding will be more expensive than in e.g. Java.
+Don&#39;t build your programs to unwind under normal circumstances. Ideally, you
+should only panic for programming errors or <em>extreme</em> problems.</p>
+
+<p>Rust&#39;s unwinding strategy is not specified to be fundamentally compatible
+with any other language&#39;s unwinding. As such, unwinding into Rust from another
+language, or unwinding into another language from Rust is Undefined Behavior.
+You must <em>absolutely</em> catch any panics at the FFI boundary! What you do at that
+point is up to you, but <em>something</em> must be done. If you fail to do this,
+at best, your application will crash and burn. At worst, your application <em>won&#39;t</em>
+crash and burn, and will proceed with completely clobbered state.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

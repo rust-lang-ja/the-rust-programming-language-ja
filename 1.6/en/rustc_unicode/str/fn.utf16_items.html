@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `utf16_items` fn in crate `rustc_unicode`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, utf16_items">
+
+    <title>rustc_unicode::str::utf16_items - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../rustc_unicode/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../index.html'>rustc_unicode</a>::<wbr><a href='index.html'>str</a></p><script>window.sidebarCurrent = {name: 'utf16_items', ty: 'fn', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content fn">
+<h1 class='fqn'><span class='in-band'>Function <a href='../index.html'>rustc_unicode</a>::<wbr><a href='index.html'>str</a>::<wbr><a class='fn' href=''>utf16_items</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-211' class='srclink' href='../../src/rustc_unicode/u_str.rs.html#217-219' title='goto source code'>[src]</a></span></h1>
+<pre class='rust fn'>pub fn utf16_items&lt;'a&gt;(v: &amp;'a [u16]) -&gt; <a class='struct' href='../../rustc_unicode/str/struct.Utf16Items.html' title='rustc_unicode::str::Utf16Items'>Utf16Items</a>&lt;'a&gt;</pre><div class='stability'><em class='stab unstable deprecated'>Deprecated since 1.4.0<p>: renamed to <code>char::decode_utf16</code></p>
+</em></div><div class='docblock'><p>Create an iterator over the UTF-16 encoded codepoints in <code>v</code>,
+returning invalid surrogates as <code>LoneSurrogate</code>s.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1><span class='rusttest'>#![feature(unicode, decode_utf16)]
+#![allow(deprecated)]
+
+extern crate rustc_unicode;
+
+use rustc_unicode::str::Utf16Item::{ScalarValue, LoneSurrogate};
+
+fn main() {
+    // 𝄞mus&lt;invalid&gt;ic&lt;invalid&gt;
+    let v = [0xD834, 0xDD1E, 0x006d, 0x0075,
+             0x0073, 0xDD1E, 0x0069, 0x0063,
+             0xD834];
+
+    assert_eq!(rustc_unicode::str::utf16_items(&amp;v).collect::&lt;Vec&lt;_&gt;&gt;(),
+               vec![ScalarValue(&#39;𝄞&#39;),
+                    ScalarValue(&#39;m&#39;), ScalarValue(&#39;u&#39;), ScalarValue(&#39;s&#39;),
+                    LoneSurrogate(0xDD1E),
+                    ScalarValue(&#39;i&#39;), ScalarValue(&#39;c&#39;),
+                    LoneSurrogate(0xD834)]);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>unicode</span>, <span class='ident'>decode_utf16</span>)]</span>
+
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>rustc_unicode</span>;
+
+<span class='kw'>use</span> <span class='ident'>rustc_unicode</span>::<span class='ident'>str</span>::<span class='ident'>Utf16Item</span>::{<span class='ident'>ScalarValue</span>, <span class='ident'>LoneSurrogate</span>};
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='comment'>// 𝄞mus&lt;invalid&gt;ic&lt;invalid&gt;</span>
+    <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> [<span class='number'>0xD834</span>, <span class='number'>0xDD1E</span>, <span class='number'>0x006d</span>, <span class='number'>0x0075</span>,
+             <span class='number'>0x0073</span>, <span class='number'>0xDD1E</span>, <span class='number'>0x0069</span>, <span class='number'>0x0063</span>,
+             <span class='number'>0xD834</span>];
+
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>rustc_unicode</span>::<span class='ident'>str</span>::<span class='ident'>utf16_items</span>(<span class='kw-2'>&amp;</span><span class='ident'>v</span>).<span class='ident'>collect</span>::<span class='op'>&lt;</span><span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;&gt;</span>(),
+               <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>ScalarValue</span>(<span class='string'>&#39;𝄞&#39;</span>),
+                    <span class='ident'>ScalarValue</span>(<span class='string'>&#39;m&#39;</span>), <span class='ident'>ScalarValue</span>(<span class='string'>&#39;u&#39;</span>), <span class='ident'>ScalarValue</span>(<span class='string'>&#39;s&#39;</span>),
+                    <span class='ident'>LoneSurrogate</span>(<span class='number'>0xDD1E</span>),
+                    <span class='ident'>ScalarValue</span>(<span class='string'>&#39;i&#39;</span>), <span class='ident'>ScalarValue</span>(<span class='string'>&#39;c&#39;</span>),
+                    <span class='ident'>LoneSurrogate</span>(<span class='number'>0xD834</span>)]);
+}</pre>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rustc_unicode";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script src="../../playpen.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Library-level guarantees</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='../README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='../style/README.html'><b>2.</b> Style</a>
+<ul class='section'>
+<li><a  href='../style/whitespace.html'><b>2.1.</b> Whitespace</a>
+</li>
+<li><a  href='../style/comments.html'><b>2.2.</b> Comments</a>
+</li>
+<li><a  href='../style/braces.html'><b>2.3.</b> Braces, semicolons, commas</a>
+</li>
+<li><a  href='../style/naming/README.html'><b>2.4.</b> Naming</a>
+<ul class='section'>
+<li><a  href='../style/naming/ownership.html'><b>2.4.1.</b> Ownership variants</a>
+</li>
+<li><a  href='../style/naming/containers.html'><b>2.4.2.</b> Containers/wrappers</a>
+</li>
+<li><a  href='../style/naming/conversions.html'><b>2.4.3.</b> Conversions</a>
+</li>
+<li><a  href='../style/naming/iterators.html'><b>2.4.4.</b> Iterators</a>
+</li>
+</ul>
+</li>
+<li><a  href='../style/imports.html'><b>2.5.</b> Imports</a>
+</li>
+<li><a  href='../style/organization.html'><b>2.6.</b> Organization</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/README.html'><b>3.</b> Guidelines by Rust feature</a>
+<ul class='section'>
+<li><a  href='../features/let.html'><b>3.1.</b> Let binding</a>
+</li>
+<li><a  href='../features/match.html'><b>3.2.</b> Pattern matching</a>
+</li>
+<li><a  href='../features/loops.html'><b>3.3.</b> Loops</a>
+</li>
+<li><a  href='../features/functions-and-methods/README.html'><b>3.4.</b> Functions and methods</a>
+<ul class='section'>
+<li><a  href='../features/functions-and-methods/input.html'><b>3.4.1.</b> Input</a>
+</li>
+<li><a  href='../features/functions-and-methods/output.html'><b>3.4.2.</b> Output</a>
+</li>
+<li><a  href='../features/functions-and-methods/convenience.html'><b>3.4.3.</b> For convenience</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/types/README.html'><b>3.5.</b> Types</a>
+<ul class='section'>
+<li><a  href='../features/types/conversions.html'><b>3.5.1.</b> Conversions</a>
+</li>
+<li><a  href='../features/types/newtype.html'><b>3.5.2.</b> The newtype pattern</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/traits/README.html'><b>3.6.</b> Traits</a>
+<ul class='section'>
+<li><a  href='../features/traits/generics.html'><b>3.6.1.</b> For generics</a>
+</li>
+<li><a  href='../features/traits/objects.html'><b>3.6.2.</b> For objects</a>
+</li>
+<li><a  href='../features/traits/overloading.html'><b>3.6.3.</b> For overloading</a>
+</li>
+<li><a  href='../features/traits/extensions.html'><b>3.6.4.</b> For extensions</a>
+</li>
+<li><a  href='../features/traits/reuse.html'><b>3.6.5.</b> For reuse</a>
+</li>
+<li><a  href='../features/traits/common.html'><b>3.6.6.</b> Common traits</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/modules.html'><b>3.7.</b> Modules</a>
+</li>
+<li><a  href='../features/crates.html'><b>3.8.</b> Crates</a>
+</li>
+</ul>
+</li>
+<li><a  href='../ownership/README.html'><b>4.</b> Ownership and resources</a>
+<ul class='section'>
+<li><a  href='../ownership/constructors.html'><b>4.1.</b> Constructors</a>
+</li>
+<li><a  href='../ownership/builders.html'><b>4.2.</b> Builders</a>
+</li>
+<li><a  href='../ownership/destructors.html'><b>4.3.</b> Destructors</a>
+</li>
+<li><a  href='../ownership/raii.html'><b>4.4.</b> RAII</a>
+</li>
+<li><a  href='../ownership/cell-smart.html'><b>4.5.</b> Cells and smart pointers</a>
+</li>
+</ul>
+</li>
+<li><a  href='../errors/README.html'><b>5.</b> Errors</a>
+<ul class='section'>
+<li><a  href='../errors/signaling.html'><b>5.1.</b> Signaling</a>
+</li>
+<li><a  href='../errors/handling.html'><b>5.2.</b> Handling</a>
+</li>
+<li><a  href='../errors/propagation.html'><b>5.3.</b> Propagation</a>
+</li>
+<li><a  href='../errors/ergonomics.html'><b>5.4.</b> Ergonomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='../safety/README.html'><b>6.</b> Safety and guarantees</a>
+<ul class='section'>
+<li><a  href='../safety/unsafe.html'><b>6.1.</b> Using unsafe</a>
+</li>
+<li><a class='active' href='../safety/lib-guarantees.html'><b>6.2.</b> Library guarantees</a>
+</li>
+</ul>
+</li>
+<li><a  href='../testing/README.html'><b>7.</b> Testing</a>
+<ul class='section'>
+<li><a  href='../testing/unit.html'><b>7.1.</b> Unit testing</a>
+</li>
+</ul>
+</li>
+<li><a  href='../platform.html'><b>8.</b> FFI, platform-specific code</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Library-level guarantees</h1>
+    <p>Most libraries rely on internal invariants, e.g. about their data, resource
+ownership, or protocol states. In Rust, broken invariants cannot produce
+segfaults, but they can still lead to wrong answers.</p>
+
+<h3 id='provide-library-level-guarantees-whenever-practical-fixme-needs-rfc' class='section-header'><a href='#provide-library-level-guarantees-whenever-practical-fixme-needs-rfc'>Provide library-level guarantees whenever practical. <strong>[FIXME: needs RFC]</strong></a></h3>
+<p>Library-level invariants should be turned into guarantees whenever
+practical. They should hold no matter what the client does, modulo
+explicit opt-outs. Depending on the kind of invariant, this can be
+achieved through a combination of static and dynamic enforcement, as
+described below.</p>
+
+<h4 id='static-enforcement' class='section-header'><a href='#static-enforcement'>Static enforcement:</a></h4>
+<p>Guaranteeing invariants almost always requires <em>hiding</em>,
+i.e. preventing the client from directly accessing or modifying
+internal data.</p>
+
+<p>For example, the representation of the <code>str</code> type is hidden,
+which means that any value of type <code>str</code> must have been produced
+through an API under the control of the <code>str</code> module, and these
+APIs in turn ensure valid utf-8 encoding.</p>
+
+<p>Rust&#39;s type system makes it possible to provide guarantees even while
+revealing more of the representation than usual. For example, the
+<code>as_bytes()</code> method on <code>&amp;str</code> gives a <em>read-only</em> view into the
+underlying buffer, which cannot be used to violate the utf-8 property.</p>
+
+<h4 id='dynamic-enforcement' class='section-header'><a href='#dynamic-enforcement'>Dynamic enforcement:</a></h4>
+<p>Malformed inputs from the client are hazards to library-level
+guarantees, so library APIs should validate their input.</p>
+
+<p>For example, <code>std::str::from_utf8_owned</code> attempts to convert a <code>u8</code>
+slice into an owned string, but dynamically checks that the slice is
+valid utf-8 and returns <code>Err</code> if not.</p>
+
+<p>See
+<a href="../features/functions-and-methods/input.html">the discussion on input validation</a>
+for more detail.</p>
+
+<h3 id='prefer-static-enforcement-of-guarantees-fixme-needs-rfc' class='section-header'><a href='#prefer-static-enforcement-of-guarantees-fixme-needs-rfc'>Prefer static enforcement of guarantees. <strong>[FIXME: needs RFC]</strong></a></h3>
+<p>Static enforcement provides two strong benefits over dynamic enforcement:</p>
+
+<ul>
+<li>Bugs are caught at compile time.</li>
+<li>There is no runtime cost.</li>
+</ul>
+
+<p>Sometimes purely static enforcement is impossible or impractical. In these
+cases, a library should check as much as possible statically, but defer to
+dynamic checks where needed.</p>
+
+<p>For example, the <code>std::string</code> module exports a <code>String</code> type with the guarantee
+that all instances are valid utf-8:</p>
+
+<ul>
+<li><p>Any <em>consumer</em> of a <code>String</code> is statically guaranteed utf-8 contents. For example,
+the <code>append</code> method can push a <code>&amp;str</code> onto the end of a <code>String</code> without
+checking anything dynamically, since the existing <code>String</code> and <code>&amp;str</code> are
+statically guaranteed to be in utf-8.</p></li>
+<li><p>Some <em>producers</em> of a <code>String</code> must perform dynamic checks. For example, the
+<code>from_utf8</code> function attempts to convert a <code>Vec&lt;u8&gt;</code> into a <code>String</code>, but
+dynamically checks that the contents are utf-8.</p></li>
+</ul>
+
+<h3 id='provide-opt-outs-with-caution-make-them-explicit-fixme-needs-rfc' class='section-header'><a href='#provide-opt-outs-with-caution-make-them-explicit-fixme-needs-rfc'>Provide opt-outs with caution; make them explicit. <strong>[FIXME: needs RFC]</strong></a></h3>
+<p>Providing library-level guarantees sometimes entails inconvenience (for static
+checks) or overhead (for dynamic checks). So it is sometimes desirable to allow
+clients to sidestep this checking, while promising to use the API in a way that
+still provides the guarantee. Such escape hatches should only be introduced when
+there is a demonstrated need for them.</p>
+
+<p>It should be trivial for clients to audit their use of the library for
+escape hatches.</p>
+
+<p>See
+<a href="../features/functions-and-methods/input.html">the discussion on input validation</a>
+for conventions on marking opt-out functions.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>
