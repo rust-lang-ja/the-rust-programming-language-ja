@@ -21,8 +21,10 @@ impl Drop for HasDrop {
 fn main() {
     let x = HasDrop;
 
+#   // do stuff
     // いくつかの処理
 
+# // } // x goes out of scope here
 } // x はここでスコープ外になります
 ```
 
@@ -35,7 +37,7 @@ fn main() {
 <!-- That’s it! The mechanics of `Drop` are very simple, but there are some -->
 <!-- subtleties. For example, values are dropped in the opposite order they are -->
 <!-- declared. Here’s another example: -->
-これだけです！ `Drop` のメカニズムは非常にシンプルです、しかし少しだけ重要な点があります。
+これだけです！ `Drop` のメカニズムは非常にシンプルです、しかし少しだけ注意すべき点があります。
 たとえば、値がドロップされる順序は、それらが定義された順序と反対の順序になります:
 
 ```rust
@@ -65,7 +67,7 @@ BOOM times 1!!!
 
 <!-- The TNT goes off before the firecracker does, because it was declared -->
 <!-- afterwards. Last in, first out. -->
-TNTが爆竹が鳴る前に爆発してしまいました、これはTNTが定義されたのは爆竹よりも後だったことによります。
+TNTが爆竹(firecracker)が鳴る前に爆発してしまいました、これはTNTが定義されたのは爆竹よりも後だったことによります。
 ラストイン・ファーストアウトです。
 
 <!-- So what is `Drop` good for? Generally, `Drop` is used to clean up any resources -->
