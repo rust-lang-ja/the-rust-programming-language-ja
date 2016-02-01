@@ -72,7 +72,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
     * [`Result` 型](#the-result-type)
         * [整数をパースする](#parsing-integers)
         * [`Result` 型エイリアスを用いたイディオム](#the-result-type-alias-idiom)
-    * [小休止：unwrap は悪ではない](#a-brief-interlude-unwrapping-isnt-evil)
+    * [小休止：アンラップは悪ではない](#a-brief-interlude-unwrapping-isnt-evil)
 * [複数のエラー型を扱う](#working-with-multiple-error-types)
     * [`Option` と `Result` で構成する](#composing-option-and-result)
     * [コンビネータの限界](#the-limits-of-combinators)
@@ -446,7 +446,7 @@ fn unwrap_or<T>(option: Option<T>, default: T) -> T {
 
 <!-- The trick here is that the default value must have the same type as the value -->
 <!-- that might be inside the `Option<T>`. Using it is dead simple in our case: -->
-ここでのからくりは、デフォルト値の型が `Option<T>` の中にあるはずの値のそれと、必ず同じになることです。
+ここでの仕掛けは、デフォルト値の型が `Option<T>` の中にあるはずの値のそれと、必ず同じになることです。
 これを使うのは、すごく簡単です：
 
 ```rust
@@ -695,7 +695,7 @@ thread '<main>' panicked at 'called `Result::unwrap()` on an `Err` value: ParseI
 これは少し目障りです。
 もし使っているライブラリの中でこれを起こされたら、イライラするに違いありません。
 代わりに、私達の関数の中でエラーを処理し、呼び出し元にどうするのかを決めさせるべきです。
-そのためには、`double_number` の戻り値の型を変更しなければなりません。
+そのためには、`double_number` の戻り値の型（リターン型）を変更しなければなりません。
 でも、一体何に？
 ええと、これはつまり、標準ライブラリの [`parse` メソッド][9] のシグニチャを見る必要があるということです。
 
@@ -735,9 +735,9 @@ impl str {
 <!-- this so we can find the concrete error type. In this case, it's -->
 <!-- [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html). -->
 <!-- Finally, we can rewrite our function: -->
-よし。では戻り値の型をどう書きますか？
-上の `parse` メソッドは一般化されており、標準ライブラリにある、あらゆる数値型について定義されています。
-この関数を同じように一般化することもできますが（そして、そうするべきでしょう）、今は明快さを優先しましょう。
+それでは、リターン型をどう書きましょうか？
+上の `parse` メソッドは一般化されているので、標準ライブラリにある、あらゆる数値型について定義されています。
+この関数を同じように一般化することもできますが（そして、そうするべきでしょうが）、今は明快さを優先しましょう。
 `i32` だけを扱うことにしますので、それの [`FromStr` の実装がどうなっているか探す](../std/primitive.i32.html) 必要があります。
 （ブラウザで `CTRL-F` を押して「FromStr」を探します。）
 そして [関連型（associated type）][10] から `Err` を見つけます。
@@ -850,7 +850,7 @@ fn double_number(number_str: &str) -> Result<i32> {
 
 <!-- ## A brief interlude: unwrapping isn't evil -->
 <span id="a-brief-interlude-unwrapping-isnt-evil"></span>
-## 小休止：unwrap は悪ではない
+## 小休止：アンラップは悪ではない
 
 <!-- If you've been following along, you might have noticed that I've taken a pretty -->
 <!-- hard line against calling methods like `unwrap` that could `panic` and abort -->
@@ -910,32 +910,46 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!-- Now that we've covered the basics of error handling in Rust, and -->
 <!-- explained unwrapping, let's start exploring more of the standard -->
 <!-- library. -->
-
+Rustにおけるエラーハンドリングの基礎についてカバーできました。
+また、アンラップについても解説しました。
+標準ライブラリの中をさらに探索していきましょう。
 
 <!-- # Working with multiple error types -->
 <span id="working-with-multiple-error-types"></span>
 # 複数のエラー型を扱う
 
-Thus far, we've looked at error handling where everything was either an
-`Option<T>` or a `Result<T, SomeError>`. But what happens when you have both an
-`Option` and a `Result`? Or what if you have a `Result<T, Error1>` and a
-`Result<T, Error2>`? Handling *composition of distinct error types* is the next
-challenge in front of us, and it will be the major theme throughout the rest of
-this chapter.
+<!-- Thus far, we've looked at error handling where everything was either an
+<!-- `Option<T>` or a `Result<T, SomeError>`. But what happens when you have both an
+<!-- `Option` and a `Result`? Or what if you have a `Result<T, Error1>` and a
+<!-- `Result<T, Error2>`? Handling *composition of distinct error types* is the next
+<!-- challenge in front of us, and it will be the major theme throughout the rest of
+<!-- this chapter. -->
+これまで見てきたエラーハンドリングは、単体の `Option<T>` または `Result<T, SomeError>` だけで構成されていました。
+ではもし `Option` と `Result` の両方があったらどうなるでしょうか？
+あるいは、`Result<T, Error1>` と `Result<T, Error2>` があったら？
+*異なるエラー型の組み合わせ* を処理することが、いま目の前にある次の課題です。
+また、この章の残りのほとんどの部分に共通する、主なテーマとなります。
 
 <!-- ## Composing `Option` and `Result` -->
 <span id="composing-option-and-result"></span>
 ## `Option` と `Result` で構成する
 
-So far, I've talked about combinators defined for `Option` and combinators
-defined for `Result`. We can use these combinators to compose results of
-different computations without doing explicit case analysis.
+<!-- So far, I've talked about combinators defined for `Option` and combinators -->
+<!-- defined for `Result`. We can use these combinators to compose results of -->
+<!-- different computations without doing explicit case analysis. -->
+これまで話してきたのは `Option` のために定義されたコンビネータと、 `Result` のために定義されたコンビネータでした。
+これらのコンビネータを使うと、様々な処理の結果を明示的なケース分析なしに組み合わせることができました。
 
-Of course, in real code, things aren't always as clean. Sometimes you have a
-mix of `Option` and `Result` types. Must we resort to explicit case analysis,
-or can we continue using combinators?
+<!-- Of course, in real code, things aren't always as clean. Sometimes you have a -->
+<!-- mix of `Option` and `Result` types. Must we resort to explicit case analysis, -->
+<!-- or can we continue using combinators? -->
+もちろん現実のコードでは、いつもこんなにうまくいくとは限りません。
+時には `Option` と `Result` 型が混在していることもあるでしょう。
+そんな時は、明確なケース分析に頼るしかないのでしょうか？
+それとも、コンビネータを使い続けることができるのでしょうか？
 
-For now, let's revisit one of the first examples in this chapter:
+<!-- For now, let's revisit one of the first examples in this chapter: -->
+ここで、この章の最初の方にあった例に戻ってみましょう：
 
 ```rust,should_panic
 use std::env;
@@ -948,16 +962,24 @@ fn main() {
 }
 ```
 
-Given our new found knowledge of `Option`, `Result` and their various
-combinators, we should try to rewrite this so that errors are handled properly
-and the program doesn't panic if there's an error.
+<!-- Given our new found knowledge of `Option`, `Result` and their various -->
+<!-- combinators, we should try to rewrite this so that errors are handled properly -->
+<!-- and the program doesn't panic if there's an error. -->
+これまでに獲得した `Option`、`Result`、コンビネータに関する知識を総動員して、これを書き換えましょう。
+エラーを的確に処理し、もしエラーが起こっても、プログラムがパニックしないようにするのです。
 
-The tricky aspect here is that `argv.nth(1)` produces an `Option` while
-`arg.parse()` produces a `Result`. These aren't directly composable. When faced
-with both an `Option` and a `Result`, the solution is *usually* to convert the
-`Option` to a `Result`. In our case, the absence of a command line parameter
-(from `env::args()`) means the user didn't invoke the program correctly. We
-could just use a `String` to describe the error. Let's try:
+<!-- The tricky aspect here is that `argv.nth(1)` produces an `Option` while -->
+<!-- `arg.parse()` produces a `Result`. These aren't directly composable. When faced -->
+<!-- with both an `Option` and a `Result`, the solution is *usually* to convert the -->
+<!-- `Option` to a `Result`. In our case, the absence of a command line parameter -->
+<!-- (from `env::args()`) means the user didn't invoke the program correctly. We -->
+<!-- could just use a `String` to describe the error. Let's try: -->
+ここでの課題は `argv.nth(1)` が `Option` を返すのに、 `arg.parse()` は `Result` を返すことです。
+これらを直接組み合わせることはできません。
+`Option` と `Result` の両方に出会った時の *普段の* 解決策は `Option` を `Result` に変換することです。
+この例で（`env::args()` が）コマンドライン引数を返さなかったということは、ユーザーがプログラムを正しく起動しなかったことを意味します。
+エラーの理由を示すために、単に `String` を使うことができます。
+試してみましょう：
 
 <span id="code-error-double-string"></span>
 
@@ -979,11 +1001,22 @@ fn main() {
 }
 ```
 
-There are a couple new things in this example. The first is the use of the
-[`Option::ok_or`](../std/option/enum.Option.html#method.ok_or)
-combinator. This is one way to convert an `Option` into a `Result`. The
-conversion requires you to specify what error to use if `Option` is `None`.
-Like the other combinators we've seen, its definition is very simple:
+> 訳注：意味は
+>
+> * Please give at least one argument：最低１つの引数を指定してください。
+>
+> です。
+
+<!-- There are a couple new things in this example. The first is the use of the -->
+<!-- [`Option::ok_or`](../std/option/enum.Option.html#method.ok_or) -->
+<!-- combinator. This is one way to convert an `Option` into a `Result`. The -->
+<!-- conversion requires you to specify what error to use if `Option` is `None`. -->
+<!-- Like the other combinators we've seen, its definition is very simple: -->
+この例では、いくつかの新しいことがあります。
+ひとつ目は [`Option::ok_or`](../std/option/enum.Option.html#method.ok_or) コンビネータを使ったことです。
+これは `Option` を `Result` へ変換する方法の一つです。
+変換には `Option` が `None` の時に使われるエラーを指定する必要があります。
+他のコンビネータと同様に、その定義はとてもシンプルです：
 
 ```rust
 fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
@@ -994,34 +1027,50 @@ fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
 }
 ```
 
-The other new combinator used here is
-[`Result::map_err`](../std/result/enum.Result.html#method.map_err).
-This is just like `Result::map`, except it maps a function on to the *error*
-portion of a `Result` value. If the `Result` is an `Ok(...)` value, then it is
-returned unmodified.
+<!-- The other new combinator used here is -->
+<!-- [`Result::map_err`](../std/result/enum.Result.html#method.map_err). -->
+<!-- This is just like `Result::map`, except it maps a function on to the *error* -->
+<!-- portion of a `Result` value. If the `Result` is an `Ok(...)` value, then it is -->
+<!-- returned unmodified. -->
+ここで使った、もう一つの新しいコンビネータは [`Result::map_err`](../std/result/enum.Result.html#method.map_err) です。
+これは `Result::map` に似ていますが、 `Result` 値の *エラー* の部分に対して関数をマップするところが異なります。
+もし `Result` の値が `Ok(...)` だったら、そのまま変更せずに返します。
 
-We use `map_err` here because it is necessary for the error types to remain
-the same (because of our use of `and_then`). Since we chose to convert the
-`Option<String>` (from `argv.nth(1)`) to a `Result<String, String>`, we must
-also convert the `ParseIntError` from `arg.parse()` to a `String`.
+<!-- We use `map_err` here because it is necessary for the error types to remain -->
+<!-- the same (because of our use of `and_then`). Since we chose to convert the -->
+<!-- `Option<String>` (from `argv.nth(1)`) to a `Result<String, String>`, we must -->
+<!-- also convert the `ParseIntError` from `arg.parse()` to a `String`. -->
+`map_err` を使った理由は、（`and_then` の用法により）エラーの型を同じに保つ必要があったからです。
+ここでは（`argv.nth(1)`が返した） `Option<String>` を `Result<String, String>` に変換することを選んだため、`arg.parse()` が返した `ParseIntError` も `String` に変換しなければならなかったわけです。
 
 <!-- ## The limits of combinators -->
 <span id="the-limits-of-combinators"></span>
 ## コンビネータの限界
 
-Doing IO and parsing input is a very common task, and it's one that I
-personally have done a lot of in Rust. Therefore, we will use (and continue to
-use) IO and various parsing routines to exemplify error handling.
+<!-- Doing IO and parsing input is a very common task, and it's one that I -->
+<!-- personally have done a lot of in Rust. Therefore, we will use (and continue to -->
+<!-- use) IO and various parsing routines to exemplify error handling. -->
+入出力と共に入力をパースすることは、非常によく行われます。
+そして私がRustを使って個人的にやってきたことのほとんども、これに該当しています。
+ですから、ここでは（そして、この後も） IOと様々なパースを行うルーチンを、エラーハンドリングの例として扱っていきます。
 
-Let's start simple. We are tasked with opening a file, reading all of its
-contents and converting its contents to a number. Then we multiply it by `2`
-and print the output.
+<!-- Let's start simple. We are tasked with opening a file, reading all of its -->
+<!-- contents and converting its contents to a number. Then we multiply it by `2` -->
+<!-- and print the output. -->
+まずは簡単なものから始めましょう。
+ここでのタスクは、ファイルを開き、その内容を全て読み込み、１つの数値に変換することです。
+そしてそれに `2` を掛けて、結果を表示します。
 
-Although I've tried to convince you not to use `unwrap`, it can be useful
-to first write your code using `unwrap`. It allows you to focus on your problem
-instead of the error handling, and it exposes the points where proper error
-handling need to occur. Let's start there so we can get a handle on the code,
-and then refactor it to use better error handling.
+<!-- Although I've tried to convince you not to use `unwrap`, it can be useful -->
+<!-- to first write your code using `unwrap`. It allows you to focus on your problem -->
+<!-- instead of the error handling, and it exposes the points where proper error -->
+<!-- handling need to occur. Let's start there so we can get a handle on the code, -->
+<!-- and then refactor it to use better error handling. -->
+いままで `unwrap` を使わないよう説得してきたわけですが、最初にコードを書くときには `unwrap` が便利に使えます。
+こうすることで、エラーハンドリングではなく、本来解決すべき課題に集中できます。
+それと同時に、的確なエラーハンドリングが必要となる場所を明示してくれます。
+ここから始ることをコードへの取っ掛かりとしましょう。
+その後、リファクタリングによって、エラーハンドリングを改善していきます。
 
 ```rust,should_panic
 use std::fs::File;
@@ -1042,47 +1091,76 @@ fn main() {
 }
 ```
 
-(N.B. The `AsRef<Path>` is used because those are the
-[same bounds used on
-`std::fs::File::open`](../std/fs/struct.File.html#method.open).
-This makes it ergonomic to use any kind of string as a file path.)
+<!-- (N.B. The `AsRef<Path>` is used because those are the -->
+<!-- [same bounds used on -->
+<!-- `std::fs::File::open`](../std/fs/struct.File.html#method.open). -->
+<!-- This makes it ergonomic to use any kind of string as a file path.) -->
+（備考： `AsRef<Path>` を使ったのは、[`std::fs::File::open` で使われているものと同じ bounds](../std/fs/struct.File.html#method.open) だからです。
+ファイルパスとしてどんな文字列でも受け付けるので、使いやすくなります。）
 
-There are three different errors that can occur here:
+<!-- There are three different errors that can occur here: -->
+ここでは３種類のエラーが起こる可能性があります：
 
-1. A problem opening the file.
-2. A problem reading data from the file.
-3. A problem parsing the data as a number.
+<!-- 1. A problem opening the file. -->
+<!-- 2. A problem reading data from the file. -->
+<!-- 3. A problem parsing the data as a number. -->
+1. ファイルを開くときの問題
+2. ファイルからデータを読み込む時の問題
+3. データを数値としてパースするときの問題
 
-The first two problems are described via the
-[`std::io::Error`](../std/io/struct.Error.html) type. We know this
-because of the return types of
-[`std::fs::File::open`](../std/fs/struct.File.html#method.open) and
-[`std::io::Read::read_to_string`](../std/io/trait.Read.html#method.read_to_string).
-(Note that they both use the [`Result` type alias
-idiom](#the-result-type-alias-idiom) described previously. If you
-click on the `Result` type, you'll [see the type
-alias](../std/io/type.Result.html), and consequently, the underlying
-`io::Error` type.)  The third problem is described by the
-[`std::num::ParseIntError`](../std/num/struct.ParseIntError.html)
-type. The `io::Error` type in particular is *pervasive* throughout the
-standard library. You will see it again and again.
+<!-- The first two problems are described via the -->
+<!-- [`std::io::Error`](../std/io/struct.Error.html) type. We know this -->
+<!-- because of the return types of -->
+<!-- [`std::fs::File::open`](../std/fs/struct.File.html#method.open) and -->
+<!-- [`std::io::Read::read_to_string`](../std/io/trait.Read.html#method.read_to_string). -->
+<!-- (Note that they both use the [`Result` type alias -->
+<!-- idiom](#the-result-type-alias-idiom) described previously. If you -->
+<!-- click on the `Result` type, you'll [see the type -->
+<!-- alias](../std/io/type.Result.html), and consequently, the underlying -->
+<!-- `io::Error` type.)  The third problem is described by the -->
+<!-- [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) -->
+<!-- type. The `io::Error` type in particular is *pervasive* throughout the -->
+<!-- standard library. You will see it again and again. -->
+最初の２つの問題は、[`std::io::Error`](../std/io/struct.Error.html) 型で記述されます。
+これは [`std::fs::File::open`](../std/fs/struct.File.html#method.open) と [`std::io::Read::read_to_string`](../std/io/trait.Read.html#method.read_to_string) のリターン型からわかります。
+（ちなみにどちらも、以前紹介した [`Result` 型エイリアスのイディオム](#the-result-type-alias-idiom) を用いています。
+`Result` 型のところをクリックすると、いま言った [型エイリアスを見たり](../std/io/type.Result.html)、必然的に、背後で使われている `io::Error` 型も見ることになります。）
+３番目の問題は [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) 型で記述されます。
+特にこの `io::Error` 型は標準ライブラリ全体に *深く浸透しています* 。
+これからこの型を幾度となく見ることでしょう。
 
-Let's start the process of refactoring the `file_double` function. To make this
-function composable with other components of the program, it should *not* panic
-if any of the above error conditions are met. Effectively, this means that the
-function should *return an error* if any of its operations fail. Our problem is
-that the return type of `file_double` is `i32`, which does not give us any
-useful way of reporting an error. Thus, we must start by changing the return
-type from `i32` to something else.
+<!-- Let's start the process of refactoring the `file_double` function. To make this -->
+<!-- function composable with other components of the program, it should *not* panic -->
+<!-- if any of the above error conditions are met. Effectively, this means that the -->
+<!-- function should *return an error* if any of its operations fail. Our problem is -->
+<!-- that the return type of `file_double` is `i32`, which does not give us any -->
+<!-- useful way of reporting an error. Thus, we must start by changing the return -->
+<!-- type from `i32` to something else. -->
+まず最初に `file_double` 関数をリファクタリングしましょう。
+この関数を、この課題の他の構成要素とコンポーザブルにするためには、上記の問題のいずれかに遭遇しても、パニック *しない* ようにしなければなりません。
+これは実質的には、なにかの操作に失敗した時に、この関数が *エラーを返すべき* であることを意味します。
+ここでの問題は、`file_double` のリターン型が `i32` であるため、エラーの報告には全く役立たないことです。
+従って、リターン型を `i32` から別の何かに変えることから始めなければなりません。
 
-The first thing we need to decide: should we use `Option` or `Result`? We
-certainly could use `Option` very easily. If any of the three errors occur, we
-could simply return `None`. This will work *and it is better than panicking*,
-but we can do a lot better. Instead, we should pass some detail about the error
-that occurred. Since we want to express the *possibility of error*, we should
-use `Result<i32, E>`. But what should `E` be? Since two *different* types of
-errors can occur, we need to convert them to a common type. One such type is
-`String`. Let's see how that impacts our code:
+<!-- The first thing we need to decide: should we use `Option` or `Result`? We -->
+<!-- certainly could use `Option` very easily. If any of the three errors occur, we -->
+<!-- could simply return `None`. This will work *and it is better than panicking*, -->
+<!-- but we can do a lot better. Instead, we should pass some detail about the error -->
+<!-- that occurred. Since we want to express the *possibility of error*, we should -->
+<!-- use `Result<i32, E>`. But what should `E` be? Since two *different* types of -->
+<!-- errors can occur, we need to convert them to a common type. One such type is -->
+<!-- `String`. Let's see how that impacts our code: -->
+最初に決めるべきことは、 `Option` と `Result` のどちらを使うかです。
+`Option` なら間違いなく簡単に使えます。
+もし３つのエラーのどれかが起こったら、単に `None` を返せばいいのです。
+これはたしかに動きます。
+でも、 *パニックを起こすよりも良くなっている* とはいえ、もっと良くすることもだってできます。
+`Option` の代わりに、起こったエラーについての詳細を渡すべきでしょう。
+ここでは *エラーの可能性* を示したいのですから、`Result<i32, E>` を使うべきでしょう。
+でも `E` を何にしたらいいのでしょうか？
+２つの *異なる* 型のエラーが起こりますので、これらを共通の型に変換する必要があります。
+そのような型の一つに `String` があります。
+これがコードにどんな影響を与えるか見てみましょう：
 
 ```rust
 use std::fs::File;
@@ -1113,32 +1191,52 @@ fn main() {
 }
 ```
 
-This code looks a bit hairy. It can take quite a bit of practice before code
-like this becomes easy to write. The way we write it is by *following the
-types*. As soon as we changed the return type of `file_double` to
-`Result<i32, String>`, we had to start looking for the right combinators. In
-this case, we only used three different combinators: `and_then`, `map` and
-`map_err`.
+<!-- This code looks a bit hairy. It can take quite a bit of practice before code -->
+<!-- like this becomes easy to write. The way we write it is by *following the -->
+<!-- types*. As soon as we changed the return type of `file_double` to -->
+<!-- `Result<i32, String>`, we had to start looking for the right combinators. In -->
+<!-- this case, we only used three different combinators: `and_then`, `map` and -->
+<!-- `map_err`. -->
+このコードは、やや難解になってきました。
+このようなコードを簡単に書けるようになるまでには、結構な量の練習が必要かもしれません。
+こういうもの書くときは *型に導かれる* ようにします。
+`file_double` のリターン型を `Result<i32, String>` に変更したらすぐに、それに合ったコンビネータを探し始めるのです。
+この例では `and_then`, `map`, `map_err` の、３種類のコンビネータだけを使いました。
 
-`and_then` is used to chain multiple computations where each computation could
-return an error. After opening the file, there are two more computations that
-could fail: reading from the file and parsing the contents as a number.
-Correspondingly, there are two calls to `and_then`.
+<!-- `and_then` is used to chain multiple computations where each computation could -->
+<!-- return an error. After opening the file, there are two more computations that -->
+<!-- could fail: reading from the file and parsing the contents as a number. -->
+<!-- Correspondingly, there are two calls to `and_then`. -->
+`and_then` は、エラーを返すかもしれない処理同士を繋いでいくために使います。
+ファイルを開いた後に、失敗するかもしれない処理が２つあります：
+ファイルからの読み込みと、内容を数値としてパースすることです。
+これに対応して `and_then` も２回呼ばれています。
 
-`map` is used to apply a function to the `Ok(...)` value of a `Result`. For
-example, the very last call to `map` multiplies the `Ok(...)` value (which is
-an `i32`) by `2`. If an error had occurred before that point, this operation
-would have been skipped because of how `map` is defined.
+<!-- `map` is used to apply a function to the `Ok(...)` value of a `Result`. For -->
+<!-- example, the very last call to `map` multiplies the `Ok(...)` value (which is -->
+<!-- an `i32`) by `2`. If an error had occurred before that point, this operation -->
+<!-- would have been skipped because of how `map` is defined. -->
+`map` は `Result` の値が `Ok(...)` の時に関数を適用するために使います。
+例えば、一番最後の `map` の呼び出しは、`Ok(...)` の値（`i32` 型）に `2` を掛けます。
+もし、これより前にエラーが起きたなら、この操作は `map` の定義に従ってスキップされます。
 
-`map_err` is the trick that makes all of this work. `map_err` is just like
-`map`, except it applies a function to the `Err(...)` value of a `Result`. In
-this case, we want to convert all of our errors to one type: `String`. Since
-both `io::Error` and `num::ParseIntError` implement `ToString`, we can call the
-`to_string()` method to convert them.
+<!-- `map_err` is the trick that makes all of this work. `map_err` is just like -->
+<!-- `map`, except it applies a function to the `Err(...)` value of a `Result`. In -->
+<!-- this case, we want to convert all of our errors to one type: `String`. Since -->
+<!-- both `io::Error` and `num::ParseIntError` implement `ToString`, we can call the -->
+<!-- `to_string()` method to convert them. -->
+`map_err` は全体をうまく動かすための仕掛けです。
+`map_err` は `map` に似ていますが、 `Result` の値が `Err(...)` の時に関数を適用するところが異なります。
+今回の場合は、全てのエラーを `String` という同一の型に変換する予定でした。
+`io::Error` と `num::ParseIntError` の両方が `ToString` を実装していたので、 `to_string()` メソッドを呼ぶことで変換できました。
 
-With all of that said, the code is still hairy. Mastering use of combinators is
-important, but they have their limits. Let's try a different approach: early
-returns.
+<!-- With all of that said, the code is still hairy. Mastering use of combinators is -->
+<!-- important, but they have their limits. Let's try a different approach: early -->
+<!-- returns. -->
+これだけ説明した後でも、このコードは難解なままです。
+コンビネータの使い方をマスターすることは重要です。
+しかし、コンビネータには限界もあるのです。
+次は、早期のリターンと呼ばれる、別のアプローチを試してみましょう。
 
 <!-- ## Early returns -->
 <span id="early-returns"></span>
