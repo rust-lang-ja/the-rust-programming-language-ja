@@ -6,7 +6,7 @@ multiple types of arguments. In Rust, we can do this with generics.
 Generics are called ‘parametric polymorphism’ in type theory,
 which means that they are types or functions that have multiple forms (‘poly’
 is multiple, ‘morph’ is form) over a given parameter (‘parametric’). -->
-関数やデータ型を書いていると、引数が複数の型に対応したものが欲しくなることもあります。Rustでは、ジェネリクスを用いてこれを実現しています。ジェネリクスは型理論において「パラメトリック多相」(parametric polymorphism)と呼ばれており、与えられたパラメータにより(「parametric」)型もしくは関数が多数の様相(「poly」は多様、「morph」は様相を意味します)(訳注: ここで「様相」は型を指します)を持つことをそう呼びます。
+時々、関数やデータ型を書いていると、引数が複数の型に対応したものが欲しくなることもあります。Rustでは、ジェネリクスを用いてこれを実現しています。ジェネリクスは型理論において「パラメトリック多相」(parametric polymorphism)と呼ばれ、与えられたパラメータにより(「parametric」)型もしくは関数が多数の様相(「poly」は多様、「morph」は様相を意味します)(訳注: ここで「様相」は型を指します)を持つことを意味しています。
 
 <!-- Anyway, enough type theory, let’s check out some generic code. Rust’s
 standard library provides a type, `Option<T>`, that’s generic: -->
@@ -23,7 +23,7 @@ enum Option<T> {
 a generic data type. Inside the declaration of our `enum`, wherever we see a `T`,
 we substitute that type for the same type used in the generic. Here’s an
 example of using `Option<T>`, with some extra type annotations: -->
-`<T>` の部分は、前に少し見たことがあると思いますが、これがジェネリックなデータ型であることを示しています。 `enum` の宣言内であれば、どこでも `T` を使うことができ、宣言内で記述していた共通の型をジェネリック内ではこの型に置き換えます。型注釈を用いた`Option<T>`の使用例が以下になります。
+`<T>` の部分は、前に少し見たことがあると思いますが、これがジェネリックなデータ型であることを示しています。 `enum` の宣言内であれば、どこでも `T` を使うことができ、宣言内で記述していた共通の型をジェネリック内でこの型に置き換えます。型注釈を用いた`Option<T>`の使用例が以下になります。
 
 ```rust
 let x: Option<i32> = Some(5);
@@ -34,8 +34,7 @@ let x: Option<i32> = Some(5);
 the right-hand side of the binding, we make a `Some(T)`, where `T` is `5`.
 Since that’s an `i32`, the two sides match, and Rust is happy. If they didn’t
 match, we’d get an error: -->
-この型の宣言を `Option<i32>` と言います。 `Option<T>` との違いに注目して下さい。そう、上記の `Option` では `T` の値は `i32` です。この束縛の右辺の `Some(T)` では、 `T` は `5` となります。それが `i32` なので、両辺の型が一致するため、Rustは幸せです。型が不一致であれば以下のようなエラーが発生します。
-
+この型の宣言を `Option<i32>` と言います。 `Option<T>` との違いに注目して下さい。そう、上記の `Option` では `T` の値は `i32` です。この束縛の右辺の `Some(T)` では、 `T` は `5` となります。それが `i32` なので、両辺の型が一致するため、Rustは満足します。型が不一致であれば、以下のようなエラーが発生します。
 
 ```rust,ignore
 let x: Option<f64> = Some(5);
@@ -56,7 +55,7 @@ let y: Option<f64> = Some(5.0f64);
 これだけで結構です。1つの定義で、多くの用途が得られます。
 
 <!-- Generics don’t have to only be generic over one type. Consider another type from Rust’s standard library that’s similar, `Result<T, E>`: -->
-ジェネリクスにおいてジェネリックな型は1つまで、といった制限はありません。Rustの標準ライブラリに入っている類似の型 `Result<T, E>` について考えてみましょう。
+ジェネリクスにおいてジェネリックな型は1つまで、といった制限はありません。Rustの標準ライブラリに入っている類似の型 `Result<T, E>` について考えてみます。
 
 ```rust
 enum Result<T, E> {
@@ -161,7 +160,7 @@ many cases: you’ve already seen `Option<T>`, and later you’ll meet universal
 container types like [`Vec<T>`][Vec]. On the other hand, often you want to
 trade that flexibility for increased expressive power. Read about [trait
 bounds][traits] to see why and how. -->
-ここまででありとあらゆる型をとる事のできるジェネリクスについて見てきました。多くの場合これらは便利です。 `Option<T>` は既に見た通りですし、のちに `Vec<T>` のような普遍的なコンテナ型を知ることになるでしょう。一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。それが何故か、そしてその方法を知るためには [トレイト束縛][traits] を読んで下さい。
+ここまででありとあらゆる型をとる事のできるジェネリクスについて見てきました。多くの場合これらは有用です。 `Option<T>` は既に見た通りですし、のちに `Vec<T>` のような普遍的なコンテナ型を知ることになるでしょう。一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。それは何故か、そしてその方法を知るためには [トレイト境界][traits] を読んで下さい。
 
 [traits]: traits.html
 [Vec]: ../std/vec/struct.Vec.html
