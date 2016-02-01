@@ -67,5 +67,5 @@
 | tick                  | クオート
 | trait                 | トレイト
 | unsized type          | サイズ不定型
-| vector                | vector
+| vector                | ベクタ
 | wildcard              | ワイルドカード
