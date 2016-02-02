@@ -224,8 +224,8 @@ Rustでは未初期化の値を使うことは許されていません。
 <!-- in the middle of a string." We add a comma, and then `x`, to indicate that we -->
 <!-- want `x` to be the value we’re interpolating. The comma is used to separate -->
 <!-- arguments we pass to functions and macros, if you’re passing more than one. -->
-印字する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
-Rustはこれを何かの値を入れて(interpolate、インターポーレート)くれという要求だと解します。
+印字する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて `{` を眺めてみて下さい。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
+Rustはこれを何かの値を入れて(interpolate、インターポーレート)くれという要求だと解釈します。
 *文字列インターポーレーション* (String interpolation)はコンピュータサイエンスの用語で、「文字列の中に差し込む」という意味です。
 その後に続けてカンマ、そして `x` を置いて `x` がインターポーレートしようとしている値だと指示しています。
 カンマは2つ以上の引数を関数やマクロに渡す時に使われます。
@@ -251,7 +251,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 <!-- live in different blocks. `x` can be accessed from inside the `fn main() {}` -->
 <!-- block, while `y` can be accessed only from inside the inner block: -->
 束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか生きていません。
-ブロックは `{` と `}` に囲まれた文の集りです。関数定義もブロックです!
+ブロックは `{` と `}` に囲まれた文の集まりです。関数定義もブロックです!
 以下の例では異なるブロックで生きる2つの変数束縛、 `x` と `y` を定義しています。
 `x` は `fn main() {}` ブロックの中でアクセス可能ですが、 `y` は内側のブロックからのみアクセス出来ます。
 
@@ -263,7 +263,7 @@ fn main() {
         let y: i32 = 3;
         println!("The value of x is {} and value of y is {}", x, y);
     }
-#//    println!("The value of x is {} and value of y is {}", x, y); // This won't work
+# //    println!("The value of x is {} and value of y is {}", x, y); // This won't work
     println!("The value of x is {} and value of y is {}", x, y); // これは動きません
 }
 ```
@@ -304,17 +304,17 @@ To learn more, run the command again with --verbose.
 ```rust
 let x: i32 = 8;
 {
-#//    println!("{}", x); // Prints "8"
-    println!("{}", x); // "8" を印字する
+# //    println!("{}", x); // Prints "8"
+    println!("{}", x); // "8"を印字する
     let x = 12;
-#//    println!("{}", x); // Prints "12"
-    println!("{}", x); // "12" を印字する
+# //    println!("{}", x); // Prints "12"
+    println!("{}", x); // "12"を印字する
 }
-#// println!("{}", x); // Prints "8"
+# // println!("{}", x); // Prints "8"
 println!("{}", x); // "8"を印字する
 let x =  42;
-#// println!("{}", x); // Prints "42"
-println!("{}", x); // "42" を印字する
+# // println!("{}", x); // Prints "42"
+println!("{}", x); // "42"を印字する
 ```
 
 <!-- Shadowing and mutable bindings may appear as two sides of the same coin, but -->
@@ -327,10 +327,10 @@ println!("{}", x); // "42" を印字する
 ```rust
 let mut x: i32 = 1;
 x = 7;
-#// let x = x; // x is now immutable and is bound to 7
+# // let x = x; // x is now immutable and is bound to 7
 let x = x; // xはイミュータブルになって7に束縛されました
 
 let y = 4;
-#// let y = "I can also be bound to text!"; // y is now of a different type
+# // let y = "I can also be bound to text!"; // y is now of a different type
 let y = "I can also be bound to text!"; // yは違う型になりました
 ```
