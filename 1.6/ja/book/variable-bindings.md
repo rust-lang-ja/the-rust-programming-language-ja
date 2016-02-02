@@ -4,11 +4,11 @@
 <!-- Virtually every non-'Hello World’ Rust program uses *variable bindings*. They -->
 <!-- bind some value to a name, so it can be used later. `let` is -->
 <!-- used to introduce a binding, just like this: -->
-事実上全ての「Hello World」でないRustのプログラムは *変数束縛*を使っています。
+事実上全ての「Hello World」でないRustのプログラムは *変数束縛* を使っています。
 変数束縛は何らかの値を名前へと束縛するので、後でその値を使えます。
 このように、 `let` が束縛を導入するのに使われています。
 
-> 訳注: 普通、束縛というときは名前を値へと束縛しますが、ドキュメントでは逆になっています。
+> 訳注: 普通、束縛というときは名前 *を* 値 *へ* と束縛しますが、このドキュメントでは逆になっています。
 >      Rustでは他の言語と違って1つの値に対して1つの名前が対応するのであえてこう書いてるのかもしれません。
 
 ```rust
@@ -145,7 +145,7 @@ x = 10;
 <!-- out of the scope of this guide. In general, you can often avoid explicit -->
 <!-- mutation, and so it is preferable in Rust. That said, sometimes, mutation is -->
 <!-- what you need, so it’s not verboten. -->
-可能な時にミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
+可能な時はにミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
 一般に、明示的な変更は避けれることが多いのでRustでもそうした方が良いのです。
 しかし変更が本当に必要なこともあるという意味でもあるので、厳禁という訳ではないのです。
 
@@ -241,14 +241,20 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 
 [format]: ../std/fmt/index.html
 
-# Scope and shadowing
+<!-- # Scope and shadowing -->
+# スコープとシャドイング
 
-Let’s get back to bindings. Variable bindings have a scope - they are
-constrained to live in a block they were defined in. A block is a collection
-of statements enclosed by `{` and `}`. Function definitions are also blocks!
-In the following example we define two variable bindings, `x` and `y`, which
-live in different blocks. `x` can be accessed from inside the `fn main() {}`
-block, while `y` can be accessed only from inside the inner block:
+<!-- Let’s get back to bindings. Variable bindings have a scope - they are -->
+<!-- constrained to live in a block they were defined in. A block is a collection -->
+<!-- of statements enclosed by `{` and `}`. Function definitions are also blocks! -->
+<!-- In the following example we define two variable bindings, `x` and `y`, which -->
+<!-- live in different blocks. `x` can be accessed from inside the `fn main() {}` -->
+<!-- block, while `y` can be accessed only from inside the inner block: -->
+束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか生きていません。
+ブロックは `{` と `}` に囲まれた文の集りです。関数定義もブロックです!
+以下の例では異なるブロックで生きる2つの変数束縛、 `x` と `y` を定義しています。
+`x` は `fn main() {}` ブロックの中でアクセス可能ですが、 `y` は内側のブロックからのみアクセス出来ます。
+
 
 ```rust,ignore
 fn main() {
@@ -257,20 +263,24 @@ fn main() {
         let y: i32 = 3;
         println!("The value of x is {} and value of y is {}", x, y);
     }
-    println!("The value of x is {} and value of y is {}", x, y); // This won't work
+#//    println!("The value of x is {} and value of y is {}", x, y); // This won't work
+    println!("The value of x is {} and value of y is {}", x, y); // これは動きません
 }
 ```
 
-The first `println!` would print "The value of x is 17 and the value of y is
-3", but this example cannot be compiled successfully, because the second
-`println!` cannot access the value of `y`, since it is not in scope anymore.
-Instead we get this error:
+<!-- The first `println!` would print "The value of x is 17 and the value of y is -->
+<!-- 3", but this example cannot be compiled successfully, because the second -->
+<!-- `println!` cannot access the value of `y`, since it is not in scope anymore. -->
+<!-- Instead we get this error: -->
+最初の `println!` は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と印字する筈ですが、
+2つめの `println!` は `y` がもうスコープにいないため `y` にアクセス出来ないのでこの例はコンパイル出来ません。
+代わりに以下のようなエラーが出ます。
 
 ```bash
 $ cargo build
    Compiling hello v0.1.0 (file:///home/you/projects/hello_world)
 main.rs:7:62: 7:63 error: unresolved name `y`. Did you mean `x`? [E0425]
-main.rs:7     println!("The value of x is {} and value of y is {}", x, y); // This won't work
+main.rs:7     println!("The value of x is {} and value of y is {}", x, y); // これは動きません
                                                                        ^
 note: in expansion of format_args!
 <std macros>:2:25: 2:56 note: expansion site
@@ -285,32 +295,42 @@ Could not compile `hello`.
 To learn more, run the command again with --verbose.
 ```
 
-Additionally, variable bindings can be shadowed. This means that a later
-variable binding with the same name as another binding, that's currently in
-scope, will override the previous binding.
+<!-- Additionally, variable bindings can be shadowed. This means that a later -->
+<!-- variable binding with the same name as another binding, that's currently in -->
+<!-- scope, will override the previous binding. -->
+さらに加えて、変数束縛は覆い隠すことが出来ます(訳注: このことをシャドイングと言います)。
+つまり後に出てくる同じ名前の変数束縛があるとそれがスコープに入り、以前の束縛を上書きするのです。
 
 ```rust
 let x: i32 = 8;
 {
-    println!("{}", x); // Prints "8"
+#//    println!("{}", x); // Prints "8"
+    println!("{}", x); // "8" を印字する
     let x = 12;
-    println!("{}", x); // Prints "12"
+#//    println!("{}", x); // Prints "12"
+    println!("{}", x); // "12" を印字する
 }
-println!("{}", x); // Prints "8"
+#// println!("{}", x); // Prints "8"
+println!("{}", x); // "8"を印字する
 let x =  42;
-println!("{}", x); // Prints "42"
+#// println!("{}", x); // Prints "42"
+println!("{}", x); // "42" を印字する
 ```
 
-Shadowing and mutable bindings may appear as two sides of the same coin, but
-they are two distinct concepts that can't always be used interchangeably. For
-one, shadowing enables us to rebind a name to a value of a different type. It
-is also possible to change the mutability of a binding.
+<!-- Shadowing and mutable bindings may appear as two sides of the same coin, but -->
+<!-- they are two distinct concepts that can't always be used interchangeably. For -->
+<!-- one, shadowing enables us to rebind a name to a value of a different type. It -->
+<!-- is also possible to change the mutability of a binding. -->
+シャドイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用が出来ないケースがあります。
+その1つにシャドイングは同じ名前に違う型の値を再束縛することが出来ます。
 
 ```rust
 let mut x: i32 = 1;
 x = 7;
-let x = x; // x is now immutable and is bound to 7
+#// let x = x; // x is now immutable and is bound to 7
+let x = x; // xはイミュータブルになって7に束縛されました
 
 let y = 4;
-let y = "I can also be bound to text!"; // y is now of a different type
+#// let y = "I can also be bound to text!"; // y is now of a different type
+let y = "I can also be bound to text!"; // yは違う型になりました
 ```
