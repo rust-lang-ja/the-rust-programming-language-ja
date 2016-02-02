@@ -8,7 +8,7 @@
 <!-- chapter: -->
 このガイドはRustの所有権システムの3つの解説の1つです。
 これはRustの最も独特で注目されている機能です。そして、Rust開発者はそれについて高度に精通しておくべきです。
-所有権はどのようにRustがその最大の目標、メモリ安全性を得るのかということです。
+所有権こそはRustがその最大の目標、メモリ安全性を得るための方法です。
 そこにはいくつかの別個の概念があり、各概念が独自の章を持ちます。
 
 <!-- * ownership, which you’re reading now -->
@@ -147,7 +147,7 @@ println!("v[0] is: {}", v[0]);
 <!-- we say that we’ve ‘moved’ the thing we refer to. You don’t need some sort of -->
 <!-- special annotation here, it’s the default thing that Rust does. -->
 「use of moved value」という同じエラーです。
-所有権を何か別のものに転送するとき、参照するものを「移転する」と言います。
+所有権を何か別のものに転送するとき、参照するものを「ムーブした」と言います。
 ここでは特別な種類の注釈を必要としません。
 それはRustの行うデフォルトの動作です。
 
@@ -156,7 +156,7 @@ println!("v[0] is: {}", v[0]);
 
 <!-- The reason that we cannot use a binding after we’ve moved it is subtle, but -->
 <!-- important. When we write code like this: -->
-束縛を移転した後ではそれを使うことができないということの理由は微妙ですが重要です。
+束縛をムーブした後ではそれを使うことができないということの理由は微妙ですが重要です。
 このようなコードを書いたとします。
 
 ```rust
@@ -174,10 +174,10 @@ let v2 = v;
 <!-- after we’ve done the move. -->
 最初の行はベクタオブジェクト`v`とそれの含むデータのためのメモリを割り当てます。
 ベクタオブジェクトは[スタック][sh]に保存され、[ヒープ][sh]に保存された内容（`[1, 2, 3]`）へのポインタを含みます。
-`v`を`v2`に移転するとき、それは`v2`のためにそのポインタのコピーを作ります。
+`v`を`v2`にムーブするとき、それは`v2`のためにそのポインタのコピーを作ります。
 それは、ヒープ上のベクタの内容へのポインタが2つあることを意味します。
 それはデータ競合を持ち込むことでRustの安全性保証に違反するでしょう。
-そのため、Rustは移転を終えた後の`v`の使用を禁止するのです。
+そのため、Rustはムーブを終えた後の`v`の使用を禁止するのです。
 
 [sh]: the-stack-and-the-heap.html
 
@@ -213,16 +213,16 @@ println!("v is: {}", v);
 <!-- But, unlike a move, we can still use `v` afterward. This is because an `i32` -->
 <!-- has no pointers to data somewhere else, copying it is a full copy. -->
 この場合、`v`は`i32`で、それは`Copy`トレイトを実装します。
-これはちょうど移転と同じように、`v`を`v2`に割り当てるとき、データのコピーが作られるということを意味します。
-しかし、移転と違って後でまだ`v`を使うことができます。
+これはちょうどムーブと同じように、`v`を`v2`に割り当てるとき、データのコピーが作られるということを意味します。
+しかし、ムーブと違って後でまだ`v`を使うことができます。
 これは`i32`がどこか別の場所へのポインタを持たず、コピーが完全コピーだからです。
 
 <!-- All primitive types implement the `Copy` trait and their ownership is -->
 <!-- therefore not moved like one would assume, following the ´ownership rules´. -->
 <!-- To give an example, the two following snippets of code only compile because the -->
 <!-- `i32` and `bool` types implement the `Copy` trait. -->
-全てのプリミティブ型は`Copy`トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従っては移転しません。
-例を与えるために、2つのコードスニペットを単にコンパイルしましょう。なぜなら、`i32`型と`bool`型は`Copy`トレイトを実装するからです。
+全てのプリミティブ型は`Copy`トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従ってはムーブしません。
+例として、次の2つのコードスニペットはコンパイルが通ります。なぜなら、`i32`型と`bool`型は`Copy`トレイトを実装するからです。
 
 ```rust
 fn main() {
@@ -252,7 +252,7 @@ fn change_truth(x: bool) -> bool {
 
 <!-- If we had used types that do not implement the `Copy` trait, -->
 <!-- we would have gotten a compile error because we tried to use a moved value. -->
-もし`Copy`トレイトを実装していない型を使っていたならば、移転した値を使おうとしたため、コンパイルエラーが出ていたでしょう。
+もし`Copy`トレイトを実装していない型を使っていたならば、ムーブした値を使おうとしたため、コンパイルエラーが出ていたでしょう。
 
 ```text
 error: use of moved value: `a`
