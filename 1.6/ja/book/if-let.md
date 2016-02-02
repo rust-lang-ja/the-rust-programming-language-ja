@@ -93,4 +93,4 @@ while let Some(x) = v.pop() {
 }
 ```
 
-[パターン]: patterns.html
+[patterns]: patterns.html
