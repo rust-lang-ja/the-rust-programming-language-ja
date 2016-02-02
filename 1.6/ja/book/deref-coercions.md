@@ -58,7 +58,7 @@ foo(&owned);
 <!-- `String`, `&owned` is an `&String`, and since `impl Deref<Target=str> for -->
 <!-- String`, `&String` will deref to `&str`, which `foo()` takes. -->
 値の前にアンパサンド(&)をつけることによってその値への参照を取得することができます。
-故に `owned` は `String` に、 `&owned` は `&String` になります。
+なので、 `owned` は `String` であり、 `&owned` は `&String` であり、
 そして、 `String` が `Deref<Target=str>` を実装しているために、
 `&String` は `foo()` が要求している `&str` に型強制されます。
 
