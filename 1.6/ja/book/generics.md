@@ -160,7 +160,7 @@ many cases: you’ve already seen `Option<T>`, and later you’ll meet universal
 container types like [`Vec<T>`][Vec]. On the other hand, often you want to
 trade that flexibility for increased expressive power. Read about [trait
 bounds][traits] to see why and how. -->
-ここまででありとあらゆる型をとる事のできるジェネリクスについて見てきました。多くの場合これらは有用です。 `Option<T>` は既に見た通りですし、のちに `Vec<T>` のような普遍的なコンテナ型を知ることになるでしょう。一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。それは何故か、そしてその方法を知るためには [トレイト境界][traits] を読んで下さい。
+ここまででありとあらゆる型をとることのできるジェネリクスについて見てきました。多くの場合これらは有用です。 `Option<T>` は既に見た通りですし、のちに `Vec<T>` のような普遍的なコンテナ型を知ることになるでしょう。一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。それは何故か、そしてその方法を知るためには [トレイト境界][traits] を読んで下さい。
 
 [traits]: traits.html
 [Vec]: ../std/vec/struct.Vec.html
