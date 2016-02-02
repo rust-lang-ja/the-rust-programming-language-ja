@@ -8,69 +8,70 @@
 
 # 対訳表
 
-| English                 | 日本語
-|:------------------------|:------
-| alignment               | アラインメント
-| allocator               | アロケータ
-| application             | アプリケーション
-| arity                   | アリティ
-| array                   | 配列
-| associated -            | 関連-
-| attribute               | アトリビュート
-| binary                  | バイナリ
-| binding                 | 束縛
-| block                   | ブロック
-| borrowing               | 借用
-| capture                 | キャプチャ
-| closure                 | クロージャ
-| coercion                | 型強制
-| compiler                | コンパイラ
-| constant                | 定数
-| crate                   | クレート
-| declaration statement   | 宣言文
-| dereferencing           | 参照外し
-| destructuring           | 分配
-| directive               | ディレクティブ
-| distribution            | 配布物
-| diverge                 | ダイバージ
-| diverging               | ダイバージング
-| documentation comment   | ドキュメンテーションコメント
-| documentation test      | ドキュメンテーションテスト
-| early return            | 早期リターン
-| enum                    | 列挙型
-| expression statement    | 式文
-| feature                 | フィーチャ
-| generics                | ジェネリクス
-| identifier              | 識別子
-| immutable               | イミュータブル
-| Intrinsics              | Intrinsic
-| Lang Items              | Lang Item
-| library                 | ライブラリ
-| lifetime                | ライフタイム
-| link                    | リンク
-| lint                    | リント
-| match                   | マッチ
-| memory                  | メモリ
-| move                    | ムーブ
-| mutable                 | ミュータブル
-| mutability              | ミュータビリティ
-| owner                   | 所有者
-| ownership               | 所有権
-| panic                   | パニック
-| parametric polymorphism | パラメトリック多相
-| return                  | 返す
-| shadow                  | 覆い隠す
-| signature               | シグネチャ
-| slice                   | スライス
-| slicing                 | スライシング
-| struct                  | 構造体
-| structure               | ストラクチャ
-| symbol                  | シンボル
-| syntactic sugar         | 糖衣構文
-| system                  | システム
-| tick                    | クオート
-| trait                   | トレイト
-| trait bounds            | トレイト境界
-| unsized type            | サイズ不定型
-| vector                  | ベクタ
-| wildcard                | ワイルドカード
+| English                        | 日本語
+|:-------------------------------|:-------------
+| alignment                      | アラインメント
+| allocator                      | アロケータ
+| application                    | アプリケーション
+| arity                          | アリティ
+| array                          | 配列
+| associated -                   | 関連-
+| attribute                      | アトリビュート
+| binary                         | バイナリ
+| binding                        | 束縛
+| block                          | ブロック
+| borrowing                      | 借用
+| bounds                         | 境界
+| capture                        | キャプチャ
+| closure                        | クロージャ
+| coercion                       | 型強制
+| compiler                       | コンパイラ
+| constant                       | 定数
+| crate                          | クレート
+| declaration statement          | 宣言文
+| dereferencing                  | 参照外し
+| destructuring                  | 分配
+| directive                      | ディレクティブ
+| distribution                   | 配布物
+| diverge                        | ダイバージ
+| diverging                      | ダイバージング
+| documentation comment          | ドキュメンテーションコメント
+| documentation test             | ドキュメンテーションテスト
+| early return                   | 早期リターン
+| enum                           | 列挙型
+| expression statement           | 式文
+| feature                        | フィーチャ
+| generics                       | ジェネリクス
+| identifier                     | 識別子
+| immutable                      | イミュータブル
+| Intrinsics                     | Intrinsic
+| Lang Items                     | Lang Item
+| library                        | ライブラリ
+| lifetime                       | ライフタイム
+| link                           | リンク
+| lint                           | リント
+| match                          | マッチ
+| memory                         | メモリ
+| move                           | ムーブ
+| mutable                        | ミュータブル
+| mutability                     | ミュータビリティ
+| owner                          | 所有者
+| ownership                      | 所有権
+| panic                          | パニック
+| parametric polymorphism        | パラメトリック多相
+| return                         | 返す
+| shadow                         | 覆い隠す
+| signature                      | シグネチャ
+| slice                          | スライス
+| slicing                        | スライシング
+| struct                         | 構造体
+| structure                      | ストラクチャ
+| symbol                         | シンボル
+| syntactic sugar                | 糖衣構文
+| system                         | システム
+| tick                           | クオート
+| trait                          | トレイト
+| Universal Function Call Syntax | 共通の関数呼び出し構文
+| unsized type                   | サイズ不定型
+| vector                         | ベクタ
+| wildcard                       | ワイルドカード

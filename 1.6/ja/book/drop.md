@@ -7,7 +7,7 @@
 トレイトについて学びましたので、Rustの標準ライブラリによって提供されている具体的なトレイト [`Drop`][drop]について説明しましょう。
 `Drop` トレイトは値がスコープ外になった時にコードを実行する方法を提供します:
 
-[ドロップ]: ../std/ops/trait.Drop.html
+[drop]: ../std/ops/trait.Drop.html
 
 ```rust
 struct HasDrop;
