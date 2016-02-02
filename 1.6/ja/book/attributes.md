@@ -57,7 +57,7 @@ fn check() {
 この関数は `#[test]` によってマークされており、これは [テスト][tests] を走らせた時に実行されるという特別な意味になります。
 通常通りにコンパイルをした場合は、コンパイル結果に含まれません。この関数は今やテスト関数なのです。
 
-[テスト]: testing.html
+[tests]: testing.html
 
 <!-- Attributes may also have additional data: -->
 アトリビュートは以下のように、追加のデータを持つことができます:
@@ -84,4 +84,4 @@ Rustのアトリビュートは様々なことに利用されます。
 すべてのアトリビュートのリストは [リファレンス][reference] に載っています。
 現在は、Rustコンパイラーによって定義されている以外の独自のアトリビュートを作成することは許可されていません。
 
-[リファレンス]: ../reference.html#attributes
+[reference]: ../reference.html#attributes
