@@ -4,7 +4,7 @@
 <!-- The standard library provides a special trait, [`Deref`][deref]. It’s normally -->
 <!-- used to overload `*`, the dereference operator: -->
 標準ライブラリは特別なトレイト [`Dref`][deref] を提供します。
-`Deref` は通常参照外し演算子 `*` をオーバーロードするために利用されます。
+`Deref` は通常、参照外し演算子 `*` をオーバーロードするために利用されます。
 
 ```rust
 use std::ops::Deref;
@@ -34,9 +34,9 @@ fn main() {
 <!-- type `U`, and it implements `Deref<Target=T>`, values of `&U` will -->
 <!-- automatically coerce to a `&T`. Here’s an example: -->
 このように、 `Deref` はカスタマイズしたポインタ型を定義するのに便利です。
-一方で、`Deref` に関連するルールがもう一つ有ります 「derefによる型強制」です。
+一方で、`Deref` に関連する機能がもう一つ有ります: 「derefによる型強制」です。
 これは、 `Deref<Target=T>` を実装している型 `U` があるときに、
-`&U` が自動的に `&T` に型強制されるというものです。
+`&U` が自動的に `&T` に型強制されるというルールです。
 例えば:
 
 ```rust
@@ -57,7 +57,7 @@ foo(&owned);
 <!-- Using an ampersand in front of a value takes a reference to it. So `owned` is a -->
 <!-- `String`, `&owned` is an `&String`, and since `impl Deref<Target=str> for -->
 <!-- String`, `&String` will deref to `&str`, which `foo()` takes. -->
-値の前にアンパサンド(&)をつけることによって値への参照を取得することができます。
+値の前にアンパサンド(&)をつけることによってその値への参照を取得することができます。
 故に `owned` は `String` に、 `&owned` は `&String` になります。
 そして、 `String` が `Deref<Target=str>` を実装しているために、
 `&String` は `foo()` が要求している `&str` に型強制されます。
@@ -94,7 +94,7 @@ foo(&counted);
 <!-- this as many times as possible until the types match. -->
 先ほどのコードとの変化は `String` を `Rc<T>` でラッピングした点ですが、
 依然 `Rc<String>` を `String` が必要なところに渡すことができます。
-`foo` のシグネチャは変化していませんが、どちらの方についても正しく動作します。
+`foo` のシグネチャは変化していませんが、どちらの型についても正しく動作します。
 この例は２つの変換を含んでいます: `Rc<String>` が `String` に変換され、次に `String` が `&str` に変換されます。
 Rustはこのような変換を型がマッチするまで必要なだけ繰り返します。
 
@@ -154,4 +154,4 @@ f.foo();
 <!-- get it right. And since it’s inserting `*`s, that uses `Deref`. -->
 `&&&&&&&&&&&&&&&&Foo` 型の値は `Foo` で定義されているメソッドを呼び出すことができます。
 これは、コンパイラが自動的に必要なだけ * 演算子を補うことによります。
-また、 `*` が補われることによって `Deref` が利用されます。
+そして `*` が補われることによって `Deref` が利用される事になります。
