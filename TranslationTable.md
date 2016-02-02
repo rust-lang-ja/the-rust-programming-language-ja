@@ -69,6 +69,7 @@
 | system                | システム
 | tick                  | クオート
 | trait                 | トレイト
+| type inference        | 型推論
 | unsized type          | サイズ不定型
 | vector                | ベクタ
 | wildcard              | ワイルドカード
