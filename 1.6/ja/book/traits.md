@@ -1,11 +1,13 @@
 % トレイト
 <!-- % Traits -->
 
-A trait is a language feature that tells the Rust compiler about
-functionality a type must provide.
+<!-- A trait is a language feature that tells the Rust compiler about
+functionality a type must provide. -->
+トレイトはある型が提供しなければならない機能をRustのコンパイラに伝える言語機能です。
 
-Recall the `impl` keyword, used to call a function with [method
-syntax][methodsyntax]:
+<!-- Recall the `impl` keyword, used to call a function with [method
+syntax][methodsyntax]: -->
+[メソッド構文][methodsyntax]で関数を呼び出すのに用いていた、 `impl` キーワードを思い出して下さい。
 
 ```rust
 struct Circle {
@@ -23,8 +25,10 @@ impl Circle {
 
 [methodsyntax]: method-syntax.html
 
-Traits are similar, except that we first define a trait with a method
-signature, then implement the trait for a type. In this example, we implement the trait `HasArea` for `Circle`:
+<!-- Traits are similar, except that we first define a trait with a method
+signature, then implement the trait for a type. In this example, we implement the trait `HasArea` for `Circle`: -->
+トレイトはそれに似ていますが、始めにトレイトをメソッドのシグネチャと共に定義し、続いてある型のためにトレイトを実装するという流れが異なります。
+この例では、 `Circle` のために `HasArea` トレイトを実装しています。
 
 ```rust
 struct Circle {
@@ -44,15 +48,18 @@ impl HasArea for Circle {
 }
 ```
 
-As you can see, the `trait` block looks very similar to the `impl` block,
+<!-- As you can see, the `trait` block looks very similar to the `impl` block,
 but we don’t define a body, just a type signature. When we `impl` a trait,
-we use `impl Trait for Item`, rather than just `impl Item`.
+we use `impl Trait for Item`, rather than just `impl Item`. -->
+このように、 `trait` ブロックは `impl` ブロックにとても似ているように見えますが、関数本体を定義せず、型シグネチャだけを定義しています。トレイトを `impl` するときは、ただ `impl Item` とするのではなく、 `impl Trait for Item` と記述します。
 
-## Trait bounds on generic functions
+<!-- ## Trait bounds on generic functions -->
+## ジェネリック関数におけるトレイト境界
 
-Traits are useful because they allow a type to make certain promises about its
+<!-- Traits are useful because they allow a type to make certain promises about its
 behavior. Generic functions can exploit this to constrain, or [bound][bounds], the types they
-accept. Consider this function, which does not compile:
+accept. Consider this function, which does not compile: -->
+トレイトはある型の振る舞いを確約してくれるため有用です。ジェネリック関数は制約、あるいは [境界][bounds] が許容する型のみを受け取るためにトレイトを利用できます。以下の関数を考えて下さい、これはコンパイルできません。
 
 [bounds]: glossary.html#bounds
 
@@ -62,15 +69,17 @@ fn print_area<T>(shape: T) {
 }
 ```
 
-Rust complains:
+<!-- Rust complains: -->
+Rustは以下のエラーを吐きます。
 
 ```text
 error: no method named `area` found for type `T` in the current scope
 ```
 
-Because `T` can be any type, we can’t be sure that it implements the `area`
+<!-- Because `T` can be any type, we can’t be sure that it implements the `area`
 method. But we can add a trait bound to our generic `T`, ensuring
-that it does:
+that it does: -->
+`T` はあらゆる型になれるため、 `area` メソッドが実装されているか確認できません。ですが私たちはジェネリックな `T` にトレイト境界を追加できるので、境界が実装を保証してくれます。
 
 ```rust
 # trait HasArea {
@@ -81,11 +90,13 @@ fn print_area<T: HasArea>(shape: T) {
 }
 ```
 
-The syntax `<T: HasArea>` means “any type that implements the `HasArea` trait.”
+<!-- The syntax `<T: HasArea>` means “any type that implements the `HasArea` trait.”
 Because traits define function type signatures, we can be sure that any type
-which implements `HasArea` will have an `.area()` method.
+which implements `HasArea` will have an `.area()` method. -->
+`<T: HasArea>` 構文は「 `HasArea` トレイトを実装するあらゆる型」という意味です。トレイトは関数の型シグネチャを定義しているため、 `HasArea` を実装するあらゆる型が `.area()` メソッドを持っていることを確認できます。
 
-Here’s an extended example of how this works:
+<!-- Here’s an extended example of how this works: -->
+トレイトの動作を確認するために拡張した例が以下になります。
 
 ```rust
 trait HasArea {
@@ -138,31 +149,36 @@ fn main() {
 }
 ```
 
-This program outputs:
+<!-- This program outputs: -->
+このプログラムの出力は、
 
 ```text
 This shape has an area of 3.141593
 This shape has an area of 1
 ```
 
-As you can see, `print_area` is now generic, but also ensures that we have
-passed in the correct types. If we pass in an incorrect type:
+<!-- As you can see, `print_area` is now generic, but also ensures that we have
+passed in the correct types. If we pass in an incorrect type: -->
+見ての通り、上記の `print_area` はジェネリックですが、適切な型が渡されることを保証しています。もし不適切な型を渡すと、
 
 ```rust,ignore
 print_area(5);
 ```
 
-We get a compile-time error:
+<!-- We get a compile-time error: -->
+コンパイル時エラーが発生します。
 
 ```text
 error: the trait `HasArea` is not implemented for the type `_` [E0277]
 ```
 
-## Trait bounds on generic structs
+<!-- ## Trait bounds on generic structs -->
+## ジェネリック構造体におけるトレイト境界
 
-Your generic structs can also benefit from trait bounds. All you need to
+<!-- Your generic structs can also benefit from trait bounds. All you need to
 do is append the bound when you declare type parameters. Here is a new
-type `Rectangle<T>` and its operation `is_square()`:
+type `Rectangle<T>` and its operation `is_square()`: -->
+ジェネリック構造体もトレイト境界による恩恵を受けることができます。あなたがしなければならないのは型パラメータを宣言する際に境界を追加することだけです。以下が新しい型 `Rectangle<T>` とそのメソッド `is_square()` です。
 
 ```rust
 struct Rectangle<T> {
@@ -193,31 +209,36 @@ fn main() {
 }
 ```
 
-`is_square()` needs to check that the sides are equal, so the sides must be of
-a type that implements the [`core::cmp::PartialEq`][PartialEq] trait:
+<!-- `is_square()` needs to check that the sides are equal, so the sides must be of
+a type that implements the [`core::cmp::PartialEq`][PartialEq] trait: -->
+`is_square()` は両辺が等しいかチェックする必要があるため、両辺の型は [`core::cmp::PartialEq`][PartialEq] トレイトを実装しなければなりません。
 
 ```ignore
 impl<T: PartialEq> Rectangle<T> { ... }
 ```
 
-Now, a rectangle can be defined in terms of any type that can be compared for
-equality.
+<!-- Now, a rectangle can be defined in terms of any type that can be compared for
+equality. -->
+今、比較して等しさを確かめることのできる型という観点から長方形を定義できました。
 
 [PartialEq]: ../core/cmp/trait.PartialEq.html
 
-Here we defined a new struct `Rectangle` that accepts numbers of any
+<!-- Here we defined a new struct `Rectangle` that accepts numbers of any
 precision—really, objects of pretty much any type—as long as they can be
 compared for equality. Could we do the same for our `HasArea` structs, `Square`
 and `Circle`? Yes, but they need multiplication, and to work with that we need
-to know more about [operator traits][operators-and-overloading].
+to know more about [operator traits][operators-and-overloading]. -->
+上記の例では任意の精度を許容する `Rectangle` 構造体を新たに定義しました-実のところ、比較して等しさを確かめることのできるほぼ全ての型に対して利用可能なオブジェクトです。同じことを `Square` や `Circle` のような `HasArea` を実装する構造体に対してできるでしょうか?可能では有りますが乗算が必要になるため、それをするには [オペレータトレイト][operators-and-overloading] についてより詳しく知らなければなりません。
 
 [operators-and-overloading]: operators-and-overloading.html
 
-# Rules for implementing traits
+<!-- # Rules for implementing traits -->
+# トレイト実装のルール
 
-So far, we’ve only added trait implementations to structs, but you can
+<!-- So far, we’ve only added trait implementations to structs, but you can
 implement a trait for any type. So technically, we _could_ implement `HasArea`
-for `i32`:
+for `i32`: -->
+ここまでで、構造体へトレイトの実装を追加することだけを説明してきましたが、あらゆる型についてトレイトを実装することができます。技術的には、 `i32` のための `HasArea` を実装することも _できなくはない_ です。
 
 ```rust
 trait HasArea {
@@ -235,8 +256,9 @@ impl HasArea for i32 {
 5.area();
 ```
 
-It is considered poor style to implement methods on such primitive types, even
-though it is possible.
+<!-- It is considered poor style to implement methods on such primitive types, even
+though it is possible. -->
+しかし例え可能であったとしても、そのようなプリミティブ型のメソッドを実装するのは拙い手法だと考えられています。
 
 This may seem like the Wild West, but there are two restrictions around
 implementing traits that prevent this from getting out of hand. The first is
