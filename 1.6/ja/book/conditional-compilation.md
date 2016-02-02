@@ -41,7 +41,7 @@ Rustには `#[cfg]` という特別なアトリビュートがあり、
 <!-- they get set in the [`[features]` section][features] of your `Cargo.toml`: -->
 このようなスイッチの有効・無効の切り替えはCargoを利用している場合`Cargo.toml`中の [`[features]` セクション][features] で設定できます。
 
-[フィーチャ]: http://doc.crates.io/manifest.html#the-features-section
+[features]: http://doc.crates.io/manifest.html#the-features-section
 
 ```toml
 [features]
@@ -104,7 +104,7 @@ if cfg!(target_os = "macos") || cfg!(target_os = "ios") {
 }
 ```
 
-[コンパイラプラグイン]: compiler-plugins.html
+[compilerplugins]: compiler-plugins.html
 
 <!-- These will be replaced by a `true` or `false` at compile-time, depending on the -->
 <!-- configuration settings. -->
