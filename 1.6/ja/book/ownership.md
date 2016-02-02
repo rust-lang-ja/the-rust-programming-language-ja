@@ -132,7 +132,8 @@ println!("v[0] is: {}", v[0]);
 
 ```rust,ignore
 fn take(v: Vec<i32>) {
-    // what happens here isn’t important.
+#   // what happens here isn’t important.
+    // ここで何が起きるかは重要ではない
 }
 
 let v = vec![1, 2, 3];
@@ -273,9 +274,11 @@ println!("{}", a);
 
 ```rust
 fn foo(v: Vec<i32>) -> Vec<i32> {
-    // do stuff with v
+#   // do stuff with v
+    // vについての作業を行う
 
-    // hand back ownership
+#   // hand back ownership
+    // 所有権を返す
     v
 }
 ```
@@ -286,9 +289,11 @@ fn foo(v: Vec<i32>) -> Vec<i32> {
 
 ```rust
 fn foo(v1: Vec<i32>, v2: Vec<i32>) -> (Vec<i32>, Vec<i32>, i32) {
-    // do stuff with v1 and v2
+#   // do stuff with v1 and v2
+    // v1とv2についての作業を行う
 
-    // hand back ownership, and the result of our function
+#   // hand back ownership, and the result of our function
+    // 所有権と関数の結果を返す
     (v1, v2, 42)
 }
 
