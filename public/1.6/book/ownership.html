@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Ownership</title>
+    <title>所有権</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,48 +185,107 @@
 <div id='page'>
 
 
-    <h1 class="title">Ownership</h1>
-    <p>This guide is one of three presenting Rust’s ownership system. This is one of
-Rust’s most unique and compelling features, with which Rust developers should
-become quite acquainted. Ownership is how Rust achieves its largest goal,
-memory safety. There are a few distinct concepts, each with its own
-chapter:</p>
+    <h1 class="title">所有権</h1>
+    <!-- % Ownership -->
+
+<!-- This guide is one of three presenting Rust’s ownership system. This is one of -->
+
+<!-- Rust’s most unique and compelling features, with which Rust developers should -->
+
+<!-- become quite acquainted. Ownership is how Rust achieves its largest goal, -->
+
+<!-- memory safety. There are a few distinct concepts, each with its own -->
+
+<!-- chapter: -->
+
+<p>このガイドはRustの所有権システムの3つの解説の1つです。
+これはRustの最も独特で注目されている機能です。そして、Rust開発者はそれについて高度に精通しておくべきです。
+所有権こそはRustがその最大の目標、メモリ安全性を得るための方法です。
+そこにはいくつかの別個の概念があり、各概念が独自の章を持ちます。</p>
+
+<!-- * ownership, which you’re reading now -->
+
+<!-- * [borrowing][borrowing], and their associated feature ‘references’ -->
+
+<!-- * [lifetimes][lifetimes], an advanced concept of borrowing -->
 
 <ul>
-<li>ownership, which you’re reading now</li>
-<li><a href="references-and-borrowing.html">borrowing</a>, and their associated feature ‘references’</li>
-<li><a href="lifetimes.html">lifetimes</a>, an advanced concept of borrowing</li>
+<li>今読んでいる、所有権</li>
+<li><a href="references-and-borrowing.html">借用</a>、そしてそれらに関連する機能、「参照」</li>
+<li>借用のもう一歩進んだ概念、<a href="lifetimes.html">ライフタイム</a></li>
 </ul>
 
-<p>These three chapters are related, and in order. You’ll need all three to fully
-understand the ownership system.</p>
+<!-- These three chapters are related, and in order. You’ll need all three to fully -->
 
-<h1 id='meta' class='section-header'><a href='#meta'>Meta</a></h1>
-<p>Before we get to the details, two important notes about the ownership system.</p>
+<!-- understand the ownership system. -->
 
-<p>Rust has a focus on safety and speed. It accomplishes these goals through many
-‘zero-cost abstractions’, which means that in Rust, abstractions cost as little
-as possible in order to make them work. The ownership system is a prime example
-of a zero-cost abstraction. All of the analysis we’ll talk about in this guide
-is <em>done at compile time</em>. You do not pay any run-time cost for any of these
-features.</p>
+<p>それらの3つの章は関連していて、それらは順番に並んでいます。
+所有権システムを完全に理解するためには、3つ全てを必要とするでしょう。</p>
 
-<p>However, this system does have a certain cost: learning curve. Many new users
-to Rust experience something we like to call ‘fighting with the borrow
-checker’, where the Rust compiler refuses to compile a program that the author
-thinks is valid. This often happens because the programmer’s mental model of
-how ownership should work doesn’t match the actual rules that Rust implements.
-You probably will experience similar things at first. There is good news,
-however: more experienced Rust developers report that once they work with the
-rules of the ownership system for a period of time, they fight the borrow
-checker less and less.</p>
+<!-- # Meta -->
 
-<p>With that in mind, let’s learn about ownership.</p>
+<h1 id='概論' class='section-header'><a href='#概論'>概論</a></h1>
+<!-- Before we get to the details, two important notes about the ownership system. -->
 
-<h1 id='ownership' class='section-header'><a href='#ownership'>Ownership</a></h1>
-<p><a href="variable-bindings.html">Variable bindings</a> have a property in Rust: they ‘have ownership’
-of what they’re bound to. This means that when a binding goes out of scope,
-Rust will free the bound resources. For example:</p>
+<p>詳細に入る前に、所有権システムについての2つの重要な注意があります。</p>
+
+<!-- Rust has a focus on safety and speed. It accomplishes these goals through many -->
+
+<!-- ‘zero-cost abstractions’, which means that in Rust, abstractions cost as little -->
+
+<!-- as possible in order to make them work. The ownership system is a prime example -->
+
+<!-- of a zero-cost abstraction. All of the analysis we’ll talk about in this guide -->
+
+<!-- is _done at compile time_. You do not pay any run-time cost for any of these -->
+
+<!-- features. -->
+
+<p>Rustは安全性とスピートに焦点を合わせます。
+Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通じて成し遂げます。それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
+所有権システムはゼロコスト抽象化の主な例です。
+このガイドの中で話すであろう解析の全ては <em>コンパイル時に行われます</em> 。
+それらのどの機能に対しても実行時のコストは全く掛かりません。</p>
+
+<!-- However, this system does have a certain cost: learning curve. Many new users -->
+
+<!-- to Rust experience something we like to call ‘fighting with the borrow -->
+
+<!-- checker’, where the Rust compiler refuses to compile a program that the author -->
+
+<!-- thinks is valid. This often happens because the programmer’s mental model of -->
+
+<!-- how ownership should work doesn’t match the actual rules that Rust implements. -->
+
+<!-- You probably will experience similar things at first. There is good news, -->
+
+<!-- however: more experienced Rust developers report that once they work with the -->
+
+<!-- rules of the ownership system for a period of time, they fight the borrow -->
+
+<!-- checker less and less. -->
+
+<p>しかし、このシステムはあるコストを持ちます。それは学習曲線です。
+多くの新しいRustのユーザは「借用チェッカとの戦い」と好んで呼ばれるものを経験します。そこではRustコンパイラが開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
+所有権がどのように機能するのかについてのプログラマのメンタルモデルがRustの実装する実際のルールにマッチしないため、これはしばしば起きます。
+しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。一度彼らが所有権システムのルールとともにしばらく仕事をすれば、彼らが借用チェッカと戦うことは少なくなっていくということです。</p>
+
+<!-- With that in mind, let’s learn about ownership. -->
+
+<p>それを念頭に置いて、所有権について学びましょう。</p>
+
+<!-- # Ownership -->
+
+<h1 id='所有権' class='section-header'><a href='#所有権'>所有権</a></h1>
+<!-- [Variable bindings][bindings] have a property in Rust: they ‘have ownership’ -->
+
+<!-- of what they’re bound to. This means that when a binding goes out of scope, -->
+
+<!-- Rust will free the bound resources. For example: -->
+
+<p>Rustでは<a href="variable-bindings.html">変数束縛</a>は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
+これは束縛がスコープから外れるとき、Rustは束縛されているリソースを解放するだろうということを意味します。
+例えばこうです。</p>
 <span class='rusttest'>fn main() {
     fn foo() {
         let v = vec![1, 2, 3];
@@ -236,16 +295,32 @@ Rust will free the bound resources. For example:</p>
     <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 }</pre>
 
-<p>When <code>v</code> comes into scope, a new <a href="../std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a> is created. In this case, the
-vector also allocates space on <a href="the-stack-and-the-heap.html">the heap</a>, for the three elements. When
-<code>v</code> goes out of scope at the end of <code>foo()</code>, Rust will clean up everything
-related to the vector, even the heap-allocated memory. This happens
-deterministically, at the end of the scope.</p>
+<!-- When `v` comes into scope, a new [`Vec<T>`][vect] is created. In this case, the -->
 
-<h1 id='move-semantics' class='section-header'><a href='#move-semantics'>Move semantics</a></h1>
-<p>There’s some more subtlety here, though: Rust ensures that there is <em>exactly
-one</em> binding to any given resource. For example, if we have a vector, we can
-assign it to another binding:</p>
+<!-- vector also allocates space on [the heap][heap], for the three elements. When -->
+
+<!-- `v` goes out of scope at the end of `foo()`, Rust will clean up everything -->
+
+<!-- related to the vector, even the heap-allocated memory. This happens -->
+
+<!-- deterministically, at the end of the scope. -->
+
+<p><code>v</code>がスコープに入るとき、新しい<a href="../std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a>が作られます。
+この場合、ベクタも3つの要素のために<a href="the-stack-and-the-heap.html">ヒープ</a>に空間を割り当てます。
+<code>foo()</code>の最後で<code>v</code>がスコープから外れるとき、Rustはベクタに関連するもの全てを取り除くでしょう。それがヒープ割当てのメモリであってもです。
+これはスコープの最後で決定的に起こります。</p>
+
+<!-- # Move semantics -->
+
+<h1 id='ムーブセマンティクス' class='section-header'><a href='#ムーブセマンティクス'>ムーブセマンティクス</a></h1>
+<!-- There’s some more subtlety here, though: Rust ensures that there is _exactly -->
+
+<!-- one_ binding to any given resource. For example, if we have a vector, we can -->
+
+<!-- assign it to another binding: -->
+
+<p>しかし、ここではもっと微妙なことがあります。それは、Rustは与えられたリソースに対する束縛が <em>1つだけ</em> あるということを保証するということです。
+例えば、もしベクタがあれば、それを別の束縛に割り当てることはできます。</p>
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     
@@ -255,7 +330,9 @@ assign it to another binding:</p>
 
 <span class='kw'>let</span> <span class='ident'>v2</span> <span class='op'>=</span> <span class='ident'>v</span>;</pre>
 
-<p>But, if we try to use <code>v</code> afterwards, we get an error:</p>
+<!-- But, if we try to use `v` afterwards, we get an error: -->
+
+<p>しかし、もし後で<code>v</code>を使おうとすると、エラーが出ます。</p>
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     
@@ -269,18 +346,24 @@ assign it to another binding:</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;v[0] is: {}&quot;</span>, <span class='ident'>v</span>[<span class='number'>0</span>]);</pre>
 
-<p>It looks like this:</p>
+<!-- It looks like this: -->
+
+<p>それはこのように見えます。</p>
 
 <pre><code class="language-text">error: use of moved value: `v`
 println!(&quot;v[0] is: {}&quot;, v[0]);
                         ^
 </code></pre>
 
-<p>A similar thing happens if we define a function which takes ownership, and
-try to use something after we’ve passed it as an argument:</p>
+<!-- A similar thing happens if we define a function which takes ownership, and -->
+
+<!-- try to use something after we’ve passed it as an argument: -->
+
+<p>もし所有権を受け取る関数を定義して、引数として何かを渡した後でそれを使おうとするならば、同じようなことが起きます。</p>
 <span class='rusttest'>fn main() {
     fn take(v: Vec&lt;i32&gt;) {
-        // what happens here isn’t important.
+      // what happens here isn’t important.
+        // ここで何が起きるかは重要ではない
     }
     
     let v = vec![1, 2, 3];
@@ -290,7 +373,7 @@ try to use something after we’ve passed it as an argument:</p>
     println!(&quot;v[0] is: {}&quot;, v[0]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>take</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) {
-    <span class='comment'>// what happens here isn’t important.</span>
+    <span class='comment'>// ここで何が起きるかは重要ではない</span>
 }
 
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
@@ -299,13 +382,26 @@ try to use something after we’ve passed it as an argument:</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;v[0] is: {}&quot;</span>, <span class='ident'>v</span>[<span class='number'>0</span>]);</pre>
 
-<p>Same error: ‘use of moved value’. When we transfer ownership to something else,
-we say that we’ve ‘moved’ the thing we refer to. You don’t need some sort of
-special annotation here, it’s the default thing that Rust does.</p>
+<!-- Same error: ‘use of moved value’. When we transfer ownership to something else, -->
 
-<h2 id='the-details' class='section-header'><a href='#the-details'>The details</a></h2>
-<p>The reason that we cannot use a binding after we’ve moved it is subtle, but
-important. When we write code like this:</p>
+<!-- we say that we’ve ‘moved’ the thing we refer to. You don’t need some sort of -->
+
+<!-- special annotation here, it’s the default thing that Rust does. -->
+
+<p>「use of moved value」という同じエラーです。
+所有権を何か別のものに転送するとき、参照するものを「ムーブした」と言います。
+ここでは特別な種類の注釈を必要としません。
+それはRustの行うデフォルトの動作です。</p>
+
+<!-- ## The details -->
+
+<h2 id='詳細' class='section-header'><a href='#詳細'>詳細</a></h2>
+<!-- The reason that we cannot use a binding after we’ve moved it is subtle, but -->
+
+<!-- important. When we write code like this: -->
+
+<p>束縛をムーブした後ではそれを使うことができないということの理由は微妙ですが重要です。
+このようなコードを書いたとします。</p>
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     
@@ -315,24 +411,53 @@ important. When we write code like this:</p>
 
 <span class='kw'>let</span> <span class='ident'>v2</span> <span class='op'>=</span> <span class='ident'>v</span>;</pre>
 
-<p>The first line allocates memory for the vector object, <code>v</code>, and for the data it
-contains. The vector object is stored on the <a href="the-stack-and-the-heap.html">stack</a> and contains a pointer
-to the content (<code>[1, 2, 3]</code>) stored on the <a href="the-stack-and-the-heap.html">heap</a>. When we move <code>v</code> to <code>v2</code>,
-it creates a copy of that pointer, for <code>v2</code>. Which means that there would be two
-pointers to the content of the vector on the heap. It would violate Rust’s
-safety guarantees by introducing a data race. Therefore, Rust forbids using <code>v</code>
-after we’ve done the move.</p>
+<!-- The first line allocates memory for the vector object, `v`, and for the data it -->
 
-<p>It’s also important to note that optimizations may remove the actual copy of
-the bytes on the stack, depending on circumstances. So it may not be as
-inefficient as it initially seems.</p>
+<!-- contains. The vector object is stored on the [stack][sh] and contains a pointer -->
 
-<h2 id='copy-types' class='section-header'><a href='#copy-types'><code>Copy</code> types</a></h2>
-<p>We’ve established that when ownership is transferred to another binding, you
-cannot use the original binding. However, there’s a <a href="traits.html">trait</a> that changes this
-behavior, and it’s called <code>Copy</code>. We haven’t discussed traits yet, but for now,
-you can think of them as an annotation to a particular type that adds extra
-behavior. For example:</p>
+<!-- to the content (`[1, 2, 3]`) stored on the [heap][sh]. When we move `v` to `v2`, -->
+
+<!-- it creates a copy of that pointer, for `v2`. Which means that there would be two -->
+
+<!-- pointers to the content of the vector on the heap. It would violate Rust’s -->
+
+<!-- safety guarantees by introducing a data race. Therefore, Rust forbids using `v` -->
+
+<!-- after we’ve done the move. -->
+
+<p>最初の行はベクタオブジェクト<code>v</code>とそれの含むデータのためのメモリを割り当てます。
+ベクタオブジェクトは<a href="the-stack-and-the-heap.html">スタック</a>に保存され、<a href="the-stack-and-the-heap.html">ヒープ</a>に保存された内容（<code>[1, 2, 3]</code>）へのポインタを含みます。
+<code>v</code>を<code>v2</code>にムーブするとき、それは<code>v2</code>のためにそのポインタのコピーを作ります。
+それは、ヒープ上のベクタの内容へのポインタが2つあることを意味します。
+それはデータ競合を持ち込むことでRustの安全性保証に違反するでしょう。
+そのため、Rustはムーブを終えた後の<code>v</code>の使用を禁止するのです。</p>
+
+<!-- It’s also important to note that optimizations may remove the actual copy of -->
+
+<!-- the bytes on the stack, depending on circumstances. So it may not be as -->
+
+<!-- inefficient as it initially seems. -->
+
+<p>最適化が状況によってはスタック上のバイトの実際のコピーを削除するかもしれないことに気付くことも重要です。
+そのため、それは最初に思ったほど非効率ではないかもしれません。</p>
+
+<!-- ## `Copy` types -->
+
+<h2 id='copy型' class='section-header'><a href='#copy型'><code>Copy</code>型</a></h2>
+<!-- We’ve established that when ownership is transferred to another binding, you -->
+
+<!-- cannot use the original binding. However, there’s a [trait][traits] that changes this -->
+
+<!-- behavior, and it’s called `Copy`. We haven’t discussed traits yet, but for now, -->
+
+<!-- you can think of them as an annotation to a particular type that adds extra -->
+
+<!-- behavior. For example: -->
+
+<p>所有権が他の束縛に転送されるとき、元の束縛を使うことができないということを証明しました。
+しかし、この挙動を変更する<a href="traits.html">トレイト</a>があります。それは<code>Copy</code>と呼ばれます。
+トレイトについてはまだ議論していませんが、とりあえずそれらを挙動を追加するある型への注釈として考えることができます。
+例えばこうです。</p>
 <span class='rusttest'>fn main() {
     let v = 1;
     
@@ -346,15 +471,29 @@ behavior. For example:</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;v is: {}&quot;</span>, <span class='ident'>v</span>);</pre>
 
-<p>In this case, <code>v</code> is an <code>i32</code>, which implements the <code>Copy</code> trait. This means
-that, just like a move, when we assign <code>v</code> to <code>v2</code>, a copy of the data is made.
-But, unlike a move, we can still use <code>v</code> afterward. This is because an <code>i32</code>
-has no pointers to data somewhere else, copying it is a full copy.</p>
+<!-- In this case, `v` is an `i32`, which implements the `Copy` trait. This means -->
 
-<p>All primitive types implement the <code>Copy</code> trait and their ownership is
-therefore not moved like one would assume, following the ´ownership rules´.
-To give an example, the two following snippets of code only compile because the
-<code>i32</code> and <code>bool</code> types implement the <code>Copy</code> trait.</p>
+<!-- that, just like a move, when we assign `v` to `v2`, a copy of the data is made. -->
+
+<!-- But, unlike a move, we can still use `v` afterward. This is because an `i32` -->
+
+<!-- has no pointers to data somewhere else, copying it is a full copy. -->
+
+<p>この場合、<code>v</code>は<code>i32</code>で、それは<code>Copy</code>トレイトを実装します。
+これはちょうどムーブと同じように、<code>v</code>を<code>v2</code>に割り当てるとき、データのコピーが作られるということを意味します。
+しかし、ムーブと違って後でまだ<code>v</code>を使うことができます。
+これは<code>i32</code>がどこか別の場所へのポインタを持たず、コピーが完全コピーだからです。</p>
+
+<!-- All primitive types implement the `Copy` trait and their ownership is -->
+
+<!-- therefore not moved like one would assume, following the ´ownership rules´. -->
+
+<!-- To give an example, the two following snippets of code only compile because the -->
+
+<!-- `i32` and `bool` types implement the `Copy` trait. -->
+
+<p>全てのプリミティブ型は<code>Copy</code>トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従ってはムーブしません。
+例として、次の2つのコードスニペットはコンパイルが通ります。なぜなら、<code>i32</code>型と<code>bool</code>型は<code>Copy</code>トレイトを実装するからです。</p>
 <span class='rusttest'>fn main() {
     let a = 5;
 
@@ -398,40 +537,57 @@ fn change_truth(x: bool) -&gt; bool {
     <span class='op'>!</span><span class='ident'>x</span>
 }</pre>
 
-<p>If we had used types that do not implement the <code>Copy</code> trait,
-we would have gotten a compile error because we tried to use a moved value.</p>
+<!-- If we had used types that do not implement the `Copy` trait, -->
+
+<!-- we would have gotten a compile error because we tried to use a moved value. -->
+
+<p>もし<code>Copy</code>トレイトを実装していない型を使っていたならば、ムーブした値を使おうとしたため、コンパイルエラーが出ていたでしょう。</p>
 
 <pre><code class="language-text">error: use of moved value: `a`
 println!(&quot;{}&quot;, a);
                ^
 </code></pre>
 
-<p>We will discuss how to make your own types <code>Copy</code> in the <a href="traits.html">traits</a>
-section.</p>
+<!-- We will discuss how to make your own types `Copy` in the [traits][traits] -->
 
-<h1 id='more-than-ownership' class='section-header'><a href='#more-than-ownership'>More than ownership</a></h1>
-<p>Of course, if we had to hand ownership back with every function we wrote:</p>
+<!-- section. -->
+
+<p>独自の<code>Copy</code>型を作る方法は<a href="traits.html">トレイト</a>セクションで議論するでしょう。</p>
+
+<!-- # More than ownership -->
+
+<h1 id='所有権を越えて' class='section-header'><a href='#所有権を越えて'>所有権を越えて</a></h1>
+<!-- Of course, if we had to hand ownership back with every function we wrote: -->
+
+<p>もちろん、もし書いた全ての関数で所有権を返さなければならないのであれば、こうなります。</p>
 <span class='rusttest'>fn main() {
     fn foo(v: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
-        // do stuff with v
+      // do stuff with v
+        // vについての作業を行う
     
-        // hand back ownership
+      // hand back ownership
+        // 所有権を返す
         v
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> {
-    <span class='comment'>// do stuff with v</span>
+    <span class='comment'>// vについての作業を行う</span>
 
-    <span class='comment'>// hand back ownership</span>
+    <span class='comment'>// 所有権を返す</span>
     <span class='ident'>v</span>
 }</pre>
 
-<p>This would get very tedious. It gets worse the more things we want to take ownership of:</p>
+<!-- This would get very tedious. It gets worse the more things we want to take ownership of: -->
+
+<p>これは非常に退屈になるでしょう。
+もっとたくさんのものの所有権を受け取れば、それはもっとひどくなります。</p>
 <span class='rusttest'>fn main() {
     fn foo(v1: Vec&lt;i32&gt;, v2: Vec&lt;i32&gt;) -&gt; (Vec&lt;i32&gt;, Vec&lt;i32&gt;, i32) {
-        // do stuff with v1 and v2
+      // do stuff with v1 and v2
+        // v1とv2についての作業を行う
     
-        // hand back ownership, and the result of our function
+      // hand back ownership, and the result of our function
+        // 所有権と関数の結果を返す
         (v1, v2, 42)
     }
     
@@ -441,9 +597,9 @@ section.</p>
     let (v1, v2, answer) = foo(v1, v2);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>v1</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>v2</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> (<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>i32</span>) {
-    <span class='comment'>// do stuff with v1 and v2</span>
+    <span class='comment'>// v1とv2についての作業を行う</span>
 
-    <span class='comment'>// hand back ownership, and the result of our function</span>
+    <span class='comment'>// 所有権と関数の結果を返す</span>
     (<span class='ident'>v1</span>, <span class='ident'>v2</span>, <span class='number'>42</span>)
 }
 
@@ -452,11 +608,19 @@ section.</p>
 
 <span class='kw'>let</span> (<span class='ident'>v1</span>, <span class='ident'>v2</span>, <span class='ident'>answer</span>) <span class='op'>=</span> <span class='ident'>foo</span>(<span class='ident'>v1</span>, <span class='ident'>v2</span>);</pre>
 
-<p>Ugh! The return type, return line, and calling the function gets way more
-complicated.</p>
+<!-- Ugh! The return type, return line, and calling the function gets way more -->
 
-<p>Luckily, Rust offers a feature, borrowing, which helps us solve this problem.
-It’s the topic of the next section!</p>
+<!-- complicated. -->
+
+<p>うわあ!
+戻り値の型、リターン行、関数呼出しがもっと複雑になります。</p>
+
+<!-- Luckily, Rust offers a feature, borrowing, which helps us solve this problem. -->
+
+<!-- It’s the topic of the next section! -->
+
+<p>幸運なことに、Rustは借用という機能を提供します。それはこの問題を解決するために手助けしてくれます。
+それが次のセクションの話題です!</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
