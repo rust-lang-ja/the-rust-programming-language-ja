@@ -218,7 +218,9 @@ let foo = bar;
 後程パターンを使います。簡単なのでもう使えますね。
 
 ```rust
+# // let foo = 5; // immutable.
 let foo = 5; // イミュータブル
+# // let mut bar = 5; // mutable
 let mut bar = 5; // ミュータブル
 ```
 

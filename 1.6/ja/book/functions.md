@@ -175,7 +175,8 @@ x = y = 5
 次の例はコンパイルエラーを起こします。
 
 ```ignore
-let x = (let y = 5); // expected identifier, found keyword `let`
+# // let x = (let y = 5); // expected identifier, found keyword `let`
+let x = (let y = 5); // 識別子を期待していましたが、キーワード `let` が見付かりました
 ```
 
 <!--The compiler is telling us here that it was expecting to see the beginning of-->
@@ -194,7 +195,8 @@ let x = (let y = 5); // expected identifier, found keyword `let`
 ```rust
 let mut y = 5;
 
-let x = (y = 6);  // x has the value `()`, not `6`
+# // let x = (y = 6);  // x has the value `()`, not `6`
+let x = (y = 6);  // xは値 `()` を持っており、 `6` ではありません
 ```
 
 <!--The second kind of statement in Rust is the *expression statement*. Its-->
@@ -238,7 +240,8 @@ Rustはそのためのキーワード`return`を持っています。
 fn foo(x: i32) -> i32 {
     return x;
 
-    // we never run this code!
+#    // we never run this code!
+    // このコードは走りません!
     x + 1
 }
 ```

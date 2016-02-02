@@ -74,9 +74,10 @@ Rustにはいくつかのカテゴリの中にたくさんの種類の数値型�
 もし数値リテラルがその型を推論させるものを何も持たないのであれば、以下のとおりデフォルトになります。
 
 ```rust
-let x = 42; // x has type i32
-
-let y = 1.0; // y has type f64
+# // let x = 42; // x has type i32
+let x = 42; // xはi32型を持つ
+# // let y = 1.0; // y has type f64
+let y = 1.0; // yはf64型を持つ
 ```
 
 <!-- Here’s a list of the different numeric types, with links to their documentation --> 
@@ -239,8 +240,10 @@ println!("The second name is: {}", names[1]);
 
 ```rust
 let a = [0, 1, 2, 3, 4];
-let complete = &a[..]; // A slice containing all of the elements in a
-let middle = &a[1..4]; // A slice of a: just the elements 1, 2, and 3
+# // let complete = &a[..]; // A slice containing all of the elements in a
+let complete = &a[..]; // aに含まれる全ての要素を持つスライス
+# // let middle = &a[1..4]; // A slice of a: just the elements 1, 2, and 3
+let middle = &a[1..4]; // 1、2、3のみを要素に持つaのスライス
 ```
 
 <!-- Slices have type `&[T]`. We’ll talk about that `T` when we cover --> 
@@ -351,8 +354,10 @@ println!("x is {}", x);
 コンマを付けることで要素1のタプルを丸括弧の中の値と混同しないように明示することができます。
 
 ```rust
-(0,); // single-element tuple
-(0); // zero in parentheses
+# // (0,); // single-element tuple
+ (0,); // 1要素のタプル
+# // (0); // zero in parentheses
+ (0); // 丸括弧に囲まれたゼロ
 ```
 
 <!-- ## Tuple Indexing --> 
