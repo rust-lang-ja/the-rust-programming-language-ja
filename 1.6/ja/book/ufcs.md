@@ -46,7 +46,7 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 
 <!-- We need a way to disambiguate which method we need. This feature is called -->
 <!-- ‘universal function call syntax’, and it looks like this: -->
-こんなときには、どのメソッドを呼び出す必要があるのかについて曖昧性を排除する手段が必要です。
+このような場合は、どのメソッドを呼び出す必要があるのかについて曖昧性を排除する手段が必要です。
 そのようなフィーチャーは 「共通の関数呼び出し構文」と呼ばれ、以下のように書けます:
 
 
@@ -96,28 +96,34 @@ f(&b)
 
 [methodsyntax]: method-syntax.html
 
-# Angle-bracket Form
+# 山括弧形式
 
-The form of UFCS we just talked about:
+<!-- The form of UFCS we just talked about: -->
+すぐ上で説明した、以下のような共通の関数呼び出し構文:
 
 ```rust,ignore
 Trait::method(args);
 ```
 
-Is a short-hand. There’s an expanded form of this that’s needed in some
-situations:
+<!-- Is a short-hand. There’s an expanded form of this that’s needed in some -->
+<!-- situations: -->
+これは短縮形であり、時々必要になる以下の様な展開された形式もあります:
 
 ```rust,ignore
 <Type as Trait>::method(args);
 ```
 
-The `<>::` syntax is a means of providing a type hint. The type goes inside
-the `<>`s. In this case, the type is `Type as Trait`, indicating that we want
-`Trait`’s version of `method` to be called here. The `as Trait` part is
-optional if it’s not ambiguous. Same with the angle brackets, hence the
-shorter form.
+<!-- The `<>::` syntax is a means of providing a type hint. The type goes inside -->
+<!-- the `<>`s. In this case, the type is `Type as Trait`, indicating that we want -->
+<!-- `Trait`’s version of `method` to be called here. The `as Trait` part is -->
+<!-- optional if it’s not ambiguous. Same with the angle brackets, hence the -->
+<!-- shorter form. -->
+`<>::` という構文は型のヒントを意味しており、 `<>` のなかに型が入ります。
+この場合、型は `Type as Trait` となり、 `Trait`のバージョンの `method` が呼ばれる事を期待していることを意味しています。
+`as Trait` という部分は、曖昧でない場合は省略可能です。山括弧を省略できるのと同じように短縮形です。
 
-Here’s an example of using the longer form.
+<!-- Here’s an example of using the longer form. -->
+長い形式を用いたサンプルコードは以下の通りです:
 
 ```rust
 trait Foo {
@@ -144,5 +150,6 @@ fn main() {
 }
 ```
 
-Using the angle bracket syntax lets you call the trait method instead of the
-inherent one.
+<!-- Using the angle bracket syntax lets you call the trait method instead of the -->
+<!-- inherent one. -->
+山括弧構文を用いることでトレイトのメソッドを継承されたメソッドの代わりに呼び出すことができます。
