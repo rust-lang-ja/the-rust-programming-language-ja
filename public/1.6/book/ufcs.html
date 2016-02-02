@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Universal Function Call Syntax</title>
+    <title>共通の関数呼び出し構文</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,8 +185,12 @@
 <div id='page'>
 
 
-    <h1 class="title">Universal Function Call Syntax</h1>
-    <p>Sometimes, functions can have the same names. Consider this code:</p>
+    <h1 class="title">共通の関数呼び出し構文</h1>
+    <!-- % Universal Function Call Syntax -->
+
+<!-- Sometimes, functions can have the same names. Consider this code: -->
+
+<p>しばしば、同名の関数が存在する時があります。たとえば、以下のコードでは:</p>
 <span class='rusttest'>fn main() {
     trait Foo {
         fn f(&amp;self);
@@ -228,7 +232,9 @@
 
 <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>Baz</span>;</pre>
 
-<p>If we were to try to call <code>b.f()</code>, we’d get an error:</p>
+<!-- If we were to try to call `b.f()`, we’d get an error: -->
+
+<p>もしここで、 <code>b.f()</code> を呼びだそうとすると、以下の様なエラーが発生します:</p>
 
 <pre><code class="language-text">error: multiple applicable methods in scope [E0034]
 b.f();
@@ -244,8 +250,12 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 
 </code></pre>
 
-<p>We need a way to disambiguate which method we need. This feature is called
-‘universal function call syntax’, and it looks like this:</p>
+<!-- We need a way to disambiguate which method we need. This feature is called -->
+
+<!-- ‘universal function call syntax’, and it looks like this: -->
+
+<p>このような場合は、どのメソッドを呼び出す必要があるのかについて曖昧性を排除する手段が必要です。
+そのようなフィーチャーは 「共通の関数呼び出し構文」と呼ばれ、以下のように書けます:</p>
 <span class='rusttest'>fn main() {
     trait Foo {
         fn f(&amp;self);
@@ -267,7 +277,9 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 <span class='ident'>Foo</span>::<span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>);
 <span class='ident'>Bar</span>::<span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>);</pre>
 
-<p>Let’s break it down.</p>
+<!-- Let’s break it down. -->
+
+<p>部分的に見ていきましょう。</p>
 <span class='rusttest'>fn main() {
     Foo::
     Bar::
@@ -275,39 +287,64 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 <span class='ident'>Foo</span>::
 <span class='ident'>Bar</span>::</pre>
 
-<p>These halves of the invocation are the types of the two traits: <code>Foo</code> and
-<code>Bar</code>. This is what ends up actually doing the disambiguation between the two:
-Rust calls the one from the trait name you use.</p>
+<!-- These halves of the invocation are the types of the two traits: `Foo` and -->
+
+<!-- `Bar`. This is what ends up actually doing the disambiguation between the two: -->
+
+<!-- Rust calls the one from the trait name you use. -->
+
+<p>まず、呼び出しのこの部分は２つのトレイト <code>Foo</code> と <code>Bar</code> の型を表しています。
+この部分が、実際にどちらのトレイトのメソッドを呼び出しているのかを指定し、曖昧性を排除している箇所になります。</p>
 <span class='rusttest'>fn main() {
     f(&amp;b)
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>)</pre>
 
-<p>When we call a method like <code>b.f()</code> using <a href="method-syntax.html">method syntax</a>, Rust
-will automatically borrow <code>b</code> if <code>f()</code> takes <code>&amp;self</code>. In this case, Rust will
-not, and so we need to pass an explicit <code>&amp;b</code>.</p>
+<!-- When we call a method like `b.f()` using [method syntax][methodsyntax], Rust -->
 
-<h1 id='angle-bracket-form' class='section-header'><a href='#angle-bracket-form'>Angle-bracket Form</a></h1>
-<p>The form of UFCS we just talked about:</p>
+<!-- will automatically borrow `b` if `f()` takes `&self`. In this case, Rust will -->
+
+<!-- not, and so we need to pass an explicit `&b`. -->
+
+<p><code>b.f()</code> のように <a href="method-syntax.html">メソッド構文</a> を利用して呼び出した時、Rustは <code>f()</code> が <code>&amp;self</code> を引数に取る場合自動的に <code>b</code> を借用します。
+今回の場合は、そのようには呼び出していないので、明示的に <code>&amp;b</code> を渡してやる必要があります。</p>
+
+<h1 id='山括弧形式' class='section-header'><a href='#山括弧形式'>山括弧形式</a></h1>
+<!-- The form of UFCS we just talked about: -->
+
+<p>すぐ上で説明した、以下のような共通の関数呼び出し構文:</p>
 <span class='rusttest'>fn main() {
     Trait::method(args);
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>Trait</span>::<span class='ident'>method</span>(<span class='ident'>args</span>);</pre>
 
-<p>Is a short-hand. There’s an expanded form of this that’s needed in some
-situations:</p>
+<!-- Is a short-hand. There’s an expanded form of this that’s needed in some -->
+
+<!-- situations: -->
+
+<p>これは短縮形であり、時々必要になる以下の様な展開された形式もあります:</p>
 <span class='rusttest'>fn main() {
     &lt;Type as Trait&gt;::method(args);
 }</span><pre class='rust rust-example-rendered'>
 <span class='op'>&lt;</span><span class='ident'>Type</span> <span class='kw'>as</span> <span class='ident'>Trait</span><span class='op'>&gt;</span>::<span class='ident'>method</span>(<span class='ident'>args</span>);</pre>
 
-<p>The <code>&lt;&gt;::</code> syntax is a means of providing a type hint. The type goes inside
-the <code>&lt;&gt;</code>s. In this case, the type is <code>Type as Trait</code>, indicating that we want
-<code>Trait</code>’s version of <code>method</code> to be called here. The <code>as Trait</code> part is
-optional if it’s not ambiguous. Same with the angle brackets, hence the
-shorter form.</p>
+<!-- The `<>::` syntax is a means of providing a type hint. The type goes inside -->
 
-<p>Here’s an example of using the longer form.</p>
+<!-- the `<>`s. In this case, the type is `Type as Trait`, indicating that we want -->
+
+<!-- `Trait`’s version of `method` to be called here. The `as Trait` part is -->
+
+<!-- optional if it’s not ambiguous. Same with the angle brackets, hence the -->
+
+<!-- shorter form. -->
+
+<p><code>&lt;&gt;::</code> という構文は型のヒントを意味しており、 <code>&lt;&gt;</code> のなかに型が入ります。
+この場合、型は <code>Type as Trait</code> となり、 <code>Trait</code>のバージョンの <code>method</code> が呼ばれる事を期待していることを意味しています。
+<code>as Trait</code> という部分は、曖昧でない場合は省略可能です。山括弧についても同様に省略可能であり、なので先程のさらに短い形になるのです。</p>
+
+<!-- Here’s an example of using the longer form. -->
+
+<p>長い形式を用いたサンプルコードは以下の通りです:</p>
 <span class='rusttest'>trait Foo {
     fn foo() -&gt; i32;
 }
@@ -354,8 +391,11 @@ fn main() {
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>20</span>, <span class='ident'>Bar</span>::<span class='ident'>foo</span>());
 }</pre>
 
-<p>Using the angle bracket syntax lets you call the trait method instead of the
-inherent one.</p>
+<!-- Using the angle bracket syntax lets you call the trait method instead of the -->
+
+<!-- inherent one. -->
+
+<p>山括弧構文を用いることでトレイトのメソッドを継承されたメソッドの代わりに呼び出すことができます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
