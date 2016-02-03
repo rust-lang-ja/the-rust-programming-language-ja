@@ -1,23 +1,32 @@
-% Vectors
+% ベクタ
+<!-- % Vectors -->
 
-A ‘vector’ is a dynamic or ‘growable’ array, implemented as the standard
-library type [`Vec<T>`][vec]. The `T` means that we can have vectors
-of any type (see the chapter on [generics][generic] for more).
-Vectors always allocate their data on the heap.
-You can create them with the `vec!` macro:
+<!-- A ‘vector’ is a dynamic or ‘growable’ array, implemented as the standard -->
+<!-- library type [`Vec<T>`][vec]. The `T` means that we can have vectors -->
+<!-- of any type (see the chapter on [generics][generic] for more). -->
+<!-- Vectors always allocate their data on the heap. -->
+<!-- You can create them with the `vec!` macro: -->
+「ベクタ」は動的な、または「拡張可能な」配列です、標準ライブラリ上で [`Vec<T>`][vec] として提供されています。
+`T` はどんなタイプのベクタをも作成することが可能なことを意味しています。(詳細は[ジェネリクス][generics]を御覧ください)
+ベクタはデータを常にヒープ上にアロケーションします。
+ベクタは以下のように `vec!` マクロを用いて作成できます:
 
 ```rust
 let v = vec![1, 2, 3, 4, 5]; // v: Vec<i32>
 ```
 
-(Notice that unlike the `println!` macro we’ve used in the past, we use square
-brackets `[]` with `vec!` macro. Rust allows you to use either in either situation,
-this is just convention.)
+<!-- (Notice that unlike the `println!` macro we’ve used in the past, we use square -->
+<!-- brackets `[]` with `vec!` macro. Rust allows you to use either in either situation, -->
+<!-- this is just convention.) -->
+(依然使った`println!` マクロと異なり、`vec!` マクロで 角括弧 `[]` を利用しました。
+Rustではどちらの括弧もどちらのシチュエーションでも利用可能であり、解りやすさのためです。
 
-There’s an alternate form of `vec!` for repeating an initial value:
+<!-- There’s an alternate form of `vec!` for repeating an initial value: -->
+`vec!` には初期値の繰り返しを表現するための形式があります:
 
 ```rust
-let v = vec![0; 10]; // ten zeroes
+# // let v = vec![0; 10]; // ten zeroes
+let v = vec![0; 10]; // 0が10個
 ```
 
 ## Accessing elements
