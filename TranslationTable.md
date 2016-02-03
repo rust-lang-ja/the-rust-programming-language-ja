@@ -8,8 +8,8 @@
 
 # 対訳表
 
-| English               | 日本語
-|:----------------------|:------
+| English                        | 日本語
+|:-------------------------------|:-------------
 | alignment                      | アラインメント
 | allocator                      | アロケータ
 | application                    | アプリケーション
@@ -22,6 +22,7 @@
 | binding                        | 束縛
 | block                          | ブロック
 | borrowing                      | 借用
+| bounds                         | 境界
 | capture                        | キャプチャ
 | closure                        | クロージャ
 | coercion                       | 型強制
@@ -63,6 +64,7 @@
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
+| parametric polymorphism        | パラメトリック多相
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
 | return                         | 返す
@@ -83,6 +85,7 @@
 | tick                           | クオート
 | trait                          | トレイト
 | type inference                 | 型推論
+| Universal Function Call Syntax | 共通の関数呼び出し構文
 | unsigned                       | 符号無し
 | unsized type                   | サイズ不定型
 | variable                       | 変数

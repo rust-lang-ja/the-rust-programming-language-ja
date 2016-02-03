@@ -46,7 +46,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 
 <!-- Tier 1 platforms can be thought of as "guaranteed to build and work". -->
 <!-- Specifically they will each satisfy the following requirements: -->
-1級のプラットフォームは「ビルド出来かつ動くことを保証する」ものと思えます。
+1級のプラットフォームは「ビルド出来かつ動くことを保証する」ものとされています。
 特に以下の要求それぞれを満たします。
 
 <!-- * Automated testing is set up to run tests for the platform. -->
@@ -76,7 +76,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <!-- are not run so it's not guaranteed to produce a working build, but platforms -->
 <!-- often work to quite a good degree and patches are always welcome! Specifically, -->
 <!-- these platforms are required to have each of the following: -->
-2級のプラットフォームは「ビルドを保証する」ものと思えます。
+2級のプラットフォームは「ビルドを保証する」ものとされています。
 自動テストは走っておらず、ビルド出来たとしてもちゃんと動く保証はありませんが大抵ほぼ動きますしパッチはいつでも歓迎しています!
 特に、以下が要請されています。
 
@@ -138,7 +138,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <!-- Note that this table can be expanded over time, this isn't the exhaustive set of -->
 <!-- tier 3 platforms that will ever be! -->
 このテーブルは時間と共に拡張されるかもしれないことに注意して下さい。
-これから存在する全ての3級のプラットフォームは網羅してないのです!
+これから存在する全ての3級のプラットフォームは網羅していないのです!
 
 
 <!-- ## Installing on Linux or Mac -->
@@ -178,7 +178,7 @@ Continue? (y/N)
 > ```text
 > Rustへようこそ。
 > 
-> このスクリプトはRustコンパイラとそのパッケジマネージャCargoをダウンロードし、/usr/local
+> このスクリプトはRustコンパイラとそのパッケージマネージャCargoをダウンロードし、/usr/local
 > へとインストールします。--prefix=<path> オプションを使うことで他の場所へインストール
 > 出来ます。
 > 
@@ -252,7 +252,7 @@ repair, or remove installation」ページの「Change」を選択し、「Add t
 <!-- include [the user’s forum][users], and [Stack Overflow][stackoverflow]. -->
 もし上手くいかないなら様々な場所で助けを得られます。
 最も簡単なのは[Mibbit][mibbit]からアクセス出来る[irc.mozilla.orgにある#rustチャネル][irc]です。
-リンクをクリックしたら他の助けを求めれるRustacean達(我々のことをふざけてこう呼ぶのです)とチャット出来ます。
+リンクをクリックしたら他の助けを求められるRustacean達(我々のことをふざけてこう呼ぶのです)とチャット出来ます。
 他には[ユーザフォーラム][users]や[Stack Overflow][stackoverflow]などがあります。
 
 > 訳注: TODO:日本語で会話出来るリソースを探す
@@ -279,7 +279,7 @@ WindowsではRustをインストールした所の`share/doc`ディレクトリ�
 <!-- print the text “Hello, world!” to the screen, and in this section, we'll follow -->
 <!-- that tradition.  -->
 Rustをインストールしたので最初のRustのプログラムを書いていきましょう。
-新しい言語を学ぶ時に「Hello, world!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。 
+新しい言語を学ぶ時に「Hello, world!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
 
 <!-- The nice thing about starting with such a simple program is that you can -->
 <!-- quickly verify that your compiler is installed, and that it's working properly. -->
@@ -389,7 +389,7 @@ fn main() {
 <!-- were arguments, they would go inside the parentheses (`(` and `)`), and because -->
 <!-- we aren’t returning anything from this function, we can omit the return type -->
 <!-- entirely. -->
-これら行はRustの *関数* を定義します。`main`関数は特別です。全てのRustプログラムの開始点になります。
+これらの行はRustの *関数* を定義します。`main`関数は特別です。全てのRustプログラムの開始点になります。
 最初の行は「引数を取らず、返り値も返さない関数`main`を宣言します」といっています。
 引数があれば、括弧(`(`と`)`)の中に入りますし、今回はこの関数から何も値を返さないので返り値の型を完全に省略出来ます。
 
@@ -694,7 +694,7 @@ Hello, world!
 <!-- the file hasn’t changed, and so it just ran the binary. If you'd modified your -->
 <!-- source code, Cargo would have rebuilt the project before running it, and you -->
 <!-- would have seen something like this: -->
-この例でプロジェクトを再度ビルドしてないことに注意して下さい。
+この例でプロジェクトを再度ビルドしていないことに注意して下さい。
 Cargoはファイルが変更されていないことが分かるのでバイナリの実行だけを行います。
 ソースコードを修正していたら、Cargoは実行する前にプロジェクトを再度ビルドし、あなたはこのようなものを目にしたことでしょう。
 
