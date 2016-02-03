@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Generics</title>
+    <title>ジェネリクス</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,15 +185,21 @@
 <div id='page'>
 
 
-    <h1 class="title">Generics</h1>
-    <p>Sometimes, when writing a function or data type, we may want it to work for
+    <h1 class="title">ジェネリクス</h1>
+    <!-- % Generics -->
+
+<!-- Sometimes, when writing a function or data type, we may want it to work for
 multiple types of arguments. In Rust, we can do this with generics.
 Generics are called ‘parametric polymorphism’ in type theory,
 which means that they are types or functions that have multiple forms (‘poly’
-is multiple, ‘morph’ is form) over a given parameter (‘parametric’).</p>
+is multiple, ‘morph’ is form) over a given parameter (‘parametric’). -->
 
-<p>Anyway, enough type theory, let’s check out some generic code. Rust’s
-standard library provides a type, <code>Option&lt;T&gt;</code>, that’s generic:</p>
+<p>時々、関数やデータ型を書いていると、引数が複数の型に対応したものが欲しくなることもあります。Rustでは、ジェネリクスを用いてこれを実現しています。ジェネリクスは型理論において「パラメトリック多相」(parametric polymorphism)と呼ばれ、与えられたパラメータにより(「parametric」)型もしくは関数が多数の様相(「poly」は多様、「morph」は様相を意味します)(訳注: ここで「様相」は型を指します)を持つことを意味しています。</p>
+
+<!-- Anyway, enough type theory, let’s check out some generic code. Rust’s
+standard library provides a type, `Option<T>`, that’s generic: -->
+
+<p>さて、型理論はもう十分です。続いてジェネリックなコードを幾つか見ていきましょう。Rustが標準ライブラリで提供している型 <code>Option&lt;T&gt;</code> はジェネリックです。</p>
 <span class='rusttest'>fn main() {
     enum Option&lt;T&gt; {
         Some(T),
@@ -205,20 +211,24 @@ standard library provides a type, <code>Option&lt;T&gt;</code>, that’s generic
     <span class='prelude-val'>None</span>,
 }</pre>
 
-<p>The <code>&lt;T&gt;</code> part, which you’ve seen a few times before, indicates that this is
-a generic data type. Inside the declaration of our <code>enum</code>, wherever we see a <code>T</code>,
+<!-- The `<T>` part, which you’ve seen a few times before, indicates that this is
+a generic data type. Inside the declaration of our `enum`, wherever we see a `T`,
 we substitute that type for the same type used in the generic. Here’s an
-example of using <code>Option&lt;T&gt;</code>, with some extra type annotations:</p>
+example of using `Option<T>`, with some extra type annotations: -->
+
+<p><code>&lt;T&gt;</code> の部分は、前に少し見たことがあると思いますが、これがジェネリックなデータ型であることを示しています。 <code>enum</code> の宣言内であれば、どこでも <code>T</code> を使うことができ、宣言内に登場する同じ型をジェネリック内で <code>T</code> 型に置き換えています。型注釈を用いた<code>Option&lt;T&gt;</code>の使用例が以下になります。</p>
 <span class='rusttest'>fn main() {
     let x: Option&lt;i32&gt; = Some(5);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5</span>);</pre>
 
-<p>In the type declaration, we say <code>Option&lt;i32&gt;</code>. Note how similar this looks to
-<code>Option&lt;T&gt;</code>. So, in this particular <code>Option</code>, <code>T</code> has the value of <code>i32</code>. On
-the right-hand side of the binding, we make a <code>Some(T)</code>, where <code>T</code> is <code>5</code>.
-Since that’s an <code>i32</code>, the two sides match, and Rust is happy. If they didn’t
-match, we’d get an error:</p>
+<!-- In the type declaration, we say `Option<i32>`. Note how similar this looks to
+`Option<T>`. So, in this particular `Option`, `T` has the value of `i32`. On
+the right-hand side of the binding, we make a `Some(T)`, where `T` is `5`.
+Since that’s an `i32`, the two sides match, and Rust is happy. If they didn’t
+match, we’d get an error: -->
+
+<p>この型宣言では <code>Option&lt;i32&gt;</code> と書かれています。 <code>Option&lt;T&gt;</code> の違いに注目して下さい。そう、上記の <code>Option</code> では <code>T</code> の値は <code>i32</code> です。この束縛の右辺の <code>Some(T)</code> では、 <code>T</code> は <code>5</code> となります。それが <code>i32</code> なので、両辺の型が一致するため、Rustは満足します。型が不一致であれば、以下のようなエラーが発生します。</p>
 <span class='rusttest'>fn main() {
     let x: Option&lt;f64&gt; = Some(5);
     // error: mismatched types: expected `core::option::Option&lt;f64&gt;`,
@@ -228,8 +238,10 @@ match, we’d get an error:</p>
 <span class='comment'>// error: mismatched types: expected `core::option::Option&lt;f64&gt;`,</span>
 <span class='comment'>// found `core::option::Option&lt;_&gt;` (expected f64 but found integral variable)</span></pre>
 
-<p>That doesn’t mean we can’t make <code>Option&lt;T&gt;</code>s that hold an <code>f64</code>! They just have
-to match up:</p>
+<!-- That doesn’t mean we can’t make `Option<T>`s that hold an `f64`! They just have
+to match up: -->
+
+<p>これは <code>f64</code> を保持する <code>Option&lt;T&gt;</code> が作れないという意味ではありませんからね!リテラルと宣言の型をぴったり合わせなければなりません。</p>
 <span class='rusttest'>fn main() {
     let x: Option&lt;i32&gt; = Some(5);
     let y: Option&lt;f64&gt; = Some(5.0f64);
@@ -237,9 +249,13 @@ to match up:</p>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5</span>);
 <span class='kw'>let</span> <span class='ident'>y</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5.0f64</span>);</pre>
 
-<p>This is just fine. One definition, multiple uses.</p>
+<!-- This is just fine. One definition, multiple uses. -->
 
-<p>Generics don’t have to only be generic over one type. Consider another type from Rust’s standard library that’s similar, <code>Result&lt;T, E&gt;</code>:</p>
+<p>これだけで結構です。1つの定義で、多くの用途が得られます。</p>
+
+<!-- Generics don’t have to only be generic over one type. Consider another type from Rust’s standard library that’s similar, `Result<T, E>`: -->
+
+<p>ジェネリクスにおいてジェネリックな型は1つまで、といった制限はありません。Rustの標準ライブラリに入っている類似の型 <code>Result&lt;T, E&gt;</code> について考えてみます。</p>
 <span class='rusttest'>fn main() {
     enum Result&lt;T, E&gt; {
         Ok(T),
@@ -251,8 +267,10 @@ to match up:</p>
     <span class='prelude-val'>Err</span>(<span class='ident'>E</span>),
 }</pre>
 
-<p>This type is generic over <em>two</em> types: <code>T</code> and <code>E</code>. By the way, the capital letters
-can be any letter you’d like. We could define <code>Result&lt;T, E&gt;</code> as:</p>
+<!-- This type is generic over _two_ types: `T` and `E`. By the way, the capital letters
+can be any letter you’d like. We could define `Result<T, E>` as: -->
+
+<p>この型では <code>T</code> と <code>E</code> の <em>2つ</em> がジェネリックです。ちなみに、大文字の部分はあなたの好きな文字で構いません。もしあなたが望むなら <code>Result&lt;T, E&gt;</code> を、</p>
 <span class='rusttest'>fn main() {
     enum Result&lt;A, Z&gt; {
         Ok(A),
@@ -264,27 +282,40 @@ can be any letter you’d like. We could define <code>Result&lt;T, E&gt;</code> 
     <span class='prelude-val'>Err</span>(<span class='ident'>Z</span>),
 }</pre>
 
-<p>if we wanted to. Convention says that the first generic parameter should be
-<code>T</code>, for ‘type’, and that we use <code>E</code> for ‘error’. Rust doesn’t care, however.</p>
+<!-- if we wanted to. Convention says that the first generic parameter should be
+`T`, for ‘type’, and that we use `E` for ‘error’. Rust doesn’t care, however. -->
 
-<p>The <code>Result&lt;T, E&gt;</code> type is intended to be used to return the result of a
-computation, and to have the ability to return an error if it didn’t work out.</p>
+<p>のように定義できます。慣習としては、「Type」から第1ジェネリックパラメータは <code>T</code> であるべきですし、「Error」から <code>E</code> を用いるのですが、Rustは気にしません。</p>
 
-<h2 id='generic-functions' class='section-header'><a href='#generic-functions'>Generic functions</a></h2>
-<p>We can write functions that take generic types with a similar syntax:</p>
+<!-- The `Result<T, E>` type is intended to be used to return the result of a
+computation, and to have the ability to return an error if it didn’t work out. -->
+
+<p><code>Result&lt;T, E&gt;</code> 型は計算の結果を返すために使われることが想定されており、正常に動作しなかった場合にエラーの値を返す機能を持っています。</p>
+
+<!-- ## Generic functions -->
+
+<h2 id='ジェネリック関数' class='section-header'><a href='#ジェネリック関数'>ジェネリック関数</a></h2>
+<!-- We can write functions that take generic types with a similar syntax: -->
+
+<p>似た構文でジェネリックな型を取る関数を記述できます。</p>
 <span class='rusttest'>fn main() {
     fn takes_anything&lt;T&gt;(x: T) {
-        // do something with x
+    // do something with x
+      // xで何か行う
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>takes_anything</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>) {
-    <span class='comment'>// do something with x</span>
+  <span class='comment'>// xで何か行う</span>
 }</pre>
 
-<p>The syntax has two parts: the <code>&lt;T&gt;</code> says “this function is generic over one
-type, <code>T</code>”, and the <code>x: T</code> says “x has the type <code>T</code>.”</p>
+<!-- The syntax has two parts: the `<T>` says “this function is generic over one
+type, `T`”, and the `x: T` says “x has the type `T`.” -->
 
-<p>Multiple arguments can have the same generic type:</p>
+<p>構文は2つのパーツから成ります。 <code>&lt;T&gt;</code> は「この関数は1つの型、 <code>T</code> に対してジェネリックである」ということであり、 <code>x: T</code> は「xは <code>T</code> 型である」という意味です。</p>
+
+<!-- Multiple arguments can have the same generic type: -->
+
+<p>複数の引数が同じジェネリックな型を持つこともできます。</p>
 <span class='rusttest'>fn main() {
     fn takes_two_of_the_same_things&lt;T&gt;(x: T, y: T) {
         // ...
@@ -294,7 +325,9 @@ type, <code>T</code>”, and the <code>x: T</code> says “x has the type <code>
     <span class='comment'>// ...</span>
 }</pre>
 
-<p>We could write a version that takes multiple types:</p>
+<!-- We could write a version that takes multiple types: -->
+
+<p>複数の型を取るバージョンを記述することも可能です。</p>
 <span class='rusttest'>fn main() {
     fn takes_two_things&lt;T, U&gt;(x: T, y: U) {
         // ...
@@ -304,8 +337,12 @@ type, <code>T</code>”, and the <code>x: T</code> says “x has the type <code>
     <span class='comment'>// ...</span>
 }</pre>
 
-<h2 id='generic-structs' class='section-header'><a href='#generic-structs'>Generic structs</a></h2>
-<p>You can store a generic type in a <code>struct</code> as well:</p>
+<!-- ## Generic structs -->
+
+<h2 id='ジェネリック構造体' class='section-header'><a href='#ジェネリック構造体'>ジェネリック構造体</a></h2>
+<!-- You can store a generic type in a `struct` as well: -->
+
+<p>また、 <code>struct</code> 内にジェネリックな型の値を保存することもできます。</p>
 <span class='rusttest'>fn main() {
     struct Point&lt;T&gt; {
         x: T,
@@ -323,11 +360,15 @@ type, <code>T</code>”, and the <code>x: T</code> says “x has the type <code>
 <span class='kw'>let</span> <span class='ident'>int_origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
 <span class='kw'>let</span> <span class='ident'>float_origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0.0</span>, <span class='ident'>y</span>: <span class='number'>0.0</span> };</pre>
 
-<p>Similar to functions, the <code>&lt;T&gt;</code> is where we declare the generic parameters,
-and we then use <code>x: T</code> in the type declaration, too.</p>
+<!-- Similar to functions, the `<T>` is where we declare the generic parameters,
+and we then use `x: T` in the type declaration, too. -->
 
-<p>When you want to add an implementation for the generic <code>struct</code>, you just
-declare the type parameter after the <code>impl</code>:</p>
+<p>関数と同様に、 <code>&lt;T&gt;</code> がジェネリックパラメータを宣言する場所であり、型宣言において <code>x: T</code> を使うのも同じです。</p>
+
+<!-- When you want to add an implementation for the generic `struct`, you just
+declare the type parameter after the `impl`: -->
+
+<p>ジェネリックな <code>struct</code> に実装を追加したい場合、 <code>impl</code> の後に型パラメータを宣言するだけです。</p>
 <span class='rusttest'>fn main() {
     struct Point&lt;T&gt; {
         x: T,
@@ -346,11 +387,13 @@ declare the type parameter after the <code>impl</code>:</p>
     }
 }</pre>
 
-<p>So far you’ve seen generics that take absolutely any type. These are useful in
-many cases: you’ve already seen <code>Option&lt;T&gt;</code>, and later you’ll meet universal
-container types like <a href="../std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a>. On the other hand, often you want to
-trade that flexibility for increased expressive power. Read about <a href="traits.html">trait
-bounds</a> to see why and how.</p>
+<!-- So far you’ve seen generics that take absolutely any type. These are useful in
+many cases: you’ve already seen `Option<T>`, and later you’ll meet universal
+container types like [`Vec<T>`][Vec]. On the other hand, often you want to
+trade that flexibility for increased expressive power. Read about [trait
+bounds][traits] to see why and how. -->
+
+<p>ここまででありとあらゆる型をとることのできるジェネリクスについて見てきました。多くの場合これらは有用です。 <code>Option&lt;T&gt;</code> は既に見た通りですし、のちに <code>Vec&lt;T&gt;</code> のような普遍的なコンテナ型を知ることになるでしょう。一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。それは何故か、そしてその方法を知るためには <a href="traits.html">トレイト境界</a> を読んで下さい。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
