@@ -5,7 +5,7 @@
 <!-- Also it is not possible in stable Rust to destructure a `Box` in a match -->
 <!-- pattern. The unstable `box` keyword can be used to both create and destructure -->
 <!-- a `Box`. An example usage would be: -->
-今のところ、stableにおいて `Box` を作成する唯一の方法は `Box::new` メソッドです。stableなRustではパターンマッチで `Box` を分解することもできません。unstableな `box` キーワードは `Box` の作成と分解の両方に使えます。使い方は以下の通りです。
+今のところ、安定版において `Box` を作成する唯一の方法は `Box::new` メソッドです。安定版のRustではパターンマッチで `Box` を分解することもできません。不安定版の `box` キーワードは `Box` の作成と分解の両方に使えます。使い方は以下の通りです。
 
 ```rust
 #![feature(box_syntax, box_patterns)]
@@ -102,7 +102,7 @@ fn main() {
 <!-- smarter than that. There is no copy in this code. `main` allocates enough room -->
 <!-- for the `box`, passes a pointer to that memory into `foo` as `x`, and then -->
 <!-- `foo` writes the value straight into the `Box<T>`. -->
-このコードはひどいパフォーマンス低下をもたらすと感じるかもしれません。値を返して即座にboxに入れるなんて?! このパターンは悪いところどりになっているのでは? Rustはもう少し賢いため、このコードでコピーは発生しません。 `main` では `box` のために十分な領域を確保し、そのメモリへのポインタを `foo` へ `x` として渡します。 `foo` はその値を直接 `Box<T>` (訳注: すなわち `y` )の中に書き込みます。
+このコードはひどいパフォーマンス低下をもたらすと感じるかもしれません。値を返して即座にboxに入れるなんて?! このパターンは悪いところどりになっているのでは? Rustはもう少し賢いため、このコードでコピーは発生しません。 `main` 内では `box` のために十分なメモリ領域を確保し、そのメモリへのポインタを `foo` へ `x` として渡します。 `foo` はその値を直接 `Box<T>` (訳注: すなわち `y` )の中に書き込みます。
 
 <!-- This is important enough that it bears repeating: pointers are not for -->
 <!-- optimizing returning values from your code. Allow the caller to choose how they -->
