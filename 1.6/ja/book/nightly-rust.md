@@ -4,7 +4,7 @@
 <!-- Rust provides three distribution channels for Rust: nightly, beta, and stable. -->
 <!-- Unstable features are only available on nightly Rust. For more details on this -->
 <!-- process, see ‘[Stability as a deliverable][stability]’. -->
-Rustにはnightly、beta、stableという3種類の配布用チャンネルがあります。不安定なフィーチャはnightlyのRustでのみ使えます。詳細は「 [配布物の安定性][stability] 」をご覧ください。
+Rustにはnightly、beta、stableという3種類の配布用チャネルがあります。不安定なフィーチャはnightlyのRustでのみ使えます。詳細は「 [配布物の安定性][stability] 」をご覧ください。
 
 [stability]: http://blog.rust-lang.org/2014/10/30/Stability.html
 
