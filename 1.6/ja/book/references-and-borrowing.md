@@ -64,8 +64,9 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!--# Borrowing-->
 # 借用
 
-At the end of the [ownership][ownership] section, we had a nasty function that looked
-like this:
+<!--At the end of the [ownership][ownership] section, we had a nasty function that looked-->
+<!--like this:-->
+[所有権][ownership]セクションの最後に、このように見える厄介な関数に出会いました。
 
 ```rust
 fn foo(v1: Vec<i32>, v2: Vec<i32>) -> (Vec<i32>, Vec<i32>, i32) {
@@ -81,8 +82,10 @@ let v2 = vec![1, 2, 3];
 let (v1, v2, answer) = foo(v1, v2);
 ```
 
-This is not idiomatic Rust, however, as it doesn’t take advantage of borrowing. Here’s
-the first step:
+<!--This is not idiomatic Rust, however, as it doesn’t take advantage of borrowing. Here’s-->
+<!--the first step:-->
+しかし、これは慣習的なRustのコードではありません。なぜなら、それは借用の利点を使わないからです。
+これが最初のステップです。
 
 ```rust
 fn foo(v1: &Vec<i32>, v2: &Vec<i32>) -> i32 {
@@ -100,15 +103,22 @@ let answer = foo(&v1, &v2);
 // we can use v1 and v2 here!
 ```
 
-Instead of taking `Vec<i32>`s as our arguments, we take a reference:
-`&Vec<i32>`. And instead of passing `v1` and `v2` directly, we pass `&v1` and
-`&v2`. We call the `&T` type a ‘reference’, and rather than owning the resource,
-it borrows ownership. A binding that borrows something does not deallocate the
-resource when it goes out of scope. This means that after the call to `foo()`,
-we can use our original bindings again.
+<!--Instead of taking `Vec<i32>`s as our arguments, we take a reference:-->
+<!--`&Vec<i32>`. And instead of passing `v1` and `v2` directly, we pass `&v1` and-->
+<!--`&v2`. We call the `&T` type a ‘reference’, and rather than owning the resource,-->
+<!--it borrows ownership. A binding that borrows something does not deallocate the-->
+<!--resource when it goes out of scope. This means that after the call to `foo()`,-->
+<!--we can use our original bindings again.-->
+引数として`Vec<i32>`を使う代わりに、参照、つまり`&vec<i32>`を使います。
+そして、`v1`と`v2`を直接渡す代わりに、`&v1`と`&v2`を渡します。
+`&T`型を「参照」と呼びます。それは、リソースを所有するのではなく、所有権を借用します。
+何かを借用した束縛はそれがスコープから外れるときにリソースを割当解除しません。
+これは`foo()`の呼出しの後に元の束縛を再び使うことができることを意味します。
 
-References are immutable, just like bindings. This means that inside of `foo()`,
-the vectors can’t be changed at all:
+<!--References are immutable, just like bindings. This means that inside of `foo()`,-->
+<!--the vectors can’t be changed at all:-->
+参照は束縛とちょうど同じようにイミュータブルです。
+これは`foo()`の中ではベクタは全く変更できないことを意味します。
 
 ```rust,ignore
 fn foo(v: &Vec<i32>) {
@@ -120,7 +130,8 @@ let v = vec![];
 foo(&v);
 ```
 
-errors with:
+<!--errors with:-->
+次のようなエラーが出ます。
 
 ```text
 error: cannot borrow immutable borrowed content `*v` as mutable
@@ -128,13 +139,17 @@ v.push(5);
 ^
 ```
 
-Pushing a value mutates the vector, and so we aren’t allowed to do it.
+<!--Pushing a value mutates the vector, and so we aren’t allowed to do it.-->
+値の挿入はベクタを変更するものであり、そうすることは許されていません。
 
 <!--# &mut references-->
 # &mut参照
 
-There’s a second kind of reference: `&mut T`. A ‘mutable reference’ allows you
-to mutate the resource you’re borrowing. For example:
+<!--There’s a second kind of reference: `&mut T`. A ‘mutable reference’ allows you-->
+<!--to mutate the resource you’re borrowing. For example:-->
+参照には2種類目、`&mut T`があります。
+「ミュータブルな参照」は借用しているリソースの変更を許します。
+例は次のとおりです。
 
 ```rust
 let mut x = 5;
@@ -145,18 +160,27 @@ let mut x = 5;
 println!("{}", x);
 ```
 
-This will print `6`. We make `y` a mutable reference to `x`, then add one to
-the thing `y` points at. You’ll notice that `x` had to be marked `mut` as well.
-If it wasn’t, we couldn’t take a mutable borrow to an immutable value.
+<!--This will print `6`. We make `y` a mutable reference to `x`, then add one to-->
+<!--the thing `y` points at. You’ll notice that `x` had to be marked `mut` as well.-->
+<!--If it wasn’t, we couldn’t take a mutable borrow to an immutable value.-->
+これは`6`をプリントするでしょう。
+`y`を`x`へのミュータブルな参照にして、それから`y`の指示先に1を足します。
+`x`も`mut`とマークしなければならないことに気付くでしょう。もしそうしなかったならば、イミュータブルな値へのミュータブルな借用を使うことはできません。
 
-You'll also notice we added an asterisk (`*`) in front of `y`, making it `*y`,
-this is because `y` is an `&mut` reference. You'll also need to use them for
-accessing the contents of a reference as well.
+<!--You'll also notice we added an asterisk (`*`) in front of `y`, making it `*y`,-->
+<!--this is because `y` is an `&mut` reference. You'll also need to use them for-->
+<!--accessing the contents of a reference as well.-->
+アスタリスク（`*`）を`y`の前に追加して、それを`*y`にしたことにも気付くでしょう。これは、`y`が`&mut`参照だからです。
+参照の内容にアクセスするためにもそれらを使う必要があるでしょう。
 
-Otherwise, `&mut` references are just like references. There _is_ a large
-difference between the two, and how they interact, though. You can tell
-something is fishy in the above example, because we need that extra scope, with
-the `{` and `}`. If we remove them, we get an error:
+<!--Otherwise, `&mut` references are just like references. There _is_ a large-->
+<!--difference between the two, and how they interact, though. You can tell-->
+<!--something is fishy in the above example, because we need that extra scope, with-->
+<!--the `{` and `}`. If we remove them, we get an error:-->
+そうしなければ、`&mut`参照はただの参照です。
+しかし、2つの間には、そしてそれらがどのように反応するかには大きな違いが _あります_ 。
+前の例では何かが怪しいと言うことができます。なぜなら、`{`と`}`を使って追加のスコープを必要とするからです。
+もしそれらを削除すれば、次のようなエラーが出ます。
 
 ```text
 error: cannot borrow `x` as immutable because it is also borrowed as mutable
@@ -173,39 +197,51 @@ fn main() {
 ^
 ```
 
-As it turns out, there are rules.
+<!--As it turns out, there are rules.-->
+結論から言うと、そこにはルールがあります。
 
 <!--# The Rules-->
 # ルール
 
-Here’s the rules about borrowing in Rust:
+<!--Here’s the rules about borrowing in Rust:-->
+これがRustでの借用についてのルールです。
 
-First, any borrow must last for a scope no greater than that of the owner.
-Second, you may have one or the other of these two kinds of borrows, but not
-both at the same time:
+<!--First, any borrow must last for a scope no greater than that of the owner.-->
+<!--Second, you may have one or the other of these two kinds of borrows, but not-->
+<!--both at the same time:-->
+最初に、借用は全て所有者のスコープより長く存続してはなりません。
+次に、次の2種類の借用のどちらか1つを持つことはありますが、両方を同時に持つことはありません。
 
-* one or more references (`&T`) to a resource,
-* exactly one mutable reference (`&mut T`).
+<!--* one or more references (`&T`) to a resource,-->
+<!--* exactly one mutable reference (`&mut T`).-->
+* リソースに対する1つ以上の参照（`&T`）
+* ただ1つのミュータブルな参照（`&mut T`）
 
+<!--You may notice that this is very similar, though not exactly the same as,-->
+<!--to the definition of a data race:-->
+これがデータ競合の定義と非常に似ていることに気付くかもしれません。全く同じではありませんが。
 
-You may notice that this is very similar, though not exactly the same as,
-to the definition of a data race:
+<!--> There is a ‘data race’ when two or more pointers access the same memory-->
+<!--> location at the same time, where at least one of them is writing, and the-->
+<!--> operations are not synchronized.-->
+> 「データ競合」は2つ以上のポインタがメモリの同じ場所に同時にアクセスするとき、少なくともそれらの1つが書込みを行っていて、作業が同期されていないところで「データ競合」は起きます。
 
-> There is a ‘data race’ when two or more pointers access the same memory
-> location at the same time, where at least one of them is writing, and the
-> operations are not synchronized.
+<!--With references, you may have as many as you’d like, since none of them are-->
+<!--writing. However, as we can only have one `&mut` at a time, it is impossible to-->
+<!--have a data race. This is how Rust prevents data races at compile time: we’ll-->
+<!--get errors if we break the rules.-->
+参照を使うとき、好きなだけ参照を持つかもしれません。しかし、それらのどれも書込みは行いません。
+もし書込みを行うのであれば、同じメモリへの2つ以上のポインタを必要とし、同時に1つだけ`&mut`を持つことができます。
+これがどのようにRustがデータ競合をコンパイル時に回避するのかということです。もしルールを破れば、そのときはエラーが出るでしょう。
 
-With references, you may have as many as you’d like, since none of them are
-writing. However, as we can only have one `&mut` at a time, it is impossible to
-have a data race. This is how Rust prevents data races at compile time: we’ll
-get errors if we break the rules.
-
-With this in mind, let’s consider our example again.
+<!--With this in mind, let’s consider our example again.-->
+これを念頭に置いて、もう一度例を考えましょう。
 
 <!--## Thinking in scopes-->
 ## スコープの考え方
 
-Here’s the code:
+<!--Here’s the code:-->
+これがコードです。
 
 ```rust,ignore
 let mut x = 5;
@@ -216,7 +252,8 @@ let y = &mut x;
 println!("{}", x);
 ```
 
-This code gives us this error:
+<!--This code gives us this error:-->
+このコード次のようなエラーを出します。
 
 ```text
 error: cannot borrow `x` as immutable because it is also borrowed as mutable
@@ -224,9 +261,12 @@ error: cannot borrow `x` as immutable because it is also borrowed as mutable
                    ^
 ```
 
-This is because we’ve violated the rules: we have a `&mut T` pointing to `x`,
-and so we aren’t allowed to create any `&T`s. One or the other. The note
-hints at how to think about this problem:
+<!--This is because we’ve violated the rules: we have a `&mut T` pointing to `x`,-->
+<!--and so we aren’t allowed to create any `&T`s. One or the other. The note-->
+<!--hints at how to think about this problem:-->
+これはルールに違反しているからです。つまり、`x`を指示する`&mut T`を持つので、`&T`を作ることは許されていないということです。
+どちらか1つです。
+メモはこの問題についての考え方のヒントを示します。
 
 ```text
 note: previous borrow ends here
@@ -236,10 +276,14 @@ fn main() {
 ^
 ```
 
-In other words, the mutable borrow is held through the rest of our example. What
-we want is for the mutable borrow to end _before_ we try to call `println!` and
-make an immutable borrow. In Rust, borrowing is tied to the scope that the
-borrow is valid for. And our scopes look like this:
+<!--In other words, the mutable borrow is held through the rest of our example. What-->
+<!--we want is for the mutable borrow to end _before_ we try to call `println!` and-->
+<!--make an immutable borrow. In Rust, borrowing is tied to the scope that the-->
+<!--borrow is valid for. And our scopes look like this:-->
+言い換えると、ミュータブルな借用は例の残りの間ずっと保持されるということです。
+必要なものは、`println!`を呼び出し、イミュータブルな借用を作ろうとする _前に_ 終わるミュータブルな借用です。
+Rustでは借用は借用が有効なスコープと結び付けられます。
+そしてスコープはこのように見えます。
 
 ```rust,ignore
 let mut x = 5;
@@ -252,9 +296,11 @@ println!("{}", x); // -+ - try to borrow x here
                    // -+ &mut borrow of x ends here
 ```
 
-The scopes conflict: we can’t make an `&x` while `y` is in scope.
+<!--The scopes conflict: we can’t make an `&x` while `y` is in scope.-->
+スコープは衝突します。`y`がスコープにある間、`&x`を作ることができません。
 
-So when we add the curly braces:
+<!--So when we add the curly braces:-->
+そして、波括弧を追加するときはこうなります。
 
 ```rust
 let mut x = 5;
@@ -267,21 +313,30 @@ let mut x = 5;
 println!("{}", x);  // <- try to borrow x here
 ```
 
-There’s no problem. Our mutable borrow goes out of scope before we create an
-immutable one. But scope is the key to seeing how long a borrow lasts for.
+<!--There’s no problem. Our mutable borrow goes out of scope before we create an-->
+<!--immutable one. But scope is the key to seeing how long a borrow lasts for.-->
+問題ありません。
+ミュータブルな借用はイミュータブルな借用を作る前にスコープから外れます。
+しかしスコープは借用がどれくらい存続するのかを考えるためのキーです。
 
 <!--## Issues borrowing prevents-->
-## ボローイングが回避する問題
+## 借用が回避する問題
 
-Why have these restrictive rules? Well, as we noted, these rules prevent data
-races. What kinds of issues do data races cause? Here’s a few.
+<!--Why have these restrictive rules? Well, as we noted, these rules prevent data-->
+<!--races. What kinds of issues do data races cause? Here’s a few.-->
+なぜこのような厳格なルールがあるのでしょうか。
+ええ、前述したように、それらのルールはデータ競合を回避します。
+データ競合はどのような種類の問題を起こすのでしょうか。
+ここに一部を示します。
 
 <!--### Iterator invalidation-->
-### イテレーターの不正
+### イテレータの無効
 
-One example is ‘iterator invalidation’, which happens when you try to mutate a
-collection that you’re iterating over. Rust’s borrow checker prevents this from
-happening:
+<!--One example is ‘iterator invalidation’, which happens when you try to mutate a-->
+<!--collection that you’re iterating over. Rust’s borrow checker prevents this from-->
+<!--happening:-->
+一例は「イテレータの無効」です。それは繰返しを行っているコレクションを変更しようとするときに起こります。
+Rustの借用チェッカはこれの発生を回避します。
 
 ```rust
 let mut v = vec![1, 2, 3];
@@ -291,9 +346,12 @@ for i in &v {
 }
 ```
 
-This prints out one through three. As we iterate through the vectors, we’re
-only given references to the elements. And `v` is itself borrowed as immutable,
-which means we can’t change it while we’re iterating:
+<!--This prints out one through three. As we iterate through the vectors, we’re-->
+<!--only given references to the elements. And `v` is itself borrowed as immutable,-->
+<!--which means we can’t change it while we’re iterating:-->
+これは1から3までをプリントアウトします。
+ベクタに対して繰り返すので、要素への参照だけを受け取ります。
+そして、`v`はそれ自体イミュータブルとして借用され、それは繰返しを行っている間はそれを変更できないことを意味します。
 
 ```rust,ignore
 let mut v = vec![1, 2, 3];
@@ -304,7 +362,8 @@ for i in &v {
 }
 ```
 
-Here’s the error:
+<!--Here’s the error:-->
+これがエラーです。
 
 ```text
 error: cannot borrow `v` as mutable because it is also borrowed as immutable
@@ -322,16 +381,21 @@ for i in &v {
 ^
 ```
 
-We can’t modify `v` because it’s borrowed by the loop.
+<!--We can’t modify `v` because it’s borrowed by the loop.-->
+`v`はループによって借用されるので、それを変更することはできません。
 
 <!--### use after free-->
 ### 解放後の使用
 
-References must not live longer than the resource they refer to. Rust will
-check the scopes of your references to ensure that this is true.
+<!--References must not live longer than the resource they refer to. Rust will-->
+<!--check the scopes of your references to ensure that this is true.-->
+参照はそれらの指示するリソースよりも長く生存することはできません。
+Rustはこれが真であることを保証するために、参照のスコープをチェックするでしょう。
 
-If Rust didn’t check this property, we could accidentally use a reference
-which was invalid. For example:
+<!--If Rust didn’t check this property, we could accidentally use a reference-->
+<!--which was invalid. For example:-->
+もしRustがこの所有物をチェックしなければ、不正な参照をうっかり使ってしまうかもしれません。
+例えばこうです。
 
 ```rust,ignore
 let y: &i32;
@@ -343,7 +407,8 @@ let y: &i32;
 println!("{}", y);
 ```
 
-We get this error:
+<!--We get this error:-->
+次のようなエラーが出ます。
 
 ```text
 error: `x` does not live long enough
@@ -364,14 +429,19 @@ statement 0 at 4:18
 }
 ```
 
-In other words, `y` is only valid for the scope where `x` exists. As soon as
-`x` goes away, it becomes invalid to refer to it. As such, the error says that
-the borrow ‘doesn’t live long enough’ because it’s not valid for the right
-amount of time.
+<!--In other words, `y` is only valid for the scope where `x` exists. As soon as-->
+<!--`x` goes away, it becomes invalid to refer to it. As such, the error says that-->
+<!--the borrow ‘doesn’t live long enough’ because it’s not valid for the right-->
+<!--amount of time.-->
+言い換えると、`y`は`x`が存在するスコープの中でだけ有効だということです。
+`x`がなくなるとすぐに、それを指示することは不正になります。
+そのように、エラーは借用が「十分長く生存していない」ことを示します。なぜなら、それが正しい期間有効ではないからです。
 
-The same problem occurs when the reference is declared _before_ the variable it
-refers to. This is because resources within the same scope are freed in the
-opposite order they were declared:
+<!--The same problem occurs when the reference is declared _before_ the variable it-->
+<!--refers to. This is because resources within the same scope are freed in the-->
+<!--opposite order they were declared:-->
+参照がそれの参照する変数より _前に_ 宣言されたとき、同じ問題が起こります。
+これは同じスコープにあるリソースはそれらの宣言された順番と逆に解放されるからです。
 
 ```rust,ignore
 let y: &i32;
@@ -381,7 +451,8 @@ y = &x;
 println!("{}", y);
 ```
 
-We get this error:
+<!--We get this error:-->
+次のようなエラーが出ます。
 
 ```text
 error: `x` does not live long enough
@@ -405,5 +476,6 @@ statement 1 at 3:14
 }
 ```
 
-In the above example, `y` is declared before `x`, meaning that `y` lives longer
-than `x`, which is not allowed.
+<!--In the above example, `y` is declared before `x`, meaning that `y` lives longer-->
+<!--than `x`, which is not allowed.-->
+前の例では、`y`は`x`より前に宣言されています。それは、`y`が`x`より長く生存することを意味し、それは許されません。
