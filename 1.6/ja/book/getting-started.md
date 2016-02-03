@@ -46,7 +46,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 
 <!-- Tier 1 platforms can be thought of as "guaranteed to build and work". -->
 <!-- Specifically they will each satisfy the following requirements: -->
-1級のプラットフォームは「ビルド出来かつ動くことを保証する」ものと思えます。
+1級のプラットフォームは「ビルド出来かつ動くことを保証する」ものとされています。
 特に以下の要求それぞれを満たします。
 
 <!-- * Automated testing is set up to run tests for the platform. -->
@@ -76,7 +76,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <!-- are not run so it's not guaranteed to produce a working build, but platforms -->
 <!-- often work to quite a good degree and patches are always welcome! Specifically, -->
 <!-- these platforms are required to have each of the following: -->
-2級のプラットフォームは「ビルドを保証する」ものと思えます。
+2級のプラットフォームは「ビルドを保証する」ものとされています。
 自動テストは走っておらず、ビルド出来たとしてもちゃんと動く保証はありませんが大抵ほぼ動きますしパッチはいつでも歓迎しています!
 特に、以下が要請されています。
 
