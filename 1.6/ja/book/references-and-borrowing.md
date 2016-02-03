@@ -86,7 +86,7 @@ let (v1, v2, answer) = foo(v1, v2);
 
 <!--This is not idiomatic Rust, however, as it doesn’t take advantage of borrowing. Here’s-->
 <!--the first step:-->
-しかし、これは慣習的なRustのコードではありません。なぜなら、それは借用の利点を生かしていないからです。
+しかし、これはRust的なコードではありません。なぜなら、それは借用の利点を生かしていないからです。
 これが最初のステップです。
 
 ```rust
@@ -184,7 +184,7 @@ println!("{}", x);
 <!--something is fishy in the above example, because we need that extra scope, with-->
 <!--the `{` and `}`. If we remove them, we get an error:-->
 それ以外は、`&mut`参照は普通の参照と全く同じです。
-しかし、2つの間には、そしてそれらがどのように反応するかには大きな違いが _あります_ 。
+しかし、2つの間には、そしてそれらがどのように相互作用するかには大きな違いが _あります_ 。
 前の例で何かが怪しいと思ったかもしれません。なぜなら、`{`と`}`を使って追加のスコープを必要とするからです。
 もしそれらを削除すれば、次のようなエラーが出ます。
 
@@ -204,7 +204,7 @@ fn main() {
 ```
 
 <!--As it turns out, there are rules.-->
-結論から言うと、そこにはルールがあります。
+結論から言うと、ルールがあります。
 
 <!--# The Rules-->
 # ルール
@@ -237,7 +237,7 @@ fn main() {
 <!--have a data race. This is how Rust prevents data races at compile time: we’ll-->
 <!--get errors if we break the rules.-->
 書込みを行わないのであれば、参照は好きな数だけ使うことができます。
-`&mut`は同時に1つしか持つことができませんが、これがデータ競合を不可能にします。
+`&mut`は同時に1つしか持つことができないので、データ競合は起き得ません。
 これがRustがデータ競合をコンパイル時に回避する方法です。もしルールを破れば、そのときはエラーが出るでしょう。
 
 <!--With this in mind, let’s consider our example again.-->
@@ -286,7 +286,7 @@ fn main() {
 <!--we want is for the mutable borrow to end _before_ we try to call `println!` and-->
 <!--make an immutable borrow. In Rust, borrowing is tied to the scope that the-->
 <!--borrow is valid for. And our scopes look like this:-->
-言い換えると、ミュータブルな借用は例の残りの間ずっと保持されるということです。
+言い換えると、ミュータブルな借用は先程の例の残りの間ずっと保持されるということです。
 必要なものは、`println!`を呼び出し、イミュータブルな借用を作ろうとする _前に_ 終わるミュータブルな借用です。
 Rustでは借用はその有効なスコープと結び付けられます。
 そしてスコープはこのように見えます。
