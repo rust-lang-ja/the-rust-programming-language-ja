@@ -10,83 +10,83 @@
 
 | English               | 日本語
 |:----------------------|:------
-| alignment             | アラインメント
-| allocator             | アロケータ
-| application           | アプリケーション
-| arity                 | アリティ
-| array                 | 配列
-| assignment            | 代入
-| associated -          | 関連-
-| attribute             | アトリビュート
-| binary                | バイナリ
-| binding               | 束縛
-| block                 | ブロック
-| borrowing             | 借用
-| capture               | キャプチャ
-| closure               | クロージャ
-| coercion              | 型強制
-| comma                 | カンマ
-| compiler              | コンパイラ
-| constant              | 定数
-| crate                 | クレート
-| declaration statement | 宣言文
-| dereferencing         | 参照外し
-| destructuring         | 分配
-| directive             | ディレクティブ
-| distribution          | 配布物
-| diverge               | ダイバージ
-| diverging             | ダイバージング
-| documentation comment | ドキュメンテーションコメント
-| documentation test    | ドキュメンテーションテスト
-| early return          | 早期リターン
-| enum                  | 列挙型
-| expression statement  | 式文
-| feature               | フィーチャ
-| generics              | ジェネリクス
-| identifier            | 識別子
-| immutable             | イミュータブル
-| initialize            | 初期化する
-| interpolate           | インターポーレートする
-| interpolation         | インターポーレーション
-| Intrinsics            | Intrinsic
-| Lang Items            | Lang Item
-| library               | ライブラリ
-| lifetime              | ライフタイム
-| link                  | リンク
-| lint                  | リント
-| match                 | マッチ
-| memory                | メモリ
-| move                  | ムーブ
-| mutable               | ミュータブル
-| mutability            | ミュータビリティ
-| mutable binding       | ミュータブルな束縛
-| owner                 | 所有者
-| ownership             | 所有権
-| panic                 | パニック
-| re-assignment         | 再代入
-| rebind                | 再束縛
-| return                | 返す
-| scope                 | スコープ
-| shadow                | 覆い隠す
-| shadowing             | シャドイング
-| signature             | シグネチャ
-| signed                | 符号付き
-| slice                 | スライス
-| slicing               | スライシング
-| string                | 文字列
-| string interpolation  | 文字列インターポーレーション
-| struct                | 構造体
-| structure             | ストラクチャ
-| symbol                | シンボル
-| syntactic sugar       | 糖衣構文
-| system                | システム
-| tick                  | クオート
-| trait                 | トレイト
-| type inference        | 型推論
-| unsigned              | 符号無し
-| unsized type          | サイズ不定型
-| variable              | 変数
-| variable binding      | 変数束縛
-| vector                | ベクタ
-| warning               | ウォーニング
-| wildcard              | ワイルドカード
+| alignment                      | アラインメント
+| allocator                      | アロケータ
+| application                    | アプリケーション
+| arity                          | アリティ
+| array                          | 配列
+| assignment                     | 代入
+| associated -                   | 関連-
+| attribute                      | アトリビュート
+| binary                         | バイナリ
+| binding                        | 束縛
+| block                          | ブロック
+| borrowing                      | 借用
+| capture                        | キャプチャ
+| closure                        | クロージャ
+| coercion                       | 型強制
+| comma                          | カンマ
+| compiler                       | コンパイラ
+| constant                       | 定数
+| crate                          | クレート
+| declaration statement          | 宣言文
+| dereferencing                  | 参照外し
+| destructuring                  | 分配
+| directive                      | ディレクティブ
+| distribution                   | 配布物
+| diverge                        | ダイバージ
+| diverging                      | ダイバージング
+| documentation comment          | ドキュメンテーションコメント
+| documentation test             | ドキュメンテーションテスト
+| early return                   | 早期リターン
+| enum                           | 列挙型
+| expression statement           | 式文
+| feature                        | フィーチャ
+| generics                       | ジェネリクス
+| identifier                     | 識別子
+| immutable                      | イミュータブル
+| initialize                     | 初期化する
+| interpolate                    | インターポーレートする
+| interpolation                  | インターポーレーション
+| Intrinsics                     | Intrinsic
+| Lang Items                     | Lang Item
+| library                        | ライブラリ
+| lifetime                       | ライフタイム
+| link                           | リンク
+| lint                           | リント
+| match                          | マッチ
+| memory                         | メモリ
+| move                           | ムーブ
+| mutable                        | ミュータブル
+| mutability                     | ミュータビリティ
+| mutable binding                | ミュータブルな束縛
+| owner                          | 所有者
+| ownership                      | 所有権
+| panic                          | パニック
+| re-assignment                  | 再代入
+| rebind                         | 再束縛
+| return                         | 返す
+| scope                          | スコープ
+| shadow                         | 覆い隠す
+| shadowing                      | シャドイング
+| signature                      | シグネチャ
+| signed                         | 符号付き
+| slice                          | スライス
+| slicing                        | スライシング
+| string                         | 文字列
+| string interpolation           | 文字列インターポーレーション
+| struct                         | 構造体
+| structure                      | ストラクチャ
+| symbol                         | シンボル
+| syntactic sugar                | 糖衣構文
+| system                         | システム
+| tick                           | クオート
+| trait                          | トレイト
+| type inference                 | 型推論
+| unsigned                       | 符号無し
+| unsized type                   | サイズ不定型
+| variable                       | 変数
+| variable binding               | 変数束縛
+| vector                         | ベクタ
+| warning                        | ウォーニング
+| wildcard                       | ワイルドカード
