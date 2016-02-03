@@ -70,9 +70,11 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 ```rust
 fn foo(v1: Vec<i32>, v2: Vec<i32>) -> (Vec<i32>, Vec<i32>, i32) {
-    // do stuff with v1 and v2
+#   // do stuff with v1 and v2
+    // v1とv2についての作業を行う
 
-    // hand back ownership, and the result of our function
+#   // hand back ownership, and the result of our function
+    // 所有権と関数の結果を返す
     (v1, v2, 42)
 }
 
@@ -89,9 +91,11 @@ let (v1, v2, answer) = foo(v1, v2);
 
 ```rust
 fn foo(v1: &Vec<i32>, v2: &Vec<i32>) -> i32 {
-    // do stuff with v1 and v2
+#   // do stuff with v1 and v2
+    // v1とv2についての作業を行う
 
-    // return the answer
+#   // return the answer
+    // 答えを返す
     42
 }
 
@@ -100,7 +104,8 @@ let v2 = vec![1, 2, 3];
 
 let answer = foo(&v1, &v2);
 
-// we can use v1 and v2 here!
+# // we can use v1 and v2 here!
+// ここではv1とv2が使える!
 ```
 
 <!--Instead of taking `Vec<i32>`s as our arguments, we take a reference:-->
@@ -289,12 +294,18 @@ Rustでは借用はその有効なスコープと結び付けられます。
 ```rust,ignore
 let mut x = 5;
 
-let y = &mut x;    // -+ &mut borrow of x starts here
+# let y = &mut x;    // -+ &mut borrow of x starts here
+#                    //  |
+# *y += 1;           //  |
+#                    //  |
+# println!("{}", x); // -+ - try to borrow x here
+#                    // -+ &mut borrow of x ends here
+let y = &mut x;    // -+ xの&mut借用がここから始まる
                    //  |
 *y += 1;           //  |
                    //  |
-println!("{}", x); // -+ - try to borrow x here
-                   // -+ &mut borrow of x ends here
+println!("{}", x); // -+ - ここでxを借用しようとする
+                   // -+ xの&mut借用がここで終わる
 ```
 
 <!--The scopes conflict: we can’t make an `&x` while `y` is in scope.-->
@@ -307,11 +318,15 @@ println!("{}", x); // -+ - try to borrow x here
 let mut x = 5;
 
 {
-    let y = &mut x; // -+ &mut borrow starts here
+#     let y = &mut x; // -+ &mut borrow starts here
+#     *y += 1;        //  |
+# }                   // -+ ... and ends here
+    let y = &mut x; // -+ &mut借用がここから始まる
     *y += 1;        //  |
-}                   // -+ ... and ends here
+}                   // -+ ... そしてここで終わる
 
-println!("{}", x);  // <- try to borrow x here
+# println!("{}", x);  // <- try to borrow x here
+println!("{}", x);  // <- ここでxを借用しようとする
 ```
 
 <!--There’s no problem. Our mutable borrow goes out of scope before we create an-->
