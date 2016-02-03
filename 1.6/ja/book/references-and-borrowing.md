@@ -66,7 +66,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!--At the end of the [ownership][ownership] section, we had a nasty function that looked-->
 <!--like this:-->
-[所有権][ownership]セクションの最後に、このように見える厄介な関数に出会いました。
+[所有権][ownership]セクションの最後に、このような感じの厄介な関数に出会いました。
 
 ```rust
 fn foo(v1: Vec<i32>, v2: Vec<i32>) -> (Vec<i32>, Vec<i32>, i32) {
@@ -84,7 +84,7 @@ let (v1, v2, answer) = foo(v1, v2);
 
 <!--This is not idiomatic Rust, however, as it doesn’t take advantage of borrowing. Here’s-->
 <!--the first step:-->
-しかし、これは慣習的なRustのコードではありません。なぜなら、それは借用の利点を使わないからです。
+しかし、これは慣習的なRustのコードではありません。なぜなら、それは借用の利点を生かしていないからです。
 これが最初のステップです。
 
 ```rust
@@ -109,9 +109,9 @@ let answer = foo(&v1, &v2);
 <!--it borrows ownership. A binding that borrows something does not deallocate the-->
 <!--resource when it goes out of scope. This means that after the call to `foo()`,-->
 <!--we can use our original bindings again.-->
-引数として`Vec<i32>`を使う代わりに、参照、つまり`&vec<i32>`を使います。
+引数として`Vec<i32>`を使う代わりに、参照、つまり`&Vec<i32>`を使います。
 そして、`v1`と`v2`を直接渡す代わりに、`&v1`と`&v2`を渡します。
-`&T`型を「参照」と呼びます。それは、リソースを所有するのではなく、所有権を借用します。
+`&T`型は「参照」と呼ばれ、それは、リソースを所有するのではなく、所有権を借用します。
 何かを借用した束縛はそれがスコープから外れるときにリソースを割当解除しません。
 これは`foo()`の呼出しの後に元の束縛を再び使うことができることを意味します。
 
@@ -147,8 +147,8 @@ v.push(5);
 
 <!--There’s a second kind of reference: `&mut T`. A ‘mutable reference’ allows you-->
 <!--to mutate the resource you’re borrowing. For example:-->
-参照には2種類目、`&mut T`があります。
-「ミュータブルな参照」は借用しているリソースの変更を許します。
+参照には2つ目の種類、`&mut T`があります。
+「ミュータブルな参照」によって借用しているリソースを変更することができるようになります。
 例は次のとおりです。
 
 ```rust
@@ -165,7 +165,8 @@ println!("{}", x);
 <!--If it wasn’t, we couldn’t take a mutable borrow to an immutable value.-->
 これは`6`をプリントするでしょう。
 `y`を`x`へのミュータブルな参照にして、それから`y`の指示先に1を足します。
-`x`も`mut`とマークしなければならないことに気付くでしょう。もしそうしなかったならば、イミュータブルな値へのミュータブルな借用を使うことはできません。
+`x`も`mut`とマークしなければならないことに気付くでしょう。
+そうしないと、イミュータブルな値へのミュータブルな借用ということになってしまい、使うことができなくなってしまいます。
 
 <!--You'll also notice we added an asterisk (`*`) in front of `y`, making it `*y`,-->
 <!--this is because `y` is an `&mut` reference. You'll also need to use them for-->
@@ -177,9 +178,9 @@ println!("{}", x);
 <!--difference between the two, and how they interact, though. You can tell-->
 <!--something is fishy in the above example, because we need that extra scope, with-->
 <!--the `{` and `}`. If we remove them, we get an error:-->
-そうしなければ、`&mut`参照はただの参照です。
+それ以外は、`&mut`参照は普通の参照と全く同じです。
 しかし、2つの間には、そしてそれらがどのように反応するかには大きな違いが _あります_ 。
-前の例では何かが怪しいと言うことができます。なぜなら、`{`と`}`を使って追加のスコープを必要とするからです。
+前の例で何かが怪しいと思ったかもしれません。なぜなら、`{`と`}`を使って追加のスコープを必要とするからです。
 もしそれらを削除すれば、次のようなエラーが出ます。
 
 ```text
@@ -230,9 +231,9 @@ fn main() {
 <!--writing. However, as we can only have one `&mut` at a time, it is impossible to-->
 <!--have a data race. This is how Rust prevents data races at compile time: we’ll-->
 <!--get errors if we break the rules.-->
-参照を使うとき、好きなだけ参照を持つかもしれません。しかし、それらのどれも書込みは行いません。
-もし書込みを行うのであれば、同じメモリへの2つ以上のポインタを必要とし、同時に1つだけ`&mut`を持つことができます。
-これがどのようにRustがデータ競合をコンパイル時に回避するのかということです。もしルールを破れば、そのときはエラーが出るでしょう。
+書込みを行わないのであれば、参照は好きな数だけ使うことができます。
+`&mut`は同時に1つしか持つことができませんが、これがデータ競合を不可能にします。
+これがRustがデータ競合をコンパイル時に回避する方法です。もしルールを破れば、そのときはエラーが出るでしょう。
 
 <!--With this in mind, let’s consider our example again.-->
 これを念頭に置いて、もう一度例を考えましょう。
@@ -253,7 +254,7 @@ println!("{}", x);
 ```
 
 <!--This code gives us this error:-->
-このコード次のようなエラーを出します。
+このコードは次のようなエラーを出します。
 
 ```text
 error: cannot borrow `x` as immutable because it is also borrowed as mutable
@@ -264,7 +265,7 @@ error: cannot borrow `x` as immutable because it is also borrowed as mutable
 <!--This is because we’ve violated the rules: we have a `&mut T` pointing to `x`,-->
 <!--and so we aren’t allowed to create any `&T`s. One or the other. The note-->
 <!--hints at how to think about this problem:-->
-これはルールに違反しているからです。つまり、`x`を指示する`&mut T`を持つので、`&T`を作ることは許されていないということです。
+なぜなら、これはルールに違反しているからです。つまり、`x`を指示する`&mut T`を持つので、`&T`を作ることは許されないのです。
 どちらか1つです。
 メモはこの問題についての考え方のヒントを示します。
 
@@ -282,7 +283,7 @@ fn main() {
 <!--borrow is valid for. And our scopes look like this:-->
 言い換えると、ミュータブルな借用は例の残りの間ずっと保持されるということです。
 必要なものは、`println!`を呼び出し、イミュータブルな借用を作ろうとする _前に_ 終わるミュータブルな借用です。
-Rustでは借用は借用が有効なスコープと結び付けられます。
+Rustでは借用はその有効なスコープと結び付けられます。
 そしてスコープはこのように見えます。
 
 ```rust,ignore
@@ -297,7 +298,7 @@ println!("{}", x); // -+ - try to borrow x here
 ```
 
 <!--The scopes conflict: we can’t make an `&x` while `y` is in scope.-->
-スコープは衝突します。`y`がスコープにある間、`&x`を作ることができません。
+スコープは衝突します。`y`がスコープにある間は、`&x`を作ることができません。
 
 <!--So when we add the curly braces:-->
 そして、波括弧を追加するときはこうなります。
@@ -325,7 +326,7 @@ println!("{}", x);  // <- try to borrow x here
 <!--Why have these restrictive rules? Well, as we noted, these rules prevent data-->
 <!--races. What kinds of issues do data races cause? Here’s a few.-->
 なぜこのような厳格なルールがあるのでしょうか。
-ええ、前述したように、それらのルールはデータ競合を回避します。
+そう、前述したように、それらのルールはデータ競合を回避します。
 データ競合はどのような種類の問題を起こすのでしょうか。
 ここに一部を示します。
 
@@ -350,7 +351,7 @@ for i in &v {
 <!--only given references to the elements. And `v` is itself borrowed as immutable,-->
 <!--which means we can’t change it while we’re iterating:-->
 これは1から3までをプリントアウトします。
-ベクタに対して繰り返すので、要素への参照だけを受け取ります。
+ベクタに対して繰り返すとき、要素への参照だけを受け取ります。
 そして、`v`はそれ自体イミュータブルとして借用され、それは繰返しを行っている間はそれを変更できないことを意味します。
 
 ```rust,ignore
@@ -394,7 +395,7 @@ Rustはこれが真であることを保証するために、参照のスコー�
 
 <!--If Rust didn’t check this property, we could accidentally use a reference-->
 <!--which was invalid. For example:-->
-もしRustがこの所有物をチェックしなければ、不正な参照をうっかり使ってしまうかもしれません。
+もしRustがこの所有物をチェックしなければ、無効な参照をうっかり使ってしまうかもしれません。
 例えばこうです。
 
 ```rust,ignore
