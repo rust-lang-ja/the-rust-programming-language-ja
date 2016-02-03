@@ -1,45 +1,68 @@
-% References and Borrowing
+% 参照と借用
+<!--% References and Borrowing-->
 
-This guide is two of three presenting Rust’s ownership system. This is one of
-Rust’s most unique and compelling features, with which Rust developers should
-become quite acquainted. Ownership is how Rust achieves its largest goal,
-memory safety. There are a few distinct concepts, each with its own
-chapter:
+<!--This guide is two of three presenting Rust’s ownership system. This is one of-->
+<!--Rust’s most unique and compelling features, with which Rust developers should-->
+<!--become quite acquainted. Ownership is how Rust achieves its largest goal,-->
+<!--memory safety. There are a few distinct concepts, each with its own-->
+<!--chapter:-->
+このガイドはRustの所有権システムの3つの解説の1つです。
+これはRustの最も独特で注目されている機能です。そして、Rust開発者はそれについて高度に精通しておくべきです。
+所有権こそはRustがその最大の目標、メモリ安全性を得るための方法です。
+そこにはいくつかの別個の概念があり、各概念が独自の章を持ちます。
 
-* [ownership][ownership], the key concept
-* borrowing, which you’re reading now
-* [lifetimes][lifetimes], an advanced concept of borrowing
+<!--* [ownership][ownership], the key concept-->
+<!--* borrowing, which you’re reading now-->
+<!--* [lifetimes][lifetimes], an advanced concept of borrowing-->
+* キーとなる概念、[所有権][ownership]
+* 今読んでいる、借用
+* 借用のもう一歩進んだ概念、[ライフタイム][lifetimes]
 
-These three chapters are related, and in order. You’ll need all three to fully
-understand the ownership system.
+<!--These three chapters are related, and in order. You’ll need all three to fully-->
+<!--understand the ownership system.-->
+それらの3つの章は関連していて、それらは順番に並んでいます。
+所有権システムを完全に理解するためには、3つ全てを必要とするでしょう。
 
 [ownership]: ownership.html
 [lifetimes]: lifetimes.html
 
-# Meta
+<!--# Meta-->
+# 概論
 
-Before we get to the details, two important notes about the ownership system.
+<!--Before we get to the details, two important notes about the ownership system.-->
+詳細に入る前に、所有権システムについての2つの重要な注意があります。
 
-Rust has a focus on safety and speed. It accomplishes these goals through many
-‘zero-cost abstractions’, which means that in Rust, abstractions cost as little
-as possible in order to make them work. The ownership system is a prime example
-of a zero cost abstraction. All of the analysis we’ll talk about in this guide
-is _done at compile time_. You do not pay any run-time cost for any of these
-features.
+<!--Rust has a focus on safety and speed. It accomplishes these goals through many-->
+<!--‘zero-cost abstractions’, which means that in Rust, abstractions cost as little-->
+<!--as possible in order to make them work. The ownership system is a prime example-->
+<!--of a zero cost abstraction. All of the analysis we’ll talk about in this guide-->
+<!--is _done at compile time_. You do not pay any run-time cost for any of these-->
+<!--features.-->
+Rustは安全性とスピートに焦点を合わせます。
+Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通じて成し遂げます。それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
+所有権システムはゼロコスト抽象化の主な例です。
+このガイドの中で話すであろう解析の全ては _コンパイル時に行われます_ 。
+それらのどの機能に対しても実行時のコストは全く掛かりません。
 
-However, this system does have a certain cost: learning curve. Many new users
-to Rust experience something we like to call ‘fighting with the borrow
-checker’, where the Rust compiler refuses to compile a program that the author
-thinks is valid. This often happens because the programmer’s mental model of
-how ownership should work doesn’t match the actual rules that Rust implements.
-You probably will experience similar things at first. There is good news,
-however: more experienced Rust developers report that once they work with the
-rules of the ownership system for a period of time, they fight the borrow
-checker less and less.
+<!--However, this system does have a certain cost: learning curve. Many new users-->
+<!--to Rust experience something we like to call ‘fighting with the borrow-->
+<!--checker’, where the Rust compiler refuses to compile a program that the author-->
+<!--thinks is valid. This often happens because the programmer’s mental model of-->
+<!--how ownership should work doesn’t match the actual rules that Rust implements.-->
+<!--You probably will experience similar things at first. There is good news,-->
+<!--however: more experienced Rust developers report that once they work with the-->
+<!--rules of the ownership system for a period of time, they fight the borrow-->
+<!--checker less and less.-->
+しかし、このシステムはあるコストを持ちます。それは学習曲線です。
+多くの新しいRustのユーザは「借用チェッカとの戦い」と好んで呼ばれるものを経験します。そこではRustコンパイラが開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
+所有権がどのように機能するのかについてのプログラマのメンタルモデルがRustの実装する実際のルールにマッチしないため、これはしばしば起きます。
+しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。一度彼らが所有権システムのルールとともにしばらく仕事をすれば、彼らが借用チェッカと戦うことは少なくなっていくということです。
 
-With that in mind, let’s learn about borrowing.
+<!--With that in mind, let’s learn about borrowing.-->
+それを念頭に置いて、借用について学びましょう。
 
-# Borrowing
+<!--# Borrowing-->
+# 借用
 
 At the end of the [ownership][ownership] section, we had a nasty function that looked
 like this:
@@ -107,7 +130,8 @@ v.push(5);
 
 Pushing a value mutates the vector, and so we aren’t allowed to do it.
 
-# &mut references
+<!--# &mut references-->
+# &mut参照
 
 There’s a second kind of reference: `&mut T`. A ‘mutable reference’ allows you
 to mutate the resource you’re borrowing. For example:
@@ -151,7 +175,8 @@ fn main() {
 
 As it turns out, there are rules.
 
-# The Rules
+<!--# The Rules-->
+# ルール
 
 Here’s the rules about borrowing in Rust:
 
@@ -177,7 +202,8 @@ get errors if we break the rules.
 
 With this in mind, let’s consider our example again.
 
-## Thinking in scopes
+<!--## Thinking in scopes-->
+## スコープの考え方
 
 Here’s the code:
 
@@ -244,12 +270,14 @@ println!("{}", x);  // <- try to borrow x here
 There’s no problem. Our mutable borrow goes out of scope before we create an
 immutable one. But scope is the key to seeing how long a borrow lasts for.
 
-## Issues borrowing prevents
+<!--## Issues borrowing prevents-->
+## ボローイングが回避する問題
 
 Why have these restrictive rules? Well, as we noted, these rules prevent data
 races. What kinds of issues do data races cause? Here’s a few.
 
-### Iterator invalidation
+<!--### Iterator invalidation-->
+### イテレーターの不正
 
 One example is ‘iterator invalidation’, which happens when you try to mutate a
 collection that you’re iterating over. Rust’s borrow checker prevents this from
@@ -296,7 +324,8 @@ for i in &v {
 
 We can’t modify `v` because it’s borrowed by the loop.
 
-### use after free
+<!--### use after free-->
+### 解放後の使用
 
 References must not live longer than the resource they refer to. Rust will
 check the scopes of your references to ensure that this is true.
@@ -378,4 +407,3 @@ statement 1 at 3:14
 
 In the above example, `y` is declared before `x`, meaning that `y` lives longer
 than `x`, which is not allowed.
-
