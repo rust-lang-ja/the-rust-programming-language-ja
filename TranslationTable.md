@@ -21,6 +21,7 @@
 | binding                        | 束縛
 | block                          | ブロック
 | borrowing                      | 借用
+| bounds                         | 境界
 | capture                        | キャプチャ
 | closure                        | クロージャ
 | coercion                       | 型強制
@@ -57,6 +58,7 @@
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
+| parametric polymorphism        | パラメトリック多相
 | return                         | 返す
 | shadow                         | 覆い隠す
 | signature                      | シグネチャ
