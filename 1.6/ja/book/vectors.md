@@ -18,7 +18,7 @@ let v = vec![1, 2, 3, 4, 5]; // v: Vec<i32>
 <!-- (Notice that unlike the `println!` macro we’ve used in the past, we use square -->
 <!-- brackets `[]` with `vec!` macro. Rust allows you to use either in either situation, -->
 <!-- this is just convention.) -->
-(以前使った`println!` マクロと異なり、`vec!` マクロで 角括弧 `[]` を利用しました。
+(以前使った`println!` マクロと異なり、`vec!` マクロで 角括弧 `[]` を利用しました。)
 Rustではどちらの括弧もどちらのシチュエーションでも利用可能であり、解りやすさのためです。
 
 <!-- There’s an alternate form of `vec!` for repeating an initial value: -->
