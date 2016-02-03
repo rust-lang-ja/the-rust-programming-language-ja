@@ -103,7 +103,7 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- a computation was successful or not. As you will see, the key to ergonomic error -->
 <!-- handling is reducing the amount of explicit case analysis the programmer has to -->
 <!-- do while keeping code composable. -->
-エラーハンドリングとは、ある処理が成功したかどうかを *ケース分析* に基づいて判断するものだと考えてください。
+エラーハンドリングとは、ある処理が成功したかどうかを *ケース分析* に基づいて判断するものだと考えられます。
 これから見ていくように、エラーハンドリングを使いやすくするために重要なのは、プログラマがコードをコンポーザブル（組み合わせ可能）に保ったまま、明示的なケース分析の数を、いかに減らしていくかということです。
 
 <!-- Keeping code composable is important, because without that requirement, we -->
@@ -406,11 +406,11 @@ fn map<F, T, A>(option: Option<T>, f: F) -> Option<A> where F: FnOnce(T) -> A {
 ```
 
 <!-- Indeed, `map` is [defined as a method][2] on `Option<T>` in the standard library. -->
-ご想像の通り、 `map` は、標準のライブラリの `Option<T>` で、 [メソッドとして定義されています][2]。
+もちろん `map` は標準のライブラリの `Option<T>` で、 [メソッドとして定義されています][2]。
 
 <!-- Armed with our new combinator, we can rewrite our `extension_explicit` method -->
 <!-- to get rid of the case analysis: -->
-新しいコンビネータを手に入れましたので、 `extension_explicit` メソッドを書き直して、ケース分析をなくしましょう：
+新しいコンビネータを手に入れましたので、 `extension_explicit` メソッドを書き直して、ケース分析を省きましょう：
 
 ```rust
 # fn find(_: &str, _: char) -> Option<usize> { None }
@@ -430,7 +430,7 @@ fn extension(file_name: &str) -> Option<&str> {
 <!-- the extension of a file is `rs` even if none is present. As you might imagine, -->
 <!-- the case analysis for this is not specific to file extensions - it can work -->
 <!-- with any `Option<T>`: -->
-もう一つのよくある共通のパターンは、`Option` の値が `None` の時にデフォルト値を与えることです。
+もう一つの共通のパターンは、`Option` の値が `None` の時にデフォルト値を与えることです。
 例えば、ファイルの拡張子がない時は、それを `rs` とみなすようなプログラムを書きたくなるかもしれません。
 ご想像の通り、このようなケース分析は、ファイルの拡張子に特有のものではありません。
 どんな `Option<T>` でも使えるでしょう：
@@ -446,7 +446,7 @@ fn unwrap_or<T>(option: Option<T>, default: T) -> T {
 
 <!-- The trick here is that the default value must have the same type as the value -->
 <!-- that might be inside the `Option<T>`. Using it is dead simple in our case: -->
-ここでの仕掛けは、デフォルト値の型が `Option<T>` の中にあるはずの値のそれと、必ず同じになることです。
+ここでの仕掛けは、`Option<T>` に入れる値と同じ型になるよう、デフォルト値の型を制限していることです。
 これを使うのは、すごく簡単です：
 
 ```rust
@@ -519,10 +519,10 @@ fn file_name(file_path: &str) -> Option<&str> {
 <!-- like `map`, but which allows the caller to return another `Option`. Its generic -->
 <!-- implementation is even simpler than `map`: -->
 ケース分析を減らすために単に `map` コンビネータを使えばいいと思うかもしれませんが、型にうまく適合しません。
-なぜなら、`map` が引数にとる関数は、内側の値だけに適用されるからです。
-そして、関数が返した値は *必ず* [`Some` でラップされ直します](#code-option-map) 。
-代わりに、 `map` のようでありながら、呼び出し元が別の `Option` を返せるしくみが必要です。
-これを汎用的に実装したものは、 `map` よりもシンプルです：
+なぜなら `map` が引数にとる関数は、中の値だけに適用されるからです。
+そして関数が返した値は *必ず* [`Some` でラップされ直します](#code-option-map) 。
+つまりこの代わりに、 `map` に似ていながら、呼び出し元が別の `Option` を返せるしくみが必要です。
+これの汎用的な実装は、 `map` よりもシンプルです：
 
 ```rust
 fn and_then<F, T, A>(option: Option<T>, f: F) -> Option<A>
@@ -535,7 +535,7 @@ fn and_then<F, T, A>(option: Option<T>, f: F) -> Option<A>
 ```
 
 <!-- Now we can rewrite our `file_path_ext` function without explicit case analysis: -->
-では、明示的なケース分析を行わないように、 `file_path_ext` を書き直しましょう：
+では、明示的なケース分析を省くように、 `file_path_ext` を書き直しましょう：
 
 ```rust
 # fn extension(file_name: &str) -> Option<&str> { None }
@@ -554,7 +554,7 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 `Option` 型には、他にもたくさんのコンビネータが [標準ライブラリで定義されています][5] 。
 それらの一覧をざっと眺めて、なにがあるか知っておくといいでしょう。
 大抵の場合、ケース分析を減らすのに役立ちます。
-それらのコンビネータに慣れるための努力は、すぐに報われます。
+それらのコンビネータに慣れるための努力は、すぐに報われるでしょう。
 なぜなら、そのほとんどは次に話す `Result` 型でも、（よく似たセマンティクスで）定義されているからです。
 
 <!-- Combinators make using types like `Option` ergonomic because they reduce -->
@@ -693,7 +693,7 @@ thread '<main>' panicked at 'called `Result::unwrap()` on an `Err` value: ParseI
 <!-- what? Well, that requires looking at the signature of the [`parse` -->
 <!-- method][9] in the standard library: -->
 これは少し目障りです。
-もし使っているライブラリの中でこれを起こされたら、イライラするに違いありません。
+もし、あなたが使っているライブラリの中でこれが起こったら、イライラするに違いありません。
 代わりに、私達の関数の中でエラーを処理し、呼び出し元にどうするのかを決めさせるべきです。
 そのためには、`double_number` の戻り値の型（リターン型）を変更しなければなりません。
 でも、一体何に？
@@ -927,7 +927,7 @@ Rustにおけるエラーハンドリングの基礎についてカバーでき�
 これまで見てきたエラーハンドリングは、単体の `Option<T>` または `Result<T, SomeError>` だけで構成されていました。
 ではもし `Option` と `Result` の両方があったらどうなるでしょうか？
 あるいは、`Result<T, Error1>` と `Result<T, Error2>` があったら？
-*異なるエラー型の組み合わせ* を処理することが、いま目の前にある次の課題です。
+*異なるエラー型の組み合わせ* を処理することが、次なる課題となります。
 また、この章の残りのほとんどの部分に共通する、主なテーマとなります。
 
 <!-- ## Composing `Option` and `Result` -->
@@ -965,7 +965,7 @@ fn main() {
 <!-- Given our new found knowledge of `Option`, `Result` and their various -->
 <!-- combinators, we should try to rewrite this so that errors are handled properly -->
 <!-- and the program doesn't panic if there's an error. -->
-これまでに獲得した `Option`、`Result`、コンビネータに関する知識を総動員して、これを書き換えましょう。
+これまでに獲得した知識、つまり `Option`、`Result`、コンビネータに関する知識を総動員して、これを書き換えましょう。
 エラーを的確に処理し、もしエラーが起こっても、プログラムがパニックしないようにするのです。
 
 <!-- The tricky aspect here is that `argv.nth(1)` produces an `Option` while -->
@@ -974,7 +974,7 @@ fn main() {
 <!-- `Option` to a `Result`. In our case, the absence of a command line parameter -->
 <!-- (from `env::args()`) means the user didn't invoke the program correctly. We -->
 <!-- could just use a `String` to describe the error. Let's try: -->
-ここでの課題は `argv.nth(1)` が `Option` を返すのに、 `arg.parse()` は `Result` を返すことです。
+ここでの問題は `argv.nth(1)` が `Option` を返すのに、 `arg.parse()` は `Result` を返すことです。
 これらを直接組み合わせることはできません。
 `Option` と `Result` の両方に出会った時の *普段の* 解決策は `Option` を `Result` に変換することです。
 この例で（`env::args()` が）コマンドライン引数を返さなかったということは、ユーザーがプログラムを正しく起動しなかったことを意味します。
@@ -1068,7 +1068,7 @@ fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
 <!-- and then refactor it to use better error handling. -->
 いままで `unwrap` を使わないよう説得してきたわけですが、最初にコードを書くときには `unwrap` が便利に使えます。
 こうすることで、エラーハンドリングではなく、本来解決すべき課題に集中できます。
-それと同時に、的確なエラーハンドリングが必要となる場所を明示してくれます。
+それと同時に `unwrap` は、的確なエラーハンドリングが必要とされる場所を教えてくれます。
 ここから始ることをコードへの取っ掛かりとしましょう。
 その後、リファクタリングによって、エラーハンドリングを改善していきます。
 
@@ -1095,7 +1095,7 @@ fn main() {
 <!-- [same bounds used on -->
 <!-- `std::fs::File::open`](../std/fs/struct.File.html#method.open). -->
 <!-- This makes it ergonomic to use any kind of string as a file path.) -->
-（備考： `AsRef<Path>` を使ったのは、[`std::fs::File::open` で使われているものと同じ bounds](../std/fs/struct.File.html#method.open) だからです。
+（備考： `AsRef<Path>` を使ったのは、[`std::fs::File::open` で使われているものと同じ bounds（訳）](../std/fs/struct.File.html#method.open) だからです。
 ファイルパスとしてどんな文字列でも受け付けるので、使いやすくなります。）
 
 <!-- There are three different errors that can occur here: -->
@@ -1124,7 +1124,7 @@ fn main() {
 最初の２つの問題は、[`std::io::Error`](../std/io/struct.Error.html) 型で記述されます。
 これは [`std::fs::File::open`](../std/fs/struct.File.html#method.open) と [`std::io::Read::read_to_string`](../std/io/trait.Read.html#method.read_to_string) のリターン型からわかります。
 （ちなみにどちらも、以前紹介した [`Result` 型エイリアスのイディオム](#the-result-type-alias-idiom) を用いています。
-`Result` 型のところをクリックすると、いま言った [型エイリアスを見たり](../std/io/type.Result.html)、必然的に、背後で使われている `io::Error` 型も見ることになります。）
+`Result` 型のところをクリックすると、いま言った [型エイリアスを見たり](../std/io/type.Result.html)、必然的に、中で使われている `io::Error` 型も見ることになるでしょう。）
 ３番目の問題は [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) 型で記述されます。
 特にこの `io::Error` 型は標準ライブラリ全体に *深く浸透しています* 。
 これからこの型を幾度となく見ることでしょう。
@@ -1152,13 +1152,13 @@ fn main() {
 <!-- `String`. Let's see how that impacts our code: -->
 最初に決めるべきことは、 `Option` と `Result` のどちらを使うかです。
 `Option` なら間違いなく簡単に使えます。
-もし３つのエラーのどれかが起こったら、単に `None` を返せばいいのです。
+もし３つのエラーのどれかが起こったら、単に `None` を返せばいいのですから。
 これはたしかに動きます。
 でも、 *パニックを起こすよりも良くなっている* とはいえ、もっと良くすることもだってできます。
 `Option` の代わりに、起こったエラーについての詳細を渡すべきでしょう。
-ここでは *エラーの可能性* を示したいのですから、`Result<i32, E>` を使うべきでしょう。
+ここでは *エラーの可能性* を示したいのですから、`Result<i32, E>` を使うのがよさそうです。
 でも `E` を何にしたらいいのでしょうか？
-２つの *異なる* 型のエラーが起こりますので、これらを共通の型に変換する必要があります。
+２つの *異なる* 型のエラーが起こりえますので、これらを共通の型に変換する必要があります。
 そのような型の一つに `String` があります。
 これがコードにどんな影響を与えるか見てみましょう：
 
@@ -1209,7 +1209,7 @@ fn main() {
 <!-- Correspondingly, there are two calls to `and_then`. -->
 `and_then` は、エラーを返すかもしれない処理同士を繋いでいくために使います。
 ファイルを開いた後に、失敗するかもしれない処理が２つあります：
-ファイルからの読み込みと、内容を数値としてパースすることです。
+ファイルからの読み込むところと、内容を数値としてパースするところです。
 これに対応して `and_then` も２回呼ばれています。
 
 <!-- `map` is used to apply a function to the `Ok(...)` value of a `Result`. For -->
@@ -1233,19 +1233,21 @@ fn main() {
 <!-- With all of that said, the code is still hairy. Mastering use of combinators is -->
 <!-- important, but they have their limits. Let's try a different approach: early -->
 <!-- returns. -->
-これだけ説明した後でも、このコードは難解なままです。
-コンビネータの使い方をマスターすることは重要です。
-しかし、コンビネータには限界もあるのです。
+説明し終わった後でも、このコードは難解なままです。
+コンビネータの使い方をマスターすることは重要ですが、コンビネータには限界もあるのです。
 次は、早期のリターンと呼ばれる、別のアプローチを試してみましょう。
 
 <!-- ## Early returns -->
 <span id="early-returns"></span>
 ## 早期のリターン
 
-I'd like to take the code from the previous section and rewrite it using *early
-returns*. Early returns let you exit the function early. We can't return early
-in `file_double` from inside another closure, so we'll need to revert back to
-explicit case analysis.
+<!-- I'd like to take the code from the previous section and rewrite it using *early -->
+<!-- returns*. Early returns let you exit the function early. We can't return early -->
+<!-- in `file_double` from inside another closure, so we'll need to revert back to -->
+<!-- explicit case analysis. -->
+前の節で使ったコードを、 *早期のリターン* を使って書きなおしてみようと思います。
+早期のリターンとは、関数の途中で抜けることを指します。
+`file_double` のクロージャの中にいる間は、早期のリターンはできないので、明示的なケース分析までいったん巻き戻す必要があります。
 
 ```rust
 use std::fs::File;
@@ -1276,27 +1278,41 @@ fn main() {
 }
 ```
 
-Reasonable people can disagree over whether this code is better that the code
-that uses combinators, but if you aren't familiar with the combinator approach,
-this code looks simpler to read to me. It uses explicit case analysis with
-`match` and `if let`. If an error occurs, it simply stops executing the
-function and returns the error (by converting it to a string).
+<!-- Reasonable people can disagree over whether this code is better that the code -->
+<!-- that uses combinators, but if you aren't familiar with the combinator approach, -->
+<!-- this code looks simpler to read to me. It uses explicit case analysis with -->
+<!-- `match` and `if let`. If an error occurs, it simply stops executing the -->
+<!-- function and returns the error (by converting it to a string). -->
+このコードが、コンビネータを使ったコードよりも良くなったのかについては、人によって意見が分かれるでしょう。
+でも、もしあなたがコンビネータによるアプローチに不慣れだったら、このコードのほうが読みやすいと思うかもしれません。
+ここでは明示的なケース分析を `match` と `if let` で行っています。
+もしエラーが起きたら関数の実行を打ち切って、エラーを（文字列に変換してから）返します。
 
-Isn't this a step backwards though? Previously, we said that the key to
-ergonomic error handling is reducing explicit case analysis, yet we've reverted
-back to explicit case analysis here. It turns out, there are *multiple* ways to
-reduce explicit case analysis. Combinators aren't the only way.
+<!-- Isn't this a step backwards though? Previously, we said that the key to -->
+<!-- ergonomic error handling is reducing explicit case analysis, yet we've reverted -->
+<!-- back to explicit case analysis here. It turns out, there are *multiple* ways to -->
+<!-- reduce explicit case analysis. Combinators aren't the only way. -->
+でもこれって逆行してませんか?
+以前は、エラーハンドリングを扱いやすくするために、明示的なケース分析を減らすべきだと言っていました。
+それなのに、今は明示的なケース分析に戻ってしまっています。
+すぐにわかりますが、明示的なケース分析を減らす方法は *複数* あるのです。
+コンビネータが唯一の方法ではありません。
 
 <!-- ## The `try!` macro -->
 <span id="the-try-macro"></span>
 ## `try!` マクロ
 
-A cornerstone of error handling in Rust is the `try!` macro. The `try!` macro
-abstracts case analysis just like combinators, but unlike combinators, it also
-abstracts *control flow*. Namely, it can abstract the *early return* pattern
-seen above.
+<!-- A cornerstone of error handling in Rust is the `try!` macro. The `try!` macro -->
+<!-- abstracts case analysis just like combinators, but unlike combinators, it also -->
+<!-- abstracts *control flow*. Namely, it can abstract the *early return* pattern -->
+<!-- seen above. -->
+Rustでのエラー処理の基礎となるのは `try!` マクロです。
+`try!` マクロはコンビネータと同様、ケース分析を抽象化します。
+しかし、コンビネータと異なるのは *制御の流れ* も抽象化してくれることです。
+つまり、先ほど見た *早期リターン* のパターンを抽象化できるのです。
 
-Here is a simplified definition of a `try!` macro:
+<!-- Here is a simplified definition of a `try!` macro: -->
+`try!` マクロの簡略化した定義はこうなります：
 
 <span id="code-try-def-simple"></span>
 
@@ -1309,12 +1325,16 @@ macro_rules! try {
 }
 ```
 
-(The [real definition](../std/macro.try!.html) is a bit more
-sophisticated. We will address that later.)
+<!-- (The [real definition](../std/macro.try!.html) is a bit more -->
+<!-- sophisticated. We will address that later.) -->
+（[本当の定義](../std/macro.try!.html) はもっと洗練されています。
+後ほど紹介します。）
 
-Using the `try!` macro makes it very easy to simplify our last example. Since
-it does the case analysis and the early return for us, we get tighter code that
-is easier to read:
+<!-- Using the `try!` macro makes it very easy to simplify our last example. Since -->
+<!-- it does the case analysis and the early return for us, we get tighter code that -->
+<!-- is easier to read: -->
+`try!` マクロを使うと、最後の例をシンプルにすることが、とても簡単にできます。
+ケース分析と早期リターンを代わりにやってくれますので、コードが締まって読みやすくなります。
 
 ```rust
 use std::fs::File;
@@ -1337,12 +1357,17 @@ fn main() {
 }
 ```
 
-The `map_err` calls are still necessary given
-[our definition of `try!`](#code-try-def-simple).
-This is because the error types still need to be converted to `String`.
-The good news is that we will soon learn how to remove those `map_err` calls!
-The bad news is that we will need to learn a bit more about a couple important
-traits in the standard library before we can remove the `map_err` calls.
+<!-- The `map_err` calls are still necessary given -->
+<!-- [our definition of `try!`](#code-try-def-simple). -->
+<!-- This is because the error types still need to be converted to `String`. -->
+<!-- The good news is that we will soon learn how to remove those `map_err` calls! -->
+<!-- The bad news is that we will need to learn a bit more about a couple important -->
+<!-- traits in the standard library before we can remove the `map_err` calls. -->
+[先ほどの `try!` の定義](#code-try-def-simple) では、 `map_err` は依然として必要になります。
+なぜなら、今でもエラー型を `String` 型に変換しなければならないからです。
+でも、いい知らせがあります。
+`map_err` の呼び出しを省く方法をすぐに習うのです!
+悪い知らせは、`map_err` を省く前に、標準ライブラリのいくつかの重要なトレイトについて、もう少し学ぶ必要があるということです。
 
 <!-- ## Defining your own error type -->
 <span id="defining-your-own-error-type"></span>
@@ -1563,8 +1588,8 @@ We note that this is a very typical implementation of `Error`: match on your
 different error types and satisfy the contracts defined for `description` and
 `cause`.
 
-<span id="the-from-trait"></span>
 <!-- ## The `From` trait -->
+<span id="the-from-trait"></span>
 ## `From` トレイト
 
 The `std::convert::From` trait is
