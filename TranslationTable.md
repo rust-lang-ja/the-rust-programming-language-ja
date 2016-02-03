@@ -12,6 +12,7 @@
 |:-------------------------------|:-------------
 | alignment                      | アラインメント
 | allocator                      | アロケータ
+| antipattern                    | アンチパターン
 | application                    | アプリケーション
 | arity                          | アリティ
 | array                          | 配列
@@ -44,6 +45,7 @@
 | generics                       | ジェネリクス
 | identifier                     | 識別子
 | immutable                      | イミュータブル
+| keyword                        | キーワード
 | Intrinsics                     | Intrinsic
 | Lang Items                     | Lang Item
 | library                        | ライブラリ
@@ -52,6 +54,7 @@
 | lint                           | リント
 | match                          | マッチ
 | memory                         | メモリ
+| method                         | メソッド
 | move                           | ムーブ
 | mutable                        | ミュータブル
 | mutability                     | ミュータビリティ
@@ -59,6 +62,9 @@
 | ownership                      | 所有権
 | panic                          | パニック
 | parametric polymorphism        | パラメトリック多相
+| pattern                        | パターン
+| performance                    | パフォーマンス
+| pointer                        | ポインタ
 | return                         | 返す
 | shadow                         | 覆い隠す
 | signature                      | シグネチャ
