@@ -18,7 +18,7 @@ $ curl -s https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly
 <!-- If you're concerned about the [potential insecurity][insecurity] of using `curl -->
 <!-- | sh`, please keep reading and see our disclaimer below. And feel free to -->
 <!-- use a two-step version of the installation and examine our installation script: -->
-もし `curl | sh` の使用による [潜在的な危険性][insecurity] を気にする場合は、以下に免責条項がありますので読み進めてください。また、以下のように2段階のインストール方法を用い、インストールスクリプトを精査しても構いません。
+もし `curl | sh` の使用による [潜在的な危険性][insecurity] が気になる場合は、この後の注意書きまで読み進めてください。また、以下のように2段階のインストール方法を用い、インストールスクリプトを精査しても構いません。
 
 ```bash
 $ curl -f -L https://static.rust-lang.org/rustup.sh -O
@@ -68,7 +68,7 @@ Windows用のインストーラを使用した場合は、 `.msi` を再実行�
 <!-- * Linux (2.6.18 or later, various distributions), x86 and x86-64 -->
 <!-- * OSX 10.7 (Lion) or greater, x86 and x86-64 -->
 * Windows (7、8、Server 2008 R2)
-* Linux (2.6.18以上の様々なディストリビューション)、x86 及び x86-64
+* Linux (2.6.18以上の各ディストリビューション)、x86 及び x86-64
 * OSX 10.7 (Lion)以上、x86 及び x86-64
 
 <!-- We extensively test Rust on these platforms, and a few others, too, like -->
@@ -81,7 +81,7 @@ Rustではこれらのプラットフォームの他、Androidなどいくつか
 <!-- integrated as the Linux/OS X experience is. We're working on it! If anything -->
 <!-- does not work, it is a bug. Please let us know if that happens. Each and every -->
 <!-- commit is tested against Windows just like any other platform. -->
-最後にWindowsについて述べておきます。RustはWindowsをリリースする上での1級プラットフォームだと考えています。しかし、正直なところ、Windowsでの使い勝手はLinux/OS Xのそれと同等というわけではありません。(そうなるように努力しています!) もしうまく動かないことがあれば、それはバグですのでお知らせください。全てのコミットは他のプラットフォームと同様にWindowsに対してもテストされています。
+最後にWindowsについてです。RustはWindowsをリリースする上での1級プラットフォームだと考えています。しかし、正直なところ、Windowsでの使い勝手はLinux/OS Xのそれと同等というわけではありません。(そうなるように努力しています!) もしうまく動かないことがあれば、それはバグですのでお知らせください。全てのコミットは他のプラットフォームと同様にWindowsに対してもテストされています。
 
 <!-- If you've got Rust installed, you can open up a shell, and type this: -->
 Rustのインストールが終われば、シェルを開いて以下のように入力してください。
@@ -111,7 +111,8 @@ rustc 1.0.0-nightly (f11f3e7ba 2015-01-04) (built 2015-01-06)
 <!-- [Mibbit][mibbit]. Click that link, and you'll be chatting with other Rustaceans -->
 <!-- (a silly nickname we call ourselves), and we can help you out. Other great -->
 <!-- resources include [the user’s forum][users], and [Stack Overflow][stackoverflow]. -->
-もし上手くいかないなら様々な場所で助けを得られます。最も簡単なのは[Mibbit][mibbit]からアクセス出来る[irc.mozilla.orgにある#rustチャネル][irc]です。リンクをクリックしたら他の助けを求めれるRustacean達(我々のことをふざけてこう呼ぶのです)とチャット出来ます。他には[ユーザフォーラム][users]や[Stack Overflow][stackoverflow]などがあります。
+もし上手くいかないなら様々な場所で助けを得られます。最も簡単なのは [Mibbit][mibbit] からアクセス出来る [irc.mozilla.orgにある#rustチャネル][irc] です。リンクをクリックしたら他のRustacean達(我々のことをふざけてこう呼ぶのです)にチャットで助けを求めることができます。他には [ユーザフォーラム][users] や [Stack Overflow][stackoverflow] などがあります。
+
 [irc]: irc://irc.mozilla.org/#rust
 [mibbit]: http://chat.mibbit.com/?server=irc.mozilla.org&channel=%23rust
 [users]: https://users.rust-lang.org/
