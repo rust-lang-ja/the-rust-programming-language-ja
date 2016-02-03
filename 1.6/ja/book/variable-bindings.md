@@ -21,7 +21,7 @@ fn main() {
 <!-- in the future. If you’re following along, make sure to edit your `main()` -->
 <!-- function, rather than leaving it off. Otherwise, you’ll get an error. -->
 例で毎回 `fn main() {` と書くのは長ったらしいのでこれ以後は省略します。
-もし試しながら読んでいるのならそのまま書くのではなくちゃんと `main()` 関数の中身を編集するようにしてください、そうしないとエラーになります。
+もし試しながら読んでいるのならそのまま書くのではなくちゃんと `main()` 関数の中身を編集するようにしてください。そうしないとエラーになります。
 
 <!-- # Patterns -->
 # パターン
@@ -81,7 +81,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 
 <!-- In future examples, we may annotate the type in a comment. The examples will -->
 <!-- look like this: -->
-以後の例では型はコンメントで注釈することにします。
+以後の例では型はコメントで注釈することにします。
 先の例はこのようになります。
 
 ```rust
@@ -118,7 +118,7 @@ error: re-assignment of immutable variable `x`
 
 > 訳注:
 > ```
-> エラー: イミュータブルな変数 `x` に最代入しています
+> エラー: イミュータブルな変数 `x` に再代入しています
 > ```
 
 
@@ -136,7 +136,7 @@ x = 10;
 <!-- something you may not have intended to mutate. If bindings were mutable by -->
 <!-- default, the compiler would not be able to tell you this. If you _did_ intend -->
 <!-- mutation, then the solution is quite easy: add `mut`. -->
-束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと思うことが出来ます。
+束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと考えることが出来ます。
 もし `mut` を忘れたらコンパイラが捕捉して、変更するつもりでなかったものを変更した旨を教えてくれます。
 束縛がデフォルトでミュータブルだったらコンパイラはこれを捕捉できません。
 もし _本当に_ 変更を意図していたのなら話は簡単です。 `mut` をつけ加えればいいのです。
@@ -146,8 +146,8 @@ x = 10;
 <!-- mutation, and so it is preferable in Rust. That said, sometimes, mutation is -->
 <!-- what you need, so it’s not verboten. -->
 可能な時はにミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
-一般に、明示的な変更は避けれることが多いのでRustでもそうした方が良いのです。
-しかし変更が本当に必要なこともあるという意味でもあるので、厳禁という訳ではないのです。
+一般に、明示的な変更は避けられることが多いのでRustでもそうした方が良いのです。
+しかし変更が本当に必要なこともあるという意味で、厳禁という訳ではないのです。
 
 <!-- # Initializing bindings -->
 # 束縛を初期化する
@@ -185,7 +185,7 @@ src/main.rs:2     let x: i32;
 <!-- it, no harm, no foul. Things change if we try to actually use this `x`, -->
 <!-- however. Let’s do that. Change your program to look like this: -->
 Rustは一度も使われない変数について警告を出しますが、一度も使われないので人畜無害です。
-ところがこの `x` を使おうとすると事は一変ます。やってみましょう。
+ところがこの `x` を使おうとすると事は一変します。やってみましょう。
 プログラムをこのように変更して下さい。
 
 ```rust,ignore
@@ -252,7 +252,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 <!-- block, while `y` can be accessed only from inside the inner block: -->
 束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか生きていません。
 ブロックは `{` と `}` に囲まれた文の集まりです。関数定義もブロックです!
-以下の例では異なるブロックで生きる2つの変数束縛、 `x` と `y` を定義しています。
+以下の例では異なるブロックで有効な2つの変数束縛、 `x` と `y` を定義しています。
 `x` は `fn main() {}` ブロックの中でアクセス可能ですが、 `y` は内側のブロックからのみアクセス出来ます。
 
 
