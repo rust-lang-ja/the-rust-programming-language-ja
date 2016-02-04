@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Vectors</title>
+    <title>ベクタ</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,29 +185,50 @@
 <div id='page'>
 
 
-    <h1 class="title">Vectors</h1>
-    <p>A ‘vector’ is a dynamic or ‘growable’ array, implemented as the standard
-library type <a href="../std/vec/index.html"><code>Vec&lt;T&gt;</code></a>. The <code>T</code> means that we can have vectors
-of any type (see the chapter on <a href="generics.html">generics</a> for more).
-Vectors always allocate their data on the heap.
-You can create them with the <code>vec!</code> macro:</p>
+    <h1 class="title">ベクタ</h1>
+    <!-- % Vectors -->
+
+<!-- A ‘vector’ is a dynamic or ‘growable’ array, implemented as the standard -->
+
+<!-- library type [`Vec<T>`][vec]. The `T` means that we can have vectors -->
+
+<!-- of any type (see the chapter on [generics][generic] for more). -->
+
+<!-- Vectors always allocate their data on the heap. -->
+
+<!-- You can create them with the `vec!` macro: -->
+
+<p>「ベクタ」は動的な、または「拡張可能な」配列です、標準ライブラリ上で <a href="../std/vec/index.html"><code>Vec&lt;T&gt;</code></a> として提供されています。
+<code>T</code> はどんなタイプのベクタをも作成することが可能なことを意味しています。(詳細は<a href="generics.html">ジェネリクス</a>を御覧ください)
+ベクタはデータを常にヒープ上にアロケーションします。
+ベクタは以下のように <code>vec!</code> マクロを用いて作成できます:</p>
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5]; // v: Vec&lt;i32&gt;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>]; <span class='comment'>// v: Vec&lt;i32&gt;</span></pre>
 
-<p>(Notice that unlike the <code>println!</code> macro we’ve used in the past, we use square
-brackets <code>[]</code> with <code>vec!</code> macro. Rust allows you to use either in either situation,
-this is just convention.)</p>
+<!-- (Notice that unlike the `println!` macro we’ve used in the past, we use square -->
 
-<p>There’s an alternate form of <code>vec!</code> for repeating an initial value:</p>
+<!-- brackets `[]` with `vec!` macro. Rust allows you to use either in either situation, -->
+
+<!-- this is just convention.) -->
+
+<p>(以前使った<code>println!</code> マクロと異なり、<code>vec!</code> マクロで 角括弧 <code>[]</code> を利用しました。)
+Rustではどちらの括弧もどちらのシチュエーションでも利用可能であり、解りやすさのためです。</p>
+
+<!-- There’s an alternate form of `vec!` for repeating an initial value: -->
+
+<p><code>vec!</code> には初期値の繰り返しを表現するための形式があります:</p>
 <span class='rusttest'>fn main() {
-    let v = vec![0; 10]; // ten zeroes
+    // let v = vec![0; 10]; // ten zeroes
+    let v = vec![0; 10]; // 0が10個
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='number'>10</span>]; <span class='comment'>// ten zeroes</span></pre>
+<span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='number'>10</span>]; <span class='comment'>// 0が10個</span></pre>
 
-<h2 id='accessing-elements' class='section-header'><a href='#accessing-elements'>Accessing elements</a></h2>
-<p>To get the value at a particular index in the vector, we use <code>[]</code>s:</p>
+<h2 id='要素へのアクセス' class='section-header'><a href='#要素へのアクセス'>要素へのアクセス</a></h2>
+<!-- To get the value at a particular index in the vector, we use `[]`s: -->
+
+<p>ベクタ中の特定のインデックスの値にアクセスするには <code>[]</code> を利用します:</p>
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5];
     
@@ -217,19 +238,25 @@ this is just convention.)</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The third element of v is {}&quot;</span>, <span class='ident'>v</span>[<span class='number'>2</span>]);</pre>
 
-<p>The indices count from <code>0</code>, so the third element is <code>v[2]</code>.</p>
+<!-- The indices count from `0`, so the third element is `v[2]`.-->
 
-<p>It’s also important to note that you must index with the <code>usize</code> type:</p>
+<p>インデックスは <code>0</code> から始まります、なので三番目の要素は <code>v[2]</code> となります。</p>
+
+<!-- It’s also important to note that you must index with the `usize` type: -->
+
+<p>また、インデックスは <code>usize</code> 型でなければならない点に注意しましょう:</p>
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5];
     
     let i: usize = 0;
     let j: i32 = 0;
     
-    // works
+    // // works
+    // これは動作します
     v[i];
     
-    // doesn’t
+    // // doesn’t
+    // 一方、こちらは動作しません
     v[j];
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
@@ -237,13 +264,15 @@ this is just convention.)</p>
 <span class='kw'>let</span> <span class='ident'>i</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>0</span>;
 <span class='kw'>let</span> <span class='ident'>j</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>0</span>;
 
-<span class='comment'>// works</span>
+<span class='comment'>// これは動作します</span>
 <span class='ident'>v</span>[<span class='ident'>i</span>];
 
-<span class='comment'>// doesn’t</span>
+<span class='comment'>// 一方、こちらは動作しません</span>
 <span class='ident'>v</span>[<span class='ident'>j</span>];</pre>
 
-<p>Indexing with a non-<code>usize</code> type gives an error that looks like this:</p>
+<!-- Indexing with a non-`usize` type gives an error that looks like this: -->
+
+<p><code>usize</code> 型でないインデックスを用いた場合、以下の様なエラーが発生します:</p>
 
 <pre><code class="language-text">error: the trait `core::ops::Index&lt;i32&gt;` is not implemented for the type
 `collections::vec::Vec&lt;_&gt;` [E0277]
@@ -253,12 +282,18 @@ note: the type `collections::vec::Vec&lt;_&gt;` cannot be indexed by `i32`
 error: aborting due to previous error
 </code></pre>
 
-<p>There’s a lot of punctuation in that message, but the core of it makes sense:
-you cannot index with an <code>i32</code>.</p>
+<!-- There’s a lot of punctuation in that message, but the core of it makes sense: -->
 
-<h2 id='iterating' class='section-header'><a href='#iterating'>Iterating</a></h2>
-<p>Once you have a vector, you can iterate through its elements with <code>for</code>. There
-are three versions:</p>
+<!-- you cannot index with an `i32`. -->
+
+<p>エラーメッセージ中には多くの点が含まれていますが、一番大切な部分は <code>i32</code> をインデックスとして用いることはできないという点です。</p>
+
+<h2 id='イテレーティング' class='section-header'><a href='#イテレーティング'>イテレーティング</a></h2>
+<!-- Once you have a vector, you can iterate through its elements with `for`. There -->
+
+<!-- are three versions: -->
+
+<p>ベクタである値に対して <code>for</code> を用いて以下の様な3つの方法でイテレートすることができます:</p>
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 2, 3, 4, 5];
     
@@ -288,8 +323,11 @@ are three versions:</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Take ownership of the vector and its element {}&quot;</span>, <span class='ident'>i</span>);
 }</pre>
 
-<p>Vectors have many more useful methods, which you can read about in <a href="../std/vec/index.html">their
-API documentation</a>.</p>
+<!-- Vectors have many more useful methods, which you can read about in [their -->
+
+<!-- API documentation][vec]. -->
+
+<p>ベクタにはもっと多くの便利なメソッドが定義されています。それらのメソッドについては <a href="../std/vec/index.html">APIドキュメント</a> で確認することができます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
