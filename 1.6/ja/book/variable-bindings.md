@@ -250,7 +250,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 <!-- In the following example we define two variable bindings, `x` and `y`, which -->
 <!-- live in different blocks. `x` can be accessed from inside the `fn main() {}` -->
 <!-- block, while `y` can be accessed only from inside the inner block: -->
-束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか生きていません。
+束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか有効でありません。
 ブロックは `{` と `}` に囲まれた文の集まりです。関数定義もブロックです!
 以下の例では異なるブロックで有効な2つの変数束縛、 `x` と `y` を定義しています。
 `x` は `fn main() {}` ブロックの中でアクセス可能ですが、 `y` は内側のブロックからのみアクセス出来ます。
