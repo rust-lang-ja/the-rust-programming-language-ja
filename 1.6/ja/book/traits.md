@@ -260,23 +260,27 @@ impl HasArea for i32 {
 though it is possible. -->
 しかし例え可能であったとしても、そのようなプリミティブ型のメソッドを実装するのは拙い手法だと考えられています。
 
-This may seem like the Wild West, but there are two restrictions around
+<!-- This may seem like the Wild West, but there are two restrictions around
 implementing traits that prevent this from getting out of hand. The first is
 that if the trait isn’t defined in your scope, it doesn’t apply. Here’s an
 example: the standard library provides a [`Write`][write] trait which adds
 extra functionality to `File`s, for doing file I/O. By default, a `File`
-won’t have its methods:
+won’t have its methods: -->
+ここまでくると何でもありなように思えますが、手が負えなくなることを防ぐためにトレイトの実装周りには2つの制限が設けられています。第1に、あなたのスコープ内で定義されていないトレイトは適用されません。例えば、標準ライブラリは `File` にI/O機能を追加するための `Write` トレイトを提供しています。デフォルトでは、 `File` はそのメソッドを持っていません。
 
 [write]: ../std/io/trait.Write.html
 
 ```rust,ignore
 let mut f = std::fs::File::open("foo.txt").expect("Couldn’t open foo.txt");
-let buf = b"whatever"; // byte string literal. buf: &[u8; 8]
+# let buf = b"whatever"; // byte string literal. buf: &[u8; 8]
+let buf = b"whatever"; // buf: &[u8; 8] はバイト文字列リテラルです。
 let result = f.write(buf);
 # result.unwrap(); // ignore the error
+# result.unwrap(); // エラーを無視します。
 ```
 
-Here’s the error:
+<!-- Here’s the error: -->
+エラーは以下のようになります。
 
 ```text
 error: type `std::fs::File` does not implement any method in scope named `write`
@@ -284,7 +288,8 @@ let result = f.write(buf);
                ^~~~~~~~~~
 ```
 
-We need to `use` the `Write` trait first:
+<!-- We need to `use` the `Write` trait first: -->
+始めに `Write` トレイトを `use` する必要があります。
 
 ```rust,ignore
 use std::io::Write;
@@ -295,26 +300,32 @@ let result = f.write(buf);
 # result.unwrap(); // ignore the error
 ```
 
-This will compile without error.
+<!-- This will compile without error. -->
+これはエラー無しでコンパイルされます。
 
-This means that even if someone does something bad like add methods to `i32`,
-it won’t affect you, unless you `use` that trait.
+<!-- This means that even if someone does something bad like add methods to `i32`,
+it won’t affect you, unless you `use` that trait. -->
+これは、例え誰かが `i32` へメソッドを追加するような望ましくない何かを行ったとしても、あなたがトレイトを `use` しない限り、影響はないことを意味します。
 
-There’s one more restriction on implementing traits: either the trait, or the
+<!-- There’s one more restriction on implementing traits: either the trait, or the
 type you’re writing the `impl` for, must be defined by you. So, we could
 implement the `HasArea` type for `i32`, because `HasArea` is in our code. But
 if we tried to implement `ToString`, a trait provided by Rust, for `i32`, we could
-not, because neither the trait nor the type are in our code.
+not, because neither the trait nor the type are in our code. -->
+トレイトの実装における制限はもう1つあります。トレイト、またはあなたが書いている `impl` の対象となる型は、あなた自身によって実装されなければなりません。 `HasArea` は私たちが記述したコードであるため、 `i32` のための `HasArea` を実装することができます。しかし、 `i32` のためにRustによって提供されている `ToString` トレイトを実装したいとしても、トレイトと型が共に私たちの記述したコードでないため、それはできません。
 
-One last thing about traits: generic functions with a trait bound use
+<!-- One last thing about traits: generic functions with a trait bound use
 ‘monomorphization’ (mono: one, morph: form), so they are statically dispatched.
-What’s that mean? Check out the chapter on [trait objects][to] for more details.
+What’s that mean? Check out the chapter on [trait objects][to] for more details. -->
+トレイトに関して最後に1つ。トレイトによって束縛されたジェネリック関数は「モノモーフィゼーション」(monomorphization)(mono:単一の、morph:様相)されるため、静的ディスパッチが行われます。一体どういう意味でしょうか？詳細については、[トレイトオブジェクト][to]の章をチェックしてください。
 
 [to]: trait-objects.html
 
-# Multiple trait bounds
+<!-- # Multiple trait bounds -->
+# 複数のトレイト境界
 
-You’ve seen that you can bound a generic type parameter with a trait:
+<!-- You’ve seen that you can bound a generic type parameter with a trait: -->
+トレイトでジェネリックな型パラメータに境界が与えられることを見てきました。
 
 ```rust
 fn foo<T: Clone>(x: T) {
@@ -322,7 +333,8 @@ fn foo<T: Clone>(x: T) {
 }
 ```
 
-If you need more than one bound, you can use `+`:
+<!-- If you need more than one bound, you can use `+`: -->
+1つ以上の境界を与えたい場合、 `+` を使えます。
 
 ```rust
 use std::fmt::Debug;
@@ -333,13 +345,16 @@ fn foo<T: Clone + Debug>(x: T) {
 }
 ```
 
-`T` now needs to be both `Clone` as well as `Debug`.
+<!-- `T` now needs to be both `Clone` as well as `Debug`. -->
+この `T` 型は `Clone` と `Debug` 両方が必要です。
 
-# Where clause
+<!-- # Where clause -->
+# Where 節
 
-Writing functions with only a few generic types and a small number of trait
+<!-- Writing functions with only a few generic types and a small number of trait
 bounds isn’t too bad, but as the number increases, the syntax gets increasingly
-awkward:
+awkward: -->
+ジェネリック型もトレイト境界の数も少ない関数を書いているうちは悪く無いのですが、数が増えるとこの構文ではいよいよ不便になってきます。
 
 ```rust
 use std::fmt::Debug;
@@ -351,10 +366,13 @@ fn foo<T: Clone, K: Clone + Debug>(x: T, y: K) {
 }
 ```
 
-The name of the function is on the far left, and the parameter list is on the
-far right. The bounds are getting in the way.
+<!-- The name of the function is on the far left, and the parameter list is on the
+far right. The bounds are getting in the way. -->
+関数名は左端にあり、引数リストは右端にあります。境界を記述する部分が邪魔になっているのです。
 
-Rust has a solution, and it’s called a ‘`where` clause’:
+
+<!-- Rust has a solution, and it’s called a ‘`where` clause’: -->
+Rustは「`where` 節」と呼ばれる解決策を持っています。
 
 ```rust
 use std::fmt::Debug;
@@ -377,10 +395,11 @@ fn main() {
 }
 ```
 
-`foo()` uses the syntax we showed earlier, and `bar()` uses a `where` clause.
+<!-- `foo()` uses the syntax we showed earlier, and `bar()` uses a `where` clause.
 All you need to do is leave off the bounds when defining your type parameters,
 and then add `where` after the parameter list. For longer lists, whitespace can
-be added:
+be added: -->
+`foo()` は先程見せたままの構文で、 `bar()` は `where` 節を用いています。あなたに必要なのは型パラメータの定義時に境界の設定をやめ、引数リストの後ろに `where` を追加することだけです。長いリストであれば、空白を加えることもできます。
 
 ```rust
 use std::fmt::Debug;
@@ -395,9 +414,11 @@ fn bar<T, K>(x: T, y: K)
 }
 ```
 
-This flexibility can add clarity in complex situations.
+<!-- This flexibility can add clarity in complex situations. -->
+この柔軟性により複雑な状況であっても明瞭さを付加することができます。
 
-`where` is also more powerful than the simpler syntax. For example:
+<!-- `where` is also more powerful than the simpler syntax. For example: -->
+また、`where` は基本の構文よりも強力です。例えば、
 
 ```rust
 trait ConvertTo<Output> {
@@ -408,27 +429,33 @@ impl ConvertTo<i64> for i32 {
     fn convert(&self) -> i64 { *self as i64 }
 }
 
-// can be called with T == i32
+# // can be called with T == i32
+// T == i32の時に呼び出せる
 fn normal<T: ConvertTo<i64>>(x: &T) -> i64 {
     x.convert()
 }
 
-// can be called with T == i64
+# // can be called with T == i64
+// T == i64の時に呼び出せる
 fn inverse<T>() -> T
-        // this is using ConvertTo as if it were "ConvertTo<i64>"
+#        // this is using ConvertTo as if it were "ConvertTo<i64>"
+        // これは「ConvertTo<i64>」であるかのようにConvertToを用いている
         where i32: ConvertTo<T> {
     42.convert()
 }
 ```
 
-This shows off the additional feature of `where` clauses: they allow bounds
+<!-- This shows off the additional feature of `where` clauses: they allow bounds
 on the left-hand side not only of type parameters `T`, but also of types (`i32` in this case). In this example, `i32` must implement
 `ConvertTo<T>`. Rather than defining what `i32` is (since that's obvious), the
-`where` clause here constrains `T`.
+`where` clause here constrains `T`. -->
+ここでは `where` 節の追加機能を披露しています。この節は左辺に型パラメータ `T` だけでなく具体的な型(このケースでは `i32` )を指定できます。この例だと、 `i32` は `ConvertTo<T>` を実装していなければなりません。(それは明らかですから)ここの `where` 節は `i32` が何であるかの定義というより、 `T` の制約といえるでしょう。
 
-# Default methods
+<!-- # Default methods -->
+# デフォルトメソッド
 
-A default method can be added to a trait definition if it is already known how a typical implementor will define a method. For example, `is_invalid()` is defined as the opposite of `is_valid()`:
+<!-- A default method can be added to a trait definition if it is already known how a typical implementor will define a method. For example, `is_invalid()` is defined as the opposite of `is_valid()`: -->
+典型的な実装者がどうメソッドを定義するか既に分かっているならば、トレイトの定義にデフォルトメソッドを加えることができます。例えば、以下の `is_invalid()` は `is_valid()` の反対として定義されます。
 
 ```rust
 trait Foo {
@@ -438,7 +465,8 @@ trait Foo {
 }
 ```
 
-Implementors of the `Foo` trait need to implement `is_valid()` but not `is_invalid()` due to the added default behavior. This default behavior can still be overridden as in:
+<!-- Implementors of the `Foo` trait need to implement `is_valid()` but not `is_invalid()` due to the added default behavior. This default behavior can still be overridden as in: -->
+`Foo` トレイトの実装者は `is_valid()` を実装する必要がありますが、デフォルトの動作が加えられている `is_invalid()` にはその必要がありません。
 
 ```rust
 # trait Foo {
@@ -465,20 +493,25 @@ impl Foo for OverrideDefault {
 
     fn is_invalid(&self) -> bool {
         println!("Called OverrideDefault.is_invalid!");
-        true // overrides the expected value of is_invalid()
+# //         true // overrides the expected value of is_invalid()
+        true // 予期されるis_invalid()の値をオーバーライドする
     }
 }
 
 let default = UseDefault;
-assert!(!default.is_invalid()); // prints "Called UseDefault.is_valid."
+# // assert!(!default.is_invalid()); // prints "Called UseDefault.is_valid."
+assert!(!default.is_invalid()); // 「Called UseDefault.is_valid.」を表示
 
 let over = OverrideDefault;
-assert!(over.is_invalid()); // prints "Called OverrideDefault.is_invalid!"
+# // assert!(over.is_invalid()); // prints "Called OverrideDefault.is_invalid!"
+assert!(over.is_invalid()); // 「Called OverrideDefault.is_invalid!」を表示
 ```
 
-# Inheritance
+<!-- # Inheritance -->
+# 継承
 
-Sometimes, implementing a trait requires implementing another trait:
+<!-- Sometimes, implementing a trait requires implementing another trait: -->
+時々、トレイトの実装に他のトレイトの実装が必要になることがあります。
 
 ```rust
 trait Foo {
@@ -491,6 +524,7 @@ trait FooBar : Foo {
 ```
 
 Implementors of `FooBar` must also implement `Foo`, like this:
+`FooBar` の実装者は以下のように `Foo` も実装しなければなりません。
 
 ```rust
 # trait Foo {
@@ -510,17 +544,20 @@ impl FooBar for Baz {
 }
 ```
 
-If we forget to implement `Foo`, Rust will tell us:
+<!-- If we forget to implement `Foo`, Rust will tell us: -->
+`Foo` の実装を忘れると、Rustは以下のように伝えるでしょう。
 
 ```text
 error: the trait `main::Foo` is not implemented for the type `main::Baz` [E0277]
 ```
 
+<!-- # Deriving -->
 # Deriving
 
-Implementing traits like `Debug` and `Default` repeatedly can become
+<!-- Implementing traits like `Debug` and `Default` repeatedly can become
 quite tedious. For that reason, Rust provides an [attribute][attributes] that
-allows you to let Rust automatically implement traits for you:
+allows you to let Rust automatically implement traits for you: -->
+繰り返し`Debug` や `Default` のようなトレイトを実装するのは非常にうんざりさせられます。そのような理由から、Rustは自動的にトレイトを実装するための [アトリビュート][attributes] を提供しています。
 
 ```rust
 #[derive(Debug)]
@@ -533,7 +570,8 @@ fn main() {
 
 [attributes]: attributes.html
 
-However, deriving is limited to a certain set of traits:
+<!-- However, deriving is limited to a certain set of traits: -->
+ただし、derivingは以下の特定のトレイトに制限されています。
 
 - [`Clone`](../core/clone/trait.Clone.html)
 - [`Copy`](../core/marker/trait.Copy.html)
