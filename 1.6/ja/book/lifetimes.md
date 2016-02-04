@@ -1,44 +1,67 @@
-% Lifetimes
+% ライフタイム
+<!--% Lifetimes-->
 
-This guide is three of three presenting Rust’s ownership system. This is one of
-Rust’s most unique and compelling features, with which Rust developers should
-become quite acquainted. Ownership is how Rust achieves its largest goal,
-memory safety. There are a few distinct concepts, each with its own chapter:
+<!--This guide is three of three presenting Rust’s ownership system. This is one of-->
+<!--Rust’s most unique and compelling features, with which Rust developers should-->
+<!--become quite acquainted. Ownership is how Rust achieves its largest goal,-->
+<!--memory safety. There are a few distinct concepts, each with its own chapter:-->
+このガイドはRustの所有権システムの3つの解説の1つです。
+これはRustの最も独特で注目されている機能です。そして、Rust開発者はそれについて高度に精通しておくべきです。
+所有権こそはRustがその最大の目標、メモリ安全性を得るための方法です。
+そこにはいくつかの別個の概念があり、各概念が独自の章を持ちます。
 
-* [ownership][ownership], the key concept
-* [borrowing][borrowing], and their associated feature ‘references’
-* lifetimes, which you’re reading now
+<!--* [ownership][ownership], the key concept-->
+<!--* [borrowing][borrowing], and their associated feature ‘references’-->
+<!--* lifetimes, which you’re reading now-->
+* キーとなる概念、[所有権][ownership]
+* [借用][borrowing]、そしてそれらに関連する機能、「参照」
+* 今読んでいる、[ライフタイム][lifetimes]
 
-These three chapters are related, and in order. You’ll need all three to fully
-understand the ownership system.
+<!--These three chapters are related, and in order. You’ll need all three to fully-->
+<!--understand the ownership system.-->
+それらの3つの章は関連していて、それらは順番に並んでいます。
+所有権システムを完全に理解するためには、3つ全てを必要とするでしょう。
 
 [ownership]: ownership.html
 [borrowing]: references-and-borrowing.html
 
-# Meta
+<!--# Meta-->
+# 概論
 
-Before we get to the details, two important notes about the ownership system.
+<!--Before we get to the details, two important notes about the ownership system.-->
+詳細に入る前に、所有権システムについての2つの重要な注意があります。
 
-Rust has a focus on safety and speed. It accomplishes these goals through many
-‘zero-cost abstractions’, which means that in Rust, abstractions cost as little
-as possible in order to make them work. The ownership system is a prime example
-of a zero-cost abstraction. All of the analysis we’ll talk about in this guide
-is _done at compile time_. You do not pay any run-time cost for any of these
-features.
+<!--Rust has a focus on safety and speed. It accomplishes these goals through many-->
+<!--‘zero-cost abstractions’, which means that in Rust, abstractions cost as little-->
+<!--as possible in order to make them work. The ownership system is a prime example-->
+<!--of a zero-cost abstraction. All of the analysis we’ll talk about in this guide-->
+<!--is _done at compile time_. You do not pay any run-time cost for any of these-->
+<!--features.-->
+Rustは安全性とスピートに焦点を合わせます。
+Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通じて成し遂げます。それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
+所有権システムはゼロコスト抽象化の主な例です。
+このガイドの中で話すであろう解析の全ては _コンパイル時に行われます_ 。
+それらのどの機能に対しても実行時のコストは全く掛かりません。
 
-However, this system does have a certain cost: learning curve. Many new users
-to Rust experience something we like to call ‘fighting with the borrow
-checker’, where the Rust compiler refuses to compile a program that the author
-thinks is valid. This often happens because the programmer’s mental model of
-how ownership should work doesn’t match the actual rules that Rust implements.
-You probably will experience similar things at first. There is good news,
-however: more experienced Rust developers report that once they work with the
-rules of the ownership system for a period of time, they fight the borrow
-checker less and less.
+<!--However, this system does have a certain cost: learning curve. Many new users-->
+<!--to Rust experience something we like to call ‘fighting with the borrow-->
+<!--checker’, where the Rust compiler refuses to compile a program that the author-->
+<!--thinks is valid. This often happens because the programmer’s mental model of-->
+<!--how ownership should work doesn’t match the actual rules that Rust implements.-->
+<!--You probably will experience similar things at first. There is good news,-->
+<!--however: more experienced Rust developers report that once they work with the-->
+<!--rules of the ownership system for a period of time, they fight the borrow-->
+<!--checker less and less.-->
+しかし、このシステムはあるコストを持ちます。それは学習曲線です。
+多くの新しいRustのユーザは「借用チェッカとの戦い」と好んで呼ばれるものを経験します。そこではRustコンパイラが開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
+所有権がどのように機能するのかについてのプログラマのメンタルモデルがRustの実装する実際のルールにマッチしないため、これはしばしば起きます。
+しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。一度彼らが所有権システムのルールとともにしばらく仕事をすれば、彼らが借用チェッカと戦うことは少なくなっていくということです。
 
-With that in mind, let’s learn about lifetimes.
+<!--With that in mind, let’s learn about lifetimes.-->
+それを念頭に置いて、所有権について学びましょう。
 
-# Lifetimes
+<!--# Lifetimes-->
+# ライフタイム
 
 Lending out a reference to a resource that someone else owns can be
 complicated. For example, imagine this set of operations:
