@@ -28,6 +28,7 @@
 | compiler                       | コンパイラ
 | constant                       | 定数
 | crate                          | クレート
+| dangling                       | ダングリング
 | declaration statement          | 宣言文
 | dereferencing                  | 参照外し
 | destructuring                  | 分配
@@ -41,6 +42,7 @@
 | enum                           | 列挙型
 | expression statement           | 式文
 | feature                        | フィーチャ
+| generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | identifier                     | 識別子
 | immutable                      | イミュータブル
@@ -48,6 +50,8 @@
 | Lang Items                     | Lang Item
 | library                        | ライブラリ
 | lifetime                       | ライフタイム
+| lifetime elision               | ライフタイムの省略
+| lifetime parameter             | ライフタイムパラメータ
 | link                           | リンク
 | lint                           | リント
 | match                          | マッチ

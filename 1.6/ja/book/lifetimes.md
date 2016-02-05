@@ -5,7 +5,7 @@
 <!-- Rust’s most unique and compelling features, with which Rust developers should -->
 <!-- become quite acquainted. Ownership is how Rust achieves its largest goal, -->
 <!-- memory safety. There are a few distinct concepts, each with its own chapter: -->
-このガイドはRustの所有権システムの3つの解説の3番目です。
+このガイドはRustの所有権システムの3つの解説の3つ目です。
 これはRustの最も独特で注目されている機能です。そして、Rust開発者はそれについて高度に精通しておくべきです。
 所有権こそはRustがその最大の目標、メモリ安全性を得るための方法です。
 そこにはいくつかの別個の概念があり、各概念が独自の章を持ちます。
@@ -75,31 +75,33 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- 4. You decide to use the resource. -->
 1. 私はある種のリソースへのハンドルを取得する
 2. 私はあなたにリソースへの参照を貸し付ける
-3. 私はリソースを使い終わり、それを解放することを決める一方、あなたはあなたの参照をまだ持っている
+3. 私はリソースを使い終わり、それを解放することを決めるが、あなたはそれに対する参照をまだ持っている
 4. あなたはリソースを使うことを決める
 
 <!-- Uh oh! Your reference is pointing to an invalid resource. This is called a -->
 <!-- dangling pointer or ‘use after free’, when the resource is memory. -->
 あー！　
 あなたの参照は無効なリソースを指示しています。
-リソースがメモリであるとき、これはダングリングポインター又は「解放後の使用」と呼ばれます。
+リソースがメモリであるとき、これはダングリングポインタ又は「解放後の使用」と呼ばれます。
 
 <!-- To fix this, we have to make sure that step four never happens after step -->
 <!-- three. The ownership system in Rust does this through a concept called -->
 <!-- lifetimes, which describe the scope that a reference is valid for. -->
 これを修正するためには、ステップ3の後にステップ4が絶対に起こらないようにしなければなりません。
-Rustでの所有権システムはこれをライフタイムと呼ばれる概念を通じて行います。それは参照が有効であるスコープを説明します。
+Rustでの所有権システムはこれをライフタイムと呼ばれる概念を通じて行います。それは参照の有効なスコープを記述するものです。
 
 <!-- When we have a function that takes a reference by argument, we can be implicit -->
 <!-- or explicit about the lifetime of the reference: -->
 引数として参照を受け取る関数について、参照のライフタイムを黙示又は明示することができます。
 
 ```rust
-// implicit
+# // implicit
+// 黙示的に
 fn foo(x: &i32) {
 }
 
-// explicit
+# // explicit
+// 明示的に
 fn bar<'a>(x: &'a i32) {
 }
 ```
@@ -109,7 +111,7 @@ fn bar<'a>(x: &'a i32) {
 <!-- ["Lifetime Elision"][lifetime-elision] below) them in common cases. -->
 <!-- Before we get to that, though, let’s break the explicit example down: -->
 `'a`は「ライフタイムa」と読みます。
-技術的には参照は全てそれに関連するライフタイムを持ちますが、一般的な場合にはコンパイラがそれらを削除させてくれます（つまり、省略できるということです。[「ライフタイムの省略」][lifetime-elision]以下を見ましょう）。
+技術的には参照は全てそれに関連するライフタイムを持ちますが、一般的な場合にはコンパイラがそれらを削除してもよいように計らってくれます（つまり、省略できるということです。[「ライフタイムの省略」][lifetime-elision]以下を見ましょう）。
 しかし、それに入る前に、明示の例を分解しましょう。
 
 [lifetime-elision]: #lifetime-elision
@@ -125,7 +127,7 @@ fn bar<'a>(...)
 <!-- just focus on the lifetimes aspect. -->
 [関数の構文][functions]については前に少し話しました。しかし、関数名の後の`<>`については議論しませんでした。
 関数は`<>`の間に「ジェネリックパラメータ」を持つことができ、ライフタイムはその一種です。
-他の種類のジェネリックについては[本書の後の方][generics]で議論しますが、とりあえず、ライフタイムの面だけに焦点を合わせましょう。
+他の種類のジェネリクスについては[本書の後の方][generics]で議論しますが、とりあえず、ライフタイムの面だけに焦点を合わせましょう。
 
 [functions]: functions.html
 [generics]: generics.html
@@ -134,7 +136,7 @@ fn bar<'a>(...)
 <!-- `'a`. If we had two reference parameters, it would look like this: -->
 `<>`はライフタイムを宣言するために使われます。
 これは`bar`が1つのライフタイム`'a`を持つことを意味します。
-もし2つの参照引数があれば、それは次のように見えたでしょう。
+もし2つの参照引数があれば、それは次のような感じになるでしょう。
 
 ```rust,ignore
 fn bar<'a, 'b>(...)
@@ -148,7 +150,7 @@ fn bar<'a, 'b>(...)
 ```
 
 <!-- If we wanted an `&mut` reference, we’d do this: -->
-もし`&mut`参照が欲しいのならば、次のようにしたでしょう。
+もし`&mut`参照が欲しいのならば、次のようにします。
 
 ```rust,ignore
 ...(x: &'a mut i32)
@@ -174,7 +176,8 @@ struct Foo<'a> {
 }
 
 fn main() {
-    let y = &5; // this is the same as `let _y = 5; let y = &_y;`
+#   let y = &5; // this is the same as `let _y = 5; let y = &_y;`
+    let y = &5; // これは`let _y = 5; let y = &_y;`と同じ
     let f = Foo { x: y };
 
     println!("{}", f.x);
@@ -206,7 +209,7 @@ x: &'a i32,
 <!-- to a `Foo` cannot outlive the reference to an `i32` it contains. -->
 そしてそれを使います。
 それではなぜここでライフタイムを必要とするのでしょうか。
-`Foo`への全ての参照がそれの含む`i32`への参照より長く生存できないことを保証する必要があるからです。
+`Foo`への全ての参照がそれの含む`i32`への参照より長い間有効にはならないことを保証する必要があるからです。
 
 <!-- ## `impl` blocks -->
 ## `impl`ブロック
@@ -224,7 +227,8 @@ impl<'a> Foo<'a> {
 }
 
 fn main() {
-    let y = &5; // this is the same as `let _y = 5; let y = &_y;`
+#   let y = &5; // this is the same as `let _y = 5; let y = &_y;`
+    let y = &5; // これは`let _y = 5; let y = &_y;`と同じ
     let f = Foo { x: y };
 
     println!("x is: {}", f.x());
@@ -235,7 +239,7 @@ fn main() {
 <!-- `'a` twice, just like on functions: `impl<'a>` defines a lifetime `'a`, and `Foo<'a>` -->
 <!-- uses it. -->
 見てのとおり、`Foo`のライフタイムは`impl`行で宣言する必要があります。
-ちょうど関数のときのように`'a`は2回繰り返します。つまり、`impl<'a>`はライフタイム`'a`を定義し、`Foo<'a>`はそれを使うのです。
+ちょうど関数のときのように`'a`は2回繰り返されます。つまり、`impl<'a>`はライフタイム`'a`を定義し、`Foo<'a>`はそれを使うのです。
 
 <!-- ## Multiple lifetimes -->
 ## 複数のライフタイム
@@ -252,7 +256,7 @@ fn x_or_y<'a>(x: &'a str, y: &'a str) -> &'a str {
 <!-- This says that `x` and `y` both are alive for the same scope, and that the -->
 <!-- return value is also alive for that scope. If you wanted `x` and `y` to have -->
 <!-- different lifetimes, you can use multiple lifetime parameters: -->
-これは`x`と`y`が両方とも同じスコープで生存し、戻り値もそのスコープで生存することを示します。
+これは`x`と`y`が両方とも同じスコープで有効であり、戻り値もそのスコープで有効であることを示します。
 もし`x`と`y`に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使うことができます。
 
 ```rust
@@ -270,16 +274,21 @@ fn x_or_y<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
 
 <!-- A way to think about lifetimes is to visualize the scope that a reference is -->
 <!-- valid for. For example: -->
-ライフタイムについての考え方は参照の有効なスコープを見えるようにすることです。
+ライフタイムについて考えるには、参照の有効なスコープを可視化することです。
 例えばこうです。
 
 ```rust
 fn main() {
-    let y = &5;     // -+ y goes into scope
+#     let y = &5;     // -+ y goes into scope
+#                     //  |
+#     // stuff        //  |
+#                     //  |
+# }                   // -+ y goes out of scope
+    let y = &5;     // -+ yがスコープに入る
                     //  |
     // stuff        //  |
                     //  |
-}                   // -+ y goes out of scope
+}                   // -+ yがスコープから出る
 ```
 
 <!-- Adding in our `Foo`: -->
@@ -291,11 +300,16 @@ struct Foo<'a> {
 }
 
 fn main() {
-    let y = &5;           // -+ y goes into scope
-    let f = Foo { x: y }; // -+ f goes into scope
+#     let y = &5;           // -+ y goes into scope
+#     let f = Foo { x: y }; // -+ f goes into scope
+#     // stuff              //  |
+#                           //  |
+# }                         // -+ f and y go out of scope
+    let y = &5;           // -+ yがスコープに入る
+    let f = Foo { x: y }; // -+ fがスコープに入る
     // stuff              //  |
                           //  |
-}                         // -+ f and y go out of scope
+}                         // -+ fとyがスコープから出る
 ```
 
 <!-- Our `f` lives within the scope of `y`, so everything works. What if it didn’t? -->
@@ -310,24 +324,34 @@ struct Foo<'a> {
 }
 
 fn main() {
-    let x;                    // -+ x goes into scope
+#     let x;                    // -+ x goes into scope
+#                               //  |
+#     {                         //  |
+#         let y = &5;           // ---+ y goes into scope
+#         let f = Foo { x: y }; // ---+ f goes into scope
+#         x = &f.x;             //  | | error here
+#     }                         // ---+ f and y go out of scope
+#                               //  |
+#     println!("{}", x);        //  |
+# }                             // -+ x goes out of scope
+    let x;                    // -+ xがスコープに入る
                               //  |
     {                         //  |
-        let y = &5;           // ---+ y goes into scope
-        let f = Foo { x: y }; // ---+ f goes into scope
-        x = &f.x;             //  | | error here
-    }                         // ---+ f and y go out of scope
+        let y = &5;           // ---+ yがスコープに入る
+        let f = Foo { x: y }; // ---+ fがスコープに入る
+        x = &f.x;             //  | | ここでエラーが起きる
+    }                         // ---+ fとyがスコープから出る
                               //  |
     println!("{}", x);        //  |
-}                             // -+ x goes out of scope
+}                             // -+ xがスコープから出る
 ```
 
 <!-- Whew! As you can see here, the scopes of `f` and `y` are smaller than the scope -->
 <!-- of `x`. But when we do `x = &f.x`, we make `x` a reference to something that’s -->
 <!-- about to go out of scope. -->
-ふう！　
+ふう!
 見てのとおり、ここでは`f`と`y`のスコープは`x`のスコープよりも小さいです。
-しかし`x = &f.x`を実行するとき、`x`をまさにスコープから外れた何かの参照にします。
+しかし`x = &f.x`を実行するとき、`x`をまさにスコープから外れた何かの参照にしてしまいます。
 
 <!-- Named lifetimes are a way of giving these scopes a name. Giving something a -->
 <!-- name is the first step towards being able to talk about it. -->
@@ -342,7 +366,7 @@ fn main() {
 <!-- `'static` when dealing with strings: -->
 「static」と名付けられたライフタイムは特別なライフタイムです。
 それは何かがプログラム全体に渡るライフタイムを持つことを示します。
-ほとんどのRustのプログラマは文字列を扱うときに最初に`'static`に出会います。
+ほとんどのRustのプログラマが最初に`'static`に出会うのは、文字列を扱うときです。
 
 ```rust
 let x: &'static str = "Hello, world.";
