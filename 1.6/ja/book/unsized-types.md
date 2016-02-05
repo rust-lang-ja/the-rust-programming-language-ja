@@ -26,39 +26,46 @@ Rustはいくつかのそのような型を扱うことができますが、そ�
 1. サイズ不定型はポインタを通してのみ操作することができます、たとえば、 `&[T]` は大丈夫ですが、 `[T]` はそうではありません。
 2. 変数や引数は動的なサイズを持つことはできません。
 3. `struct` の最後のフィールドのみ、動的なサイズを持つことが許されます、その他のフィールドはサイズが不定であってはなりません。
-   また、Enumのバリアントは
+   また、Enumのバリアントはデータとして動的なサイズの型を持つ事はできません。
 
-So why bother? Well, because `[T]` can only be used behind a pointer, if we
-didn’t have language support for unsized types, it would be impossible to write
-this:
+<!-- So why bother? Well, because `[T]` can only be used behind a pointer, if we -->
+<!-- didn’t have language support for unsized types, it would be impossible to write -->
+<!-- this: -->
+なぜこんなにややこしいのでしょうか？ これは、`[T]` はポインタを通してのみ操作可能であるためです。
+もし言語がサイズ不定型をサポートしていなかった場合、以下のようなコードを書くことは不可能となります:
 
 ```rust,ignore
 impl Foo for str {
 ```
 
-or
+<!-- or -->
+また、以下の様なコードも:
 
 ```rust,ignore
 impl<T> Foo for [T] {
 ```
 
-Instead, you would have to write:
+<!-- Instead, you would have to write: -->
+このように書く代わりに、以下のように書く必要があることに鳴るでしょう:
 
 ```rust,ignore
 impl Foo for &str {
 ```
 
-Meaning, this implementation would only work for [references][ref], and not
-other types of pointers. With the `impl for str`, all pointers, including (at
-some point, there are some bugs to fix first) user-defined custom smart
-pointers, can use this `impl`.
+<!-- Meaning, this implementation would only work for [references][ref], and not -->
+<!-- other types of pointers. With the `impl for str`, all pointers, including (at -->
+<!-- some point, there are some bugs to fix first) user-defined custom smart -->
+<!-- pointers, can use this `impl`. -->
+このように書いたとすると、このコードは [参照][ref] に対してのみ動作する用になり、他のポインタ型に対しては動作しないことになります。
+`imp for str` のように書くことで、すべてのポインタ、ユーザーの定義した独自のスマートポインタ(いくつかの点についてバグがあるので、それを先ずは直さなくてはなりませんが)もこの `impl` を利用可能になります。
 
 [ref]: references-and-borrowing.html
 
 # ?Sized
 
-If you want to write a function that accepts a dynamically sized type, you
-can use the special bound, `?Sized`:
+<!-- If you want to write a function that accepts a dynamically sized type, you -->
+<!-- can use the special bound, `?Sized`: -->
+もし動的サイズ型を引数に取れるような関数を定義したい場合、特別な境界 `?Sized` を利用できます:
 
 ```rust
 struct Foo<T: ?Sized> {
@@ -66,6 +73,8 @@ struct Foo<T: ?Sized> {
 }
 ```
 
-This `?`, read as “T may be `Sized`”,  means that this bound is special: it
-lets us match more kinds, not less. It’s almost like every `T` implicitly has
-`T: Sized`, and the `?` undoes this default.
+<!-- This `?`, read as “T may be `Sized`”,  means that this bound is special: it -->
+<!-- lets us match more kinds, not less. It’s almost like every `T` implicitly has -->
+<!-- `T: Sized`, and the `?` undoes this default. -->
+`?` は 「Tは `Sized` かもしれない」と読みます、これはこれが特別な境界: より小さいカインドとマッチするのではなく、より大きいカインドとマッチする ということを意味しています。
+これは、すべての `T` は暗黙的に `T : Sized` という制限がかけられていて、 `?` はその制限を解除するというようなものです。
