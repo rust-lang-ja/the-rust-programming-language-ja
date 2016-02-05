@@ -9,7 +9,7 @@
 Rustの標準ライブラリは多くの便利な機能を提供している一方で、
 スレッド、ネットワーク、ヒープアロケーション、その他の多くの機能をホストシステムが提供していることを前提としています。
 一方で、それらの機能を提供していないシステムも存在します。しかし、Rustはそれらの上でも利用することができます!
-利用するには、Rustに標準ライブラリを利用しないということを `#![no_std]` アトリビュートを利用して伝えることで可能となります。
+それは、Rustに標準ライブラリを利用しないということを `#![no_std]` アトリビュートを利用して伝えることで可能となります。
 
 
 <!-- > Note: This feature is technically stable, but there are some caveats. For -->
@@ -17,7 +17,7 @@ Rustの標準ライブラリは多くの便利な機能を提供している一�
 <!-- > For details on binaries without the standard library, see [the nightly -->
 <!-- > chapter on `#![no_std]`](no-stdlib.html) -->
 > メモ: このフィーチャーは技術的には安定していますが、いくつか注意点が有ります。
-> 例えば、 `#![no_std]` を含んだ _library_ は 安定版でビルド可能ですが、 _binary_ はビルド不可能です。
+> 例えば、 `#![no_std]` を含んだ _ライブラリ_ は 安定版でビルド可能ですが、 _バイナリ_ はビルド不可能です。
 > 標準ライブラリを利用しないバイナリについては [`#![no_std]` についての不安定版のドキュメント](no-stdlib.html) を確認してください。
 
 <!-- To use `#![no_std]`, add a it to your crate root: -->
