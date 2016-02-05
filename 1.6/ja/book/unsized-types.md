@@ -7,11 +7,11 @@
 <!-- called ‘unsized’ or ‘dynamically sized’ types. One example is `[T]`. This type -->
 <!-- represents a certain number of `T` in sequence. But we don’t know how many -->
 <!-- there are, so the size is not known. -->
-多くの方はコンパイル時に知ることのできる特定のバイトサイズを持っています。
+ほとんどの型はコンパイル時に知れる、バイト数で測った、サイズがあります。
 例えば、 `i32` 型は、32ビット(4バイト)というサイズです。
 しかしながら、表現のためには便利であってもサイズが定まっていない型が存在します。
 そのような方を 「サイズ不定」又は「動的サイズ」型と呼びます。
-一例を上げると `[T]` 型は `T` のシーケンスを意味しており、その要素数については規定されていないため、サイズは不定となります。
+一例を上げると `[T]` 型は 一定のサイズの`T` のシーケンスを意味していますが、その要素数については規定されていないため、サイズは不定となります。
 
 <!-- Rust understands a few of these types, but they have some restrictions. There -->
 <!-- are three: -->
@@ -46,7 +46,7 @@ impl<T> Foo for [T] {
 ```
 
 <!-- Instead, you would have to write: -->
-このように書く代わりに、以下のように書く必要があることに鳴るでしょう:
+このように書く代わりに、以下のように書く必要があることになるでしょう:
 
 ```rust,ignore
 impl Foo for &str {
@@ -76,5 +76,5 @@ struct Foo<T: ?Sized> {
 <!-- This `?`, read as “T may be `Sized`”,  means that this bound is special: it -->
 <!-- lets us match more kinds, not less. It’s almost like every `T` implicitly has -->
 <!-- `T: Sized`, and the `?` undoes this default. -->
-`?` は 「Tは `Sized` かもしれない」と読みます、これはこれが特別な境界: より小さいカインドとマッチするのではなく、より大きいカインドとマッチする ということを意味しています。
+`?` は 「Tは `Sized` かもしれない」と読みます、これは `?` が特別な境界: より小さいカインドとマッチするのではなく、より大きいカインドとマッチする ということを意味しています。
 これは、すべての `T` は暗黙的に `T : Sized` という制限がかけられていて、 `?` はその制限を解除するというようなものです。
