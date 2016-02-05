@@ -31,7 +31,7 @@ Rustはいくつかのそのような型を扱うことができますが、そ�
 <!-- So why bother? Well, because `[T]` can only be used behind a pointer, if we -->
 <!-- didn’t have language support for unsized types, it would be impossible to write -->
 <!-- this: -->
-なぜこんなにややこしいのでしょうか？ これは、`[T]` はポインタを通してのみ操作可能であるためです。
+なぜこんなにややこしいのでしょうか？ これは、`[T]` はポインタを通してのみ操作可能であるため、
 もし言語がサイズ不定型をサポートしていなかった場合、以下のようなコードを書くことは不可能となります:
 
 ```rust,ignore
