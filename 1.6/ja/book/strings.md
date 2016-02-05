@@ -1,32 +1,51 @@
-% Strings
+% 文字列
+<!-- % Strings -->
 
-Strings are an important concept for any programmer to master. Rust’s string
-handling system is a bit different from other languages, due to its systems
-focus. Any time you have a data structure of variable size, things can get
-tricky, and strings are a re-sizable data structure. That being said, Rust’s
-strings also work differently than in some other systems languages, such as C.
+<!-- Strings are an important concept for any programmer to master. Rust’s string -->
+<!-- handling system is a bit different from other languages, due to its systems -->
+<!-- focus. Any time you have a data structure of variable size, things can get -->
+<!-- tricky, and strings are a re-sizable data structure. That being said, Rust’s -->
+<!-- strings also work differently than in some other systems languages, such as C. -->
+文字列は、プログラマーがマスターすべき重要なコンセプトです。
+Rustの文字列の扱いは、Rust言語がシステムにフォーカスしているため、少し他の言語と異なります。
+動的なサイズを持つデータ構造が有ると、常に物事は複雑になります、そして文字列もまたサイズを変更することができるデータ構造です。
+つまり、Rustの文字列もまた、他のCのようなシステム言事は少し異なるということを意味しています。
 
-Let’s dig into the details. A ‘string’ is a sequence of Unicode scalar values
-encoded as a stream of UTF-8 bytes. All strings are guaranteed to be a valid
-encoding of UTF-8 sequences. Additionally, unlike some systems languages,
-strings are not null-terminated and can contain null bytes.
 
-Rust has two main types of strings: `&str` and `String`. Let’s talk about
-`&str` first. These are called ‘string slices’. A string slice has a fixed
-size, and cannot be mutated. It is a reference to a sequence of UTF-8 bytes.
+<!-- Let’s dig into the details. A ‘string’ is a sequence of Unicode scalar values -->
+<!-- encoded as a stream of UTF-8 bytes. All strings are guaranteed to be a valid -->
+<!-- encoding of UTF-8 sequences. Additionally, unlike some systems languages, -->
+<!-- strings are not null-terminated and can contain null bytes. -->
+詳しく見ていきましょう、 「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラー値のシーケンスです。
+すべての文字列は、正しくエンコードされたUTF-8のシーケンスであることが保証されています。
+また、他のシステム言語とはことなり、文字列はNull終端でなく、Nullバイトを含むことが可能です。
+
+<!-- Rust has two main types of strings: `&str` and `String`. Let’s talk about -->
+<!-- `&str` first. These are called ‘string slices’. A string slice has a fixed -->
+<!-- size, and cannot be mutated. It is a reference to a sequence of UTF-8 bytes. -->
+Rustは主要な文字列型を二種類持っています: `&str` と `String`です。
+まず `&str` について説明しましょう。 `&str` は「文字列のスライス」と呼ばれます。
+文字列のスライスは、固定のサイズを持ち、変更不可能です。そして、文字列のスライスは、UTF-8のバイトシーケンスへの参照です。
+
 
 ```rust
-let greeting = "Hello there."; // greeting: &'static str
+# // let greeting = "Hello there."; // greeting: &'static str
+let greeting = "Hello there."; // 挨拶: &'static str
 ```
 
-`"Hello there."` is a string literal and its type is `&'static str`. A string
-literal is a string slice that is statically allocated, meaning that it’s saved
-inside our compiled program, and exists for the entire duration it runs. The
-`greeting` binding is a reference to this statically allocated string. Any
-function expecting a string slice will also accept a string literal.
+<!-- `"Hello there."` is a string literal and its type is `&'static str`. A string -->
+<!-- literal is a string slice that is statically allocated, meaning that it’s saved -->
+<!-- inside our compiled program, and exists for the entire duration it runs. The -->
+<!-- `greeting` binding is a reference to this statically allocated string. Any -->
+<!-- function expecting a string slice will also accept a string literal. -->
+`"Hello there."` は文字列リテラルであり、 `&'static str` 型を持ちます。
+文字列リテラルは、静的にアロケートされたストリングのスライスであり、これはつまりコンパイルされたプログラム中に保存されており、
+プログラムの実行中全てにわたって存在していることを意味しています。
+どのストリングのスライスを引数として期待している関数も、ストリングリテラルを引数に取ることができます。
 
-String literals can span multiple lines. There are two forms. The first will
-include the newline and the leading spaces:
+<!-- String literals can span multiple lines. There are two forms. The first will -->
+<!-- include the newline and the leading spaces: -->
+
 
 ```rust
 let s = "foo
@@ -39,7 +58,7 @@ The second, with a `\`, trims the spaces and the newline:
 
 ```rust
 let s = "foo\
-    bar"; 
+    bar";
 
 assert_eq!("foobar", s);
 ```
