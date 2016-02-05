@@ -27,7 +27,7 @@ impl Circle {
 
 <!-- Traits are similar, except that we first define a trait with a method
 signature, then implement the trait for a type. In this example, we implement the trait `HasArea` for `Circle`: -->
-トレイトはそれに似ていますが、始めにトレイトをメソッドのシグネチャと共に定義し、続いてある型のためにトレイトを実装するという流れが異なります。
+始めにトレイトをメソッドのシグネチャと共に定義し、続いてある型のためにトレイトを実装するという流れを除けばトレイトはメソッド構文に似ています。
 この例では、 `Circle` のために `HasArea` トレイトを実装しています。
 
 ```rust
@@ -59,7 +59,7 @@ we use `impl Trait for Item`, rather than just `impl Item`. -->
 <!-- Traits are useful because they allow a type to make certain promises about its
 behavior. Generic functions can exploit this to constrain, or [bound][bounds], the types they
 accept. Consider this function, which does not compile: -->
-トレイトはある型の振る舞いを確約してくれるため有用です。ジェネリック関数は制約、あるいは [境界][bounds] が許容する型のみを受け取るためにトレイトを利用できます。以下の関数を考えて下さい、これはコンパイルできません。
+トレイトはある型の振る舞いを確約できるため有用です。ジェネリック関数は制約、あるいは [境界][bounds] が許容する型のみを受け取るためにトレイトを利用できます。以下の関数を考えて下さい、これはコンパイルできません。
 
 [bounds]: glossary.html#bounds
 
@@ -79,7 +79,7 @@ error: no method named `area` found for type `T` in the current scope
 <!-- Because `T` can be any type, we can’t be sure that it implements the `area`
 method. But we can add a trait bound to our generic `T`, ensuring
 that it does: -->
-`T` はあらゆる型になれるため、 `area` メソッドが実装されているか確認できません。ですが私たちはジェネリックな `T` にトレイト境界を追加できるので、境界が実装を保証してくれます。
+`T` はあらゆる型になれるため、 `area` メソッドが実装されているか確認できません。ですがジェネリックな `T` にはトレイト境界を追加でき、境界が実装を保証してくれます。
 
 ```rust
 # trait HasArea {
@@ -219,7 +219,7 @@ impl<T: PartialEq> Rectangle<T> { ... }
 
 <!-- Now, a rectangle can be defined in terms of any type that can be compared for
 equality. -->
-今、比較して等しさを確かめることのできる型という観点から長方形を定義できました。
+今、比較して等しさを確かめることのできる型について長方形を定義できました。
 
 [PartialEq]: ../core/cmp/trait.PartialEq.html
 
@@ -238,7 +238,7 @@ to know more about [operator traits][operators-and-overloading]. -->
 <!-- So far, we’ve only added trait implementations to structs, but you can
 implement a trait for any type. So technically, we _could_ implement `HasArea`
 for `i32`: -->
-ここまでで、構造体へトレイトの実装を追加することだけを説明してきましたが、あらゆる型についてトレイトを実装することができます。技術的には、 `i32` のための `HasArea` を実装することも _できなくはない_ です。
+ここまでで、構造体へトレイトの実装を追加することだけを説明してきましたが、あらゆる型についてトレイトを実装することもできます。技術的には、 `i32` のための `HasArea` を実装することも _できなくはない_ です。
 
 ```rust
 trait HasArea {
@@ -258,7 +258,7 @@ impl HasArea for i32 {
 
 <!-- It is considered poor style to implement methods on such primitive types, even
 though it is possible. -->
-しかし例え可能であったとしても、そのようなプリミティブ型のメソッドを実装するのは拙い手法だと考えられています。
+しかし例え可能であったとしても、そのようなプリミティブ型のメソッドを実装するのは適切でない手法だと考えられています。
 
 <!-- This may seem like the Wild West, but there are two restrictions around
 implementing traits that prevent this from getting out of hand. The first is
@@ -275,8 +275,8 @@ let mut f = std::fs::File::open("foo.txt").expect("Couldn’t open foo.txt");
 # let buf = b"whatever"; // byte string literal. buf: &[u8; 8]
 let buf = b"whatever"; // buf: &[u8; 8] はバイト文字列リテラルです。
 let result = f.write(buf);
-# result.unwrap(); // ignore the error
-# result.unwrap(); // エラーを無視します。
+# // result.unwrap(); // ignore the error
+# // result.unwrap(); // エラーを無視します。
 ```
 
 <!-- Here’s the error: -->
@@ -297,7 +297,8 @@ use std::io::Write;
 let mut f = std::fs::File::open("foo.txt").expect("Couldn’t open foo.txt");
 let buf = b"whatever";
 let result = f.write(buf);
-# result.unwrap(); // ignore the error
+# // result.unwrap(); // ignore the error
+# // result.unwrap(); // エラーを無視します。
 ```
 
 <!-- This will compile without error. -->
@@ -317,7 +318,7 @@ not, because neither the trait nor the type are in our code. -->
 <!-- One last thing about traits: generic functions with a trait bound use
 ‘monomorphization’ (mono: one, morph: form), so they are statically dispatched.
 What’s that mean? Check out the chapter on [trait objects][to] for more details. -->
-トレイトに関して最後に1つ。トレイトによって束縛されたジェネリック関数は「モノモーフィゼーション」(monomorphization)(mono:単一の、morph:様相)されるため、静的ディスパッチが行われます。一体どういう意味でしょうか？詳細については、[トレイトオブジェクト][to]の章をチェックしてください。
+トレイトに関して最後に1つ。トレイト境界が設定されたジェネリック関数は「モノモーフィゼーション」(monomorphization)(mono:単一の、morph:様相)されるため、静的ディスパッチが行われます。一体どういう意味でしょうか？詳細については、 [トレイトオブジェクト][to] の章をチェックしてください。
 
 [to]: trait-objects.html
 
@@ -325,7 +326,7 @@ What’s that mean? Check out the chapter on [trait objects][to] for more detail
 # 複数のトレイト境界
 
 <!-- You’ve seen that you can bound a generic type parameter with a trait: -->
-トレイトでジェネリックな型パラメータに境界が与えられることを見てきました。
+トレイトによってジェネリックな型パラメータに境界が与えられることを見てきました。
 
 ```rust
 fn foo<T: Clone>(x: T) {
@@ -372,7 +373,7 @@ far right. The bounds are getting in the way. -->
 
 
 <!-- Rust has a solution, and it’s called a ‘`where` clause’: -->
-Rustは「`where` 節」と呼ばれる解決策を持っています。
+Rustは「 `where` 節」と呼ばれる解決策を持っています。
 
 ```rust
 use std::fmt::Debug;
@@ -399,7 +400,7 @@ fn main() {
 All you need to do is leave off the bounds when defining your type parameters,
 and then add `where` after the parameter list. For longer lists, whitespace can
 be added: -->
-`foo()` は先程見せたままの構文で、 `bar()` は `where` 節を用いています。あなたに必要なのは型パラメータの定義時に境界の設定をやめ、引数リストの後ろに `where` を追加することだけです。長いリストであれば、空白を加えることもできます。
+`foo()` は先程見せたままの構文で、 `bar()` は `where` 節を用いています。あなたに必要なのは型パラメータを定義する際に境界の設定をせず、引数リストの後ろに `where` を追加することだけです。長いリストであれば、空白を加えることもできます。
 
 ```rust
 use std::fmt::Debug;
@@ -449,7 +450,7 @@ fn inverse<T>() -> T
 on the left-hand side not only of type parameters `T`, but also of types (`i32` in this case). In this example, `i32` must implement
 `ConvertTo<T>`. Rather than defining what `i32` is (since that's obvious), the
 `where` clause here constrains `T`. -->
-ここでは `where` 節の追加機能を披露しています。この節は左辺に型パラメータ `T` だけでなく具体的な型(このケースでは `i32` )を指定できます。この例だと、 `i32` は `ConvertTo<T>` を実装していなければなりません。(それは明らかですから)ここの `where` 節は `i32` が何であるかの定義というより、 `T` の制約といえるでしょう。
+ここでは `where` 節の追加機能を披露しています。この節は左辺に型パラメータ `T` だけでなく具体的な型(このケースでは `i32` )を指定できます。この例だと、 `i32` は `ConvertTo<T>` を実装していなければなりません。(それは明らかですから)ここの `where` 節は `i32` が何であるか定義しているというよりも、 `T` に対して制約を設定しているといえるでしょう。
 
 <!-- # Default methods -->
 # デフォルトメソッド
@@ -466,7 +467,7 @@ trait Foo {
 ```
 
 <!-- Implementors of the `Foo` trait need to implement `is_valid()` but not `is_invalid()` due to the added default behavior. This default behavior can still be overridden as in: -->
-`Foo` トレイトの実装者は `is_valid()` を実装する必要がありますが、デフォルトの動作が加えられている `is_invalid()` にはその必要がありません。
+`Foo` トレイトの実装者は `is_valid()` を実装する必要がありますが、デフォルトの動作が加えられている `is_invalid()` には必要ありません。
 
 ```rust
 # trait Foo {
@@ -511,7 +512,7 @@ assert!(over.is_invalid()); // 「Called OverrideDefault.is_invalid!」を表示
 # 継承
 
 <!-- Sometimes, implementing a trait requires implementing another trait: -->
-時々、トレイトの実装に他のトレイトの実装が必要になることがあります。
+時々、1つのトレイトの実装に他のトレイトの実装が必要になります。
 
 ```rust
 trait Foo {
@@ -523,8 +524,8 @@ trait FooBar : Foo {
 }
 ```
 
-Implementors of `FooBar` must also implement `Foo`, like this:
-`FooBar` の実装者は以下のように `Foo` も実装しなければなりません。
+<!-- Implementors of `FooBar` must also implement `Foo`, like this: -->
+`FooBar` の実装者は `Foo` も実装しなければなりません。以下のようになります。
 
 ```rust
 # trait Foo {
