@@ -1,4 +1,5 @@
-% Loops
+% ループ
+<!-- % Loops -->
 
 Rust currently provides three approaches to performing some kind of iterative activity. They are: `loop`, `while` and `for`. Each approach has its own set of uses.
 
