@@ -1,9 +1,11 @@
-%  Box Syntax and Patterns
+% Box構文とパターン
+<!-- %  Box Syntax and Patterns -->
 
-Currently the only stable way to create a `Box` is via the `Box::new` method.
-Also it is not possible in stable Rust to destructure a `Box` in a match
-pattern. The unstable `box` keyword can be used to both create and destructure
-a `Box`. An example usage would be:
+<!-- Currently the only stable way to create a `Box` is via the `Box::new` method. -->
+<!-- Also it is not possible in stable Rust to destructure a `Box` in a match -->
+<!-- pattern. The unstable `box` keyword can be used to both create and destructure -->
+<!-- a `Box`. An example usage would be: -->
+今のところ、安定版において `Box` を作成する唯一の方法は `Box::new` メソッドです。安定版のRustではパターンマッチで `Box` を分解することもできません。不安定版の `box` キーワードは `Box` の作成と分解の両方に使えます。使い方は以下の通りです。
 
 ```rust
 #![feature(box_syntax, box_patterns)]
@@ -25,14 +27,17 @@ fn main() {
 }
 ```
 
-Note that these features are currently hidden behind the `box_syntax` (box
-creation) and `box_patterns` (destructuring and pattern matching) gates
-because the syntax may still change in the future.
+<!-- Note that these features are currently hidden behind the `box_syntax` (box -->
+<!-- creation) and `box_patterns` (destructuring and pattern matching) gates -->
+<!-- because the syntax may still change in the future. -->
+注記: 将来的にこの構文は変わる可能性があるため、現時点でこれらのフィーチャは `box_syntax` (boxの作成)、 `box_patterns` (分解とパターンマッチ)を明示しなければ使えません。
 
-# Returning Pointers
+<!-- # Returning Pointers -->
+# ポインタ返し
 
-In many languages with pointers, you'd return a pointer from a function
-so as to avoid copying a large data structure. For example:
+<!-- In many languages with pointers, you'd return a pointer from a function -->
+<!-- so as to avoid copying a large data structure. For example: -->
+ポインタを持つ多くのプログラミング言語では、巨大なデータ構造のコピーを避けるため、関数からポインタを返してきました。例えば以下のように書くことができます。
 
 ```rust
 struct BigStruct {
@@ -57,10 +62,12 @@ fn main() {
 }
 ```
 
-The idea is that by passing around a box, you're only copying a pointer, rather
-than the hundred `i32`s that make up the `BigStruct`.
+<!-- The idea is that by passing around a box, you're only copying a pointer, rather -->
+<!-- than the hundred `i32`s that make up the `BigStruct`. -->
+考え方としては、boxで渡すことで `BigStruct` を構成する100個の `i32` の代わりにポインタのみのコピーで済む、というものです。
 
-This is an antipattern in Rust. Instead, write this:
+<!-- This is an antipattern in Rust. Instead, write this: -->
+これはRustではアンチパターンです。代わりに以下のように書きます。
 
 ```rust
 #![feature(box_syntax)]
@@ -87,14 +94,17 @@ fn main() {
 }
 ```
 
-This gives you flexibility without sacrificing performance.
+<!-- This gives you flexibility without sacrificing performance. -->
+このように書くことでパフォーマンスを犠牲にすることなく、柔軟性を確保することができます。
 
-You may think that this gives us terrible performance: return a value and then
-immediately box it up ?! Isn't this pattern the worst of both worlds? Rust is
-smarter than that. There is no copy in this code. `main` allocates enough room
-for the `box`, passes a pointer to that memory into `foo` as `x`, and then
-`foo` writes the value straight into the `Box<T>`.
+<!-- You may think that this gives us terrible performance: return a value and then -->
+<!-- immediately box it up ?! Isn't this pattern the worst of both worlds? Rust is -->
+<!-- smarter than that. There is no copy in this code. `main` allocates enough room -->
+<!-- for the `box`, passes a pointer to that memory into `foo` as `x`, and then -->
+<!-- `foo` writes the value straight into the `Box<T>`. -->
+このコードはひどいパフォーマンス低下をもたらすと感じるかもしれません。値を返して即座にboxに入れるなんて?! このパターンは悪いところどりになっているのでは? Rustはもう少し賢いため、このコードでコピーは発生しません。 `main` 内では `box` のために十分なメモリ領域を確保し、そのメモリへのポインタを `foo` へ `x` として渡します。 `foo` はその値を直接 `Box<T>` (訳注: すなわち `y` )の中に書き込みます。
 
-This is important enough that it bears repeating: pointers are not for
-optimizing returning values from your code. Allow the caller to choose how they
-want to use your output.
+<!-- This is important enough that it bears repeating: pointers are not for -->
+<!-- optimizing returning values from your code. Allow the caller to choose how they -->
+<!-- want to use your output. -->
+重要なことなので繰り返しますが、ポインタを戻り値の最適化のために使うべきではありません。呼び出し側が戻り値をどのように使うかを選択できるようにしましょう。
