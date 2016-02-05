@@ -1,8 +1,12 @@
 % if
+<!-- % if -->
 
-Rust’s take on `if` is not particularly complex, but it’s much more like the
-`if` you’ll find in a dynamically typed language than in a more traditional
-systems language. So let’s talk about it, to make sure you grasp the nuances.
+<!-- Rust’s take on `if` is not particularly complex, but it’s much more like the -->
+<!-- `if` you’ll find in a dynamically typed language than in a more traditional -->
+<!-- systems language. So let’s talk about it, to make sure you grasp the nuances. -->
+Rustにおける `if` の扱いはさほど複雑ではありませんが、伝統的なシステムプログラミング言語のそれに比べて、
+動的型付け言語でみられる `if` にずっと近いものになっています。そのニュアンスをしっかり理解できるよう、
+さっそく説明していきましょう。
 
 `if` is a specific form of a more general concept, the ‘branch’. The name comes
 from a branch in a tree: a decision point, where depending on a choice,
