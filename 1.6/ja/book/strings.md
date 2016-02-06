@@ -18,7 +18,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <!-- strings are not null-terminated and can contain null bytes. -->
 詳しく見ていきましょう、 「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラー値のシーケンスです。
 すべての文字列は、正しくエンコードされたUTF-8のシーケンスであることが保証されています。
-また、他のシステム言語とはことなり、文字列はNull終端でなく、Nullバイトを含むことが可能です。
+また、他のシステム言語とはことなり、文字列はnull終端でなく、nullバイトを含むことが可能です。
 
 <!-- Rust has two main types of strings: `&str` and `String`. Let’s talk about -->
 <!-- `&str` first. These are called ‘string slices’. A string slice has a fixed -->
