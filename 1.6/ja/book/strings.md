@@ -9,7 +9,7 @@
 文字列は、プログラマーがマスターすべき重要なコンセプトです。
 Rustの文字列の扱いは、Rust言語がシステムにフォーカスしているため、少し他の言語と異なります。
 動的なサイズを持つデータ構造が有る時、常に物事は複雑になります、そして文字列もまたサイズを変更することができるデータ構造です。
-これはつまり、Rustの文字列もまた、Cのような他のシステム言事は少し異なるということです。
+これはつまり、Rustの文字列もまた、Cのような他のシステム言語とは少し異なるということです。
 
 
 <!-- Let’s dig into the details. A ‘string’ is a sequence of Unicode scalar values -->
@@ -70,7 +70,7 @@ assert_eq!("foobar", s);
 <!-- commonly created by converting from a string slice using the `to_string` -->
 <!-- method. -->
 Rustは `&str` だけでなく、 `String` というヒープにアロケートされる文字列の形式も持っています。
-この文字列は延長可能であり、またUTF-8であることが保証されています。
+この文字列は伸張可能であり、またUTF-8であることが保証されています。
 `String` は一般的に文字列のスライスをメソッド `to_string` を用いて変換することで生成されます。
 
 ```rust

@@ -43,6 +43,7 @@
 | expression statement           | 式文
 | feature                        | フィーチャ
 | generics                       | ジェネリクス
+| growable                       | 伸張可能
 | identifier                     | 識別子
 | immutable                      | イミュータブル
 | keyword                        | キーワード
