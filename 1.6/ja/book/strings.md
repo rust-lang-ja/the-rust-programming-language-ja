@@ -8,8 +8,8 @@
 <!-- strings also work differently than in some other systems languages, such as C. -->
 文字列は、プログラマーがマスターすべき重要なコンセプトです。
 Rustの文字列の扱いは、Rust言語がシステムにフォーカスしているため、少し他の言語と異なります。
-動的なサイズを持つデータ構造が有ると、常に物事は複雑になります、そして文字列もまたサイズを変更することができるデータ構造です。
-つまり、Rustの文字列もまた、他のCのようなシステム言事は少し異なるということを意味しています。
+動的なサイズを持つデータ構造が有る時、常に物事は複雑になります、そして文字列もまたサイズを変更することができるデータ構造です。
+これはつまり、Rustの文字列もまた、Cのような他のシステム言事は少し異なるということです。
 
 
 <!-- Let’s dig into the details. A ‘string’ is a sequence of Unicode scalar values -->
@@ -25,12 +25,11 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <!-- size, and cannot be mutated. It is a reference to a sequence of UTF-8 bytes. -->
 Rustは主要な文字列型を二種類持っています: `&str` と `String`です。
 まず `&str` について説明しましょう。 `&str` は「文字列のスライス」と呼ばれます。
-文字列のスライスは、固定のサイズを持ち、変更不可能です。そして、文字列のスライスは、UTF-8のバイトシーケンスへの参照です。
+文字列のスライスは固定のサイズを持ち、変更不可能です。そして、文字列のスライスはUTF-8のバイトシーケンスへの参照です。
 
 
 ```rust
-# // let greeting = "Hello there."; // greeting: &'static str
-let greeting = "Hello there."; // 挨拶: &'static str
+let greeting = "Hello there."; // greeting: &'static str
 ```
 
 <!-- `"Hello there."` is a string literal and its type is `&'static str`. A string -->
@@ -39,15 +38,15 @@ let greeting = "Hello there."; // 挨拶: &'static str
 <!-- `greeting` binding is a reference to this statically allocated string. Any -->
 <!-- function expecting a string slice will also accept a string literal. -->
 `"Hello there."` は文字列リテラルであり、 `&'static str` 型を持ちます。
-文字列リテラルは、静的にアロケートされたストリングのスライスであり、これはつまりコンパイルされたプログラム中に保存されており、
+文字列リテラルは、静的にアロケートされた文字列のスライスであり、これはつまりコンパイルされたプログラム中に保存されており、
 プログラムの実行中全てにわたって存在していることを意味しています。
-どのストリングのスライスを引数として期待している関数も、ストリングリテラルを引数に取ることができます。
+どの文字列のスライスを引数として期待している関数も、文字列リテラルを引数に取ることができます。
 
 <!-- String literals can span multiple lines. There are two forms. The first will -->
 <!-- include the newline and the leading spaces: -->
-ストリングリテラルは複数行に渡ることができます。
-複数行のストリングリテラルを記述する方法は、2つの形式があります。
-ひとつ目の形式は、改行と行頭の空白を文字列に含む形式です:
+文字列リテラルは複数行に渡ることができます。
+複数行の文字列リテラルを記述する方法は、2つの形式があります。
+一つ目の形式は、改行と行頭の空白を文字列に含む形式です:
 
 ```rust
 let s = "foo
@@ -72,7 +71,7 @@ assert_eq!("foobar", s);
 <!-- method. -->
 Rustは `&str` だけでなく、 `String` というヒープにアロケートされる文字列の形式も持っています。
 この文字列は延長可能であり、またUTF-8であることが保証されています。
-`String` は一般的にストリングスライスをメソッド `to_string` を用いて変換することで生成されます。
+`String` は一般的に文字列のスライスをメソッド `to_string` を用いて変換することで生成されます。
 
 ```rust
 let mut s = "Hello".to_string(); // mut s: String
@@ -182,7 +181,7 @@ let dog = hachiko.chars().nth(1); // kinda like hachiko[1]
 ```
 
 <!-- This emphasizes that we have to walk from the beginning of the list of `chars`. -->
-このコードは、`chars` のリストの上を見て言っているという事を強調しています。
+このコードは、`chars` のリストの上を移動している事を強調しています。
 
 ## スライシング
 
