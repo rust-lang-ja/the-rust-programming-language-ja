@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Variable Bindings</title>
+    <title>変数束縛</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,10 +185,23 @@
 <div id='page'>
 
 
-    <h1 class="title">Variable Bindings</h1>
-    <p>Virtually every non-&#39;Hello World’ Rust program uses <em>variable bindings</em>. They
-bind some value to a name, so it can be used later. <code>let</code> is
-used to introduce a binding, just like this:</p>
+    <h1 class="title">変数束縛</h1>
+    <!-- % Variable Bindings -->
+
+<!-- Virtually every non-'Hello World’ Rust program uses *variable bindings*. They -->
+
+<!-- bind some value to a name, so it can be used later. `let` is -->
+
+<!-- used to introduce a binding, just like this: -->
+
+<p>事実上全ての「Hello World」でないRustのプログラムは <em>変数束縛</em> を使っています。
+変数束縛は何らかの値を名前へと束縛するので、後でその値を使えます。
+このように、 <code>let</code> が束縛を導入するのに使われています。</p>
+
+<blockquote>
+<p>訳注: 普通、束縛というときは名前 <em>を</em> 値 <em>へ</em> と束縛しますが、このドキュメントでは逆になっています。
+     Rustでは他の言語と違って1つの値に対して1つの名前が対応するのであえてこう書いてるのかもしれません。</p>
+</blockquote>
 <span class='rusttest'>fn main() {
     let x = 5;
 }
@@ -197,48 +210,95 @@ used to introduce a binding, just like this:</p>
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 }</pre>
 
-<p>Putting <code>fn main() {</code> in each example is a bit tedious, so we’ll leave that out
-in the future. If you’re following along, make sure to edit your <code>main()</code>
-function, rather than leaving it off. Otherwise, you’ll get an error.</p>
+<!-- Putting `fn main() {` in each example is a bit tedious, so we’ll leave that out -->
 
-<h1 id='patterns' class='section-header'><a href='#patterns'>Patterns</a></h1>
-<p>In many languages, a variable binding would be called a <em>variable</em>, but Rust’s
-variable bindings have a few tricks up their sleeves. For example the
-left-hand side of a <code>let</code> expression is a ‘<a href="patterns.html">pattern</a>’, not just a
-variable name. This means we can do things like:</p>
+<!-- in the future. If you’re following along, make sure to edit your `main()` -->
+
+<!-- function, rather than leaving it off. Otherwise, you’ll get an error. -->
+
+<p>例で毎回 <code>fn main() {</code> と書くのは長ったらしいのでこれ以後は省略します。
+もし試しながら読んでいるのならそのまま書くのではなくちゃんと <code>main()</code> 関数の中身を編集するようにしてください。そうしないとエラーになります。</p>
+
+<!-- # Patterns -->
+
+<h1 id='パターン' class='section-header'><a href='#パターン'>パターン</a></h1>
+<!-- In many languages, a variable binding would be called a *variable*, but Rust’s -->
+
+<!-- variable bindings have a few tricks up their sleeves. For example the -->
+
+<!-- left-hand side of a `let` expression is a ‘[pattern][pattern]’, not just a -->
+
+<!-- variable name. This means we can do things like: -->
+
+<p>多くの言語では変数束縛は <em>変数</em> と呼ばれるでしょうが、Rustの変数束縛は多少皮を被せてあります。
+例えば、 <code>let</code> の左側の式は「<a href="patterns.html">パターン</a>」であって、ただの変数名ではありません。
+これはこのようなことが出来るということです。</p>
 <span class='rusttest'>fn main() {
     let (x, y) = (1, 2);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> (<span class='ident'>x</span>, <span class='ident'>y</span>) <span class='op'>=</span> (<span class='number'>1</span>, <span class='number'>2</span>);</pre>
 
-<p>After this expression is evaluated, <code>x</code> will be one, and <code>y</code> will be two.
-Patterns are really powerful, and have <a href="patterns.html">their own section</a> in the
-book. We don’t need those features for now, so we’ll just keep this in the back
-of our minds as we go forward.</p>
+<!-- After this expression is evaluated, `x` will be one, and `y` will be two. -->
 
-<h1 id='type-annotations' class='section-header'><a href='#type-annotations'>Type annotations</a></h1>
-<p>Rust is a statically typed language, which means that we specify our types up
-front, and they’re checked at compile time. So why does our first example
-compile? Well, Rust has this thing called ‘type inference’. If it can figure
-out what the type of something is, Rust doesn’t require you to actually type it
-out.</p>
+<!-- Patterns are really powerful, and have [their own section][pattern] in the -->
 
-<p>We can add the type if we want to, though. Types come after a colon (<code>:</code>):</p>
+<!-- book. We don’t need those features for now, so we’ll just keep this in the back -->
+
+<!-- of our minds as we go forward. -->
+
+<p>パターン式が評価されたあと、 <code>x</code> は1になり、 <code>y</code> は2になります。
+パターンは本当に強力で、本書には<a href="patterns.html">パターンのセクション</a>もあります。
+今のところこの機能は必要ないので頭の片隅に留めておいてだけいて下さい。</p>
+
+<!-- # Type annotations -->
+
+<h1 id='型アノテーション' class='section-header'><a href='#型アノテーション'>型アノテーション</a></h1>
+<!-- Rust is a statically typed language, which means that we specify our types up -->
+
+<!-- front, and they’re checked at compile time. So why does our first example -->
+
+<!-- compile? Well, Rust has this thing called ‘type inference’. If it can figure -->
+
+<!-- out what the type of something is, Rust doesn’t require you to actually type it -->
+
+<!-- out. -->
+
+<p>Rustは静的な型付言語であり、前もって型を与えておいて、それがコンパイル時に検査されます。
+じゃあなぜ最初の例はコンパイルが通るのでしょう?ええと、Rustには「型推論」と呼ばれるものがあります。
+型推論が型が何であるか判断出来るなら、型を書く必要はなくなります。</p>
+
+<!-- We can add the type if we want to, though. Types come after a colon (`:`): -->
+
+<p>書きたいなら型を書くことも出来ます。型はコロン(<code>:</code>)のあとに書きます。</p>
 <span class='rusttest'>fn main() {
     let x: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>5</span>;</pre>
 
-<p>If I asked you to read this out loud to the rest of the class, you’d say “<code>x</code>
-is a binding with the type <code>i32</code> and the value <code>five</code>.”</p>
+<!-- If I asked you to read this out loud to the rest of the class, you’d say “`x` -->
 
-<p>In this case we chose to represent <code>x</code> as a 32-bit signed integer. Rust has
-many different primitive integer types. They begin with <code>i</code> for signed integers
-and <code>u</code> for unsigned integers. The possible integer sizes are 8, 16, 32, and 64
-bits.</p>
+<!-- is a binding with the type `i32` and the value `five`.” -->
 
-<p>In future examples, we may annotate the type in a comment. The examples will
-look like this:</p>
+<p>これをクラスのみんなに聞こえるように声に出して読むなら、「 <code>x</code> は型 <code>i32</code> を持つ束縛で、値は <code>五</code> である。」となります。</p>
+
+<!-- In this case we chose to represent `x` as a 32-bit signed integer. Rust has -->
+
+<!-- many different primitive integer types. They begin with `i` for signed integers -->
+
+<!-- and `u` for unsigned integers. The possible integer sizes are 8, 16, 32, and 64 -->
+
+<!-- bits. -->
+
+<p>この場合 <code>x</code> を32bit符号付き整数として表現することを選びました。
+Rustには多くのプリミティブな整数型があります。プリミティブな整数型は符号付き型は <code>i</code> 、符号無し型は <code>u</code> から始まります。
+整数型として可能なサイズは8、16、32、64ビットです。</p>
+
+<!-- In future examples, we may annotate the type in a comment. The examples will -->
+
+<!-- look like this: -->
+
+<p>以後の例では型はコメントで注釈することにします。
+先の例はこのようになります。</p>
 <span class='rusttest'>fn main() {
     let x = 5; // x: i32
 }
@@ -247,13 +307,23 @@ look like this:</p>
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>; <span class='comment'>// x: i32</span>
 }</pre>
 
-<p>Note the similarities between this annotation and the syntax you use with
-<code>let</code>. Including these kinds of comments is not idiomatic Rust, but we&#39;ll
-occasionally include them to help you understand what the types that Rust
-infers are.</p>
+<!-- Note the similarities between this annotation and the syntax you use with -->
 
-<h1 id='mutability' class='section-header'><a href='#mutability'>Mutability</a></h1>
-<p>By default, bindings are <em>immutable</em>. This code will not compile:</p>
+<!-- `let`. Including these kinds of comments is not idiomatic Rust, but we'll -->
+
+<!-- occasionally include them to help you understand what the types that Rust -->
+
+<!-- infers are. -->
+
+<p>この注釈と <code>let</code> の時に使う記法の類似性に留意して下さい。
+このようなコメントを書くのはRust的ではありませんが、時折理解の手助けのためにRustが推論する型をコメントで注釈します。</p>
+
+<!-- # Mutability -->
+
+<h1 id='可変性' class='section-header'><a href='#可変性'>可変性</a></h1>
+<!-- By default, bindings are *immutable*. This code will not compile: -->
+
+<p>デフォルトで、 束縛は <em>イミュータブル</em> です。このコードのコンパイルは通りません。</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     x = 10;
@@ -261,14 +331,23 @@ infers are.</p>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>10</span>;</pre>
 
-<p>It will give you this error:</p>
+<!-- It will give you this error: -->
+
+<p>次のようなエラーが出ます。</p>
 
 <pre><code class="language-text">error: re-assignment of immutable variable `x`
      x = 10;
      ^~~~~~~
 </code></pre>
 
-<p>If you want a binding to be mutable, you can use <code>mut</code>:</p>
+<blockquote>
+<p>訳注:
+<code>エラー: イミュータブルな変数 `x` に再代入しています</code></p>
+</blockquote>
+
+<!-- If you want a binding to be mutable, you can use `mut`: -->
+
+<p>束縛をミュータブルにしたいなら、<code>mut</code>が使えます。</p>
 <span class='rusttest'>fn main() {
     let mut x = 5; // mut x: i32
     x = 10;
@@ -276,24 +355,49 @@ infers are.</p>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>; <span class='comment'>// mut x: i32</span>
 <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>10</span>;</pre>
 
-<p>There is no single reason that bindings are immutable by default, but we can
-think about it through one of Rust’s primary focuses: safety. If you forget to
-say <code>mut</code>, the compiler will catch it, and let you know that you have mutated
-something you may not have intended to mutate. If bindings were mutable by
-default, the compiler would not be able to tell you this. If you <em>did</em> intend
-mutation, then the solution is quite easy: add <code>mut</code>.</p>
+<!-- There is no single reason that bindings are immutable by default, but we can -->
 
-<p>There are other good reasons to avoid mutable state when possible, but they’re
-out of the scope of this guide. In general, you can often avoid explicit
-mutation, and so it is preferable in Rust. That said, sometimes, mutation is
-what you need, so it’s not verboten.</p>
+<!-- think about it through one of Rust’s primary focuses: safety. If you forget to -->
 
-<h1 id='initializing-bindings' class='section-header'><a href='#initializing-bindings'>Initializing bindings</a></h1>
-<p>Rust variable bindings have one more aspect that differs from other languages:
-bindings are required to be initialized with a value before you&#39;re allowed to
-use them.</p>
+<!-- say `mut`, the compiler will catch it, and let you know that you have mutated -->
 
-<p>Let’s try it out. Change your <code>src/main.rs</code> file to look like this:</p>
+<!-- something you may not have intended to mutate. If bindings were mutable by -->
+
+<!-- default, the compiler would not be able to tell you this. If you _did_ intend -->
+
+<!-- mutation, then the solution is quite easy: add `mut`. -->
+
+<p>束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと考えることが出来ます。
+もし <code>mut</code> を忘れたらコンパイラが捕捉して、変更するつもりでなかったものを変更した旨を教えてくれます。
+束縛がデフォルトでミュータブルだったらコンパイラはこれを捕捉できません。
+もし <em>本当に</em> 変更を意図していたのなら話は簡単です。 <code>mut</code> をつけ加えればいいのです。</p>
+
+<!-- There are other good reasons to avoid mutable state when possible, but they’re -->
+
+<!-- out of the scope of this guide. In general, you can often avoid explicit -->
+
+<!-- mutation, and so it is preferable in Rust. That said, sometimes, mutation is -->
+
+<!-- what you need, so it’s not verboten. -->
+
+<p>可能な時はにミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
+一般に、明示的な変更は避けられることが多いのでRustでもそうした方が良いのです。
+しかし変更が本当に必要なこともあるという意味で、厳禁という訳ではないのです。</p>
+
+<!-- # Initializing bindings -->
+
+<h1 id='束縛を初期化する' class='section-header'><a href='#束縛を初期化する'>束縛を初期化する</a></h1>
+<!-- Rust variable bindings have one more aspect that differs from other languages: -->
+
+<!-- bindings are required to be initialized with a value before you're allowed to -->
+
+<!-- use them. -->
+
+<p>Rustの束縛はもう1つ他の言語と異る点があります。束縛を使う前に値で初期化されている必要があるのです。</p>
+
+<!-- Let’s try it out. Change your `src/main.rs` file to look like this: -->
+
+<p>試してみましょう。 <code>src/main.rs</code> をいじってこのようにしてみて下さい。</p>
 <span class='rusttest'>fn main() {
     let x: i32;
 
@@ -306,8 +410,12 @@ use them.</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hello world!&quot;</span>);
 }</pre>
 
-<p>You can use <code>cargo build</code> on the command line to build it. You’ll get a
-warning, but it will still print &quot;Hello, world!&quot;:</p>
+<!-- You can use `cargo build` on the command line to build it. You’ll get a -->
+
+<!-- warning, but it will still print "Hello, world!": -->
+
+<p>コマンドラインで <code>cargo build</code> を使ってビルド出来ます。
+警告が出ますが、それでもまだ「Hello, world!」は印字されます。</p>
 
 <pre><code class="language-text">   Compiling hello_world v0.0.1 (file:///home/you/projects/hello_world)
 src/main.rs:2:9: 2:10 warning: unused variable: `x`, #[warn(unused_variable)]
@@ -316,9 +424,15 @@ src/main.rs:2     let x: i32;
                       ^
 </code></pre>
 
-<p>Rust warns us that we never use the variable binding, but since we never use
-it, no harm, no foul. Things change if we try to actually use this <code>x</code>,
-however. Let’s do that. Change your program to look like this:</p>
+<!-- Rust warns us that we never use the variable binding, but since we never use -->
+
+<!-- it, no harm, no foul. Things change if we try to actually use this `x`, -->
+
+<!-- however. Let’s do that. Change your program to look like this: -->
+
+<p>Rustは一度も使われない変数について警告を出しますが、一度も使われないので人畜無害です。
+ところがこの <code>x</code> を使おうとすると事は一変します。やってみましょう。
+プログラムをこのように変更して下さい。</p>
 <span class='rusttest'>fn main() {
     let x: i32;
 
@@ -331,7 +445,9 @@ however. Let’s do that. Change your program to look like this:</p>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The value of x is: {}&quot;</span>, <span class='ident'>x</span>);
 }</pre>
 
-<p>And try to build it. You’ll get an error:</p>
+<!-- And try to build it. You’ll get an error: -->
+
+<p>そしてビルドしてみて下さい。このようなエラーが出る筈です。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling hello_world v0.0.1 (file:///home/you/projects/hello_world)
@@ -346,36 +462,72 @@ error: aborting due to previous error
 Could not compile `hello_world`.
 </code></pre>
 
-<p>Rust will not let us use a value that has not been initialized. Next, let’s
-talk about this stuff we&#39;ve added to <code>println!</code>.</p>
+<!-- Rust will not let us use a value that has not been initialized. Next, let’s -->
 
-<p>If you include two curly braces (<code>{}</code>, some call them moustaches...) in your
-string to print, Rust will interpret this as a request to interpolate some sort
-of value. <em>String interpolation</em> is a computer science term that means &quot;stick
-in the middle of a string.&quot; We add a comma, and then <code>x</code>, to indicate that we
-want <code>x</code> to be the value we’re interpolating. The comma is used to separate
-arguments we pass to functions and macros, if you’re passing more than one.</p>
+<!-- talk about this stuff we've added to `println!`. -->
 
-<p>When you just use the curly braces, Rust will attempt to display the value in a
-meaningful way by checking out its type. If you want to specify the format in a
-more detailed manner, there are a <a href="../std/fmt/index.html">wide number of options available</a>.
-For now, we&#39;ll just stick to the default: integers aren&#39;t very complicated to
-print.</p>
+<p>Rustでは未初期化の値を使うことは許されていません。
+次に、 <code>println!</code> に追加したものについて話しましょう。</p>
 
-<h1 id='scope-and-shadowing' class='section-header'><a href='#scope-and-shadowing'>Scope and shadowing</a></h1>
-<p>Let’s get back to bindings. Variable bindings have a scope - they are
-constrained to live in a block they were defined in. A block is a collection
-of statements enclosed by <code>{</code> and <code>}</code>. Function definitions are also blocks!
-In the following example we define two variable bindings, <code>x</code> and <code>y</code>, which
-live in different blocks. <code>x</code> can be accessed from inside the <code>fn main() {}</code>
-block, while <code>y</code> can be accessed only from inside the inner block:</p>
+<!-- If you include two curly braces (`{}`, some call them moustaches...) in your -->
+
+<!-- string to print, Rust will interpret this as a request to interpolate some sort -->
+
+<!-- of value. *String interpolation* is a computer science term that means "stick -->
+
+<!-- in the middle of a string." We add a comma, and then `x`, to indicate that we -->
+
+<!-- want `x` to be the value we’re interpolating. The comma is used to separate -->
+
+<!-- arguments we pass to functions and macros, if you’re passing more than one. -->
+
+<p>印字する文字列に2つの波括弧(<code>{}</code>、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて <code>{</code> を眺めてみて下さい。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
+Rustはこれを何かの値を入れて(interpolate、インターポーレート)くれという要求だと解釈します。
+<em>文字列インターポーレーション</em> (String interpolation)はコンピュータサイエンスの用語で、「文字列の中に差し込む」という意味です。
+その後に続けてカンマ、そして <code>x</code> を置いて <code>x</code> がインターポーレートしようとしている値だと指示しています。
+カンマは2つ以上の引数を関数やマクロに渡す時に使われます。</p>
+
+<!-- When you just use the curly braces, Rust will attempt to display the value in a -->
+
+<!-- meaningful way by checking out its type. If you want to specify the format in a -->
+
+<!-- more detailed manner, there are a [wide number of options available][format]. -->
+
+<!-- For now, we'll just stick to the default: integers aren't very complicated to -->
+
+<!-- print. -->
+
+<p>単に波括弧だけを使った時は、Rustはインターポーレートされる値の型を調べて意味のある方法で表示しようとします。
+フォーマットをさらに詳しく指定したいなら<a href="../std/fmt/index.html">数多くのオプションが利用出来ます</a>。
+とりあえずのところ、デフォルトに従ましょう。整数の印字はそれほど複雑ではありません。</p>
+
+<!-- # Scope and shadowing -->
+
+<h1 id='スコープとシャドーイング' class='section-header'><a href='#スコープとシャドーイング'>スコープとシャドーイング</a></h1>
+<!-- Let’s get back to bindings. Variable bindings have a scope - they are -->
+
+<!-- constrained to live in a block they were defined in. A block is a collection -->
+
+<!-- of statements enclosed by `{` and `}`. Function definitions are also blocks! -->
+
+<!-- In the following example we define two variable bindings, `x` and `y`, which -->
+
+<!-- live in different blocks. `x` can be accessed from inside the `fn main() {}` -->
+
+<!-- block, while `y` can be accessed only from inside the inner block: -->
+
+<p>束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか有効でありません。
+ブロックは <code>{</code> と <code>}</code> に囲まれた文の集まりです。関数定義もブロックです!
+以下の例では異なるブロックで有効な2つの変数束縛、 <code>x</code> と <code>y</code> を定義しています。
+<code>x</code> は <code>fn main() {}</code> ブロックの中でアクセス可能ですが、 <code>y</code> は内側のブロックからのみアクセス出来ます。</p>
 <span class='rusttest'>fn main() {
     let x: i32 = 17;
     {
         let y: i32 = 3;
         println!(&quot;The value of x is {} and value of y is {}&quot;, x, y);
     }
-    println!(&quot;The value of x is {} and value of y is {}&quot;, x, y); // This won&#39;t work
+//    println!(&quot;The value of x is {} and value of y is {}&quot;, x, y); // This won&#39;t work
+    println!(&quot;The value of x is {} and value of y is {}&quot;, x, y); // これは動きません
 }
 </span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
@@ -384,18 +536,25 @@ block, while <code>y</code> can be accessed only from inside the inner block:</p
         <span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>3</span>;
         <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The value of x is {} and value of y is {}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>);
     }
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The value of x is {} and value of y is {}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>); <span class='comment'>// This won&#39;t work</span>
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;The value of x is {} and value of y is {}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>); <span class='comment'>// これは動きません</span>
 }</pre>
 
-<p>The first <code>println!</code> would print &quot;The value of x is 17 and the value of y is
-3&quot;, but this example cannot be compiled successfully, because the second
-<code>println!</code> cannot access the value of <code>y</code>, since it is not in scope anymore.
-Instead we get this error:</p>
+<!-- The first `println!` would print "The value of x is 17 and the value of y is -->
+
+<!-- 3", but this example cannot be compiled successfully, because the second -->
+
+<!-- `println!` cannot access the value of `y`, since it is not in scope anymore. -->
+
+<!-- Instead we get this error: -->
+
+<p>最初の <code>println!</code> は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と印字する筈ですが、
+2つめの <code>println!</code> は <code>y</code> がもうスコープにいないため <code>y</code> にアクセス出来ないのでこの例はコンパイル出来ません。
+代わりに以下のようなエラーが出ます。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling hello v0.1.0 (file:///home/you/projects/hello_world)
 main.rs:7:62: 7:63 error: unresolved name `y`. Did you mean `x`? [E0425]
-main.rs:7     println!(&quot;The value of x is {} and value of y is {}&quot;, x, y); // This won&#39;t work
+main.rs:7     println!(&quot;The value of x is {} and value of y is {}&quot;, x, y); // これは動きません
                                                                        ^
 note: in expansion of format_args!
 &lt;std macros&gt;:2:25: 2:56 note: expansion site
@@ -410,48 +569,65 @@ Could not compile `hello`.
 To learn more, run the command again with --verbose.
 </code></pre>
 
-<p>Additionally, variable bindings can be shadowed. This means that a later
-variable binding with the same name as another binding, that&#39;s currently in
-scope, will override the previous binding.</p>
+<!-- Additionally, variable bindings can be shadowed. This means that a later -->
+
+<!-- variable binding with the same name as another binding, that's currently in -->
+
+<!-- scope, will override the previous binding. -->
+
+<p>さらに加えて、変数束縛は覆い隠すことが出来ます(訳注: このことをシャドーイングと言います)。
+つまり後に出てくる同じ名前の変数束縛があるとそれがスコープに入り、以前の束縛を上書きするのです。</p>
 <span class='rusttest'>fn main() {
     let x: i32 = 8;
     {
-        println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
+    //    println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
+        println!(&quot;{}&quot;, x); // &quot;8&quot;を印字する
         let x = 12;
-        println!(&quot;{}&quot;, x); // Prints &quot;12&quot;
+    //    println!(&quot;{}&quot;, x); // Prints &quot;12&quot;
+        println!(&quot;{}&quot;, x); // &quot;12&quot;を印字する
     }
-    println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
+    // println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
+    println!(&quot;{}&quot;, x); // &quot;8&quot;を印字する
     let x =  42;
-    println!(&quot;{}&quot;, x); // Prints &quot;42&quot;
+    // println!(&quot;{}&quot;, x); // Prints &quot;42&quot;
+    println!(&quot;{}&quot;, x); // &quot;42&quot;を印字する
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>8</span>;
 {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// Prints &quot;8&quot;</span>
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;8&quot;を印字する</span>
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>12</span>;
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// Prints &quot;12&quot;</span>
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;12&quot;を印字する</span>
 }
-<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// Prints &quot;8&quot;</span>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;8&quot;を印字する</span>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span>  <span class='number'>42</span>;
-<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// Prints &quot;42&quot;</span></pre>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;42&quot;を印字する</span></pre>
 
-<p>Shadowing and mutable bindings may appear as two sides of the same coin, but
-they are two distinct concepts that can&#39;t always be used interchangeably. For
-one, shadowing enables us to rebind a name to a value of a different type. It
-is also possible to change the mutability of a binding.</p>
+<!-- Shadowing and mutable bindings may appear as two sides of the same coin, but -->
+
+<!-- they are two distinct concepts that can't always be used interchangeably. For -->
+
+<!-- one, shadowing enables us to rebind a name to a value of a different type. It -->
+
+<!-- is also possible to change the mutability of a binding. -->
+
+<p>シャドーイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用が出来ないケースがあります。
+その1つにシャドーイングは同じ名前に違う型の値を再束縛することが出来ます。</p>
 <span class='rusttest'>fn main() {
     let mut x: i32 = 1;
     x = 7;
-    let x = x; // x is now immutable and is bound to 7
+    // let x = x; // x is now immutable and is bound to 7
+    let x = x; // xはイミュータブルになって7に束縛されました
     
     let y = 4;
-    let y = &quot;I can also be bound to text!&quot;; // y is now of a different type
+    // let y = &quot;I can also be bound to text!&quot;; // y is now of a different type
+    let y = &quot;I can also be bound to text!&quot;; // yは違う型になりました
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>1</span>;
 <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>7</span>;
-<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>x</span>; <span class='comment'>// x is now immutable and is bound to 7</span>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>x</span>; <span class='comment'>// xはイミュータブルになって7に束縛されました</span>
 
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>4</span>;
-<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='string'>&quot;I can also be bound to text!&quot;</span>; <span class='comment'>// y is now of a different type</span></pre>
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='string'>&quot;I can also be bound to text!&quot;</span>; <span class='comment'>// yは違う型になりました</span></pre>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

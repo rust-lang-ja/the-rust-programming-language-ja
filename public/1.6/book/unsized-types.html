@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Unsized Types</title>
+    <title>サイズ不定型</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,54 +185,97 @@
 <div id='page'>
 
 
-    <h1 class="title">Unsized Types</h1>
-    <p>Most types have a particular size, in bytes, that is knowable at compile time.
-For example, an <code>i32</code> is thirty-two bits big, or four bytes. However, there are
-some types which are useful to express, but do not have a defined size. These are
-called ‘unsized’ or ‘dynamically sized’ types. One example is <code>[T]</code>. This type
-represents a certain number of <code>T</code> in sequence. But we don’t know how many
-there are, so the size is not known.</p>
+    <h1 class="title">サイズ不定型</h1>
+    <!-- % Unsized Types -->
 
-<p>Rust understands a few of these types, but they have some restrictions. There
-are three:</p>
+<!-- Most types have a particular size, in bytes, that is knowable at compile time. -->
+
+<!-- For example, an `i32` is thirty-two bits big, or four bytes. However, there are -->
+
+<!-- some types which are useful to express, but do not have a defined size. These are -->
+
+<!-- called ‘unsized’ or ‘dynamically sized’ types. One example is `[T]`. This type -->
+
+<!-- represents a certain number of `T` in sequence. But we don’t know how many -->
+
+<!-- there are, so the size is not known. -->
+
+<p>ほとんどの型はコンパイル時に知れる、バイト数で測った、サイズがあります。
+例えば、 <code>i32</code> 型は、32ビット(4バイト)というサイズです。
+しかしながら、表現のためには便利であってもサイズが定まっていない型が存在します。
+そのような方を 「サイズ不定」又は「動的サイズ」型と呼びます。
+一例を上げると <code>[T]</code> 型は 一定のサイズの<code>T</code> のシーケンスを意味していますが、その要素数については規定されていないため、サイズは不定となります。</p>
+
+<!-- Rust understands a few of these types, but they have some restrictions. There -->
+
+<!-- are three: -->
+
+<p>Rustはいくつかのそのような型を扱うことができますが、それらには以下の様な3つの制約が存在します:</p>
+
+<!-- 1. We can only manipulate an instance of an unsized type via a pointer. An ->
+<!--    `&[T]` works just fine, but a `[T]` does not. -->
+
+<!-- 2. Variables and arguments cannot have dynamically sized types. -->
+
+<!-- 3. Only the last field in a `struct` may have a dynamically sized type; the -->
+
+<!--    other fields must not. Enum variants must not have dynamically sized types as -->
+
+<!--    data. -->
 
 <ol>
-<li>We can only manipulate an instance of an unsized type via a pointer. An
-<code>&amp;[T]</code> works just fine, but a <code>[T]</code> does not.</li>
-<li>Variables and arguments cannot have dynamically sized types.</li>
-<li>Only the last field in a <code>struct</code> may have a dynamically sized type; the
-other fields must not. Enum variants must not have dynamically sized types as
-data.</li>
+<li>サイズ不定型はポインタを通してのみ操作することができます、たとえば、 <code>&amp;[T]</code> は大丈夫ですが、 <code>[T]</code> はそうではありません。</li>
+<li>変数や引数は動的なサイズを持つことはできません。</li>
+<li><code>struct</code> の最後のフィールドのみ、動的なサイズを持つことが許されます、その他のフィールドはサイズが不定であってはなりません。
+また、Enumのバリアントはデータとして動的なサイズの型を持つ事はできません。</li>
 </ol>
 
-<p>So why bother? Well, because <code>[T]</code> can only be used behind a pointer, if we
-didn’t have language support for unsized types, it would be impossible to write
-this:</p>
+<!-- So why bother? Well, because `[T]` can only be used behind a pointer, if we -->
+
+<!-- didn’t have language support for unsized types, it would be impossible to write -->
+
+<!-- this: -->
+
+<p>なぜこんなにややこしいのでしょうか？ これは、<code>[T]</code> はポインタを通してのみ操作可能であるため、
+もし言語がサイズ不定型をサポートしていなかった場合、以下のようなコードを書くことは不可能となります:</p>
 <span class='rusttest'>fn main() {
     impl Foo for str {
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span> <span class='ident'>Foo</span> <span class='kw'>for</span> <span class='ident'>str</span> {</pre>
 
-<p>or</p>
+<!-- or -->
+
+<p>また、以下の様なコードも:</p>
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; Foo for [T] {
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Foo</span> <span class='kw'>for</span> [<span class='ident'>T</span>] {</pre>
 
-<p>Instead, you would have to write:</p>
+<!-- Instead, you would have to write: -->
+
+<p>このように書く代わりに、以下のように書く必要があることになるでしょう:</p>
 <span class='rusttest'>fn main() {
     impl Foo for &amp;str {
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span> <span class='ident'>Foo</span> <span class='kw'>for</span> <span class='kw-2'>&amp;</span><span class='ident'>str</span> {</pre>
 
-<p>Meaning, this implementation would only work for <a href="references-and-borrowing.html">references</a>, and not
-other types of pointers. With the <code>impl for str</code>, all pointers, including (at
-some point, there are some bugs to fix first) user-defined custom smart
-pointers, can use this <code>impl</code>.</p>
+<!-- Meaning, this implementation would only work for [references][ref], and not -->
+
+<!-- other types of pointers. With the `impl for str`, all pointers, including (at -->
+
+<!-- some point, there are some bugs to fix first) user-defined custom smart -->
+
+<!-- pointers, can use this `impl`. -->
+
+<p>このように書いたとすると、このコードは <a href="references-and-borrowing.html">参照</a> に対してのみ動作する用になり、他のポインタ型に対しては動作しないことになります。
+<code>imp for str</code> のように書くことで、すべてのポインタ、ユーザーの定義した独自のスマートポインタ(いくつかの点についてバグがあるので、それを先ずは直さなくてはなりませんが)もこの <code>impl</code> を利用可能になります。</p>
 
 <h1 id='sized' class='section-header'><a href='#sized'>?Sized</a></h1>
-<p>If you want to write a function that accepts a dynamically sized type, you
-can use the special bound, <code>?Sized</code>:</p>
+<!-- If you want to write a function that accepts a dynamically sized type, you -->
+
+<!-- can use the special bound, `?Sized`: -->
+
+<p>もし動的サイズ型を引数に取れるような関数を定義したい場合、特別な境界 <code>?Sized</code> を利用できます:</p>
 <span class='rusttest'>fn main() {
     struct Foo&lt;T: ?Sized&gt; {
         f: T,
@@ -242,9 +285,14 @@ can use the special bound, <code>?Sized</code>:</p>
     <span class='ident'>f</span>: <span class='ident'>T</span>,
 }</pre>
 
-<p>This <code>?</code>, read as “T may be <code>Sized</code>”,  means that this bound is special: it
-lets us match more kinds, not less. It’s almost like every <code>T</code> implicitly has
-<code>T: Sized</code>, and the <code>?</code> undoes this default.</p>
+<!-- This `?`, read as “T may be `Sized`”,  means that this bound is special: it -->
+
+<!-- lets us match more kinds, not less. It’s almost like every `T` implicitly has -->
+
+<!-- `T: Sized`, and the `?` undoes this default. -->
+
+<p><code>?</code> は 「Tは <code>Sized</code> かもしれない」と読みます、これは <code>?</code> が特別な境界: より小さいカインドとマッチするのではなく、より大きいカインドとマッチする ということを意味しています。
+これは、すべての <code>T</code> は暗黙的に <code>T : Sized</code> という制限がかけられていて、 <code>?</code> はその制限を解除するというようなものです。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

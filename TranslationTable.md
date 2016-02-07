@@ -12,9 +12,11 @@
 |:-------------------------------|:-------------
 | alignment                      | アラインメント
 | allocator                      | アロケータ
+| antipattern                    | アンチパターン
 | application                    | アプリケーション
 | arity                          | アリティ
 | array                          | 配列
+| assignment                     | 代入
 | associated -                   | 関連-
 | attribute                      | アトリビュート
 | binary                         | バイナリ
@@ -25,6 +27,7 @@
 | capture                        | キャプチャ
 | closure                        | クロージャ
 | coercion                       | 型強制
+| comma                          | カンマ
 | compiler                       | コンパイラ
 | constant                       | 定数
 | crate                          | クレート
@@ -44,8 +47,13 @@
 | feature                        | フィーチャ
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
+| growable                       | 伸張可能
 | identifier                     | 識別子
 | immutable                      | イミュータブル
+| initialize                     | 初期化する
+| interpolate                    | インターポーレートする
+| interpolation                  | インターポーレーション
+| keyword                        | キーワード
 | Intrinsics                     | Intrinsic
 | Lang Items                     | Lang Item
 | library                        | ライブラリ
@@ -56,18 +64,30 @@
 | lint                           | リント
 | match                          | マッチ
 | memory                         | メモリ
+| method                         | メソッド
 | move                           | ムーブ
 | mutable                        | ミュータブル
 | mutability                     | ミュータビリティ
+| mutable binding                | ミュータブルな束縛
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
 | parametric polymorphism        | パラメトリック多相
+| pattern                        | パターン
+| performance                    | パフォーマンス
+| pointer                        | ポインタ
+| re-assignment                  | 再代入
+| rebind                         | 再束縛
 | return                         | 返す
+| scope                          | スコープ
 | shadow                         | 覆い隠す
+| shadowing                      | シャドーイング
 | signature                      | シグネチャ
+| signed                         | 符号付き
 | slice                          | スライス
 | slicing                        | スライシング
+| string                         | 文字列
+| string interpolation           | 文字列インターポーレーション
 | struct                         | 構造体
 | structure                      | ストラクチャ
 | symbol                         | シンボル
@@ -75,7 +95,12 @@
 | system                         | システム
 | tick                           | クオート
 | trait                          | トレイト
+| type inference                 | 型推論
 | Universal Function Call Syntax | 共通の関数呼び出し構文
+| unsigned                       | 符号無し
 | unsized type                   | サイズ不定型
+| variable                       | 変数
+| variable binding               | 変数束縛
 | vector                         | ベクタ
+| warning                        | ウォーニング
 | wildcard                       | ワイルドカード

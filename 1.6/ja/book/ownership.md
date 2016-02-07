@@ -6,7 +6,7 @@
 <!-- become quite acquainted. Ownership is how Rust achieves its largest goal, -->
 <!-- memory safety. There are a few distinct concepts, each with its own -->
 <!-- chapter: -->
-このガイドはRustの所有権システムの3つの解説の1つです。
+このガイドはRustの所有権システムの3つの解説の1つ目です。
 これはRustの最も独特で注目されている機能です。そして、Rust開発者はそれについて高度に精通しておくべきです。
 所有権こそはRustがその最大の目標、メモリ安全性を得るための方法です。
 そこにはいくつかの別個の概念があり、各概念が独自の章を持ちます。
