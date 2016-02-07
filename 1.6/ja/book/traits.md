@@ -28,7 +28,7 @@ impl Circle {
 <!-- Traits are similar, except that we first define a trait with a method
 signature, then implement the trait for a type. In this example, we implement the trait `HasArea` for `Circle`: -->
 始めにトレイトをメソッドのシグネチャと共に定義し、続いてある型のためにトレイトを実装するという流れを除けばトレイトはメソッド構文に似ています。
-この例では、 `Circle` のために `HasArea` トレイトを実装しています。
+この例では、 `Circle` に `HasArea` トレイトを実装しています。
 
 ```rust
 struct Circle {
@@ -178,7 +178,7 @@ error: the trait `HasArea` is not implemented for the type `_` [E0277]
 <!-- Your generic structs can also benefit from trait bounds. All you need to
 do is append the bound when you declare type parameters. Here is a new
 type `Rectangle<T>` and its operation `is_square()`: -->
-ジェネリック構造体もトレイト境界による恩恵を受けることができます。あなたがしなければならないのは型パラメータを宣言する際に境界を追加することだけです。以下が新しい型 `Rectangle<T>` とそのメソッド `is_square()` です。
+ジェネリック構造体もトレイト境界による恩恵を受けることができます。型パラメータを宣言する際に境界を追加するだけで良いのです。以下が新しい型 `Rectangle<T>` とそのメソッド `is_square()` です。
 
 ```rust
 struct Rectangle<T> {
@@ -219,7 +219,7 @@ impl<T: PartialEq> Rectangle<T> { ... }
 
 <!-- Now, a rectangle can be defined in terms of any type that can be compared for
 equality. -->
-今、比較して等しさを確かめることのできる型について長方形を定義できました。
+これで、長方形を等値性の比較できる任意の型として定義できました。
 
 [PartialEq]: ../core/cmp/trait.PartialEq.html
 
@@ -228,7 +228,7 @@ precision—really, objects of pretty much any type—as long as they can be
 compared for equality. Could we do the same for our `HasArea` structs, `Square`
 and `Circle`? Yes, but they need multiplication, and to work with that we need
 to know more about [operator traits][operators-and-overloading]. -->
-上記の例では任意の精度を許容する `Rectangle` 構造体を新たに定義しました-実のところ、比較して等しさを確かめることのできるほぼ全ての型に対して利用可能なオブジェクトです。同じことを `Square` や `Circle` のような `HasArea` を実装する構造体に対してできるでしょうか?可能では有りますが乗算が必要になるため、それをするには [オペレータトレイト][operators-and-overloading] についてより詳しく知らなければなりません。
+上記の例では任意の精度の数値を受け入れる `Rectangle` 構造体を新たに定義しました-実は、等値性を比較できるほぼ全ての型に対して利用可能なオブジェクトです。同じことを `Square` や `Circle` のような `HasArea` を実装する構造体に対してできるでしょうか?可能では有りますが乗算が必要になるため、それをするには [オペレータトレイト][operators-and-overloading] についてより詳しく知らなければなりません。
 
 [operators-and-overloading]: operators-and-overloading.html
 
@@ -238,7 +238,7 @@ to know more about [operator traits][operators-and-overloading]. -->
 <!-- So far, we’ve only added trait implementations to structs, but you can
 implement a trait for any type. So technically, we _could_ implement `HasArea`
 for `i32`: -->
-ここまでで、構造体へトレイトの実装を追加することだけを説明してきましたが、あらゆる型についてトレイトを実装することもできます。技術的には、 `i32` のための `HasArea` を実装することも _できなくはない_ です。
+ここまでで、構造体へトレイトの実装を追加することだけを説明してきましたが、あらゆる型についてトレイトを実装することもできます。技術的には、 `i32` に `HasArea` を実装することも _できなくはない_ です。
 
 ```rust
 trait HasArea {
@@ -266,13 +266,13 @@ that if the trait isn’t defined in your scope, it doesn’t apply. Here’s an
 example: the standard library provides a [`Write`][write] trait which adds
 extra functionality to `File`s, for doing file I/O. By default, a `File`
 won’t have its methods: -->
-ここまでくると何でもありなように思えますが、手が負えなくなることを防ぐためにトレイトの実装周りには2つの制限が設けられています。第1に、あなたのスコープ内で定義されていないトレイトは適用されません。例えば、標準ライブラリは `File` にI/O機能を追加するための `Write` トレイトを提供しています。デフォルトでは、 `File` はそのメソッドを持っていません。
+ここまでくると世紀末感漂いますが、手が負えなくなることを防ぐためにトレイトの実装周りには2つの制限が設けられています。第1に、あなたのスコープ内で定義されていないトレイトは適用されません。例えば、標準ライブラリは `File` にI/O機能を追加するための `Write` トレイトを提供しています。デフォルトでは、 `File` は `Writes` で定義されるメソッド群を持っていません。
 
 [write]: ../std/io/trait.Write.html
 
 ```rust,ignore
 let mut f = std::fs::File::open("foo.txt").expect("Couldn’t open foo.txt");
-# let buf = b"whatever"; // byte string literal. buf: &[u8; 8]
+# // let buf = b"whatever"; // byte string literal. buf: &[u8; 8]
 let buf = b"whatever"; // buf: &[u8; 8] はバイト文字列リテラルです。
 let result = f.write(buf);
 # // result.unwrap(); // ignore the error
@@ -400,7 +400,7 @@ fn main() {
 All you need to do is leave off the bounds when defining your type parameters,
 and then add `where` after the parameter list. For longer lists, whitespace can
 be added: -->
-`foo()` は先程見せたままの構文で、 `bar()` は `where` 節を用いています。あなたに必要なのは型パラメータを定義する際に境界の設定をせず、引数リストの後ろに `where` を追加することだけです。長いリストであれば、空白を加えることもできます。
+`foo()` は先程見せたままの構文で、 `bar()` は `where` 節を用いています。型パラメータを定義する際に境界の設定をせず、引数リストの後ろに `where` を追加するだけで良いのです。長いリストであれば、空白を加えることもできます。
 
 ```rust
 use std::fmt::Debug;
@@ -416,7 +416,7 @@ fn bar<T, K>(x: T, y: K)
 ```
 
 <!-- This flexibility can add clarity in complex situations. -->
-この柔軟性により複雑な状況であっても明瞭さを付加することができます。
+この柔軟性により複雑な状況であっても可読性を改善できます。
 
 <!-- `where` is also more powerful than the simpler syntax. For example: -->
 また、`where` は基本の構文よりも強力です。例えば、
