@@ -15,7 +15,7 @@
 <!-- * lifetimes, which you’re reading now -->
 * キーとなる概念、 [所有権][ownership]
 * [借用][borrowing] 、そしてそれらに関連する機能、「参照」
-* 今読んでいる、 ライフタイム
+* 今読んでいる、ライフタイム
 
 <!-- These three chapters are related, and in order. You’ll need all three to fully -->
 <!-- understand the ownership system. -->

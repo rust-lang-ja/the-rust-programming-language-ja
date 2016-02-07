@@ -28,7 +28,7 @@ let x = 5; // this is also a line comment.
 <!-- The other kind of comment is a doc comment. Doc comments use `///` instead of -->
 <!-- `//`, and support Markdown notation inside: -->
 その他の種類のコメントはドキュメンテーションコメントです。
-ドキュメンテーションコメントは`//`の代わりに`///`を使い、その中でMarkdown記法をサポートします。
+ドキュメンテーションコメントは `//` の代わりに `///` を使い、その中でMarkdown記法をサポートします。
 
 ```rust
 # /// Adds one to the number given.
@@ -52,7 +52,7 @@ fn add_one(x: i32) -> i32 {
 <!-- There is another style of doc comment, `//!`, to comment containing items (e.g. -->
 <!-- crates, modules or functions), instead of the items following it. Commonly used -->
 <!-- inside crates root (lib.rs) or modules root (mod.rs): -->
-もう1つのスタイルのドキュメンテーションコメントに`//!`があります。これは、その後に続く要素ではなく、それを含んでいる要素（例えばクレート、モジュール、関数）にコメントを付けます。
+もう1つのスタイルのドキュメンテーションコメントに `//!` があります。これは、その後に続く要素ではなく、それを含んでいる要素（例えばクレート、モジュール、関数）にコメントを付けます。
 一般的にはクレートルート（lib.rs）やモジュールルート（mod.rs）の中で使われます。
 
 ```
@@ -68,11 +68,11 @@ fn add_one(x: i32) -> i32 {
 <!-- in documentation. There’s another macro, `assert!`, which `panic!`s if the -->
 <!-- value passed to it is `false`. -->
 ドキュメンテーションコメントを書いているとき、いくつかの使い方の例を提供することは非常に非常に有用です。
-ここでは新しいマクロ、`assert_eq!`を使っていることに気付くでしょう。
-これは2つの値を比較し、もしそれらが互いに等しくなければ`panic!`します。
+ここでは新しいマクロ、 `assert_eq!` を使っていることに気付くでしょう。
+これは2つの値を比較し、もしそれらが互いに等しくなければ `panic!` します。
 これはドキュメントの中で非常に便利です。
-もう1つのマクロ、`assert!`は、それに渡された値が`false`であれば`panic!`します。
+もう1つのマクロ、 `assert!` は、それに渡された値が `false` であれば `panic!` します。
 
 <!-- You can use the [`rustdoc`](documentation.html) tool to generate HTML documentation -->
 <!-- from these doc comments, and also to run the code examples as tests! -->
-それらのドキュメンテーションコメントからHTMLドキュメントを生成するため、そしてコード例をテストとして実行するためにも[`rustdoc`](documentation.html)ツールを使うことができます!
+それらのドキュメンテーションコメントからHTMLドキュメントを生成するため、そしてコード例をテストとして実行するためにも [`rustdoc`](documentation.html) ツールを使うことができます!

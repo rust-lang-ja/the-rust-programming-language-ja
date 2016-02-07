@@ -14,9 +14,9 @@
 <!-- * [ownership][ownership], the key concept -->
 <!-- * borrowing, which you’re reading now -->
 <!-- * [lifetimes][lifetimes], an advanced concept of borrowing -->
-* キーとなる概念、[所有権][ownership]
+* キーとなる概念、 [所有権][ownership]
 * 今読んでいる、借用
-* 借用のもう一歩進んだ概念、[ライフタイム][lifetimes]
+* 借用のもう一歩進んだ概念、 [ライフタイム][lifetimes]
 
 <!-- These three chapters are related, and in order. You’ll need all three to fully -->
 <!-- understand the ownership system. -->
@@ -66,7 +66,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- At the end of the [ownership][ownership] section, we had a nasty function that looked -->
 <!-- like this: -->
-[所有権][ownership]セクションの最後に、このような感じの厄介な関数に出会いました。
+[所有権][ownership] セクションの最後に、このような感じの厄介な関数に出会いました。
 
 ```rust
 fn foo(v1: Vec<i32>, v2: Vec<i32>) -> (Vec<i32>, Vec<i32>, i32) {
@@ -114,16 +114,16 @@ let answer = foo(&v1, &v2);
 <!-- it borrows ownership. A binding that borrows something does not deallocate the -->
 <!-- resource when it goes out of scope. This means that after the call to `foo()`, -->
 <!-- we can use our original bindings again. -->
-引数として`Vec<i32>`を使う代わりに、参照、つまり`&Vec<i32>`を使います。
-そして、`v1`と`v2`を直接渡す代わりに、`&v1`と`&v2`を渡します。
-`&T`型は「参照」と呼ばれ、それは、リソースを所有するのではなく、所有権を借用します。
+引数として `Vec<i32>` を使う代わりに、参照、つまり `&Vec<i32>` を使います。
+そして、 `v1` と `v2` を直接渡す代わりに、 `&v1` と `&v2` を渡します。
+`&T` 型は「参照」と呼ばれ、それは、リソースを所有するのではなく、所有権を借用します。
 何かを借用した束縛はそれがスコープから外れるときにリソースを割当解除しません。
-これは`foo()`の呼出しの後に元の束縛を再び使うことができることを意味します。
+これは `foo()` の呼出しの後に元の束縛を再び使うことができることを意味します。
 
 <!-- References are immutable, just like bindings. This means that inside of `foo()`, -->
 <!-- the vectors can’t be changed at all: -->
 参照は束縛とちょうど同じようにイミュータブルです。
-これは`foo()`の中ではベクタは全く変更できないことを意味します。
+これは `foo()` の中ではベクタは全く変更できないことを意味します。
 
 ```rust,ignore
 fn foo(v: &Vec<i32>) {
@@ -152,7 +152,7 @@ v.push(5);
 
 <!-- There’s a second kind of reference: `&mut T`. A ‘mutable reference’ allows you -->
 <!-- to mutate the resource you’re borrowing. For example: -->
-参照には2つ目の種類、`&mut T`があります。
+参照には2つ目の種類、 `&mut T` があります。
 「ミュータブルな参照」によって借用しているリソースを変更することができるようになります。
 例は次のとおりです。
 
@@ -168,24 +168,24 @@ println!("{}", x);
 <!-- This will print `6`. We make `y` a mutable reference to `x`, then add one to -->
 <!-- the thing `y` points at. You’ll notice that `x` had to be marked `mut` as well. -->
 <!-- If it wasn’t, we couldn’t take a mutable borrow to an immutable value. -->
-これは`6`をプリントするでしょう。
-`y`を`x`へのミュータブルな参照にして、それから`y`の指示先に1を足します。
-`x`も`mut`とマークしなければならないことに気付くでしょう。
+これは `6` をプリントするでしょう。
+`y` を `x` へのミュータブルな参照にして、それから `y` の指示先に1を足します。
+`x` も `mut` とマークしなければならないことに気付くでしょう。
 そうしないと、イミュータブルな値へのミュータブルな借用ということになってしまい、使うことができなくなってしまいます。
 
 <!-- You'll also notice we added an asterisk (`*`) in front of `y`, making it `*y`, -->
 <!-- this is because `y` is an `&mut` reference. You'll also need to use them for -->
 <!-- accessing the contents of a reference as well. -->
-アスタリスク（`*`）を`y`の前に追加して、それを`*y`にしたことにも気付くでしょう。これは、`y`が`&mut`参照だからです。
+アスタリスク（ `*` ）を `y` の前に追加して、それを `*y` にしたことにも気付くでしょう。これは、 `y` が `&mut` 参照だからです。
 参照の内容にアクセスするためにもそれらを使う必要があるでしょう。
 
 <!-- Otherwise, `&mut` references are just like references. There _is_ a large -->
 <!-- difference between the two, and how they interact, though. You can tell -->
 <!-- something is fishy in the above example, because we need that extra scope, with -->
 <!-- the `{` and `}`. If we remove them, we get an error: -->
-それ以外は、`&mut`参照は普通の参照と全く同じです。
+それ以外は、 `&mut` 参照は普通の参照と全く同じです。
 しかし、2つの間には、そしてそれらがどのように相互作用するかには大きな違いが _あります_ 。
-前の例で何かが怪しいと思ったかもしれません。なぜなら、`{`と`}`を使って追加のスコープを必要とするからです。
+前の例で何かが怪しいと思ったかもしれません。なぜなら、 `{` と `}` を使って追加のスコープを必要とするからです。
 もしそれらを削除すれば、次のようなエラーが出ます。
 
 ```text
@@ -220,8 +220,8 @@ fn main() {
 
 <!-- * one or more references (`&T`) to a resource, -->
 <!-- * exactly one mutable reference (`&mut T`). -->
-* リソースに対する1つ以上の参照（`&T`）
-* ただ1つのミュータブルな参照（`&mut T`）
+* リソースに対する1つ以上の参照（ `&T` ）
+* ただ1つのミュータブルな参照（ `&mut T` ）
 
 <!-- You may notice that this is very similar, though not exactly the same as, -->
 <!-- to the definition of a data race: -->
@@ -237,7 +237,7 @@ fn main() {
 <!-- have a data race. This is how Rust prevents data races at compile time: we’ll -->
 <!-- get errors if we break the rules. -->
 書込みを行わないのであれば、参照は好きな数だけ使うことができます。
-`&mut`は同時に1つしか持つことができないので、データ競合は起き得ません。
+`&mut` は同時に1つしか持つことができないので、データ競合は起き得ません。
 これがRustがデータ競合をコンパイル時に回避する方法です。もしルールを破れば、そのときはエラーが出るでしょう。
 
 <!-- With this in mind, let’s consider our example again. -->
@@ -270,7 +270,7 @@ error: cannot borrow `x` as immutable because it is also borrowed as mutable
 <!-- This is because we’ve violated the rules: we have a `&mut T` pointing to `x`, -->
 <!-- and so we aren’t allowed to create any `&T`s. One or the other. The note -->
 <!-- hints at how to think about this problem: -->
-なぜなら、これはルールに違反しているからです。つまり、`x`を指示する`&mut T`を持つので、`&T`を作ることは許されないのです。
+なぜなら、これはルールに違反しているからです。つまり、 `x` を指示する `&mut T` を持つので、 `&T` を作ることは許されないのです。
 どちらか1つです。
 メモはこの問題についての考え方のヒントを示します。
 
@@ -287,7 +287,7 @@ fn main() {
 <!-- make an immutable borrow. In Rust, borrowing is tied to the scope that the -->
 <!-- borrow is valid for. And our scopes look like this: -->
 言い換えると、ミュータブルな借用は先程の例の残りの間ずっと保持されるということです。
-必要なものは、`println!`を呼び出し、イミュータブルな借用を作ろうとする _前に_ 終わるミュータブルな借用です。
+必要なものは、 `println!` を呼び出し、イミュータブルな借用を作ろうとする _前に_ 終わるミュータブルな借用です。
 Rustでは借用はその有効なスコープと結び付けられます。
 そしてスコープはこのように見えます。
 
@@ -309,7 +309,7 @@ println!("{}", x); // -+ - ここでxを借用しようとする
 ```
 
 <!-- The scopes conflict: we can’t make an `&x` while `y` is in scope. -->
-スコープは衝突します。`y`がスコープにある間は、`&x`を作ることができません。
+スコープは衝突します。 `y` がスコープにある間は、 `&x` を作ることができません。
 
 <!-- So when we add the curly braces: -->
 そして、波括弧を追加するときはこうなります。
@@ -367,7 +367,7 @@ for i in &v {
 <!-- which means we can’t change it while we’re iterating: -->
 これは1から3までをプリントアウトします。
 ベクタに対して繰り返すとき、要素への参照だけを受け取ります。
-そして、`v`はそれ自体イミュータブルとして借用され、それは繰返しを行っている間はそれを変更できないことを意味します。
+そして、 `v` はそれ自体イミュータブルとして借用され、それは繰返しを行っている間はそれを変更できないことを意味します。
 
 ```rust,ignore
 let mut v = vec![1, 2, 3];
@@ -398,7 +398,7 @@ for i in &v {
 ```
 
 <!-- We can’t modify `v` because it’s borrowed by the loop. -->
-`v`はループによって借用されるので、それを変更することはできません。
+`v` はループによって借用されるので、それを変更することはできません。
 
 <!-- ### use after free -->
 ### 解放後の使用
@@ -449,8 +449,8 @@ statement 0 at 4:18
 <!-- `x` goes away, it becomes invalid to refer to it. As such, the error says that -->
 <!-- the borrow ‘doesn’t live long enough’ because it’s not valid for the right -->
 <!-- amount of time. -->
-言い換えると、`y`は`x`が存在するスコープの中でだけ有効だということです。
-`x`がなくなるとすぐに、それを指示することは不正になります。
+言い換えると、 `y` は `x` が存在するスコープの中でだけ有効だということです。
+`x` がなくなるとすぐに、それを指示することは不正になります。
 そのように、エラーは借用が「十分長く生存していない」ことを示します。なぜなら、それが正しい期間有効ではないからです。
 
 <!-- The same problem occurs when the reference is declared _before_ the variable it -->
@@ -494,4 +494,4 @@ statement 1 at 3:14
 
 <!-- In the above example, `y` is declared before `x`, meaning that `y` lives longer -->
 <!-- than `x`, which is not allowed. -->
-前の例では、`y`は`x`より前に宣言されています。それは、`y`が`x`より長く生存することを意味し、それは許されません。
+前の例では、 `y` は `x` より前に宣言されています。それは、 `y` が `x` より長く生存することを意味し、それは許されません。
