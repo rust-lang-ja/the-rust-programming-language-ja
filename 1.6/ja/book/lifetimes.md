@@ -111,7 +111,7 @@ fn bar<'a>(x: &'a i32) {
 <!-- ["Lifetime Elision"][lifetime-elision] below) them in common cases. -->
 <!-- Before we get to that, though, let’s break the explicit example down: -->
 `'a`は「ライフタイムa」と読みます。
-技術的には参照は全てそれに関連するライフタイムを持ちますが、一般的な場合にはコンパイラがそれらを削除してもよいように計らってくれます（つまり、省略できるということです。[「ライフタイムの省略」][lifetime-elision]以下を見ましょう）。
+技術的には参照は全てそれに関連するライフタイムを持ちますが、一般的な場合にはコンパイラがそれらを省略してもよいように計らってくれます（つまり、「省略」できるということです。[「ライフタイムの省略」][lifetime-elision]以下を見ましょう）。
 しかし、それに入る前に、明示の例を分解しましょう。
 
 [lifetime-elision]: #lifetime-elision
@@ -399,10 +399,10 @@ let x: &'static i32 = &FOO;
 <!-- this with only three easily memorizable and unambiguous rules. This makes -->
 <!-- lifetime elision a shorthand for writing an item signature, while not hiding -->
 <!-- away the actual types involved as full local inference would if applied to it. -->
-Rustは関数本文での強力なローカルの型推論をサポートします。しかし、要素のシグネチャでは要素のシグネチャだけに基づく型についての推論が許されていません。
+Rustは関数本文での強力なローカルの型推論をサポートします。しかし、要素のシグネチャでは要素のシグネチャだけに基づいて型が分かるように、型についての推論が許されていません。
 しかし、人間工学的な推論のために、非常に制限された「ライフタイムの省略」と呼ばれる2番目の推論アルゴリズムが関数のシグネチャでは適用されます。
 それはシグネチャのコンポーネントだけに基づき、関数本文には基づかずに、ライフタイムパラメータだけを推論します。そしてそのアルゴリズムはこれをたった3つの覚えやすく明確なルールに従って行います。
-これはライフタイムの省略を要素のシグネチャを書くための省略表現にします。なぜなら、完全なローカルの推論のように関連する実際の型を隠すことができればいいのですが、それを適用することはできないからです。
+これはライフタイムの省略を要素のシグネチャを書くための省略表現にします。しかし、完全なローカルの推論が適用されたときに得られるであろう全ての型を隠すことはできません。
 
 <!-- When talking about lifetime elision, we use the term *input lifetime* and -->
 <!-- *output lifetime*. An *input lifetime* is a lifetime associated with a parameter -->
