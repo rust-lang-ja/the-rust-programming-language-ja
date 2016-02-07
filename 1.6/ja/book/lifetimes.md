@@ -13,9 +13,9 @@
 <!-- * [ownership][ownership], the key concept -->
 <!-- * [borrowing][borrowing], and their associated feature ‘references’ -->
 <!-- * lifetimes, which you’re reading now -->
-* キーとなる概念、[所有権][ownership]
-* [借用][borrowing]、そしてそれらに関連する機能、「参照」
-* 今読んでいる、[ライフタイム][lifetimes]
+* キーとなる概念、 [所有権][ownership]
+* [借用][borrowing] 、そしてそれらに関連する機能、「参照」
+* 今読んでいる、 [ライフタイム][lifetimes]
 
 <!-- These three chapters are related, and in order. You’ll need all three to fully -->
 <!-- understand the ownership system. -->
@@ -111,7 +111,7 @@ fn bar<'a>(x: &'a i32) {
 <!-- ["Lifetime Elision"][lifetime-elision] below) them in common cases. -->
 <!-- Before we get to that, though, let’s break the explicit example down: -->
 `'a`は「ライフタイムa」と読みます。
-技術的には参照は全てそれに関連するライフタイムを持ちますが、一般的な場合にはコンパイラがそれらを省略してもよいように計らってくれます（つまり、「省略」できるということです。[「ライフタイムの省略」][lifetime-elision]以下を見ましょう）。
+技術的には参照は全てそれに関連するライフタイムを持ちますが、一般的な場合にはコンパイラがそれらを省略してもよいように計らってくれます（つまり、「省略」できるということです。 [「ライフタイムの省略」][lifetime-elision] 以下を見ましょう）。
 しかし、それに入る前に、明示の例を分解しましょう。
 
 [lifetime-elision]: #lifetime-elision
@@ -125,17 +125,17 @@ fn bar<'a>(...)
 <!-- parameters’ between the `<>`s, of which lifetimes are one kind. We’ll discuss -->
 <!-- other kinds of generics [later in the book][generics], but for now, let’s -->
 <!-- just focus on the lifetimes aspect. -->
-[関数の構文][functions]については前に少し話しました。しかし、関数名の後の`<>`については議論しませんでした。
-関数は`<>`の間に「ジェネリックパラメータ」を持つことができ、ライフタイムはその一種です。
-他の種類のジェネリクスについては[本書の後の方][generics]で議論しますが、とりあえず、ライフタイムの面だけに焦点を合わせましょう。
+[関数の構文][functions] については前に少し話しました。しかし、関数名の後の `<>` については議論しませんでした。
+関数は `<>` の間に「ジェネリックパラメータ」を持つことができ、ライフタイムはその一種です。
+他の種類のジェネリクスについては [本書の後の方][generics] で議論しますが、とりあえず、ライフタイムの面だけに焦点を合わせましょう。
 
 [functions]: functions.html
 [generics]: generics.html
 
 <!-- We use `<>` to declare our lifetimes. This says that `bar` has one lifetime, -->
 <!-- `'a`. If we had two reference parameters, it would look like this: -->
-`<>`はライフタイムを宣言するために使われます。
-これは`bar`が1つのライフタイム`'a`を持つことを意味します。
+`<>` はライフタイムを宣言するために使われます。
+これは `bar` が1つのライフタイム `'a` を持つことを意味します。
 もし2つの参照引数があれば、それは次のような感じになるでしょう。
 
 ```rust,ignore
@@ -150,7 +150,7 @@ fn bar<'a, 'b>(...)
 ```
 
 <!-- If we wanted an `&mut` reference, we’d do this: -->
-もし`&mut`参照が欲しいのならば、次のようにします。
+もし `&mut` 参照が欲しいのならば、次のようにします。
 
 ```rust,ignore
 ...(x: &'a mut i32)
@@ -160,15 +160,15 @@ fn bar<'a, 'b>(...)
 <!-- the lifetime `'a` has snuck in between the `&` and the `mut i32`. We read `&mut -->
 <!-- i32` as ‘a mutable reference to an `i32`’ and `&'a mut i32` as ‘a mutable -->
 <!-- reference to an `i32` with the lifetime `'a`’. -->
-もし`&mut i32`を`&'a mut i32`と比較するならば、それらは同じです。それはライフタイム`'a`が`&`と`mut i32`の間にこっそり入っているだけです。
-`&mut i32`は「`i32`へのミュータブルな参照」のように読み、`&'a mut i32`は「ライフタイム`'a`を持つ`i32`へのミュータブルな参照」のように読みます。
+もし `&mut i32` を `&'a mut i32` と比較するならば、それらは同じです。それはライフタイム `'a` が `&` と `mut i32` の間にこっそり入っているだけです。
+`&mut i32` は「 `i32` へのミュータブルな参照」のように読み、 `&'a mut i32` は「ライフタイム `'a` を持つ `i32` へのミュータブルな参照」のように読みます。
 
 <!-- # In `struct`s -->
-# `struct`の中
+# `struct` の中
 
 <!-- You’ll also need explicit lifetimes when working with [`struct`][structs]s that -->
 <!-- contain references: -->
-参照を含む[`struct`][structs]を使うときにも、明示的なライフタイムを必要とするでしょう。
+参照を含む [`struct`][structs] を使うときにも、明示的なライフタイムを必要とするでしょう。
 
 ```rust
 struct Foo<'a> {
@@ -187,7 +187,7 @@ fn main() {
 [structs]: structs.html
 
 <!-- As you can see, `struct`s can also have lifetimes. In a similar way to functions, -->
-見てのとおり、`struct`もライフタイムを持つことができます。
+見てのとおり、 `struct` もライフタイムを持つことができます。
 これは関数と同じ方法です。
 
 ```rust
@@ -209,13 +209,13 @@ x: &'a i32,
 <!-- to a `Foo` cannot outlive the reference to an `i32` it contains. -->
 そしてそれを使います。
 それではなぜここでライフタイムを必要とするのでしょうか。
-`Foo`への全ての参照がそれの含む`i32`への参照より長い間有効にはならないことを保証する必要があるからです。
+`Foo` への全ての参照がそれの含む `i32` への参照より長い間有効にはならないことを保証する必要があるからです。
 
 <!-- ## `impl` blocks -->
-## `impl`ブロック
+## `impl` ブロック
 
 <!-- Let’s implement a method on `Foo`: -->
-`Foo`に次のようなメソッドを実装しましょう。
+`Foo` に次のようなメソッドを実装しましょう。
 
 ```rust
 struct Foo<'a> {
@@ -238,8 +238,8 @@ fn main() {
 <!-- As you can see, we need to declare a lifetime for `Foo` in the `impl` line. We repeat -->
 <!-- `'a` twice, just like on functions: `impl<'a>` defines a lifetime `'a`, and `Foo<'a>` -->
 <!-- uses it. -->
-見てのとおり、`Foo`のライフタイムは`impl`行で宣言する必要があります。
-ちょうど関数のときのように`'a`は2回繰り返されます。つまり、`impl<'a>`はライフタイム`'a`を定義し、`Foo<'a>`はそれを使うのです。
+見てのとおり、 `Foo` のライフタイムは `impl` 行で宣言する必要があります。
+ちょうど関数のときのように `'a` は2回繰り返されます。つまり、 `impl<'a>` はライフタイム `'a` を定義し、 `Foo<'a>` はそれを使うのです。
 
 <!-- ## Multiple lifetimes -->
 ## 複数のライフタイム
@@ -256,8 +256,8 @@ fn x_or_y<'a>(x: &'a str, y: &'a str) -> &'a str {
 <!-- This says that `x` and `y` both are alive for the same scope, and that the -->
 <!-- return value is also alive for that scope. If you wanted `x` and `y` to have -->
 <!-- different lifetimes, you can use multiple lifetime parameters: -->
-これは`x`と`y`が両方とも同じスコープで有効であり、戻り値もそのスコープで有効であることを示します。
-もし`x`と`y`に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使うことができます。
+これは `x` と `y` が両方とも同じスコープで有効であり、戻り値もそのスコープで有効であることを示します。
+もし `x` と `y` に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使うことができます。
 
 ```rust
 fn x_or_y<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
@@ -267,7 +267,7 @@ fn x_or_y<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
 
 <!-- In this example, `x` and `y` have different valid scopes, but the return value -->
 <!-- has the same lifetime as `x`. -->
-この例では`x`と`y`が異なる有効なスコープを持ちますが、戻り値は`x`と同じライフタイムを持ちます。
+この例では `x` と `y` が異なる有効なスコープを持ちますが、戻り値は `x` と同じライフタイムを持ちます。
 
 <!-- ## Thinking in scopes -->
 ## スコープの考え方
@@ -292,7 +292,7 @@ fn main() {
 ```
 
 <!-- Adding in our `Foo`: -->
-`Foo`を追加するとこうなります。
+`Foo` を追加するとこうなります。
 
 ```rust
 struct Foo<'a> {
@@ -314,7 +314,7 @@ fn main() {
 
 <!-- Our `f` lives within the scope of `y`, so everything works. What if it didn’t? -->
 <!-- This code won’t work: -->
-`f`は`y`のスコープの中で有効なので、全て動きます。
+`f` は `y` のスコープの中で有効なので、全て動きます。
 もしそれがそうではなかったらどうでしょうか。
 このコードは動かないでしょう。
 
@@ -350,8 +350,8 @@ fn main() {
 <!-- of `x`. But when we do `x = &f.x`, we make `x` a reference to something that’s -->
 <!-- about to go out of scope. -->
 ふう!
-見てのとおり、ここでは`f`と`y`のスコープは`x`のスコープよりも小さいです。
-しかし`x = &f.x`を実行するとき、`x`をまさにスコープから外れた何かの参照にしてしまいます。
+見てのとおり、ここでは `f` と `y` のスコープは `x` のスコープよりも小さいです。
+しかし `x = &f.x` を実行するとき、 `x` をまさにスコープから外れた何かの参照にしてしまいます。
 
 <!-- Named lifetimes are a way of giving these scopes a name. Giving something a -->
 <!-- name is the first step towards being able to talk about it. -->
@@ -366,7 +366,7 @@ fn main() {
 <!-- `'static` when dealing with strings: -->
 「static」と名付けられたライフタイムは特別なライフタイムです。
 それは何かがプログラム全体に渡るライフタイムを持つことを示します。
-ほとんどのRustのプログラマが最初に`'static`に出会うのは、文字列を扱うときです。
+ほとんどのRustのプログラマが最初に `'static` に出会うのは、文字列を扱うときです。
 
 ```rust
 let x: &'static str = "Hello, world.";
@@ -375,7 +375,7 @@ let x: &'static str = "Hello, world.";
 <!-- String literals have the type `&'static str` because the reference is always -->
 <!-- alive: they are baked into the data segment of the final binary. Another -->
 <!-- example are globals: -->
-文字列リテラルは`&'static str`型を持ちます。なぜなら、参照が常に有効だからです。それらは最終的なバイナリのデータセグメントに焼き付けられます。
+文字列リテラルは `&'static str` 型を持ちます。なぜなら、参照が常に有効だからです。それらは最終的なバイナリのデータセグメントに焼き付けられます。
 もう1つの例はグローバルです。
 
 ```rust
@@ -385,7 +385,7 @@ let x: &'static i32 = &FOO;
 
 <!-- This adds an `i32` to the data segment of the binary, and `x` is a reference -->
 <!-- to it. -->
-これはバイナリのデータセグメントに`i32`を追加します。そして、`x`はそれへの参照です。
+これはバイナリのデータセグメントに `i32` を追加します。そして、 `x` はそれへの参照です。
 
 <!-- ## Lifetime Elision -->
 ## ライフタイムの省略
@@ -443,7 +443,7 @@ fn foo<'a>(bar: &'a str) -> &'a str
 
 <!-- * If there are multiple input lifetimes, but one of them is `&self` or `&mut -->
 <!--   self`, the lifetime of `self` is assigned to all elided output lifetimes. -->
-* もし入力ライフタイムが複数あるが、その1つが`&self`又は`&mut self`であれば、`self`のライフタイムは省略された出力ライフタイム全てに割り当てられる
+* もし入力ライフタイムが複数あるが、その1つが `&self` 又は `&mut self` であれば、 `self` のライフタイムは省略された出力ライフタイム全てに割り当てられる
 
 <!-- Otherwise, it is an error to elide an output lifetime. -->
 そうでないときは、出力ライフタイムの省略はエラーです。
