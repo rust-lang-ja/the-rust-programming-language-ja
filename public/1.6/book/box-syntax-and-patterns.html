@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Box Syntax and Patterns</title>
+    <title>Box構文とパターン</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,11 +185,18 @@
 <div id='page'>
 
 
-    <h1 class="title">Box Syntax and Patterns</h1>
-    <p>Currently the only stable way to create a <code>Box</code> is via the <code>Box::new</code> method.
-Also it is not possible in stable Rust to destructure a <code>Box</code> in a match
-pattern. The unstable <code>box</code> keyword can be used to both create and destructure
-a <code>Box</code>. An example usage would be:</p>
+    <h1 class="title">Box構文とパターン</h1>
+    <!-- %  Box Syntax and Patterns -->
+
+<!-- Currently the only stable way to create a `Box` is via the `Box::new` method. -->
+
+<!-- Also it is not possible in stable Rust to destructure a `Box` in a match -->
+
+<!-- pattern. The unstable `box` keyword can be used to both create and destructure -->
+
+<!-- a `Box`. An example usage would be: -->
+
+<p>今のところ、安定版において <code>Box</code> を作成する唯一の方法は <code>Box::new</code> メソッドです。安定版のRustではパターンマッチで <code>Box</code> を分解することもできません。不安定版の <code>box</code> キーワードは <code>Box</code> の作成と分解の両方に使えます。使い方は以下の通りです。</p>
 <span class='rusttest'>#![feature(box_syntax, box_patterns)]
 
 fn main() {
@@ -226,13 +233,22 @@ fn main() {
     }
 }</pre>
 
-<p>Note that these features are currently hidden behind the <code>box_syntax</code> (box
-creation) and <code>box_patterns</code> (destructuring and pattern matching) gates
-because the syntax may still change in the future.</p>
+<!-- Note that these features are currently hidden behind the `box_syntax` (box -->
 
-<h1 id='returning-pointers' class='section-header'><a href='#returning-pointers'>Returning Pointers</a></h1>
-<p>In many languages with pointers, you&#39;d return a pointer from a function
-so as to avoid copying a large data structure. For example:</p>
+<!-- creation) and `box_patterns` (destructuring and pattern matching) gates -->
+
+<!-- because the syntax may still change in the future. -->
+
+<p>注記: 将来的にこの構文は変わる可能性があるため、現時点でこれらのフィーチャは <code>box_syntax</code> (boxの作成)、 <code>box_patterns</code> (分解とパターンマッチ)を明示しなければ使えません。</p>
+
+<!-- # Returning Pointers -->
+
+<h1 id='ポインタ返し' class='section-header'><a href='#ポインタ返し'>ポインタ返し</a></h1>
+<!-- In many languages with pointers, you'd return a pointer from a function -->
+
+<!-- so as to avoid copying a large data structure. For example: -->
+
+<p>ポインタを持つ多くのプログラミング言語では、巨大なデータ構造のコピーを避けるため、関数からポインタを返してきました。例えば以下のように書くことができます。</p>
 <span class='rusttest'>struct BigStruct {
     one: i32,
     two: i32,
@@ -275,10 +291,15 @@ fn main() {
     <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>foo</span>(<span class='ident'>x</span>);
 }</pre>
 
-<p>The idea is that by passing around a box, you&#39;re only copying a pointer, rather
-than the hundred <code>i32</code>s that make up the <code>BigStruct</code>.</p>
+<!-- The idea is that by passing around a box, you're only copying a pointer, rather -->
 
-<p>This is an antipattern in Rust. Instead, write this:</p>
+<!-- than the hundred `i32`s that make up the `BigStruct`. -->
+
+<p>考え方としては、boxで渡すことで <code>BigStruct</code> を構成する100個の <code>i32</code> の代わりにポインタのみのコピーで済む、というものです。</p>
+
+<!-- This is an antipattern in Rust. Instead, write this: -->
+
+<p>これはRustではアンチパターンです。代わりに以下のように書きます。</p>
 <span class='rusttest'>#![feature(box_syntax)]
 
 struct BigStruct {
@@ -325,17 +346,29 @@ fn main() {
     <span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>BigStruct</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='kw'>box</span> <span class='ident'>foo</span>(<span class='ident'>x</span>);
 }</pre>
 
-<p>This gives you flexibility without sacrificing performance.</p>
+<!-- This gives you flexibility without sacrificing performance. -->
 
-<p>You may think that this gives us terrible performance: return a value and then
-immediately box it up ?! Isn&#39;t this pattern the worst of both worlds? Rust is
-smarter than that. There is no copy in this code. <code>main</code> allocates enough room
-for the <code>box</code>, passes a pointer to that memory into <code>foo</code> as <code>x</code>, and then
-<code>foo</code> writes the value straight into the <code>Box&lt;T&gt;</code>.</p>
+<p>このように書くことでパフォーマンスを犠牲にすることなく、柔軟性を確保することができます。</p>
 
-<p>This is important enough that it bears repeating: pointers are not for
-optimizing returning values from your code. Allow the caller to choose how they
-want to use your output.</p>
+<!-- You may think that this gives us terrible performance: return a value and then -->
+
+<!-- immediately box it up ?! Isn't this pattern the worst of both worlds? Rust is -->
+
+<!-- smarter than that. There is no copy in this code. `main` allocates enough room -->
+
+<!-- for the `box`, passes a pointer to that memory into `foo` as `x`, and then -->
+
+<!-- `foo` writes the value straight into the `Box<T>`. -->
+
+<p>このコードはひどいパフォーマンス低下をもたらすと感じるかもしれません。値を返して即座にboxに入れるなんて?! このパターンは悪いところどりになっているのでは? Rustはもう少し賢いため、このコードでコピーは発生しません。 <code>main</code> 内では <code>box</code> のために十分なメモリ領域を確保し、そのメモリへのポインタを <code>foo</code> へ <code>x</code> として渡します。 <code>foo</code> はその値を直接 <code>Box&lt;T&gt;</code> (訳注: すなわち <code>y</code> )の中に書き込みます。</p>
+
+<!-- This is important enough that it bears repeating: pointers are not for -->
+
+<!-- optimizing returning values from your code. Allow the caller to choose how they -->
+
+<!-- want to use your output. -->
+
+<p>重要なことなので繰り返しますが、ポインタを戻り値の最適化のために使うべきではありません。呼び出し側が戻り値をどのように使うかを選択できるようにしましょう。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
