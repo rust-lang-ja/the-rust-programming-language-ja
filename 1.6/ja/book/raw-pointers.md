@@ -93,9 +93,9 @@ println!("raw points at {}", points_at);
 
 # FFI
 
-Raw pointers are useful for FFI: Rust’s `*const T` and `*mut T` are similar to
+<!-- Raw pointers are useful for FFI: Rust’s `*const T` and `*mut T` are similar to
 C’s `const T*` and `T*`, respectively. For more about this use, consult the
-[FFI chapter][ffi].
+[FFI chapter][ffi]. -->
 生ポインタはFFIを使う際に役立ちます。Rustの `*const T` と `*mut T` はそれぞれC言語の `const T*` と `T*` に似ているからです。これの使い方に関する詳細は、 [FFIの章][ffi] を参照してください。
 
 [ffi]: ffi.html
@@ -117,7 +117,7 @@ satisfy the aliasing and mutability laws of references. The compiler assumes
 these properties are true for any references, no matter how they are created,
 and so any conversion from raw pointers is asserting that they hold. The
 programmer *must* guarantee this. -->
-逆に、 `*const` から 参照 `&` へ遡るのは安全ではありません。 `&T` は常に有効であるため、最低でも `*const T` は型 `T` の有効な実体を指さなければならないのです。その上、ポインタは参照のエイリアシングとミュータビリティの規則も満たす必要があります。コンパイラはあらゆる参照についてこれらのプロパティが真であると仮定しており、その生成方法によらず適用するため、生ポインタからのあらゆる変換もまた真であると断言します。プログラマがこのことを保証 _しなければならない_ のです。
+逆に、 `*const` から 参照 `&` へ遡るのは安全ではありません。 `&T` は常に有効であるため、最低でも `*const T` は型 `T` の有効な実体を指さなければならないのです。その上、ポインタは参照のエイリアシングとミュータビリティの規則も満たす必要があります。コンパイラはあらゆる参照についてこれらのプロパティが真であると仮定しており、その生成方法によらず適用するため、生ポインタからのあらゆる変換もまた真であると断言します。プログラマがこのことを保証 *しなければならない* のです。
 
 <!-- The recommended method for the conversion is: -->
 おすすめの変換の方法は以下のとおりです。
