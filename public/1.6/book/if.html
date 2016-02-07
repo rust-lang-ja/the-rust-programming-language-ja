@@ -186,73 +186,106 @@
 
 
     <h1 class="title">if</h1>
-    <p>Rust’s take on <code>if</code> is not particularly complex, but it’s much more like the
-<code>if</code> you’ll find in a dynamically typed language than in a more traditional
-systems language. So let’s talk about it, to make sure you grasp the nuances.</p>
+    <!-- % if -->
 
-<p><code>if</code> is a specific form of a more general concept, the ‘branch’. The name comes
-from a branch in a tree: a decision point, where depending on a choice,
-multiple paths can be taken.</p>
+<!-- Rust’s take on `if` is not particularly complex, but it’s much more like the -->
 
-<p>In the case of <code>if</code>, there is one choice that leads down two paths:</p>
+<!-- `if` you’ll find in a dynamically typed language than in a more traditional -->
+
+<!-- systems language. So let’s talk about it, to make sure you grasp the nuances. -->
+
+<p>Rustにおける <code>if</code> の扱いはさほど複雑ではありませんが、伝統的なシステムプログラミング言語のそれに比べて、
+動的型付け言語でみられる <code>if</code> にずっと近いものになっています。そのニュアンスをしっかり理解できるよう、
+さっそく説明していきましょう。</p>
+
+<!-- `if` is a specific form of a more general concept, the ‘branch’. The name comes -->
+
+<!-- from a branch in a tree: a decision point, where depending on a choice, -->
+
+<!-- multiple paths can be taken. -->
+
+<p><code>if</code> は一般化されたコンセプト、「分岐(branch)」の特別な形式です。この名前は木の枝(branch)を由来とし:
+取りうる複数のパスから、選択の決定を行うポイントを表します。</p>
+
+<!-- In the case of `if`, there is one choice that leads down two paths: -->
+
+<p><code>if</code> の場合は、続く2つのパスから1つを選択します。</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     
     if x == 5 {
-        println!(&quot;x is five!&quot;);
+    // println!(&quot;x is five!&quot;);
+        println!(&quot;x は 5 です!&quot;);
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
 <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>==</span> <span class='number'>5</span> {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is five!&quot;</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x は 5 です!&quot;</span>);
 }</pre>
 
-<p>If we changed the value of <code>x</code> to something else, this line would not print.
-More specifically, if the expression after the <code>if</code> evaluates to <code>true</code>, then
-the block is executed. If it’s <code>false</code>, then it is not.</p>
+<!-- If we changed the value of `x` to something else, this line would not print. -->
 
-<p>If you want something to happen in the <code>false</code> case, use an <code>else</code>:</p>
+<!-- More specifically, if the expression after the `if` evaluates to `true`, then -->
+
+<!-- the block is executed. If it’s `false`, then it is not. -->
+
+<p>仮に <code>x</code> を別の値へと変更すると、この行は表示されません。より正確に言うなら、
+<code>if</code> のあとにくる式が <code>true</code> に評価された場合に、ブロックが実行されます。
+<code>false</code> の場合、ブロックは実行されません。</p>
+
+<!-- If you want something to happen in the `false` case, use an `else`: -->
+
+<p><code>false</code> の場合にも何かをしたいなら、 <code>else</code> を使います:</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     
     if x == 5 {
-        println!(&quot;x is five!&quot;);
+    // println!(&quot;x is five!&quot;);
+        println!(&quot;x は 5 です!&quot;);
     } else {
-        println!(&quot;x is not five :(&quot;);
+    // println!(&quot;x is not five :(&quot;);
+        println!(&quot;x は 5 ではありません :(&quot;);
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
 <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>==</span> <span class='number'>5</span> {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is five!&quot;</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x は 5 です!&quot;</span>);
 } <span class='kw'>else</span> {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is not five :(&quot;</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x は 5 ではありません :(&quot;</span>);
 }</pre>
 
-<p>If there is more than one case, use an <code>else if</code>:</p>
+<!-- If there is more than one case, use an `else if`: -->
+
+<p>場合分けが複数あるときは、 <code>else if</code> を使います:</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     
     if x == 5 {
-        println!(&quot;x is five!&quot;);
+    // println!(&quot;x is five!&quot;);
+        println!(&quot;x は 5 です!&quot;);
     } else if x == 6 {
-        println!(&quot;x is six!&quot;);
+    // println!(&quot;x is six!&quot;);
+        println!(&quot;x は 6 です!&quot;);
     } else {
-        println!(&quot;x is not five or six :(&quot;);
+    // println!(&quot;x is not five or six :(&quot;);
+        println!(&quot;x は 5 でも 6 でもありません :(&quot;);
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
 <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>==</span> <span class='number'>5</span> {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is five!&quot;</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x は 5 です!&quot;</span>);
 } <span class='kw'>else</span> <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>==</span> <span class='number'>6</span> {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is six!&quot;</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x は 6 です!&quot;</span>);
 } <span class='kw'>else</span> {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is not five or six :(&quot;</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x は 5 でも 6 でもありません :(&quot;</span>);
 }</pre>
 
-<p>This is all pretty standard. However, you can also do this:</p>
+<!-- This is all pretty standard. However, you can also do this: -->
+
+<p>全くもって普通ですね。しかし、次のような使い方もできるのです:</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -270,7 +303,9 @@ the block is executed. If it’s <code>false</code>, then it is not.</p>
     <span class='number'>15</span>
 }; <span class='comment'>// y: i32</span></pre>
 
-<p>Which we can (and probably should) write like this:</p>
+<!-- Which we can (and probably should) write like this: -->
+
+<p>次のように書くこともできます（そして、大抵はこう書くべきです）:</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -280,9 +315,14 @@ the block is executed. If it’s <code>false</code>, then it is not.</p>
 
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>==</span> <span class='number'>5</span> { <span class='number'>10</span> } <span class='kw'>else</span> { <span class='number'>15</span> }; <span class='comment'>// y: i32</span></pre>
 
-<p>This works because <code>if</code> is an expression. The value of the expression is the
-value of the last expression in whichever branch was chosen. An <code>if</code> without an
-<code>else</code> always results in <code>()</code> as the value.</p>
+<!-- This works because `if` is an expression. The value of the expression is the -->
+
+<!-- value of the last expression in whichever branch was chosen. An `if` without an -->
+
+<!-- `else` always results in `()` as the value. -->
+
+<p>これが出来るのは <code>if</code> が式であるためです。その式の値は、選択された分岐中の最後の式の値となります。
+<code>else</code> のない <code>if</code> では、その値は常に <code>()</code> となります。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
