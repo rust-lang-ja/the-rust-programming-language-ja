@@ -51,11 +51,13 @@
 | identifier                     | 識別子
 | immutable                      | イミュータブル
 | initialize                     | 初期化する
+| input lifetime                 | 入力ライフタイム
 | interpolate                    | インターポーレートする
 | interpolation                  | インターポーレーション
 | keyword                        | キーワード
 | Intrinsics                     | Intrinsic
 | Lang Items                     | Lang Item
+| lending                        | 貸付け
 | library                        | ライブラリ
 | lifetime                       | ライフタイム
 | lifetime elision               | ライフタイムの省略
@@ -69,6 +71,7 @@
 | mutable                        | ミュータブル
 | mutability                     | ミュータビリティ
 | mutable binding                | ミュータブルな束縛
+| output lifetime                | 出力ライフタイム
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
