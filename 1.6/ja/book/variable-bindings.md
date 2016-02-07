@@ -242,7 +242,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 [format]: ../std/fmt/index.html
 
 <!-- # Scope and shadowing -->
-# スコープとシャドイング
+# スコープとシャドーイング
 
 <!-- Let’s get back to bindings. Variable bindings have a scope - they are -->
 <!-- constrained to live in a block they were defined in. A block is a collection -->
@@ -298,7 +298,7 @@ To learn more, run the command again with --verbose.
 <!-- Additionally, variable bindings can be shadowed. This means that a later -->
 <!-- variable binding with the same name as another binding, that's currently in -->
 <!-- scope, will override the previous binding. -->
-さらに加えて、変数束縛は覆い隠すことが出来ます(訳注: このことをシャドイングと言います)。
+さらに加えて、変数束縛は覆い隠すことが出来ます(訳注: このことをシャドーイングと言います)。
 つまり後に出てくる同じ名前の変数束縛があるとそれがスコープに入り、以前の束縛を上書きするのです。
 
 ```rust
@@ -321,8 +321,8 @@ println!("{}", x); // "42"を印字する
 <!-- they are two distinct concepts that can't always be used interchangeably. For -->
 <!-- one, shadowing enables us to rebind a name to a value of a different type. It -->
 <!-- is also possible to change the mutability of a binding. -->
-シャドイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用が出来ないケースがあります。
-その1つにシャドイングは同じ名前に違う型の値を再束縛することが出来ます。
+シャドーイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用が出来ないケースがあります。
+その1つにシャドーイングは同じ名前に違う型の値を再束縛することが出来ます。
 
 ```rust
 let mut x: i32 = 1;
