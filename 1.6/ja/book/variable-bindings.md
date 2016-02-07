@@ -77,7 +77,7 @@ let x: i32 = 5;
 <!-- bits. -->
 この場合 `x` を32bit符号付き整数として表現することを選びました。
 Rustには多くのプリミティブな整数型があります。プリミティブな整数型は符号付き型は `i` 、符号無し型は `u` から始まります。
-整数型として可能なサイズは8、16、32、64です。
+整数型として可能なサイズは8、16、32、64ビットです。
 
 <!-- In future examples, we may annotate the type in a comment. The examples will -->
 <!-- look like this: -->
@@ -171,7 +171,7 @@ fn main() {
 <!-- You can use `cargo build` on the command line to build it. You’ll get a -->
 <!-- warning, but it will still print "Hello, world!": -->
 コマンドラインで `cargo build` を使ってビルド出来ます。
-ウォーニングが出ますが、それでもまだ「Hello, world!」は印字されます。
+警告が出ますが、それでもまだ「Hello, world!」は印字されます。
 
 ```text
    Compiling hello_world v0.0.1 (file:///home/you/projects/hello_world)
