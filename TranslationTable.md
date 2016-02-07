@@ -31,6 +31,7 @@
 | compiler                       | コンパイラ
 | constant                       | 定数
 | crate                          | クレート
+| dangling                       | ダングリング
 | declaration statement          | 宣言文
 | dereferencing                  | 参照外し
 | destructuring                  | 分配
@@ -44,18 +45,23 @@
 | enum                           | 列挙型
 | expression statement           | 式文
 | feature                        | フィーチャ
+| generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | growable                       | 伸張可能
 | identifier                     | 識別子
 | immutable                      | イミュータブル
 | initialize                     | 初期化する
+| input lifetime                 | 入力ライフタイム
 | interpolate                    | インターポーレートする
 | interpolation                  | インターポーレーション
 | keyword                        | キーワード
 | Intrinsics                     | Intrinsic
 | Lang Items                     | Lang Item
+| lending                        | 貸付け
 | library                        | ライブラリ
 | lifetime                       | ライフタイム
+| lifetime elision               | ライフタイムの省略
+| lifetime parameter             | ライフタイムパラメータ
 | link                           | リンク
 | lint                           | リント
 | match                          | マッチ
@@ -65,6 +71,7 @@
 | mutable                        | ミュータブル
 | mutability                     | ミュータビリティ
 | mutable binding                | ミュータブルな束縛
+| output lifetime                | 出力ライフタイム
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
