@@ -176,7 +176,7 @@ struct Foo<'a> {
 }
 
 fn main() {
-#   let y = &5; // this is the same as `let _y = 5; let y = &_y;`
+# //    let y = &5; // this is the same as `let _y = 5; let y = &_y;`
     let y = &5; // これは`let _y = 5; let y = &_y;`と同じ
     let f = Foo { x: y };
 
@@ -227,7 +227,7 @@ impl<'a> Foo<'a> {
 }
 
 fn main() {
-#   let y = &5; // this is the same as `let _y = 5; let y = &_y;`
+# //    let y = &5; // this is the same as `let _y = 5; let y = &_y;`
     let y = &5; // これは`let _y = 5; let y = &_y;`と同じ
     let f = Foo { x: y };
 
@@ -279,11 +279,11 @@ fn x_or_y<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
 
 ```rust
 fn main() {
-#     let y = &5;     // -+ y goes into scope
-#                     //  |
-#     // stuff        //  |
-#                     //  |
-# }                   // -+ y goes out of scope
+# //     let y = &5;     // -+ y goes into scope
+# //                     //  |
+# //     // stuff        //  |
+# //                     //  |
+# // }                   // -+ y goes out of scope
     let y = &5;     // -+ yがスコープに入る
                     //  |
     // stuff        //  |
@@ -300,11 +300,11 @@ struct Foo<'a> {
 }
 
 fn main() {
-#     let y = &5;           // -+ y goes into scope
-#     let f = Foo { x: y }; // -+ f goes into scope
-#     // stuff              //  |
-#                           //  |
-# }                         // -+ f and y go out of scope
+# //     let y = &5;           // -+ y goes into scope
+# //     let f = Foo { x: y }; // -+ f goes into scope
+# //     // stuff              //  |
+# //                           //  |
+# // }                         // -+ f and y go out of scope
     let y = &5;           // -+ yがスコープに入る
     let f = Foo { x: y }; // -+ fがスコープに入る
     // stuff              //  |
@@ -324,16 +324,16 @@ struct Foo<'a> {
 }
 
 fn main() {
-#     let x;                    // -+ x goes into scope
-#                               //  |
-#     {                         //  |
-#         let y = &5;           // ---+ y goes into scope
-#         let f = Foo { x: y }; // ---+ f goes into scope
-#         x = &f.x;             //  | | error here
-#     }                         // ---+ f and y go out of scope
-#                               //  |
-#     println!("{}", x);        //  |
-# }                             // -+ x goes out of scope
+# //     let x;                    // -+ x goes into scope
+# //                               //  |
+# //     {                         //  |
+# //         let y = &5;           // ---+ y goes into scope
+# //         let f = Foo { x: y }; // ---+ f goes into scope
+# //         x = &f.x;             //  | | error here
+# //     }                         // ---+ f and y go out of scope
+# //                               //  |
+# //     println!("{}", x);        //  |
+# // }                             // -+ x goes out of scope
     let x;                    // -+ xがスコープに入る
                               //  |
     {                         //  |
@@ -399,7 +399,7 @@ let x: &'static i32 = &FOO;
 <!-- this with only three easily memorizable and unambiguous rules. This makes -->
 <!-- lifetime elision a shorthand for writing an item signature, while not hiding -->
 <!-- away the actual types involved as full local inference would if applied to it. -->
-Rustは関数本文での強力なローカルの型推論をサポートします。しかし、要素のシグネチャでは要素のシグネチャだけに基づいて型が分かるように、型についての推論が許されていません。
+Rustは関数本文での強力なローカルの型推論をサポートします。しかし、要素のシグネチャでは要素のシグネチャだけで型が分かるように、型についての推論が許されていません。
 しかし、人間工学的な推論のために、非常に制限された「ライフタイムの省略」と呼ばれる2番目の推論アルゴリズムが関数のシグネチャでは適用されます。
 それはシグネチャのコンポーネントだけに基づき、関数本文には基づかずに、ライフタイムパラメータだけを推論します。そしてそのアルゴリズムはこれをたった3つの覚えやすく明確なルールに従って行います。
 これはライフタイムの省略を要素のシグネチャを書くための省略表現にします。しかし、完全なローカルの推論が適用されたときに得られるであろう全ての型を隠すことはできません。
@@ -457,13 +457,13 @@ fn foo<'a>(bar: &'a str) -> &'a str
 省略されたライフタイムの各例をその展開した形式と組み合わせています。
 
 ```rust,ignore
-# fn print(s: &str); // elided
-# fn print<'a>(s: &'a str); // expanded
+# // fn print(s: &str); // elided
+# // fn print<'a>(s: &'a str); // expanded
 fn print(s: &str); // 省略された形
 fn print<'a>(s: &'a str); // 展開した形
 
-# fn debug(lvl: u32, s: &str); // elided
-# fn debug<'a>(lvl: u32, s: &'a str); // expanded
+# // fn debug(lvl: u32, s: &str); // elided
+# // fn debug<'a>(lvl: u32, s: &'a str); // expanded
 fn debug(lvl: u32, s: &str); // 省略された形
 fn debug<'a>(lvl: u32, s: &'a str); // 展開された形
 
@@ -474,31 +474,31 @@ fn debug<'a>(lvl: u32, s: &'a str); // 展開された形
 // ではないからです。（参照を含む`struct`のような）参照に関係するものだけがライ
 // フタイムを必要とします。
 
-# fn substr(s: &str, until: u32) -> &str; // elided
-# fn substr<'a>(s: &'a str, until: u32) -> &'a str; // expanded
+# // fn substr(s: &str, until: u32) -> &str; // elided
+# // fn substr<'a>(s: &'a str, until: u32) -> &'a str; // expanded
 fn substr(s: &str, until: u32) -> &str; // 省略された形
 fn substr<'a>(s: &'a str, until: u32) -> &'a str; // 展開された形
 
-# fn get_str() -> &str; // ILLEGAL, no inputs
+# // fn get_str() -> &str; // ILLEGAL, no inputs
 fn get_str() -> &str; // 不正。入力がない
 
-# fn frob(s: &str, t: &str) -> &str; // ILLEGAL, two inputs
-# fn frob<'a, 'b>(s: &'a str, t: &'b str) -> &str; // Expanded: Output lifetime is ambiguous
+# // fn frob(s: &str, t: &str) -> &str; // ILLEGAL, two inputs
+# // fn frob<'a, 'b>(s: &'a str, t: &'b str) -> &str; // Expanded: Output lifetime is ambiguous
 fn frob(s: &str, t: &str) -> &str; // 不正。入力が2つある
 fn frob<'a, 'b>(s: &'a str, t: &'b str) -> &str; // 展開された形。出力ライフタイムが決まらない
 
-# fn get_mut(&mut self) -> &mut T; // elided
-# fn get_mut<'a>(&'a mut self) -> &'a mut T; // expanded
+# // fn get_mut(&mut self) -> &mut T; // elided
+# // fn get_mut<'a>(&'a mut self) -> &'a mut T; // expanded
 fn get_mut(&mut self) -> &mut T; // 省略された形
 fn get_mut<'a>(&'a mut self) -> &'a mut T; // 展開された形
 
-# fn args<T:ToCStr>(&mut self, args: &[T]) -> &mut Command; // elided
-# fn args<'a, 'b, T:ToCStr>(&'a mut self, args: &'b [T]) -> &'a mut Command; // expanded
+# // fn args<T:ToCStr>(&mut self, args: &[T]) -> &mut Command; // elided
+# // fn args<'a, 'b, T:ToCStr>(&'a mut self, args: &'b [T]) -> &'a mut Command; // expanded
 fn args<T:ToCStr>(&mut self, args: &[T]) -> &mut Command; // 省略された形
 fn args<'a, 'b, T:ToCStr>(&'a mut self, args: &'b [T]) -> &'a mut Command; // 展開された形
 
-# fn new(buf: &mut [u8]) -> BufWriter; // elided
-# fn new<'a>(buf: &'a mut [u8]) -> BufWriter<'a>; // expanded
+# // fn new(buf: &mut [u8]) -> BufWriter; // elided
+# // fn new<'a>(buf: &'a mut [u8]) -> BufWriter<'a>; // expanded
 fn new(buf: &mut [u8]) -> BufWriter; // 省略された形
 fn new<'a>(buf: &'a mut [u8]) -> BufWriter<'a>; // 展開された形
 ```
