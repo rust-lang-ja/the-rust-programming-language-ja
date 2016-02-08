@@ -8,10 +8,10 @@
 <!-- and the edge type. So you might write a trait, `Graph<N, E>`, that looks like -->
 <!-- this: -->
 関連型は、Rust型システムの強力な部分です。関連型は、「タイプファミリー」というアイデアと関連が有り、
-言い換えると、複数の方をグルーピングするものです。
+言い換えると、複数の方をグループ化するものです。
 この説明はすこし抽象的なので、実際の例を見ていきましょう。
-例えば、 `Graph` トレイトを定義したいとしましょう、このとき `Graph` トレイトは頂点の型と、辺の型についてジェネリックとなることになります。
-なので、以下のように`Graph<N, E>` と書きたくなるでしょう:
+例えば、 `Graph` トレイトを定義したいとしましょう、このときジェネリックになる２つの型: 頂点の型、辺の型 が存在します。
+そのため、以下のように`Graph<N, E>` と書きたくなるでしょう:
 
 ```rust
 trait Graph<N, E> {
@@ -24,8 +24,8 @@ trait Graph<N, E> {
 <!-- While this sort of works, it ends up being awkward. For example, any function -->
 <!-- that wants to take a `Graph` as a parameter now _also_ needs to be generic over -->
 <!-- the `N`ode and `E`dge types too: -->
-たしかに、上のようなコードは動作します、しかしこのような `Graph` の定義は少し扱いづらいです。
-たとえば、任意の `Graph` を引数に取る関数は、 _同時に_ `N` と `E` についてもジェネリックとなることになります:
+たしかに上のようなコードは動作しますが、この `Graph` の定義は少し扱いづらいです。
+たとえば、任意の `Graph` を引数に取る関数は、 _同時に_ 頂点 `N` と辺 `E` についてもジェネリックとなることになります:
 
 ```rust,ignore
 fn distance<N, E, G: Graph<N, E>>(graph: &G, start: &N, end: &N) -> u32 { ... }
@@ -33,11 +33,11 @@ fn distance<N, E, G: Graph<N, E>>(graph: &G, start: &N, end: &N) -> u32 { ... }
 
 <!-- Our distance calculation works regardless of our `Edge` type, so the `E` stuff in -->
 <!-- this signature is just a distraction. -->
-上のような距離を計算するdistance関数は、辺の型に関わらず動作します、そのためシグネチャにふくまれる `E` に関連する部分は邪魔でしかありません。
+この距離を計算する関数distanceは、辺の型に関わらず動作します、そのためシグネチャにふくまれる `E` に関連する部分は邪魔でしかありません。
 
 <!-- What we really want to say is that a certain `E`dge and `N`ode type come together -->
 <!-- to form each kind of `Graph`. We can do that with associated types: -->
-本当に表現したいことは、辺の型 `E` や頂点の型 `N` がそれぞれの `Graph` について決まっているということです。
+本当に表現したいことは、辺の型 `E` や頂点の型 `N` がそれぞれの `Graph` を構成しているということです。
 それは、以下のように関連型を用いて表現することができます:
 
 ```rust
@@ -83,12 +83,12 @@ trait Graph {
 
 <!-- Simple enough. Associated types use the `type` keyword, and go inside the body -->
 <!-- of the trait, with the functions. -->
-非常にシンプルですね。関連型を定義するには `type` キーワードを使います、そしてトレイトの本体や関数で利用します。
+非常にシンプルですね。関連型には `type` キーワードを使い、そしてトレイトの本体や関数で利用します。
 
 <!-- These `type` declarations can have all the same thing as functions do. For example, -->
 <!-- if we wanted our `N` type to implement `Display`, so we can print the nodes out, -->
 <!-- we could do this: -->
-これらの `type` 宣言は、関数におけるものと同じ物をすべて持っています。
+これらの `type` 宣言は、関数で利用できるものと同じものが全て利用できます。
 たとえば、 `N` 型が `Display` を実装していて欲しい時、つまり私達が頂点を出力したい時、以下のようにして指定することができます:
 
 ```rust
@@ -143,21 +143,20 @@ impl Graph for MyGraph {
 <!-- `struct`s, one for the graph, one for the node, and one for the edge. If it made -->
 <!-- more sense to use a different type, that would work as well, we’re just going to -->
 <!-- use `struct`s for all three here. -->
-この奇妙な実装は、つねに `true` と空の `Vec<Edge>` を返します、
-しかし、上のコードはどのように定義したら良いかのアイデアをくれます。
+この奇妙な実装は、つねに `true` と空の `Vec<Edge>` を返しますますが、どのように定義したら良いかのアイデアをくれます。
 まず、はじめに3つの `struct` が必要です、ひとつはグラフのため、そしてひとつは頂点のため、そしてもうひとつは辺のため。
 もし異なる型を利用することが適切ならば、そのようにすると良いでしょう、今回はこの3つの `struct` を用います。
 
 
 <!-- Next is the `impl` line, which is just like implementing any other trait. -->
-次に、 `impl` の行です、これは他のトレイトを実装するとき同様です。
+次は `impl` の行です、これは他のトレイトを実装するときと同様です。
 
 <!-- From here, we use `=` to define our associated types. The name the trait uses -->
 <!-- goes on the left of the `=`, and the concrete type we’re `impl`ementing this -->
 <!-- for goes on the right. Finally, we use the concrete types in our function -->
 <!-- declarations. -->
-ここからは、`=` を関連型を定義するために利用します。
-トレイトが利用名前はするのは、 `=` の左側にある名前で、実装に用いる具体的な型は右側にあるものになります。
+そして、`=` を関連型を定義するために利用します。
+トレイトが利用する名前は `=` の左側にある名前で、実装に用いる具体的な型は右側にあるものになります。
 最後に、具体的な型を関数の宣言に利用します。
 
 <!-- ## Trait objects with associated types -->
