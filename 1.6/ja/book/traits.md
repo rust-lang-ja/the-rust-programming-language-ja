@@ -553,7 +553,7 @@ error: the trait `main::Foo` is not implemented for the type `main::Baz` [E0277]
 ```
 
 <!-- # Deriving -->
-# 導出
+# Derive
 
 <!-- Implementing traits like `Debug` and `Default` repeatedly can become
 quite tedious. For that reason, Rust provides an [attribute][attributes] that
@@ -572,7 +572,7 @@ fn main() {
 [attributes]: attributes.html
 
 <!-- However, deriving is limited to a certain set of traits: -->
-ただし、導出は以下の特定のトレイトに制限されています。
+ただし、deriveは以下の特定のトレイトに制限されています。
 
 - [`Clone`](../core/clone/trait.Clone.html)
 - [`Copy`](../core/marker/trait.Copy.html)
