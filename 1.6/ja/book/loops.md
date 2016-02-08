@@ -9,12 +9,12 @@
 
 <!-- The infinite `loop` is the simplest form of loop available in Rust. Using the keyword `loop`, Rust provides a way to loop indefinitely until some terminating statement is reached. Rust's infinite `loop`s look like this: -->
 Rustで使えるループなかで最もシンプルな形式が、無限 `loop` です。Rustのキーワード `loop` によって、
-何らかの終了状態に到達するまでずっとループし続ける手段を提供します。
+何らかの終了状態に到達するまでずっとループし続ける手段を提供します。Rustの無限 `loop` はこのように:
 
 ```rust,ignore
 loop {
 # // println!("Loop forever!");
-    println!("無限ループ!");
+    println!("永久にループ!");
 }
 ```
 
@@ -50,7 +50,7 @@ while true {
 ```
 
 <!-- However, `loop` is far better suited to handle this case: -->
-しかし、このような状況では `loop` の方がずっと適しています。
+しかし、こういった場合には `loop` の方がずっと適しています。
 
 ```rust,ignore
 loop {
@@ -61,9 +61,9 @@ loop {
 <!-- we can give to the compiler, the better it can do with safety and code -->
 <!-- generation, so you should always prefer `loop` when you plan to loop -->
 <!-- infinitely. -->
-Rustの制御フロー解析では、必ずループが行われることから、これを `while true` とは異なる構造として扱います。
-一般に、コンパイラに与えられる情報量が多いほど、安全性が高くより良いコード生成につながるため、
-無限ループを行いたいならば常に `loop` を使うべきなのです。
+Rustの制御フロー解析では、必ずループすると知っていることから、これを `while true` とは異なる構造として扱います。
+一般に、コンパイラへ与える情報量が多いほど、安全性が高くより良いコード生成につながるため、
+無限にループするつもりなら常に `loop` を使うべきです。
 
 
 ## for
@@ -133,7 +133,7 @@ Rustでは意図的に「Cスタイル」 `for` ループを持ちません。�
 ループ中で何回目の繰り返しかを知る必要があるなら、 `.enumerate()` 関数が使えます。
 
 <!-- #### On ranges: -->
-####️⃣ 範囲(range)を対象に:
+#### レンジを対象に:
 
 ```rust
 for (i,j) in (5..10).enumerate() {
@@ -153,7 +153,7 @@ i = 4 and j = 9
 ```
 
 <!-- Don't forget to add the parentheses around the range. -->
-範囲を括弧で囲うことを忘れないで。
+レンジを括弧で囲うのを忘れないで下さい。
 
 <!-- #### On iterators: -->
 #### イテレータを対象に:
@@ -179,7 +179,7 @@ for (linenumber, line) in lines.enumerate() {
 ## 反復の早期終了
 
 <!-- Let’s take a look at that `while` loop we had earlier: -->
-早期終了を伴う `while` ループを見てみましょう:
+さきほどの `while` ループを見てみましょう:
 
 ```rust
 let mut x = 5;
@@ -199,11 +199,11 @@ while !done {
 <!-- We had to keep a dedicated `mut` boolean variable binding, `done`, to know -->
 <!-- when we should exit out of the loop. Rust has two keywords to help us with -->
 <!-- modifying iteration: `break` and `continue`. -->
-ループをいつ終了すべきか知るために、ここでは専用の `mut` なboolean変数束縛 `done` を用います。
-Rustには繰り返しの変更を手伝う2つキーワードがあります: `break` と `continue` です。
+ループをいつ終了すべきか知るため、ここでは専用の `mut` なboolean変数束縛 `done` を用いました。
+Rustには反復の変更を手伝う2つキーワード: `break` と `continue` があります。
 
 <!-- In this case, we can write the loop in a better way with `break`: -->
-今回は、 `break` を使ってループを記述するのが良い方法です:
+この例では、 `break` を使ってループを記述した方が良いでしょう:
 
 ```rust
 let mut x = 5;
@@ -218,7 +218,7 @@ loop {
 ```
 
 <!-- We now loop forever with `loop` and use `break` to break out early. Issuing an explicit `return` statement will also serve to terminate the loop early. -->
-ここでは `loop` による無限ループと `break` による早期脱出を使っています。
+ここでは `loop` による永久ループと `break` による早期脱出を使っています。
 明示的な `return` 文の発行でもループの早期終了になります。
 
 <!-- `continue` is similar, but instead of ending the loop, goes to the next -->
@@ -245,8 +245,9 @@ for x in 0..10 {
 <!--  `continue` statement applies to. This will only print when both `x` and `y` are -->
 <!--  odd: -->
 入れ子のループがあり、`break` や `continue` 文がどのループに対応するか指定する必要がある、
-そんな状況に出会うこともあるでしょう。多くの他言語と同様に、 `break` や `continue` は最内ループに適用されるのがデフォルトです。
-外側のループに `break` や `continue` を使いたいという状況では、 `break` や `continue` 文の適用先を指定するラベルを使えます。これは `x` と `y` 両方が奇数のときだけ表示します:
+そんな状況に出会うこともあるでしょう。大抵の他言語と同様に、 `break` や `continue` は最内ループに適用されるのがデフォルトです。
+外側のループに `break` や `continue` を使いたいという状況では、 `break` や `continue` 文の適用先を指定するラベルを使えます。
+これは `x` と `y` 両方が奇数のときだけ表示を行います:
 
 ```rust
 'outer: for x in 0..10 {
