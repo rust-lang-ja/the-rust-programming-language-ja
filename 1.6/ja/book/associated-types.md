@@ -7,9 +7,10 @@
 <!-- to write a `Graph` trait, you have two types to be generic over: the node type -->
 <!-- and the edge type. So you might write a trait, `Graph<N, E>`, that looks like -->
 <!-- this: -->
-関連型は、Rust型システムの強力な部分です。関連型は、「タイプファミリー」というアイデアと関連が有ります、
-言い換えると、複数の方をグルーピングするものです。この説明はすこし抽象的なので、実際の例を見ていきましょう。
-例えば、 `Graph` トレイトを定義したいとしましょう、このとき `Graph` トレイトは頂点の方と、辺の型についてジェネリックとなることになります。
+関連型は、Rust型システムの強力な部分です。関連型は、「タイプファミリー」というアイデアと関連が有り、
+言い換えると、複数の方をグルーピングするものです。
+この説明はすこし抽象的なので、実際の例を見ていきましょう。
+例えば、 `Graph` トレイトを定義したいとしましょう、このとき `Graph` トレイトは頂点の型と、辺の型についてジェネリックとなることになります。
 なので、以下のように`Graph<N, E>` と書きたくなるでしょう:
 
 ```rust
@@ -32,7 +33,7 @@ fn distance<N, E, G: Graph<N, E>>(graph: &G, start: &N, end: &N) -> u32 { ... }
 
 <!-- Our distance calculation works regardless of our `Edge` type, so the `E` stuff in -->
 <!-- this signature is just a distraction. -->
-上のような距離を計算するdistance関数は、辺の型に関係がありません、そのためシグネチャにふくまれる `E` に関連する部分は邪魔でしかありません。
+上のような距離を計算するdistance関数は、辺の型に関わらず動作します、そのためシグネチャにふくまれる `E` に関連する部分は邪魔でしかありません。
 
 <!-- What we really want to say is that a certain `E`dge and `N`ode type come together -->
 <!-- to form each kind of `Graph`. We can do that with associated types: -->
@@ -82,12 +83,12 @@ trait Graph {
 
 <!-- Simple enough. Associated types use the `type` keyword, and go inside the body -->
 <!-- of the trait, with the functions. -->
-十分にシンプルです。関連型を定義するには `type` キーワードを使います、そしてトレイトの本体や関数で利用します。
+非常にシンプルですね。関連型を定義するには `type` キーワードを使います、そしてトレイトの本体や関数で利用します。
 
 <!-- These `type` declarations can have all the same thing as functions do. For example, -->
 <!-- if we wanted our `N` type to implement `Display`, so we can print the nodes out, -->
 <!-- we could do this: -->
-これらの `type` 宣言は、関数におけるものと同じ物を指定することができます。
+これらの `type` 宣言は、関数におけるものと同じ物をすべて持っています。
 たとえば、 `N` 型が `Display` を実装していて欲しい時、つまり私達が頂点を出力したい時、以下のようにして指定することができます:
 
 ```rust
@@ -107,7 +108,8 @@ trait Graph {
 
 <!-- Just like any trait, traits that use associated types use the `impl` keyword to -->
 <!-- provide implementations. Here’s a simple implementation of Graph: -->
-通常のトレイトと同様に、関連型を使っているトレイト
+通常のトレイトと同様に、関連型を使っているトレイトは実装するために `impl` を利用します。
+以下は、シンプルなGraphの実装例です:
 
 ```rust
 # trait Graph {
@@ -136,23 +138,35 @@ impl Graph for MyGraph {
 }
 ```
 
-This silly implementation always returns `true` and an empty `Vec<Edge>`, but it
-gives you an idea of how to implement this kind of thing. We first need three
-`struct`s, one for the graph, one for the node, and one for the edge. If it made
-more sense to use a different type, that would work as well, we’re just going to
-use `struct`s for all three here.
+<!-- This silly implementation always returns `true` and an empty `Vec<Edge>`, but it -->
+<!-- gives you an idea of how to implement this kind of thing. We first need three -->
+<!-- `struct`s, one for the graph, one for the node, and one for the edge. If it made -->
+<!-- more sense to use a different type, that would work as well, we’re just going to -->
+<!-- use `struct`s for all three here. -->
+この奇妙な実装は、つねに `true` と空の `Vec<Edge>` を返します、
+しかし、上のコードはどのように定義したら良いかのアイデアをくれます。
+まず、はじめに3つの `struct` が必要です、ひとつはグラフのため、そしてひとつは頂点のため、そしてもうひとつは辺のため。
+もし異なる型を利用することが適切ならば、そのようにすると良いでしょう、今回はこの3つの `struct` を用います。
 
-Next is the `impl` line, which is just like implementing any other trait.
 
-From here, we use `=` to define our associated types. The name the trait uses
-goes on the left of the `=`, and the concrete type we’re `impl`ementing this
-for goes on the right. Finally, we use the concrete types in our function
-declarations.
+<!-- Next is the `impl` line, which is just like implementing any other trait. -->
+次に、 `impl` の行です、これは他のトレイトを実装するとき同様です。
 
-## Trait objects with associated types
+<!-- From here, we use `=` to define our associated types. The name the trait uses -->
+<!-- goes on the left of the `=`, and the concrete type we’re `impl`ementing this -->
+<!-- for goes on the right. Finally, we use the concrete types in our function -->
+<!-- declarations. -->
+ここからは、`=` を関連型を定義するために利用します。
+トレイトが利用名前はするのは、 `=` の左側にある名前で、実装に用いる具体的な型は右側にあるものになります。
+最後に、具体的な型を関数の宣言に利用します。
 
-There’s one more bit of syntax we should talk about: trait objects. If you
-try to create a trait object from an associated type, like this:
+<!-- ## Trait objects with associated types -->
+## 関連型を伴うトレイト
+
+<!-- There’s one more bit of syntax we should talk about: trait objects. If you -->
+<!-- try to create a trait object from an associated type, like this: -->
+すこし触れておきたい構文: トレイトオブジェクト が有ります。
+もし、トレイトオブジェクトを以下のように関連型から作成しようとした場合:
 
 ```rust,ignore
 # trait Graph {
@@ -178,7 +192,8 @@ let graph = MyGraph;
 let obj = Box::new(graph) as Box<Graph>;
 ```
 
-You’ll get two errors:
+<!-- You’ll get two errors: -->
+以下の様なエラーが発生します:
 
 ```text
 error: the value of the associated type `E` (from the trait `main::Graph`) must
@@ -191,8 +206,10 @@ let obj = Box::new(graph) as Box<Graph>;
           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
-We can’t create a trait object like this, because we don’t know the associated
-types. Instead, we can write this:
+<!-- We can’t create a trait object like this, because we don’t know the associated -->
+<!-- types. Instead, we can write this: -->
+上のようにしてトレイトオブジェクトを作ることはできません、なぜなら関連型について知らないからです
+代わりに以下のように書くことができます:
 
 ```rust
 # trait Graph {
@@ -218,6 +235,8 @@ let graph = MyGraph;
 let obj = Box::new(graph) as Box<Graph<N=Node, E=Edge>>;
 ```
 
-The `N=Node` syntax allows us to provide a concrete type, `Node`, for the `N`
-type parameter. Same with `E=Edge`. If we didn’t provide this constraint, we
-couldn’t be sure which `impl` to match this trait object to.
+<!-- The `N=Node` syntax allows us to provide a concrete type, `Node`, for the `N` -->
+<!-- type parameter. Same with `E=Edge`. If we didn’t provide this constraint, we -->
+<!-- couldn’t be sure which `impl` to match this trait object to. -->
+`N=Node` 構文を用いて型パラメータ `N` にたいして具体的な型 `Node` を指定することができます、`E=Edge` についても同様です。
+もしこの制約を指定しなかった場合、このトレイトオブジェクトに対してどの `impl` がマッチするのか定まりません。
