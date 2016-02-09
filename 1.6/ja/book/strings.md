@@ -138,12 +138,12 @@ println!("The first letter of s is {}", s[0]); // エラー!!!
 <!-- expensive operation, and we don’t want to be misleading. Furthermore, ‘letter’ -->
 <!-- isn’t something defined in Unicode, exactly. We can choose to look at a string as -->
 <!-- individual bytes, or as codepoints:-->
-普通、ベクターへの `[]` を用いたアクセスはとても高速です。
+普通、ベクタへの `[]` を用いたアクセスはとても高速です。
 しかし、UTF-8にエンコードされた文字列中の一つ一つの文字は複数のバイトであることが可能なため、
 文字列のn番の文字を探すためには文字列上を移動していく必要があります。
 そのような作業はとても高コストな演算であり、誤解してはならない点です。
 さらに言えば、「文字」というものはUnicodeにおいては正確に定義されていません。
-文字列を、それぞれのバイトとして見ることも、コードポインの集まりとして見ることもできるのです。
+文字列を、それぞれのバイトとして見ることも、コードポイントの集まりとして見ることもできるのです。
 
 ```rust
 let hachiko = "忠犬ハチ公";
@@ -177,7 +177,7 @@ println!("");
 
 ```rust
 # let hachiko = "忠犬ハチ公";
-let dog = hachiko.chars().nth(1); // kinda like hachiko[1]
+let dog = hachiko.chars().nth(1); // hachiko[1]のような感じで
 ```
 
 <!-- This emphasizes that we have to walk from the beginning of the list of `chars`. -->
