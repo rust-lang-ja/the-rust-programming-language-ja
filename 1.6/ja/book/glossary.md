@@ -38,11 +38,13 @@ let z = (8, 2, 6);
 
 In the example above `x` and `y` have arity 2. `z` has arity 3.
 
-### Bounds
+<!-- ### Bounds -->
+### 境界
 
-Bounds are constraints on a type or [trait][traits]. For example, if a bound
+<!-- Bounds are constraints on a type or [trait][traits]. For example, if a bound
 is placed on the argument a function takes, types passed to that function
-must abide by that constraint.
+must abide by that constraint. -->
+境界(Bounds)とはある1つの型または [トレイト][traits] における制約のことです。例えば、ある関数がとる引数に境界が設定されたとすると、その関数に渡される型は設定された制約に必ず従わなければなりません。
 
 [traits]: traits.html
 
