@@ -7,8 +7,8 @@
 <!-- to write a `Graph` trait, you have two types to be generic over: the node type -->
 <!-- and the edge type. So you might write a trait, `Graph<N, E>`, that looks like -->
 <!-- this: -->
-関連型は、Rust型システムの強力な部分です。関連型は、「タイプファミリー」というアイデアと関連が有り、
-言い換えると、複数の方をグループ化するものです。
+関連型は、Rust型システムの強力な部分です。関連型は、「型族」という概念と関連が有り、
+言い換えると、複数の型をグループ化するものです。
 この説明はすこし抽象的なので、実際の例を見ていきましょう。
 例えば、 `Graph` トレイトを定義したいとしましょう、このときジェネリックになる２つの型: 頂点の型、辺の型 が存在します。
 そのため、以下のように`Graph<N, E>` と書きたくなるでしょう:
@@ -33,11 +33,11 @@ fn distance<N, E, G: Graph<N, E>>(graph: &G, start: &N, end: &N) -> u32 { ... }
 
 <!-- Our distance calculation works regardless of our `Edge` type, so the `E` stuff in -->
 <!-- this signature is just a distraction. -->
-この距離を計算する関数distanceは、辺の型に関わらず動作します、そのためシグネチャにふくまれる `E` に関連する部分は邪魔でしかありません。
+この距離を計算する関数distanceは、辺の型に関わらず動作します、そのためシグネチャに含まれる `E` に関連する部分は邪魔でしかありません。
 
 <!-- What we really want to say is that a certain `E`dge and `N`ode type come together -->
 <!-- to form each kind of `Graph`. We can do that with associated types: -->
-本当に表現したいことは、辺の型 `E` や頂点の型 `N` がそれぞれの `Graph` を構成しているということです。
+本当に表現したいことは、それぞれのグラフ(Graph)は辺(E)や頂点(N)で構成されているということです。
 それは、以下のように関連型を用いて表現することができます:
 
 ```rust

@@ -99,6 +99,7 @@
 | tick                           | クオート
 | trait                          | トレイト
 | type inference                 | 型推論
+| type family                    | 型族
 | Universal Function Call Syntax | 共通の関数呼び出し構文
 | unsigned                       | 符号無し
 | unsized type                   | サイズ不定型
