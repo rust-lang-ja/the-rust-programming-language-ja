@@ -7,7 +7,9 @@
 <!-- values. -->
 他のほとんどのプログラミング言語と同様に、Rustはプログラマに、エラーを扱うための、ある決まった作法を促します。
 一般的にエラーハンドリングは、例外、あるいは、戻り値を使ったものの、大きく２つに分類されます。
-Rustでは戻り値を使います。（用語集候補：return value）
+Rustでは戻り値を使います。
+
+<!-- 用語集候補：return value -->
 
 <!-- In this chapter, we intend to provide a comprehensive treatment of how to deal -->
 <!-- with errors in Rust. More than that, we will attempt to introduce error handling -->
@@ -21,7 +23,9 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- chapter will explore those stumbling blocks and demonstrate how to use the -->
 <!-- standard library to make error handling concise and ergonomic. -->
 もし素朴なやりかたで取り組んだなら、Rustにおけるエラーハンドリングは、冗長で面倒なものになり得ます。
-この章では、エラーを処理する上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかに簡潔で、使いやすいものになるのかを紹介します。（用語集候補：ergonomic）
+この章では、エラーを処理する上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかにシンプルで使いやすく変わるのかを紹介します。
+
+<!-- 用語集候補：ergonomic -->
 
 <!-- # Table of Contents -->
 # 目次
@@ -31,9 +35,14 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- incrementally. As such, programmers with experience in other expressive type -->
 <!-- systems may want to jump around. -->
 この章はとても長くなります。
-というのは、sum types（訳）とコンビネータから始めることで、Restにおけるエラーハンドリングを徐々に改善したくなる動機を与えるからです。
-このような構成ですので、もしすでに他の表現豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
-（用語集候補：sum type、combinator）
+というのは、直和型（sum type）とコンビネータから始めることで、Restにおけるエラーハンドリングを徐々に改善していきたくなる動機を与えるからです。
+このような構成ですので、もしすでに他の表現力豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
+
+<!-- 用語集候補：sum type、combinator -->
+
+<!-- 翻訳メモ：sum type -->
+<!-- https://www.quora.com/What-is-a-sum-type -->
+<!-- http://d-poppo.nazo.cc/blog/2015/01/union-types/ -->
 
 <!-- * [The Basics](#the-basics) -->
 <!--     * [Unwrapping explained](#unwrapping-explained) -->
@@ -104,16 +113,17 @@ Rustでは戻り値を使います。（用語集候補：return value）
 <!-- handling is reducing the amount of explicit case analysis the programmer has to -->
 <!-- do while keeping code composable. -->
 エラーハンドリングとは、ある処理が成功したかどうかを *ケース分析* に基づいて判断するものだと考えられます。
-これから見ていくように、エラーハンドリングを使いやすくするために重要なのは、プログラマがコードをコンポーザブル（組み合わせ可能）に保ったまま、明示的なケース分析の数を、いかに減らしていくかということです。
+これから見ていくように、エラーハンドリングを使いやすくするために重要なのは、プログラマがコードを合成可能（composable）に保ったまま、明示的なケース分析の数を、いかに減らしていくかということです。
 
 <!-- Keeping code composable is important, because without that requirement, we -->
 <!-- could [`panic`](../std/macro.panic!.html) whenever we -->
 <!-- come across something unexpected. (`panic` causes the current task to unwind, -->
 <!-- and in most cases, the entire program aborts.) Here's an example: -->
-コードをコンポーザブルに保つのは重要です。
-なぜなら、もしこの要求がなかったら、想定外のことが起こる度に [`panic`](../std/macro.panic!.html) するかもしれないからです。
-（`panic` は現タスクをunwind（訳）し、ほとんどの場合、プログラム全体をアボートします。）
-（用語集候補：unwind）
+コードを合成可能に保つのは重要です。
+なぜなら、もしこの要求がなかったら、想定外のことが起こる度に [`panic`](../std/macro.panic!.html) することを選ぶかもしれないからです。
+（`panic` は現タスクをアンワインド（unwind）し、ほとんどの場合、プログラム全体をアボートします。）
+
+<!-- 用語集候補：unwind -->
 
 ```rust,should_panic
 # // Guess a number between 1 and 10.
@@ -150,7 +160,7 @@ thread '<main>' panicked at 'Invalid number: 11', src/bin/panic-simple.rs:5
 <!-- Here's another example that is slightly less contrived. A program that accepts -->
 <!-- an integer as an argument, doubles it and prints it. -->
 次は、もう少し自然な例です。
-このプログラムは引数として整数を受け取り、２倍した後に表示します。
+このプログラムは引数として整数を受け取り、2倍した後に表示します。
 
 <span id="code-unwrap-double"></span>
 
@@ -159,8 +169,8 @@ use std::env;
 
 fn main() {
     let mut argv = env::args();
-    let arg: String = argv.nth(1).unwrap(); // エラー１
-    let n: i32 = arg.parse().unwrap(); // エラー２
+    let arg: String = argv.nth(1).unwrap(); // エラー1
+    let n: i32 = arg.parse().unwrap(); // エラー2
     println!("{}", 2 * n);
 }
 ```
@@ -168,7 +178,7 @@ fn main() {
 <!-- If you give this program zero arguments (error 1) or if the first argument -->
 <!-- isn't an integer (error 2), the program will panic just like in the first -->
 <!-- example. -->
-もし、このプログラムに引数を与えなかったら（エラー１）、あるいは、最初の引数が整数でなかったら（エラー２）、このプログラムは、最初の例と同じようにパニックするでしょう。
+もし、このプログラムに引数を与えなかったら（エラー1）、あるいは、最初の引数が整数でなかったら（エラー2）、このプログラムは、最初の例と同じようにパニックするでしょう。
 
 <!-- You can think of this style of error handling as similar to a bull running -->
 <!-- through a china shop. The bull will get to where it wants to go, but it will -->
@@ -230,7 +240,7 @@ enum Option<T> {
 ```rust
 # // Searches `haystack` for the Unicode character `needle`. If one is found, the
 # // byte offset of the character is returned. Otherwise, `None` is returned.
-// `haystack`（干し草の山）からユニコード文字 `needle`（縫い針）を検索します。
+// `haystack`（干し草の山）からUnicode文字 `needle`（縫い針）を検索します。
 // もし見つかったら、文字のバイトオフセットを返します。見つからなければ、`None` を
 // 返します。
 fn find(haystack: &str, needle: char) -> Option<usize> {
@@ -253,7 +263,7 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 その代わりに `Some(offset)` を返します。
 `Some` は `Option` 型の *値コンストラクタ* のひとつです。
 これは `fn<T>(value: T) -> Option<T>` という型の関数だと考えることもできます。
-これに対応して `None` もまた値コンストラクタですが、こちらは引数がありません。
+これに対応して `None` もまた値コンストラクタですが、こちらには引数がありません。
 `None` は `fn<T>() -> Option<T>` という型の関数だと考えることもできます。
 
 <!-- This might seem like much ado about nothing, but this is only half of the -->
@@ -270,7 +280,7 @@ fn main() {
     let file_name = "foobar.rs";
     match find(file_name, '.') {
         None => println!("No file extension found."),
-        Some(i) => println!("", &file_name[i+1..]),
+        Some(i) => println!("File extension: {}", &file_name[i+1..]),
     }
 }
 ```
@@ -278,7 +288,7 @@ fn main() {
 > 訳注：先程と同じ理由でソースコード内の文言は翻訳していません。意味は
 >
 > * No file extension found：ファイル拡張子は見つかりませんでした
-> * File extension: {}：ファイル拡張子は{}です
+> * File extension: {}：ファイル拡張子：{}
 >
 > です。
 
@@ -289,7 +299,7 @@ fn main() {
 <!-- `None` instead of `Some(t)`. -->
 このコードは `find` 関数が返した `Option<usize>` の *ケース分析* に、 [パターンマッチ][1] を使っています。
 実のところ、ケース分析が、`Option<T>` に格納された値を取り出すための唯一の方法なのです。
-これは、`Option<T>` が `Some(t)` ではなく `None` だった時、プログラマであるあなたが、このケースを処理しなければならないことを意味します。
+これは、`Option<T>` が `Some(t)` ではなく `None` だった時、プログラマであるあなたが、このケースに対処しなければならないことを意味します。
 
 <!-- But wait, what about `unwrap`,which we used [`previously`](#code-unwrap-double)? -->
 <!-- There was no case analysis there! Instead, the case analysis was put inside the -->
@@ -328,7 +338,7 @@ impl<T> Option<T> {
 <!-- that makes `unwrap` ergonomic to use. Unfortunately, that `panic!` means that -->
 <!-- `unwrap` is not composable: it is the bull in the china shop. -->
 `unwrap` メソッドは *ケース分析を抽象化します* 。このことは、`unwrap` を確実に使いやすいものにしています。
-しかし残念なことに、そこにある `panic!` が意味するものは、`unwrap` がコンポーザブルではない、つまり、陶器店の中の雄牛だということです。
+しかし残念なことに、そこにある `panic!` が意味するものは、`unwrap` が合成可能ではない、つまり、陶器店の中の雄牛だということです。
 
 <!--- ### Composing `Option<T>` values -->
 <span id="composing-optiont-values"></span>
@@ -341,10 +351,10 @@ impl<T> Option<T> {
 <!-- `Option<T>`. In other words, the compiler will force us to address the -->
 <!-- possibility that an extension does not exist. In our case, we just print out a -->
 <!-- message saying as such. -->
-[先ほどの例](#code-option-ex-string-find) では、ファイル名から拡張子を見つけるために、`find` をどのように使うかを見ました。
-当然ながら、全てのファイル名に `.` があるわけではなく、拡張子のないファイル名もあり得ます。
+[先ほどの例](#code-option-ex-string-find) では、ファイル名から拡張子を見つけるために `find` をどのように使うかを見ました。
+当然ながら全てのファイル名に `.` があるわけではなく、拡張子のないファイル名もあり得ます。
 このような *不在の可能性* は `Option<T>` を使うことによって、型の中にエンコードされています。
-すなわち、コンパイラは、拡張子が存在しない可能性に対処することを、私達に強制してくるわけです。
+すなわち、コンパイラは、拡張子が存在しない可能性に対処することを、私たちに強制してくるわけです。
 今回は単に、そうなったことを告げるメッセージを表示するようにしました。
 
 <!-- Getting the extension of a file name is a pretty common operation, so it makes -->
@@ -380,15 +390,15 @@ fn extension_explicit(file_name: &str) -> Option<&str> {
 <!-- where a file name doesn't have an extension. On the other hand, doing explicit -->
 <!-- case analysis like we've done in `extension_explicit` every time can get a bit -->
 <!-- tiresome. -->
-このコードはいたってシンプルですが、ひとつだけ注目して欲しいのは、`find` の型が、不在の可能性について考慮することを強制していることです。
-これは良いことです。なぜなら、コンパイラが私達に、ファイル名が拡張子を持たないケースを、うっかり忘れないようにしてくれるからです。
-しかし一方で、`extension_explicit` でしたような明示的なケース分析を毎回続けるのは、なかなか面倒です。
+このコードはいたってシンプルですが、ひとつだけ注目して欲しいのは、`find` の型が不在の可能性について考慮することを強制していることです。
+これは良いことです。なぜなら、コンパイラが私たちに、ファイル名が拡張子を持たないケースを、うっかり忘れないようにしてくれるからです。
+しかし一方で、 `extension_explicit` でしたような明示的なケース分析を毎回続けるのは、なかなか面倒です。
 
 <!-- In fact, the case analysis in `extension_explicit` follows a very common -->
 <!-- pattern: *map* a function on to the value inside of an `Option<T>`, unless the -->
 <!-- option is `None`, in which case, just return `None`. -->
 実は `extension_explicit` でのケース分析は、ごく一般的なパターンである、`Option<T>` への *map* の適用に当てはめられます。
-これは、もしオプションが `None` なら `None` を返し、そうでなけれは、オプションの中の値に関数を適用するというパターンです。
+これは、もしオプションが `None` なら `None` を返し、そうでなけれは、オプションの中の値に関数を適用する、というパターンです。
 
 <!-- Rust has parametric polymorphism, so it is very easy to define a combinator -->
 <!-- that abstracts this pattern: -->
@@ -406,7 +416,7 @@ fn map<F, T, A>(option: Option<T>, f: F) -> Option<A> where F: FnOnce(T) -> A {
 ```
 
 <!-- Indeed, `map` is [defined as a method][2] on `Option<T>` in the standard library. -->
-もちろん `map` は標準のライブラリの `Option<T>` で、 [メソッドとして定義されています][2]。
+もちろん `map` は、標準のライブラリの `Option<T>` で [メソッドとして定義されています][2]。
 
 <!-- Armed with our new combinator, we can rewrite our `extension_explicit` method -->
 <!-- to get rid of the case analysis: -->
@@ -430,9 +440,9 @@ fn extension(file_name: &str) -> Option<&str> {
 <!-- the extension of a file is `rs` even if none is present. As you might imagine, -->
 <!-- the case analysis for this is not specific to file extensions - it can work -->
 <!-- with any `Option<T>`: -->
-もう一つの共通のパターンは、`Option` の値が `None` の時にデフォルト値を与えることです。
-例えば、ファイルの拡張子がない時は、それを `rs` とみなすようなプログラムを書きたくなるかもしれません。
-ご想像の通り、このようなケース分析は、ファイルの拡張子に特有のものではありません。
+もう一つの共通のパターンは、`Option` の値が `None` だった時のデフォルト値を与えることです。
+例えばファイルの拡張子がない時は、それを `rs` とみなすようなプログラムを書きたくなるかもしれません。
+ご想像の通り、このようなケース分析はファイルの拡張子に特有のものではありません。
 どんな `Option<T>` でも使えるでしょう：
 
 ```rust
@@ -481,16 +491,16 @@ fn main() {
 <!-- need the file name which is typically extracted from a file *path*. While most -->
 <!-- file paths have a file name, not *all* of them do. For example, `.`, `..` or -->
 <!-- `/`. -->
-もうひとつ、注目すべきコンビネータがあります。それは `and_then` です。これを使うと、 *不在の可能性* を考慮しながら、別々の処理を簡単に組み合わせることができます。
+もうひとつ注目すべきコンビネータがあります。それは `and_then` です。これを使うと *不在の可能性* を考慮しながら、別々の処理を簡単に組み合わせることができます。
 例えば、この節のほとんどのコードは、与えられたファイル名について拡張子を見つけだします。
 そのためには、まずファイル *パス* から取り出したファイル名が必要です。
-大抵のパスにはファイル名がありますが、 *全て* がそうではありません。
-例えば、`.`, `..`, `/` などは例外です。
+大抵のパスにはファイル名がありますが、 *全て* がというわけではありません。
+例えば `.`, `..`, `/` などは例外です。
 
 <!-- So, we are tasked with the challenge of finding an extension given a file -->
 <!-- *path*. Let's start with explicit case analysis: -->
-つまり、与えられたファイル *パス* から拡張子を見つけ出せるかトライしなければなりません。
-まず、明示的なケース分析から始めましょう：
+つまり、与えられたファイル *パス* から拡張子を見つけ出せるか、トライしなければなりません。
+まず明示的なケース分析から始めましょう：
 
 
 ```rust
@@ -522,7 +532,7 @@ fn file_name(file_path: &str) -> Option<&str> {
 なぜなら `map` が引数にとる関数は、中の値だけに適用されるからです。
 そして関数が返した値は *必ず* [`Some` でラップされ直します](#code-option-map) 。
 つまりこの代わりに、 `map` に似ていながら、呼び出し元が別の `Option` を返せるしくみが必要です。
-これの汎用的な実装は、 `map` よりもシンプルです：
+これの汎用的な実装は `map` よりもシンプルです：
 
 ```rust
 fn and_then<F, T, A>(option: Option<T>, f: F) -> Option<A>
@@ -562,7 +572,7 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 <!-- to handle the possibility of absence in their own way. Methods like `unwrap` -->
 <!-- remove choices because they will panic if `Option<T>` is `None`. -->
 コンビネータは明示的なケース分析を減らしてくれるので、 `Option` のような型の扱いが容易になります。
-またこれらは、呼び出し元が *不在の可能性* を独自の方法で扱うことを可能にするので、コンポーザブルだといえます。
+またこれらは *不在の可能性* を、呼び出し元がそれに合った方法で扱えるようにするので、合成可能だといえます。
 `unwrap` のようなメソッドは、 `Option<T>` が `None` の時にパニックを起こすので、このような選択の機会を与えません。
 
 <!-- ## The `Result` type -->
@@ -591,9 +601,9 @@ enum Result<T, E> {
 `Result` 型は `Option` 型の豪華版です。
 `Option` のように *不在* の可能性を示す代わりに、`Result` は *エラー* になる可能性を示します。
 通常 *エラー* は、なぜ処理が実行に失敗したのかを説明するために用いられます。
-これは厳密には `Option` をより一般化した形式といえます。
+これは厳密には `Option` をさらに一般化した形式だといえます。
 以下のような型エイリアスがあるとしましょう。
-これは全てにおいて、本物の `Option<T>` と同等のセマンティクスを持ちます。
+これは全てにおいて、本物の `Option<T>` と等しいセマンティクスを持ちます。
 
 ```rust
 type Option<T> = Result<T, ()>;
@@ -606,13 +616,13 @@ type Option<T> = Result<T, ()>;
 `()` 型のただ一つの値は `()` です。
 （そうなんです。型レベルと値レベルの用語が、全く同じ表記法を持ちます!）
 
-（用語集候補：type parameter　型引数、型パラメータ、unit　ユニット、empty tuple　空タプル）
+<!-- 用語集候補：type parameter　型引数、型パラメータ、unit　ユニット、empty tuple　空タプル -->
 
 <!-- The `Result` type is a way of representing one of two possible outcomes in a -->
 <!-- computation. By convention, one outcome is meant to be expected or “`Ok`” while -->
 <!-- the other outcome is meant to be unexpected or “`Err`”. -->
 `Result` 型は、処理の結果がとりうる２つの可能性のうち、１つを表すための方法です。
-慣例に従い、一方を期待されている結果、つまり「`Ok`」にして、もう一方を予想外の結果、つまり「`Err`」にします。
+慣例に従い、一方が期待されている結果、つまり「`Ok`」となり、もう一方が予想外の結果、つまり「`Err`」になります。
 
 <!-- Just like `Option`, the `Result` type also has an -->
 <!-- [`unwrap` method -->
@@ -633,9 +643,9 @@ impl<T, E: ::std::fmt::Debug> Result<T, E> {
 }
 ```
 
-> 訳注：意味は
+> 訳注：
 >
-> called `Result::unwrap()` on an `Err` value: {:?}"：
+> called `Result::unwrap()` on an `Err` value: {:?}"：<br/>
 > `Err` 値 {:?} に対して `Result::unwrap()` が呼ばれました
 >
 > です。
@@ -648,7 +658,7 @@ impl<T, E: ::std::fmt::Debug> Result<T, E> {
 <!-- of types should satisfy the `Debug` constraint, this tends to work out -->
 <!-- in practice. (`Debug` on a type simply means that there's a reasonable -->
 <!-- way to print a human readable description of values with that type.) -->
-これは実質的には私達の [`Option::unwrap` の定義](#code-option-def-unwrap) と同じですが、 `panic!` メッセージにエラーの値が含まれているところは異なります。
+これは実質的には私たちの [`Option::unwrap` の定義](#code-option-def-unwrap) と同じですが、 `panic!` メッセージにエラーの値が含まれているところが異なります。
 これはデバッグをより簡単にしますが、一方で、（エラーの型を表す）型パラメータ `E` に [`Debug`][8] 制約を付けることが求められます。
 大半の型は `Debug` 制約を満たしているので、実際のところ、うまくいく傾向にあります。
 （`Debug` が型に付くということは、単にその型の値が、人間が読める形式で表示できることを意味しています。）
@@ -693,11 +703,11 @@ thread '<main>' panicked at 'called `Result::unwrap()` on an `Err` value: ParseI
 <!-- what? Well, that requires looking at the signature of the [`parse` -->
 <!-- method][9] in the standard library: -->
 これは少し目障りです。
-もし、あなたが使っているライブラリの中でこれが起こったら、イライラするに違いありません。
-代わりに、私達の関数の中でエラーを処理し、呼び出し元にどうするのかを決めさせるべきです。
+もしあなたが使っているライブラリの中でこれが起こったら、イライラするに違いありません。
+代わりに、私たちの関数の中でエラーを処理し、呼び出し元にどうするのかを決めさせるべきです。
 そのためには、`double_number` の戻り値の型（リターン型）を変更しなければなりません。
 でも、一体何に？
-ええと、これはつまり、標準ライブラリの [`parse` メソッド][9] のシグニチャを見る必要があるということです。
+ええと、これはつまり、標準ライブラリの [`parse` メソッド][9] のシグニチャを見ろということです。
 
 ```rust,ignore
 impl str {
@@ -735,15 +745,15 @@ impl str {
 <!-- this so we can find the concrete error type. In this case, it's -->
 <!-- [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html). -->
 <!-- Finally, we can rewrite our function: -->
-それでは、リターン型をどう書きましょうか？
+それでは、リターン型をどう書きましょうか?
 上の `parse` メソッドは一般化されているので、標準ライブラリにある、あらゆる数値型について定義されています。
 この関数を同じように一般化することもできますが（そして、そうするべきでしょうが）、今は明快さを優先しましょう。
-`i32` だけを扱うことにしますので、それの [`FromStr` の実装がどうなっているか探す](../std/primitive.i32.html) 必要があります。
+`i32` だけを扱うことにしますので、それの [`FromStr` の実装がどうなっているか探しましょう](../std/primitive.i32.html) 。
 （ブラウザで `CTRL-F` を押して「FromStr」を探します。）
 そして [関連型（associated type）][10] から `Err` を見つけます。
 こうすれば、具体的なエラー型が見つかります。
 この場合、それは [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) です。
-これでようやく、関数を書き直せます：
+これでようやく関数を書き直せます：
 
 ```rust
 use std::num::ParseIntError;
@@ -765,16 +775,16 @@ fn main() {
 
 <!-- This is a little better, but now we've written a lot more code! The case -->
 <!-- analysis has once again bitten us. -->
-これで少し良くなりましたが、たくさんコードを書いてしまいました!
-ケース分析にまたしてもやられたわけです。
+これで少し良くなりましたが、たくさんのコードを書いてしまいました!
+ケース分析に、またしてもやられたわけです。
 
 <!-- Combinators to the rescue! Just like `Option`, `Result` has lots of combinators -->
 <!-- defined as methods. There is a large intersection of common combinators between -->
 <!-- `Result` and `Option`. In particular, `map` is part of that intersection: -->
-コンビネータが助けてくれます!
+コンビネータに助けを求めましょう!
 ちょうど `Option` と同じように `Result` にもたくさんのコンビネータが、メソッドとして定義されています。
 `Result` と `Option` の間では、共通のコンビネータが数多く存在します。
-例えば、`map` も共通なものの一つです：
+例えば `map` も共通なものの一つです：
 
 ```rust
 use std::num::ParseIntError;
@@ -855,13 +865,13 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!-- If you've been following along, you might have noticed that I've taken a pretty -->
 <!-- hard line against calling methods like `unwrap` that could `panic` and abort -->
 <!-- your program. *Generally speaking*, this is good advice. -->
-これまでの説明についてきたなら、 `unwrap` のような `panic` を起こし、プログラムをアボートするようなメソッドについて、私がきっぱりと否定する方針をとっていたことに気づいたでしょう。
+これまでの説明を読んだあなたは、 `unwrap` のような `panic` を起こし、プログラムをアボートするようなメソッドについて、私がきっぱりと否定する方針をとっていたことに気づいたかもしれません。
 *一般的には* これは良いアドバイスです。
 
 <!-- However, `unwrap` can still be used judiciously. What exactly justifies use of -->
 <!-- `unwrap` is somewhat of a grey area and reasonable people can disagree. I'll -->
 <!-- summarize some of my *opinions* on the matter. -->
-しかしながら、`unwrap` を使うのが懸命なこともあります。
+しかしながら `unwrap` を使うのが懸命なこともあります。
 どんな場合が `unwrap` の使用を正当化できるのかについては、グレーな部分があり、人によって意見が分かれます。
 ここで、この問題についての、私の *意見* をまとめたいと思います。
 
@@ -895,24 +905,24 @@ fn double_number(number_str: &str) -> Result<i32> {
 さらに `Option` を使う時は、ほとんどの場合で [`expect`](../std/option/enum.Option.html#method.expect) メソッドを使う方がいいでしょう。
 `expect` は `unwrap` とほぼ同じことをしますが、 `expect` では与えられたメッセージを表示するところが異なります。
 この方が結果として起こったパニックを、少し扱いやすいものにします。
-なぜなら「`None` な値に対してアンラップが呼ばれました」というメッセージの代わりに、指定したメッセージが表示されるからです。
+なぜなら「 `None` な値に対してアンラップが呼ばれました」というメッセージの代わりに、指定したメッセージが表示されるからです。
 
 <!-- My advice boils down to this: use good judgment. There's a reason why the words -->
 <!-- “never do X” or “Y is considered harmful” don't appear in my writing. There are -->
 <!-- trade offs to all things, and it is up to you as the programmer to determine -->
 <!-- what is acceptable for your use cases. My goal is only to help you evaluate -->
 <!-- trade offs as accurately as possible. -->
-私のアドバイスを突き詰めれば、よく見極めなさい、ということです。
-私の書いた文章の中に、「決して、Xをしてはならない」とか「Yは有害だと考えよう」といった言葉が現れないのには、れっきとした理由があります。
-あるユースケースでこれが容認できるものであるかは、プログラマであるあなたの判断に委ねられます。
+私のアドバイスを突き詰めると、よく見極めなさい、ということです。
+私の書いた文章の中に「決して、Xをしてはならない」とか「Yは有害だと考えよう」といった言葉が現れないのには、れっきとした理由があります。
+あるユースケースでこれが容認できるかどうかは、プログラマであるあなたの判断に委ねられます。
 私が目指していることは、あなたがトレードオフをできるかぎり正確に評価できるよう、手助けをすることなのです。
 
 <!-- Now that we've covered the basics of error handling in Rust, and -->
 <!-- explained unwrapping, let's start exploring more of the standard -->
 <!-- library. -->
-Rustにおけるエラーハンドリングの基礎についてカバーできました。
+これでRustにおけるエラーハンドリングの基礎をカバーできました。
 また、アンラップについても解説しました。
-標準ライブラリの中をさらに探索していきましょう。
+では標準ライブラリをもっと探索しましょう。
 
 <!-- # Working with multiple error types -->
 <span id="working-with-multiple-error-types"></span>
@@ -927,8 +937,8 @@ Rustにおけるエラーハンドリングの基礎についてカバーでき�
 これまで見てきたエラーハンドリングは、単体の `Option<T>` または `Result<T, SomeError>` だけで構成されていました。
 ではもし `Option` と `Result` の両方があったらどうなるでしょうか？
 あるいは、`Result<T, Error1>` と `Result<T, Error2>` があったら？
-*異なるエラー型の組み合わせ* を処理することが、次なる課題となります。
-また、この章の残りのほとんどの部分に共通する、主なテーマとなります。
+*異なるエラー型の組み合わせ* を処理することが、いま目の前にある次の課題です。
+またこれが、この章の残りのほとんどの部分に共通する、主要なテーマとなります。
 
 <!-- ## Composing `Option` and `Result` -->
 <span id="composing-option-and-result"></span>
@@ -943,7 +953,7 @@ Rustにおけるエラーハンドリングの基礎についてカバーでき�
 <!-- Of course, in real code, things aren't always as clean. Sometimes you have a -->
 <!-- mix of `Option` and `Result` types. Must we resort to explicit case analysis, -->
 <!-- or can we continue using combinators? -->
-もちろん現実のコードでは、いつもこんなにうまくいくとは限りません。
+もちろん現実のコードでは、いつもこんなにきれいにいくとは限りません。
 時には `Option` と `Result` 型が混在していることもあるでしょう。
 そんな時は、明確なケース分析に頼るしかないのでしょうか？
 それとも、コンビネータを使い続けることができるのでしょうか？
@@ -956,8 +966,8 @@ use std::env;
 
 fn main() {
     let mut argv = env::args();
-    let arg: String = argv.nth(1).unwrap(); // エラー１
-    let n: i32 = arg.parse().unwrap(); // エラー２
+    let arg: String = argv.nth(1).unwrap(); // エラー1
+    let n: i32 = arg.parse().unwrap(); // エラー2
     println!("{}", 2 * n);
 }
 ```
@@ -965,7 +975,7 @@ fn main() {
 <!-- Given our new found knowledge of `Option`, `Result` and their various -->
 <!-- combinators, we should try to rewrite this so that errors are handled properly -->
 <!-- and the program doesn't panic if there's an error. -->
-これまでに獲得した知識、つまり `Option`、`Result`、コンビネータに関する知識を総動員して、これを書き換えましょう。
+これまでに獲得した知識、つまり `Option`、`Result` と、それらのコンビネータに関する知識を総動員して、これを書き換えましょう。
 エラーを的確に処理し、もしエラーが起こっても、プログラムがパニックしないようにするのです。
 
 <!-- The tricky aspect here is that `argv.nth(1)` produces an `Option` while -->
@@ -975,10 +985,10 @@ fn main() {
 <!-- (from `env::args()`) means the user didn't invoke the program correctly. We -->
 <!-- could just use a `String` to describe the error. Let's try: -->
 ここでの問題は `argv.nth(1)` が `Option` を返すのに、 `arg.parse()` は `Result` を返すことです。
-これらを直接組み合わせることはできません。
+これらを直接合成することはできません。
 `Option` と `Result` の両方に出会った時の *普段の* 解決策は `Option` を `Result` に変換することです。
 この例で（`env::args()` が）コマンドライン引数を返さなかったということは、ユーザーがプログラムを正しく起動しなかったことを意味します。
-エラーの理由を示すために、単に `String` を使うことができます。
+エラーの理由を示すために、単純に `String` を使うこともできます。
 試してみましょう：
 
 <span id="code-error-double-string"></span>
@@ -1001,7 +1011,7 @@ fn main() {
 }
 ```
 
-> 訳注：意味は
+> 訳注：
 >
 > * Please give at least one argument：最低１つの引数を指定してください。
 >
@@ -1058,7 +1068,7 @@ fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
 <!-- contents and converting its contents to a number. Then we multiply it by `2` -->
 <!-- and print the output. -->
 まずは簡単なものから始めましょう。
-ここでのタスクは、ファイルを開き、その内容を全て読み込み、１つの数値に変換することです。
+ここでのタスクは、ファイルを開き、その内容を全て読み込み、1つの数値に変換することです。
 そしてそれに `2` を掛けて、結果を表示します。
 
 <!-- Although I've tried to convince you not to use `unwrap`, it can be useful -->
@@ -1069,7 +1079,7 @@ fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
 いままで `unwrap` を使わないよう説得してきたわけですが、最初にコードを書くときには `unwrap` が便利に使えます。
 こうすることで、エラーハンドリングではなく、本来解決すべき課題に集中できます。
 それと同時に `unwrap` は、的確なエラーハンドリングが必要とされる場所を教えてくれます。
-ここから始ることをコードへの取っ掛かりとしましょう。
+ここから始ることをコーディングへの取っ掛かりとしましょう。
 その後、リファクタリングによって、エラーハンドリングを改善していきます。
 
 ```rust,should_panic
@@ -1121,11 +1131,11 @@ fn main() {
 <!-- [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) -->
 <!-- type. The `io::Error` type in particular is *pervasive* throughout the -->
 <!-- standard library. You will see it again and again. -->
-最初の２つの問題は、[`std::io::Error`](../std/io/struct.Error.html) 型で記述されます。
+最初の2つの問題は、[`std::io::Error`](../std/io/struct.Error.html) 型で記述されます。
 これは [`std::fs::File::open`](../std/fs/struct.File.html#method.open) と [`std::io::Read::read_to_string`](../std/io/trait.Read.html#method.read_to_string) のリターン型からわかります。
 （ちなみにどちらも、以前紹介した [`Result` 型エイリアスのイディオム](#the-result-type-alias-idiom) を用いています。
 `Result` 型のところをクリックすると、いま言った [型エイリアスを見たり](../std/io/type.Result.html)、必然的に、中で使われている `io::Error` 型も見ることになるでしょう。）
-３番目の問題は [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) 型で記述されます。
+3番目の問題は [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) 型で記述されます。
 特にこの `io::Error` 型は標準ライブラリ全体に *深く浸透しています* 。
 これからこの型を幾度となく見ることでしょう。
 
@@ -1137,10 +1147,10 @@ fn main() {
 <!-- useful way of reporting an error. Thus, we must start by changing the return -->
 <!-- type from `i32` to something else. -->
 まず最初に `file_double` 関数をリファクタリングしましょう。
-この関数を、この課題の他の構成要素とコンポーザブルにするためには、上記の問題のいずれかに遭遇しても、パニック *しない* ようにしなければなりません。
+この関数を、この課題の他の構成要素と合成可能にするためには、上記の問題のいずれかに遭遇しても、パニック *しない* ようにしなければなりません。
 これは実質的には、なにかの操作に失敗した時に、この関数が *エラーを返すべき* であることを意味します。
 ここでの問題は、`file_double` のリターン型が `i32` であるため、エラーの報告には全く役立たないことです。
-従って、リターン型を `i32` から別の何かに変えることから始めなければなりません。
+従ってリターン型を `i32` から別の何かに変えることから始めましょう。
 
 <!-- The first thing we need to decide: should we use `Option` or `Result`? We -->
 <!-- certainly could use `Option` very easily. If any of the three errors occur, we -->
@@ -1153,14 +1163,14 @@ fn main() {
 最初に決めるべきことは、 `Option` と `Result` のどちらを使うかです。
 `Option` なら間違いなく簡単に使えます。
 もし３つのエラーのどれかが起こったら、単に `None` を返せばいいのですから。
-これはたしかに動きます。
-でも、 *パニックを起こすよりも良くなっている* とはいえ、もっと良くすることもだってできます。
+これはたしかに動きますし、 *パニックを起こすよりは良くなっています* 。
+とはいえ、もっと良くすることもだってできます。
 `Option` の代わりに、起こったエラーについての詳細を渡すべきでしょう。
 ここでは *エラーの可能性* を示したいのですから、`Result<i32, E>` を使うのがよさそうです。
 でも `E` を何にしたらいいのでしょうか？
 ２つの *異なる* 型のエラーが起こりえますので、これらを共通の型に変換する必要があります。
 そのような型の一つに `String` があります。
-これがコードにどんな影響を与えるか見てみましょう：
+この変更がコードにどんな影響を与えるか見てみましょう：
 
 ```rust
 use std::fs::File;
@@ -1208,9 +1218,9 @@ fn main() {
 <!-- could fail: reading from the file and parsing the contents as a number. -->
 <!-- Correspondingly, there are two calls to `and_then`. -->
 `and_then` は、エラーを返すかもしれない処理同士を繋いでいくために使います。
-ファイルを開いた後に、失敗するかもしれない処理が２つあります：
+ファイルを開いた後に、失敗するかもしれない処理が2つあります：
 ファイルからの読み込むところと、内容を数値としてパースするところです。
-これに対応して `and_then` も２回呼ばれています。
+これに対応して `and_then` も2回呼ばれています。
 
 <!-- `map` is used to apply a function to the `Ok(...)` value of a `Result`. For -->
 <!-- example, the very last call to `map` multiplies the `Ok(...)` value (which is -->
@@ -1363,7 +1373,7 @@ fn main() {
 <!-- The good news is that we will soon learn how to remove those `map_err` calls! -->
 <!-- The bad news is that we will need to learn a bit more about a couple important -->
 <!-- traits in the standard library before we can remove the `map_err` calls. -->
-[先ほどの `try!` の定義](#code-try-def-simple) では、 `map_err` は依然として必要になります。
+[今の私たちの `try!` の定義](#code-try-def-simple) ですと、 `map_err` は依然として必要になります。
 なぜなら、今でもエラー型を `String` 型に変換しなければならないからです。
 でも、いい知らせがあります。
 `map_err` の呼び出しを省く方法をすぐに習うのです!
@@ -1373,52 +1383,78 @@ fn main() {
 <span id="defining-your-own-error-type"></span>
 ## 独自のエラー型を定義する
 
-Before we dive into some of the standard library error traits, I'd like to wrap
-up this section by removing the use of `String` as our error type in the
-previous examples.
+<!-- Before we dive into some of the standard library error traits, I'd like to wrap -->
+<!-- up this section by removing the use of `String` as our error type in the -->
+<!-- previous examples. -->
+標準ライブラリのいくつかのエラートレイトについて深く学ぶ前に、これまでの例にあったエラー型における `String` の使用を取り除くことで、この小節を締めくくりたいと思います。
 
-Using `String` as we did in our previous examples is convenient because it's
-easy to convert errors to strings, or even make up your own errors as strings
-on the spot. However, using `String` for your errors has some downsides.
+<!-- Using `String` as we did in our previous examples is convenient because it's -->
+<!-- easy to convert errors to strings, or even make up your own errors as strings -->
+<!-- on the spot. However, using `String` for your errors has some downsides. -->
+これまでの例では `String` を便利に使ってきました。
+なぜなら、エラーは簡単に文字列に変換できますし、エラーが起こった場所で、文字列によるエラーを作り出すこともできるからです。
+しかし `String` を使ってエラーを表すことには欠点もあります。
 
-The first downside is that the error messages tend to clutter your
-code. It's possible to define the error messages elsewhere, but unless
-you're unusually disciplined, it is very tempting to embed the error
-message into your code. Indeed, we did exactly this in a [previous
-example](#code-error-double-string).
+<!-- The first downside is that the error messages tend to clutter your -->
+<!-- code. It's possible to define the error messages elsewhere, but unless -->
+<!-- you're unusually disciplined, it is very tempting to embed the error -->
+<!-- message into your code. Indeed, we did exactly this in a [previous -->
+<!-- example](#code-error-double-string). -->
+ひとつ目の欠点は、エラーメッセージがコードのあちこちに散らかる傾向があることです。
+エラーメッセージをどこか別のところで定義することもできますが、特別に訓練された人でない限りは、エラーメッセージをコードに埋め込むことへの誘惑に負けてしまうでしょう。
+実際、私たちは [以前の例](#code-error-double-string) でも、全くこの通りのことをしました。
 
-The second and more important downside is that `String`s are *lossy*. That is,
-if all errors are converted to strings, then the errors we pass to the caller
-become completely opaque. The only reasonable thing the caller can do with a
-`String` error is show it to the user. Certainly, inspecting the string to
-determine the type of error is not robust. (Admittedly, this downside is far
-more important inside of a library as opposed to, say, an application.)
+<!-- The second and more important downside is that `String`s are *lossy*. That is, -->
+<!-- if all errors are converted to strings, then the errors we pass to the caller -->
+<!-- become completely opaque. The only reasonable thing the caller can do with a -->
+<!-- `String` error is show it to the user. Certainly, inspecting the string to -->
+<!-- determine the type of error is not robust. (Admittedly, this downside is far -->
+<!-- more important inside of a library as opposed to, say, an application.) -->
+ふたつ目の、もっと重大な欠点は、 `String` への変換で *情報が欠落* することです。
+もし全てのエラーを文字列に変換してしまったら、呼び出し元に渡したエラーが、不明瞭なものなってしまいます。
+呼び出し元が `String` のエラーに対してできる唯一妥当なことは、それをユーザーに表示することだけです。
+文字列を解析して、どのタイプのエラーだったか判断するのは、もちろん強固だとはいえません。
+（疑いなく、この欠点はライブラリーの中の方が、他のもの、例えばアプリケーションよりも、ずっと重要となるでしょう。）
 
-For example, the `io::Error` type embeds an
-[`io::ErrorKind`](../std/io/enum.ErrorKind.html),
-which is *structured data* that represents what went wrong during an IO
-operation. This is important because you might want to react differently
-depending on the error. (e.g., A `BrokenPipe` error might mean quitting your
-program gracefully while a `NotFound` error might mean exiting with an error
-code and showing an error to the user.) With `io::ErrorKind`, the caller can
-examine the type of an error with case analysis, which is strictly superior
-to trying to tease out the details of an error inside of a `String`.
+<!-- For example, the `io::Error` type embeds an -->
+<!-- [`io::ErrorKind`](../std/io/enum.ErrorKind.html), -->
+<!-- which is *structured data* that represents what went wrong during an IO -->
+<!-- operation. This is important because you might want to react differently -->
+<!-- depending on the error. (e.g., A `BrokenPipe` error might mean quitting your -->
+<!-- program gracefully while a `NotFound` error might mean exiting with an error -->
+<!-- code and showing an error to the user.) With `io::ErrorKind`, the caller can -->
+<!-- examine the type of an error with case analysis, which is strictly superior -->
+<!-- to trying to tease out the details of an error inside of a `String`. -->
+例えば `io::Error` 型には [`io::ErrorKind`](../std/io/enum.ErrorKind.html) が埋め込まれます。
+これは *構造化されたデータ* で、IO操作において何が失敗したのかを示します。
+これは重要です。
+なぜなら、エラーによって違った対応をとりたいこともあるからです。
+（例： あなたのアプリケーションでは `BrokenPipe` エラーはグレースフルな（正規の手順を踏んだ）終了を意味し、 `NotFound` エラーはエラーコードと共に異常終了して、ユーザーにエラーを表示することを意味するかもしれません。）
+`io::ErrorKind` なら、呼び出し元でエラーの種類を調査するために、ケース分析が使えます。
+これは `String` の中からエラーの詳細を探りだすことよりも、明らかに優れています。
 
-Instead of using a `String` as an error type in our previous example of reading
-an integer from a file, we can define our own error type that represents errors
-with *structured data*. We endeavor to not drop information from underlying
-errors in case the caller wants to inspect the details.
+<!-- Instead of using a `String` as an error type in our previous example of reading -->
+<!-- an integer from a file, we can define our own error type that represents errors -->
+<!-- with *structured data*. We endeavor to not drop information from underlying -->
+<!-- errors in case the caller wants to inspect the details. -->
+ファイルから整数値をとりだす例で `String` をエラー型として用いた代わりに、独自のエラー型を定義し、 *構造化データ* によってエラー内容を表すことができます。
+呼び出し元が詳細を検査したい時に備え、大元のエラーからの情報を取りこぼさないよう、努力してみましょう。
 
-The ideal way to represent *one of many possibilities* is to define our own
-sum type using `enum`. In our case, an error is either an `io::Error` or a
-`num::ParseIntError`, so a natural definition arises:
+<!-- The ideal way to represent *one of many possibilities* is to define our own -->
+<!-- sum type using `enum`. In our case, an error is either an `io::Error` or a -->
+<!-- `num::ParseIntError`, so a natural definition arises: -->
+*多くの可能性のうちの一つ* を表す理想的な方法は、 `enum` を使って独自の直和型を定義することです。
+このケースでは、エラーは `io::Error` もしくは `num::ParseIntError` でした。
+ここから思い浮かぶ自然な定義は：
 
 ```rust
 use std::io;
 use std::num;
 
-// We derive `Debug` because all types should probably derive `Debug`.
-// This gives us a reasonable human readable description of `CliError` values.
+# // We derive `Debug` because all types should probably derive `Debug`.
+# // This gives us a reasonable human readable description of `CliError` values.
+// 全ての型は `Debug` を導出するべきでしょうから、ここでも `Debug` を導出します。
+// これにより `CliError` 値について、人間が十分理解できる説明を得られます。
 #[derive(Debug)]
 enum CliError {
     Io(io::Error),
@@ -1426,9 +1462,11 @@ enum CliError {
 }
 ```
 
-Tweaking our code is very easy. Instead of converting errors to strings, we
-simply convert them to our `CliError` type using the corresponding value
-constructor:
+<!-- Tweaking our code is very easy. Instead of converting errors to strings, we -->
+<!-- simply convert them to our `CliError` type using the corresponding value -->
+<!-- constructor: -->
+コードの微調整はとても簡単にできます。
+エラーを文字列に変換する代わりに、エラーに対応する値コンストラクタを用いて `CliError` 型に変換すればいいのです：
 
 ```rust
 # #[derive(Debug)]
@@ -1453,77 +1491,107 @@ fn main() {
 }
 ```
 
-The only change here is switching `map_err(|e| e.to_string())` (which converts
-errors to strings) to `map_err(CliError::Io)` or `map_err(CliError::Parse)`.
-The *caller* gets to decide the level of detail to report to the user. In
-effect, using a `String` as an error type removes choices from the caller while
-using a custom `enum` error type like `CliError` gives the caller all of the
-conveniences as before in addition to *structured data* describing the error.
+<!-- The only change here is switching `map_err(|e| e.to_string())` (which converts -->
+<!-- errors to strings) to `map_err(CliError::Io)` or `map_err(CliError::Parse)`. -->
+<!-- The *caller* gets to decide the level of detail to report to the user. In -->
+<!-- effect, using a `String` as an error type removes choices from the caller while -->
+<!-- using a custom `enum` error type like `CliError` gives the caller all of the -->
+<!-- conveniences as before in addition to *structured data* describing the error. -->
+ここでの変更点は、（エラーを文字列に変換する） `map_err(|e| e.to_string())` を、`map_err(CliError::Io)` や `map_err(CliError::Parse)` へ切り替えたことです。
+こうして *呼び出し元* が、ユーザーに対してどの程度の詳細を報告するか決められるようになりました。
+`String` をエラー型として用いることは、事実上、呼び出し元からこうした選択肢を奪ってしまいます。
+`CliError` のような独自の `enum` エラー型を用いることは、 *構造化データ* によるエラーの説明だけでなく、これまでと同様の使いやすさをもたらします。
 
-A rule of thumb is to define your own error type, but a `String` error type
-will do in a pinch, particularly if you're writing an application. If you're
-writing a library, defining your own error type should be strongly preferred so
-that you don't remove choices from the caller unnecessarily.
+<!-- A rule of thumb is to define your own error type, but a `String` error type -->
+<!-- will do in a pinch, particularly if you're writing an application. If you're -->
+<!-- writing a library, defining your own error type should be strongly preferred so -->
+<!-- that you don't remove choices from the caller unnecessarily. -->
+目安となる方法は独自のエラー型を定義することですが、 `String` エラー型も、いざという時に役立ちます。
+時にアプリケーションを書いている時などはそうです。
+もしライブラリを書いているのなら、呼び出し元の選択肢を無意味に奪わないために、独自のエラー型を定義することが強く推奨されます。
 
 <!-- # Standard library traits used for error handling -->
 <span id="standard-library-traits-used-for-error-handling"></span>
 # 標準ライブラリのトレイトによるエラー処理
 
-The standard library defines two integral traits for error handling:
-[`std::error::Error`](../std/error/trait.Error.html) and
-[`std::convert::From`](../std/convert/trait.From.html). While `Error`
-is designed specifically for generically describing errors, the `From`
-trait serves a more general role for converting values between two
-distinct types.
+<!-- The standard library defines two integral traits for error handling: -->
+<!-- [`std::error::Error`](../std/error/trait.Error.html) and -->
+<!-- [`std::convert::From`](../std/convert/trait.From.html). While `Error` -->
+<!-- is designed specifically for generically describing errors, the `From` -->
+<!-- trait serves a more general role for converting values between two -->
+<!-- distinct types. -->
+標準ライブラリでは、エラーハンドリングに欠かせないトレイトが、2つ定義されています：
+[`std::error::Error`](../std/error/trait.Error.html) と [`std::convert::From`](../std/convert/trait.From.html) です。
+`Error` はエラーを総称的に説明するために特化して設計されているのに対し、 `From` トレイトはもっと汎用的な、2つの異なる型の間で値を変換する役割を担います。
 
-<span id="the-error-trait"></span>
 <!-- ## The `Error` trait -->
+<span id="the-error-trait"></span>
 ## `Error` トレイト
 
-The `Error` trait is [defined in the standard
-library](../std/error/trait.Error.html):
+<!-- The `Error` trait is [defined in the standard -->
+<!-- library](../std/error/trait.Error.html): -->
+`Error` トレイトは [標準ライブラリで定義されています](../std/error/trait.Error.html) ：
 
 ```rust
 use std::fmt::{Debug, Display};
 
 trait Error: Debug + Display {
-  /// A short description of the error.
+#  /// A short description of the error.
+  /// エラーの簡単な説明
   fn description(&self) -> &str;
 
-  /// The lower level cause of this error, if any.
+#   /// The lower level cause of this error, if any.
+  /// このエラーの一段下のレベルの原因（もしあれば）
   fn cause(&self) -> Option<&Error> { None }
 }
 ```
 
-This trait is super generic because it is meant to be implemented for *all*
-types that represent errors. This will prove useful for writing composable code
-as we'll see later. Otherwise, the trait allows you to do at least the
-following things:
+<!-- This trait is super generic because it is meant to be implemented for *all* -->
+<!-- types that represent errors. This will prove useful for writing composable code -->
+<!-- as we'll see later. Otherwise, the trait allows you to do at least the -->
+<!-- following things: -->
+このトレイトはエラーを表す *全て* の型で実装することを目的としており、ごくごく一般的なものとなっています。
+この後すぐ見るように、このことが合成可能なコードを書くことに一役買っていることが証明されます。
+一方で、このトレイトは最低でも以下のことをさせてくれます：
 
-* Obtain a `Debug` representation of the error.
-* Obtain a user-facing `Display` representation of the error.
-* Obtain a short description of the error (via the `description` method).
-* Inspect the causal chain of an error, if one exists (via the `cause` method).
+<!-- * Obtain a `Debug` representation of the error. -->
+<!-- * Obtain a user-facing `Display` representation of the error. -->
+<!-- * Obtain a short description of the error (via the `description` method). -->
+<!-- * Inspect the causal chain of an error, if one exists (via the `cause` method). -->
+* エラーの `Debug` 表現を取得する
+* エラーのユーザー向けの `Display` 表現を取得する
+* エラーの簡単な説明を取得する（`cause` メソッドを使用）
+* エラーの因果関係の連鎖が提供されているなら、それを調べる（`cause` メソッドを使用）
 
-The first two are a result of `Error` requiring impls for both `Debug` and
-`Display`. The latter two are from the two methods defined on `Error`. The
-power of `Error` comes from the fact that all error types impl `Error`, which
-means errors can be existentially quantified as a
-[trait object](../book/trait-objects.html).
-This manifests as either `Box<Error>` or `&Error`. Indeed, the `cause` method
-returns an `&Error`, which is itself a trait object. We'll revisit the
-`Error` trait's utility as a trait object later.
+<!-- The first two are a result of `Error` requiring impls for both `Debug` and -->
+<!-- `Display`. The latter two are from the two methods defined on `Error`. The -->
+<!-- power of `Error` comes from the fact that all error types impl `Error`, which -->
+<!-- means errors can be existentially quantified as a -->
+<!-- [trait object](../book/trait-objects.html). -->
+<!-- This manifests as either `Box<Error>` or `&Error`. Indeed, the `cause` method -->
+<!-- returns an `&Error`, which is itself a trait object. We'll revisit the -->
+<!-- `Error` trait's utility as a trait object later. -->
+最初の2つは `Error` が `Debug` と `Display` の実装を必要とした結果です。
+残りの2つは `Error` が定義している2つのメソッドによるものです。
+`Error` の力は、実際に全てのエラー型が `Error` を実装していることから来ており、エラーが [トレイトオブジェクト](../book/trait-objects.html) として実存的に定量化できることを意味しています。
+これは `Box<Error>` または `&Error` のいずれかとして現れます。
+まさしく `cause` メソッドは `&Error` を返し、それ自身がトレイトオブジェクトです。
+`Error` トレイトのトレイトオブジェクトとしての用例については、後ほど再びとりあげます。
 
-For now, it suffices to show an example implementing the `Error` trait. Let's
-use the error type we defined in the
-[previous section](#defining-your-own-error-type):
+<!-- For now, it suffices to show an example implementing the `Error` trait. Let's -->
+<!-- use the error type we defined in the -->
+<!-- [previous section](#defining-your-own-error-type): -->
+`Error` トレイトの実装例を見せるにはもう十分でしょう。
+[前の節](#defining-your-own-error-type) で定義したエラー型を使ってみましょう：
 
 ```rust
 use std::io;
 use std::num;
 
-// We derive `Debug` because all types should probably derive `Debug`.
-// This gives us a reasonable human readable description of `CliError` values.
+# // We derive `Debug` because all types should probably derive `Debug`.
+# // This gives us a reasonable human readable description of `CliError` values.
+// 全ての型は `Debug` を導出するべきでしょうから、ここでも `Debug` を導出します。
+// これにより `CliError` 値について、人間が十分理解できる説明を得られます。
 #[derive(Debug)]
 enum CliError {
     Io(io::Error),
@@ -1531,13 +1599,17 @@ enum CliError {
 }
 ```
 
-This particular error type represents the possibility of two types of errors
-occurring: an error dealing with I/O or an error converting a string to a
-number. The error could represent as many error types as you want by adding new
-variants to the `enum` definition.
+<!-- This particular error type represents the possibility of two types of errors -->
+<!-- occurring: an error dealing with I/O or an error converting a string to a -->
+<!-- number. The error could represent as many error types as you want by adding new -->
+<!-- variants to the `enum` definition. -->
+このエラー型は2種類のエラー、つまり、IOを扱っている時のエラー、あるいは、文字列を通知に変換するときのエラーが起こる可能性を示しています。
+`enum` 定義にバリエーションを付け加えることで、好きなだけの数のエラーの種類を表現できます。
 
-Implementing `Error` is pretty straight-forward. It's mostly going to be a lot
-explicit case analysis.
+<!-- Implementing `Error` is pretty straight-forward. It's mostly going to be a lot -->
+<!-- explicit case analysis. -->
+`Error` を実装するのはかなり単純な作業です。
+ほとんどの場合はたくさんの明示的なケース分析になります。
 
 ```rust,ignore
 use std::error;
@@ -1546,8 +1618,10 @@ use std::fmt;
 impl fmt::Display for CliError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
-            // Both underlying errors already impl `Display`, so we defer to
-            // their implementations.
+#           // Both underlying errors already impl `Display`, so we defer to
+#           // their implementations.
+            // 下層のエラーは両方ともすでに `Display` を実装しているので、
+            // それらの実装に従います。
             CliError::Io(ref err) => write!(f, "IO error: {}", err),
             CliError::Parse(ref err) => write!(f, "Parse error: {}", err),
         }
@@ -1556,8 +1630,10 @@ impl fmt::Display for CliError {
 
 impl error::Error for CliError {
     fn description(&self) -> &str {
-        // Both underlying errors already impl `Error`, so we defer to their
-        // implementations.
+#       // Both underlying errors already impl `Error`, so we defer to their
+#       // implementations.
+        // 下層のエラーは両方ともすでに `Error` を実装しているので、
+        // それらの実装に従います。
         match *self {
             CliError::Io(ref err) => err.description(),
             CliError::Parse(ref err) => err.description(),
@@ -1566,10 +1642,14 @@ impl error::Error for CliError {
 
     fn cause(&self) -> Option<&error::Error> {
         match *self {
-            // N.B. Both of these implicitly cast `err` from their concrete
-            // types (either `&io::Error` or `&num::ParseIntError`)
-            // to a trait object `&Error`. This works because both error types
-            // implement `Error`.
+#           // N.B. Both of these implicitly cast `err` from their concrete
+#           // types (either `&io::Error` or `&num::ParseIntError`)
+#           // to a trait object `&Error`. This works because both error types
+#           // implement `Error`.
+            // 注意：これらは両方とも `err` を、その具体型（`&io::Error` か
+            // `&num::ParseIntError` のいずれか）から、トレイトオブジェクト
+            // `&Error` へ暗黙的にキャストします。どちらのエラー型も `Error` を
+            // 実装しているので、問題なく動きます。
             CliError::Io(ref err) => Some(err),
             CliError::Parse(ref err) => Some(err),
         }
@@ -1577,24 +1657,20 @@ impl error::Error for CliError {
 }
 ```
 
-> 訳注：意味は
->
->
->
-> です。
-
-
-We note that this is a very typical implementation of `Error`: match on your
-different error types and satisfy the contracts defined for `description` and
-`cause`.
+<!-- We note that this is a very typical implementation of `Error`: match on your -->
+<!-- different error types and satisfy the contracts defined for `description` and -->
+<!-- `cause`. -->
+これはとても典型的な `Error` の実装だということに留意してください。
+このように、異なるエラー型にマッチさせて、`description` と `cause` のコントラクトを満たします。
 
 <!-- ## The `From` trait -->
 <span id="the-from-trait"></span>
 ## `From` トレイト
 
-The `std::convert::From` trait is
-[defined in the standard
-library](../std/convert/trait.From.html):
+<!-- The `std::convert::From` trait is -->
+<!-- [defined in the standard -->
+<!-- library](../std/convert/trait.From.html): -->
+`std::convert::From` は [標準ライブラリで定義されています](../std/convert/trait.From.html) ：
 
 <span id="code-from-def"></span>
 
@@ -1610,6 +1686,7 @@ way to talk about conversion *from* a particular type `T` to some other type
 The crux of `From` is the
 [set of implementations provided by the standard
 library](../std/convert/trait.From.html).
+楽しくなるくらい簡単でしょ？
 
 Here are a few simple examples demonstrating how `From` works:
 
@@ -1775,8 +1852,10 @@ use std::io::{self, Read};
 use std::num;
 use std::path::Path;
 
-// We derive `Debug` because all types should probably derive `Debug`.
-// This gives us a reasonable human readable description of `CliError` values.
+# // We derive `Debug` because all types should probably derive `Debug`.
+# // This gives us a reasonable human readable description of `CliError` values.
+// 全ての型は `Debug` を導出するべきでしょうから、ここでも `Debug` を導出します。
+// これにより `CliError` 値について、人間が十分理解できる説明を得られます。
 #[derive(Debug)]
 enum CliError {
     Io(io::Error),
@@ -2029,11 +2108,9 @@ fn main() {
 }
 ```
 
-> 訳注：意味は
+> 訳注
 >
 >
->
-> です。
 
 First, we get a vector of the arguments passed into our program. We
 then store the first one, knowing that it is our program's name. Once
@@ -2444,11 +2521,10 @@ impl Error for CliError {
 }
 ```
 
-> 訳注：意味は
+> 訳注：
 >
 >
 >
-> です。
 
 Before we can use our `CliError` type in our `search` function, we need to
 provide a couple `From` impls. How do we know which impls to provide? Well,
