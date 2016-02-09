@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Associated Types</title>
+    <title>関連型</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,13 +185,26 @@
 <div id='page'>
 
 
-    <h1 class="title">Associated Types</h1>
-    <p>Associated types are a powerful part of Rust’s type system. They’re related to
-the idea of a ‘type family’, in other words, grouping multiple types together. That
-description is a bit abstract, so let’s dive right into an example. If you want
-to write a <code>Graph</code> trait, you have two types to be generic over: the node type
-and the edge type. So you might write a trait, <code>Graph&lt;N, E&gt;</code>, that looks like
-this:</p>
+    <h1 class="title">関連型</h1>
+    <!-- % Associated Types -->
+
+<!-- Associated types are a powerful part of Rust’s type system. They’re related to -->
+
+<!-- the idea of a ‘type family’, in other words, grouping multiple types together. That -->
+
+<!-- description is a bit abstract, so let’s dive right into an example. If you want -->
+
+<!-- to write a `Graph` trait, you have two types to be generic over: the node type -->
+
+<!-- and the edge type. So you might write a trait, `Graph<N, E>`, that looks like -->
+
+<!-- this: -->
+
+<p>関連型は、Rust型システムの強力な部分です。関連型は、「型族」という概念と関連が有り、
+言い換えると、複数の型をグループ化するものです。
+この説明はすこし抽象的なので、実際の例を見ていきましょう。
+例えば、 <code>Graph</code> トレイトを定義したいとしましょう、このときジェネリックになる２つの型: 頂点の型、辺の型 が存在します。
+そのため、以下のように <code>Graph&lt;N, E&gt;</code> と書きたくなるでしょう:</p>
 <span class='rusttest'>fn main() {
     trait Graph&lt;N, E&gt; {
         fn has_edge(&amp;self, &amp;N, &amp;N) -&gt; bool;
@@ -205,19 +218,31 @@ this:</p>
     <span class='comment'>// etc</span>
 }</pre>
 
-<p>While this sort of works, it ends up being awkward. For example, any function
-that wants to take a <code>Graph</code> as a parameter now <em>also</em> needs to be generic over
-the <code>N</code>ode and <code>E</code>dge types too:</p>
+<!-- While this sort of works, it ends up being awkward. For example, any function -->
+
+<!-- that wants to take a `Graph` as a parameter now _also_ needs to be generic over -->
+
+<!-- the `N`ode and `E`dge types too: -->
+
+<p>たしかに上のようなコードは動作しますが、この <code>Graph</code> の定義は少し扱いづらいです。
+たとえば、任意の <code>Graph</code> を引数に取る関数は、 <em>同時に</em> 頂点 <code>N</code> と辺 <code>E</code> についてもジェネリックとなることになります:</p>
 <span class='rusttest'>fn main() {
     fn distance&lt;N, E, G: Graph&lt;N, E&gt;&gt;(graph: &amp;G, start: &amp;N, end: &amp;N) -&gt; u32 { ... }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>distance</span><span class='op'>&lt;</span><span class='ident'>N</span>, <span class='ident'>E</span>, <span class='ident'>G</span>: <span class='ident'>Graph</span><span class='op'>&lt;</span><span class='ident'>N</span>, <span class='ident'>E</span><span class='op'>&gt;&gt;</span>(<span class='ident'>graph</span>: <span class='kw-2'>&amp;</span><span class='ident'>G</span>, <span class='ident'>start</span>: <span class='kw-2'>&amp;</span><span class='ident'>N</span>, <span class='ident'>end</span>: <span class='kw-2'>&amp;</span><span class='ident'>N</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> { ... }</pre>
 
-<p>Our distance calculation works regardless of our <code>Edge</code> type, so the <code>E</code> stuff in
-this signature is just a distraction.</p>
+<!-- Our distance calculation works regardless of our `Edge` type, so the `E` stuff in -->
 
-<p>What we really want to say is that a certain <code>E</code>dge and <code>N</code>ode type come together
-to form each kind of <code>Graph</code>. We can do that with associated types:</p>
+<!-- this signature is just a distraction. -->
+
+<p>この距離を計算する関数distanceは、辺の型に関わらず動作します、そのためシグネチャに含まれる <code>E</code> に関連する部分は邪魔でしかありません。</p>
+
+<!-- What we really want to say is that a certain `E`dge and `N`ode type come together -->
+
+<!-- to form each kind of `Graph`. We can do that with associated types: -->
+
+<p>本当に表現したいことは、それぞれのグラフ( <code>Graph</code> )は辺( <code>E</code> )や頂点( <code>N</code> )で構成されているということです。
+それは、以下のように関連型を用いて表現することができます:</p>
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -237,18 +262,28 @@ to form each kind of <code>Graph</code>. We can do that with associated types:</
     <span class='comment'>// etc</span>
 }</pre>
 
-<p>Now, our clients can be abstract over a given <code>Graph</code>:</p>
+<!-- Now, our clients can be abstract over a given `Graph`: -->
+
+<p>このようにすると、<code>Graph</code> を使った関数は以下のように書くことができます:</p>
 <span class='rusttest'>fn main() {
     fn distance&lt;G: Graph&gt;(graph: &amp;G, start: &amp;G::N, end: &amp;G::N) -&gt; u32 { ... }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>distance</span><span class='op'>&lt;</span><span class='ident'>G</span>: <span class='ident'>Graph</span><span class='op'>&gt;</span>(<span class='ident'>graph</span>: <span class='kw-2'>&amp;</span><span class='ident'>G</span>, <span class='ident'>start</span>: <span class='kw-2'>&amp;</span><span class='ident'>G</span>::<span class='ident'>N</span>, <span class='ident'>end</span>: <span class='kw-2'>&amp;</span><span class='ident'>G</span>::<span class='ident'>N</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span> { ... }</pre>
 
-<p>No need to deal with the <code>E</code>dge type here!</p>
+<!-- No need to deal with the `E`dge type here! -->
 
-<p>Let’s go over all this in more detail.</p>
+<p>もう <code>E</code> について扱う必要はありません!</p>
 
-<h2 id='defining-associated-types' class='section-header'><a href='#defining-associated-types'>Defining associated types</a></h2>
-<p>Let’s build that <code>Graph</code> trait. Here’s the definition:</p>
+<!-- Let’s go over all this in more detail. -->
+
+<p>もっと詳しく見ていきましょう。</p>
+
+<!-- ## Defining associated types -->
+
+<h2 id='関連型を定義する' class='section-header'><a href='#関連型を定義する'>関連型を定義する</a></h2>
+<!-- Let’s build that `Graph` trait. Here’s the definition: -->
+
+<p>早速、<code>Graph</code> トレイトを定義しましょう。以下がその定義です:</p>
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -266,12 +301,20 @@ to form each kind of <code>Graph</code>. We can do that with associated types:</
     <span class='kw'>fn</span> <span class='ident'>edges</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='ident'>Self</span>::<span class='ident'>N</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>E</span><span class='op'>&gt;</span>;
 }</pre>
 
-<p>Simple enough. Associated types use the <code>type</code> keyword, and go inside the body
-of the trait, with the functions.</p>
+<!-- Simple enough. Associated types use the `type` keyword, and go inside the body -->
 
-<p>These <code>type</code> declarations can have all the same thing as functions do. For example,
-if we wanted our <code>N</code> type to implement <code>Display</code>, so we can print the nodes out,
-we could do this:</p>
+<!-- of the trait, with the functions. -->
+
+<p>非常にシンプルですね。関連型には <code>type</code> キーワードを使い、そしてトレイトの本体や関数で利用します。</p>
+
+<!-- These `type` declarations can have all the same thing as functions do. For example, -->
+
+<!-- if we wanted our `N` type to implement `Display`, so we can print the nodes out, -->
+
+<!-- we could do this: -->
+
+<p>これらの <code>type</code> 宣言は、関数で利用できるものと同じものが全て利用できます。
+たとえば、 <code>N</code> 型が <code>Display</code> を実装していて欲しい時、つまり私達が頂点を出力したい時、以下のようにして指定することができます:</p>
 <span class='rusttest'>fn main() {
     use std::fmt;
     
@@ -293,9 +336,15 @@ we could do this:</p>
     <span class='kw'>fn</span> <span class='ident'>edges</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='ident'>Self</span>::<span class='ident'>N</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>E</span><span class='op'>&gt;</span>;
 }</pre>
 
-<h2 id='implementing-associated-types' class='section-header'><a href='#implementing-associated-types'>Implementing associated types</a></h2>
-<p>Just like any trait, traits that use associated types use the <code>impl</code> keyword to
-provide implementations. Here’s a simple implementation of Graph:</p>
+<!-- ## Implementing associated types -->
+
+<h2 id='関連型を実装する' class='section-header'><a href='#関連型を実装する'>関連型を実装する</a></h2>
+<!-- Just like any trait, traits that use associated types use the `impl` keyword to -->
+
+<!-- provide implementations. Here’s a simple implementation of Graph: -->
+
+<p>通常のトレイトと同様に、関連型を使っているトレイトは実装するために <code>impl</code> を利用します。
+以下は、シンプルなGraphの実装例です:</p>
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -341,22 +390,45 @@ provide implementations. Here’s a simple implementation of Graph:</p>
     }
 }</pre>
 
-<p>This silly implementation always returns <code>true</code> and an empty <code>Vec&lt;Edge&gt;</code>, but it
-gives you an idea of how to implement this kind of thing. We first need three
-<code>struct</code>s, one for the graph, one for the node, and one for the edge. If it made
-more sense to use a different type, that would work as well, we’re just going to
-use <code>struct</code>s for all three here.</p>
+<!-- This silly implementation always returns `true` and an empty `Vec<Edge>`, but it -->
 
-<p>Next is the <code>impl</code> line, which is just like implementing any other trait.</p>
+<!-- gives you an idea of how to implement this kind of thing. We first need three -->
 
-<p>From here, we use <code>=</code> to define our associated types. The name the trait uses
-goes on the left of the <code>=</code>, and the concrete type we’re <code>impl</code>ementing this
-for goes on the right. Finally, we use the concrete types in our function
-declarations.</p>
+<!-- `struct`s, one for the graph, one for the node, and one for the edge. If it made -->
 
-<h2 id='trait-objects-with-associated-types' class='section-header'><a href='#trait-objects-with-associated-types'>Trait objects with associated types</a></h2>
-<p>There’s one more bit of syntax we should talk about: trait objects. If you
-try to create a trait object from an associated type, like this:</p>
+<!-- more sense to use a different type, that would work as well, we’re just going to -->
+
+<!-- use `struct`s for all three here. -->
+
+<p>この奇妙な実装は、つねに <code>true</code> と空の <code>Vec&lt;Edge&gt;</code> を返しますますが、どのように定義したら良いかのアイデアをくれます。
+まず、はじめに3つの <code>struct</code> が必要です、ひとつはグラフのため、そしてひとつは頂点のため、そしてもうひとつは辺のため。
+もし異なる型を利用することが適切ならば、そのようにすると良いでしょう、今回はこの3つの <code>struct</code> を用います。</p>
+
+<!-- Next is the `impl` line, which is just like implementing any other trait. -->
+
+<p>次は <code>impl</code> の行です、これは他のトレイトを実装するときと同様です。</p>
+
+<!-- From here, we use `=` to define our associated types. The name the trait uses -->
+
+<!-- goes on the left of the `=`, and the concrete type we’re `impl`ementing this -->
+
+<!-- for goes on the right. Finally, we use the concrete types in our function -->
+
+<!-- declarations. -->
+
+<p>そして、<code>=</code> を関連型を定義するために利用します。
+トレイトが利用する名前は <code>=</code> の左側にある名前で、実装に用いる具体的な型は右側にあるものになります。
+最後に、具体的な型を関数の宣言に利用します。</p>
+
+<!-- ## Trait objects with associated types -->
+
+<h2 id='関連型を伴うトレイト' class='section-header'><a href='#関連型を伴うトレイト'>関連型を伴うトレイト</a></h2>
+<!-- There’s one more bit of syntax we should talk about: trait objects. If you -->
+
+<!-- try to create a trait object from an associated type, like this: -->
+
+<p>すこし触れておきたい構文: トレイトオブジェクト が有ります。
+もし、トレイトオブジェクトを以下のように関連型から作成しようとした場合:</p>
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -383,7 +455,9 @@ try to create a trait object from an associated type, like this:</p>
 <span class='kw'>let</span> <span class='ident'>graph</span> <span class='op'>=</span> <span class='ident'>MyGraph</span>;
 <span class='kw'>let</span> <span class='ident'>obj</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>graph</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Graph</span><span class='op'>&gt;</span>;</pre>
 
-<p>You’ll get two errors:</p>
+<!-- You’ll get two errors: -->
+
+<p>以下の様なエラーが発生します:</p>
 
 <pre><code class="language-text">error: the value of the associated type `E` (from the trait `main::Graph`) must
 be specified [E0191]
@@ -395,8 +469,12 @@ let obj = Box::new(graph) as Box&lt;Graph&gt;;
           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 </code></pre>
 
-<p>We can’t create a trait object like this, because we don’t know the associated
-types. Instead, we can write this:</p>
+<!-- We can’t create a trait object like this, because we don’t know the associated -->
+
+<!-- types. Instead, we can write this: -->
+
+<p>上のようにしてトレイトオブジェクトを作ることはできません、なぜなら関連型について知らないからです
+代わりに以下のように書くことができます:</p>
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -423,9 +501,14 @@ types. Instead, we can write this:</p>
 <span class='kw'>let</span> <span class='ident'>graph</span> <span class='op'>=</span> <span class='ident'>MyGraph</span>;
 <span class='kw'>let</span> <span class='ident'>obj</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>graph</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Graph</span><span class='op'>&lt;</span><span class='ident'>N</span><span class='op'>=</span><span class='ident'>Node</span>, <span class='ident'>E</span><span class='op'>=</span><span class='ident'>Edge</span><span class='op'>&gt;&gt;</span>;</pre>
 
-<p>The <code>N=Node</code> syntax allows us to provide a concrete type, <code>Node</code>, for the <code>N</code>
-type parameter. Same with <code>E=Edge</code>. If we didn’t provide this constraint, we
-couldn’t be sure which <code>impl</code> to match this trait object to.</p>
+<!-- The `N=Node` syntax allows us to provide a concrete type, `Node`, for the `N` -->
+
+<!-- type parameter. Same with `E=Edge`. If we didn’t provide this constraint, we -->
+
+<!-- couldn’t be sure which `impl` to match this trait object to. -->
+
+<p><code>N=Node</code> 構文を用いて型パラメータ <code>N</code> にたいして具体的な型 <code>Node</code> を指定することができます、<code>E=Edge</code> についても同様です。
+もしこの制約を指定しなかった場合、このトレイトオブジェクトに対してどの <code>impl</code> がマッチするのか定まりません。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
