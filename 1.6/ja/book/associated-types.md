@@ -11,7 +11,7 @@
 言い換えると、複数の型をグループ化するものです。
 この説明はすこし抽象的なので、実際の例を見ていきましょう。
 例えば、 `Graph` トレイトを定義したいとしましょう、このときジェネリックになる２つの型: 頂点の型、辺の型 が存在します。
-そのため、以下のように`Graph<N, E>` と書きたくなるでしょう:
+そのため、以下のように `Graph<N, E>` と書きたくなるでしょう:
 
 ```rust
 trait Graph<N, E> {
@@ -37,7 +37,7 @@ fn distance<N, E, G: Graph<N, E>>(graph: &G, start: &N, end: &N) -> u32 { ... }
 
 <!-- What we really want to say is that a certain `E`dge and `N`ode type come together -->
 <!-- to form each kind of `Graph`. We can do that with associated types: -->
-本当に表現したいことは、それぞれのグラフ(Graph)は辺(E)や頂点(N)で構成されているということです。
+本当に表現したいことは、それぞれのグラフ( `Graph` )は辺( `E` )や頂点( `N` )で構成されているということです。
 それは、以下のように関連型を用いて表現することができます:
 
 ```rust
