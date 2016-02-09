@@ -384,12 +384,12 @@ fn main() {
 
 <!-- individual bytes, or as codepoints:-->
 
-<p>普通、ベクターへの <code>[]</code> を用いたアクセスはとても高速です。
+<p>普通、ベクタへの <code>[]</code> を用いたアクセスはとても高速です。
 しかし、UTF-8にエンコードされた文字列中の一つ一つの文字は複数のバイトであることが可能なため、
 文字列のn番の文字を探すためには文字列上を移動していく必要があります。
 そのような作業はとても高コストな演算であり、誤解してはならない点です。
 さらに言えば、「文字」というものはUnicodeにおいては正確に定義されていません。
-文字列を、それぞれのバイトとして見ることも、コードポインの集まりとして見ることもできるのです。</p>
+文字列を、それぞれのバイトとして見ることも、コードポイントの集まりとして見ることもできるのです。</p>
 <span class='rusttest'>fn main() {
     let hachiko = &quot;忠犬ハチ公&quot;;
     
@@ -436,9 +436,9 @@ fn main() {
 <p>インデクシングするのと近い結果を以下の様にして得ることができます:</p>
 <span class='rusttest'>fn main() {
     let hachiko = &quot;忠犬ハチ公&quot;;
-    let dog = hachiko.chars().nth(1); // kinda like hachiko[1]
+    let dog = hachiko.chars().nth(1); // hachiko[1]のような感じで
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>dog</span> <span class='op'>=</span> <span class='ident'>hachiko</span>.<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='number'>1</span>); <span class='comment'>// kinda like hachiko[1]</span></pre>
+<span class='kw'>let</span> <span class='ident'>dog</span> <span class='op'>=</span> <span class='ident'>hachiko</span>.<span class='ident'>chars</span>().<span class='ident'>nth</span>(<span class='number'>1</span>); <span class='comment'>// hachiko[1]のような感じで</span></pre>
 
 <!-- This emphasizes that we have to walk from the beginning of the list of `chars`. -->
 
