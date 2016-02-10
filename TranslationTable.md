@@ -45,6 +45,7 @@
 | enum                           | 列挙型
 | expression statement           | 式文
 | feature                        | フィーチャ
+| foreign                        | 他言語
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | growable                       | 伸張可能
@@ -64,6 +65,7 @@
 | lifetime parameter             | ライフタイムパラメータ
 | link                           | リンク
 | lint                           | リント
+| mangling                       | マングリング
 | match                          | マッチ
 | memory                         | メモリ
 | method                         | メソッド
@@ -71,6 +73,7 @@
 | mutable                        | ミュータブル
 | mutability                     | ミュータビリティ
 | mutable binding                | ミュータブルな束縛
+| opaque                         | オペーク
 | output lifetime                | 出力ライフタイム
 | owner                          | 所有者
 | ownership                      | 所有権
@@ -101,6 +104,7 @@
 | type inference                 | 型推論
 | type family                    | 型族
 | Universal Function Call Syntax | 共通の関数呼び出し構文
+| unsafe                         | アンセーフ
 | unsigned                       | 符号無し
 | unsized type                   | サイズ不定型
 | variable                       | 変数
