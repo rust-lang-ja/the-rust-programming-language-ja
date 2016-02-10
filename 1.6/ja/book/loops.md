@@ -13,8 +13,7 @@ Rustで使えるループなかで最もシンプルな形式が、無限 `loop`
 
 ```rust,ignore
 loop {
-# // println!("Loop forever!");
-    println!("永久にループ!");
+    println!("Loop forever!");
 }
 ```
 
