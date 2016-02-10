@@ -1,12 +1,16 @@
-% Foreign Function Interface
+% 外部関数インターフェイス
+<!--% Foreign Function Interface-->
 
-# Introduction
+<!--# Introduction-->
+# 導入
 
-This guide will use the [snappy](https://github.com/google/snappy)
-compression/decompression library as an introduction to writing bindings for
-foreign code. Rust is currently unable to call directly into a C++ library, but
-snappy includes a C interface (documented in
-[`snappy-c.h`](https://github.com/google/snappy/blob/master/snappy-c.h)).
+<!--This guide will use the [snappy](https://github.com/google/snappy)-->
+<!--compression/decompression library as an introduction to writing bindings for-->
+<!--foreign code. Rust is currently unable to call directly into a C++ library, but-->
+<!--snappy includes a C interface (documented in-->
+<!--[`snappy-c.h`](https://github.com/google/snappy/blob/master/snappy-c.h)).-->
+このガイドでは、他言語のコードのためのバインディングを書く導入に[snappy](https://github.com/google/snappy)という圧縮・展開ライブラリを使います。
+Rustは現在、C++ライブラリを直接呼び出すことができませんが、snappyはCのインターフェイスを持っています（ドキュメントが[`snappy-c.h`](https://github.com/google/snappy/blob/master/snappy-c.h)にあります）。
 
 ## A note about libc
 
