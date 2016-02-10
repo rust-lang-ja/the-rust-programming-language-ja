@@ -1,9 +1,14 @@
-% Match
+% マッチ
+<!-- % Match -->
 
-Often, a simple [`if`][if]/`else` isn’t enough, because you have more than two
-possible options. Also, conditions can get quite complex. Rust
-has a keyword, `match`, that allows you to replace complicated `if`/`else`
-groupings with something more powerful. Check it out:
+<!-- Often, a simple [`if`][if]/`else` isn’t enough, because you have more than two -->
+<!-- possible options. Also, conditions can get quite complex. Rust -->
+<!-- has a keyword, `match`, that allows you to replace complicated `if`/`else` -->
+<!-- groupings with something more powerful. Check it out: -->
+しばしば、２つ以上の可能な処理が存在するために単純な [`if`][if]/`else` では充分でない時があります。
+また、条件が非常に複雑になる場合が有ります。
+Rustはキーワード `match` を持っており、複雑な `if`/`else` のグループをもっと強力なもので置き換えることができます。
+以下の例を見てみましょう:
 
 ```rust
 let x = 5;
@@ -20,11 +25,16 @@ match x {
 
 [if]: if.html
 
-`match` takes an expression and then branches based on its value. Each ‘arm’ of
-the branch is of the form `val => expression`. When the value matches, that arm’s
-expression will be evaluated. It’s called `match` because of the term ‘pattern
-matching’, which `match` is an implementation of. There’s an [entire section on
-patterns][patterns] that covers all the patterns that are possible here.
+<!-- `match` takes an expression and then branches based on its value. Each ‘arm’ of -->
+<!-- the branch is of the form `val => expression`. When the value matches, that arm’s -->
+<!-- expression will be evaluated. It’s called `match` because of the term ‘pattern -->
+<!-- matching’, which `match` is an implementation of. There’s an [entire section on -->
+<!-- patterns][patterns] that covers all the patterns that are possible here. -->
+`match` は一つの式とその式の値に基づく複数のブランチを引数に取ります。
+一つ一つの「分岐」は `val => expression` という形式を取ります。
+値がマッチした時に、対応する分岐の式が評価されます。
+このような式が `match` と呼ばれるのは「パターンマッチ」に由来します。
+可能なすべてのパターンについて説明した、[パターンの説明のために書かれたセクション][patterns] が存在します。
 
 [patterns]: patterns.html
 
