@@ -5,9 +5,8 @@
 <!-- possible options. Also, conditions can get quite complex. Rust -->
 <!-- has a keyword, `match`, that allows you to replace complicated `if`/`else` -->
 <!-- groupings with something more powerful. Check it out: -->
-しばしば、２つ以上の可能な処理が存在するために単純な [`if`][if]/`else` では充分でない時があります。
-また、条件が非常に複雑になる場合が有ります。
-Rustはキーワード `match` を持っており、複雑な `if`/`else` のグループをもっと強力なもので置き換えることができます。
+しばしば、２つ以上の可能な処理が存在するためや、分岐条件が非常に複雑になるために単純な [`if`][if]/`else` では充分でない場合があります。
+Rustにはキーワード `match` が存在し、複雑な `if`/`else` のグループをさらに強力なもので置き換えられます。
 以下の例を見てみましょう:
 
 ```rust
@@ -42,7 +41,7 @@ match x {
 <!-- enforces ‘exhaustiveness checking’. Do you see that last arm, the one with the -->
 <!-- underscore (`_`)? If we remove that arm, Rust will give us an error: -->
 `match` を使う利点は何でしょうか？ いくつか有りますが、
-まず一つ目としては `match` をつかうことで,「完全性チェック」が実施されます。
+まず一つ目としては `match` をつかうことで、「完全性チェック」が実施されます。
 上のコードで、最後のアンダースコア( `_` )を用いている分岐があるのがわかりますか？
 もし、その分岐を削除した場合、Rustは以下の様なエラーを発生させます:
 
@@ -60,10 +59,10 @@ error: non-exhaustive patterns: `_` not covered
 言い換えると、Rustは値を忘れていることを伝えようとしているのです。
 なぜなら `x` は整数であるため、Rustは `x` は多くの異なる値を取ることができることを知っています。
 例えば、 `6` などがそれにに当たります。
-もし `_` がなかった場合、 `6` にマッチする分岐が存在しない異なります、そのためRustはコンパイルを通しません。
+もし `_` がなかった場合、 `6` にマッチする分岐が存在しない事になります、そのためRustはコンパイルを通しません。
 `_` は「全てキャッチする分岐」のように振る舞います。
 もし他の分岐がどれもマッチしなかった場合、 `_` の分岐が実行されることになります、
-この全てキャッチする分岐が存在するため、 `x` が取り得るすべての値について分岐を持っていることなり、コンパイルが成功します。
+この「全てキャッチする分岐」が存在するため、 `x` が取り得るすべての値について対応する分岐が存在することになり、コンパイルが成功します。
 
 <!-- `match` is also an expression, which means we can use it on the right-hand -->
 <!-- side of a `let` binding or directly where an expression is used: -->
@@ -90,7 +89,7 @@ let number = match x {
 
 <!-- Another important use of the `match` keyword is to process the possible -->
 <!-- variants of an enum: -->
-`match` の他の重要な利用方法としてはenumの取り得るバリアントを処理することがあります:
+`match` の他の重要な利用方法としては列挙型のバリアントを処理することがあります:
 
 ```rust
 enum Message {
@@ -117,14 +116,13 @@ fn process_message(msg: Message) {
 <!-- Again, the Rust compiler checks exhaustiveness, so it demands that you -->
 <!-- have a match arm for every variant of the enum. If you leave one off, it -->
 <!-- will give you a compile-time error unless you use `_`. -->
-繰り返しますが、Rustコンパイラは完全性のチェックを行い、enumのすべてのバリアントに対して、
-マッチする分岐が存在することを要求します。
+繰り返しになりますが、Rustコンパイラは完全性のチェックを行い、列挙型のすべてのバリアントに対して、マッチする分岐が存在することを要求します。
 もし、一つでもマッチする分岐のないバリアントを残している場合、 `_` を用いなければコンパイルエラーが発生します。
 
 <!-- Unlike the previous uses of `match`, you can’t use the normal `if` -->
 <!-- statement to do this. You can use the [`if let`][if-let] statement, -->
 <!-- which can be seen as an abbreviated form of `match`. -->
-上で説明した値に対する `match` の利用とはことなり、enumに対するマッチに `if` を用いることはできません。
-enumに対するマッチに [`if let`][if-let] 文を用いることが可能です、 `if let` を `match` の短縮形と捉えることができます。
+上で説明した値に対する `match` の利用とは異なり、列挙型のバリアントに基いた分岐に `if` を用いることはできません。
+列挙型のバリアントに基いた分岐に [`if let`][if-let] 文を用いることが可能です、 `if let` を `match` の短縮形と捉えることができます。
 
 [if-let]: if-let.html
