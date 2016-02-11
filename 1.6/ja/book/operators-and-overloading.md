@@ -1,11 +1,15 @@
-% Operators and Overloading
+% 演算子とオーバーロード
+<!-- % Operators and Overloading -->
 
-Rust allows for a limited form of operator overloading. There are certain
-operators that are able to be overloaded. To support a particular operator
-between types, there’s a specific trait that you can implement, which then
-overloads the operator.
+<!-- Rust allows for a limited form of operator overloading. There are certain -->
+<!-- operators that are able to be overloaded. To support a particular operator -->
+<!-- between types, there’s a specific trait that you can implement, which then -->
+<!-- overloads the operator. -->
+Rustは制限された形での演算子オーバーロードを許可しており、いくつかのオーバーロード可能な演算子が存在します。
+型同士の間の演算子をサポートするための特定のトレイトが存在し、それらを実装することで演算子をオーバーロードすることができます。
 
-For example, the `+` operator can be overloaded with the `Add` trait:
+<!-- For example, the `+` operator can be overloaded with the `Add` trait: -->
+例えば、 `+` の演算子は `Add` トレイトを利用することでオーバーロードすることができます:
 
 ```rust
 use std::ops::Add;
@@ -34,8 +38,8 @@ fn main() {
 }
 ```
 
-In `main`, we can use `+` on our two `Point`s, since we’ve implemented
-`Add<Output=Point>` for `Point`.
+<!-- In `main`, we can use `+` on our two `Point`s, since we’ve implemented -->
+<!-- `Add<Output=Point>` for `Point`. -->
 
 There are a number of operators that can be overloaded this way, and all of
 their associated traits live in the [`std::ops`][stdops] module. Check out its
