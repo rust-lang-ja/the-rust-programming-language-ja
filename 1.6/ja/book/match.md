@@ -30,8 +30,8 @@ match x {
 <!-- matching’, which `match` is an implementation of. There’s an [entire section on -->
 <!-- patterns][patterns] that covers all the patterns that are possible here. -->
 `match` は一つの式とその式の値に基づく複数のブランチを引数に取ります。
-一つ一つの「分岐」は `val => expression` という形式を取ります。
-値がマッチした時に、対応する分岐の式が評価されます。
+一つ一つの「腕」は `val => expression` という形式を取ります。
+値がマッチした時に、対応する腕の式が評価されます。
 このような式が `match` と呼ばれるのは「パターンマッチ」に由来します。
 可能なすべてのパターンについて説明した、[パターンの説明のために書かれたセクション][patterns] が存在します。
 
@@ -41,9 +41,9 @@ match x {
 <!-- enforces ‘exhaustiveness checking’. Do you see that last arm, the one with the -->
 <!-- underscore (`_`)? If we remove that arm, Rust will give us an error: -->
 `match` を使う利点は何でしょうか？ いくつか有りますが、
-まず一つ目としては `match` をつかうことで、「完全性チェック」が実施されます。
-上のコードで、最後のアンダースコア( `_` )を用いている分岐があるのがわかりますか？
-もし、その分岐を削除した場合、Rustは以下の様なエラーを発生させます:
+まず一つ目としては `match` をつかうことで、「網羅性検査」が実施されます。
+上のコードで、最後のアンダースコア( `_` )を用いている腕があるのがわかりますか？
+もし、その腕を削除した場合、Rustは以下の様なエラーを発生させます:
 
 ```text
 error: non-exhaustive patterns: `_` not covered
@@ -59,10 +59,10 @@ error: non-exhaustive patterns: `_` not covered
 言い換えると、Rustは値を忘れていることを伝えようとしているのです。
 なぜなら `x` は整数であるため、Rustは `x` は多くの異なる値を取ることができることを知っています。
 例えば、 `6` などがそれにに当たります。
-もし `_` がなかった場合、 `6` にマッチする分岐が存在しない事になります、そのためRustはコンパイルを通しません。
-`_` は「全てキャッチする分岐」のように振る舞います。
-もし他の分岐がどれもマッチしなかった場合、 `_` の分岐が実行されることになります、
-この「全てキャッチする分岐」が存在するため、 `x` が取り得るすべての値について対応する分岐が存在することになり、コンパイルが成功します。
+もし `_` がなかった場合、 `6` にマッチする腕が存在しない事になります、そのためRustはコンパイルを通しません。
+`_` は「全てキャッチする腕」のように振る舞います。
+もし他の腕がどれもマッチしなかった場合、 `_` の腕が実行されることになります、
+この「全てキャッチする腕」が存在するため、 `x` が取り得るすべての値について対応する腕が存在することになり、コンパイルが成功します。
 
 <!-- `match` is also an expression, which means we can use it on the right-hand -->
 <!-- side of a `let` binding or directly where an expression is used: -->
@@ -85,7 +85,7 @@ let number = match x {
 `match` はしばしば、ある型からある型へ変換するための良い手段になりまうす。
 
 <!-- # Matching on enums -->
-# 列挙型にたいするマッチ
+# 列挙型に対するマッチ
 
 <!-- Another important use of the `match` keyword is to process the possible -->
 <!-- variants of an enum: -->
@@ -116,8 +116,8 @@ fn process_message(msg: Message) {
 <!-- Again, the Rust compiler checks exhaustiveness, so it demands that you -->
 <!-- have a match arm for every variant of the enum. If you leave one off, it -->
 <!-- will give you a compile-time error unless you use `_`. -->
-繰り返しになりますが、Rustコンパイラは完全性のチェックを行い、列挙型のすべてのバリアントに対して、マッチする分岐が存在することを要求します。
-もし、一つでもマッチする分岐のないバリアントを残している場合、 `_` を用いなければコンパイルエラーが発生します。
+繰り返しになりますが、Rustコンパイラは網羅性のチェックを行い、列挙型のすべてのバリアントに対して、マッチする腕が存在することを要求します。
+もし、一つでもマッチする腕のないバリアントを残している場合、 `_` を用いなければコンパイルエラーが発生します。
 
 <!-- Unlike the previous uses of `match`, you can’t use the normal `if` -->
 <!-- statement to do this. You can use the [`if let`][if-let] statement, -->
