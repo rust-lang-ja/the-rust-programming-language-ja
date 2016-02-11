@@ -5,8 +5,8 @@
 <!-- operators that are able to be overloaded. To support a particular operator -->
 <!-- between types, there’s a specific trait that you can implement, which then -->
 <!-- overloads the operator. -->
-Rustは制限された形での演算子オーバーロードを許可しており、いくつかのオーバーロード可能な演算子が存在します。
-型同士の間の演算子をサポートするための特定のトレイトが存在し、それらを実装することで演算子をオーバーロードすることができます。
+Rustは制限された形式での演算子オーバーロードを提供しており、オーバーロード可能な演算子がいくつか存在します。
+型同士の間の演算子をサポートするためのトレイトが存在し、それらを実装することで演算子をオーバーロードすることができます。
 
 <!-- For example, the `+` operator can be overloaded with the `Add` trait: -->
 例えば、 `+` の演算子は `Add` トレイトを利用することでオーバーロードすることができます:
@@ -54,7 +54,7 @@ fn main() {
 
 <!-- Implementing these traits follows a pattern. Let’s look at [`Add`][add] in more -->
 <!-- detail: -->
-それらのトレイトの実装はパターンに沿っています。 [`Add`][add] トレイトを詳しく見ていきましょう:
+それらのトレイトの実装はパターンに従います。 [`Add`][add] トレイトを詳しく見ていきましょう:
 
 ```rust
 # mod foo {
@@ -71,8 +71,8 @@ pub trait Add<RHS = Self> {
 <!-- There’s three types in total involved here: the type you `impl Add` for, `RHS`, -->
 <!-- which defaults to `Self`, and `Output`. For an expression `let z = x + y`, `x` -->
 <!-- is the `Self` type, `y` is the RHS, and `z` is the `Self::Output` type. -->
-関連する３つの型が存在します: `impl Add` を実装するもの、 デフォルトは `Self` の `RHS`、 そうして `Output` 。
-式 `let z = x + y` については `x` は `Self` 型 `y` は RHS、 `z` は `Self::Output` 型となります。
+関連する３つの型が存在します: `impl Add` を実装するもの、 デフォルトが `Self` の `RHS`、 そして `Output` 。
+例えば、式 `let z = x + y` においては `x` は `Self` 型 `y` は RHS、 `z` は `Self::Output` 型となります。
 
 ```rust
 # struct Point;
@@ -139,7 +139,7 @@ fn main() {
 <!-- For `HasArea` and `Square`, we just declare a type parameter `T` and replace -->
 <!-- `f64` with it. The `impl` needs more involved modifications: -->
 `HasArea` と `Square` について、型パラメータ `T` を宣言し `f64` で置換しました。
-`impl` はさらに関連する変形を必要とします。
+`impl` はさらに関連するモディフィケーションを必要とします:
 
 ```ignore
 impl<T> HasArea<T> for Square<T>
@@ -151,8 +151,7 @@ impl<T> HasArea<T> for Square<T>
 <!-- itself takes an `Output` parameter: since we know that numbers don't change -->
 <!-- type when multiplied, we also set it to `T`. `T` must also support copying, so -->
 <!-- Rust doesn't try to move `self.side` into the return value. -->
-`area` メソッドは辺を掛け算することができることを要求しています、
-そのため型 `T` が `std::ops::Mul` を実装指定なければならないと宣言しています。
-`Add` と同じように、上で説明したように、
-`Mul` は `Output` パラメータを取ります: 数値を掛け算した時に型が変わらないことを知っていますので、 `Output` も `T` と設定します。
-また `T` はRustが `self.side` を返り値にムーブするのをを試みないようにコピーをサポートしていなければなりません。
+`area` メソッドは辺を掛ける事が可能なことを必要としています。
+そのため型 `T` が `std::ops::Mul` を実装していなければならないと宣言しています。
+上で説明した `Add` と同様に、`Mul` は `Output` パラメータを取ります: 数値を掛け算した時に型が変わらないことを知っていますので、 `Output` も `T` と設定します。
+また `T` は、Rustが `self.side` を返り値にムーブするのを試みないようにコピーをサポートしている必要があります。
