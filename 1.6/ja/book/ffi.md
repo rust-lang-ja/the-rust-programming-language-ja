@@ -73,7 +73,7 @@ Cライブラリは、スレッドセーフでないインターフェイスを�
 <!-- When declaring the argument types to a foreign function, the Rust compiler can -->
 <!-- not check if the declaration is correct, so specifying it correctly is part of -->
 <!-- keeping the binding correct at runtime. -->
-他言語関数について引数の型を宣言するとき、Rustのコンパイラはその宣言が正しいかどうかを確認することができません。それを正しく指定することは、実行時のバインディングを正しく保つことの一部です。
+他言語関数について引数の型を宣言するとき、Rustのコンパイラはその宣言が正しいかどうかを確認することができません。それを正しく指定することは実行時にバインディングを正しく動作させるために必要なことです。
 
 <!-- The `extern` block can be extended to cover the entire snappy API: -->
 `extern` ブロックはsnappyのAPI全体をカバーするように拡張することができます。
@@ -148,8 +148,8 @@ pub fn validate_compressed_buffer(src: &[u8]) -> bool {
 <!-- `snappy_compress` function as an output parameter. An output parameter is also passed to retrieve -->
 <!-- the true length after compression for setting the length. -->
 `snappy_max_compressed_length` 関数は、圧縮後の結果を保持するために必要な最大の容量のベクタを割り当てるために使うことができます。
-そして、そのベクタは結果の引数として`snappy_compress`関数に渡されます。
-結果の引数は、長さをセットするために、圧縮後の本当の長さを取得するためにも渡されます。
+そして、そのベクタは結果を受け取るための引数として`snappy_compress`関数に渡されます。
+結果を受け取るための引数は、長さをセットするために、圧縮後の本当の長さを取得するためにも渡されます。
 
 ```rust
 # #![feature(libc)]
@@ -206,7 +206,6 @@ pub fn uncompress(src: &[u8]) -> Option<Vec<u8>> {
             dst.set_len(dstlen as usize);
             Some(dst)
         } else {
-# //            None // SNAPPY_INVALID_INPUT
             None // SNAPPY_INVALID_INPUT
         }
     }
@@ -308,7 +307,7 @@ void trigger_callback() {
 <!-- the notification. This will allow the callback to unsafely access the -->
 <!-- referenced Rust object. -->
 これは、そのオブジェクトへの生ポインタをCライブラリに渡すことで実現できます。
-そして、Cのライブラリはその通知の中のRustのオブジェクトへのポインタを含むことができるようになります。
+そして、CのライブラリはRustのオブジェクトへのポインタをその通知の中に含むことができるようになります。
 これにより、そのコールバックは参照されるRustのオブジェクトにアンセーフな形でアクセスできるようになります。
 
 <!-- Rust code: -->
@@ -442,7 +441,7 @@ void trigger_callback() {
 異なる `kind` の値はリンク時のネイティブライブラリの使われ方の違いを意味します。
 リンクの視点からすると、Rustコンパイラは2種類の生成物を作ります。
 部分生成物（rlib/staticlib）と最終生成物（dylib/binary）です。
-ネイティブダイナミックライブラリとフレームワークの依存関係は最終生成物の境界を伝えますが、スタティックライブラリの依存関係は全く伝えません。なぜなら、スタティックライブラリはその後に続く生成物に直接統合されてしまうからです。
+ネイティブダイナミックライブラリとフレームワークの依存関係は最終生成物を作るときまで伝播され解決されますが、スタティックライブラリの依存関係は全く伝えません。なぜなら、スタティックライブラリはその後に続く生成物に直接統合されてしまうからです。
 
 <!-- A few examples of how this model can be used are: -->
 このモデルをどのように使うことができるのかという例は次のとおりです。
@@ -453,13 +452,13 @@ void trigger_callback() {
 <!--   Rust crate would declare a dependency via `#[link(name = "foo", kind = -->
 <!--   "static")]`. -->
 * ネイティブビルドの依存関係。
-  ときどき、Rustのコードを書くときにC/C++のグルーが必要になりますが、ライブラリの形式でのC/C++のコードの配布はまさに重荷です。
-  このような場合、 `libfoo.a` からコードを得て、それからRustのクレートで `#[link(name = "foo", kind = "static")]` によって依存関係を宣言します。
+  ときどき、Rustのコードを書くときにC/C++のグルーが必要になりますが、ライブラリの形式でのC/C++のコードの配布は重荷でしかありません。
+  このような場合、 コードは `libfoo.a` にアーカイブされ、それからRustのクレートで `#[link(name = "foo", kind = "static")]` によって依存関係を宣言します。
 
 <!--   Regardless of the flavor of output for the crate, the native static library -->
 <!--   will be included in the output, meaning that distribution of the native static -->
 <!--   library is not necessary. -->
-   クレートの出力の種類にかかわらず、ネイティブスタティックライブラリは出力に含まれます。これは、ネイティブスタティックライブラリの配布は不要だということを意味します。
+   クレートの成果物の種類にかかわらず、ネイティブスタティックライブラリは成果物に含まれます。これは、ネイティブスタティックライブラリの配布は不要だということを意味します。
 
 <!-- * A normal dynamic dependency. Common system libraries (like `readline`) are -->
 <!--   available on a large number of systems, and often a static copy of these -->
@@ -496,12 +495,12 @@ unsafe fn kaboom(ptr: *const i32) -> i32 { *ptr }
 この関数は `unsafe` ブロック又は他の `unsafe` な関数からのみ呼び出すことができます。
 
 <!-- # Accessing foreign globals -->
-# 他言語のグローバルな値へのアクセス
+# 他言語のグローバル変数へのアクセス
 
 <!-- Foreign APIs often export a global variable which could do something like track -->
 <!-- global state. In order to access these variables, you declare them in `extern` -->
 <!-- blocks with the `static` keyword: -->
-他言語APIはしばしばグローバルな状態を追跡するようなことをするためのグローバルな値をエクスポートします。
+他言語APIはしばしばグローバルな状態を追跡するようなことをするためのグローバル変数をエクスポートします。
 それらの値にアクセスするために、それらを `extern` ブロックの中で `static` キーワードを付けて宣言します。
 
 ```no_run
@@ -582,15 +581,6 @@ extern "stdcall" {
 これは `extern` ブロック全体に適用されます。
 サポートされているABIの規則は次のとおりです。
 
-<!-- * `stdcall` -->
-<!-- * `aapcs` -->
-<!-- * `cdecl` -->
-<!-- * `fastcall` -->
-<!-- * `Rust` -->
-<!-- * `rust-intrinsic` -->
-<!-- * `system` -->
-<!-- * `C` -->
-<!-- * `win64` -->
 * `stdcall`
 * `aapcs`
 * `cdecl`
@@ -632,10 +622,10 @@ extern "stdcall" {
 <!-- checking or mutability rules is not guaranteed to be safe, so prefer using raw -->
 <!-- pointers (`*`) if that's needed because the compiler can't make as many -->
 <!-- assumptions about them. -->
-Rust独自のボックス（ `Box<T>` ）はコンテンツオブジェクトを指すハンドルとして非ヌルポインタを使います。
+Rust独自のボックス（ `Box<T>` ）は包んでいるオブジェクトを指すハンドルとして非ヌルポインタを使います。
 しかし、それらは内部のアロケータによって管理されるため、手で作るべきではありません。
-参照は型を直接指す非ヌルポインタとみなすことが間違いなくできます。
-しかし、借用チェックやミュータブルについてのルールが破られた場合、安全性は保証されません。もしコンパイラが同数ほどそれらをみなすことができず、それが必要なときには、生ポインタ（ `*` ）を使いましょう。
+参照は型を直接指す非ヌルポインタとみなすことが安全にできます。
+しかし、借用チェックやミュータブルについてのルールが破られた場合、安全性は保証されません。生ポインタについてはコンパイラは借用チェックやミュータブルほどには仮定を置かないので、必要なときには、生ポインタ（ `*` ）を使いましょう。
 
 <!-- Vectors and strings share the same basic memory layout, and utilities are -->
 <!-- available in the `vec` and `str` modules for working with C APIs. However, -->
