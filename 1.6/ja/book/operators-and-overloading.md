@@ -151,7 +151,7 @@ impl<T> HasArea<T> for Square<T>
 <!-- itself takes an `Output` parameter: since we know that numbers don't change -->
 <!-- type when multiplied, we also set it to `T`. `T` must also support copying, so -->
 <!-- Rust doesn't try to move `self.side` into the return value. -->
-`area` メソッドは辺を掛ける事が可能なことを必要としています。
+`area` メソッドは辺を掛けることが可能なことを必要としています。
 そのため型 `T` が `std::ops::Mul` を実装していなければならないと宣言しています。
 上で説明した `Add` と同様に、`Mul` は `Output` パラメータを取ります: 数値を掛け算した時に型が変わらないことを知っていますので、 `Output` も `T` と設定します。
 また `T` は、Rustが `self.side` を返り値にムーブするのを試みないようにコピーをサポートしている必要があります。
