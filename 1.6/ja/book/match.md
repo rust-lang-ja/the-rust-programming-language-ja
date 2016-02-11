@@ -38,24 +38,36 @@ match x {
 
 [patterns]: patterns.html
 
-So what’s the big advantage? Well, there are a few. First of all, `match`
-enforces ‘exhaustiveness checking’. Do you see that last arm, the one with the
-underscore (`_`)? If we remove that arm, Rust will give us an error:
+<!-- So what’s the big advantage? Well, there are a few. First of all, `match` -->
+<!-- enforces ‘exhaustiveness checking’. Do you see that last arm, the one with the -->
+<!-- underscore (`_`)? If we remove that arm, Rust will give us an error: -->
+`match` を使う利点は何でしょうか？ いくつか有りますが、
+まず一つ目としては `match` をつかうことで,「完全性チェック」が実施されます。
+上のコードで、最後のアンダースコア( `_` )を用いている分岐があるのがわかりますか？
+もし、その分岐を削除した場合、Rustは以下の様なエラーを発生させます:
 
 ```text
 error: non-exhaustive patterns: `_` not covered
 ```
 
-In other words, Rust is trying to tell us we forgot a value. Because `x` is an
-integer, Rust knows that it can have a number of different values – for
-example, `6`. Without the `_`, however, there is no arm that could match, and
-so Rust refuses to compile the code. `_` acts like a ‘catch-all arm’. If none
-of the other arms match, the arm with `_` will, and since we have this
-catch-all arm, we now have an arm for every possible value of `x`, and so our
-program will compile successfully.
+<!-- In other words, Rust is trying to tell us we forgot a value. Because `x` is an -->
+<!-- integer, Rust knows that it can have a number of different values – for -->
+<!-- example, `6`. Without the `_`, however, there is no arm that could match, and -->
+<!-- so Rust refuses to compile the code. `_` acts like a ‘catch-all arm’. If none -->
+<!-- of the other arms match, the arm with `_` will, and since we have this -->
+<!-- catch-all arm, we now have an arm for every possible value of `x`, and so our -->
+<!-- program will compile successfully. -->
+言い換えると、Rustは値を忘れていることを伝えようとしているのです。
+なぜなら `x` は整数であるため、Rustは `x` は多くの異なる値を取ることができることを知っています。
+例えば、 `6` などがそれにに当たります。
+もし `_` がなかった場合、 `6` にマッチする分岐が存在しない異なります、そのためRustはコンパイルを通しません。
+`_` は「全てキャッチする分岐」のように振る舞います。
+もし他の分岐がどれもマッチしなかった場合、 `_` の分岐が実行されることになります、
+この全てキャッチする分岐が存在するため、 `x` が取り得るすべての値について分岐を持っていることなり、コンパイルが成功します。
 
-`match` is also an expression, which means we can use it on the right-hand
-side of a `let` binding or directly where an expression is used:
+<!-- `match` is also an expression, which means we can use it on the right-hand -->
+<!-- side of a `let` binding or directly where an expression is used: -->
+`match` は式でも有ります、これはつまり `let` 束縛の右側や式が使われているところで利用することができるということを意味しています。
 
 ```rust
 let x = 5;
@@ -70,12 +82,15 @@ let number = match x {
 };
 ```
 
-Sometimes it’s a nice way of converting something from one type to another.
+<!-- Sometimes it’s a nice way of converting something from one type to another. -->
+`match` はしばしば、ある型からある型へ変換するための良い手段になりまうす。
 
-# Matching on enums
+<!-- # Matching on enums -->
+# 列挙型にたいするマッチ
 
-Another important use of the `match` keyword is to process the possible
-variants of an enum:
+<!-- Another important use of the `match` keyword is to process the possible -->
+<!-- variants of an enum: -->
+`match` の他の重要な利用方法としてはenumの取り得るバリアントを処理することがあります:
 
 ```rust
 enum Message {
@@ -99,12 +114,17 @@ fn process_message(msg: Message) {
 }
 ```
 
-Again, the Rust compiler checks exhaustiveness, so it demands that you
-have a match arm for every variant of the enum. If you leave one off, it
-will give you a compile-time error unless you use `_`.
+<!-- Again, the Rust compiler checks exhaustiveness, so it demands that you -->
+<!-- have a match arm for every variant of the enum. If you leave one off, it -->
+<!-- will give you a compile-time error unless you use `_`. -->
+繰り返しますが、Rustコンパイラは完全性のチェックを行い、enumのすべてのバリアントに対して、
+マッチする分岐が存在することを要求します。
+もし、一つでもマッチする分岐のないバリアントを残している場合、 `_` を用いなければコンパイルエラーが発生します。
 
-Unlike the previous uses of `match`, you can’t use the normal `if`
-statement to do this. You can use the [`if let`][if-let] statement,
-which can be seen as an abbreviated form of `match`.
+<!-- Unlike the previous uses of `match`, you can’t use the normal `if` -->
+<!-- statement to do this. You can use the [`if let`][if-let] statement, -->
+<!-- which can be seen as an abbreviated form of `match`. -->
+上で説明した値に対する `match` の利用とはことなり、enumに対するマッチに `if` を用いることはできません。
+enumに対するマッチに [`if let`][if-let] 文を用いることが可能です、 `if let` を `match` の短縮形と捉えることができます。
 
 [if-let]: if-let.html
