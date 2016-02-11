@@ -1411,7 +1411,7 @@ fn main() {
 <!-- determine the type of error is not robust. (Admittedly, this downside is far -->
 <!-- more important inside of a library as opposed to, say, an application.) -->
 ふたつ目の、もっと重大な欠点は、 `String` への変換で *情報が欠落* することです。
-もし全てのエラーを文字列に変換してしまったら、呼び出し元に渡したエラーが、不明瞭なものなってしまいます。
+もし全てのエラーを文字列に変換してしまったら、呼び出し元に渡したエラーが、不透明（opaque）なってしまいます。
 呼び出し元が `String` のエラーに対してできる唯一妥当なことは、それをユーザーに表示することだけです。
 文字列を解析して、どのタイプのエラーだったか判断するのは、もちろん強固だとはいえません。
 （疑いなく、この欠点はライブラリーの中の方が、他のもの、例えばアプリケーションよりも、ずっと重要となるでしょう。）
@@ -1680,15 +1680,19 @@ trait From<T> {
 }
 ```
 
-Deliciously simple, yes? `From` is very useful because it gives us a generic
-way to talk about conversion *from* a particular type `T` to some other type
-(in this case, “some other type” is the subject of the impl, or `Self`).
-The crux of `From` is the
-[set of implementations provided by the standard
-library](../std/convert/trait.From.html).
-楽しくなるくらい簡単でしょ？
+<!-- Deliciously simple, yes? `From` is very useful because it gives us a generic -->
+<!-- way to talk about conversion *from* a particular type `T` to some other type -->
+<!-- (in this case, “some other type” is the subject of the impl, or `Self`). -->
+<!-- The crux of `From` is the -->
+<!-- [set of implementations provided by the standard -->
+<!-- library](../std/convert/trait.From.html). -->
+笑っちゃうくらい簡単でしょ？
+`From` は、ある特定の型 `T` から別の型へ変換するための汎用的な方法を提供するので、とても便利です。
+（この場合の「別の型」とは実装の対象、つまり(?) `Self` です）
+`From` の核心は、[標準ライブラリで提供される一連の実装です](../std/convert/trait.From.html)。
 
-Here are a few simple examples demonstrating how `From` works:
+<!-- Here are a few simple examples demonstrating how `From` works: -->
+`From` がどのように動くかを紹介するために、いくつかの例をお見せしましょう：
 
 ```rust
 let string: String = From::from("foo");
@@ -1696,20 +1700,28 @@ let bytes: Vec<u8> = From::from("foo");
 let cow: ::std::borrow::Cow<str> = From::from("foo");
 ```
 
-OK, so `From` is useful for converting between strings. But what about errors?
-It turns out, there is one critical impl:
+<!-- OK, so `From` is useful for converting between strings. But what about errors? -->
+<!-- It turns out, there is one critical impl: -->
+`From` が文字列を変換するのに便利なことはわかりました。
+でもエラーについてはどうでしょうか？
+結論から言うと、これが決定的な実装です：
 
 ```rust,ignore
 impl<'a, E: Error + 'a> From<E> for Box<Error + 'a>
 ```
 
-This impl says that for *any* type that impls `Error`, we can convert it to a
-trait object `Box<Error>`. This may not seem terribly surprising, but it is
-useful in a generic context.
+<!-- This impl says that for *any* type that impls `Error`, we can convert it to a -->
+<!-- trait object `Box<Error>`. This may not seem terribly surprising, but it is -->
+<!-- useful in a generic context. -->
+この実装は `Error` を実装した *全て* の型は、トレイトオブジェクト `Box<Error>` に変換できると言っています。
+これはあんまりすごい事には見えないかもしれませんが、一般的な状況（context）で有用です。
 
-Remember the two errors we were dealing with previously? Specifically,
-`io::Error` and `num::ParseIntError`. Since both impl `Error`, they work with
-`From`:
+<!-- Remember the two errors we were dealing with previously? Specifically, -->
+<!-- `io::Error` and `num::ParseIntError`. Since both impl `Error`, they work with -->
+<!-- `From`: -->
+さっき扱った2つのエラーを覚えてますか？
+具体的には `io::Error` と `num::ParseIntError` でした。
+どちらも `Error` を実装していますので `From` で動きます。
 
 ```rust
 use std::error::Error;
@@ -1717,33 +1729,46 @@ use std::fs;
 use std::io;
 use std::num;
 
-// We have to jump through some hoops to actually get error values.
+# // We have to jump through some hoops to actually get error values.
+// エラーの値に本当にたどり着くまで、何段階かのステップが必要です。
 let io_err: io::Error = io::Error::last_os_error();
 let parse_err: num::ParseIntError = "not a number".parse::<i32>().unwrap_err();
 
-// OK, here are the conversions.
+# // OK, here are the conversions.
+// では、こちらで変換します。
 let err1: Box<Error> = From::from(io_err);
 let err2: Box<Error> = From::from(parse_err);
 ```
 
-There is a really important pattern to recognize here. Both `err1` and `err2`
-have the *same type*. This is because they are existentially quantified types,
-or trait objects. In particular, their underlying type is *erased* from the
-compiler's knowledge, so it truly sees `err1` and `err2` as exactly the same.
-Additionally, we constructed `err1` and `err2` using precisely the same
-function call: `From::from`. This is because `From::from` is overloaded on both
-its argument and its return type.
+<!-- There is a really important pattern to recognize here. Both `err1` and `err2` -->
+<!-- have the *same type*. This is because they are existentially quantified types, -->
+<!-- or trait objects. In particular, their underlying type is *erased* from the -->
+<!-- compiler's knowledge, so it truly sees `err1` and `err2` as exactly the same. -->
+<!-- Additionally, we constructed `err1` and `err2` using precisely the same -->
+<!-- function call: `From::from`. This is because `From::from` is overloaded on both -->
+<!-- its argument and its return type. -->
+ここには認識すべき、本当に重要なパターンがあります。
+`err1` と `err2` の両方とも *同じ型* になっています。
+これは、それらがexistentially quantified types（訳）、つまり、トレイトオブジェクトだからです。
+特に、それらの背後の型は、コンパイラーの知識から *消去されます* ので、 `err1` と `err2` が本当に同一だと見るのです。
+さらに私たちは同一の関数呼び出し `From::from` を使って `err1` と `err2` を構築しました。
+これは `From::from` が引数とリターン型の両方でオーバーライドされているからです。
 
-This pattern is important because it solves a problem we had earlier: it gives
-us a way to reliably convert errors to the same type using the same function.
+<!-- This pattern is important because it solves a problem we had earlier: it gives -->
+<!-- us a way to reliably convert errors to the same type using the same function. -->
+このパターンは重要です。
+なぜなら、私たちが以前持っていた問題を解決するからです。
+同じ関数を使って、エラーを同じ型に変換する、確実な方法を提供するからです。
 
-Time to revisit an old friend; the `try!` macro.
+<!-- Time to revisit an old friend; the `try!` macro. -->
+いよいよ、私たちの旧友 `try!` マクロを再訪する時が訪れました。
 
 <!-- ## The real `try!` macro -->
 <span id="the-real-try-macro"></span>
 ## 本当の `try!` マクロ
 
-Previously, we presented this definition of `try!`:
+<!-- Previously, we presented this definition of `try!`: -->
+以前、`try!` はこのように定義されていると提示されました。
 
 ```rust
 macro_rules! try {
@@ -1754,8 +1779,10 @@ macro_rules! try {
 }
 ```
 
-This is not its real definition. Its real definition is
-[in the standard library](../std/macro.try!.html):
+<!-- This is not its real definition. Its real definition is -->
+<!-- [in the standard library](../std/macro.try!.html): -->
+これは本当の定義ではありません。
+本当の定義は [標準ライブラリの中にあります](../std/macro.try!.html)：
 
 <span id="code-try-def"></span>
 
@@ -1768,12 +1795,17 @@ macro_rules! try {
 }
 ```
 
-There's one tiny but powerful change: the error value is passed through
-`From::from`. This makes the `try!` macro a lot more powerful because it gives
-you automatic type conversion for free.
+<!-- There's one tiny but powerful change: the error value is passed through -->
+<!-- `From::from`. This makes the `try!` macro a lot more powerful because it gives -->
+<!-- you automatic type conversion for free. -->
+ここには、たった一つですが、大きな違いがあります：
+エラーの値は `From::from` を経て渡されるのです。
+これにより `try!` マクロは、はるかに強力になります。
+なぜなら、自動的な型変換をただで手に入れられるのですから。
 
-Armed with our more powerful `try!` macro, let's take a look at code we wrote
-previously to read a file and convert its contents to an integer:
+<!-- Armed with our more powerful `try!` macro, let's take a look at code we wrote -->
+<!-- previously to read a file and convert its contents to an integer: -->
+強力になった `try!` マクロを手に入れたので、前に書いたファイルを読み込んで、その内容を整数値に変換するコードを見てみましょう：
 
 ```rust
 use std::fs::File;
@@ -1789,10 +1821,13 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, String> {
 }
 ```
 
-Earlier, we promised that we could get rid of the `map_err` calls. Indeed, all
-we have to do is pick a type that `From` works with. As we saw in the previous
-section, `From` has an impl that lets it convert any error type into a
-`Box<Error>`:
+<!-- Earlier, we promised that we could get rid of the `map_err` calls. Indeed, all -->
+<!-- we have to do is pick a type that `From` works with. As we saw in the previous -->
+<!-- section, `From` has an impl that lets it convert any error type into a -->
+<!-- `Box<Error>`: -->
+以前 `map_err` の呼び出しを取り除くことができると約束しました。
+もちろんです。ここでしなければいけないのは `From` と共に動く型を一つ選ぶことです。
+前の節で見たように `From` の実装のひとつは、どんなエラー型でも `Box<Error>` に変換できます：
 
 ```rust
 use std::error::Error;
@@ -1809,42 +1844,64 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 }
 ```
 
-We are getting very close to ideal error handling. Our code has very little
-overhead as a result from error handling because the `try!` macro encapsulates
-three things simultaneously:
+<!-- We are getting very close to ideal error handling. Our code has very little -->
+<!-- overhead as a result from error handling because the `try!` macro encapsulates -->
+<!-- three things simultaneously: -->
+理想的なエラーハンドリングまで、あと一歩です。
+私たちのコードには、エラーハンドリングの結果、ごくわずかのオーバーヘッドしかありません。
+これは `try!` マクロが同時に3つのことをカプセル化するからです：
 
-1. Case analysis.
-2. Control flow.
-3. Error type conversion.
+<!-- 1. Case analysis. -->
+<!-- 2. Control flow. -->
+<!-- 3. Eraror type conversion. -->
+1. ケース分析
+2. 制御の流れ
+3. エラー型の変換
 
-When all three things are combined, we get code that is unencumbered by
-combinators, calls to `unwrap` or case analysis.
+<!-- When all three things are combined, we get code that is unencumbered by -->
+<!-- combinators, calls to `unwrap` or case analysis. -->
+これら3つが一つになった時、コンビネータ、 `unwrap` の呼び出し、ケース分析などの邪魔者を排除したコードが得られるのです。
 
-There's one little nit left: the `Box<Error>` type is *opaque*. If we
-return a `Box<Error>` to the caller, the caller can't (easily) inspect
-underlying error type. The situation is certainly better than `String`
-because the caller can call methods like
-[`description`](../std/error/trait.Error.html#tymethod.description)
-and [`cause`](../std/error/trait.Error.html#method.cause), but the
-limitation remains: `Box<Error>` is opaque. (N.B. This isn't entirely
-true because Rust does have runtime reflection, which is useful in
-some scenarios that are [beyond the scope of this
-chapter](https://crates.io/crates/error).)
+<!-- There's one little nit left: the `Box<Error>` type is *opaque*. If we -->
+<!-- return a `Box<Error>` to the caller, the caller can't (easily) inspect -->
+<!-- underlying error type. The situation is certainly better than `String` -->
+<!-- because the caller can call methods like -->
+<!-- [`description`](../std/error/trait.Error.html#tymethod.description) -->
+<!-- and [`cause`](../std/error/trait.Error.html#method.cause), but the -->
+<!-- limitation remains: `Box<Error>` is opaque. (N.B. This isn't entirely -->
+<!-- true because Rust does have runtime reflection, which is useful in -->
+<!-- some scenarios that are [beyond the scope of this -->
+<!-- chapter](https://crates.io/crates/error).) -->
+ほんの一つ些細なことが残っています：
+`Box<Error>` 型は *不透明（opaque）* なのです。
+もし `Box<Error>` を呼び出し元に返すと、呼び出し元では背後のエラー型が何であるかを、（簡単に）調査できません。
+この状況は `String` を返すよりは明らかに改善されてます。
+なぜなら、呼び出し元では [`description`](../std/error/trait.Error.html#tymethod.description) や [`cause`](../std/error/trait.Error.html#method.cause) といったメソッドを呼ぶこともできるからです。
+しかし `Box<Error>` が opaque であるという制限は残ります。
+（注意：これは完全な真実ではありません。
+なぜならRustでは実行時のリフレクションができるからです。
+この方法が有効なシナリオもありますが、[この章で扱う範囲を超えています](https://crates.io/crates/error) ）
 
-It's time to revisit our custom `CliError` type and tie everything together.
+<!-- It's time to revisit our custom `CliError` type and tie everything together. -->
+では、私たちのカスタムエラー型 `CliErro` に戻って、全てを一つにまとめ上げましょう。
 
 <!-- ## Composing custom error types -->
 <span id="composing-custom-error-types"></span>
 ## 独自のエラー型で構成する
 
-In the last section, we looked at the real `try!` macro and how it does
-automatic type conversion for us by calling `From::from` on the error value.
-In particular, we converted errors to `Box<Error>`, which works, but the type
-is opaque to callers.
+<!-- In the last section, we looked at the real `try!` macro and how it does -->
+<!-- automatic type conversion for us by calling `From::from` on the error value. -->
+<!-- In particular, we converted errors to `Box<Error>`, which works, but the type -->
+<!-- is opaque to callers. -->
+最後の説では `try!` マクロの本当の定義を確認し、それが `From::from` をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
+特にそこでは、エラーを `Box<Error>` に変換しました。
+これは動きますが、呼び出し元にとって型が opaque になってしまいました。
 
-To fix this, we use the same remedy that we're already familiar with: a custom
-error type. Once again, here is the code that reads the contents of a file and
-converts it to an integer:
+<!-- To fix this, we use the same remedy that we're already familiar with: a custom -->
+<!-- error type. Once again, here is the code that reads the contents of a file and -->
+<!-- converts it to an integer: -->
+これを直すために、すでによく知っている改善方法である、独自のエラー型を使いましょう。
+もう一度、ファイルの内容を読んで、整数値に変換するコードを見てみましょう：
 
 ```rust
 use std::fs::File;
@@ -1871,12 +1928,17 @@ fn file_double_verbose<P: AsRef<Path>>(file_path: P) -> Result<i32, CliError> {
 }
 ```
 
-Notice that we still have the calls to `map_err`. Why? Well, recall the
-definitions of [`try!`](#code-try-def) and [`From`](#code-from-def). The
-problem is that there is no `From` impl that allows us to convert from error
-types like `io::Error` and `num::ParseIntError` to our own custom `CliError`.
-Of course, it is easy to fix this! Since we defined `CliError`, we can impl
-`From` with it:
+<!-- Notice that we still have the calls to `map_err`. Why? Well, recall the -->
+<!-- definitions of [`try!`](#code-try-def) and [`From`](#code-from-def). The -->
+<!-- problem is that there is no `From` impl that allows us to convert from error -->
+<!-- types like `io::Error` and `num::ParseIntError` to our own custom `CliError`. -->
+<!-- Of course, it is easy to fix this! Since we defined `CliError`, we can impl -->
+<!-- `From` with it: -->
+`map_err` がまだあることに注目してください。
+なぜって、 [`try!`](#code-try-def) と [`From`](#code-from-def) の定義を思い出してください。
+ここでの問題は `io::Error` や `num::ParseIntError` といったエラー型を、私たち独自の `CliError` に変換できる `From` の実装が無いことです。
+もちろん、これは簡単に直せます！
+`CliError` を定義したわけですから、それのために `From` を実装することができます。
 
 ```rust
 # #[derive(Debug)]
@@ -1897,11 +1959,15 @@ impl From<num::ParseIntError> for CliError {
 }
 ```
 
-All these impls are doing is teaching `From` how to create a `CliError` from
-other error types. In our case, construction is as simple as invoking the
-corresponding value constructor. Indeed, it is *typically* this easy.
+<!-- All these impls are doing is teaching `From` how to create a `CliError` from -->
+<!-- other error types. In our case, construction is as simple as invoking the -->
+<!-- corresponding value constructor. Indeed, it is *typically* this easy. -->
+これらの実装がしていることは、`From` に対して、どうやって他のエラー型を元に `CliError` を作るのかを教えてあげることです。
+このケースでは、単に対応する値コンストラクタを呼ぶことで構築しています。
+実際に *通常は* これくらい簡単にできてしまいます。
 
-We can finally rewrite `file_double`:
+<!-- We can finally rewrite `file_double`: -->
+これでようやく `file_double` を書き直せます：
 
 ```rust
 # use std::io;
@@ -1927,14 +1993,18 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, CliError> {
 }
 ```
 
-The only thing we did here was remove the calls to `map_err`. They are no
-longer needed because the `try!` macro invokes `From::from` on the error value.
-This works because we've provided `From` impls for all the error types that
-could appear.
+<!-- The only thing we did here was remove the calls to `map_err`. They are no -->
+<!-- longer needed because the `try!` macro invokes `From::from` on the error value. -->
+<!-- This works because we've provided `From` impls for all the error types that -->
+<!-- could appear. -->
+ここでしたのは `map_err` を取り除くことだけです。
+それらは `try!` マクロがエラーの値に対して `From::from` を呼ぶので、もう不要になりました。
+これが動くのは、起こりうる全てのエラー型に対して `From` の実装を提供したからです。
 
-If we modified our `file_double` function to perform some other operation, say,
-convert a string to a float, then we'd need to add a new variant to our error
-type:
+<!-- If we modified our `file_double` function to perform some other operation, say, -->
+<!-- convert a string to a float, then we'd need to add a new variant to our error -->
+<!-- type: -->
+もし `file_double` 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたい、と思ったら、エラー型のバリエーションを追加するだけです：
 
 ```rust
 use std::io;
@@ -1947,7 +2017,7 @@ enum CliError {
 }
 ```
 
-And add a new `From` impl:
+<!-- And add a new `From` impl: -->
 
 ```rust
 # enum CliError {
@@ -1965,40 +2035,55 @@ impl From<num::ParseFloatError> for CliError {
 }
 ```
 
-And that's it!
+<!-- And that's it! -->
+そう、これで完成です！
 
 <!-- ## Advice for library writers -->
 <span id="advice-for-library-writers"></span>
 ## ライブラリ作者たちへのアドバイス
 
-If your library needs to report custom errors, then you should
-probably define your own error type. It's up to you whether or not to
-expose its representation (like
-[`ErrorKind`](../std/io/enum.ErrorKind.html)) or keep it hidden (like
-[`ParseIntError`](../std/num/struct.ParseIntError.html)). Regardless
-of how you do it, it's usually good practice to at least provide some
-information about the error beyond just its `String`
-representation. But certainly, this will vary depending on use cases.
+<!-- If your library needs to report custom errors, then you should -->
+<!-- probably define your own error type. It's up to you whether or not to -->
+<!-- expose its representation (like -->
+<!-- [`ErrorKind`](../std/io/enum.ErrorKind.html)) or keep it hidden (like -->
+<!-- [`ParseIntError`](../std/num/struct.ParseIntError.html)). Regardless -->
+<!-- of how you do it, it's usually good practice to at least provide some -->
+<!-- information about the error beyond just its `String` -->
+<!-- representation. But certainly, this will vary depending on use cases. -->
+もし、あなたのライブラリーがカスタマイズされたエラーを報告しなければならないなら、恐らく、独自のエラー型を定義するべきでしょう。
+エラーの表現を表に晒すか（例： [`ErrorKind`](../std/io/enum.ErrorKind.html) ） 、隠しておくか（例： [`ParseIntError`](../std/num/struct.ParseIntError.html) ）は、あなたの自由です。
+どうするかに関係なく、 `String` による表現を超えたエラー情報を最低でも提供することが、ほとんどの場合、良いやり方となるでしょう。
+しかしこれは疑いなく、ユースケースに大きく依存します。
 
-At a minimum, you should probably implement the
-[`Error`](../std/error/trait.Error.html)
-trait. This will give users of your library some minimum flexibility for
-[composing errors](#the-real-try-macro). Implementing the `Error` trait also
-means that users are guaranteed the ability to obtain a string representation
-of an error (because it requires impls for both `fmt::Debug` and
-`fmt::Display`).
+<!-- At a minimum, you should probably implement the -->
+<!-- [`Error`](../std/error/trait.Error.html) -->
+<!-- trait. This will give users of your library some minimum flexibility for -->
+<!-- [composing errors](#the-real-try-macro). Implementing the `Error` trait also -->
+<!-- means that users are guaranteed the ability to obtain a string representation -->
+<!-- of an error (because it requires impls for both `fmt::Debug` and -->
+<!-- `fmt::Display`). -->
+最低でも [`Error`](../std/error/trait.Error.html) トレイトを実装するべきでしょう。
+これにより、ライブラリの利用者に [エラーを合成する](#the-real-try-macro) ための、最低ラインの柔軟性を与えるでしょう。
+`Error` トレイトを実装することは、利用者がエラーの文字列表現を取得できることを保証することにもなります。
+（なぜなら、このことが `fmt::Debug` と `fmt::Display` を実装することを要求するからです）
 
-Beyond that, it can also be useful to provide implementations of `From` on your
-error types. This allows you (the library author) and your users to
-[compose more detailed errors](#composing-custom-error-types). For example,
-[`csv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html)
-provides `From` impls for both `io::Error` and `byteorder::Error`.
+<!-- Beyond that, it can also be useful to provide implementations of `From` on your -->
+<!-- error types. This allows you (the library author) and your users to -->
+<!-- [compose more detailed errors](#composing-custom-error-types). For example, -->
+<!-- [`csv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html) -->
+<!-- provides `From` impls for both `io::Error` and `byteorder::Error`. -->
+さらには、あなたのエラー型に対して `From` の実装を提供することも、便利かもしれません。
+このことは、（ライブラリ作者である）あなたと利用者が、 [より詳細なエラーを合成する](#composing-custom-error-types) ことを可能にします。
+例えば [`csv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html) は `io::Error` と `byteorder::Error` の両方に `From` 実装を提供しています。
 
-Finally, depending on your tastes, you may also want to define a
-[`Result` type alias](#the-result-type-alias-idiom), particularly if your
-library defines a single error type. This is used in the standard library
-for [`io::Result`](../std/io/type.Result.html)
-and [`fmt::Result`](../std/fmt/type.Result.html).
+<!-- Finally, depending on your tastes, you may also want to define a -->
+<!-- [`Result` type alias](#the-result-type-alias-idiom), particularly if your -->
+<!-- library defines a single error type. This is used in the standard library -->
+<!-- for [`io::Result`](../std/io/type.Result.html) -->
+<!-- and [`fmt::Result`](../std/fmt/type.Result.html). -->
+最後に、あなたの好みによっては、[`Result` 型エイリアス](#the-result-type-alias-idiom) を定義したくなるかもしれません。
+特にライブラリでエラー型を一つだけ定義している時は当てはまります。
+この方法は標準ライブラリの [`io::Result`](../std/io/type.Result.html) や [`fmt::Result`](../std/fmt/type.Result.html) で用いられています。
 
 <!-- # Case study: A program to read population data -->
 <span id="case-study-a-program-to-read-population-data"></span>
