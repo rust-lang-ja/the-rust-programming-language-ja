@@ -186,83 +186,150 @@
 
 
     <h1 class="title">Nightly Rust</h1>
-    <p>Rust provides three distribution channels for Rust: nightly, beta, and stable.
-Unstable features are only available on nightly Rust. For more details on this
-process, see ‘<a href="http://blog.rust-lang.org/2014/10/30/Stability.html">Stability as a deliverable</a>’.</p>
+    <!-- % Nightly Rust -->
 
-<p>To install nightly Rust, you can use <code>rustup.sh</code>:</p>
+<!-- Rust provides three distribution channels for Rust: nightly, beta, and stable. -->
+
+<!-- Unstable features are only available on nightly Rust. For more details on this -->
+
+<!-- process, see ‘[Stability as a deliverable][stability]’. -->
+
+<p>Rustにはnightly、beta、stableという3種類の配布用チャネルがあります。不安定なフィーチャはnightlyのRustでのみ使えます。詳細は「 <a href="http://blog.rust-lang.org/2014/10/30/Stability.html">配布物の安定性</a> 」をご覧ください。</p>
+
+<!-- To install nightly Rust, you can use `rustup.sh`: -->
+
+<p>nightlyのRustをインストールするには <code>rustup.sh</code> を使って以下のようにします。</p>
 
 <pre><code class="language-bash">$ curl -s https://static.rust-lang.org/rustup.sh | sh -s -- --channel=nightly
 </code></pre>
 
-<p>If you&#39;re concerned about the <a href="http://curlpipesh.tumblr.com">potential insecurity</a> of using <code>curl | sh</code>, please keep reading and see our disclaimer below. And feel free to
-use a two-step version of the installation and examine our installation script:</p>
+<!-- If you're concerned about the [potential insecurity][insecurity] of using `curl -->
+
+<!-- | sh`, please keep reading and see our disclaimer below. And feel free to -->
+
+<!-- use a two-step version of the installation and examine our installation script: -->
+
+<p>もし <code>curl | sh</code> の使用による <a href="http://curlpipesh.tumblr.com">潜在的な危険性</a> が気になる場合は、この後の注意書きまで読み進めてください。また、以下のように2段階のインストール方法を用い、インストールスクリプトを精査しても構いません。</p>
 
 <pre><code class="language-bash">$ curl -f -L https://static.rust-lang.org/rustup.sh -O
 $ sh rustup.sh --channel=nightly
 </code></pre>
 
-<p>If you&#39;re on Windows, please download either the <a href="https://static.rust-lang.org/dist/rust-nightly-i686-pc-windows-gnu.msi">32-bit installer</a> or
-the <a href="https://static.rust-lang.org/dist/rust-nightly-x86_64-pc-windows-gnu.msi">64-bit installer</a> and run it.</p>
+<!-- If you're on Windows, please download either the [32-bit installer][win32] or -->
 
-<h2 id='uninstalling' class='section-header'><a href='#uninstalling'>Uninstalling</a></h2>
-<p>If you decide you don&#39;t want Rust anymore, we&#39;ll be a bit sad, but that&#39;s okay.
-Not every programming language is great for everyone. Just run the uninstall
-script:</p>
+<!-- the [64-bit installer][win64] and run it. -->
+
+<p>Windowsの場合は <a href="https://static.rust-lang.org/dist/rust-nightly-i686-pc-windows-gnu.msi">32bit版インストーラ</a> あるいは <a href="https://static.rust-lang.org/dist/rust-nightly-x86_64-pc-windows-gnu.msi">64bit版インストーラ</a> をダウンロードして実行してください。</p>
+
+<!-- ## Uninstalling -->
+
+<h2 id='アンインストール' class='section-header'><a href='#アンインストール'>アンインストール</a></h2>
+<!-- If you decide you don't want Rust anymore, we'll be a bit sad, but that's okay. -->
+
+<!-- Not every programming language is great for everyone. Just run the uninstall -->
+
+<!-- script: -->
+
+<p>もしRustが不要だと判断した場合、残念ですが仕方がありません。万人に気に入られるプログラミング言語ばかりとは限らないのです。アンインストールするには以下を実行します。</p>
 
 <pre><code class="language-bash">$ sudo /usr/local/lib/rustlib/uninstall.sh
 </code></pre>
 
-<p>If you used the Windows installer, just re-run the <code>.msi</code> and it will give you
-an uninstall option.</p>
+<!-- If you used the Windows installer, just re-run the `.msi` and it will give you -->
 
-<p>Some people, and somewhat rightfully so, get very upset when we tell you to
-<code>curl | sh</code>. Basically, when you do this, you are trusting that the good
-people who maintain Rust aren&#39;t going to hack your computer and do bad things.
-That&#39;s a good instinct! If you&#39;re one of those people, please check out the
-documentation on <a href="https://github.com/rust-lang/rust#building-from-source">building Rust from Source</a>, or <a href="https://www.rust-lang.org/install.html">the official
-binary downloads</a>.</p>
+<!-- an uninstall option. -->
 
-<p>Oh, we should also mention the officially supported platforms:</p>
+<p>Windows用のインストーラを使用した場合は、 <code>.msi</code> を再実行しアンインストールオプションを選択してください。</p>
+
+<!-- Some people, and somewhat rightfully so, get very upset when we tell you to -->
+
+<!-- `curl | sh`. Basically, when you do this, you are trusting that the good -->
+
+<!-- people who maintain Rust aren't going to hack your computer and do bad things. -->
+
+<!-- That's a good instinct! If you're one of those people, please check out the -->
+
+<!-- documentation on [building Rust from Source][from-source], or [the official -->
+
+<!-- binary downloads][install-page]. -->
+
+<p><code>curl | sh</code> を行うように書いたことについて、(当然のことですが)戸惑った方がいるかもしれません。基本的に <code>curl | sh</code> を行うということは、Rustをメンテナンスしている善良な人々がコンピュータのハッキングなど何か悪いことをしたりしないと信用する、ということです。ですので戸惑った方はよい直感を持っているといえます。そのような方は <a href="https://github.com/rust-lang/rust#building-from-source">ソースコードからのRustビルド</a> あるいは <a href="https://www.rust-lang.org/install.html">公式バイナリのダウンロード</a> を確認してください。</p>
+
+<!-- Oh, we should also mention the officially supported platforms: -->
+
+<p>ここで公式にサポートするプラットフォームについても述べておきます。</p>
+
+<!-- * Windows (7, 8, Server 2008 R2) -->
+
+<!-- * Linux (2.6.18 or later, various distributions), x86 and x86-64 -->
+
+<!-- * OSX 10.7 (Lion) or greater, x86 and x86-64 -->
 
 <ul>
-<li>Windows (7, 8, Server 2008 R2)</li>
-<li>Linux (2.6.18 or later, various distributions), x86 and x86-64</li>
-<li>OSX 10.7 (Lion) or greater, x86 and x86-64</li>
+<li>Windows (7、8、Server 2008 R2)</li>
+<li>Linux (2.6.18以上の各ディストリビューション)、x86 及び x86-64</li>
+<li>OSX 10.7 (Lion)以上、x86 及び x86-64</li>
 </ul>
 
-<p>We extensively test Rust on these platforms, and a few others, too, like
-Android. But these are the ones most likely to work, as they have the most
-testing.</p>
+<!-- We extensively test Rust on these platforms, and a few others, too, like -->
 
-<p>Finally, a comment about Windows. Rust considers Windows to be a first-class
-platform upon release, but if we&#39;re honest, the Windows experience isn&#39;t as
-integrated as the Linux/OS X experience is. We&#39;re working on it! If anything
-does not work, it is a bug. Please let us know if that happens. Each and every
-commit is tested against Windows just like any other platform.</p>
+<!-- Android. But these are the ones most likely to work, as they have the most -->
 
-<p>If you&#39;ve got Rust installed, you can open up a shell, and type this:</p>
+<!-- testing. -->
+
+<p>Rustではこれらのプラットフォームの他、Androidなどいくつかのプラットフォームについても幅広いテストが行われています。しかし、後者については(訳注:実環境での使用実績が少ないという意味で)テストし尽くされているとは言えず、ほとんどの場合動くだろう、という状態です。</p>
+
+<!-- Finally, a comment about Windows. Rust considers Windows to be a first-class -->
+
+<!-- platform upon release, but if we're honest, the Windows experience isn't as -->
+
+<!-- integrated as the Linux/OS X experience is. We're working on it! If anything -->
+
+<!-- does not work, it is a bug. Please let us know if that happens. Each and every -->
+
+<!-- commit is tested against Windows just like any other platform. -->
+
+<p>最後にWindowsについてです。RustはWindowsをリリースする上での1級プラットフォームだと考えています。しかし、正直なところ、Windowsでの使い勝手はLinux/OS Xのそれと同等というわけではありません。(そうなるように努力しています!) もしうまく動かないことがあれば、それはバグですのでお知らせください。全てのコミットは他のプラットフォームと同様にWindowsに対してもテストされています。</p>
+
+<!-- If you've got Rust installed, you can open up a shell, and type this: -->
+
+<p>Rustのインストールが終われば、シェルを開いて以下のように入力してください。</p>
 
 <pre><code class="language-bash">$ rustc --version
 </code></pre>
 
-<p>You should see the version number, commit hash, commit date and build date:</p>
+<!-- You should see the version number, commit hash, commit date and build date: -->
+
+<p>バージョン番号、コミットハッシュ、コミット日時、ビルド日時が表示されるはずです。</p>
 
 <pre><code class="language-bash">rustc 1.0.0-nightly (f11f3e7ba 2015-01-04) (built 2015-01-06)
 </code></pre>
 
-<p>If you did, Rust has been installed successfully! Congrats!</p>
+<!-- If you did, Rust has been installed successfully! Congrats! -->
 
-<p>This installer also installs a copy of the documentation locally, so you can
-read it offline. On UNIX systems, <code>/usr/local/share/doc/rust</code> is the location.
-On Windows, it&#39;s in a <code>share/doc</code> directory, inside wherever you installed Rust
-to.</p>
+<p>これでRustのインストールはうまくいきました!おめでとう!</p>
 
-<p>If not, there are a number of places where you can get help. The easiest is
-<a href="irc://irc.mozilla.org/#rust">the #rust IRC channel on irc.mozilla.org</a>, which you can access through
-<a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">Mibbit</a>. Click that link, and you&#39;ll be chatting with other Rustaceans
-(a silly nickname we call ourselves), and we can help you out. Other great
-resources include <a href="https://users.rust-lang.org/">the user’s forum</a>, and <a href="http://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>.</p>
+<!-- This installer also installs a copy of the documentation locally, so you can -->
+
+<!-- read it offline. On UNIX systems, `/usr/local/share/doc/rust` is the location. -->
+
+<!-- On Windows, it's in a `share/doc` directory, inside wherever you installed Rust -->
+
+<!-- to. -->
+
+<p>インストーラはドキュメントのローカルコピーもインストールするので、オフラインでも読むことが出来ます。UNIXシステムでは <code>/usr/local/share/doc/rust</code> に、WindowsではRustをインストールしたディレクトリの <code>share\doc</code> ディレクトリに配置されます。</p>
+
+<!-- If not, there are a number of places where you can get help. The easiest is -->
+
+<!-- [the #rust IRC channel on irc.mozilla.org][irc], which you can access through -->
+
+<!-- [Mibbit][mibbit]. Click that link, and you'll be chatting with other Rustaceans -->
+
+<!-- (a silly nickname we call ourselves), and we can help you out. Other great -->
+
+<!-- resources include [the user’s forum][users], and [Stack Overflow][stackoverflow]. -->
+
+<p>もし上手くいかないなら様々な場所で助けを得られます。最も簡単なのは <a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">Mibbit</a> からアクセス出来る <a href="irc://irc.mozilla.org/#rust">irc.mozilla.orgにある#rustチャネル</a> です。リンクをクリックしたら他のRustacean達(我々のことをふざけてこう呼ぶのです)にチャットで助けを求めることができます。他には <a href="https://users.rust-lang.org/">ユーザフォーラム</a> や <a href="http://stackoverflow.com/questions/tagged/rust">Stack Overflow</a> などがあります。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
