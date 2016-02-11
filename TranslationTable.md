@@ -24,6 +24,7 @@
 | block                          | ブロック
 | borrowing                      | 借用
 | bounds                         | 境界
+| channel                        | チャネル
 | capture                        | キャプチャ
 | closure                        | クロージャ
 | coercion                       | 型強制
@@ -35,6 +36,7 @@
 | declaration statement          | 宣言文
 | dereferencing                  | 参照外し
 | destructuring                  | 分配
+| directory                      | ディレクトリ
 | directive                      | ディレクティブ
 | distribution                   | 配布物
 | diverge                        | ダイバージ
@@ -49,10 +51,13 @@
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | growable                       | 伸張可能
+| hash                           | ハッシュ
 | identifier                     | 識別子
 | immutable                      | イミュータブル
 | initialize                     | 初期化する
 | input lifetime                 | 入力ライフタイム
+| install                        | インストール
+| installer                      | インストーラ
 | interpolate                    | インターポーレートする
 | interpolation                  | インターポーレーション
 | keyword                        | キーワード
@@ -73,7 +78,9 @@
 | mutable                        | ミュータブル
 | mutability                     | ミュータビリティ
 | mutable binding                | ミュータブルな束縛
+| offline                        | オフライン
 | opaque                         | オペーク
+| option                         | オプション
 | output lifetime                | 出力ライフタイム
 | owner                          | 所有者
 | ownership                      | 所有権
@@ -81,11 +88,13 @@
 | parametric polymorphism        | パラメトリック多相
 | pattern                        | パターン
 | performance                    | パフォーマンス
+| platform                       | プラットフォーム
 | pointer                        | ポインタ
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
 | return                         | 返す
 | scope                          | スコープ
+| script                         | スクリプト
 | shadow                         | 覆い隠す
 | shadowing                      | シャドーイング
 | signature                      | シグネチャ
@@ -103,6 +112,7 @@
 | trait                          | トレイト
 | type inference                 | 型推論
 | type family                    | 型族
+| uninstall                      | アンインストール
 | Universal Function Call Syntax | 共通の関数呼び出し構文
 | unsafe                         | アンセーフ
 | unsigned                       | 符号無し
