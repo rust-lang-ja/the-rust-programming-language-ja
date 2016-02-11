@@ -41,7 +41,7 @@ fn main() {
 <!-- In `main`, we can use `+` on our two `Point`s, since we’ve implemented -->
 <!-- `Add<Output=Point>` for `Point`. -->
 `main` 中で、２つの `Point` に対して `+` を使うことができます、
-これは `Point` にたいして `Add<Output=Point>` を実装したためです。
+これは `Point` に対して `Add<Output=Point>` を実装したためです。
 
 <!-- There are a number of operators that can be overloaded this way, and all of -->
 <!-- their associated traits live in the [`std::ops`][stdops] module. Check out its -->
