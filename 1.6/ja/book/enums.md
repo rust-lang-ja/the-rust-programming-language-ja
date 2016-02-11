@@ -1,7 +1,9 @@
-% Enums
+% 列挙型
+<!-- % Enums -->
 
-An `enum` in Rust is a type that represents data that could be one of
-several possible variants:
+<!-- An `enum` in Rust is a type that represents data that could be one of
+several possible variants: -->
+Rustの `enum` は、いくつかのヴァリアントの候補のうちのどれか一つであるようなデータを表す型です。
 
 ```rust
 enum Message {

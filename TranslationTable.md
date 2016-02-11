@@ -115,6 +115,7 @@
 | unsized type                   | サイズ不定型
 | variable                       | 変数
 | variable binding               | 変数束縛
+| variant                        | ヴァリアント
 | vector                         | ベクタ
 | warning                        | ウォーニング
 | wildcard                       | ワイルドカード
