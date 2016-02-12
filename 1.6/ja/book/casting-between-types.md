@@ -1,4 +1,5 @@
-% Casting Between Types
+% 型間のキャスト
+<!-- % Casting Between Types -->
 
 Rust, with its focus on safety, provides two different ways of casting
 different types between each other. The first, `as`, is for safe casts.
