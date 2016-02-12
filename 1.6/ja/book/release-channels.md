@@ -44,7 +44,7 @@ Rustのリリースには以下の3つのチャネルがあります。
 しかしRustに特に関心のある方は、代わりにnightlyを選んでも構いません。基本的な交換条件は次の通りです。nightlyチャネルを選ぶと不安定で新しいフィーチャを使うことができます。しかし、不安定なフィーチャは変更されやすく、新しいnightlyリリースでソースコードが動かなくなってしまうかもしれません。stableリリースを使えば、実験的なフィーチャを使うことはできませんが、Rustのバージョンが上がっても破壊的な変更によるトラブルは起きないでしょう。
 
 <!-- # Helping the ecosystem through CI -->
-# CIのためのエコシステム
+# CIによるエコシステム支援
 
 <!-- What about beta? We encourage all Rust users who use the stable release channel -->
 <!-- to also test against the beta channel in their continuous integration systems. -->
@@ -53,7 +53,7 @@ betaとはどういうチャネルでしょうか？stableリリースチャネ�
 
 <!-- Additionally, testing against nightly can catch regressions even sooner, and so -->
 <!-- if you don’t mind a third build, we’d appreciate testing against all channels. -->
-さらに、nightlyに対してもテストすることでより早くリグレッションを捉えることができます。この第3のビルドについて関心がない方がいるかもしれませんが、我々は全てのチャネルに対してテストすることを高く評価しています。
+さらに、nightlyに対してもテストすることでより早くリグレッションを捉えることができます。この第3のビルドについて関心がない方がいるかもしれませんが、我々は全てのチャネルに対してテストすることが有用であると考えています。
 
 <!-- As an example, many Rust programmers use [Travis](https://travis-ci.org/) to -->
 <!-- test their crates, which is free for open source projects. Travis [supports -->
