@@ -1,4 +1,5 @@
-% Macros
+% マクロ
+<!-- % Macros -->
 
 By now you’ve learned about many of the tools Rust provides for abstracting and
 reusing code. These units of code reuse have a rich semantic structure. For
