@@ -81,7 +81,8 @@ impl Add<i32> for Point {
     type Output = f64;
 
     fn add(self, rhs: i32) -> f64 {
-        // add an i32 to a Point and get an f64
+# //        // add an i32 to a Point and get an f64
+        // i32をPointに加算しf64を返す
 # 1.0
     }
 }
