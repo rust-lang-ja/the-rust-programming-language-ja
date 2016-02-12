@@ -62,7 +62,7 @@ enforce that you’re accessing the data in the enum safely. For instance,
 you can’t simply try to destructure a value as if it were one of the
 possible variants: -->
 列挙型の値は、ヴァリアントに関連するデータに加え、その値自身がどのヴァリアントであるかという情報を持っています。
-これを「タグ付きユニオン」(tagged union) ということもあります。
+これを「タグ付き共用体」(tagged union) ということもあります。
 データが、それ自身がどの型なのかを示す「タグ」をもっているためです。
 コンパイラはこの情報を用いて、列挙型内のデータへ安全にアクセスすることを強制します。
 例えば、値をどれか一つのヴァリアントであるかのようにみなして、その中身を取り出すということはできません。

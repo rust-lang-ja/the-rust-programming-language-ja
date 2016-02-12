@@ -109,7 +109,7 @@
 | symbol                         | シンボル
 | syntactic sugar                | 糖衣構文
 | system                         | システム
-| tagged union                   | タグ付きユニオン
+| tagged union                   | タグ付き共用体
 | tick                           | クオート
 | trait                          | トレイト
 | type inference                 | 型推論
