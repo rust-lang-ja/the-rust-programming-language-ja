@@ -1,4 +1,5 @@
-% Mutability
+% ミュータビリティ
+<!-- % Mutability -->
 
 Mutability, the ability to change something, works a bit differently in Rust
 than in other languages. The first aspect of mutability is its non-default
