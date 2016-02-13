@@ -211,8 +211,8 @@
 
 <ul>
 <li>今読んでいる、所有権</li>
-<li><a href="references-and-borrowing.html">借用</a>、そしてそれらに関連する機能、「参照」</li>
-<li>借用のもう一歩進んだ概念、<a href="lifetimes.html">ライフタイム</a></li>
+<li><a href="references-and-borrowing.html">借用</a> 、そしてそれらに関連する機能、「参照」</li>
+<li>借用のもう一歩進んだ概念、 <a href="lifetimes.html">ライフタイム</a></li>
 </ul>
 
 <!-- These three chapters are related, and in order. You’ll need all three to fully -->
@@ -283,7 +283,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- Rust will free the bound resources. For example: -->
 
-<p>Rustでは<a href="variable-bindings.html">変数束縛</a>は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
+<p>Rustでは <a href="variable-bindings.html">変数束縛</a> は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
 これは束縛がスコープから外れるとき、Rustは束縛されているリソースを解放するだろうということを意味します。
 例えばこうです。</p>
 <span class='rusttest'>fn main() {
@@ -305,9 +305,9 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- deterministically, at the end of the scope. -->
 
-<p><code>v</code>がスコープに入るとき、新しい<a href="../std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a>が作られます。
-この場合、ベクタも3つの要素のために<a href="the-stack-and-the-heap.html">ヒープ</a>に空間を割り当てます。
-<code>foo()</code>の最後で<code>v</code>がスコープから外れるとき、Rustはベクタに関連するもの全てを取り除くでしょう。それがヒープ割当てのメモリであってもです。
+<p><code>v</code> がスコープに入るとき、新しい <a href="../std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a> が作られます。
+この場合、ベクタも3つの要素のために <a href="the-stack-and-the-heap.html">ヒープ</a> に空間を割り当てます。
+<code>foo()</code> の最後で <code>v</code> がスコープから外れるとき、Rustはベクタに関連するもの全てを取り除くでしょう。それがヒープ割当てのメモリであってもです。
 これはスコープの最後で決定的に起こります。</p>
 
 <!-- # Move semantics -->
@@ -332,7 +332,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- But, if we try to use `v` afterwards, we get an error: -->
 
-<p>しかし、もし後で<code>v</code>を使おうとすると、エラーが出ます。</p>
+<p>しかし、もし後で <code>v</code> を使おうとすると、エラーが出ます。</p>
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     
@@ -425,12 +425,12 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <!-- after we’ve done the move. -->
 
-<p>最初の行はベクタオブジェクト<code>v</code>とそれの含むデータのためのメモリを割り当てます。
-ベクタオブジェクトは<a href="the-stack-and-the-heap.html">スタック</a>に保存され、<a href="the-stack-and-the-heap.html">ヒープ</a>に保存された内容（<code>[1, 2, 3]</code>）へのポインタを含みます。
-<code>v</code>を<code>v2</code>にムーブするとき、それは<code>v2</code>のためにそのポインタのコピーを作ります。
+<p>最初の行はベクタオブジェクト <code>v</code> とそれの含むデータのためのメモリを割り当てます。
+ベクタオブジェクトは <a href="the-stack-and-the-heap.html">スタック</a> に保存され、 <a href="the-stack-and-the-heap.html">ヒープ</a> に保存された内容（ <code>[1, 2, 3]</code> ）へのポインタを含みます。
+<code>v</code> を <code>v2</code> にムーブするとき、それは <code>v2</code> のためにそのポインタのコピーを作ります。
 それは、ヒープ上のベクタの内容へのポインタが2つあることを意味します。
 それはデータ競合を持ち込むことでRustの安全性保証に違反するでしょう。
-そのため、Rustはムーブを終えた後の<code>v</code>の使用を禁止するのです。</p>
+そのため、Rustはムーブを終えた後の <code>v</code> の使用を禁止するのです。</p>
 
 <!-- It’s also important to note that optimizations may remove the actual copy of -->
 
@@ -443,7 +443,7 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <!-- ## `Copy` types -->
 
-<h2 id='copy型' class='section-header'><a href='#copy型'><code>Copy</code>型</a></h2>
+<h2 id='copy-型' class='section-header'><a href='#copy-型'><code>Copy</code> 型</a></h2>
 <!-- We’ve established that when ownership is transferred to another binding, you -->
 
 <!-- cannot use the original binding. However, there’s a [trait][traits] that changes this -->
@@ -455,7 +455,7 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 <!-- behavior. For example: -->
 
 <p>所有権が他の束縛に転送されるとき、元の束縛を使うことができないということを証明しました。
-しかし、この挙動を変更する<a href="traits.html">トレイト</a>があります。それは<code>Copy</code>と呼ばれます。
+しかし、この挙動を変更する <a href="traits.html">トレイト</a> があります。それは <code>Copy</code> と呼ばれます。
 トレイトについてはまだ議論していませんが、とりあえずそれらを挙動を追加するある型への注釈として考えることができます。
 例えばこうです。</p>
 <span class='rusttest'>fn main() {
@@ -479,10 +479,10 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <!-- has no pointers to data somewhere else, copying it is a full copy. -->
 
-<p>この場合、<code>v</code>は<code>i32</code>で、それは<code>Copy</code>トレイトを実装します。
-これはちょうどムーブと同じように、<code>v</code>を<code>v2</code>に割り当てるとき、データのコピーが作られるということを意味します。
-しかし、ムーブと違って後でまだ<code>v</code>を使うことができます。
-これは<code>i32</code>がどこか別の場所へのポインタを持たず、コピーが完全コピーだからです。</p>
+<p>この場合、 <code>v</code> は <code>i32</code> で、それは <code>Copy</code> トレイトを実装します。
+これはちょうどムーブと同じように、 <code>v</code> を <code>v2</code> に割り当てるとき、データのコピーが作られるということを意味します。
+しかし、ムーブと違って後でまだ <code>v</code> を使うことができます。
+これは <code>i32</code> がどこか別の場所へのポインタを持たず、コピーが完全コピーだからです。</p>
 
 <!-- All primitive types implement the `Copy` trait and their ownership is -->
 
@@ -492,8 +492,8 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <!-- `i32` and `bool` types implement the `Copy` trait. -->
 
-<p>全てのプリミティブ型は<code>Copy</code>トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従ってはムーブしません。
-例として、次の2つのコードスニペットはコンパイルが通ります。なぜなら、<code>i32</code>型と<code>bool</code>型は<code>Copy</code>トレイトを実装するからです。</p>
+<p>全てのプリミティブ型は <code>Copy</code> トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従ってはムーブしません。
+例として、次の2つのコードスニペットはコンパイルが通ります。なぜなら、 <code>i32</code> 型と <code>bool</code> 型は <code>Copy</code> トレイトを実装するからです。</p>
 <span class='rusttest'>fn main() {
     let a = 5;
 
@@ -541,7 +541,7 @@ fn change_truth(x: bool) -&gt; bool {
 
 <!-- we would have gotten a compile error because we tried to use a moved value. -->
 
-<p>もし<code>Copy</code>トレイトを実装していない型を使っていたならば、ムーブした値を使おうとしたため、コンパイルエラーが出ていたでしょう。</p>
+<p>もし <code>Copy</code> トレイトを実装していない型を使っていたならば、ムーブした値を使おうとしたため、コンパイルエラーが出ていたでしょう。</p>
 
 <pre><code class="language-text">error: use of moved value: `a`
 println!(&quot;{}&quot;, a);
@@ -552,7 +552,7 @@ println!(&quot;{}&quot;, a);
 
 <!-- section. -->
 
-<p>独自の<code>Copy</code>型を作る方法は<a href="traits.html">トレイト</a>セクションで議論するでしょう。</p>
+<p>独自の <code>Copy</code> 型を作る方法は <a href="traits.html">トレイト</a> セクションで議論するでしょう。</p>
 
 <!-- # More than ownership -->
 

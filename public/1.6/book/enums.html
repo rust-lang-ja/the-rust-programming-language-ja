@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Enums</title>
+    <title>列挙型</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,9 +185,13 @@
 <div id='page'>
 
 
-    <h1 class="title">Enums</h1>
-    <p>An <code>enum</code> in Rust is a type that represents data that could be one of
-several possible variants:</p>
+    <h1 class="title">列挙型</h1>
+    <!-- % Enums -->
+
+<!-- An `enum` in Rust is a type that represents data that could be one of
+several possible variants: -->
+
+<p>Rustの <code>enum</code> は、いくつかのヴァリアントのうちからどれか一つをとるデータを表す型です。</p>
 <span class='rusttest'>fn main() {
     enum Message {
         Quit,
@@ -203,17 +207,29 @@ several possible variants:</p>
     <span class='ident'>Write</span>(<span class='ident'>String</span>),
 }</pre>
 
-<p>Each variant can optionally have data associated with it. The syntax for
+<!-- Each variant can optionally have data associated with it. The syntax for
 defining variants resembles the syntaxes used to define structs: you can
 have variants with no data (like unit-like structs), variants with named
 data, and variants with unnamed data (like tuple structs). Unlike
-separate struct definitions, however, an <code>enum</code> is a single type. A
+separate struct definitions, however, an `enum` is a single type. A
 value of the enum can match any of the variants. For this reason, an
 enum is sometimes called a ‘sum type’: the set of possible values of the
-enum is the sum of the sets of possible values for each variant.</p>
+enum is the sum of the sets of possible values for each variant. -->
 
-<p>We use the <code>::</code> syntax to use the name of each variant: they’re scoped by the name
-of the <code>enum</code> itself. This allows both of these to work:</p>
+<p>各ヴァリアントは、自身に関連するデータを持つこともできます。
+ヴァリアントの定義のための構文は、構造体を定義するのに使われる構文と似ており、
+(unit-like構造体のような) データを持たないヴァリアント、名前付きデータを持つヴァリアント、 (タプル構造体のような) 名前なしデータを持つヴァリアントがありえます。
+しかし、別々に構造体を定義する場合とは異なり、 <code>enum</code> は一つの型です。
+列挙型の値はどのヴァリアントにもマッチしうるのです。
+このことから、列挙型は「直和型」(sum type) と呼ばれることもあります。
+列挙型としてありうる値の集合は、各ヴァリアントとしてありうる値の集合の和であるためです。</p>
+
+<!-- We use the `::` syntax to use the name of each variant: they’re scoped by the name
+of the `enum` itself. This allows both of these to work: -->
+
+<p>各ヴァリアントの名前を使うためには、 <code>::</code> 構文を使います。
+<code>enum</code> 自体の名前によってスコープするのです。
+これにより、以下は動きます。</p>
 <span class='rusttest'>fn main() {
     enum Message {
         Move { x: i32, y: i32 },
@@ -236,33 +252,52 @@ of the <code>enum</code> itself. This allows both of these to work:</p>
 
 <span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>BoardGameTurn</span> <span class='op'>=</span> <span class='ident'>BoardGameTurn</span>::<span class='ident'>Move</span> { <span class='ident'>squares</span>: <span class='number'>1</span> };</pre>
 
-<p>Both variants are named <code>Move</code>, but since they’re scoped to the name of
-the enum, they can both be used without conflict.</p>
+<!-- Both variants are named `Move`, but since they’re scoped to the name of
+the enum, they can both be used without conflict. -->
 
-<p>A value of an enum type contains information about which variant it is,
+<p>どちらのヴァリアントも <code>Move</code> という名前ですが、列挙型の名前でスコープされているため、衝突することなく使うことができます。</p>
+
+<!-- A value of an enum type contains information about which variant it is,
 in addition to any data associated with that variant. This is sometimes
 referred to as a ‘tagged union’, since the data includes a ‘tag’
 indicating what type it is. The compiler uses this information to
 enforce that you’re accessing the data in the enum safely. For instance,
 you can’t simply try to destructure a value as if it were one of the
-possible variants:</p>
+possible variants: -->
+
+<p>列挙型の値は、ヴァリアントに関連するデータに加え、その値自身がどのヴァリアントであるかという情報を持っています。
+これを「タグ付き共用体」(tagged union) ということもあります。
+データが、それ自身がどの型なのかを示す「タグ」をもっているためです。
+コンパイラはこの情報を用いて、列挙型内のデータへ安全にアクセスすることを強制します。
+例えば、値をどれか一つのヴァリアントであるかのようにみなして、その中身を取り出すということはできません。</p>
 <span class='rusttest'>fn main() {
     fn process_color_change(msg: Message) {
-        let Message::ChangeColor(r, g, b) = msg; // compile-time error
+    //    let Message::ChangeColor(r, g, b) = msg; // compile-time error
+        let Message::ChangeColor(r, g, b) = msg; // コンパイル時エラー
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>process_color_change</span>(<span class='ident'>msg</span>: <span class='ident'>Message</span>) {
-    <span class='kw'>let</span> <span class='ident'>Message</span>::<span class='ident'>ChangeColor</span>(<span class='ident'>r</span>, <span class='ident'>g</span>, <span class='ident'>b</span>) <span class='op'>=</span> <span class='ident'>msg</span>; <span class='comment'>// compile-time error</span>
+    <span class='kw'>let</span> <span class='ident'>Message</span>::<span class='ident'>ChangeColor</span>(<span class='ident'>r</span>, <span class='ident'>g</span>, <span class='ident'>b</span>) <span class='op'>=</span> <span class='ident'>msg</span>; <span class='comment'>// コンパイル時エラー</span>
 }</pre>
 
-<p>Not supporting these operations may seem rather limiting, but it’s a limitation
+<!-- Not supporting these operations may seem rather limiting, but it’s a limitation
 which we can overcome. There are two ways: by implementing equality ourselves,
-or by pattern matching variants with <a href="match.html"><code>match</code></a> expressions, which you’ll
+or by pattern matching variants with [`match`][match] expressions, which you’ll
 learn in the next section. We don’t know enough about Rust to implement
-equality yet, but we’ll find out in the <a href="traits.html"><code>traits</code></a> section.</p>
+equality yet, but we’ll find out in the [`traits`][traits] section. -->
 
-<h1 id='constructors-as-functions' class='section-header'><a href='#constructors-as-functions'>Constructors as functions</a></h1>
-<p>An enum’s constructors can also be used like functions. For example:</p>
+<p>こういった操作が許されないことで制限されているように感じられるかもしれませんが、この制限は克服できます。
+それには二つの方法があります。
+一つは等値性を自分で実装する方法、もう一つは次のセクションで学ぶ <a href="match.html"><code>match</code></a> 式でヴァリアントのパターンマッチを行う方法です。
+等値性を実装するにはRustについてまだ知るべきことがありますが、 <a href="traits.html"><code>トレイト</code></a> のセクションに書いてあります。</p>
+
+<!-- # Constructors as functions -->
+
+<h1 id='関数としてのコンストラクタ' class='section-header'><a href='#関数としてのコンストラクタ'>関数としてのコンストラクタ</a></h1>
+<!-- An enum’s constructors can also be used like functions. For example: -->
+
+<p>列挙型のコンストラクタも、関数のように使うことができます。
+例えばこうです。</p>
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),
@@ -271,7 +306,9 @@ equality yet, but we’ll find out in the <a href="traits.html"><code>traits</co
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='ident'>Message</span>::<span class='ident'>Write</span>(<span class='string'>&quot;Hello, world&quot;</span>.<span class='ident'>to_string</span>());</pre>
 
-<p>Is the same as</p>
+<!-- Is the same as -->
+
+<p>これは、以下と同じです。</p>
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),
@@ -288,10 +325,13 @@ equality yet, but we’ll find out in the <a href="traits.html"><code>traits</co
 
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>foo</span>(<span class='string'>&quot;Hello, world&quot;</span>.<span class='ident'>to_string</span>());</pre>
 
-<p>This is not immediately useful to us, but when we get to
-<a href="closures.html"><code>closures</code></a>, we’ll talk about passing functions as arguments to
-other functions. For example, with <a href="iterators.html"><code>iterators</code></a>, we can do this
-to convert a vector of <code>String</code>s into a vector of <code>Message::Write</code>s:</p>
+<!-- This is not immediately useful to us, but when we get to
+[`closures`][closures], we’ll talk about passing functions as arguments to
+other functions. For example, with [`iterators`][iterators], we can do this
+to convert a vector of `String`s into a vector of `Message::Write`s: -->
+
+<p>また、すぐに役立つことではないのですが、<a href="closures.html"><code>クロージャ</code></a> までいくと、関数を他の関数へ引数として渡す話をします。
+例えば、これを <a href="iterators.html"><code>イテレータ</code></a> とあわせることで、 <code>String</code> のベクタから <code>Message::Write</code> へ変換することができます。</p>
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),

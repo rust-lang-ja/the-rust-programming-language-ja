@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Foreign Function Interface</title>
+    <title>他言語関数インターフェイス</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,29 +185,53 @@
 <div id='page'>
 
 
-    <h1 class="title">Foreign Function Interface</h1>
-    
-<h1 id='introduction' class='section-header'><a href='#introduction'>Introduction</a></h1>
-<p>This guide will use the <a href="https://github.com/google/snappy">snappy</a>
-compression/decompression library as an introduction to writing bindings for
-foreign code. Rust is currently unable to call directly into a C++ library, but
-snappy includes a C interface (documented in
-<a href="https://github.com/google/snappy/blob/master/snappy-c.h"><code>snappy-c.h</code></a>).</p>
+    <h1 class="title">他言語関数インターフェイス</h1>
+    <!-- % Foreign Function Interface -->
 
-<h2 id='a-note-about-libc' class='section-header'><a href='#a-note-about-libc'>A note about libc</a></h2>
-<p>Many of these examples use <a href="https://crates.io/crates/libc">the <code>libc</code> crate</a>, which provides various
-type definitions for C types, among other things. If you’re trying these
-examples yourself, you’ll need to add <code>libc</code> to your <code>Cargo.toml</code>:</p>
+<!-- # Introduction -->
+
+<h1 id='導入' class='section-header'><a href='#導入'>導入</a></h1>
+<!-- This guide will use the [snappy](https://github.com/google/snappy) -->
+
+<!-- compression/decompression library as an introduction to writing bindings for -->
+
+<!-- foreign code. Rust is currently unable to call directly into a C++ library, but -->
+
+<!-- snappy includes a C interface (documented in -->
+
+<!-- [`snappy-c.h`](https://github.com/google/snappy/blob/master/snappy-c.h)). -->
+
+<p>このガイドでは、他言語コードのためのバインディングを書く導入に <a href="https://github.com/google/snappy">snappy</a> という圧縮・展開ライブラリを使います。
+Rustは現在、C++ライブラリを直接呼び出すことができませんが、snappyはCのインターフェイスを持っています（ドキュメントが <a href="https://github.com/google/snappy/blob/master/snappy-c.h"><code>snappy-c.h</code></a> にあります）。</p>
+
+<!-- ## A note about libc -->
+
+<h2 id='libcについてのメモ' class='section-header'><a href='#libcについてのメモ'>libcについてのメモ</a></h2>
+<!-- Many of these examples use [the `libc` crate][libc], which provides various -->
+
+<!-- type definitions for C types, among other things. If you’re trying these -->
+
+<!-- examples yourself, you’ll need to add `libc` to your `Cargo.toml`: -->
+
+<p>これらの例の多くは <a href="https://crates.io/crates/libc"><code>libc</code>クレート</a> を使っています。これは、主にCの様々な型の定義を提供するものです。
+もしこれらの例を自分で試すのであれば、次のように <code>libc</code> を <code>Cargo.toml</code> に追加する必要があるでしょう。</p>
 
 <pre><code class="language-toml">[dependencies]
 libc = &quot;0.2.0&quot;
 </code></pre>
 
-<p>and add <code>extern crate libc;</code> to your crate root.</p>
+<!-- and add `extern crate libc;` to your crate root. -->
 
-<h2 id='calling-foreign-functions' class='section-header'><a href='#calling-foreign-functions'>Calling foreign functions</a></h2>
-<p>The following is a minimal example of calling a foreign function which will
-compile if snappy is installed:</p>
+<p>そして、クレートのルートに <code>extern crate libc;</code> を追加しましょう。</p>
+
+<!-- ## Calling foreign functions -->
+
+<h2 id='他言語関数の呼出し' class='section-header'><a href='#他言語関数の呼出し'>他言語関数の呼出し</a></h2>
+<!-- The following is a minimal example of calling a foreign function which will -->
+
+<!-- compile if snappy is installed: -->
+
+<p>次のコードは、snappyがインストールされていればコンパイルできる他言語関数を呼び出す最小の例です。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::size_t;
@@ -235,23 +259,43 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;max compressed length of a 100 byte buffer: {}&quot;</span>, <span class='ident'>x</span>);
 }</pre>
 
-<p>The <code>extern</code> block is a list of function signatures in a foreign library, in
-this case with the platform&#39;s C ABI. The <code>#[link(...)]</code> attribute is used to
-instruct the linker to link against the snappy library so the symbols are
-resolved.</p>
+<!-- The `extern` block is a list of function signatures in a foreign library, in -->
 
-<p>Foreign functions are assumed to be unsafe so calls to them need to be wrapped
-with <code>unsafe {}</code> as a promise to the compiler that everything contained within
-truly is safe. C libraries often expose interfaces that aren&#39;t thread-safe, and
-almost any function that takes a pointer argument isn&#39;t valid for all possible
-inputs since the pointer could be dangling, and raw pointers fall outside of
-Rust&#39;s safe memory model.</p>
+<!-- this case with the platform's C ABI. The `#[link(...)]` attribute is used to -->
 
-<p>When declaring the argument types to a foreign function, the Rust compiler can
-not check if the declaration is correct, so specifying it correctly is part of
-keeping the binding correct at runtime.</p>
+<!-- instruct the linker to link against the snappy library so the symbols are -->
 
-<p>The <code>extern</code> block can be extended to cover the entire snappy API:</p>
+<!-- resolved. -->
+
+<p><code>extern</code> ブロックは他言語ライブラリの中の関数のシグネチャ、この例ではそのプラットフォーム上のC ABIによるもののリストです。
+<code>#[link(...)]</code> アトリビュートは、シンボルが解決できるように、リンカに対してsnappyのライブラリをリンクするよう指示するために使われています。</p>
+
+<!-- Foreign functions are assumed to be unsafe so calls to them need to be wrapped -->
+
+<!-- with `unsafe {}` as a promise to the compiler that everything contained within -->
+
+<!-- truly is safe. C libraries often expose interfaces that aren't thread-safe, and -->
+
+<!-- almost any function that takes a pointer argument isn't valid for all possible -->
+
+<!-- inputs since the pointer could be dangling, and raw pointers fall outside of -->
+
+<!-- Rust's safe memory model. -->
+
+<p>他言語関数はアンセーフとみなされるので、それらを呼び出すには、この中に含まれているすべてのものが本当に安全であるということをコンパイラに対して約束するために、 <code>unsafe {}</code> で囲まなければなりません。
+Cライブラリは、スレッドセーフでないインターフェイスを公開していることがありますし、ポインタを引数に取る関数のほとんどは、ポインタがダングリングポインタになる可能性を有しているので、すべての入力に対して有効なわけではありません。そして、生ポインタはRustの安全なメモリモデルから外れてしまいます。</p>
+
+<!-- When declaring the argument types to a foreign function, the Rust compiler can -->
+
+<!-- not check if the declaration is correct, so specifying it correctly is part of -->
+
+<!-- keeping the binding correct at runtime. -->
+
+<p>他言語関数について引数の型を宣言するとき、Rustのコンパイラはその宣言が正しいかどうかを確認することができません。それを正しく指定することは実行時にバインディングを正しく動作させるために必要なことです。</p>
+
+<!-- The `extern` block can be extended to cover the entire snappy API: -->
+
+<p><code>extern</code> ブロックはsnappyのAPI全体をカバーするように拡張することができます。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{c_int, size_t};
@@ -296,15 +340,30 @@ fn main() {}
                                          <span class='ident'>compressed_length</span>: <span class='ident'>size_t</span>) <span class='op'>-&gt;</span> <span class='ident'>c_int</span>;
 }</pre>
 
-<h1 id='creating-a-safe-interface' class='section-header'><a href='#creating-a-safe-interface'>Creating a safe interface</a></h1>
-<p>The raw C API needs to be wrapped to provide memory safety and make use of higher-level concepts
-like vectors. A library can choose to expose only the safe, high-level interface and hide the unsafe
-internal details.</p>
+<!-- # Creating a safe interface -->
 
-<p>Wrapping the functions which expect buffers involves using the <code>slice::raw</code> module to manipulate Rust
-vectors as pointers to memory. Rust&#39;s vectors are guaranteed to be a contiguous block of memory. The
-length is number of elements currently contained, and the capacity is the total size in elements of
-the allocated memory. The length is less than or equal to the capacity.</p>
+<h1 id='安全なインターフェイスの作成' class='section-header'><a href='#安全なインターフェイスの作成'>安全なインターフェイスの作成</a></h1>
+<!-- The raw C API needs to be wrapped to provide memory safety and make use of higher-level concepts -->
+
+<!-- like vectors. A library can choose to expose only the safe, high-level interface and hide the unsafe -->
+
+<!-- internal details. -->
+
+<p>生のC APIは、メモリの安全性を提供し、ベクタのようなもっと高レベルの概念を使うようにラップしなければなりません。
+ライブラリは安全で高レベルなインターフェイスのみを公開するように選択し、アンセーフな内部の詳細を隠すことができます。</p>
+
+<!-- Wrapping the functions which expect buffers involves using the `slice::raw` module to manipulate Rust -->
+
+<!-- vectors as pointers to memory. Rust's vectors are guaranteed to be a contiguous block of memory. The -->
+
+<!-- length is number of elements currently contained, and the capacity is the total size in elements of -->
+
+<!-- the allocated memory. The length is less than or equal to the capacity. -->
+
+<p>バッファを期待する関数をラップするには、Rustのベクタをメモリへのポインタとして操作するために <code>slice::raw</code> モジュールを使います。
+Rustのベクタは隣接したメモリのブロックであることが保証されています。
+その長さは現在含んでいる要素の数で、容量は割り当てられたメモリの要素の合計のサイズです。
+長さは、容量以下です。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{c_int, size_t};
@@ -322,17 +381,31 @@ pub fn validate_compressed_buffer(src: &amp;[u8]) -&gt; bool {
     }
 }</pre>
 
-<p>The <code>validate_compressed_buffer</code> wrapper above makes use of an <code>unsafe</code> block, but it makes the
-guarantee that calling it is safe for all inputs by leaving off <code>unsafe</code> from the function
-signature.</p>
+<!-- The `validate_compressed_buffer` wrapper above makes use of an `unsafe` block, but it makes the -->
 
-<p>The <code>snappy_compress</code> and <code>snappy_uncompress</code> functions are more complex, since a buffer has to be
-allocated to hold the output too.</p>
+<!-- guarantee that calling it is safe for all inputs by leaving off `unsafe` from the function -->
 
-<p>The <code>snappy_max_compressed_length</code> function can be used to allocate a vector with the maximum
-required capacity to hold the compressed output. The vector can then be passed to the
-<code>snappy_compress</code> function as an output parameter. An output parameter is also passed to retrieve
-the true length after compression for setting the length.</p>
+<!-- signature. -->
+
+<p>上の <code>validate_compressed_buffer</code> ラッパは <code>unsafe</code> ブロックを使っていますが、関数のシグネチャを <code>unsafe</code> から外すことによって、その呼出しがすべての入力に対して安全であることが保証されています。</p>
+
+<!-- The `snappy_compress` and `snappy_uncompress` functions are more complex, since a buffer has to be -->
+
+<!-- allocated to hold the output too. -->
+
+<p>結果を保持するようにバッファを割り当てなければならないため、 <code>snappy_compress</code> 関数と <code>snappy_uncompress</code> 関数はもっと複雑です。</p>
+
+<!-- The `snappy_max_compressed_length` function can be used to allocate a vector with the maximum -->
+
+<!-- required capacity to hold the compressed output. The vector can then be passed to the -->
+
+<!-- `snappy_compress` function as an output parameter. An output parameter is also passed to retrieve -->
+
+<!-- the true length after compression for setting the length. -->
+
+<p><code>snappy_max_compressed_length</code> 関数は、圧縮後の結果を保持するために必要な最大の容量のベクタを割り当てるために使うことができます。
+そして、そのベクタは結果を受け取るための引数として<code>snappy_compress</code>関数に渡されます。
+結果を受け取るための引数は、長さをセットするために、圧縮後の本当の長さを取得するためにも渡されます。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{size_t, c_int};
@@ -370,8 +443,11 @@ pub fn compress(src: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
     }
 }</pre>
 
-<p>Decompression is similar, because snappy stores the uncompressed size as part of the compression
-format and <code>snappy_uncompressed_length</code> will retrieve the exact buffer size required.</p>
+<!-- Decompression is similar, because snappy stores the uncompressed size as part of the compression -->
+
+<!-- format and `snappy_uncompressed_length` will retrieve the exact buffer size required. -->
+
+<p>snappyは展開後のサイズを圧縮フォーマットの一部として保存していて、 <code>snappy_uncompressed_length</code> が必要となるバッファの正確なサイズを取得するため、展開も同様です。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{size_t, c_int};
@@ -423,29 +499,58 @@ pub fn uncompress(src: &amp;[u8]) -&gt; Option&lt;Vec&lt;u8&gt;&gt; {
     }
 }</pre>
 
-<p>For reference, the examples used here are also available as a <a href="https://github.com/thestinger/rust-snappy">library on
-GitHub</a>.</p>
+<!-- For reference, the examples used here are also available as a [library on -->
 
-<h1 id='destructors' class='section-header'><a href='#destructors'>Destructors</a></h1>
-<p>Foreign libraries often hand off ownership of resources to the calling code.
-When this occurs, we must use Rust&#39;s destructors to provide safety and guarantee
-the release of these resources (especially in the case of panic).</p>
+<!-- GitHub](https://github.com/thestinger/rust-snappy). -->
 
-<p>For more about destructors, see the <a href="../std/ops/trait.Drop.html">Drop trait</a>.</p>
+<p>参考のために、ここで使った例は <a href="https://github.com/thestinger/rust-snappy">GitHub上のライブラリ</a> としても置いておきます。</p>
 
-<h1 id='callbacks-from-c-code-to-rust-functions' class='section-header'><a href='#callbacks-from-c-code-to-rust-functions'>Callbacks from C code to Rust functions</a></h1>
-<p>Some external libraries require the usage of callbacks to report back their
-current state or intermediate data to the caller.
-It is possible to pass functions defined in Rust to an external library.
-The requirement for this is that the callback function is marked as <code>extern</code>
-with the correct calling convention to make it callable from C code.</p>
+<!-- # Destructors -->
 
-<p>The callback function can then be sent through a registration call
-to the C library and afterwards be invoked from there.</p>
+<h1 id='デストラクタ' class='section-header'><a href='#デストラクタ'>デストラクタ</a></h1>
+<!-- Foreign libraries often hand off ownership of resources to the calling code. -->
 
-<p>A basic example is:</p>
+<!-- When this occurs, we must use Rust's destructors to provide safety and guarantee -->
 
-<p>Rust code:</p>
+<!-- the release of these resources (especially in the case of panic). -->
+
+<p>他言語ライブラリはリソースの所有権を呼出先のコードに手渡してしまうことがあります。
+そういうことが起きる場合には、安全性を提供し、それらのリソースが解放されることを保証するために、Rustのデストラクタを使わなければなりません（特にパニックした場合）。</p>
+
+<!-- For more about destructors, see the [Drop trait](../std/ops/trait.Drop.html). -->
+
+<p>デストラクタについて詳しくは、<a href="../std/ops/trait.Drop.html">Dropトレイト</a>を見てください。</p>
+
+<!-- # Callbacks from C code to Rust functions -->
+
+<h1 id='cのコードからrustの関数へのコールバック' class='section-header'><a href='#cのコードからrustの関数へのコールバック'>CのコードからRustの関数へのコールバック</a></h1>
+<!-- Some external libraries require the usage of callbacks to report back their -->
+
+<!-- current state or intermediate data to the caller. -->
+
+<!-- It is possible to pass functions defined in Rust to an external library. -->
+
+<!-- The requirement for this is that the callback function is marked as `extern` -->
+
+<!-- with the correct calling convention to make it callable from C code. -->
+
+<p>外部のライブラリの中には、現在の状況や中間的なデータを呼出元に報告するためにコールバックを使わなければならないものがあります。
+Rustで定義された関数を外部のライブラリに渡すことは可能です。
+これをするために必要なのは、Cのコードから呼び出すことができるように正しい呼出規則に従って、コールバック関数を <code>extern</code> としてマークしておくことです。</p>
+
+<!-- The callback function can then be sent through a registration call -->
+
+<!-- to the C library and afterwards be invoked from there. -->
+
+<p>そして、登録呼出しを通じてコールバック関数をCのライブラリに送ることができるようになり、後でそれらから呼び出すことができるようになります。</p>
+
+<!-- A basic example is: -->
+
+<p>基本的な例は次のとおりです。</p>
+
+<!-- Rust code: -->
+
+<p>これがRustのコードです。</p>
 <span class='rusttest'>extern fn callback(a: i32) {
     println!(&quot;I&#39;m called from C with value {0}&quot;, a);
 }
@@ -459,7 +564,8 @@ extern {
 fn main() {
     unsafe {
         register_callback(callback);
-        trigger_callback(); // Triggers the callback
+//        trigger_callback(); // Triggers the callback
+        trigger_callback(); // コールバックをトリガーする
     }
 }
 </span><pre class='rust rust-example-rendered'>
@@ -476,11 +582,13 @@ fn main() {
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
     <span class='kw'>unsafe</span> {
         <span class='ident'>register_callback</span>(<span class='ident'>callback</span>);
-        <span class='ident'>trigger_callback</span>(); <span class='comment'>// Triggers the callback</span>
+        <span class='ident'>trigger_callback</span>(); <span class='comment'>// コールバックをトリガーする</span>
     }
 }</pre>
 
-<p>C code:</p>
+<!-- C code: -->
+
+<p>これがCのコードです。</p>
 
 <pre><code class="language-c">typedef void (*rust_callback)(int32_t);
 rust_callback cb;
@@ -491,35 +599,58 @@ int32_t register_callback(rust_callback callback) {
 }
 
 void trigger_callback() {
-  cb(7); // Will call callback(7) in Rust
+  cb(7); // Rustのcallback(7)を呼び出す
 }
 </code></pre>
 
-<p>In this example Rust&#39;s <code>main()</code> will call <code>trigger_callback()</code> in C,
-which would, in turn, call back to <code>callback()</code> in Rust.</p>
+<!-- In this example Rust's `main()` will call `trigger_callback()` in C, -->
 
-<h2 id='targeting-callbacks-to-rust-objects' class='section-header'><a href='#targeting-callbacks-to-rust-objects'>Targeting callbacks to Rust objects</a></h2>
-<p>The former example showed how a global function can be called from C code.
-However it is often desired that the callback is targeted to a special
-Rust object. This could be the object that represents the wrapper for the
-respective C object.</p>
+<!-- which would, in turn, call back to `callback()` in Rust. -->
 
-<p>This can be achieved by passing an raw pointer to the object down to the
-C library. The C library can then include the pointer to the Rust object in
-the notification. This will allow the callback to unsafely access the
-referenced Rust object.</p>
+<p>この例では、Rustの <code>main()</code> がCの <code>trigger_callback()</code> を呼び出し、今度はそれが、Rustの <code>callback()</code> をコールバックしています。</p>
 
-<p>Rust code:</p>
+<!-- ## Targeting callbacks to Rust objects -->
+
+<h2 id='rustのオブジェクトを対象にしたコールバック' class='section-header'><a href='#rustのオブジェクトを対象にしたコールバック'>Rustのオブジェクトを対象にしたコールバック</a></h2>
+<!-- The former example showed how a global function can be called from C code. -->
+
+<!-- However it is often desired that the callback is targeted to a special -->
+
+<!-- Rust object. This could be the object that represents the wrapper for the -->
+
+<!-- respective C object. -->
+
+<p>先程の例では、グローバルな関数をCのコードから呼ぶための方法を示してきました。
+しかし、特別なRustのオブジェクトをコールバックの対象にしたいことがあります。
+これは、そのオブジェクトをそれぞれCのオブジェクトのラッパとして表現することで可能になります。</p>
+
+<!-- This can be achieved by passing an raw pointer to the object down to the -->
+
+<!-- C library. The C library can then include the pointer to the Rust object in -->
+
+<!-- the notification. This will allow the callback to unsafely access the -->
+
+<!-- referenced Rust object. -->
+
+<p>これは、そのオブジェクトへの生ポインタをCライブラリに渡すことで実現できます。
+そして、CのライブラリはRustのオブジェクトへのポインタをその通知の中に含むことができるようになります。
+これにより、そのコールバックは参照されるRustのオブジェクトにアンセーフな形でアクセスできるようになります。</p>
+
+<!-- Rust code: -->
+
+<p>これがRustのコードです。</p>
 <span class='rusttest'>#[repr(C)]
 struct RustObject {
     a: i32,
-    // other members
+   // other members
+    // その他のメンバ
 }
 
 extern &quot;C&quot; fn callback(target: *mut RustObject, a: i32) {
     println!(&quot;I&#39;m called from C with value {0}&quot;, a);
     unsafe {
-        // Update the value in RustObject with the value received from the callback
+       // Update the value in RustObject with the value received from the callback
+        // コールバックから受け取った値でRustObjectの中の値をアップデートする
         (*target).a = a;
     }
 }
@@ -532,7 +663,8 @@ extern {
 }
 
 fn main() {
-    // Create the object that will be referenced in the callback
+   // Create the object that will be referenced in the callback
+    // コールバックから参照されるオブジェクトを作成する
     let mut rust_object = Box::new(RustObject { a: 5 });
 
     unsafe {
@@ -544,13 +676,13 @@ fn main() {
 <span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>C</span>)]</span>
 <span class='kw'>struct</span> <span class='ident'>RustObject</span> {
     <span class='ident'>a</span>: <span class='ident'>i32</span>,
-    <span class='comment'>// other members</span>
+    <span class='comment'>// その他のメンバ</span>
 }
 
 <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span> <span class='ident'>callback</span>(<span class='ident'>target</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>RustObject</span>, <span class='ident'>a</span>: <span class='ident'>i32</span>) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;I&#39;m called from C with value {0}&quot;</span>, <span class='ident'>a</span>);
     <span class='kw'>unsafe</span> {
-        <span class='comment'>// Update the value in RustObject with the value received from the callback</span>
+        <span class='comment'>// コールバックから受け取った値でRustObjectの中の値をアップデートする</span>
         (<span class='op'>*</span><span class='ident'>target</span>).<span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>a</span>;
     }
 }
@@ -563,7 +695,7 @@ fn main() {
 }
 
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
-    <span class='comment'>// Create the object that will be referenced in the callback</span>
+    <span class='comment'>// コールバックから参照されるオブジェクトを作成する</span>
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rust_object</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>RustObject</span> { <span class='ident'>a</span>: <span class='number'>5</span> });
 
     <span class='kw'>unsafe</span> {
@@ -572,7 +704,9 @@ fn main() {
     }
 }</pre>
 
-<p>C code:</p>
+<!-- C code: -->
+
+<p>これがCのコードです。</p>
 
 <pre><code class="language-c">typedef void (*rust_callback)(void*, int32_t);
 void* cb_target;
@@ -585,102 +719,215 @@ int32_t register_callback(void* callback_target, rust_callback callback) {
 }
 
 void trigger_callback() {
-  cb(cb_target, 7); // Will call callback(&amp;rustObject, 7) in Rust
+# //  cb(cb_target, 7); // Will call callback(&amp;rustObject, 7) in Rust
+  cb(cb_target, 7); // Rustのcallback(&amp;rustObject, 7)を呼び出す
 }
 </code></pre>
 
-<h2 id='asynchronous-callbacks' class='section-header'><a href='#asynchronous-callbacks'>Asynchronous callbacks</a></h2>
-<p>In the previously given examples the callbacks are invoked as a direct reaction
-to a function call to the external C library.
-The control over the current thread is switched from Rust to C to Rust for the
-execution of the callback, but in the end the callback is executed on the
-same thread that called the function which triggered the callback.</p>
+<!-- ## Asynchronous callbacks -->
 
-<p>Things get more complicated when the external library spawns its own threads
-and invokes callbacks from there.
-In these cases access to Rust data structures inside the callbacks is
-especially unsafe and proper synchronization mechanisms must be used.
-Besides classical synchronization mechanisms like mutexes, one possibility in
-Rust is to use channels (in <code>std::sync::mpsc</code>) to forward data from the C
-thread that invoked the callback into a Rust thread.</p>
+<h2 id='非同期コールバック' class='section-header'><a href='#非同期コールバック'>非同期コールバック</a></h2>
+<!-- In the previously given examples the callbacks are invoked as a direct reaction -->
 
-<p>If an asynchronous callback targets a special object in the Rust address space
-it is also absolutely necessary that no more callbacks are performed by the
-C library after the respective Rust object gets destroyed.
-This can be achieved by unregistering the callback in the object&#39;s
-destructor and designing the library in a way that guarantees that no
-callback will be performed after deregistration.</p>
+<!-- to a function call to the external C library. -->
 
-<h1 id='linking' class='section-header'><a href='#linking'>Linking</a></h1>
-<p>The <code>link</code> attribute on <code>extern</code> blocks provides the basic building block for
-instructing rustc how it will link to native libraries. There are two accepted
-forms of the link attribute today:</p>
+<!-- The control over the current thread is switched from Rust to C to Rust for the -->
+
+<!-- execution of the callback, but in the end the callback is executed on the -->
+
+<!-- same thread that called the function which triggered the callback. -->
+
+<p>先程の例では、コールバックは外部のCライブラリへの関数呼出しに対する直接の反応として呼びだされました。
+実行中のスレッドの制御はコールバックの実行のためにRustからCへ、そしてRustへと切り替わりますが、最後には、コールバックはコールバックを引き起こした関数を呼び出したものと同じスレッドで実行されます。</p>
+
+<!-- Things get more complicated when the external library spawns its own threads -->
+
+<!-- and invokes callbacks from there. -->
+
+<!-- In these cases access to Rust data structures inside the callbacks is -->
+
+<!-- especially unsafe and proper synchronization mechanisms must be used. -->
+
+<!-- Besides classical synchronization mechanisms like mutexes, one possibility in -->
+
+<!-- Rust is to use channels (in `std::sync::mpsc`) to forward data from the C -->
+
+<!-- thread that invoked the callback into a Rust thread. -->
+
+<p>外部のライブラリが独自のスレッドを生成し、そこからコールバックを呼び出すときには、事態はもっと複雑になります。
+そのような場合、コールバックの中のRustのデータ構造へのアクセスは特にアンセーフであり、適切な同期メカニズムを使わなければなりません。
+ミューテックスのような古典的な同期メカニズムの他にも、Rustではコールバックを呼び出したCのスレッドからRustのスレッドにデータを転送するために（ <code>std::sync::mpsc</code> の中の）チャネルを使うという手もあります。</p>
+
+<!-- If an asynchronous callback targets a special object in the Rust address space -->
+
+<!-- it is also absolutely necessary that no more callbacks are performed by the -->
+
+<!-- C library after the respective Rust object gets destroyed. -->
+
+<!-- This can be achieved by unregistering the callback in the object's -->
+
+<!-- destructor and designing the library in a way that guarantees that no -->
+
+<!-- callback will be performed after deregistration. -->
+
+<p>もし、非同期のコールバックがRustのアドレス空間の中の特別なオブジェクトを対象としていれば、それぞれのRustのオブジェクトが破壊された後、Cのライブラリからそれ以上コールバックが実行されないようにすることが絶対に必要です。
+これは、オブジェクトのデストラクタでコールバックの登録を解除し、登録解除後にコールバックが実行されないようにライブラリを設計することで実現できます。</p>
+
+<!-- # Linking -->
+
+<h1 id='リンク' class='section-header'><a href='#リンク'>リンク</a></h1>
+<!-- The `link` attribute on `extern` blocks provides the basic building block for -->
+
+<!-- instructing rustc how it will link to native libraries. There are two accepted -->
+
+<!-- forms of the link attribute today: -->
+
+<p><code>extern</code> ブロックの中の <code>link</code> アトリビュートは、rustcに対してネイティブライブラリをどのようにリンクするかを指示するための基本的な構成ブロックです。
+今のところ、2つの形式のlinkアトリビュートが認められています。</p>
+
+<!-- * `#[link(name = "foo")]` -->
+
+<!-- * `#[link(name = "foo", kind = "bar")]` -->
 
 <ul>
 <li><code>#[link(name = &quot;foo&quot;)]</code></li>
 <li><code>#[link(name = &quot;foo&quot;, kind = &quot;bar&quot;)]</code></li>
 </ul>
 
-<p>In both of these cases, <code>foo</code> is the name of the native library that we&#39;re
-linking to, and in the second case <code>bar</code> is the type of native library that the
-compiler is linking to. There are currently three known types of native
-libraries:</p>
+<!-- In both of these cases, `foo` is the name of the native library that we're -->
+
+<!-- linking to, and in the second case `bar` is the type of native library that the -->
+
+<!-- compiler is linking to. There are currently three known types of native -->
+
+<!-- libraries: -->
+
+<p>これらのどちらの形式でも、 <code>foo</code> はリンクするネイティブライブラリの名前で、2つ目の形式の <code>bar</code> はコンパイラがリンクするネイティブライブラリの種類です。
+3つのネイティブライブラリの種類が知られています。</p>
+
+<!-- * Dynamic - `#[link(name = "readline")]` -->
+
+<!-- * Static - `#[link(name = "my_build_dependency", kind = "static")]` -->
+
+<!-- * Frameworks - `#[link(name = "CoreFoundation", kind = "framework")]` -->
 
 <ul>
-<li>Dynamic - <code>#[link(name = &quot;readline&quot;)]</code></li>
-<li>Static - <code>#[link(name = &quot;my_build_dependency&quot;, kind = &quot;static&quot;)]</code></li>
-<li>Frameworks - <code>#[link(name = &quot;CoreFoundation&quot;, kind = &quot;framework&quot;)]</code></li>
+<li>ダイナミック - <code>#[link(name = &quot;readline&quot;)]</code></li>
+<li>スタティック - <code>#[link(name = &quot;my_build_dependency&quot;, kind = &quot;static&quot;)]</code></li>
+<li>フレームワーク - <code>#[link(name = &quot;CoreFoundation&quot;, kind = &quot;framework&quot;)]</code></li>
 </ul>
 
-<p>Note that frameworks are only available on OSX targets.</p>
+<!-- Note that frameworks are only available on OSX targets. -->
 
-<p>The different <code>kind</code> values are meant to differentiate how the native library
-participates in linkage. From a linkage perspective, the Rust compiler creates
-two flavors of artifacts: partial (rlib/staticlib) and final (dylib/binary).
-Native dynamic library and framework dependencies are propagated to the final
-artifact boundary, while static library dependencies are not propagated at
-all, because the static libraries are integrated directly into the subsequent
-artifact.</p>
+<p>フレームワークはOSXターゲットでのみ利用可能であることに注意しましょう。</p>
 
-<p>A few examples of how this model can be used are:</p>
+<!-- The different `kind` values are meant to differentiate how the native library -->
+
+<!-- participates in linkage. From a linkage perspective, the Rust compiler creates -->
+
+<!-- two flavors of artifacts: partial (rlib/staticlib) and final (dylib/binary). -->
+
+<!-- Native dynamic library and framework dependencies are propagated to the final -->
+
+<!-- artifact boundary, while static library dependencies are not propagated at -->
+
+<!-- all, because the static libraries are integrated directly into the subsequent -->
+
+<!-- artifact. -->
+
+<p>異なる <code>kind</code> の値はリンク時のネイティブライブラリの使われ方の違いを意味します。
+リンクの視点からすると、Rustコンパイラは2種類の生成物を作ります。
+部分生成物（rlib/staticlib）と最終生成物（dylib/binary）です。
+ネイティブダイナミックライブラリとフレームワークの依存関係は最終生成物を作るときまで伝播され解決されますが、スタティックライブラリの依存関係は全く伝えません。なぜなら、スタティックライブラリはその後に続く生成物に直接統合されてしまうからです。</p>
+
+<!-- A few examples of how this model can be used are: -->
+
+<p>このモデルをどのように使うことができるのかという例は次のとおりです。</p>
+
+<!-- * A native build dependency. Sometimes some C/C++ glue is needed when writing -->
+
+<!--   some Rust code, but distribution of the C/C++ code in a library format is just -->
+
+<!--   a burden. In this case, the code will be archived into `libfoo.a` and then the -->
+
+<!--   Rust crate would declare a dependency via `#[link(name = "foo", kind = -->
+
+<!--   "static")]`. -->
 
 <ul>
-<li><p>A native build dependency. Sometimes some C/C++ glue is needed when writing
-some Rust code, but distribution of the C/C++ code in a library format is just
-a burden. In this case, the code will be archived into <code>libfoo.a</code> and then the
-Rust crate would declare a dependency via <code>#[link(name = &quot;foo&quot;, kind = &quot;static&quot;)]</code>.</p>
-
-<p>Regardless of the flavor of output for the crate, the native static library
-will be included in the output, meaning that distribution of the native static
-library is not necessary.</p></li>
-<li><p>A normal dynamic dependency. Common system libraries (like <code>readline</code>) are
-available on a large number of systems, and often a static copy of these
-libraries cannot be found. When this dependency is included in a Rust crate,
-partial targets (like rlibs) will not link to the library, but when the rlib
-is included in a final target (like a binary), the native library will be
-linked in.</p></li>
+<li>ネイティブビルドの依存関係。
+ときどき、Rustのコードを書くときにC/C++のグルーが必要になりますが、ライブラリの形式でのC/C++のコードの配布は重荷でしかありません。
+このような場合、 コードは <code>libfoo.a</code> にアーカイブされ、それからRustのクレートで <code>#[link(name = &quot;foo&quot;, kind = &quot;static&quot;)]</code> によって依存関係を宣言します。</li>
 </ul>
 
-<p>On OSX, frameworks behave with the same semantics as a dynamic library.</p>
+<!--   Regardless of the flavor of output for the crate, the native static library -->
 
-<h1 id='unsafe-blocks' class='section-header'><a href='#unsafe-blocks'>Unsafe blocks</a></h1>
-<p>Some operations, like dereferencing raw pointers or calling functions that have been marked
-unsafe are only allowed inside unsafe blocks. Unsafe blocks isolate unsafety and are a promise to
-the compiler that the unsafety does not leak out of the block.</p>
+<!--   will be included in the output, meaning that distribution of the native static -->
 
-<p>Unsafe functions, on the other hand, advertise it to the world. An unsafe function is written like
-this:</p>
+<!--   library is not necessary. -->
+
+<p>クレートの成果物の種類にかかわらず、ネイティブスタティックライブラリは成果物に含まれます。これは、ネイティブスタティックライブラリの配布は不要だということを意味します。</p>
+
+<!-- * A normal dynamic dependency. Common system libraries (like `readline`) are -->
+
+<!--   available on a large number of systems, and often a static copy of these -->
+
+<!--   libraries cannot be found. When this dependency is included in a Rust crate, -->
+
+<!--   partial targets (like rlibs) will not link to the library, but when the rlib -->
+
+<!--   is included in a final target (like a binary), the native library will be -->
+
+<!--   linked in. -->
+
+<ul>
+<li> 通常のダイナミックな依存関係。
+（ <code>readline</code> のような）一般的なシステムライブラリは多くのシステムで利用可能となっていますが、それらのライブラリのスタティックなコピーは見付からないことがしばしばあります。
+この依存関係をRustのクレートに含めるときには、（rlibのような）部分生成物のターゲットはライブラリをリンクしませんが、（binaryのような）最終生成物にrlibを含めるときには、ネイティブライブラリはリンクされます。</li>
+</ul>
+
+<!-- On OSX, frameworks behave with the same semantics as a dynamic library. -->
+
+<p>OSXでは、フレームワークはダイナミックライブラリと同じ意味で振る舞います。</p>
+
+<!-- # Unsafe blocks -->
+
+<h1 id='アンセーフブロック' class='section-header'><a href='#アンセーフブロック'>アンセーフブロック</a></h1>
+<!-- Some operations, like dereferencing raw pointers or calling functions that have been marked -->
+
+<!-- unsafe are only allowed inside unsafe blocks. Unsafe blocks isolate unsafety and are a promise to -->
+
+<!-- the compiler that the unsafety does not leak out of the block. -->
+
+<p>生ポインタの参照外しやアンセーフであるとマークされた関数の呼出しなど、いくつかの作業はアンセーフブロックの中でのみ許されます。
+アンセーフブロックはアンセーフ性を隔離し、コンパイラに対してアンセーフ性がブロックの外に漏れ出さないことを約束します。</p>
+
+<!-- Unsafe functions, on the other hand, advertise it to the world. An unsafe function is written like -->
+
+<!-- this: -->
+
+<p>一方、アンセーフな関数はそれを全世界に向けて広告します。
+アンセーフな関数はこのように書きます。</p>
 <span class='rusttest'>fn main() {
     unsafe fn kaboom(ptr: *const i32) -&gt; i32 { *ptr }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>kaboom</span>(<span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> { <span class='op'>*</span><span class='ident'>ptr</span> }</pre>
 
-<p>This function can only be called from an <code>unsafe</code> block or another <code>unsafe</code> function.</p>
+<!-- This function can only be called from an `unsafe` block or another `unsafe` function. -->
 
-<h1 id='accessing-foreign-globals' class='section-header'><a href='#accessing-foreign-globals'>Accessing foreign globals</a></h1>
-<p>Foreign APIs often export a global variable which could do something like track
-global state. In order to access these variables, you declare them in <code>extern</code>
-blocks with the <code>static</code> keyword:</p>
+<p>この関数は <code>unsafe</code> ブロック又は他の <code>unsafe</code> な関数からのみ呼び出すことができます。</p>
+
+<!-- # Accessing foreign globals -->
+
+<h1 id='他言語のグローバル変数へのアクセス' class='section-header'><a href='#他言語のグローバル変数へのアクセス'>他言語のグローバル変数へのアクセス</a></h1>
+<!-- Foreign APIs often export a global variable which could do something like track -->
+
+<!-- global state. In order to access these variables, you declare them in `extern` -->
+
+<!-- blocks with the `static` keyword: -->
+
+<p>他言語APIはしばしばグローバルな状態を追跡するようなことをするためのグローバル変数をエクスポートします。
+それらの値にアクセスするために、それらを <code>extern</code> ブロックの中で <code>static</code> キーワードを付けて宣言します。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -706,9 +953,14 @@ fn main() {
              <span class='ident'>rl_readline_version</span> <span class='kw'>as</span> <span class='ident'>i32</span>);
 }</pre>
 
-<p>Alternatively, you may need to alter global state provided by a foreign
-interface. To do this, statics can be declared with <code>mut</code> so we can mutate
-them.</p>
+<!-- Alternatively, you may need to alter global state provided by a foreign -->
+
+<!-- interface. To do this, statics can be declared with `mut` so we can mutate -->
+
+<!-- them. -->
+
+<p>あるいは、他言語インターフェイスが提供するグローバルな状態を変更しなければならないこともあるかもしれません。
+これをするために、スタティックな値を変更することができるように <code>mut</code> 付きで宣言することができます。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -752,13 +1004,25 @@ fn main() {
     }
 }</pre>
 
-<p>Note that all interaction with a <code>static mut</code> is unsafe, both reading and
-writing. Dealing with global mutable state requires a great deal of care.</p>
+<!-- Note that all interaction with a `static mut` is unsafe, both reading and -->
 
-<h1 id='foreign-calling-conventions' class='section-header'><a href='#foreign-calling-conventions'>Foreign calling conventions</a></h1>
-<p>Most foreign code exposes a C ABI, and Rust uses the platform&#39;s C calling convention by default when
-calling foreign functions. Some foreign functions, most notably the Windows API, use other calling
-conventions. Rust provides a way to tell the compiler which convention to use:</p>
+<!-- writing. Dealing with global mutable state requires a great deal of care. -->
+
+<p><code>static mut</code> の付いた作用は全て、読込みと書込みの双方についてアンセーフであることに注意しましょう。
+グローバルでミュータブルな状態の扱いには多大な注意が必要です。</p>
+
+<!-- # Foreign calling conventions -->
+
+<h1 id='他言語呼出規則' class='section-header'><a href='#他言語呼出規則'>他言語呼出規則</a></h1>
+<!-- Most foreign code exposes a C ABI, and Rust uses the platform's C calling convention by default when -->
+
+<!-- calling foreign functions. Some foreign functions, most notably the Windows API, use other calling -->
+
+<!-- conventions. Rust provides a way to tell the compiler which convention to use: -->
+
+<p>他言語で書かれたコードの多くはC ABIをエクスポートしていて、Rustは他言語関数の呼出しのときのデフォルトとしてそのプラットフォーム上のCの呼出規則を使います。
+他言語関数の中には、特にWindows APIですが、他の呼出規則を使うものもあります。
+Rustにはコンパイラに対してどの規則を使うかを教える方法があります。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -779,8 +1043,12 @@ fn main() { }
     <span class='kw'>fn</span> <span class='ident'>SetEnvironmentVariableA</span>(<span class='ident'>n</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>, <span class='ident'>v</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>libc</span>::<span class='ident'>c_int</span>;
 }</pre>
 
-<p>This applies to the entire <code>extern</code> block. The list of supported ABI constraints
-are:</p>
+<!-- This applies to the entire `extern` block. The list of supported ABI constraints -->
+
+<!-- are: -->
+
+<p>これは <code>extern</code> ブロック全体に適用されます。
+サポートされているABIの規則は次のとおりです。</p>
 
 <ul>
 <li><code>stdcall</code></li>
@@ -794,53 +1062,121 @@ are:</p>
 <li><code>win64</code></li>
 </ul>
 
-<p>Most of the abis in this list are self-explanatory, but the <code>system</code> abi may
-seem a little odd. This constraint selects whatever the appropriate ABI is for
-interoperating with the target&#39;s libraries. For example, on win32 with a x86
-architecture, this means that the abi used would be <code>stdcall</code>. On x86_64,
-however, windows uses the <code>C</code> calling convention, so <code>C</code> would be used. This
-means that in our previous example, we could have used <code>extern &quot;system&quot; { ... }</code>
-to define a block for all windows systems, not just x86 ones.</p>
+<!-- Most of the abis in this list are self-explanatory, but the `system` abi may -->
 
-<h1 id='interoperability-with-foreign-code' class='section-header'><a href='#interoperability-with-foreign-code'>Interoperability with foreign code</a></h1>
-<p>Rust guarantees that the layout of a <code>struct</code> is compatible with the platform&#39;s
-representation in C only if the <code>#[repr(C)]</code> attribute is applied to it.
-<code>#[repr(C, packed)]</code> can be used to lay out struct members without padding.
-<code>#[repr(C)]</code> can also be applied to an enum.</p>
+<!-- seem a little odd. This constraint selects whatever the appropriate ABI is for -->
 
-<p>Rust&#39;s owned boxes (<code>Box&lt;T&gt;</code>) use non-nullable pointers as handles which point
-to the contained object. However, they should not be manually created because
-they are managed by internal allocators. References can safely be assumed to be
-non-nullable pointers directly to the type.  However, breaking the borrow
-checking or mutability rules is not guaranteed to be safe, so prefer using raw
-pointers (<code>*</code>) if that&#39;s needed because the compiler can&#39;t make as many
-assumptions about them.</p>
+<!-- interoperating with the target's libraries. For example, on win32 with a x86 -->
 
-<p>Vectors and strings share the same basic memory layout, and utilities are
-available in the <code>vec</code> and <code>str</code> modules for working with C APIs. However,
-strings are not terminated with <code>\0</code>. If you need a NUL-terminated string for
-interoperability with C, you should use the <code>CString</code> type in the <code>std::ffi</code>
-module.</p>
+<!-- architecture, this means that the abi used would be `stdcall`. On x86_64, -->
 
-<p>The <a href="https://crates.io/crates/libc"><code>libc</code> crate on crates.io</a> includes type aliases and function
-definitions for the C standard library in the <code>libc</code> module, and Rust links
-against <code>libc</code> and <code>libm</code> by default.</p>
+<!-- however, windows uses the `C` calling convention, so `C` would be used. This -->
 
-<h1 id='the-nullable-pointer-optimization' class='section-header'><a href='#the-nullable-pointer-optimization'>The &quot;nullable pointer optimization&quot;</a></h1>
-<p>Certain types are defined to not be <code>null</code>. This includes references (<code>&amp;T</code>,
-<code>&amp;mut T</code>), boxes (<code>Box&lt;T&gt;</code>), and function pointers (<code>extern &quot;abi&quot; fn()</code>).
-When interfacing with C, pointers that might be null are often used.
-As a special case, a generic <code>enum</code> that contains exactly two variants, one of
-which contains no data and the other containing a single field, is eligible
-for the &quot;nullable pointer optimization&quot;. When such an enum is instantiated
-with one of the non-nullable types, it is represented as a single pointer,
-and the non-data variant is represented as the null pointer. So
-<code>Option&lt;extern &quot;C&quot; fn(c_int) -&gt; c_int&gt;</code> is how one represents a nullable
-function pointer using the C ABI.</p>
+<!-- means that in our previous example, we could have used `extern "system" { ... }` -->
 
-<h1 id='calling-rust-code-from-c' class='section-header'><a href='#calling-rust-code-from-c'>Calling Rust code from C</a></h1>
-<p>You may wish to compile Rust code in a way so that it can be called from C. This is
-fairly easy, but requires a few things:</p>
+<!-- to define a block for all windows systems, not just x86 ones. -->
+
+<p>このリストのABIのほとんどは名前のとおりですが、 <code>system</code> ABIは少し変わっています。
+この規則はターゲットのライブラリを相互利用するために適切なABIを選択します。
+例えば、x86アーキテクチャのWin32では、使われるABIは <code>stdcall</code> になります。
+しかし、x86_64では、Windowsは <code>C</code> の呼出規則を使うので、 <code>C</code> が使われます。
+先程の例で言えば、 <code>extern &quot;system&quot; { ... }</code> を使って、x86のためだけではなく全てのWindowsシステムのためのブロックを定義することができるということです。</p>
+
+<!-- # Interoperability with foreign code -->
+
+<h1 id='他言語コードの相互利用' class='section-header'><a href='#他言語コードの相互利用'>他言語コードの相互利用</a></h1>
+<!-- Rust guarantees that the layout of a `struct` is compatible with the platform's -->
+
+<!-- representation in C only if the `#[repr(C)]` attribute is applied to it. -->
+
+<!-- `#[repr(C, packed)]` can be used to lay out struct members without padding. -->
+
+<!-- `#[repr(C)]` can also be applied to an enum. -->
+
+<p><code>#[repr(C)]</code> アトリビュートが適用されている場合に限り、Rustは <code>struct</code> のレイアウトとそのプラットフォーム上のCでの表現方法との互換性を保証します。
+<code>#[repr(C, packed)]</code> を使えば、パディングなしで構造体のメンバをレイアウトすることができます。
+<code>#[repr(C)]</code> は列挙型にも適用することができます。</p>
+
+<!-- Rust's owned boxes (`Box<T>`) use non-nullable pointers as handles which point -->
+
+<!-- to the contained object. However, they should not be manually created because -->
+
+<!-- they are managed by internal allocators. References can safely be assumed to be -->
+
+<!-- non-nullable pointers directly to the type.  However, breaking the borrow -->
+
+<!-- checking or mutability rules is not guaranteed to be safe, so prefer using raw -->
+
+<!-- pointers (`*`) if that's needed because the compiler can't make as many -->
+
+<!-- assumptions about them. -->
+
+<p>Rust独自のボックス（ <code>Box&lt;T&gt;</code> ）は包んでいるオブジェクトを指すハンドルとして非ヌルポインタを使います。
+しかし、それらは内部のアロケータによって管理されるため、手で作るべきではありません。
+参照は型を直接指す非ヌルポインタとみなすことが安全にできます。
+しかし、借用チェックやミュータブルについてのルールが破られた場合、安全性は保証されません。生ポインタについてはコンパイラは借用チェックやミュータブルほどには仮定を置かないので、必要なときには、生ポインタ（ <code>*</code> ）を使いましょう。</p>
+
+<!-- Vectors and strings share the same basic memory layout, and utilities are -->
+
+<!-- available in the `vec` and `str` modules for working with C APIs. However, -->
+
+<!-- strings are not terminated with `\0`. If you need a NUL-terminated string for -->
+
+<!-- interoperability with C, you should use the `CString` type in the `std::ffi` -->
+
+<!-- module. -->
+
+<p>ベクタと文字列は基本的なメモリレイアウトを共有していて、 <code>vec</code> モジュールと <code>str</code> モジュールの中のユーティリティはC APIで扱うために使うことができます。
+ただし、文字列は <code>\0</code> で終わりません。
+Cと相互利用するためにNUL終端の文字列が必要であれば、 <code>std::ffi</code> モジュールの <code>CString</code> 型を使う必要があります。</p>
+
+<!-- The [`libc` crate on crates.io][libc] includes type aliases and function -->
+
+<!-- definitions for the C standard library in the `libc` module, and Rust links -->
+
+<!-- against `libc` and `libm` by default. -->
+
+<p><a href="https://crates.io/crates/libc">crates.ioの<code>libc</code>クレート</a> は <code>libc</code> モジュール内にCの標準ライブラリの型の別名や関数の定義を含んでいて、Rustは <code>libc</code> と <code>libm</code> をデフォルトでリンクします。</p>
+
+<!-- # The "nullable pointer optimization" -->
+
+<h1 id='ヌルになり得るポインタの最適化' class='section-header'><a href='#ヌルになり得るポインタの最適化'>「ヌルになり得るポインタの最適化」</a></h1>
+<!-- Certain types are defined to not be `null`. This includes references (`&T`, -->
+
+<!-- `&mut T`), boxes (`Box<T>`), and function pointers (`extern "abi" fn()`). -->
+
+<!-- When interfacing with C, pointers that might be null are often used. -->
+
+<!-- As a special case, a generic `enum` that contains exactly two variants, one of -->
+
+<!-- which contains no data and the other containing a single field, is eligible -->
+
+<!-- for the "nullable pointer optimization". When such an enum is instantiated -->
+
+<!-- with one of the non-nullable types, it is represented as a single pointer, -->
+
+<!-- and the non-data variant is represented as the null pointer. So -->
+
+<!-- `Option<extern "C" fn(c_int) -> c_int>` is how one represents a nullable -->
+
+<!-- function pointer using the C ABI. -->
+
+<p>いくつかの型は非 <code>null</code> であると定義されています。
+このようなものには、参照（ <code>&amp;T</code> 、 <code>&amp;mut T</code> ）、ボックス（ <code>Box&lt;T&gt;</code> ）、そして関数ポインタ（ <code>extern &quot;abi&quot; fn()</code> ）があります。
+Cとのインターフェイスにおいては、ヌルになり得るポインタが使われることがしばしばあります。
+特別な場合として、ジェネリックな <code>enum</code> がちょうど2つのバリアントを持ち、そのうちの1つが値を持っていなくてもう1つが単一のフィールドを持っているとき、それは「ヌルになり得るポインタの最適化」の対象になります。
+そのような列挙型が非ヌルの型でインスタンス化されたとき、それは単一のポインタとして表現され、データを持っていない方のバリアントはヌルポインタとして表現されます。
+<code>Option&lt;extern &quot;C&quot; fn(c_int) -&gt; c_int&gt;</code> は、C ABIで使われるヌルになり得る関数ポインタの表現方法の1つです。</p>
+
+<!-- # Calling Rust code from C -->
+
+<h1 id='cからのrustのコードの呼出し' class='section-header'><a href='#cからのrustのコードの呼出し'>CからのRustのコードの呼出し</a></h1>
+<!-- You may wish to compile Rust code in a way so that it can be called from C. This is -->
+
+<!-- fairly easy, but requires a few things: -->
+
+<p>RustのコードをCから呼び出せる方法でコンパイルしたいときがあるかもしれません。
+これは割と簡単ですが、いくつか必要なことがあります。</p>
 <span class='rusttest'>#[no_mangle]
 pub extern fn hello_rust() -&gt; *const u8 {
     &quot;Hello, world!\0&quot;.as_ptr()
@@ -852,16 +1188,31 @@ fn main() {}
     <span class='string'>&quot;Hello, world!\0&quot;</span>.<span class='ident'>as_ptr</span>()
 }</pre>
 
-<p>The <code>extern</code> makes this function adhere to the C calling convention, as
-discussed above in &quot;<a href="ffi.html#foreign-calling-conventions">Foreign Calling
-Conventions</a>&quot;. The <code>no_mangle</code>
-attribute turns off Rust&#39;s name mangling, so that it is easier to link to.</p>
+<!-- The `extern` makes this function adhere to the C calling convention, as -->
 
-<h1 id='ffi-and-panics' class='section-header'><a href='#ffi-and-panics'>FFI and panics</a></h1>
-<p>It’s important to be mindful of <code>panic!</code>s when working with FFI. A <code>panic!</code>
-across an FFI boundary is undefined behavior. If you’re writing code that may
-panic, you should run it in another thread, so that the panic doesn’t bubble up
-to C:</p>
+<!-- discussed above in "[Foreign Calling -->
+
+<!-- Conventions](ffi.html#foreign-calling-conventions)". The `no_mangle` -->
+
+<!-- attribute turns off Rust's name mangling, so that it is easier to link to. -->
+
+<p><code>extern</code> は先程「 <a href="ffi.html#foreign-calling-conventions">他言語呼出規則</a> 」で議論したように、この関数をCの呼出規則に従うようにします。
+<code>no_mangle</code> アトリビュートはRustによる名前のマングリングをオフにして、リンクしやすいようにします。</p>
+
+<!-- # FFI and panics -->
+
+<h1 id='ffiとパニック' class='section-header'><a href='#ffiとパニック'>FFIとパニック</a></h1>
+<!-- It’s important to be mindful of `panic!`s when working with FFI. A `panic!` -->
+
+<!-- across an FFI boundary is undefined behavior. If you’re writing code that may -->
+
+<!-- panic, you should run it in another thread, so that the panic doesn’t bubble up -->
+
+<!-- to C: -->
+
+<p>FFIを扱うときに <code>panic!</code> に注意することは重要です。
+FFIの境界をまたぐ <code>panic!</code> の動作は未定義です。
+もしあなたがパニックし得るコードを書いているのであれば、他のスレッドで実行して、パニックがCに波及しないようにすべきです。</p>
 <span class='rusttest'>use std::thread;
 
 #[no_mangle]
@@ -891,16 +1242,25 @@ fn main() {}
     }
 }</pre>
 
-<h1 id='representing-opaque-structs' class='section-header'><a href='#representing-opaque-structs'>Representing opaque structs</a></h1>
-<p>Sometimes, a C library wants to provide a pointer to something, but not let you
-know the internal details of the thing it wants. The simplest way is to use a
-<code>void *</code> argument:</p>
+<!-- # Representing opaque structs -->
+
+<h1 id='オペーク構造体の表現' class='section-header'><a href='#オペーク構造体の表現'>オペーク構造体の表現</a></h1>
+<!-- Sometimes, a C library wants to provide a pointer to something, but not let you -->
+
+<!-- know the internal details of the thing it wants. The simplest way is to use a -->
+
+<!-- `void *` argument: -->
+
+<p>ときどき、Cのライブラリが何かのポインタを要求してくるにもかかわらず、その要求されているものの内部的な詳細を教えてくれないことがあります。
+最も単純な方法は <code>void *</code> 引数を使うことです。</p>
 
 <pre><code class="language-c">void foo(void *arg);
 void bar(void *arg);
 </code></pre>
 
-<p>We can represent this in Rust with the <code>c_void</code> type:</p>
+<!-- We can represent this in Rust with the `c_void` type: -->
+
+<p>Rustではこれを <code>c_void</code> 型で表現することができます。</p>
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -917,18 +1277,30 @@ fn main() {}
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bar</span>(<span class='ident'>arg</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>);
 }</pre>
 
-<p>This is a perfectly valid way of handling the situation. However, we can do a bit
-better. To solve this, some C libraries will instead create a <code>struct</code>, where
-the details and memory layout of the struct are private. This gives some amount
-of type safety. These structures are called ‘opaque’. Here’s an example, in C:</p>
+<!-- This is a perfectly valid way of handling the situation. However, we can do a bit -->
 
-<pre><code class="language-c">struct Foo; /* Foo is a structure, but its contents are not part of the public interface */
+<!-- better. To solve this, some C libraries will instead create a `struct`, where -->
+
+<!-- the details and memory layout of the struct are private. This gives some amount -->
+
+<!-- of type safety. These structures are called ‘opaque’. Here’s an example, in C: -->
+
+<p>これはその状況に対処するための完全に正当な方法です。
+しかし、もっとよい方法があります。
+これを解決するために、いくつかのCライブラリでは、代わりに <code>struct</code> を作っています。そこでは構造体の詳細とメモリレイアウトはプライベートです。
+これは型の安全性をいくらか満たします。
+それらの構造体は「オペーク」と呼ばれます。
+これがCによる例です。</p>
+
+<pre><code class="language-c">struct Foo; /* Fooは構造体だが、その内容は公開インターフェイスの一部ではない */
 struct Bar;
 void foo(struct Foo *arg);
 void bar(struct Bar *arg);
 </code></pre>
 
-<p>To do this in Rust, let’s create our own opaque types with <code>enum</code>:</p>
+<!-- To do this in Rust, let’s create our own opaque types with `enum`: -->
+
+<p>これをRustで実現するために、<code>enum</code>で独自のオペーク型を作りましょう。</p>
 <span class='rusttest'>pub enum Foo {}
 pub enum Bar {}
 
@@ -946,10 +1318,16 @@ fn main() {}
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>bar</span>(<span class='ident'>arg</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>Bar</span>);
 }</pre>
 
-<p>By using an <code>enum</code> with no variants, we create an opaque type that we can’t
-instantiate, as it has no variants. But because our <code>Foo</code> and <code>Bar</code> types are
-different, we’ll get type safety between the two of them, so we cannot
-accidentally pass a pointer to <code>Foo</code> to <code>bar()</code>.</p>
+<!-- By using an `enum` with no variants, we create an opaque type that we can’t -->
+
+<!-- instantiate, as it has no variants. But because our `Foo` and `Bar` types are -->
+
+<!-- different, we’ll get type safety between the two of them, so we cannot -->
+
+<!-- accidentally pass a pointer to `Foo` to `bar()`. -->
+
+<p>バリアントなしの <code>enum</code> を使って、バリアントがないためにインスタンス化できないオペーク型を作ります。
+しかし、 <code>Foo</code> 型と <code>Bar</code> 型は異なる型であり、2つものの間の型の安全性を満たすので、 <code>Foo</code> のポインタを間違って <code>bar()</code> に渡すことはなくなります。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

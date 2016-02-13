@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Match</title>
+    <title>マッチ</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,11 +185,20 @@
 <div id='page'>
 
 
-    <h1 class="title">Match</h1>
-    <p>Often, a simple <a href="if.html"><code>if</code></a>/<code>else</code> isn’t enough, because you have more than two
-possible options. Also, conditions can get quite complex. Rust
-has a keyword, <code>match</code>, that allows you to replace complicated <code>if</code>/<code>else</code>
-groupings with something more powerful. Check it out:</p>
+    <h1 class="title">マッチ</h1>
+    <!-- % Match -->
+
+<!-- Often, a simple [`if`][if]/`else` isn’t enough, because you have more than two -->
+
+<!-- possible options. Also, conditions can get quite complex. Rust -->
+
+<!-- has a keyword, `match`, that allows you to replace complicated `if`/`else` -->
+
+<!-- groupings with something more powerful. Check it out: -->
+
+<p>しばしば、２つ以上の可能な処理が存在するためや、分岐条件が非常に複雑になるために単純な <a href="if.html"><code>if</code></a>/<code>else</code> では充分でない場合があります。
+Rustにはキーワード <code>match</code> が存在し、複雑な <code>if</code>/<code>else</code> のグループをさらに強力なもので置き換えられます。
+以下の例を見てみましょう:</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -213,29 +222,63 @@ groupings with something more powerful. Check it out:</p>
     _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;something else&quot;</span>),
 }</pre>
 
-<p><code>match</code> takes an expression and then branches based on its value. Each ‘arm’ of
-the branch is of the form <code>val =&gt; expression</code>. When the value matches, that arm’s
-expression will be evaluated. It’s called <code>match</code> because of the term ‘pattern
-matching’, which <code>match</code> is an implementation of. There’s an <a href="patterns.html">entire section on
-patterns</a> that covers all the patterns that are possible here.</p>
+<!-- `match` takes an expression and then branches based on its value. Each ‘arm’ of -->
 
-<p>So what’s the big advantage? Well, there are a few. First of all, <code>match</code>
-enforces ‘exhaustiveness checking’. Do you see that last arm, the one with the
-underscore (<code>_</code>)? If we remove that arm, Rust will give us an error:</p>
+<!-- the branch is of the form `val => expression`. When the value matches, that arm’s -->
+
+<!-- expression will be evaluated. It’s called `match` because of the term ‘pattern -->
+
+<!-- matching’, which `match` is an implementation of. There’s an [entire section on -->
+
+<!-- patterns][patterns] that covers all the patterns that are possible here. -->
+
+<p><code>match</code> は一つの式とその式の値に基づく複数のブランチを引数に取ります。
+一つ一つの「腕」は <code>val =&gt; expression</code> という形式を取ります。
+値がマッチした時に、対応する腕の式が評価されます。
+このような式が <code>match</code> と呼ばれるのは「パターンマッチ」に由来します。
+可能なすべてのパターンについて説明した、<a href="patterns.html">パターンの説明のために書かれたセクション</a> が存在します。</p>
+
+<!-- So what’s the big advantage? Well, there are a few. First of all, `match` -->
+
+<!-- enforces ‘exhaustiveness checking’. Do you see that last arm, the one with the -->
+
+<!-- underscore (`_`)? If we remove that arm, Rust will give us an error: -->
+
+<p><code>match</code> を使う利点は何でしょうか？ いくつか有りますが、
+まず一つ目としては <code>match</code> をつかうことで、「網羅性検査」が実施されます。
+上のコードで、最後のアンダースコア( <code>_</code> )を用いている腕があるのがわかりますか？
+もし、その腕を削除した場合、Rustは以下の様なエラーを発生させます:</p>
 
 <pre><code class="language-text">error: non-exhaustive patterns: `_` not covered
 </code></pre>
 
-<p>In other words, Rust is trying to tell us we forgot a value. Because <code>x</code> is an
-integer, Rust knows that it can have a number of different values – for
-example, <code>6</code>. Without the <code>_</code>, however, there is no arm that could match, and
-so Rust refuses to compile the code. <code>_</code> acts like a ‘catch-all arm’. If none
-of the other arms match, the arm with <code>_</code> will, and since we have this
-catch-all arm, we now have an arm for every possible value of <code>x</code>, and so our
-program will compile successfully.</p>
+<!-- In other words, Rust is trying to tell us we forgot a value. Because `x` is an -->
 
-<p><code>match</code> is also an expression, which means we can use it on the right-hand
-side of a <code>let</code> binding or directly where an expression is used:</p>
+<!-- integer, Rust knows that it can have a number of different values – for -->
+
+<!-- example, `6`. Without the `_`, however, there is no arm that could match, and -->
+
+<!-- so Rust refuses to compile the code. `_` acts like a ‘catch-all arm’. If none -->
+
+<!-- of the other arms match, the arm with `_` will, and since we have this -->
+
+<!-- catch-all arm, we now have an arm for every possible value of `x`, and so our -->
+
+<!-- program will compile successfully. -->
+
+<p>言い換えると、Rustは値を忘れていることを伝えようとしているのです。
+なぜなら <code>x</code> は整数であるため、Rustは <code>x</code> は多くの異なる値を取ることができることを知っています。
+例えば、 <code>6</code> などがそれにに当たります。
+もし <code>_</code> がなかった場合、 <code>6</code> にマッチする腕が存在しない事になります、そのためRustはコンパイルを通しません。
+<code>_</code> は「全てキャッチする腕」のように振る舞います。
+もし他の腕がどれもマッチしなかった場合、 <code>_</code> の腕が実行されることになります、
+この「全てキャッチする腕」が存在するため、 <code>x</code> が取り得るすべての値について対応する腕が存在することになり、コンパイルが成功します。</p>
+
+<!-- `match` is also an expression, which means we can use it on the right-hand -->
+
+<!-- side of a `let` binding or directly where an expression is used: -->
+
+<p><code>match</code> は式でも有ります、これはつまり <code>let</code> 束縛の右側や式が使われているところで利用することができるということを意味しています。</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -259,11 +302,18 @@ side of a <code>let</code> binding or directly where an expression is used:</p>
     _ <span class='op'>=&gt;</span> <span class='string'>&quot;something else&quot;</span>,
 };</pre>
 
-<p>Sometimes it’s a nice way of converting something from one type to another.</p>
+<!-- Sometimes it’s a nice way of converting something from one type to another. -->
 
-<h1 id='matching-on-enums' class='section-header'><a href='#matching-on-enums'>Matching on enums</a></h1>
-<p>Another important use of the <code>match</code> keyword is to process the possible
-variants of an enum:</p>
+<p><code>match</code> はしばしば、ある型からある型へ変換するための良い手段になりまうす。</p>
+
+<!-- # Matching on enums -->
+
+<h1 id='列挙型に対するマッチ' class='section-header'><a href='#列挙型に対するマッチ'>列挙型に対するマッチ</a></h1>
+<!-- Another important use of the `match` keyword is to process the possible -->
+
+<!-- variants of an enum: -->
+
+<p><code>match</code> の他の重要な利用方法としては列挙型のバリアントを処理することがあります:</p>
 <span class='rusttest'>fn main() {
     enum Message {
         Quit,
@@ -305,13 +355,23 @@ variants of an enum:</p>
     };
 }</pre>
 
-<p>Again, the Rust compiler checks exhaustiveness, so it demands that you
-have a match arm for every variant of the enum. If you leave one off, it
-will give you a compile-time error unless you use <code>_</code>.</p>
+<!-- Again, the Rust compiler checks exhaustiveness, so it demands that you -->
 
-<p>Unlike the previous uses of <code>match</code>, you can’t use the normal <code>if</code>
-statement to do this. You can use the <a href="if-let.html"><code>if let</code></a> statement,
-which can be seen as an abbreviated form of <code>match</code>.</p>
+<!-- have a match arm for every variant of the enum. If you leave one off, it -->
+
+<!-- will give you a compile-time error unless you use `_`. -->
+
+<p>繰り返しになりますが、Rustコンパイラは網羅性のチェックを行い、列挙型のすべてのバリアントに対して、マッチする腕が存在することを要求します。
+もし、一つでもマッチする腕のないバリアントを残している場合、 <code>_</code> を用いなければコンパイルエラーが発生します。</p>
+
+<!-- Unlike the previous uses of `match`, you can’t use the normal `if` -->
+
+<!-- statement to do this. You can use the [`if let`][if-let] statement, -->
+
+<!-- which can be seen as an abbreviated form of `match`. -->
+
+<p>上で説明した値に対する <code>match</code> の利用とは異なり、列挙型のバリアントに基いた分岐に <code>if</code> を用いることはできません。
+列挙型のバリアントに基いた分岐に <a href="if-let.html"><code>if let</code></a> 文を用いることが可能です、 <code>if let</code> を <code>match</code> の短縮形と捉えることができます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

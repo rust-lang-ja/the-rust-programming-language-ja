@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Operators and Overloading</title>
+    <title>演算子とオーバーロード</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,13 +185,23 @@
 <div id='page'>
 
 
-    <h1 class="title">Operators and Overloading</h1>
-    <p>Rust allows for a limited form of operator overloading. There are certain
-operators that are able to be overloaded. To support a particular operator
-between types, there’s a specific trait that you can implement, which then
-overloads the operator.</p>
+    <h1 class="title">演算子とオーバーロード</h1>
+    <!-- % Operators and Overloading -->
 
-<p>For example, the <code>+</code> operator can be overloaded with the <code>Add</code> trait:</p>
+<!-- Rust allows for a limited form of operator overloading. There are certain -->
+
+<!-- operators that are able to be overloaded. To support a particular operator -->
+
+<!-- between types, there’s a specific trait that you can implement, which then -->
+
+<!-- overloads the operator. -->
+
+<p>Rustは制限された形式での演算子オーバーロードを提供しており、オーバーロード可能な演算子がいくつか存在します。
+型同士の間の演算子をサポートするためのトレイトが存在し、それらを実装することで演算子をオーバーロードすることができます。</p>
+
+<!-- For example, the `+` operator can be overloaded with the `Add` trait: -->
+
+<p>例えば、 <code>+</code> の演算子は <code>Add</code> トレイトを利用することでオーバーロードすることができます:</p>
 <span class='rusttest'>use std::ops::Add;
 
 #[derive(Debug)]
@@ -242,15 +252,28 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>p3</span>);
 }</pre>
 
-<p>In <code>main</code>, we can use <code>+</code> on our two <code>Point</code>s, since we’ve implemented
-<code>Add&lt;Output=Point&gt;</code> for <code>Point</code>.</p>
+<!-- In `main`, we can use `+` on our two `Point`s, since we’ve implemented -->
 
-<p>There are a number of operators that can be overloaded this way, and all of
-their associated traits live in the <a href="../std/ops/index.html"><code>std::ops</code></a> module. Check out its
-documentation for the full list.</p>
+<!-- `Add<Output=Point>` for `Point`. -->
 
-<p>Implementing these traits follows a pattern. Let’s look at <a href="../std/ops/trait.Add.html"><code>Add</code></a> in more
-detail:</p>
+<p><code>main</code> 中で、２つの <code>Point</code> に対して <code>+</code> を使うことができます、
+これは <code>Point</code> に対して <code>Add&lt;Output=Point&gt;</code> を実装したためです。</p>
+
+<!-- There are a number of operators that can be overloaded this way, and all of -->
+
+<!-- their associated traits live in the [`std::ops`][stdops] module. Check out its -->
+
+<!-- documentation for the full list. -->
+
+<p>同じ方法でオーバーロード可能な演算子が多数あります、
+それらに対応したトレイトは <a href="../std/ops/index.html"><code>std::ops</code></a> モジュール内に存在します。
+全てのオーバーロード可能な演算子と対応するトレイトについては <a href="../std/ops/index.html"><code>std::ops</code></a> のドキュメントを読んで確認して下さい。</p>
+
+<!-- Implementing these traits follows a pattern. Let’s look at [`Add`][add] in more -->
+
+<!-- detail: -->
+
+<p>それらのトレイトの実装はパターンに従います。 <a href="../std/ops/trait.Add.html"><code>Add</code></a> トレイトを詳しく見ていきましょう:</p>
 <span class='rusttest'>fn main() {
     mod foo {
     pub trait Add&lt;RHS = Self&gt; {
@@ -266,9 +289,14 @@ detail:</p>
     <span class='kw'>fn</span> <span class='ident'>add</span>(<span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>RHS</span>) <span class='op'>-&gt;</span> <span class='ident'>Self</span>::<span class='ident'>Output</span>;
 }</pre>
 
-<p>There’s three types in total involved here: the type you <code>impl Add</code> for, <code>RHS</code>,
-which defaults to <code>Self</code>, and <code>Output</code>. For an expression <code>let z = x + y</code>, <code>x</code>
-is the <code>Self</code> type, <code>y</code> is the RHS, and <code>z</code> is the <code>Self::Output</code> type.</p>
+<!-- There’s three types in total involved here: the type you `impl Add` for, `RHS`, -->
+
+<!-- which defaults to `Self`, and `Output`. For an expression `let z = x + y`, `x` -->
+
+<!-- is the `Self` type, `y` is the RHS, and `z` is the `Self::Output` type. -->
+
+<p>関連する３つの型が存在します: <code>impl Add</code> を実装するもの、 デフォルトが <code>Self</code> の <code>RHS</code>、 そして <code>Output</code> 。
+例えば、式 <code>let z = x + y</code> においては <code>x</code> は <code>Self</code> 型 <code>y</code> は RHS、 <code>z</code> は <code>Self::Output</code> 型となります。</p>
 <span class='rusttest'>fn main() {
     struct Point;
     use std::ops::Add;
@@ -276,7 +304,8 @@ is the <code>Self</code> type, <code>y</code> is the RHS, and <code>z</code> is 
         type Output = f64;
     
         fn add(self, rhs: i32) -&gt; f64 {
-            // add an i32 to a Point and get an f64
+    //        // add an i32 to a Point and get an f64
+            // i32をPointに加算しf64を返す
     1.0
         }
     }
@@ -285,11 +314,13 @@ is the <code>Self</code> type, <code>y</code> is the RHS, and <code>z</code> is 
     <span class='kw'>type</span> <span class='ident'>Output</span> <span class='op'>=</span> <span class='ident'>f64</span>;
 
     <span class='kw'>fn</span> <span class='ident'>add</span>(<span class='self'>self</span>, <span class='ident'>rhs</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span> {
-        <span class='comment'>// add an i32 to a Point and get an f64</span>
+        <span class='comment'>// i32をPointに加算しf64を返す</span>
     }
 }</pre>
 
-<p>will let you do this:</p>
+<!-- will let you do this: -->
+
+<p>上のコードによって以下の様に書けるようになります:</p>
 <span class='rusttest'>fn main() {
     let p: Point = // ...
     let x: f64 = p + 2i32;
@@ -297,9 +328,15 @@ is the <code>Self</code> type, <code>y</code> is the RHS, and <code>z</code> is 
 <span class='kw'>let</span> <span class='ident'>p</span>: <span class='ident'>Point</span> <span class='op'>=</span> <span class='comment'>// ...</span>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='ident'>p</span> <span class='op'>+</span> <span class='number'>2i32</span>;</pre>
 
-<h1 id='using-operator-traits-in-generic-structs' class='section-header'><a href='#using-operator-traits-in-generic-structs'>Using operator traits in generic structs</a></h1>
-<p>Now that we know how operator traits are defined, we can define our <code>HasArea</code>
-trait and <code>Square</code> struct from the <a href="traits.html">traits chapter</a> more generically:</p>
+<!-- # Using operator traits in generic structs -->
+
+<h1 id='オペレータトレイトをジェネリック構造体で使う' class='section-header'><a href='#オペレータトレイトをジェネリック構造体で使う'>オペレータトレイトをジェネリック構造体で使う</a></h1>
+<!-- Now that we know how operator traits are defined, we can define our `HasArea` -->
+
+<!-- trait and `Square` struct from the [traits chapter][traits] more generically: -->
+
+<p>オペレータトレイトがどのように定義されているかについて学びましたので、
+<a href="traits.html">トレイトについての章</a> の <code>HasArea</code> トレイトと <code>Square</code> 構造体をさらに一般的に定義することができます:</p>
 <span class='rusttest'>use std::ops::Mul;
 
 trait HasArea&lt;T&gt; {
@@ -358,8 +395,12 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Area of s: {}&quot;</span>, <span class='ident'>s</span>.<span class='ident'>area</span>());
 }</pre>
 
-<p>For <code>HasArea</code> and <code>Square</code>, we just declare a type parameter <code>T</code> and replace
-<code>f64</code> with it. The <code>impl</code> needs more involved modifications:</p>
+<!-- For `HasArea` and `Square`, we just declare a type parameter `T` and replace -->
+
+<!-- `f64` with it. The `impl` needs more involved modifications: -->
+
+<p><code>HasArea</code> と <code>Square</code> について、型パラメータ <code>T</code> を宣言し <code>f64</code> で置換しました。
+<code>impl</code> はさらに関連するモディフィケーションを必要とします:</p>
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; HasArea&lt;T&gt; for Square&lt;T&gt;
             where T: Mul&lt;Output=T&gt; + Copy { ... }
@@ -367,11 +408,20 @@ fn main() {
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>HasArea</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Square</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>
         <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>Mul</span><span class='op'>&lt;</span><span class='ident'>Output</span><span class='op'>=</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='op'>+</span> <span class='ident'>Copy</span> { ... }</pre>
 
-<p>The <code>area</code> method requires that we can multiply the sides, so we declare that
-type <code>T</code> must implement <code>std::ops::Mul</code>. Like <code>Add</code>, mentioned above, <code>Mul</code>
-itself takes an <code>Output</code> parameter: since we know that numbers don&#39;t change
-type when multiplied, we also set it to <code>T</code>. <code>T</code> must also support copying, so
-Rust doesn&#39;t try to move <code>self.side</code> into the return value.</p>
+<!-- The `area` method requires that we can multiply the sides, so we declare that -->
+
+<!-- type `T` must implement `std::ops::Mul`. Like `Add`, mentioned above, `Mul` -->
+
+<!-- itself takes an `Output` parameter: since we know that numbers don't change -->
+
+<!-- type when multiplied, we also set it to `T`. `T` must also support copying, so -->
+
+<!-- Rust doesn't try to move `self.side` into the return value. -->
+
+<p><code>area</code> メソッドは辺を掛けることが可能なことを必要としています。
+そのため型 <code>T</code> が <code>std::ops::Mul</code> を実装していなければならないと宣言しています。
+上で説明した <code>Add</code> と同様に、<code>Mul</code> は <code>Output</code> パラメータを取ります: 数値を掛け算した時に型が変わらないことを知っていますので、 <code>Output</code> も <code>T</code> と設定します。
+また <code>T</code> は、Rustが <code>self.side</code> を返り値にムーブするのを試みないようにコピーをサポートしている必要があります。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

@@ -209,8 +209,8 @@
 
 <!-- artifact. An example usage would be: -->
 
-<p>どのようにリンクをカスタマイズするかを<code>rustc</code>に指示するために、1つの方法があります。それは、<code>link_args</code>アトリビュートを使うことです。
-このアトリビュートは<code>extern</code>ブロックに適用され、生成物を作るときにリンカに渡したいフラグをそのまま指定します。
+<p>どのようにリンクをカスタマイズするかを <code>rustc</code> に指示するために、1つの方法があります。それは、 <code>link_args</code> アトリビュートを使うことです。
+このアトリビュートは <code>extern</code> ブロックに適用され、生成物を作るときにリンカに渡したいフラグをそのまま指定します。
 使い方の例は次のようになります。</p>
 <span class='rusttest'>#![feature(link_args)]
 
@@ -239,16 +239,16 @@ fn main() {}
 
 <!-- `-C link-args` argument to `rustc`. -->
 
-<p>これはリンクを実行するための認められた方法ではないため、この機能は現在<code>feature(link_args)</code>ゲートによって隠されているということに注意しましょう。
-今は<code>rustc</code>がシステムリンカ（多くのシステムでは<code>gcc</code>、MSVCでは<code>link.exe</code>）に渡すので、追加のコマンドライン引数を提供することには意味がありますが、それが今後もそうだとは限りません。
-将来、<code>rustc</code>がネイティブライブラリをリンクするためにLLVMを直接使うようになるかもしれませんし、そのような場合には<code>link_args</code>は意味がなくなるでしょう。
-<code>rustc</code>に<code>-C link-args</code>引数をつけることで、<code>link_args</code>アトリビュートと同じような効果を得ることができます。</p>
+<p>これはリンクを実行するための認められた方法ではないため、この機能は現在 <code>feature(link_args)</code> ゲートによって隠されているということに注意しましょう。
+今は <code>rustc</code> がシステムリンカ（多くのシステムでは <code>gcc</code> 、MSVCでは <code>link.exe</code> ）に渡すので、追加のコマンドライン引数を提供することには意味がありますが、それが今後もそうだとは限りません。
+将来、 <code>rustc</code> がネイティブライブラリをリンクするためにLLVMを直接使うようになるかもしれませんし、そのような場合には <code>link_args</code> は意味がなくなるでしょう。
+<code>rustc</code> に <code>-C link-args</code> 引数をつけることで、 <code>link_args</code> アトリビュートと同じような効果を得ることができます。</p>
 
 <!-- It is highly recommended to *not* use this attribute, and rather use the more -->
 
 <!-- formal `#[link(...)]` attribute on `extern` blocks instead. -->
 
-<p>このアトリビュートは使わ <em>ない</em> ことが強く推奨されているので、代わりにもっと正式な<code>#[link(...)]</code>アトリビュートを<code>extern</code>ブロックに使いましょう。</p>
+<p>このアトリビュートは使わ <em>ない</em> ことが強く推奨されているので、代わりにもっと正式な <code>#[link(...)]</code> アトリビュートを <code>extern</code> ブロックに使いましょう。</p>
 
 <!-- # Static linking -->
 
@@ -269,7 +269,7 @@ fn main() {}
 
 <p>スタティックリンクとは全ての必要なライブラリを含めた成果物を生成する手順のことで、そうすればコンパイルされたプロジェクトを使いたいシステム全てにライブラリをインストールする必要がなくなります。
 Rustのみで構築された依存関係はデフォルトでスタティックリンクされます。そのため、Rustをインストールしなくても、作成されたバイナリやライブラリを使うことができます。
-対照的に、ネイティブライブラリ（例えば<code>libc</code>や<code>libm</code>）はダイナミックリンクされるのが普通です。しかし、これを変更してそれらを同様にスタティックリンクすることも可能です。</p>
+対照的に、ネイティブライブラリ（例えば <code>libc</code> や <code>libm</code> ）はダイナミックリンクされるのが普通です。しかし、これを変更してそれらを同様にスタティックリンクすることも可能です。</p>
 
 <!-- Linking is a very platform-dependent topic, and static linking may not even be -->
 
@@ -289,8 +289,8 @@ Rustのみで構築された依存関係はデフォルトでスタティック�
 
 <!-- with GCC and `glibc` (by far the most common `libc` on Linux): -->
 
-<p>デフォルトでは、Linux上の全てのRustのプログラムはシステムの<code>libc</code>とその他のいくつものライブラリとリンクされます。
-GCCと<code>glibc</code>（Linuxにおける最も一般的な<code>libc</code>）を使った64ビットLinuxマシンでの例を見てみましょう。</p>
+<p>デフォルトでは、Linux上の全てのRustのプログラムはシステムの <code>libc</code> とその他のいくつものライブラリとリンクされます。
+GCCと <code>glibc</code> （Linuxにおける最も一般的な <code>libc</code> ）を使った64ビットLinuxマシンでの例を見てみましょう。</p>
 
 <pre><code class="language-text">$ cat example.rs
 fn main() {}
@@ -320,8 +320,8 @@ $ ldd example
 
 <!-- directory with the instructions below: -->
 
-<p>スタティックリンクは代わりの<code>libc</code>である<a href="http://www.musl-libc.org/"><code>musl</code></a>によってサポートされています。
-以下の手順に従い、<code>musl</code>を有効にした独自バージョンのRustをコンパイルして独自のディレクトリにインストールすることができます。</p>
+<p>スタティックリンクは代わりの <code>libc</code> である <a href="http://www.musl-libc.org/"><code>musl</code></a> によってサポートされています。
+以下の手順に従い、 <code>musl</code> を有効にした独自バージョンのRustをコンパイルして独自のディレクトリにインストールすることができます。</p>
 
 <pre><code class="language-text">$ mkdir musldist
 $ PREFIX=$(pwd)/musldist
@@ -369,7 +369,7 @@ $ du -h musldist/bin/rustc
 
 <!-- libraries when we try and run it: -->
 
-<p>これで<code>musl</code>が有効になったRustのビルドが手に入りました!
+<p>これで <code>musl</code> が有効になったRustのビルドが手に入りました!
 独自のプレフィックスを付けてインストールしたので、試しに実行するときにはシステムがバイナリと適切なライブラリを見付けられることを確かめなければなりません。</p>
 
 <pre><code class="language-text">$ export PATH=$PREFIX/bin:$PATH
@@ -402,8 +402,8 @@ thread &#39;&lt;main&gt;&#39; panicked at &#39;failed&#39;, example.rs:1
 
 <!-- against `musl` before they can be linked against. -->
 
-<p><code>cargo build</code>も<code>--target</code>オプションを受け付けるので、あなたのクレートも普通にビルドできるはずです。
-ただし、リンクする前にネイティブライブラリを<code>musl</code>向けにリコンパイルする必要はあるかもしれません。</p>
+<p><code>cargo build</code> も <code>--target</code> オプションを受け付けるので、あなたのクレートも普通にビルドできるはずです。
+ただし、リンクする前にネイティブライブラリを <code>musl</code> 向けにリコンパイルする必要はあるかもしれません。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

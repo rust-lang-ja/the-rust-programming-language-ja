@@ -190,7 +190,7 @@
 
 <!--Every Rust program has at least one function, the `main` function:-->
 
-<p>Rustのプログラムには全て、少なくとも1つの関数、<code>main</code>関数があります。</p>
+<p>Rustのプログラムには全て、少なくとも1つの関数、 <code>main</code> 関数があります。</p>
 <span class='rusttest'>fn main() {
 }
 </span><pre class='rust rust-example-rendered'>
@@ -206,8 +206,8 @@
 <!--body. Here’s a function named `foo`:-->
 
 <p>これは評価可能な関数定義の最も単純なものです。
-前に言ったように、<code>fn</code>は「これは関数です」ということを示します。この関数には引数がないので、名前と丸括弧が続きます。そして、その本文を表す波括弧が続きます。
-これが<code>foo</code>という名前の関数です。</p>
+前に言ったように、 <code>fn</code> は「これは関数です」ということを示します。この関数には引数がないので、名前と丸括弧が続きます。そして、その本文を表す波括弧が続きます。
+これが <code>foo</code> という名前の関数です。</p>
 <span class='rusttest'>fn main() {
     fn foo() {
     }
@@ -230,7 +230,7 @@
 
 <!--Here’s a complete program that uses `print_number`:-->
 
-<p>これが<code>print_number</code>を使う完全なプログラムです。</p>
+<p>これが <code>print_number</code> を使う完全なプログラムです。</p>
 <span class='rusttest'>fn main() {
     print_number(5);
 }
@@ -251,7 +251,7 @@ fn print_number(x: i32) {
 
 <!--you add a type to the argument name, after a colon.-->
 
-<p>見てのとおり、関数の引数は<code>let</code>宣言と非常によく似た動きをします。
+<p>見てのとおり、関数の引数は <code>let</code> 宣言と非常によく似た動きをします。
 引数の名前にコロンに続けて型を追加します。</p>
 
 <!--Here’s a complete program that adds two numbers together and prints them:-->
@@ -283,7 +283,7 @@ fn print_sum(x: i32, y: i32) {
 
 <!--not work:-->
 
-<p><code>let</code>と異なり、あなたは関数の引数の型を宣言 <em>しなければなりません</em> 。
+<p><code>let</code> と異なり、あなたは関数の引数の型を宣言 <em>しなければなりません</em> 。
 これは動きません。</p>
 <span class='rusttest'>fn main() {
     fn print_sum(x, y) {
@@ -337,7 +337,7 @@ fn print_number(x, y) {
 
 <!--semicolon here. If we added it in:-->
 
-<p>Rustの関数はちょうど1つだけの値を返します。そして、ダッシュ（<code>-</code>）の後ろに大なりの記号（<code>&gt;</code>）を続けた「矢印」の後にその型を宣言します。
+<p>Rustの関数はちょうど1つだけの値を返します。そして、ダッシュ（ <code>-</code> ）の後ろに大なりの記号（ <code>&gt;</code> ）を続けた「矢印」の後にその型を宣言します。
 関数の最後の行が何を返すのかを決定します。
 ここにセミコロンがないことに気が付くでしょう。
 もしそれを追加すると、こうなります。</p>
@@ -395,7 +395,7 @@ help: consider removing this semicolon:
 
 <p>ではその違いは何でしょうか。
 式は値を返しますが、文は返しません。
-それが「not all control paths return a value」で終わった理由です。文<code>x + 1;</code>は値を返さないからです。
+それが「not all control paths return a value」で終わった理由です。文 <code>x + 1;</code> は値を返さないからです。
 Rustには2種類の文があります。「宣言文」と「式文」です。
 その他の全ては式です。
 まずは宣言文について話しましょう。</p>
@@ -414,7 +414,7 @@ Rubyではこうなります。</p>
 
 <!--following will produce a compile-time error:-->
 
-<p>しかし、Rustでは束縛を導入するための<code>let</code>の使用は式では <em>ありません</em> 。
+<p>しかし、Rustでは束縛を導入するための <code>let</code> の使用は式では <em>ありません</em> 。
 次の例はコンパイルエラーを起こします。</p>
 <span class='rusttest'>fn main() {
     let x = (let y = 5); // expected identifier, found keyword `let`
@@ -425,7 +425,7 @@ Rubyではこうなります。</p>
 
 <!--an expression, and a `let` can only begin a statement, not an expression.-->
 
-<p>ここでコンパイラは次のことを教えています。式の先頭を検出することが期待されていたところ、<code>let</code>は式ではなく文の先頭にしかなれないということです。</p>
+<p>ここでコンパイラは次のことを教えています。式の先頭を検出することが期待されていたところ、 <code>let</code> は式ではなく文の先頭にしかなれないということです。</p>
 
 <!--Note that assigning to an already-bound variable (e.g. `y = 5`) is still an-->
 
@@ -439,7 +439,7 @@ Rubyではこうなります。</p>
 
 <!--other returned value would be too surprising:-->
 
-<p>次のことに注意しましょう。既に束縛されている変数（例えば、<code>y = 5</code>）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では<code>5</code>）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル<code>()</code>です。なぜなら、割り当てられる値には<a href="ownership.html">単一の所有者</a>しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。</p>
+<p>次のことに注意しましょう。既に束縛されている変数（例えば、 <code>y = 5</code> ）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では <code>5</code> ）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル <code>()</code> です。なぜなら、割り当てられる値には <a href="ownership.html">単一の所有者</a> しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。</p>
 <span class='rusttest'>fn main() {
     let mut y = 5;
     
@@ -490,7 +490,7 @@ Rubyではこうなります。</p>
 
 <!--removing the semicolon in the error we saw before.-->
 
-<p>この関数は<code>i32</code>を返そうとしていますが、セミコロンを付ければ、それは代わりに<code>()</code>を返します。
+<p>この関数は <code>i32</code> を返そうとしていますが、セミコロンを付ければ、それは代わりに <code>()</code> を返します。
 Rustはこの挙動がおそらく求めているものではないということを理解するので、前に見たエラーの中で、セミコロンを削除することを提案するのです。</p>
 
 <!--## Early returns-->
@@ -499,7 +499,7 @@ Rustはこの挙動がおそらく求めているものではないというこ�
 <!--But what about early returns? Rust does have a keyword for that, `return`:-->
 
 <p>しかし、早期リターンについてはどうでしょうか。
-Rustはそのためのキーワード<code>return</code>を持っています。</p>
+Rustはそのためのキーワード <code>return</code> を持っています。</p>
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
         return x;
@@ -519,7 +519,7 @@ Rustはそのためのキーワード<code>return</code>を持っています。
 
 <!--style:-->
 
-<p><code>return</code>を関数の最後の行で使っても動きますが、それはよろしくないスタイルだと考えられています。</p>
+<p><code>return</code> を関数の最後の行で使っても動きますが、それはよろしくないスタイルだと考えられています。</p>
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
         return x + 1;
@@ -535,7 +535,7 @@ Rustはそのためのキーワード<code>return</code>を持っています。
 
 <!--time.-->
 
-<p>あなたがこれまで式ベースの言語を使ったことがなければ、<code>return</code>のない前の定義の方がちょっと変に見えるかもしれません。しかし、それは時間とともに直観的に感じられるようになります。</p>
+<p>あなたがこれまで式ベースの言語を使ったことがなければ、 <code>return</code> のない前の定義の方がちょっと変に見えるかもしれません。しかし、それは時間とともに直観的に感じられるようになります。</p>
 
 <!--## Diverging functions-->
 
@@ -562,15 +562,15 @@ Rustはそのためのキーワード<code>return</code>を持っています。
 
 <!--return, and so it has the type ‘`!`’, which is read ‘diverges’.-->
 
-<p><code>panic!</code>は既に見てきた<code>println!</code>と同様にマクロです。
-<code>println!</code>とは違って、<code>panic!</code>は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
-この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「<code>!</code>」型を持つのです。</p>
+<p><code>panic!</code> は既に見てきた <code>println!</code> と同様にマクロです。
+<code>println!</code> とは違って、 <code>panic!</code> は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
+この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「 <code>!</code> 」型を持つのです。</p>
 
 <!--If you add a main function that calls `diverges()` and run it, you’ll get-->
 
 <!--some output that looks like this:-->
 
-<p>もし<code>diverges()</code>を呼び出すメイン関数を追加してそれを実行するならば、次のようなものが出力されるでしょう。</p>
+<p>もし <code>diverges()</code> を呼び出すメイン関数を追加してそれを実行するならば、次のようなものが出力されるでしょう。</p>
 
 <pre><code class="language-text">thread ‘&lt;main&gt;’ panicked at ‘This function never returns!’, hello.rs:2
 </code></pre>
@@ -579,7 +579,7 @@ Rustはそのためのキーワード<code>return</code>を持っています。
 
 <!--`RUST_BACKTRACE` environment variable:-->
 
-<p>もしもっと情報を得たいと思うのであれば、<code>RUST_BACKTRACE</code>環境変数をセットすることでバックトレースを得ることができます。</p>
+<p>もしもっと情報を得たいと思うのであれば、 <code>RUST_BACKTRACE</code> 環境変数をセットすることでバックトレースを得ることができます。</p>
 
 <pre><code class="language-text">$ RUST_BACKTRACE=1 ./diverges
 thread &#39;&lt;main&gt;&#39; panicked at &#39;This function never returns!&#39;, hello.rs:2
@@ -601,7 +601,7 @@ stack backtrace:
 
 <!--`RUST_BACKTRACE` also works with Cargo’s `run` command:-->
 
-<p><code>RUST_BACKTRACE</code>はCargoの<code>run</code>コマンドでも使うことができます。</p>
+<p><code>RUST_BACKTRACE</code> はCargoの <code>run</code> コマンドでも使うことができます。</p>
 
 <pre><code class="language-text">$ RUST_BACKTRACE=1 cargo run
      Running `target/debug/diverges`
@@ -650,7 +650,7 @@ stack backtrace:
 
 <!--an argument and returns an `i32`. For example:-->
 
-<p><code>f</code>は<code>i32</code>を引数として受け取り、<code>i32</code>を返す関数を指示する変数束縛です。
+<p><code>f</code> は <code>i32</code> を引数として受け取り、 <code>i32</code> を返す関数を指示する変数束縛です。
 例えばこうです。</p>
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 {
@@ -675,7 +675,7 @@ stack backtrace:
 
 <!--We can then use `f` to call the function:-->
 
-<p>そして、その関数を呼び出すために<code>f</code>を使うことができます。</p>
+<p>そして、その関数を呼び出すために <code>f</code> を使うことができます。</p>
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 { i + 1 }
     let f = plus_one;

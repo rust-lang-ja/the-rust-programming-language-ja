@@ -205,8 +205,8 @@
 <h1 id='ブーリアン型' class='section-header'><a href='#ブーリアン型'>ブーリアン型</a></h1>
 <!-- Rust has a built in boolean type, named `bool`. It has two values, `true` and `false`: --> 
 
-<p>Rustには<code>bool</code>と名付けられた組込みのブーリアン型があります。
-それは<code>true</code>と<code>false</code>という2つの値を持ちます。</p>
+<p>Rustには <code>bool</code> と名付けられた組込みのブーリアン型があります。
+それは <code>true</code> と <code>false</code> という2つの値を持ちます。</p>
 <span class='rusttest'>fn main() {
     let x = true;
     
@@ -218,13 +218,13 @@
 
 <!-- A common use of booleans is in [`if` conditionals][if]. --> 
 
-<p>ブーリアンの一般的な使い方は、<a href="if.html"><code>if</code>条件</a>の中で用いるものです。</p>
+<p>ブーリアンの一般的な使い方は、 <a href="if.html"><code>if</code>条件</a> の中で用いるものです。</p>
 
 <!-- You can find more documentation for `bool`s [in the standard library --> 
 
 <!-- documentation][bool]. --> 
 
-<p><code>bool</code>のさらなるドキュメントは<a href="../std/primitive.bool.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+<p><code>bool</code> のさらなるドキュメントは <a href="../std/primitive.bool.html">標準ライブラリのドキュメントの中</a> で見付けることができます。</p>
 
 <!-- # `char` --> 
 
@@ -233,8 +233,8 @@
 
 <!-- with a single tick: (`'`) --> 
 
-<p><code>char</code>型は1つのユニコードのスカラ値を表現します。
-<code>char</code>はシングルクオート（<code>&#39;</code>）で作ることができます。</p>
+<p><code>char</code> 型は1つのユニコードのスカラ値を表現します。
+<code>char</code> はシングルクオート（ <code>&#39;</code> ）で作ることができます。</p>
 <span class='rusttest'>fn main() {
     let x = &#39;x&#39;;
     let two_hearts = &#39;💕&#39;;
@@ -246,13 +246,13 @@
 
 <!-- but four. --> 
 
-<p><code>char</code>が1バイトである他の言語と異なり、これはRustの<code>char</code>が1バイトではなく4バイトであるということを意味します。</p>
+<p><code>char</code> が1バイトである他の言語と異なり、これはRustの <code>char</code> が1バイトではなく4バイトであるということを意味します。</p>
 
 <!-- You can find more documentation for `char`s [in the standard library --> 
 
 <!-- documentation][char]. --> 
 
-<p><code>char</code>のさらなるドキュメントは<a href="../std/primitive.char.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+<p><code>char</code> のさらなるドキュメントは <a href="../std/primitive.char.html">標準ライブラリのドキュメントの中</a> で見付けることができます。</p>
 
 <!-- # Numeric types --> 
 
@@ -270,7 +270,7 @@
 <!-- bigger numbers. --> 
 
 <p>それらの型はカテゴリとサイズという2つの部分から成ります。
-例えば、<code>u16</code>はサイズ16ビットで符号なしの型です。
+例えば、 <code>u16</code> はサイズ16ビットで符号なしの型です。
 ビット数を大きくすれば、より大きな数値を扱うことができます。</p>
 
 <!-- If a number literal has nothing to cause its type to be inferred, it defaults: --> 
@@ -325,9 +325,9 @@
 
 <p>整数型には符号ありと符号なしという2つの種類があります。
 違いを理解するために、サイズ4ビットの数値を考えましょう。
-符号あり4ビット整数は<code>-8</code>から<code>+7</code>までの数値を保存することができます。
+符号あり4ビット整数は <code>-8</code> から <code>+7</code> までの数値を保存することができます。
 符号ありの数値は「2の補数表現」を使います。
-符号なし4ビット整数は、マイナスを保存する必要がないため、<code>0</code>から<code>+15</code>までの値を保存することができます。</p>
+符号なし4ビット整数は、マイナスを保存する必要がないため、 <code>0</code> から <code>+15</code> までの値を保存することができます。</p>
 
 <!-- Unsigned types use a `u` for their category, and signed types use `i`. The `i` --> 
 
@@ -335,9 +335,9 @@
 
 <!-- eight-bit signed number. --> 
 
-<p>符号なし（訳注：unsigned）型はそれらのカテゴリに<code>u</code>を使い、符号あり型は<code>i</code>を使います。
-<code>i</code>は「整数（訳注：integer）」の頭文字です。
-そのため、<code>u8</code>は8ビット符号なし数値、<code>i8</code>は8ビット符号あり数値です。</p>
+<p>符号なし（訳注：unsigned）型はそれらのカテゴリに <code>u</code> を使い、符号あり型は <code>i</code> を使います。
+<code>i</code> は「整数（訳注：integer）」の頭文字です。
+そのため、 <code>u8</code> は8ビット符号なし数値、 <code>i8</code> は8ビット符号あり数値です。</p>
 
 <!-- ## Fixed size types --> 
 
@@ -349,8 +349,8 @@
 <!-- and `i64` is a signed, 64-bit integer. --> 
 
 <p>固定長型はそれらの表現の中に特定のビット数を持ちます。
-指定することのできるビット長は<code>8</code>、<code>16</code>、<code>32</code>、<code>64</code>です。
-そのため、<code>u32</code>は符号なし32ビット整数、<code>i64</code>は符号あり64ビット整数です。</p>
+指定することのできるビット長は <code>8</code> 、 <code>16</code> 、 <code>32</code> 、 <code>64</code> です。
+そのため、 <code>u32</code> は符号なし32ビット整数、 <code>i64</code> は符号あり64ビット整数です。</p>
 
 <!-- ## Variable sized types --> 
 
@@ -363,7 +363,7 @@
 
 <p>Rustはそのサイズが実行しているマシンのポインタのサイズに依存する型も提供します。
 それらの型はカテゴリとして「size」を使い、符号ありと符号なしの種類があります。
-これが<code>isize</code>と<code>usize</code>という2つの型を作ります。</p>
+これが <code>isize</code> と <code>usize</code> という2つの型を作ります。</p>
 
 <!-- ## Floating-point types --> 
 
@@ -372,7 +372,7 @@
 
 <!-- IEEE-754 single and double precision numbers. --> 
 
-<p>Rustは<code>f32</code>と<code>f64</code>という2つの浮動小数点型を持ちます。
+<p>Rustは <code>f32</code> と <code>f64</code> という2つの浮動小数点型を持ちます。
 それらはIEEE-754単精度及び倍精度小数点数に対応します。</p>
 
 <!-- # Arrays --> 
@@ -400,16 +400,16 @@
 
 <!-- array. --> 
 
-<p>配列は<code>[T; N]</code>という型を持ちます。
-この<code>T</code>記法については<a href="generics.html">ジェネリクスのセクションの中</a>で話します。
-<code>N</code>は配列の長さのためのコンパイル時の定数です。</p>
+<p>配列は <code>[T; N]</code> という型を持ちます。
+この <code>T</code> 記法については <a href="generics.html">ジェネリクスのセクションの中</a> で話します。
+<code>N</code> は配列の長さのためのコンパイル時の定数です。</p>
 
 <!-- There’s a shorthand for initializing each element of an array to the same --> 
 
 <!-- value. In this example, each element of `a` will be initialized to `0`: --> 
 
 <p>配列の各要素を同じ値で初期化するための省略表現があります。
-この例では、<code>a</code>の各要素は<code>0</code>で初期化されます。</p>
+この例では、 <code>a</code> の各要素は <code>0</code> で初期化されます。</p>
 <span class='rusttest'>fn main() {
     let a = [0; 20]; // a: [i32; 20]
 }</span><pre class='rust rust-example-rendered'>
@@ -417,7 +417,7 @@
 
 <!-- You can get the number of elements in an array `a` with `a.len()`: --> 
 
-<p>配列<code>a</code>の要素の個数は<code>a.len()</code>で得ることができます。</p>
+<p>配列 <code>a</code> の要素の個数は <code>a.len()</code> で得ることができます。</p>
 <span class='rusttest'>fn main() {
     let a = [1, 2, 3];
     
@@ -451,8 +451,8 @@
 
 <!-- languages. --> 
 
-<p>添字はほとんどのプログラミング言語と同じように0から始まります。そのため、最初の名前は<code>names[0]</code>で2つ目の名前は<code>names[1]</code>です。
-前の例は<code>The second name is: Brian</code>とプリントします。
+<p>添字はほとんどのプログラミング言語と同じように0から始まります。そのため、最初の名前は <code>names[0]</code> で2つ目の名前は <code>names[1]</code> です。
+前の例は <code>The second name is: Brian</code> とプリントします。
 もし配列に含まれない添字を使おうとすると、エラーが出ます。配列アクセスは実行時に境界チェックを受けます。
 他のシステムプログラミング言語では、そのような誤ったアクセスは多くのバグの源となります。</p>
 
@@ -460,7 +460,7 @@
 
 <!-- documentation][array]. --> 
 
-<p><code>array</code>のさらなるドキュメントは<a href="../std/primitive.array.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+<p><code>array</code> のさらなるドキュメントは <a href="../std/primitive.array.html">標準ライブラリのドキュメントの中</a> で見付けることができます。</p>
 
 <!-- # Slices --> 
 
@@ -490,8 +490,8 @@
 
 <!-- range, let you define the length of the slice: --> 
 
-<p>様々なものからスライスを作るためには<code>&amp;</code>と<code>[]</code>の組合せを使うことができます。
-<code>&amp;</code>はスライスが参照と同じであることを示し、<code>[]</code>はレンジを持ち、スライスの長さを定義します。</p>
+<p>様々なものからスライスを作るためには <code>&amp;</code> と <code>[]</code> の組合せを使うことができます。
+<code>&amp;</code> はスライスが参照と同じであることを示し、 <code>[]</code> はレンジを持ち、スライスの長さを定義します。</p>
 <span class='rusttest'>fn main() {
     let a = [0, 1, 2, 3, 4];
     let complete = &amp;a[..]; // A slice containing all of the elements in a
@@ -505,14 +505,14 @@
 
 <!-- [generics][generics]. --> 
 
-<p>スライスは型<code>&amp;[T]</code>を持ちます。
-<a href="generics.html">ジェネリクス</a>をカバーするときにその<code>T</code>について話すでしょう。</p>
+<p>スライスは型 <code>&amp;[T]</code> を持ちます。
+<a href="generics.html">ジェネリクス</a> をカバーするときにその <code>T</code> について話すでしょう。</p>
 
 <!-- You can find more documentation for slices [in the standard library --> 
 
 <!-- documentation][slice]. --> 
 
-<p><code>slice</code>のさらなるドキュメントは<a href="../std/primitive.slice.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+<p><code>slice</code> のさらなるドキュメントは <a href="../std/primitive.slice.html">標準ライブラリのドキュメントの中</a> で見付けることができます。</p>
 
 <!-- # `str` --> 
 
@@ -523,15 +523,15 @@
 
 <!-- like [`&str`][strings]. As such, we’ll just leave it at that. --> 
 
-<p>Rustの<code>str</code>型は最もプリミティブな文字列型です。
-<a href="unsized-types.html">サイズ不定型</a>のように、それはそれ自体で非常に便利なものではありませんが、<a href="strings.html"><code>&amp;str</code></a>のように参照の後ろに置かれたときに便利になります。
+<p>Rustの <code>str</code> 型は最もプリミティブな文字列型です。
+<a href="unsized-types.html">サイズ不定型</a> のように、それはそれ自体で非常に便利なものではありませんが、 <a href="strings.html"><code>&amp;str</code></a> のように参照の後ろに置かれたときに便利になります。
 そのため、それはそのまま置いておきましょう。</p>
 
 <!-- You can find more documentation for `str` [in the standard library --> 
 
 <!-- documentation][str]. --> 
 
-<p><code>str</code>のさらなるドキュメントは<a href="../std/primitive.str.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+<p><code>str</code> のさらなるドキュメントは <a href="../std/primitive.str.html">標準ライブラリのドキュメントの中</a> で見付けることができます。</p>
 
 <!-- # Tuples --> 
 
@@ -569,15 +569,15 @@
 <!-- soon. --> 
 
 <p>見てのとおり、タプルの型はタプルとちょうど同じように見えます。しかし、各位置には値ではなく型名が付いています。
-注意深い読者は、タプルが異なる型の値を含んでいることにも気が付くでしょう。このタプルには<code>i32</code>と<code>&amp;str</code>が入っています。
+注意深い読者は、タプルが異なる型の値を含んでいることにも気が付くでしょう。このタプルには <code>i32</code> と <code>&amp;str</code> が入っています。
 システムプログラミング言語では、文字列は他の言語よりも少し複雑です。
-今のところ、<code>&amp;str</code>を <em>文字列スライス</em> と読むだけにしましょう。それ以上のことは後で学ぶでしょう。</p>
+今のところ、 <code>&amp;str</code> を <em>文字列スライス</em> と読むだけにしましょう。それ以上のことは後で学ぶでしょう。</p>
 
 <!-- You can assign one tuple into another, if they have the same contained types --> 
 
 <!-- and [arity]. Tuples have the same arity when they have the same length. --> 
 
-<p>もしそれらの持っている型と<a href="glossary.html#arity">アリティ</a>が同じであれば、あるタプルを他のタプルに割り当てることができます。
+<p>もしそれらの持っている型と <a href="glossary.html#arity">アリティ</a> が同じであれば、あるタプルを他のタプルに割り当てることができます。
 タプルの長さが同じであれば、それらのタプルのアリティは同じです。</p>
 <span class='rusttest'>fn main() {
     let mut x = (1, 2); // x: (i32, i32)
@@ -615,10 +615,10 @@
 
 <!-- or “breaks up” the tuple, and assigns the bits to three bindings. --> 
 
-<p><a href="variable-bindings.html">前に</a><code>let</code>文の左辺は単なる束縛の割当てよりももっと強力だと言ったときのことを覚えていますか。
+<p><a href="variable-bindings.html">前に</a><code>let</code> 文の左辺は単なる束縛の割当てよりももっと強力だと言ったときのことを覚えていますか。
 ここで説明します。
-<code>let</code>の左辺にはパターンを書くことができ、もしそれが右辺とマッチしたならば、複数の束縛を一度に割り当てることができます。
-この場合、<code>let</code>が「分配束縛」、つまりタプルを「分解して」、要素を3つの束縛に割り当てます。</p>
+<code>let</code> の左辺にはパターンを書くことができ、もしそれが右辺とマッチしたならば、複数の束縛を一度に割り当てることができます。
+この場合、 <code>let</code> が「分配束縛」、つまりタプルを「分解して」、要素を3つの束縛に割り当てます。</p>
 
 <!-- This pattern is very powerful, and we’ll see it repeated more later. --> 
 
@@ -663,13 +663,13 @@
 
 <!-- `.`, rather than `[]`s. --> 
 
-<p>配列のインデックスと同じように、それは0から始まります。しかし、配列のインデックスと異なり、それは<code>[]</code>ではなく<code>.</code>を使います。</p>
+<p>配列のインデックスと同じように、それは0から始まります。しかし、配列のインデックスと異なり、それは <code>[]</code> ではなく <code>.</code> を使います。</p>
 
 <!-- You can find more documentation for tuples [in the standard library --> 
 
 <!-- documentation][tuple]. --> 
 
-<p>タプルのさらなるドキュメントは<a href="../std/primitive.tuple.html">標準ライブラリのドキュメントの中</a>で見付けることができます。</p>
+<p>タプルのさらなるドキュメントは <a href="../std/primitive.tuple.html">標準ライブラリのドキュメントの中</a> で見付けることができます。</p>
 
 <!-- # Functions --> 
 
@@ -691,7 +691,7 @@
 
 <!-- returns an `i32`. --> 
 
-<p>この場合、<code>x</code>は<code>i32</code>を受け取り<code>i32</code>を戻す関数への「関数ポインタ」です。</p>
+<p>この場合、 <code>x</code> は <code>i32</code> を受け取り <code>i32</code> を戻す関数への「関数ポインタ」です。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
