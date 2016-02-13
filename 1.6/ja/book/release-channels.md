@@ -53,7 +53,7 @@ betaとはどういうチャネルでしょうか？stableリリースチャネ�
 
 <!-- Additionally, testing against nightly can catch regressions even sooner, and so -->
 <!-- if you don’t mind a third build, we’d appreciate testing against all channels. -->
-さらに、nightlyに対してもテストすることでより早くリグレッションを捉えることができます。この第3のビルドについて関心がない方がいるかもしれませんが、我々は全てのチャネルに対してテストすることが有用であると考えています。
+さらに、nightlyに対してもテストすることでより早くリグレッションを捉えることができます。もし差し支えなければ、この3つ目のビルドを含めた全てのチャネルに対してテストしてもらえると嬉しいです。
 
 <!-- As an example, many Rust programmers use [Travis](https://travis-ci.org/) to -->
 <!-- test their crates, which is free for open source projects. Travis [supports -->
