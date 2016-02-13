@@ -78,13 +78,13 @@ expression, `e as U2` is not necessarily so (in fact it will only be valid if
 ## 明示的型強制
 
 <!-- A cast `e as U` is valid if `e` has type `T` and `T` *coerces* to `U`. -->
-`e as U` というキャストは、 `e` が型 `T` を持ち、かつ `T` が `U` に型強制されるとき、有効です。
+`e as U` というキャストは、 `e` が型 `T` を持ち、かつ `T` が `U` に *型強制* されるとき、有効です。
 
 <!-- ## Numeric casts -->
 ## 数値キャスト
 
 <!-- A cast `e as U` is also valid in any of the following cases: -->
-`e as U` というキャストは、以下のような場合も有効です。
+`e as U` というキャストは、以下のどの場合でも有効です。
 
 <!-- * `e` has type `T` and `T` and `U` are any numeric types; *numeric-cast* -->
 <!-- * `e` is a C-like enum (with no data attached to the variants),
