@@ -917,9 +917,9 @@ fn main() {
 <!-- to come up with two unique names like `guess_str` and `guess`, or something -->
 <!-- else. -->
 ちょっと待って下さい、既に `guess` を定義してありますよね?
-してあります、が、Rustでは以前の `guess` の定義を新しいもので「隠す」ことが出来ます(訳注: このように隠すことをシャドイングといいます)。
+してあります、が、Rustでは以前の `guess` の定義を新しいもので「隠す」ことが出来ます(訳注: このように隠すことをシャドーイングといいます)。
 まさにこのように、最初 `String` であった `guess` を `u32` に変換したい、というような状況でよく使われます。
-シャドイングのおかげで `guess_str` と `guess` のように別々の名前を考える必要はなくなり、 `guess` の名前を再利用出来ます。
+シャドーイングのおかげで `guess_str` と `guess` のように別々の名前を考える必要はなくなり、 `guess` の名前を再利用出来ます。
 
 <!-- We bind `guess` to an expression that looks like something we wrote earlier: -->
 `guess` を先に書いたような値に束縛します。

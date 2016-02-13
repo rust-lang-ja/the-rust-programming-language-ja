@@ -37,7 +37,7 @@
 <ul class='section'>
 <li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
 </li>
-<li><a  href='dining-philosophers.html'><b>3.2.</b> 晩餐する哲学者</a>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 食事する哲学者</a>
 </li>
 <li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
 </li>
@@ -63,7 +63,7 @@
 </li>
 <li><a  href='lifetimes.html'><b>4.9.</b> ライフタイム</a>
 </li>
-<li><a  href='mutability.html'><b>4.10.</b> 可変性</a>
+<li><a  href='mutability.html'><b>4.10.</b> ミュータビリティ</a>
 </li>
 <li><a  href='structs.html'><b>4.11.</b> 構造体</a>
 </li>
@@ -222,10 +222,14 @@ of your program. For example, <code>2 + 3</code> can be turned into a tree:</p>
 
 <p>In the example above <code>x</code> and <code>y</code> have arity 2. <code>z</code> has arity 3.</p>
 
-<h3 id='bounds' class='section-header'><a href='#bounds'>Bounds</a></h3>
-<p>Bounds are constraints on a type or <a href="traits.html">trait</a>. For example, if a bound
+<!-- ### Bounds -->
+
+<h3 id='境界' class='section-header'><a href='#境界'>境界</a></h3>
+<!-- Bounds are constraints on a type or [trait][traits]. For example, if a bound
 is placed on the argument a function takes, types passed to that function
-must abide by that constraint.</p>
+must abide by that constraint. -->
+
+<p>境界(Bounds)とはある1つの型または <a href="traits.html">トレイト</a> における制約のことです。例えば、ある関数がとる引数に境界が設定されたとすると、その関数に渡される型は設定された制約に必ず従わなければなりません。</p>
 
 <h3 id='dst-dynamically-sized-type' class='section-header'><a href='#dst-dynamically-sized-type'>DST (Dynamically Sized Type)</a></h3>
 <p>A type without a statically known size or alignment. (<a href="../nomicon/exotic-sizes.html#dynamically-sized-types-dsts">more info</a>)</p>

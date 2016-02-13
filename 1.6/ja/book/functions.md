@@ -109,7 +109,7 @@ fn add_one(x: i32) -> i32 {
 <!--‘arrow’, which is a dash (`-`) followed by a greater-than sign (`>`). The last-->
 <!--line of a function determines what it returns. You’ll note the lack of a-->
 <!--semicolon here. If we added it in:-->
-Rustの関数はちょうど1つだけの値を返します。そして、ダッシュ（`-`）の後ろに大なりの記号（`>`）を続けた「矢印」の後にその型を宣言します。
+Rustの関数はちょうど1つだけの値を返します。そして、ダッシュ（ `-` ）の後ろに大なりの記号（ `>` ）を続けた「矢印」の後にその型を宣言します。
 関数の最後の行が何を返すのかを決定します。
 ここにセミコロンがないことに気が付くでしょう。
 もしそれを追加すると、こうなります。
@@ -188,7 +188,7 @@ let x = (let y = 5); // expected identifier, found keyword `let`
 <!--previous example), in Rust the value of an assignment is an empty tuple `()`-->
 <!--because the assigned value can have [just one owner](ownership.html), and any-->
 <!--other returned value would be too surprising:-->
-次のことに注意しましょう。既に束縛されている変数（例えば、 `y = 5`）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では `5`）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル `()` です。なぜなら、割り当てられる値には[単一の所有者](ownership.html)しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。
+次のことに注意しましょう。既に束縛されている変数（例えば、 `y = 5` ）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では `5` ）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル `()` です。なぜなら、割り当てられる値には [単一の所有者](ownership.html) しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。
 
 
 ```rust

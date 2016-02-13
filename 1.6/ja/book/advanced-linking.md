@@ -95,7 +95,7 @@ $ ldd example
 <!-- Static linking is supported via an alternative `libc`, [`musl`](http://www.musl-libc.org). You can compile -->
 <!-- your own version of Rust with `musl` enabled and install it into a custom -->
 <!-- directory with the instructions below: -->
-スタティックリンクは代わりの `libc` である[`musl`](http://www.musl-libc.org/)によってサポートされています。
+スタティックリンクは代わりの `libc` である [`musl`](http://www.musl-libc.org/) によってサポートされています。
 以下の手順に従い、 `musl` を有効にした独自バージョンのRustをコンパイルして独自のディレクトリにインストールすることができます。
 
 ```text
@@ -142,7 +142,7 @@ $ du -h musldist/bin/rustc
 <!-- You now have a build of a `musl`-enabled Rust! Because we've installed it to a -->
 <!-- custom prefix we need to make sure our system can find the binaries and appropriate -->
 <!-- libraries when we try and run it: -->
-これで`musl`が有効になったRustのビルドが手に入りました!
+これで `musl` が有効になったRustのビルドが手に入りました!
 独自のプレフィックスを付けてインストールしたので、試しに実行するときにはシステムがバイナリと適切なライブラリを見付けられることを確かめなければなりません。
 
 ```text

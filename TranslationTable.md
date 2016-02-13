@@ -8,67 +8,123 @@
 
 # 対訳表
 
-| English               | 日本語
-|:----------------------|:------
-| alignment             | アラインメント
-| allocator             | アロケータ
-| application           | アプリケーション
-| arity                 | アリティ
-| array                 | 配列
-| associated -          | 関連-
-| attribute             | アトリビュート
-| binary                | バイナリ
-| binding               | 束縛
-| block                 | ブロック
-| borrowing             | 借用
-| capture               | キャプチャ
-| closure               | クロージャ
-| coercion              | 型強制
-| compiler              | コンパイラ
-| constant              | 定数
-| crate                 | クレート
-| declaration statement | 宣言文
-| dereferencing         | 参照外し
-| destructuring         | 分配
-| directive             | ディレクティブ
-| distribution          | 配布物
-| diverge               | ダイバージ
-| diverging             | ダイバージング
-| documentation comment | ドキュメンテーションコメント
-| documentation test    | ドキュメンテーションテスト
-| early return          | 早期リターン
-| enum                  | 列挙型
-| expression statement  | 式文
-| feature               | フィーチャ
-| generics              | ジェネリクス
-| identifier            | 識別子
-| immutable             | イミュータブル
-| Intrinsics            | Intrinsic
-| Lang Items            | Lang Item
-| library               | ライブラリ
-| lifetime              | ライフタイム
-| link                  | リンク
-| lint                  | リント
-| match                 | マッチ
-| memory                | メモリ
-| move                  | ムーブ
-| mutable               | ミュータブル
-| mutability            | ミュータビリティ
-| owner                 | 所有者
-| ownership             | 所有権
-| panic                 | パニック
-| return                | 返す
-| shadow                | 覆い隠す
-| signature             | シグネチャ
-| slice                 | スライス
-| slicing               | スライシング
-| struct                | 構造体
-| structure             | ストラクチャ
-| symbol                | シンボル
-| syntactic sugar       | 糖衣構文
-| system                | システム
-| tick                  | クオート
-| trait                 | トレイト
-| unsized type          | サイズ不定型
-| vector                | ベクタ
-| wildcard              | ワイルドカード
+| English                        | 日本語
+|:-------------------------------|:-------------
+| alignment                      | アラインメント
+| allocator                      | アロケータ
+| antipattern                    | アンチパターン
+| application                    | アプリケーション
+| arity                          | アリティ
+| array                          | 配列
+| assignment                     | 代入
+| associated -                   | 関連-
+| attribute                      | アトリビュート
+| binary                         | バイナリ
+| binding                        | 束縛
+| block                          | ブロック
+| borrowing                      | 借用
+| bounds                         | 境界
+| channel                        | チャネル
+| capture                        | キャプチャ
+| closure                        | クロージャ
+| coercion                       | 型強制
+| comma                          | カンマ
+| compile-time error             | コンパイル時エラー
+| compiler                       | コンパイラ
+| constant                       | 定数
+| constructor                    | コンストラクタ
+| crate                          | クレート
+| dangling                       | ダングリング
+| declaration statement          | 宣言文
+| dereferencing                  | 参照外し
+| destructuring                  | 分配
+| directory                      | ディレクトリ
+| directive                      | ディレクティブ
+| distribution                   | 配布物
+| diverge                        | ダイバージ
+| diverging                      | ダイバージング
+| documentation comment          | ドキュメンテーションコメント
+| documentation test             | ドキュメンテーションテスト
+| early return                   | 早期リターン
+| enum                           | 列挙型
+| equality                       | 等値性
+| expression statement           | 式文
+| feature                        | フィーチャ
+| foreign                        | 他言語
+| generic parameter              | ジェネリックパラメータ
+| generics                       | ジェネリクス
+| growable                       | 伸張可能
+| hash                           | ハッシュ
+| identifier                     | 識別子
+| immutable                      | イミュータブル
+| initialize                     | 初期化する
+| input lifetime                 | 入力ライフタイム
+| install                        | インストール
+| installer                      | インストーラ
+| interpolate                    | インターポーレートする
+| interpolation                  | インターポーレーション
+| keyword                        | キーワード
+| Intrinsics                     | Intrinsic
+| Lang Items                     | Lang Item
+| lending                        | 貸付け
+| library                        | ライブラリ
+| lifetime                       | ライフタイム
+| lifetime elision               | ライフタイムの省略
+| lifetime parameter             | ライフタイムパラメータ
+| link                           | リンク
+| lint                           | リント
+| mangling                       | マングリング
+| match                          | マッチ
+| memory                         | メモリ
+| method                         | メソッド
+| move                           | ムーブ
+| mutable                        | ミュータブル
+| mutability                     | ミュータビリティ
+| mutable binding                | ミュータブルな束縛
+| offline                        | オフライン
+| opaque                         | オペーク
+| option                         | オプション
+| output lifetime                | 出力ライフタイム
+| owner                          | 所有者
+| ownership                      | 所有権
+| panic                          | パニック
+| parametric polymorphism        | パラメトリック多相
+| pattern                        | パターン
+| performance                    | パフォーマンス
+| platform                       | プラットフォーム
+| pointer                        | ポインタ
+| re-assignment                  | 再代入
+| rebind                         | 再束縛
+| return                         | 返す
+| scope                          | スコープ
+| script                         | スクリプト
+| shadow                         | 覆い隠す
+| shadowing                      | シャドーイング
+| signature                      | シグネチャ
+| signed                         | 符号付き
+| slice                          | スライス
+| slicing                        | スライシング
+| string                         | 文字列
+| string interpolation           | 文字列インターポーレーション
+| struct                         | 構造体
+| structure                      | ストラクチャ
+| sum type                       | 直和型
+| symbol                         | シンボル
+| syntactic sugar                | 糖衣構文
+| system                         | システム
+| tagged union                   | タグ付き共用体
+| tick                           | クオート
+| trait                          | トレイト
+| type inference                 | 型推論
+| type family                    | 型族
+| uninstall                      | アンインストール
+| Universal Function Call Syntax | 共通の関数呼び出し構文
+| unsafe                         | アンセーフ
+| unsigned                       | 符号無し
+| unsized type                   | サイズ不定型
+| variable                       | 変数
+| variable binding               | 変数束縛
+| variant                        | ヴァリアント
+| vector                         | ベクタ
+| warning                        | ウォーニング
+| wildcard                       | ワイルドカード

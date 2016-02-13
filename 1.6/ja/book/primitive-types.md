@@ -23,13 +23,13 @@ let y: bool = false;
 ```
 
 <!-- A common use of booleans is in [`if` conditionals][if]. --> 
-ブーリアンの一般的な使い方は、[`if` 条件][if]の中で用いるものです。
+ブーリアンの一般的な使い方は、 [`if` 条件][if] の中で用いるものです。
 
 [if]: if.html
 
 <!-- You can find more documentation for `bool`s [in the standard library --> 
 <!-- documentation][bool]. --> 
-`bool` のさらなるドキュメントは[標準ライブラリのドキュメントの中][bool]で見付けることができます。
+`bool` のさらなるドキュメントは [標準ライブラリのドキュメントの中][bool] で見付けることができます。
 
 [bool]: ../std/primitive.bool.html
 
@@ -39,7 +39,7 @@ let y: bool = false;
 <!-- The `char` type represents a single Unicode scalar value. You can create `char`s --> 
 <!-- with a single tick: (`'`) --> 
 `char` 型は1つのユニコードのスカラ値を表現します。
-`char` はシングルクオート（`'`）で作ることができます。
+`char` はシングルクオート（ `'` ）で作ることができます。
 
 ```rust
 let x = 'x';
@@ -52,7 +52,7 @@ let two_hearts = '💕';
 
 <!-- You can find more documentation for `char`s [in the standard library --> 
 <!-- documentation][char]. --> 
-`char` のさらなるドキュメントは[標準ライブラリのドキュメントの中][char]で見付けることができます。
+`char` のさらなるドキュメントは [標準ライブラリのドキュメントの中][char] で見付けることができます。
 
 [char]: ../std/primitive.char.html
 
@@ -166,9 +166,9 @@ let mut m = [1, 2, 3]; // m: [i32; 3]
 <!-- Arrays have type `[T; N]`. We’ll talk about this `T` notation [in the generics --> 
 <!-- section][generics]. The `N` is a compile-time constant, for the length of the --> 
 <!-- array. --> 
-配列は`[T; N]`という型を持ちます。
-この`T`記法については[ジェネリクスのセクションの中][generics]で話します。
-`N`は配列の長さのためのコンパイル時の定数です。
+配列は `[T; N]` という型を持ちます。
+この `T` 記法については [ジェネリクスのセクションの中][generics] で話します。
+`N` は配列の長さのためのコンパイル時の定数です。
 
 <!-- There’s a shorthand for initializing each element of an array to the same --> 
 <!-- value. In this example, each element of `a` will be initialized to `0`: --> 
@@ -210,7 +210,7 @@ println!("The second name is: {}", names[1]);
 
 <!-- You can find more documentation for `array`s [in the standard library --> 
 <!-- documentation][array]. --> 
-`array` のさらなるドキュメントは[標準ライブラリのドキュメントの中][array]で見付けることができます。
+`array` のさらなるドキュメントは [標準ライブラリのドキュメントの中][array] で見付けることができます。
 
 [array]: ../std/primitive.array.html
 
@@ -246,13 +246,13 @@ let middle = &a[1..4]; // A slice of a: just the elements 1, 2, and 3
 <!-- Slices have type `&[T]`. We’ll talk about that `T` when we cover --> 
 <!-- [generics][generics]. --> 
 スライスは型 `&[T]` を持ちます。
-[ジェネリクス][generics]をカバーするときにその `T` について話すでしょう。
+[ジェネリクス][generics] をカバーするときにその `T` について話すでしょう。
 
 [generics]: generics.html
 
 <!-- You can find more documentation for slices [in the standard library --> 
 <!-- documentation][slice]. --> 
-`slice` のさらなるドキュメントは[標準ライブラリのドキュメントの中][slice]で見付けることができます。
+`slice` のさらなるドキュメントは [標準ライブラリのドキュメントの中][slice] で見付けることができます。
 
 [slice]: ../std/primitive.slice.html
 
@@ -263,7 +263,7 @@ let middle = &a[1..4]; // A slice of a: just the elements 1, 2, and 3
 <!-- it’s not very useful by itself, but becomes useful when placed behind a reference, --> 
 <!-- like [`&str`][strings]. As such, we’ll just leave it at that. --> 
 Rustの `str` 型は最もプリミティブな文字列型です。
-[サイズ不定型][dst]のように、それはそれ自体で非常に便利なものではありませんが、[ `&str` ][strings]のように参照の後ろに置かれたときに便利になります。
+[サイズ不定型][dst] のように、それはそれ自体で非常に便利なものではありませんが、 [`&str`][strings] のように参照の後ろに置かれたときに便利になります。
 そのため、それはそのまま置いておきましょう。
 
 [dst]: unsized-types.html
@@ -271,7 +271,7 @@ Rustの `str` 型は最もプリミティブな文字列型です。
 
 <!-- You can find more documentation for `str` [in the standard library --> 
 <!-- documentation][str]. --> 
-`str` のさらなるドキュメントは[標準ライブラリのドキュメントの中][str]で見付けることができます。
+`str` のさらなるドキュメントは [標準ライブラリのドキュメントの中][str] で見付けることができます。
 
 [str]: ../std/primitive.str.html
 
@@ -308,7 +308,7 @@ let x: (i32, &str) = (1, "hello");
 
 <!-- You can assign one tuple into another, if they have the same contained types --> 
 <!-- and [arity]. Tuples have the same arity when they have the same length. --> 
-もしそれらの持っている型と[アリティ][arity]が同じであれば、あるタプルを他のタプルに割り当てることができます。
+もしそれらの持っている型と [アリティ][arity] が同じであれば、あるタプルを他のタプルに割り当てることができます。
 タプルの長さが同じであれば、それらのタプルのアリティは同じです。
 
 [arity]: glossary.html#arity
@@ -336,7 +336,7 @@ println!("x is {}", x);
 <!-- the left-hand side of the `let`, and if it matches up to the right-hand side, --> 
 <!-- we can assign multiple bindings at once. In this case, `let` “destructures” --> 
 <!-- or “breaks up” the tuple, and assigns the bits to three bindings. --> 
-[前に][let] `let` 文の左辺は単なる束縛の割当てよりももっと強力だと言ったときのことを覚えていますか。
+[前に][let]`let` 文の左辺は単なる束縛の割当てよりももっと強力だと言ったときのことを覚えていますか。
 ここで説明します。
 `let` の左辺にはパターンを書くことができ、もしそれが右辺とマッチしたならば、複数の束縛を一度に割り当てることができます。
 この場合、 `let` が「分配束縛」、つまりタプルを「分解して」、要素を3つの束縛に割り当てます。
@@ -377,7 +377,7 @@ println!("x is {}", x);
 
 <!-- You can find more documentation for tuples [in the standard library --> 
 <!-- documentation][tuple]. --> 
-タプルのさらなるドキュメントは[標準ライブラリのドキュメントの中][tuple]で見付けることができます。
+タプルのさらなるドキュメントは [標準ライブラリのドキュメントの中][tuple] で見付けることができます。
 
 [tuple]: ../std/primitive.tuple.html
 
