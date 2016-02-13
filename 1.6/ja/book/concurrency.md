@@ -1,8 +1,11 @@
-% Concurrency
+% 並行
+<!-- % Concurrency -->
 
-Concurrency and parallelism are incredibly important topics in computer
-science, and are also a hot topic in industry today. Computers are gaining more
-and more cores, yet many programmers aren't prepared to fully utilize them.
+<!-- Concurrency and parallelism are incredibly important topics in computer -->
+<!-- science, and are also a hot topic in industry today. Computers are gaining more -->
+<!-- and more cores, yet many programmers aren't prepared to fully utilize them. -->
+並行と並列はコンピュータサイエンスにおいて極めて重要なトピックであり、現在では産業の分野においてもホットトピックです。
+コンピュータはどんどん多くのコアを持つようになってきていますが、多くのプログラマはまだそれを十分に使いこなす準備ができていません。
 
 Rust's memory safety features also apply to its concurrency story too. Even
 concurrent Rust programs must be memory safe, having no data races. Rust's type
