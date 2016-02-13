@@ -1,11 +1,18 @@
 % Unsafe
 
-Rust’s main draw is its powerful static guarantees about behavior. But safety
-checks are conservative by nature: there are some programs that are actually
-safe, but the compiler is not able to verify this is true. To write these kinds
-of programs, we need to tell the compiler to relax its restrictions a bit. For
-this, Rust has a keyword, `unsafe`. Code using `unsafe` has less restrictions
-than normal code does.
+<!--Rust’s main draw is its powerful static guarantees about behavior. But safety-->
+<!--checks are conservative by nature: there are some programs that are actually-->
+<!--safe, but the compiler is not able to verify this is true. To write these kinds-->
+<!--of programs, we need to tell the compiler to relax its restrictions a bit. For-->
+<!--this, Rust has a keyword, `unsafe`. Code using `unsafe` has less restrictions-->
+<!--than normal code does.-->
+
+Rustの主たる魅力は、プログラムの挙動についての強力で静的な保証です。
+しかしながら、安全性検査は本来保守的なものです。
+すなわち、実際には安全なのに、そのことがコンパイラには検証できないプログラムがいくらか存在します。
+その類のプログラムを書くためには、制約を少し緩和するようコンパイラに対して伝える必要があります。
+そのために、Rustには `unsafe` というキーワードがあります。
+`unsafe` を使ったコードは、普通のコードよりも制約が少なくなります。
 
 Let’s go over the syntax, and then we’ll talk semantics. `unsafe` is used in
 four contexts. The first one is to mark a function as unsafe:
