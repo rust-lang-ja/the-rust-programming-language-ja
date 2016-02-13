@@ -33,6 +33,7 @@
 | compiler                       | コンパイラ
 | constant                       | 定数
 | constructor                    | コンストラクタ
+| continuous integration         | 継続的インテグレーション
 | crate                          | クレート
 | dangling                       | ダングリング
 | declaration statement          | 宣言文
@@ -46,6 +47,7 @@
 | documentation comment          | ドキュメンテーションコメント
 | documentation test             | ドキュメンテーションテスト
 | early return                   | 早期リターン
+| error                          | エラー
 | enum                           | 列挙型
 | equality                       | 等値性
 | expression statement           | 式文
@@ -83,18 +85,23 @@
 | mutable binding                | ミュータブルな束縛
 | offline                        | オフライン
 | opaque                         | オペーク
+| open source                    | オープンソース
 | option                         | オプション
 | output lifetime                | 出力ライフタイム
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
 | parametric polymorphism        | パラメトリック多相
+| patch                          | パッチ
 | pattern                        | パターン
 | performance                    | パフォーマンス
 | platform                       | プラットフォーム
 | pointer                        | ポインタ
+| process                        | プロセス
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
+| regression                     | リグレッション
+| release                        | リリース
 | return                         | 返す
 | scope                          | スコープ
 | script                         | スクリプト
@@ -126,5 +133,6 @@
 | variable binding               | 変数束縛
 | variant                        | ヴァリアント
 | vector                         | ベクタ
+| version                        | バージョン
 | warning                        | ウォーニング
 | wildcard                       | ワイルドカード
