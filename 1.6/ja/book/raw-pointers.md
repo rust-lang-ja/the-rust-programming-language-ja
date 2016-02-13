@@ -5,7 +5,7 @@
 there are two types that are extra-special. Much of Rust’s safety comes from
 compile-time checks, but raw pointers don’t have such guarantees, and are
 [unsafe][unsafe] to use. -->
-Rustは標準ライブラリに異なるスマートポインタの型を幾つか用意していますが、更に特殊な型が2つあります。Rustの安全性の多くはコンパイル時のチェックに起因するものですが、生ポインタや [unsafe][unsafe] を使用するとそういった保証が得られません。
+Rustは標準ライブラリに異なるスマートポインタの型を幾つか用意していますが、更に特殊な型が2つあります。Rustの安全性の多くはコンパイル時のチェックに依るものですが、生ポインタを用いるとそういった保証が得られないため [unsafe][unsafe] です。
 
 <!-- `*const T` and `*mut T` are called ‘raw pointers’ in Rust. Sometimes, when
 writing certain kinds of libraries, you’ll need to get around Rust’s safety
@@ -14,7 +14,7 @@ your library, while exposing a safe interface for your users. For example, `*`
 pointers are allowed to alias, allowing them to be used to write
 shared-ownership types, and even thread-safe shared memory types (the `Rc<T>`
 and `Arc<T>` types are both implemented entirely in Rust). -->
-`*const T` と `*mut T` はRustにおいて「生ポインタ」と呼ばれます。時々、特定の種類のライブラリを書く時に、あなたは幾つかの理由でRustが行う安全性の保証を避けなければならないこともあります。今回のケースでは、ユーザに安全なインターフェースを提供するライブラリの実装に生ポインタを使用できます。例えば、 `*` ポインタはエイリアスとして振る舞うこともできるので、所有権を共有する型を書くのに用いたり、スレッドセーフな共有メモリ型でさえも実装できます。( `Rc<T>` と `Arc<T>` 型は完全にRustのみで実装されています)
+`*const T` と `*mut T` はRustにおいて「生ポインタ」と呼ばれます。時々、ある種ののライブラリを書く際に、あなたは何らかの理由でRustが行う安全性の保証を避けなければならないこともあります。このようなケースでは、ユーザに安全なインターフェースを提供しつつ、ライブラリの実装に生ポインタを使用できます。例えば、 `*` ポインタはエイリアスとして振る舞うこともできるので、所有権を共有する型を書くのに用いたり、スレッドセーフな共有メモリ型でさえも実装できます。( `Rc<T>` と `Arc<T>` 型は完全にRustのみで実装されています)
 
 <!-- Here are some things to remember about raw pointers that are different than
 other pointer types. They: -->
@@ -74,7 +74,7 @@ error: dereference of raw pointer requires unsafe function or block [E0133]
 
 <!-- When you dereference a raw pointer, you’re taking responsibility that it’s not
 pointing somewhere that would be incorrect. As such, you need `unsafe`: -->
-生ポインタを参照外しする時、あなたは間違っている場所を指していないという責任を負うことになります。そういう時は、 `unsafe` を付けなければなりません。
+生ポインタを参照外しする時、ポインタが間違った場所を指していないことに対して責任を負うことになります。そういう時は、 `unsafe` を付けなければなりません。
 
 ```rust
 let x = 5;
@@ -117,7 +117,7 @@ satisfy the aliasing and mutability laws of references. The compiler assumes
 these properties are true for any references, no matter how they are created,
 and so any conversion from raw pointers is asserting that they hold. The
 programmer *must* guarantee this. -->
-逆に、 `*const` から 参照 `&` へ遡るのは安全ではありません。 `&T` は常に有効であるため、最低でも `*const T` は型 `T` の有効な実体を指さなければならないのです。その上、ポインタは参照のエイリアシングとミュータビリティの規則も満たす必要があります。コンパイラはあらゆる参照についてこれらのプロパティが真であると仮定しており、その生成方法によらず適用するため、生ポインタからのあらゆる変換もまた真であると断言します。プログラマがこのことを保証 *しなければならない* のです。
+逆に、 `*const` から 参照 `&` へ遡るのは安全ではありません。 `&T` は常に有効であるため、最低でも `*const T` は型 `T` の有効な実体を指さなければならないのです。その上、ポインタは参照のエイリアシングとミュータビリティの規則も満たす必要があります。コンパイラはあらゆる参照についてこれらの性質が真であると仮定しており、その生成方法に依らず適用するため、生ポインタからのいかなる変換も、参照先の値が上記の性質を満たすと表明していることになります。プログラマがこのことを保証 *しなければならない* のです。
 
 <!-- The recommended method for the conversion is: -->
 おすすめの変換の方法は以下のとおりです。
