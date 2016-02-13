@@ -389,7 +389,7 @@ fn main() {
 <!-- were arguments, they would go inside the parentheses (`(` and `)`), and because -->
 <!-- we aren’t returning anything from this function, we can omit the return type -->
 <!-- entirely. -->
-これら行はRustの *関数* を定義します。 `main` 関数は特別です。全てのRustプログラムの開始点になります。
+これらの行はRustの *関数* を定義します。 `main` 関数は特別です。全てのRustプログラムの開始点になります。
 最初の行は「引数を取らず、返り値も返さない関数 `main` を宣言します」といっています。
 引数があれば、括弧(`(` と `)`)の中に入りますし、今回はこの関数から何も値を返さないので返り値の型を完全に省略出来ます。
 
