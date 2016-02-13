@@ -33,7 +33,7 @@ enum is the sum of the sets of possible values for each variant. -->
 <!-- We use the `::` syntax to use the name of each variant: they’re scoped by the name
 of the `enum` itself. This allows both of these to work: -->
 各ヴァリアントの名前を使うためには、 `::` 構文を使います。
-`enum` 自体の名前によってスコープするのです。
+`enum` 自体の名前によってスコープ化するのです。
 これにより、以下は動きます。
 
 ```rust
@@ -52,7 +52,7 @@ let y: BoardGameTurn = BoardGameTurn::Move { squares: 1 };
 
 <!-- Both variants are named `Move`, but since they’re scoped to the name of
 the enum, they can both be used without conflict. -->
-どちらのヴァリアントも `Move` という名前ですが、列挙型の名前でスコープされているため、衝突することなく使うことができます。
+どちらのヴァリアントも `Move` という名前ですが、列挙型の名前でスコープ化されているため、衝突することなく使うことができます。
 
 <!-- A value of an enum type contains information about which variant it is,
 in addition to any data associated with that variant. This is sometimes

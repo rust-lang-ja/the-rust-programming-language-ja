@@ -104,6 +104,7 @@
 | release                        | リリース
 | return                         | 返す
 | scope                          | スコープ
+| scoped                         | スコープ化された
 | script                         | スクリプト
 | shadow                         | 覆い隠す
 | shadowing                      | シャドーイング
