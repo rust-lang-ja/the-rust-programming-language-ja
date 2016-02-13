@@ -14,8 +14,8 @@ Rustにおけるリンクの一般的なケースについては本書の前の�
 <!-- the `link_args` attribute. This attribute is applied to `extern` blocks and -->
 <!-- specifies raw flags which need to get passed to the linker when producing an -->
 <!-- artifact. An example usage would be: -->
-どのようにリンクをカスタマイズするかを`rustc`に指示するために、1つの方法があります。それは、`link_args`アトリビュートを使うことです。
-このアトリビュートは`extern`ブロックに適用され、生成物を作るときにリンカに渡したいフラグをそのまま指定します。
+どのようにリンクをカスタマイズするかを `rustc` に指示するために、1つの方法があります。それは、 `link_args` アトリビュートを使うことです。
+このアトリビュートは `extern` ブロックに適用され、生成物を作るときにリンカに渡したいフラグをそのまま指定します。
 使い方の例は次のようになります。
 
 ``` no_run
@@ -34,14 +34,14 @@ extern {}
 <!-- LLVM directly to link native libraries, in which case `link_args` will have no -->
 <!-- meaning. You can achieve the same effect as the `link_args` attribute with the -->
 <!-- `-C link-args` argument to `rustc`. -->
-これはリンクを実行するための認められた方法ではないため、この機能は現在`feature(link_args)`ゲートによって隠されているということに注意しましょう。
-今は`rustc`がシステムリンカ（多くのシステムでは`gcc`、MSVCでは`link.exe`）に渡すので、追加のコマンドライン引数を提供することには意味がありますが、それが今後もそうだとは限りません。
-将来、`rustc`がネイティブライブラリをリンクするためにLLVMを直接使うようになるかもしれませんし、そのような場合には`link_args`は意味がなくなるでしょう。
-`rustc`に`-C link-args`引数をつけることで、`link_args`アトリビュートと同じような効果を得ることができます。
+これはリンクを実行するための認められた方法ではないため、この機能は現在 `feature(link_args)` ゲートによって隠されているということに注意しましょう。
+今は `rustc` がシステムリンカ（多くのシステムでは `gcc` 、MSVCでは `link.exe` ）に渡すので、追加のコマンドライン引数を提供することには意味がありますが、それが今後もそうだとは限りません。
+将来、 `rustc` がネイティブライブラリをリンクするためにLLVMを直接使うようになるかもしれませんし、そのような場合には `link_args` は意味がなくなるでしょう。
+`rustc` に `-C link-args` 引数をつけることで、 `link_args` アトリビュートと同じような効果を得ることができます。
 
 <!-- It is highly recommended to *not* use this attribute, and rather use the more -->
 <!-- formal `#[link(...)]` attribute on `extern` blocks instead. -->
-このアトリビュートは使わ *ない* ことが強く推奨されているので、代わりにもっと正式な`#[link(...)]`アトリビュートを`extern`ブロックに使いましょう。
+このアトリビュートは使わ *ない* ことが強く推奨されているので、代わりにもっと正式な `#[link(...)]` アトリビュートを `extern` ブロックに使いましょう。
 
 <!-- # Static linking -->
 # スタティックリンク
@@ -55,7 +55,7 @@ extern {}
 <!-- change this and statically link them as well. -->
 スタティックリンクとは全ての必要なライブラリを含めた成果物を生成する手順のことで、そうすればコンパイルされたプロジェクトを使いたいシステム全てにライブラリをインストールする必要がなくなります。
 Rustのみで構築された依存関係はデフォルトでスタティックリンクされます。そのため、Rustをインストールしなくても、作成されたバイナリやライブラリを使うことができます。
-対照的に、ネイティブライブラリ（例えば`libc`や`libm`）はダイナミックリンクされるのが普通です。しかし、これを変更してそれらを同様にスタティックリンクすることも可能です。
+対照的に、ネイティブライブラリ（例えば `libc` や `libm` ）はダイナミックリンクされるのが普通です。しかし、これを変更してそれらを同様にスタティックリンクすることも可能です。
 
 <!-- Linking is a very platform-dependent topic, and static linking may not even be -->
 <!-- possible on some platforms! This section assumes some basic familiarity with -->
@@ -69,8 +69,8 @@ Rustのみで構築された依存関係はデフォルトでスタティック�
 <!-- By default, all Rust programs on Linux will link to the system `libc` along with -->
 <!-- a number of other libraries. Let's look at an example on a 64-bit Linux machine -->
 <!-- with GCC and `glibc` (by far the most common `libc` on Linux): -->
-デフォルトでは、Linux上の全てのRustのプログラムはシステムの`libc`とその他のいくつものライブラリとリンクされます。
-GCCと`glibc`（Linuxにおける最も一般的な`libc`）を使った64ビットLinuxマシンでの例を見てみましょう。
+デフォルトでは、Linux上の全てのRustのプログラムはシステムの `libc` とその他のいくつものライブラリとリンクされます。
+GCCと `glibc` （Linuxにおける最も一般的な `libc` ）を使った64ビットLinuxマシンでの例を見てみましょう。
 
 ``` text
 $ cat example.rs
@@ -95,8 +95,8 @@ $ ldd example
 <!-- Static linking is supported via an alternative `libc`, [`musl`](http://www.musl-libc.org). You can compile -->
 <!-- your own version of Rust with `musl` enabled and install it into a custom -->
 <!-- directory with the instructions below: -->
-スタティックリンクは代わりの`libc`である[`musl`](http://www.musl-libc.org/)によってサポートされています。
-以下の手順に従い、`musl`を有効にした独自バージョンのRustをコンパイルして独自のディレクトリにインストールすることができます。
+スタティックリンクは代わりの `libc` である [`musl`](http://www.musl-libc.org/) によってサポートされています。
+以下の手順に従い、 `musl` を有効にした独自バージョンのRustをコンパイルして独自のディレクトリにインストールすることができます。
 
 ```text
 $ mkdir musldist
@@ -142,7 +142,7 @@ $ du -h musldist/bin/rustc
 <!-- You now have a build of a `musl`-enabled Rust! Because we've installed it to a -->
 <!-- custom prefix we need to make sure our system can find the binaries and appropriate -->
 <!-- libraries when we try and run it: -->
-これで`musl`が有効になったRustのビルドが手に入りました!
+これで `musl` が有効になったRustのビルドが手に入りました!
 独自のプレフィックスを付けてインストールしたので、試しに実行するときにはシステムがバイナリと適切なライブラリを見付けられることを確かめなければなりません。
 
 ```text
@@ -171,5 +171,5 @@ thread '<main>' panicked at 'failed', example.rs:1
 <!-- `cargo build` also permits the `--target` option so you should be able to build -->
 <!-- your crates as normal. However, you may need to recompile your native libraries -->
 <!-- against `musl` before they can be linked against. -->
-`cargo build`も`--target`オプションを受け付けるので、あなたのクレートも普通にビルドできるはずです。
-ただし、リンクする前にネイティブライブラリを`musl`向けにリコンパイルする必要はあるかもしれません。
+`cargo build` も `--target` オプションを受け付けるので、あなたのクレートも普通にビルドできるはずです。
+ただし、リンクする前にネイティブライブラリを `musl` 向けにリコンパイルする必要はあるかもしれません。
