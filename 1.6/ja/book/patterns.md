@@ -6,7 +6,7 @@
 パターンはRustにおいて極めて一般的な方法です。
 <!-- We use them in [variable
 bindings][bindings], [match statements][match], and other places, too.-->
-パパターンは、[変数束縛][bindings]、[マッチ宣言][match]、などで使われています。
+パターンは、[変数束縛][bindings]、[マッチ宣言][match]、などで使われています。
 <!--Let’s go on a whirlwind tour of all of the things patterns can do!-->
 さあ、めくるめくパターンの旅を始めましょう！
 [bindings]: variable-bindings.html
@@ -58,7 +58,8 @@ x: x
 `x`, this new `x` shadows it. -->
 説明すると、 `x =>` はパターンへのマッチだけでなく、パターンが参照出来る範囲で、 `x` という名前のバインディングを導入します。
 
-# Multiple patterns
+<!-- # Multiple patterns -->
+# 多重パターンマッチ
 
 <!-- You can match multiple patterns with `|`: -->
 `|` を使うと、多重パターンマッチが導入出来ます。
@@ -77,7 +78,8 @@ match x {
 <!--This prints `one or two`.-->
 これは、`one or two` を出力します。
 
-# Destructuring
+<!-- # Destructuring -->
+# デストラクチャ
 
 <!-- If you have a compound data type, like a [`struct`][struct], you can destructure it
 inside of a pattern: -->
@@ -160,7 +162,8 @@ match origin {
 [tuples]: primitive-types.html#tuples
 [enums]: enums.html
 
-# Ignoring bindings
+<!-- # Ignoring bindings -->
+# バインディングの無視
 
 <!-- You can use `_` in a pattern to disregard the type and value.-->
 パターン内の型や値を無視するために`_`を使うことが出来ます。
@@ -216,10 +219,11 @@ match x {
 <!--This prints `Got a tuple!`. -->
 これは `Got a tuple!`を出力します。
 
-# ref and ref mut
+<!-- # ref and ref mut -->
+# ref と ref mut
 
 <!-- If you want to get a [reference][ref], use the `ref` keyword:-->
-もし[リファレンス][ref]を読みたいときは、`ref`キーワードを使いましょう。
+もし[リファレンス][ref]を取得したいときは、`ref`キーワードを使いましょう。
 
 ```rust
 let x = 5;
@@ -247,7 +251,8 @@ match x {
 }
 ```
 
-# Ranges
+<!-- # Ranges -->
+# レンジ
 
 <!-- You can match a range of values with `...`: -->
 `...`で値の幅のマッチを行うことが出来ます。
@@ -279,7 +284,8 @@ match x {
 <!-- This prints `something else`. -->
 これは`something else`を出力します。
 
-# Bindings
+<!-- # Bindings -->
+# バインディング
 
 <!-- You can bind values to names with `@`: -->
 `@`で値を名前と結びつけることが出来ます。
@@ -328,7 +334,8 @@ match x {
 }
 ```
 
-# Guards
+<!-- # Guards -->
+# ガード
 
 <!--You can introduce ‘match guards’ with `if`: -->
 `if`を使うことでマッチガードを導入することが出来ます。
@@ -366,21 +373,26 @@ match x {
 
 <!--This prints `no`, because the `if` applies to the whole of `4 | 5`, and not to
 just the `5`. In other words, the precedence of `if` behaves like this: -->
+これは`no`を出力します。なぜなら`if`は`4 | 5`全体に適用されるのであって、`5`単独に対してではないからです。つまり、`if`節は以下のように振舞います。
 
 ```text
 (4 | 5) if y => ...
 ```
 
-not this:
+<!--not this: -->
+次のようには解釈されません。
 
 ```text
 4 | (5 if y) => ...
 ```
 
-# Mix and Match
+<!-- # Mix and Match -->
+# ミックスとマッチ
 
 <!--Whew! That’s a lot of different ways to match things, and they can all be
 mixed and matched, depending on what you’re doing: -->
+
+さて、マッチにはまだ沢山の方法があります。やろうとしていることに依りますが、それらの方法を混ぜてマッチさせることも出来ます。
 
 ```rust,ignore
 match x {
