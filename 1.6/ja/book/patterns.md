@@ -1,19 +1,19 @@
-()[
+<!--
   % Patterns
-]
+-->
 % パターン Patterns
-()[Patterns are quite common in Rust.] 
+<!--Patterns are quite common in Rust. -->
 パターンはRustにおいて極めて一般的な方法です。
-()[We use them in [variable
-bindings][bindings], [match statements][match], and other places, too.]
+<!-- We use them in [variable
+bindings][bindings], [match statements][match], and other places, too.-->
 パパターンは、[変数束縛][bindings]、[マッチ宣言][match]、などで使われています。
-()[Let’s go on a whirlwind tour of all of the things patterns can do!]
+<!--Let’s go on a whirlwind tour of all of the things patterns can do!-->
 さあ、めくるめくパターンの旅を始めましょう！
 [bindings]: variable-bindings.html
 [match]: match.html
 
-()[A quick refresher: you can match against literals directly, and `_` acts as an
-‘any’ case:]
+<!-- A quick refresher: you can match against literals directly, and `_` acts as an
+‘any’ case: -->
 簡単な復習: パターンはリテラルに対しては直接マッチさせることができます。また、`_`は'any'型として振る舞います。
 
 ```rust
@@ -27,11 +27,11 @@ match x {
 }
 ```
 
-This prints `one`.
+<!-- This prints `one`. -->
 これは `one` を表示します。
 
-There’s one pitfall with patterns: like anything that introduces a new binding,
-they introduce shadowing. For example:
+<!-- There’s one pitfall with patterns: like anything that introduces a new binding,they introduce shadowing. For example: -->
+
 パターンには一つ落とし穴があります。新しいバインディングを導入すると、しばしば落とし穴がついてきます。例を見ましょう。
 
 ```rust
@@ -45,7 +45,7 @@ match c {
 println!("x: {}", x)
 ```
 
-This prints:
+<!-- This prints:-->
 これの結果は、
 
 ```text
@@ -53,13 +53,14 @@ x: c c: c
 x: x
 ```
 
-In other words, `x =>` matches the pattern and introduces a new binding named
+<!-- In other words, `x =>` matches the pattern and introduces a new binding named
 `x` that’s in scope for the match arm. Because we already have a binding named
-`x`, this new `x` shadows it.
+`x`, this new `x` shadows it. -->
 説明すると、 `x =>` はパターンへのマッチだけでなく、パターンが参照出来る範囲で、 `x` という名前のバインディングを導入します。
+
 # Multiple patterns
 
-You can match multiple patterns with `|`:
+<!-- You can match multiple patterns with `|`: -->
 `|` を使うと、多重パターンマッチが導入出来ます。
 
 
@@ -73,13 +74,13 @@ match x {
 }
 ```
 
-This prints `one or two`.
+<!--This prints `one or two`.-->
 これは、`one or two` を出力します。
 
 # Destructuring
 
-If you have a compound data type, like a [`struct`][struct], you can destructure it
-inside of a pattern:
+<!-- If you have a compound data type, like a [`struct`][struct], you can destructure it
+inside of a pattern: -->
 例えば、[`struct`][struct]のようなデータ型を作成したいとき、パターンの内側のデータを分解することが出来ます。
 
 ```rust
@@ -97,7 +98,7 @@ match origin {
 
 [struct]: structs.html
 
-We can use `:` to give a value a different name.
+<!-- We can use `:` to give a value a different name.-->
 値に別の名前を付けたいときは、`:`を使うことが出来ます。
 
 ```rust
@@ -113,7 +114,7 @@ match origin {
 }
 ```
 
-If we only care about some of the values, we don’t have to give them all names:
+<!-- If we only care about some of the values, we don’t have to give them all names: -->
 値のうちいくつかを扱いたい場合でも、値の全てに名前を付ける必要はありません。
 
 ```rust
@@ -129,10 +130,10 @@ match origin {
 }
 ```
 
-This prints `x is 0`.
+<!-- This prints `x is 0`. -->
 これは`x is 0`を出力します。
 
-You can do this kind of match on any member, not just the first:
+<!-- You can do this kind of match on any member, not just the first:-->
 どのメンバーに対してもこの種のマッチを行うことが出来ます。たとえ最初ではなくても。
 
 ```rust
@@ -148,11 +149,11 @@ match origin {
 }
 ```
 
-This prints `y is 0`.
+<!-- This prints `y is 0`. -->
 これは`y is 0`を出力します。
 
-This ‘destructuring’ behavior works on any compound data type, like
-[tuples][tuples] or [enums][enums].
+<!-- This ‘destructuring’ behavior works on any compound data type, like
+[tuples][tuples] or [enums][enums]. -->
 この「デストラクチャリング」と呼ばれる振る舞いは、[タプル][tuples]や[列挙型][enum]のような、構成されたデータ型で起こります。
 
 
@@ -161,10 +162,10 @@ This ‘destructuring’ behavior works on any compound data type, like
 
 # Ignoring bindings
 
-You can use `_` in a pattern to disregard the type and value.
+<!-- You can use `_` in a pattern to disregard the type and value.-->
 パターン内の型や値を無視するために`_`を使うことが出来ます。
 
-For example, here’s a `match` against a `Result<T, E>`:
+<!-- For example, here’s a `match` against a `Result<T, E>`: -->
 例として、`Result<T, E>`に対して`match`を適用してみましょう。
 
 ```rust
@@ -175,12 +176,12 @@ match some_value {
 }
 ```
 
-In the first arm, we bind the value inside the `Ok` variant to `value`. But
+<!-- In the first arm, we bind the value inside the `Ok` variant to `value`. But
 in the `Err` arm, we use `_` to disregard the specific error, and just print
-a general error message.
+a general error message. -->
 最初の部分では、`Ok`ヴァリアント内の値を`value`に結びつけています。しかし、`Err`部分ですと、特定のエラーを避けるために、また標準エラーメッセージを表示するために`_`を使っています。
-`_` is valid in any pattern that creates a binding. This can be useful to
-ignore parts of a larger structure:
+<!-- `_` is valid in any pattern that creates a binding. This can be useful to
+ignore parts of a larger structure: -->
 `_`はバインディングを伴うどんなパターンに於いても有効です。これは大きな構造の一部分を無視する際に有用です。
 
 ```rust
@@ -192,10 +193,10 @@ fn coordinate() -> (i32, i32, i32) {
 let (x, _, z) = coordinate();
 ```
 
-Here, we bind the first and last element of the tuple to `x` and `z`, but
-ignore the middle element.
+<!-- Here, we bind the first and last element of the tuple to `x` and `z`, but
+ignore the middle element. -->
 ここでは、タプルの最初と最後の要素を`x`と`z`に結びつけています。
-Similarly, you can use `..` in a pattern to disregard multiple values.
+<!-- Similarly, you can use `..` in a pattern to disregard multiple values. --> 
 同様に、`..`でパターン内の複数の値を無視することが出来ます。
 
 ```rust
@@ -212,12 +213,12 @@ match x {
 }
 ```
 
-This prints `Got a tuple!`.
+<!--This prints `Got a tuple!`. -->
 これは `Got a tuple!`を出力します。
 
 # ref and ref mut
 
-If you want to get a [reference][ref], use the `ref` keyword:
+<!-- If you want to get a [reference][ref], use the `ref` keyword:-->
 もし[リファレンス][ref]を読みたいときは、`ref`キーワードを使いましょう。
 
 ```rust
@@ -228,14 +229,14 @@ match x {
 }
 ```
 
-This prints `Got a reference to 5`.
+<!--This prints `Got a reference to 5`. -->
 これは`Got a reference to 5`を出力します。
 
 [ref]: references-and-borrowing.html
 
-Here, the `r` inside the `match` has the type `&i32`. In other words, the `ref`
+<!-- Here, the `r` inside the `match` has the type `&i32`. In other words, the `ref`
 keyword _creates_ a reference, for use in the pattern. If you need a mutable
-reference, `ref mut` will work in the same way:
+reference, `ref mut` will work in the same way: -->
 ここで、`match`内の`r`は`&i32`型を持っています。言い換えると、`ref`キーワードがリファレンスを _作ります_ 。
 
 ```rust
@@ -248,7 +249,7 @@ match x {
 
 # Ranges
 
-You can match a range of values with `...`:
+<!-- You can match a range of values with `...`: -->
 `...`で値の幅のマッチを行うことが出来ます。
 
 ```rust
@@ -260,9 +261,9 @@ match x {
 }
 ```
 
-This prints `one through five`.
+<!-- This prints `one through five`. -->
 これは`one through five`を出力します。
-Ranges are mostly used with integers and `char`s:
+<!-- Ranges are mostly used with integers and `char`s: -->
 レンジは大体、整数か`char`型で使われます。
 
 ```rust
@@ -275,12 +276,12 @@ match x {
 }
 ```
 
-This prints `something else`.
+<!-- This prints `something else`. -->
 これは`something else`を出力します。
 
 # Bindings
 
-You can bind values to names with `@`:
+<!-- You can bind values to names with `@`: -->
 `@`で値を名前と結びつけることが出来ます。
 
 ```rust
@@ -292,8 +293,8 @@ match x {
 }
 ```
 
-This prints `got a range element 1`. This is useful when you want to
-do a complicated match of part of a data structure:
+<!-- This prints `got a range element 1`. This is useful when you want to
+do a complicated match of part of a data structure: -->
 これは`got a range element 1`を出力します。
 データ構造の一部に対する複雑なマッチが欲しいときに有用です。
 
@@ -311,10 +312,10 @@ match x {
 }
 ```
 
-This prints `Some("Steve")`: we’ve bound the inner `name` to `a`.
+<!--This prints `Some("Steve")`: we’ve bound the inner `name` to `a`.-->
 これは`Some("Steve")`を出力します。内側の`name`を`a`に結びつけます。
-If you use `@` with `|`, you need to make sure the name is bound in each part
-of the pattern:
+<!-- If you use `@` with `|`, you need to make sure the name is bound in each part
+of the pattern: -->
 もし`|`で`@`を使うときは、パターンのそれぞれの部分が名前と結びついているか確認する必要があります。
 
 
@@ -329,7 +330,7 @@ match x {
 
 # Guards
 
-You can introduce ‘match guards’ with `if`:
+<!--You can introduce ‘match guards’ with `if`: -->
 `if`を使うことでマッチガードを導入することが出来ます。
 
 ```rust
@@ -347,10 +348,10 @@ match x {
 }
 ```
 
-This prints `Got an int!`.
+<!--This prints `Got an int!`. -->
 これは`Got an int!`を出力します。
 
-If you’re using `if` with multiple patterns, the `if` applies to both sides:
+<!--If you’re using `if` with multiple patterns, the `if` applies to both sides:-->
 多重パターンで`if`を使うと、`if`は両方に適用されます。
 
 ```rust
@@ -363,8 +364,8 @@ match x {
 }
 ```
 
-This prints `no`, because the `if` applies to the whole of `4 | 5`, and not to
-just the `5`. In other words, the precedence of `if` behaves like this:
+<!--This prints `no`, because the `if` applies to the whole of `4 | 5`, and not to
+just the `5`. In other words, the precedence of `if` behaves like this: -->
 
 ```text
 (4 | 5) if y => ...
@@ -378,8 +379,8 @@ not this:
 
 # Mix and Match
 
-Whew! That’s a lot of different ways to match things, and they can all be
-mixed and matched, depending on what you’re doing:
+<!--Whew! That’s a lot of different ways to match things, and they can all be
+mixed and matched, depending on what you’re doing: -->
 
 ```rust,ignore
 match x {
@@ -387,5 +388,5 @@ match x {
 }
 ```
 
-Patterns are very powerful. Make good use of them.
+<!-- Patterns are very powerful. Make good use of them. -->
 パターンはとても強力です。上手に使いましょう。
