@@ -29,8 +29,10 @@
 | closure                        | クロージャ
 | coercion                       | 型強制
 | comma                          | カンマ
+| compile-time error             | コンパイル時エラー
 | compiler                       | コンパイラ
 | constant                       | 定数
+| constructor                    | コンストラクタ
 | crate                          | クレート
 | dangling                       | ダングリング
 | declaration statement          | 宣言文
@@ -45,6 +47,7 @@
 | documentation test             | ドキュメンテーションテスト
 | early return                   | 早期リターン
 | enum                           | 列挙型
+| equality                       | 等値性
 | expression statement           | 式文
 | feature                        | フィーチャ
 | foreign                        | 他言語
@@ -105,9 +108,11 @@
 | string interpolation           | 文字列インターポーレーション
 | struct                         | 構造体
 | structure                      | ストラクチャ
+| sum type                       | 直和型
 | symbol                         | シンボル
 | syntactic sugar                | 糖衣構文
 | system                         | システム
+| tagged union                   | タグ付き共用体
 | tick                           | クオート
 | trait                          | トレイト
 | type inference                 | 型推論
@@ -119,6 +124,7 @@
 | unsized type                   | サイズ不定型
 | variable                       | 変数
 | variable binding               | 変数束縛
+| variant                        | ヴァリアント
 | vector                         | ベクタ
 | warning                        | ウォーニング
 | wildcard                       | ワイルドカード
