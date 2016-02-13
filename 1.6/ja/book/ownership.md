@@ -15,8 +15,8 @@
 <!-- * [borrowing][borrowing], and their associated feature ‘references’ -->
 <!-- * [lifetimes][lifetimes], an advanced concept of borrowing -->
 * 今読んでいる、所有権
-* [借用][borrowing]、そしてそれらに関連する機能、「参照」
-* 借用のもう一歩進んだ概念、[ライフタイム][lifetimes]
+* [借用][borrowing] 、そしてそれらに関連する機能、「参照」
+* 借用のもう一歩進んだ概念、 [ライフタイム][lifetimes]
 
 <!-- These three chapters are related, and in order. You’ll need all three to fully -->
 <!-- understand the ownership system. -->
@@ -67,7 +67,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- [Variable bindings][bindings] have a property in Rust: they ‘have ownership’ -->
 <!-- of what they’re bound to. This means that when a binding goes out of scope, -->
 <!-- Rust will free the bound resources. For example: -->
-Rustでは[変数束縛][bindings]は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
+Rustでは [変数束縛][bindings] は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
 これは束縛がスコープから外れるとき、Rustは束縛されているリソースを解放するだろうということを意味します。
 例えばこうです。
 
@@ -82,9 +82,9 @@ fn foo() {
 <!-- `v` goes out of scope at the end of `foo()`, Rust will clean up everything -->
 <!-- related to the vector, even the heap-allocated memory. This happens -->
 <!-- deterministically, at the end of the scope. -->
-`v`がスコープに入るとき、新しい[`Vec<T>`][vect]が作られます。
-この場合、ベクタも3つの要素のために[ヒープ][heap]に空間を割り当てます。
-`foo()`の最後で`v`がスコープから外れるとき、Rustはベクタに関連するもの全てを取り除くでしょう。それがヒープ割当てのメモリであってもです。
+`v` がスコープに入るとき、新しい [`Vec<T>`][vect] が作られます。
+この場合、ベクタも3つの要素のために [ヒープ][heap] に空間を割り当てます。
+`foo()` の最後で `v` がスコープから外れるとき、Rustはベクタに関連するもの全てを取り除くでしょう。それがヒープ割当てのメモリであってもです。
 これはスコープの最後で決定的に起こります。
 
 [vect]: ../std/vec/struct.Vec.html
@@ -107,7 +107,7 @@ let v2 = v;
 ```
 
 <!-- But, if we try to use `v` afterwards, we get an error: -->
-しかし、もし後で`v`を使おうとすると、エラーが出ます。
+しかし、もし後で `v` を使おうとすると、エラーが出ます。
 
 ```rust,ignore
 let v = vec![1, 2, 3];
@@ -172,12 +172,12 @@ let v2 = v;
 <!-- pointers to the content of the vector on the heap. It would violate Rust’s -->
 <!-- safety guarantees by introducing a data race. Therefore, Rust forbids using `v` -->
 <!-- after we’ve done the move. -->
-最初の行はベクタオブジェクト`v`とそれの含むデータのためのメモリを割り当てます。
-ベクタオブジェクトは[スタック][sh]に保存され、[ヒープ][sh]に保存された内容（`[1, 2, 3]`）へのポインタを含みます。
-`v`を`v2`にムーブするとき、それは`v2`のためにそのポインタのコピーを作ります。
+最初の行はベクタオブジェクト `v` とそれの含むデータのためのメモリを割り当てます。
+ベクタオブジェクトは [スタック][sh] に保存され、 [ヒープ][sh] に保存された内容（ `[1, 2, 3]` ）へのポインタを含みます。
+`v` を `v2` にムーブするとき、それは `v2` のためにそのポインタのコピーを作ります。
 それは、ヒープ上のベクタの内容へのポインタが2つあることを意味します。
 それはデータ競合を持ち込むことでRustの安全性保証に違反するでしょう。
-そのため、Rustはムーブを終えた後の`v`の使用を禁止するのです。
+そのため、Rustはムーブを終えた後の `v` の使用を禁止するのです。
 
 [sh]: the-stack-and-the-heap.html
 
@@ -188,7 +188,7 @@ let v2 = v;
 そのため、それは最初に思ったほど非効率ではないかもしれません。
 
 <!-- ## `Copy` types -->
-## `Copy`型
+## `Copy` 型
 
 <!-- We’ve established that when ownership is transferred to another binding, you -->
 <!-- cannot use the original binding. However, there’s a [trait][traits] that changes this -->
@@ -196,7 +196,7 @@ let v2 = v;
 <!-- you can think of them as an annotation to a particular type that adds extra -->
 <!-- behavior. For example: -->
 所有権が他の束縛に転送されるとき、元の束縛を使うことができないということを証明しました。
-しかし、この挙動を変更する[トレイト][traits]があります。それは`Copy`と呼ばれます。
+しかし、この挙動を変更する [トレイト][traits] があります。それは `Copy` と呼ばれます。
 トレイトについてはまだ議論していませんが、とりあえずそれらを挙動を追加するある型への注釈として考えることができます。
 例えばこうです。
 
@@ -212,17 +212,17 @@ println!("v is: {}", v);
 <!-- that, just like a move, when we assign `v` to `v2`, a copy of the data is made. -->
 <!-- But, unlike a move, we can still use `v` afterward. This is because an `i32` -->
 <!-- has no pointers to data somewhere else, copying it is a full copy. -->
-この場合、`v`は`i32`で、それは`Copy`トレイトを実装します。
-これはちょうどムーブと同じように、`v`を`v2`に割り当てるとき、データのコピーが作られるということを意味します。
-しかし、ムーブと違って後でまだ`v`を使うことができます。
-これは`i32`がどこか別の場所へのポインタを持たず、コピーが完全コピーだからです。
+この場合、 `v` は `i32` で、それは `Copy` トレイトを実装します。
+これはちょうどムーブと同じように、 `v` を `v2` に割り当てるとき、データのコピーが作られるということを意味します。
+しかし、ムーブと違って後でまだ `v` を使うことができます。
+これは `i32` がどこか別の場所へのポインタを持たず、コピーが完全コピーだからです。
 
 <!-- All primitive types implement the `Copy` trait and their ownership is -->
 <!-- therefore not moved like one would assume, following the ´ownership rules´. -->
 <!-- To give an example, the two following snippets of code only compile because the -->
 <!-- `i32` and `bool` types implement the `Copy` trait. -->
-全てのプリミティブ型は`Copy`トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従ってはムーブしません。
-例として、次の2つのコードスニペットはコンパイルが通ります。なぜなら、`i32`型と`bool`型は`Copy`トレイトを実装するからです。
+全てのプリミティブ型は `Copy` トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従ってはムーブしません。
+例として、次の2つのコードスニペットはコンパイルが通ります。なぜなら、 `i32` 型と `bool` 型は `Copy` トレイトを実装するからです。
 
 ```rust
 fn main() {
@@ -252,7 +252,7 @@ fn change_truth(x: bool) -> bool {
 
 <!-- If we had used types that do not implement the `Copy` trait, -->
 <!-- we would have gotten a compile error because we tried to use a moved value. -->
-もし`Copy`トレイトを実装していない型を使っていたならば、ムーブした値を使おうとしたため、コンパイルエラーが出ていたでしょう。
+もし `Copy` トレイトを実装していない型を使っていたならば、ムーブした値を使おうとしたため、コンパイルエラーが出ていたでしょう。
 
 ```text
 error: use of moved value: `a`
@@ -262,7 +262,7 @@ println!("{}", a);
 
 <!-- We will discuss how to make your own types `Copy` in the [traits][traits] -->
 <!-- section. -->
-独自の`Copy`型を作る方法は[トレイト][traits]セクションで議論するでしょう。
+独自の `Copy` 型を作る方法は [トレイト][traits] セクションで議論するでしょう。
 
 [traits]: traits.html
 
