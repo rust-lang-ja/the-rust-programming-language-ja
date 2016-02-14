@@ -8,7 +8,6 @@ of programs, we need to tell the compiler to relax its restrictions a bit. For
 this, Rust has a keyword, `unsafe`. Code using `unsafe` has less restrictions
 than normal code does.
 -->
-
 Rustの主たる魅力は、プログラムの動作についての強力で静的な保証です。
 しかしながら、安全性検査は本来保守的なものです。
 すなわち、実際には安全なのに、そのことがコンパイラには検証できないプログラムがいくらか存在します。
@@ -20,7 +19,6 @@ Rustの主たる魅力は、プログラムの動作についての強力で静�
 Let’s go over the syntax, and then we’ll talk semantics. `unsafe` is used in
 four contexts. The first one is to mark a function as unsafe:
 -->
-
 まずシンタックスをみて、それからセマンティクスについて話しましょう。
 `unsafe` は4つの場面で使われます。
 1つめは、関数がアンセーフであることを印付ける場合です。
@@ -36,7 +34,6 @@ unsafe fn danger_will_robinson() {
 All functions called from [FFI][ffi] must be marked as `unsafe`, for example.
 The second use of `unsafe` is an unsafe block:
 -->
-
 たとえば、[FFI][ffi]から呼び出されるすべての関数は`unsafe`で印付けることが必要です。
 `unsafe`の2つめの用途は、アンセーフブロックです。
 
@@ -50,7 +47,6 @@ unsafe {
 ```
 
 <!--The third is for unsafe traits:-->
-
 3つめは、アンセーフトレイトです。
 
 ```rust
@@ -58,7 +54,6 @@ unsafe trait Scary { }
 ```
 
 <!--And the fourth is for `impl`ementing one of those traits:-->
-
 そして、4つめは、そのアンセーフトレイトを実装する場合です。
 
 ```rust
@@ -71,7 +66,6 @@ It’s important to be able to explicitly delineate code that may have bugs that
 cause big problems. If a Rust program segfaults, you can be sure it’s somewhere
 in the sections marked `unsafe`.
 -->
-
 大きな問題を引き起こすバグがあるかもしれないコードを明示できるのは重要なことです。
 もしRustのプログラムがセグメンテーション違反を起こしても、バグは `unsafe` で印付けられた区間のどこかにあると確信できます。
 
@@ -83,7 +77,6 @@ Safe, in the context of Rust, means ‘doesn’t do anything unsafe’. It’s a
 important to know that there are certain behaviors that are probably not
 desirable in your code, but are expressly _not_ unsafe:
 -->
-
 Rustの文脈で、安全とは「どのようなアンセーフなこともしない」ことを意味します。
 
 > 訳注:
@@ -110,7 +103,6 @@ Rust cannot prevent all kinds of software problems. Buggy code can and will be
 written in Rust. These things aren’t great, but they don’t qualify as `unsafe`
 specifically.
 -->
-
 Rustはソフトウェアが抱えるすべての種類の問題を防げるわけではありません。
 Rustでバグのあるコードを書くことはできますし、実際に書かれるでしょう。
 これらの動作は良いことではありませんが、特にアンセーフだとは見なされません。
@@ -119,7 +111,6 @@ Rustでバグのあるコードを書くことはできますし、実際に書�
 In addition, the following are all undefined behaviors in Rust, and must be
 avoided, even when writing `unsafe` code:
 -->
-
 さらに、Rustにおいては、次のものは未定義動作で、 `unsafe` コード中であっても、避ける必要があります。
 
 > 訳注:
@@ -183,7 +174,6 @@ avoided, even when writing `unsafe` code:
 In both unsafe functions and unsafe blocks, Rust will let you do three things
 that you normally can not do. Just three. Here they are:
 -->
-
 アンセーフ関数・アンセーフブロックでは、Rustは普段できない3つのことをさせてくれます。たった3つです。それは、
 
 <!--
@@ -191,7 +181,6 @@ that you normally can not do. Just three. Here they are:
 2. Dereference a raw pointer.
 3. Call unsafe functions. This is the most powerful ability.
 -->
-
 1. [静的ミュータブル変数][static]のアクセスとアップデート。
 2. 生ポインタの参照外し。
 3. アンセーフ関数の呼び出し。これが最も強力な能力です。
@@ -202,7 +191,6 @@ borrow checker’. Adding `unsafe` to some random Rust code doesn’t change its
 semantics, it won’t just start accepting anything. But it will let you write
 things that _do_ break some of the rules.
 -->
-
 以上です。
 重要なのは、 `unsafe` が、たとえば「借用チェッカをオフにする」といったことを行わないことです。
 Rustのコードの適当な位置に `unsafe` を加えてもセマンティクスは変わらず、何でもただ受理するようになるということにはなりません。
@@ -213,14 +201,12 @@ You will also encounter the `unsafe` keyword when writing bindings to foreign
 (non-Rust) interfaces. You're encouraged to write a safe, native Rust interface
 around the methods provided by the library.
 -->
-
 また、`unsafe` キーワードは、Rust以外の言語とのインターフェースを書くときに遭遇するでしょう。
 ライブラリの提供するメソッドの周りに、安全な、Rustネイティブのインターフェースを書くことが推奨されています。
 
 <!--
 Let’s go over the basic three abilities listed, in order.
 -->
-
 これから、その基本的な3つの能力を順番に見ていきましょう。
 
 ## `static mut` のアクセスとアップデート。
@@ -231,7 +217,6 @@ Rust has a feature called ‘`static mut`’ which allows for mutable global sta
 Doing so can cause a data race, and as such is inherently not safe. For more
 details, see the [static][static] section of the book.
 -->
-
 Rustには「`static mut`」という、ミュータブルでグローバルな状態を実現する機能があります。
 これを使うことはデータレースが起こるおそれがあるので、本質的に安全ではありません。
 詳細は、この本の[static][static]セクションを参照してください。
@@ -247,7 +232,6 @@ different memory safety and security issues. In some senses, the ability to
 dereference an arbitrary pointer is one of the most dangerous things you can
 do. For more on raw pointers, see [their section of the book][rawpointers].
 -->
-
 生ポインタによって任意のポインタ演算が可能になりますが、いくつもの異なるメモリ安全とセキュリティの問題が起こるおそれがあります。
 ある意味で、任意のポインタを参照外しする能力は行いうる操作のうち最も危険なもののひとつです。
 詳細は、[この本の生ポインタに関するセクション][rawpointers]を参照してください。
@@ -261,7 +245,6 @@ do. For more on raw pointers, see [their section of the book][rawpointers].
 This last ability works with both aspects of `unsafe`: you can only call
 functions marked `unsafe` from inside an unsafe block.
 -->
-
 この最後の能力は、`unsafe`の両面とともに働きます。
 すなわち、`unsafe`で印付けられた関数は、アンセーフブロックの内部からのみ呼び出すことができます。
 
@@ -270,7 +253,6 @@ This ability is powerful and varied. Rust exposes some [compiler
 intrinsics][intrinsics] as unsafe functions, and some unsafe functions bypass
 safety checks, trading safety for speed.
 -->
-
 この能力は強力で多彩です。
 Rustはいくらかの[compiler intrinsics][intrinsics]をアンセーフ関数として公開しており、また、いくつかのアンセーフ関数は安全性検査を回避することで、安全性とスピードを引き換えています。
 
@@ -279,7 +261,6 @@ I’ll repeat again: even though you _can_ do arbitrary things in unsafe blocks
 and functions doesn’t mean you should. The compiler will act as though you’re
 upholding its invariants, so be careful!
 -->
-
 繰り返しになりますが、アンセーフブロックと関数の内部で任意のことが _できる_ としても、それをすべきだということを意味しません。コンパイラは、あなたが不変量を守っているかのように動作しますから、注意してください!
 
 [intrinsics]: intrinsics.html
