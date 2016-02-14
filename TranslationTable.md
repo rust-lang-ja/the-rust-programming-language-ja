@@ -142,7 +142,7 @@
 | unsafe                         | アンセーフ
 | unsigned                       | 符号無し
 | unsized type                   | サイズ不定型
-| unwinding                      | アンワインディング
+| unwinding                      | 巻き戻し
 | variable                       | 変数
 | variable binding               | 変数束縛
 | variant                        | ヴァリアント

@@ -92,7 +92,6 @@ Rustの文脈で、安全とは「どのようなアンセーフなこともし�
 * Exiting without calling destructors
 * Integer overflow
 -->
-
 * デッドロック
 * メモリやその他のリソースのリーク
 * デストラクタを呼び出さないプログラム終了
@@ -144,7 +143,6 @@ avoided, even when writing `unsafe` code:
 * Unwinding into Rust from foreign code or unwinding from Rust into foreign
   code.
 -->
-
 * データ競合
 * ヌル・ダングリング生ポインタの参照外し
 * [undef][undef] （未初期化）メモリの読み出し
@@ -161,7 +159,7 @@ avoided, even when writing `unsafe` code:
   * `enum` の定義に含まれていない判別子
   * `char` における、サロゲートか `char::MAX` を超えた値
   * `str` における、UTF-8でないバイト列
-* 他言語からRustへのアンワインディングや、Rustから他言語へのアンワインディング
+* 他言語からRustへの巻き戻しや、Rustから他言語への巻き戻し
 
 [noalias]: http://llvm.org/docs/LangRef.html#noalias
 [undef]: http://llvm.org/docs/LangRef.html#undefined-values
