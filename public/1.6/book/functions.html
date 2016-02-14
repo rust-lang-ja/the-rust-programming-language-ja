@@ -417,9 +417,10 @@ Rubyではこうなります。</p>
 <p>しかし、Rustでは束縛を導入するための <code>let</code> の使用は式では <em>ありません</em> 。
 次の例はコンパイルエラーを起こします。</p>
 <span class='rusttest'>fn main() {
-    let x = (let y = 5); // expected identifier, found keyword `let`
+    // let x = (let y = 5); // expected identifier, found keyword `let`
+    let x = (let y = 5); // 識別子を期待していましたが、キーワード `let` が見付かりました
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>5</span>); <span class='comment'>// expected identifier, found keyword `let`</span></pre>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>5</span>); <span class='comment'>// 識別子を期待していましたが、キーワード `let` が見付かりました</span></pre>
 
 <!--The compiler is telling us here that it was expecting to see the beginning of-->
 
@@ -443,11 +444,12 @@ Rubyではこうなります。</p>
 <span class='rusttest'>fn main() {
     let mut y = 5;
     
-    let x = (y = 6);  // x has the value `()`, not `6`
+    // let x = (y = 6);  // x has the value `()`, not `6`
+    let x = (y = 6);  // xは値 `()` を持っており、 `6` ではありません
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>5</span>;
 
-<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>);  <span class='comment'>// x has the value `()`, not `6`</span></pre>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>);  <span class='comment'>// xは値 `()` を持っており、 `6` ではありません</span></pre>
 
 <!--The second kind of statement in Rust is the *expression statement*. Its-->
 
@@ -504,14 +506,15 @@ Rustはそのためのキーワード <code>return</code> を持っています�
     fn foo(x: i32) -&gt; i32 {
         return x;
     
-        // we never run this code!
+       // we never run this code!
+        // このコードは走りません!
         x + 1
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='kw'>return</span> <span class='ident'>x</span>;
 
-    <span class='comment'>// we never run this code!</span>
+    <span class='comment'>// このコードは走りません!</span>
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>
 }</pre>
 
