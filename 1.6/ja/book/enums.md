@@ -33,7 +33,7 @@ enum is the sum of the sets of possible values for each variant. -->
 <!-- We use the `::` syntax to use the name of each variant: they’re scoped by the name
 of the `enum` itself. This allows both of these to work: -->
 各ヴァリアントの名前を使うためには、 `::` 構文を使います。
-`enum` 自体の名前によってスコープ化するのです。
+すなわち、ヴァリアントの名前は `enum` 自体の名前によってスコープ化されています。
 これにより、以下は動きます。
 
 ```rust
