@@ -2690,13 +2690,16 @@ fn search<P: AsRef<Path>>
 <span id="error-handling-with-a-custom-type"></span>
 ## 独自のエラー型によるエラー処理
 
-Previously, we learned how to
-[compose errors using a custom error type](#composing-custom-error-types).
-We did this by defining our error type as an `enum` and implementing `Error`
-and `From`.
+<!-- Previously, we learned how to
+<!-- [compose errors using a custom error type](#composing-custom-error-types).
+<!-- We did this by defining our error type as an `enum` and implementing `Error`
+<!-- and `From`.
+以前、どうやって [独自のエラー型を使ってエラーを合成する](#composing-custom-error-types) のか学びました。
+その時はエラー型を `enum` 型として定義して、`Error` と `From` を実装することで実現しました。
 
-Since we have three distinct errors (IO, CSV parsing and not found), let's
-define an `enum` with three variants:
+<!-- Since we have three distinct errors (IO, CSV parsing and not found), let's
+<!-- define an `enum` with three variants:
+3つの異なるエラー（IO、CSVのパース、検索結果なし）がありますので `enum` として3つのバリアント(?)を定義しましょう：
 
 ```rust,ignore
 #[derive(Debug)]
@@ -2707,7 +2710,8 @@ enum CliError {
 }
 ```
 
-And now for impls on `Display` and `Error`:
+<!-- And now for impls on `Display` and `Error`:
+`Display` と `Error` を実装します：
 
 ```rust,ignore
 impl fmt::Display for CliError {
@@ -2732,16 +2736,15 @@ impl Error for CliError {
 }
 ```
 
-> 訳注：
->
->
->
-
-Before we can use our `CliError` type in our `search` function, we need to
-provide a couple `From` impls. How do we know which impls to provide? Well,
-we'll need to convert from both `io::Error` and `csv::Error` to `CliError`.
-Those are the only external errors, so we'll only need two `From` impls for
-now:
+<!-- Before we can use our `CliError` type in our `search` function, we need to -->
+<!-- provide a couple `From` impls. How do we know which impls to provide? Well, -->
+<!-- we'll need to convert from both `io::Error` and `csv::Error` to `CliError`. -->
+<!-- Those are the only external errors, so we'll only need two `From` impls for -->
+<!-- now: -->
+`CliError` を `search` 関数の型に使う前に、いくつかの `From` の実装を提供しなければなりません。
+どれの実装を提供したらいいのでしょう？
+`io::Error` と `csv::Error` の両方を `CliError` に変換する必要があります。
+外部エラーはこれだけですので、今は2つの `From` 実装だけが必要です：
 
 ```rust,ignore
 impl From<io::Error> for CliError {
@@ -2757,14 +2760,20 @@ impl From<csv::Error> for CliError {
 }
 ```
 
-The `From` impls are important because of how
-[`try!` is defined](#code-try-def). In particular, if an error occurs,
-`From::from` is called on the error, which in this case, will convert it to our
-own error type `CliError`.
+<!-- The `From` impls are important because of how -->
+<!-- [`try!` is defined](#code-try-def). In particular, if an error occurs, -->
+<!-- `From::from` is called on the error, which in this case, will convert it to our -->
+<!-- own error type `CliError`. -->
+[`try!` の定義](#code-try-def) のされ方により `From` の実装は重要です。
+特に重要なのは、エラーが起こるとエラーの `From::from` が呼ばれることです。
+このケースでは、エラーを私たち独自のエラー型 `CliError` へ変換します。
 
-With the `From` impls done, we only need to make two small tweaks to our
-`search` function: the return type and the “not found” error. Here it is in
-full:
+<!-- With the `From` impls done, we only need to make two small tweaks to our -->
+<!-- `search` function: the return type and the “not found” error. Here it is in -->
+<!-- full: -->
+`From` の実装ができましたので、`search` 関数に2つの軽微な修正だけが必要です：
+リターン型と「not found」エラーです。
+全体はこうなります：
 
 ```rust,ignore
 fn search<P: AsRef<Path>>
@@ -2797,35 +2806,54 @@ fn search<P: AsRef<Path>>
 }
 ```
 
-No other changes are necessary.
+<!-- No other changes are necessary. -->
+これ以外の変更は不要です。
 
 <!-- ## Adding functionality -->
 <span id="adding-functionality"></span>
 ## 機能を追加する
 
-Writing generic code is great, because generalizing stuff is cool, and
-it can then be useful later. But sometimes, the juice isn't worth the
-squeeze. Look at what we just did in the previous step:
+<!-- Writing generic code is great, because generalizing stuff is cool, and -->
+<!-- it can then be useful later. But sometimes, the juice isn't worth the -->
+<!-- squeeze. Look at what we just did in the previous step: -->
+汎用的なコードを書くのは素晴らしいことです。
+なぜなら、物事を汎用的にするのはクールですし、後になって役立つかもしれません。
+でも時には、その苦労の甲斐がないこともあります。
+最後のステップで何をしたか振り返ってみましょう：
 
-1. Defined a new error type.
-2. Added impls for `Error`, `Display` and two for `From`.
+<!-- 1. Defined a new error type. -->
+<!-- 2. Added impls for `Error`, `Display` and two for `From`. -->
+1. 新しいエラー型を定義した。
+2. `Error` と `Display` の実装を追加し、エラーの2つについては `From` も実装した。
 
-The big downside here is that our program didn't improve a whole lot.
-There is quite a bit of overhead to representing errors with `enum`s,
-especially in short programs like this.
+<!-- The big downside here is that our program didn't improve a whole lot. -->
+<!-- There is quite a bit of overhead to representing errors with `enum`s, -->
+<!-- especially in short programs like this. -->
+ここでの大きな欠点は、このプログラムは全体で見ると大して良くならなかったことです。
+`enum` でエラーを表現するのは、多くの付随する作業が必要です。
+特にこのような短いプログラムでは、それが顕著に現れます。
 
-*One* useful aspect of using a custom error type like we've done here is that
-the `main` function can now choose to handle errors differently. Previously,
-with `Box<Error>`, it didn't have much of a choice: just print the message.
-We're still doing that here, but what if we wanted to, say, add a `--quiet`
-flag? The `--quiet` flag should silence any verbose output.
+<!-- *One* useful aspect of using a custom error type like we've done here is that -->
+<!-- the `main` function can now choose to handle errors differently. Previously, -->
+<!-- with `Box<Error>`, it didn't have much of a choice: just print the message. -->
+<!-- We're still doing that here, but what if we wanted to, say, add a `--quiet` -->
+<!-- flag? The `--quiet` flag should silence any verbose output. -->
+ここでしたようなカスタムエラー型を使うのが便利だといえる *1つの* 要素は、 `main` 関数がエラーによってどう対処するのかを選択できるようになったことです。
+以前の `Box<Error>` では、メッセージを表示する以外、選択の余地はほとんどありませんでした。
+いまもそうしてますが、例えば、もし `--quiet` フラグを追加したくなったらどうでしょうか？
+`--quiet` フラグは詳細な出力を抑止するべきです。
 
-Right now, if the program doesn't find a match, it will output a message saying
-so. This can be a little clumsy, especially if you intend for the program to
-be used in shell scripts.
+<!-- Right now, if the program doesn't find a match, it will output a message saying -->
+<!-- so. This can be a little clumsy, especially if you intend for the program to -->
+<!-- be used in shell scripts. -->
+いま現在は、プログラムがマッチするものを見つけられなかった時、それを告げるメッセージを表示します。
+これは、特にプログラムをシェルスクリプトで使いたい時などは、扱いにくいかもしれません。
 
-So let's start by adding the flags. Like before, we need to tweak the usage
-string and add a flag to the Option variable. Once we've done that, Getopts does the rest:
+<!-- So let's start by adding the flags. Like before, we need to tweak the usage -->
+<!-- string and add a flag to the Option variable. Once we've done that, Getopts does the rest: -->
+フラグを追加してみましょう。
+以前したように、使い方についての文字列を修正して、オプション変数にフラグを追加します。
+そこまですれば、残りはGetoptsがやってくれます：
 
 ```rust,ignore
 ...
@@ -2836,8 +2864,8 @@ opts.optflag("q", "quiet", "Silences errors and warnings.");
 ...
 ```
 
-Now we just need to implement our “quiet” functionality. This requires us to
-tweak the case analysis in `main`:
+<!-- Now we just need to implement our “quiet” functionality. This requires us to -->
+<!-- tweak the case analysis in `main`: -->
 
 ```rust,ignore
 match search(&args.arg_data_path, &args.arg_city) {
@@ -2849,63 +2877,88 @@ match search(&args.arg_data_path, &args.arg_city) {
 }
 ```
 
-Certainly, we don't want to be quiet if there was an IO error or if the data
-failed to parse. Therefore, we use case analysis to check if the error type is
-`NotFound` *and* if `--quiet` has been enabled. If the search failed, we still
-quit with an exit code (following `grep`'s convention).
+> 訳注：
+>
+> Silences errors and warnings.：エラーや警告を抑止します。
 
-If we had stuck with `Box<Error>`, then it would be pretty tricky to implement
-the `--quiet` functionality.
+<!-- Certainly, we don't want to be quiet if there was an IO error or if the data -->
+<!-- failed to parse. Therefore, we use case analysis to check if the error type is -->
+<!-- `NotFound` *and* if `--quiet` has been enabled. If the search failed, we still -->
+<!-- quit with an exit code (following `grep`'s convention). -->
+もちろん、IOエラーが起こったり、データのパースに失敗した時は、エラーを抑止したくはありません。
+そこでケース分析を行い、エラータイプが `NotFound` *かつ* `--quiet` が指定されたかを検査しています。
+もし検索に失敗したら、今まで通り（ `grep` での慣例に従い）なにも表示せず、exitコードと共に終了します。
 
-This pretty much sums up our case study. From here, you should be ready to go
-out into the world and write your own programs and libraries with proper error
-handling.
+<!-- If we had stuck with `Box<Error>`, then it would be pretty tricky to implement -->
+<!-- the `--quiet` functionality. -->
+もし `Box<Error>` のままでいたら `--quiet` 機能を実装するのは、かなりやりにくかったでしょう。
+
+<!-- This pretty much sums up our case study. From here, you should be ready to go -->
+<!-- out into the world and write your own programs and libraries with proper error -->
+<!-- handling. -->
+これが、このケーススタディの締めくくりとなります。
+これからは、外の世界に飛び出して、あなた自身のプログラムやライブラリーを、適切なエラーハンドリングと共に書くことができるでしょう。
 
 <!-- # The Short Story -->
 <span id="the-short-story"></span>
 # 簡単な説明（まとめ）
 
-Since this chapter is long, it is useful to have a quick summary for error
-handling in Rust. These are some good “rules of thumb." They are emphatically
-*not* commandments. There are probably good reasons to break every one of these
-heuristics!
+<!-- Since this chapter is long, it is useful to have a quick summary for error -->
+<!-- handling in Rust. These are some good “rules of thumb." They are emphatically -->
+<!-- *not* commandments. There are probably good reasons to break every one of these -->
+<!-- heuristics! -->
+この章は長いので、Rustにおけるエラー処理について簡単にまとめたほうがいいでしょう。
+そこには「大まかな法則」が存在しますが、これらは命令的なものでは断固として *ありません* 。
+それぞれのヒューリスティックを破るだけの十分な理由もあり得ます！
 
-* If you're writing short example code that would be overburdened by error
-  handling, it's probably just fine to use `unwrap` (whether that's
-  [`Result::unwrap`](../std/result/enum.Result.html#method.unwrap),
-  [`Option::unwrap`](../std/option/enum.Option.html#method.unwrap)
-  or preferably
-  [`Option::expect`](../std/option/enum.Option.html#method.expect)).
-  Consumers of your code should know to use proper error handling. (If they
-  don't, send them here!)
-* If you're writing a quick 'n' dirty program, don't feel ashamed if you use
-  `unwrap`. Be warned: if it winds up in someone else's hands, don't be
-  surprised if they are agitated by poor error messages!
-* If you're writing a quick 'n' dirty program and feel ashamed about panicking
-  anyway, then use either a `String` or a `Box<Error + Send + Sync>` for your
-  error type (the `Box<Error + Send + Sync>` type is because of the
-  [available `From` impls](../std/convert/trait.From.html)).
-* Otherwise, in a program, define your own error types with appropriate
-  [`From`](../std/convert/trait.From.html)
-  and
-  [`Error`](../std/error/trait.Error.html)
-  impls to make the [`try!`](../std/macro.try!.html)
-  macro more ergonomic.
-* If you're writing a library and your code can produce errors, define your own
-  error type and implement the
-  [`std::error::Error`](../std/error/trait.Error.html)
-  trait. Where appropriate, implement
-  [`From`](../std/convert/trait.From.html) to make both
-  your library code and the caller's code easier to write. (Because of Rust's
-  coherence rules, callers will not be able to impl `From` on your error type,
-  so your library should do it.)
-* Learn the combinators defined on
-  [`Option`](../std/option/enum.Option.html)
-  and
-  [`Result`](../std/result/enum.Result.html).
-  Using them exclusively can be a bit tiring at times, but I've personally
-  found a healthy mix of `try!` and combinators to be quite appealing.
-  `and_then`, `map` and `unwrap_or` are my favorites.
+<!-- * If you're writing short example code that would be overburdened by error -->
+<!--   handling, it's probably just fine to use `unwrap` (whether that's -->
+<!--   [`Result::unwrap`](../std/result/enum.Result.html#method.unwrap), -->
+<!--   [`Option::unwrap`](../std/option/enum.Option.html#method.unwrap) -->
+<!--   or preferably -->
+<!--   [`Option::expect`](../std/option/enum.Option.html#method.expect)). -->
+<!--   Consumers of your code should know to use proper error handling. (If they -->
+<!--   don't, send them here!) -->
+<!-- * If you're writing a quick 'n' dirty program, don't feel ashamed if you use -->
+<!--   `unwrap`. Be warned: if it winds up in someone else's hands, don't be -->
+<!--   surprised if they are agitated by poor error messages! -->
+<!-- * If you're writing a quick 'n' dirty program and feel ashamed about panicking -->
+<!--   anyway, then use either a `String` or a `Box<Error + Send + Sync>` for your -->
+<!--   error type (the `Box<Error + Send + Sync>` type is because of the -->
+<!--   [available `From` impls](../std/convert/trait.From.html)). -->
+<!-- * Otherwise, in a program, define your own error types with appropriate -->
+<!--   [`From`](../std/convert/trait.From.html) -->
+<!--   and -->
+<!--   [`Error`](../std/error/trait.Error.html) -->
+<!--   impls to make the [`try!`](../std/macro.try!.html) -->
+<!--   macro more ergonomic. -->
+<!-- * If you're writing a library and your code can produce errors, define your own -->
+<!--   error type and implement the -->
+<!--   [`std::error::Error`](../std/error/trait.Error.html) -->
+<!--   trait. Where appropriate, implement -->
+<!--   [`From`](../std/convert/trait.From.html) to make both -->
+<!--   your library code and the caller's code easier to write. (Because of Rust's -->
+<!--   coherence rules, callers will not be able to impl `From` on your error type, -->
+<!--   so your library should do it.) -->
+<!-- * Learn the combinators defined on -->
+<!--   [`Option`](../std/option/enum.Option.html) -->
+<!--   and -->
+<!--   [`Result`](../std/result/enum.Result.html). -->
+<!--   Using them exclusively can be a bit tiring at times, but I've personally -->
+<!--   found a healthy mix of `try!` and combinators to be quite appealing. -->
+<!--   `and_then`, `map` and `unwrap_or` are my favorites. -->
+* もし短いサンプルコードを書いていて、エラーハンドリングが重荷になるようなら、 `unwrap` を使っても大丈夫かもしれません（ [`Result::unwrap`](../std/result/enum.Result.html#method.unwrap), [`Option::unwrap`](../std/option/enum.Option.html#method.unwrap), [`Option::expect`](../std/option/enum.Option.html#method.expect) のいずれかが使えます）。
+  あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、この章を紹介してください！）
+* もし即興のプログラムを書いているなら `unwrap` を使うことに罪悪感を持たなくてもいいでしょう。
+  警告：もしそれが最終的に誰か他の人々の手に渡るなら、彼らが貧弱なエラーメッセージに動揺してもおかしくありません。
+* これらに該当しないなら、独自のエラー型を定義し、適切な [`From`](../std/convert/trait.From.html) と [`Error`](../std/error/trait.Error.html) を実装することで [`try!`](../std/macro.try!.html) マクロを使いやすくしましょう。
+* もしライブラリを書いていて、そのコードがエラーを起こす可能性があるなら、独自のエラー型を定義し、 [`std::error::Error`](../std/error/trait.Error.html) トレイトを実装してください。
+  もし必要なら [`From`](../std/convert/trait.From.html) を実装することで、ライブラリ自身と呼び出し元のコードを書きやすくしてください。
+  （Rustのcoherenceルールにより、呼び出し側では、あなたのエラー型に対して `From` を実装することはできません。
+  ライブラリでするべきです。）
+* [`Option`](../std/option/enum.Option.html) と [`Result`](../std/result/enum.Result.html) で定義されているコンビネータについて学んでください。
+  それらばかりを使うと少し疲れそうですが、 `try!` と コンビネータを適度に組み合わせることは、個人的には、とても魅力的な方法だと気づいています。
+  `and_then`, `map`, `unwrap_or` が私のお気に入りです。
 
 [1]: ../book/patterns.html
 [2]: ../std/option/enum.Option.html#method.map
