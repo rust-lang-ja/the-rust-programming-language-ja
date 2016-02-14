@@ -102,7 +102,7 @@ Rustでは戻り値を使います。
     * [標準入力から読み込む](#reading-from-stdin)
     * [独自のエラー型によるエラー処理](#error-handling-with-a-custom-type)
     * [機能を追加する](#adding-functionality)
-* [ショートストーリー（まとめ）](#the-short-story)
+* [簡単な説明（まとめ）](#the-short-story)
 
 <!-- # The Basics -->
 <span id="the-basics"></span>
@@ -2036,7 +2036,7 @@ impl From<num::ParseFloatError> for CliError {
 ```
 
 <!-- And that's it! -->
-そう、これで完成です！
+これで完成です！
 
 <!-- ## Advice for library writers -->
 <span id="advice-for-library-writers"></span>
@@ -2089,38 +2089,56 @@ impl From<num::ParseFloatError> for CliError {
 <span id="case-study-a-program-to-read-population-data"></span>
 # ケーススタディ：人口データを読み込むプログラム
 
-This chapter was long, and depending on your background, it might be
-rather dense. While there is plenty of example code to go along with
-the prose, most of it was specifically designed to be pedagogical. So,
-we're going to do something new: a case study.
+<!-- This chapter was long, and depending on your background, it might be -->
+<!-- rather dense. While there is plenty of example code to go along with -->
+<!-- the prose, most of it was specifically designed to be pedagogical. So, -->
+<!-- we're going to do something new: a case study. -->
+この章は長かったですね。
+あなたのバックグラウンドにもよりますが、内容が少し濃すぎたかもしれません。
+たくさんのコード例に、単調な説明が添えられる形で進行しましたが、これは主に学習を助けるために、あえてこう構成されていたのでした。
+次はなにか新しいことをしましょう。
+ケーススタディをします。
 
-For this, we're going to build up a command line program that lets you
-query world population data. The objective is simple: you give it a location
-and it will tell you the population. Despite the simplicity, there is a lot
-that can go wrong!
+<!-- For this, we're going to build up a command line program that lets you -->
+<!-- query world population data. The objective is simple: you give it a location -->
+<!-- and it will tell you the population. Despite the simplicity, there is a lot -->
+<!-- that can go wrong! -->
+ここでは世界の人口データを問い合わせるための、コマンドラインプログラムを構築します。
+目的はシンプルです：プログラムに場所を与えると、人口を教えてくれます。
+シンプルにも関わらず、失敗しそうな所がたくさんあります！
 
-The data we'll be using comes from the [Data Science
-Toolkit][11]. I've prepared some data from it for this exercise. You
-can either grab the [world population data][12] (41MB gzip compressed,
-145MB uncompressed) or just the [US population data][13] (2.2MB gzip
-compressed, 7.2MB uncompressed).
+<!-- The data we'll be using comes from the [Data Science -->
+<!-- Toolkit][11]. I've prepared some data from it for this exercise. You -->
+<!-- can either grab the [world population data][12] (41MB gzip compressed, -->
+<!-- 145MB uncompressed) or just the [US population data][13] (2.2MB gzip -->
+<!-- compressed, 7.2MB uncompressed). -->
+ここで使うデータは [データサイエンスツールキット][11] から取得したものです。
+これを元に演習で使うデータを準備しましたので、2つのファイルのどちらかをダウンロードしてください：
+[世界の人口データ][12] （gzip圧縮時 41MB、解凍時 145MB）と、 [US限定の人口データ][13] （gzip 圧縮時 2.2MB、解凍時 7.2MB）があります。
 
-Up until now, we've kept the code limited to Rust's standard library. For a real
-task like this though, we'll want to at least use something to parse CSV data,
-parse the program arguments and decode that stuff into Rust types automatically. For that, we'll use the
-[`csv`](https://crates.io/crates/csv),
-and [`rustc-serialize`](https://crates.io/crates/rustc-serialize) crates.
+<!-- Up until now, we've kept the code limited to Rust's standard library. For a real -->
+<!-- task like this though, we'll want to at least use something to parse CSV data, -->
+<!-- parse the program arguments and decode that stuff into Rust types automatically. For that, we'll use the -->
+<!-- [`csv`](https://crates.io/crates/csv), -->
+<!-- and [`rustc-serialize`](https://crates.io/crates/rustc-serialize) crates. -->
+いままで書いてきたコードでは、Rustの標準ライブラリだけを使うようにしてきました。
+今回のような現実のタスクでは、最低でも次のようことをするものを使いたいです：
+CSVデータをパースする。プログラムの引数をパースして、それらを自動的にRustの型にデコードする。
+これらのために [`csv`](https://crates.io/crates/csv) と [`rustc-serialize`](https://crates.io/crates/rustc-serialize) クレートを使いましょう。
 
 <!-- ## Initial setup -->
 <span id="initial-setup"></span>
 ## 最初のセットアップ
 
-We're not going to spend a lot of time on setting up a project with
-Cargo because it is already covered well in [the Cargo
-chapter](../book/hello-cargo.html) and [Cargo's documentation][14].
+<!-- We're not going to spend a lot of time on setting up a project with -->
+<!-- Cargo because it is already covered well in [the Cargo -->
+<!-- chapter](../book/hello-cargo.html) and [Cargo's documentation][14]. -->
+<!-- 訳者コメント：hello-cargo.htmlがリンク切れのため、リンク先を変更しました。 -->
+Cargoを使ってプロジェクトをセットアップしますが、その方法はすでに [Hello, Cargo!](../book/getting-started.html#hello-cargo) と [Cargoのドキュメント][14] でカバーされていますので、ここでは簡単に説明します。
 
-To get started from scratch, run `cargo new --bin city-pop` and make sure your
-`Cargo.toml` looks something like this:
+<!-- To get started from scratch, run `cargo new --bin city-pop` and make sure your -->
+<!-- `Cargo.toml` looks something like this: -->
+何もない状態で `cargo new --bin city-pop` を実行し、 `Cargo.toml` を以下のよう編集してください：
 
 ```text
 [package]
@@ -2137,28 +2155,36 @@ rustc-serialize = "0.*"
 getopts = "0.*"
 ```
 
-You should already be able to run:
+<!-- You should already be able to run: -->
+これでもう実行できるはずです：
 
 ```text
 cargo build --release
 ./target/release/city-pop
-# Outputs: Hello, world!
+# 出力: Hello, world!
 ```
+<!-- Outputs: Hello, world! -->
 
 <!-- ## Argument parsing -->
 <span id="argument-parsing"></span>
 ## 引数のパース
 
-Let's get argument parsing out of the way. We won't go into too much
-detail on Getopts, but there is [some good documentation][15]
-describing it. The short story is that Getopts generates an argument
-parser and a help message from a vector of options (The fact that it
-is a vector is hidden behind a struct and a set of methods). Once the
-parsing is done, we can decode the program arguments into a Rust
-struct. From there, we can get information about the flags, for
-instance, whether they were passed in, and what arguments they
-had. Here's our program with the appropriate `extern crate`
-statements, and the basic argument setup for Getopts:
+<!-- Let's get argument parsing out of the way. We won't go into too much -->
+<!-- detail on Getopts, but there is [some good documentation][15] -->
+<!-- describing it. The short story is that Getopts generates an argument -->
+<!-- parser and a help message from a vector of options (The fact that it -->
+<!-- is a vector is hidden behind a struct and a set of methods). Once the -->
+<!-- parsing is done, we can decode the program arguments into a Rust -->
+<!-- struct. From there, we can get information about the flags, for -->
+<!-- instance, whether they were passed in, and what arguments they -->
+<!-- had. Here's our program with the appropriate `extern crate` -->
+<!-- statements, and the basic argument setup for Getopts: -->
+引数のパースを実装しましょう。
+Getoptsについては、あまり深く説明しませんが、詳細を解説した [ドキュメント][15] があります。
+簡単に説明すると、Getoptsはオプションのベクタから、引数のパーサーとヘルプメッセージを生成します（実際には、ベクタは構造体とメソッドの背後に隠れています）。
+パースが終わると、プログラムの引数をRustの構造体へとデコードできます。
+これにより、例えば、フラグが指定されたかとか、フラグの引数がなんであったかといった、フラグの情報を取り出せるようになります。
+プログラムに適切な `extern crate` 文を追加して、Getoptsの基本的な引数を設定すると、こうなります：
 
 ```rust,ignore
 extern crate getopts;
@@ -2195,40 +2221,60 @@ fn main() {
 
 > 訳注
 >
->
+> - Usage: {} [options] <data-path> <city>：使い方：{} [options] <data-path> <city>
+> - Show this usage message.：この使い方のメッセージを表示する。
 
-First, we get a vector of the arguments passed into our program. We
-then store the first one, knowing that it is our program's name. Once
-that's done, we set up our argument flags, in this case a simplistic
-help message flag. Once we have the argument flags set up, we use
-`Options.parse` to parse the argument vector (starting from index one,
-because index 0 is the program name). If this was successful, we
-assign matches to the parsed object, if not, we panic. Once past that,
-we test if the user passed in the help flag, and if so print the usage
-message. The option help messages are constructed by Getopts, so all
-we have to do to print the usage message is tell it what we want it to
-print for the program name and template. If the user has not passed in
-the help flag, we assign the proper variables to their corresponding
-arguments.
+<!-- First, we get a vector of the arguments passed into our program. We -->
+<!-- then store the first one, knowing that it is our program's name. Once -->
+<!-- that's done, we set up our argument flags, in this case a simplistic -->
+<!-- help message flag. Once we have the argument flags set up, we use -->
+<!-- `Options.parse` to parse the argument vector (starting from index one, -->
+<!-- because index 0 is the program name). If this was successful, we -->
+<!-- assign matches to the parsed object, if not, we panic. Once past that, -->
+<!-- we test if the user passed in the help flag, and if so print the usage -->
+<!-- message. The option help messages are constructed by Getopts, so all -->
+<!-- we have to do to print the usage message is tell it what we want it to -->
+<!-- print for the program name and template. If the user has not passed in -->
+<!-- the help flag, we assign the proper variables to their corresponding -->
+<!-- argumaents. -->
+このように、まず、このプログラムに渡された引数のベクタを得ます。
+次に最初の要素、つまり、プログラムの名前を格納します。
+続いて引数フラグをセットアップしますが、今回はごく簡単なヘルプメッセージフラグが一つあるだけです。
+セットアップできたら `Options.parse` を使って引数のベクタをパースします（インデックス0はプログラム名ですので、インデックス1からスタートします）。
+もしパースに成功したら、パースしたオブジェクトをマッチを使って取り出します。
+もし失敗したのなら、パニックさせます。
+ここまでうまくいったら、ヘルプフラグが指定されたか調べて、もしそうなら、使い方のメッセージを表示します。
+ヘルプメッセージのオプションはGetoptsにより構築済みですので、使い方のメッセージを表示するために追加で必要なのは、プログラム名とテンプレートだけです。
+もしユーザーがヘルプフラグを指定しなかったなら、変数を用意して、対応する引数の値をセットします。
 
 <!-- ## Writing the logic -->
 <span id="writing-the-logic"></span>
 ## ロジックを書く
 
-We all write code differently, but error handling is usually the last thing we
-want to think about. This isn't great for the overall design of a program, but
-it can be useful for rapid prototyping. Because Rust forces us to be explicit
-about error handling (by making us call `unwrap`), it is easy to see which
-parts of our program can cause errors.
+<!-- We all write code differently, but error handling is usually the last thing we -->
+<!-- want to think about. This isn't great for the overall design of a program, but -->
+<!-- it can be useful for rapid prototyping. Because Rust forces us to be explicit -->
+<!-- about error handling (by making us call `unwrap`), it is easy to see which -->
+<!-- parts of our program can cause errors. -->
+コードを書く順番は人それぞれですが、エラーハンドリングは最後に考えることが多いでしょう。
+これはプログラム全体の設計にとっては、あまり良いことではありませんが、ラピッドなプロトタイピングでは便利かもしれません。
+Rustは私たちにエラーハンドリングが明示的であることを（ `unwrap` を呼ばせることで）強制しますので、プログラムのどの部分がエラーを起こすかは、簡単にわかります。
 
-In this case study, the logic is really simple. All we need to do is parse the
-CSV data given to us and print out a field in matching rows. Let's do it. (Make
-sure to add `extern crate csv;` to the top of your file.)
+<!-- In this case study, the logic is really simple. All we need to do is parse the -->
+<!-- CSV data given to us and print out a field in matching rows. Let's do it. (Make -->
+<!-- sure to add `extern crate csv;` to the top of your file.) -->
+このケーススタディでは、ロジックは非常にシンプルです。
+やることは、与えられたCSVデータをパースして、マッチした行にあるフィールドを表示するだけです。
+やってみましょう。
+（ファイルの先頭に `extern crate csv;` を追加することを忘れずに。）
 
 ```rust,ignore
-// This struct represents the data in each row of the CSV file.
-// Type based decoding absolves us of a lot of the nitty gritty error
-// handling, like parsing strings as integers or floats.
+# // This struct represents the data in each row of the CSV file.
+# // Type based decoding absolves us of a lot of the nitty gritty error
+# // handling, like parsing strings as integers or floats.
+// この構造体はCSVファイルの各行のデータを表現します。
+// 型に基づくデコードは、文字列を整数や浮動小数点数にパースしてしまう
+// といった、核心に触れるエラーハンドリングの大半を免除してくれます。
 #[derive(Debug, RustcDecodable)]
 struct Row {
     country: String,
@@ -2236,9 +2282,12 @@ struct Row {
     accent_city: String,
     region: String,
 
-    // Not every row has data for the population, latitude or longitude!
-    // So we express them as `Option` types, which admits the possibility of
-    // absence. The CSV parser will fill in the correct value for us.
+#    // Not every row has data for the population, latitude or longitude!
+#    // So we express them as `Option` types, which admits the possibility of
+#    // absence. The CSV parser will fill in the correct value for us.
+    // 人口、経度、緯度などのデータは全ての行にあるわけではありません！
+    // そこで、これらは不在の可能性を許す `Option` 型で表現します。
+    // CSVパーサーは、これらを正しい値で埋めてくれます。
     population: Option<u64>,
     latitude: Option<f64>,
     longitude: Option<f64>,
@@ -2284,62 +2333,96 @@ fn main() {
 }
 ```
 
-Let's outline the errors. We can start with the obvious: the three places that
-`unwrap` is called:
+> 訳注：
+>
+> population count：人口のカウント
 
-1. [`fs::File::open`](../std/fs/struct.File.html#method.open)
-   can return an
-   [`io::Error`](../std/io/struct.Error.html).
-2. [`csv::Reader::decode`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode)
-   decodes one record at a time, and
-   [decoding a
-   record](http://burntsushi.net/rustdoc/csv/struct.DecodedRecords.html)
-   (look at the `Item` associated type on the `Iterator` impl)
-   can produce a
-   [`csv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html).
-3. If `row.population` is `None`, then calling `expect` will panic.
+<!-- Let's outline the errors. We can start with the obvious: the three places that -->
+<!-- `unwrap` is called: -->
+エラーの概要を掴みましょう。
+まずは明確なところ、つまり `unwrap` が呼ばれている3ヶ所から始めます：
 
-Are there any others? What if we can't find a matching city? Tools like `grep`
-will return an error code, so we probably should too. So we have logic errors
-specific to our problem, IO errors and CSV parsing errors. We're going to
-explore two different ways to approach handling these errors.
+<!-- 1. [`fs::File::open`](../std/fs/struct.File.html#method.open) -->
+<!--    can return an -->
+<!--    [`io::Error`](../std/io/struct.Error.html). -->
+<!-- 2. [`csv::Reader::decode`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode) -->
+<!--    decodes one record at a time, and -->
+<!--    [decoding a -->
+<!--    record](http://burntsushi.net/rustdoc/csv/struct.DecodedRecords.html) -->
+<!--    (look at the `Item` associated type on the `Iterator` impl) -->
+<!--    can produce a -->
+<!--    [`acsv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html). -->
+<!-- 3. If `row.population` is `None`, then calling `expect` will panic. -->
+1. [`fs::File::open`](../std/fs/struct.File.html#method.open) が [`io::Error`](../std/io/struct.Error.html) を返すかもしれない
+2. [`csv::Reader::decode`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode) は1度に1つのレコーをデコードし、 [レコードのデコード](http://burntsushi.net/rustdoc/csv/struct.DecodedRecords.html) （`Iterator` の impl の `Item` 関連型を見てください）は [`acsv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html) を生むかもしれない。
+3. もし `row.population` が `None` なら、 `expect` の呼び出しはパニックする。
 
-I'd like to start with `Box<Error>`. Later, we'll see how defining our own
-error type can be useful.
+<!-- Are there any others? What if we can't find a matching city? Tools like `grep` -->
+<!-- will return an error code, so we probably should too. So we have logic errors -->
+<!-- specific to our problem, IO errors and CSV parsing errors. We're going to -->
+<!-- explore two different ways to approach handling these errors. -->
+他にもありますか？
+もしマッチする都市が見つからなかったら？
+`grep` のようなツールはエラーコードを返しますので、ここでも、そうするべきかもしれません。
+つまり、IOエラーとCSVパースエラーという、このプログラム特有のエラーロジックがあるわけです。
+これらのエラーを扱うために、2つのアプローチを試してみましょう。
+
+<!-- I'd like to start with `Box<Error>`. Later, we'll see how defining our own -->
+<!-- error type can be useful. -->
+まず `Box<Error>` から始めたいと思います。
+その後で、独自のエラー型を定義すると、どんな風に便利になるかを見てみましょう。
 
 <!-- ## Error handling with `Box<Error>` -->
 <span id="error-handling-with-boxerror"></span>
 ## `Box<Error>` によるエラー処理
 
-`Box<Error>` is nice because it *just works*. You don't need to define your own
-error types and you don't need any `From` implementations. The downside is that
-since `Box<Error>` is a trait object, it *erases the type*, which means the
-compiler can no longer reason about its underlying type.
+<!-- `Box<Error>` is nice because it *just works*. You don't need to define your own -->
+<!-- error types and you don't need any `From` implementations. The downside is that -->
+<!-- since `Box<Error>` is a trait object, it *erases the type*, which means the -->
+<!-- compiler can no longer reason about its underlying type. -->
+`Box<Error>` は *とにかく動く* ので便利です。
+エラー型を定義して `From` を実装する、といったことが不要です。
+これの欠点は `Box<Error>` がトレイトオブジェクトなので *型が消去* され、コンパイラーが背後の型を推測できなくなることです。
 
-[Previously](#the-limits-of-combinators) we started refactoring our code by
-changing the type of our function from `T` to `Result<T, OurErrorType>`. In
-this case, `OurErrorType` is just `Box<Error>`. But what's `T`? And can we add
-a return type to `main`?
+<!-- [Previously](#the-limits-of-combinators) we started refactoring our code by -->
+<!-- changing the type of our function from `T` to `Result<T, OurErrorType>`. In -->
+<!-- this case, `OurErrorType` is just `Box<Error>`. But what's `T`? And can we add -->
+<!-- a return type to `main`? -->
+[以前も](#the-limits-of-combinators) 、コードのリファクタリングを、関数の型を `T` から `Result<T, 私たちのエラー型>` に変更することから始めました。
+ここでは `私たちのエラー型` は単に `Box<Error>` です。
+でも `T` は何になるでしょう？
+それに `main` にリターン型を付けられるのでしょうか？
 
-The answer to the second question is no, we can't. That means we'll need to
-write a new function. But what is `T`? The simplest thing we can do is to
-return a list of matching `Row` values as a `Vec<Row>`. (Better code would
-return an iterator, but that is left as an exercise to the reader.)
+<!-- The answer to the second question is no, we can't. That means we'll need to -->
+<!-- write a new function. But what is `T`? The simplest thing we can do is to -->
+<!-- return a list of matching `Row` values as a `Vec<Row>`. (Better code would -->
+<!-- return an iterator, but that is left as an exercise to the reader.) -->
+2つ目の質問の答えはノーです。できません。
+つまり、新しい関数を書くことになります。
+では `T` は何になるでしょう？
+一番簡単にできるのは、マッチした `Row` 値のリストを `Vec<Row>` として返すことです。
+（もっと良いコードはイテレータを返すかもしれませんが、その部分は読者の皆さんの練習問題とします。）
 
-Let's refactor our code into its own function, but keep the calls to `unwrap`.
-Note that we opt to handle the possibility of a missing population count by
-simply ignoring that row.
+<!-- Let's refactor our code into its own function, but keep the calls to `unwrap`. -->
+<!-- Note that we opt to handle the possibility of a missing population count by -->
+<!-- simply ignoring that row. -->
+コードを専用の関数にリファクタリングしましょう。
+ただし `unwrap` の呼び出しはそのままにします。
+なお、人口のカウントがない場合の対応は、その行を無視することにします。
 
 ```rust,ignore
 struct Row {
-    // unchanged
+#     // unchanged
+    // 変更なし
 }
 
 struct PopulationCount {
     city: String,
     country: String,
-    // This is no longer an `Option` because values of this type are only
-    // constructed if they have a population count.
+#     // This is no longer an `Option` because values of this type are only
+#     // constructed if they have a population count.
+    // これは `Option` ではなくします。なぜなら、この型の値は
+    // 人口のカウントがある時だけ構築されるからです。
     count: u64,
 }
 
@@ -2393,18 +2476,24 @@ fn main() {
 
 ```
 
-While we got rid of one use of `expect` (which is a nicer variant of `unwrap`),
-we still should handle the absence of any search results.
+<!-- While we got rid of one use of `expect` (which is a nicer variant of `unwrap`), -->
+<!-- we still should handle the absence of any search results. -->
+`expect` （`unwrap` の少し良いバリエーション）の使用を1つ取り除くことができましたが、サーチの結果が無い時のハンドリングは依然として必要です。
 
-To convert this to proper error handling, we need to do the following:
+<!-- To convert this to proper error handling, we need to do the following: -->
+このエラーを適切に処理するためには、以下ようにします：
 
-1. Change the return type of `search` to be `Result<Vec<PopulationCount>,
-   Box<Error>>`.
-2. Use the [`try!` macro](#code-try-def) so that errors are returned to the
-   caller instead of panicking the program.
-3. Handle the error in `main`.
+<!-- 1. Change the return type of `search` to be `Result<Vec<PopulationCount>, -->
+<!--    Box<Error>>`. -->
+<!-- 2. Use the [`try!` macro](#code-try-def) so that errors are returned to the -->
+<!--    caller instead of panicking the program. -->
+<!-- 3. Handle the error in `main`. -->
+1. `search` のリターン型を `Result<Vec<PopulationCount>, Box<Error>>` に変更する。
+2. [`try!` マクロ](#code-try-def) を使用することで、プログラムをパニックする代わりに、エラーを呼び出し元に返す。
+3. `main` でエラーをハンドリングする。
 
-Let's try it:
+<!-- Let's try it: -->
+やってみましょう：
 
 ```rust,ignore
 fn search<P: AsRef<Path>>
@@ -2434,34 +2523,44 @@ fn search<P: AsRef<Path>>
 }
 ```
 
-> 訳注：意味は
+> 訳注：
 >
->
->
-> です。
+> No matching cities with a population were found.：</br>
+> 条件に合う人口データ付きの街は見つかりませんでした。
 
-Instead of `x.unwrap()`, we now have `try!(x)`. Since our function returns a
-`Result<T, E>`, the `try!` macro will return early from the function if an
-error occurs.
+<!-- Instead of `x.unwrap()`, we now have `try!(x)`. Since our function returns a -->
+<!-- `Result<T, E>`, the `try!` macro will return early from the function if an -->
+<!-- error occurs. -->
+`x.unwrap()` の代わりに、今では `try!(x)` があります。
+私たちの関数が `Result<T, E>` を返すので、エラーが起こった時は `try!` マクロは、関数の途中で戻ります。
 
-There is one big gotcha in this code: we used `Box<Error + Send + Sync>`
-instead of `Box<Error>`. We did this so we could convert a plain string to an
-error type. We need these extra bounds so that we can use the
-[corresponding `From`
-impls](../std/convert/trait.From.html):
+<!-- There is one big gotcha in this code: we used `Box<Error + Send + Sync>` -->
+<!-- instead of `Box<Error>`. We did this so we could convert a plain string to an -->
+<!-- error type. We need these extra bounds so that we can use the -->
+<!-- [corresponding `From` -->
+<!-- impls](../std/convert/trait.From.html): -->
+重要なポイントが一つあります：
+`Box<Error>` の代わりに `Box<Error + Send + Sync>` を使いました。
+こうすると、プレーンな文字列をエラー型に変換することができます。
+[この `From` 実装](../std/convert/trait.From.html) を使うために、このような追加の境界が必要でした。
 
 ```rust,ignore
-// We are making use of this impl in the code above, since we call `From::from`
-// on a `&'static str`.
+# // We are making use of this impl in the code above, since we call `From::from`
+# // on a `&'static str`.
+// 上のコードでは `&'static str` に対して `From::from` を呼ぶことで、
+// こちらの実装を使おうとしています。
 impl<'a, 'b> From<&'b str> for Box<Error + Send + Sync + 'a>
 
-// But this is also useful when you need to allocate a new string for an
-// error message, usually with `format!`.
+# // But this is also useful when you need to allocate a new string for an
+# // error message, usually with `format!`.
+// もし `format!` などを使ってエラーメッセージのために新しい文字列を
+// 割り当てたい場合は、こちらの実装も有用です。
 impl From<String> for Box<Error + Send + Sync>
 ```
 
-Since `search` now returns a `Result<T, E>`, `main` should use case analysis
-when calling `search`:
+<!-- Since `search` now returns a `Result<T, E>`, `main` should use case analysis -->
+<!-- when calling `search`: -->
+`search` が `Result<T, E>` を返すようになったため、 `main` は `search` を呼ぶ時にケース分析をしなければなりません：
 
 ```rust,ignore
 ...
@@ -2476,36 +2575,48 @@ match search(&data_file, &city) {
 ...
 ```
 
-Now that we've seen how to do proper error handling with `Box<Error>`, let's
-try a different approach with our own custom error type. But first, let's take
-a quick break from error handling and add support for reading from `stdin`.
+<!-- Now that we've seen how to do proper error handling with `Box<Error>`, let's -->
+<!-- try a different approach with our own custom error type. But first, let's take -->
+<!-- a quick break from error handling and add support for reading from `stdin`. -->
+`Box<Error>` を使った正しいエラーハンドリングについて見ましたので、独自のエラー型による別のアプローチを試してみましょう。
+でもその前に、少しの間、エラーハンドリングから離れて、 `stdin` からの読み込みをサポートしましょう。
 
 <!-- ## Reading from stdin -->
 <span id="reading-from-stdin"></span>
 ## 標準入力から読み込む
 
-In our program, we accept a single file for input and do one pass over the
-data. This means we probably should be able to accept input on stdin. But maybe
-we like the current format too—so let's have both!
+<!-- In our program, we accept a single file for input and do one pass over the -->
+<!-- data. This means we probably should be able to accept input on stdin. But maybe -->
+<!-- we like the current format too—so let's have both! -->
+このプログラムでは、入力としてファイルを1つだけ受け付け、データを1回のパスで処理しています。
+これは、標準入力からの入力を受け付けたほうがいいことを意味しているのかもしれません。
+でも、いまの方法も捨てがたいので、両方できるようにしましょう！
 
-Adding support for stdin is actually quite easy. There are only three things we
-have to do:
+<!-- Adding support for stdin is actually quite easy. There are only three things we -->
+<!-- have to do: -->
+標準入力のサポートを追加するのは実に簡単です。
+やることは3つだけです：
 
-1. Tweak the program arguments so that a single parameter—the
-   city—can be accepted while the population data is read from stdin.
-2. Modify the program so that an option `-f` can take the file, if it
-    is not passed into stdin.
-3. Modify the `search` function to take an *optional* file path. When `None`,
-   it should know to read from stdin.
+<!-- 1. Tweak the program arguments so that a single parameter—the -->
+<!--    city—can be accepted while the population data is read from stdin. -->
+<!-- 2. Modify the program so that an option `-f` can take the file, if it -->
+<!--     is not passed into stdin. -->
+<!-- 3. Modify the `search` function to take an *optional* file path. When `None`, -->
+<!--    it should know to read from stdin. -->
+1. プログラムの引数を少し修正して、唯一のパラメータとして「街」を受け付け、人口データは標準入力から読み込むようにする。
+2. プログラムを修正して、標準入力経由でファイルが渡されなかった時に、`-f` オプションからファイルを得られるようにする。
+3. `search` 関数を修正して、ファイルパスを `オプションで` 受け取れるようにする。もし `None` なら標準入力から読み込む。
 
-First, here's the new usage:
+<!-- First, here's the new usage: -->
+まず、新しい使い方です：
 
 ```rust,ignore
 fn print_usage(program: &str, opts: Options) {
 	println!("{}", opts.usage(&format!("Usage: {} [options] <city>", program)));
 }
 ```
-The next part is going to be only a little harder:
+<!-- The next part is going to be only a little harder: -->
+次のパートは少し難しくなります：
 
 ```rust,ignore
 ...
@@ -2529,22 +2640,37 @@ for pop in search(&data_file, &city) {
 ...
 ```
 
-In this piece of code, we take `file` (which has the type
-`Option<String>`), and convert it to a type that `search` can use, in
-this case, `&Option<AsRef<Path>>`. To do this, we take a reference of
-file, and map `Path::new` onto it. In this case, `as_ref()` converts
-the `Option<String>` into an `Option<&str>`, and from there, we can
-execute `Path::new` to the content of the optional, and return the
-optional of the new value. Once we have that, it is a simple matter of
-getting the `city` argument and executing `search`.
+> 訳注：
+>
+> Choose an input file, instead of using STDIN：</br>
+> STDINを使う代わりに、入力ファイルを選択する。
 
-Modifying `search` is slightly trickier. The `csv` crate can build a
-parser out of
-[any type that implements `io::Read`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.from_reader).
-But how can we use the same code over both types? There's actually a
-couple ways we could go about this. One way is to write `search` such
-that it is generic on some type parameter `R` that satisfies
-`io::Read`. Another way is to just use trait objects:
+<!-- In this piece of code, we take `file` (which has the type -->
+<!-- `Option<String>`), and convert it to a type that `search` can use, in -->
+<!-- this case, `&Option<AsRef<Path>>`. To do this, we take a reference of -->
+<!-- file, and map `Path::new` onto it. In this case, `as_ref()` converts -->
+<!-- the `Option<String>` into an `Option<&str>`, and from there, we can -->
+<!-- execute `Path::new` to the content of the optional, and return the -->
+<!-- optional of the new value. Once we have that, it is a simple matter of -->
+<!-- getting the `city` argument and executing `search`. -->
+このコードでは（`Option<String>` 型の） `file` を受け取り、 `search` が使える型、つまり今回は `&Option<AsRef<Path>>` へ変換します。
+そのためには `file` の参照を得て、それに対して `Path::new` をmapします。
+このケースでは `as_ref()` が `Option<String>` を `Option<&str>` へ変換しますので、続いて、そのオプション値の中身に対して `Path::new` を実行することで、新しいオプション値を返します。
+ここまでできれば、残りは単に `city` 引数を取得して `search` を実行するだけです。
+
+<!-- Modifying `search` is slightly trickier. The `csv` crate can build a -->
+<!-- parser out of -->
+<!-- [any type that implements `io::Read`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.from_reader). -->
+<!-- But how can we use the same code over both types? There's actually a -->
+<!-- couple ways we could go about this. One way is to write `search` such -->
+<!-- that it is generic on some type parameter `R` that satisfies -->
+<!-- `io::Read`. Another way is to just use trait objects: -->
+`search` の修正は少しトリッキーです。
+`csv` トレイトは [`io::Read` を実装している型](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.from_reader) からなら、いずれかを問わず、パーサーを構築できます。
+しかし両方の型に同じコードが使えるのでしょうか？
+これを実際する方法は2つあります。
+ひとつの方法は `search` を `io::Read` を満たす型パラメータ `R` に対してジェネリックになるように書くことです。
+もうひとつの方法は、以下のように、単にトレイトオブジェクトを使うことです：
 
 ```rust,ignore
 fn search<P: AsRef<Path>>
@@ -2737,7 +2863,7 @@ handling.
 
 <!-- # The Short Story -->
 <span id="the-short-story"></span>
-# ショートストーリー（まとめ）
+# 簡単な説明（まとめ）
 
 Since this chapter is long, it is useful to have a quick summary for error
 handling in Rust. These are some good “rules of thumb." They are emphatically
