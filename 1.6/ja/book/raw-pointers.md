@@ -22,18 +22,18 @@ other pointer types. They: -->
 
 <!-- - are not guaranteed to point to valid memory and are not even
   guaranteed to be non-null (unlike both `Box` and `&`); -->
-- 有効なメモリを指していることが保証されないどころか、nullでないことも保証されない( `Box` と `&` では保証される)
 <!-- - do not have any automatic clean-up, unlike `Box`, and so require
   manual resource management; -->
-- `Box` とは異なり、自動的な後処理が一切行われないため、手動のリソース管理が必要
 <!-- - are plain-old-data, that is, they don't move ownership, again unlike
   `Box`, hence the Rust compiler cannot protect against bugs like
   use-after-free; -->
-- plain-old-dataであるため、Rustコンパイラはuse-after-freeのようなバグから保護できない
 <!-- - lack any form of lifetimes, unlike `&`, and so the compiler cannot
   reason about dangling pointers; and
 - have no guarantees about aliasing or mutability other than mutation
   not being allowed directly through a `*const T`. -->
+- 有効なメモリを指していることが保証されないどころか、nullでないことも保証されない( `Box` と `&` では保証される)
+- `Box` とは異なり、自動的な後処理が一切行われないため、手動のリソース管理が必要
+- plain-old-dataであるため、Rustコンパイラはuse-after-freeのようなバグから保護できない
 - `&` と異なり、ライフタイムの機能が無効化されるため、コンパイラはダングリングポインタを推論できない
 - また、 `*const T` を直接介した変更は拒むが、それ以外のエイリアシングやミュータビリティに関する保証はない
 
@@ -121,6 +121,7 @@ programmer *must* guarantee this. -->
 
 <!-- The recommended method for the conversion is: -->
 おすすめの変換の方法は以下のとおりです。
+
 ```rust
 # // explicit cast
 // 明示的キャスト
