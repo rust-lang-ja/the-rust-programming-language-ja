@@ -95,11 +95,11 @@
 </li>
 <li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
 </li>
-<li><a  href='const-and-static.html'><b>4.26.</b> `const`と`static`</a>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
 </li>
 <li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
 </li>
-<li><a  href='type-aliases.html'><b>4.28.</b> `type`エイリアス</a>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
 </li>
 <li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
 </li>
@@ -192,7 +192,7 @@
 doing calculations involving coordinates in 2D space, we would need both an `x`
 and a `y` value: -->
 
-<p><code>struct</code>はより複雑なデータ型を作る方法の1つです。例えば、もし私たちが2次元空間の座標に関する計算を行っているとして、<code>x</code>と<code>y</code>、両方の値が必要になるでしょう。</p>
+<p><code>struct</code> はより複雑なデータ型を作る方法の1つです。例えば、もし私たちが2次元空間の座標に関する計算を行っているとして、 <code>x</code> と <code>y</code> 、両方の値が必要になるでしょう。</p>
 <span class='rusttest'>fn main() {
     let origin_x = 0;
     let origin_y = 0;
@@ -202,7 +202,7 @@ and a `y` value: -->
 
 <!-- A `struct` lets us combine these two into a single, unified datatype: -->
 
-<p><code>struct</code>でこれら2つを1つのデータ型にまとめることができます。</p>
+<p><code>struct</code> でこれら2つを1つのデータ型にまとめることができます。</p>
 <span class='rusttest'>struct Point {
     x: i32,
     y: i32,
@@ -229,23 +229,23 @@ fn main() {
 the `struct` keyword, and then with a name. By convention, `struct`s begin with
 a capital letter and are camel cased: `PointInSpace`, not `Point_In_Space`. -->
 
-<p>ここで多くの情報が出てきましたから、順番に見ていきましょう。まず、<code>struct</code>キーワードを使って構造体とその名前を宣言しています。慣習により、構造体は初めが大文字のキャメルケースで記述しています。<code>PointInSpace</code>であり、<code>Point_In_Space</code>ではありません。</p>
+<p>ここで多くの情報が出てきましたから、順番に見ていきましょう。まず、 <code>struct</code> キーワードを使って構造体とその名前を宣言しています。慣習により、構造体は初めが大文字のキャメルケースで記述しています。 <code>PointInSpace</code> であり、 <code>Point_In_Space</code> ではありません。</p>
 
 <!-- We can create an instance of our `struct` via `let`, as usual, but we use a `key:
 value` style syntax to set each field. The order doesn’t need to be the same as
 in the original declaration. -->
 
-<p>いつものように、<code>let</code>で<code>struct</code>のインスタンスを作ることができますが、ここでは<code>key: value</code>スタイルの構文でそれぞれのフィールドに値をセットしています。順序は元の宣言と同じである必要はありません。</p>
+<p>いつものように、 <code>let</code> で <code>struct</code> のインスタンスを作ることができますが、ここでは <code>key: value</code> スタイルの構文でそれぞれのフィールドに値をセットしています。順序は元の宣言と同じである必要はありません。</p>
 
 <!-- Finally, because fields have names, we can access the field through dot
 notation: `origin.x`. -->
 
-<p>最後に、作成された構造体のフィールドは名前を持つため、<code>origin.x</code>というようにドット表記でアクセスできます。</p>
+<p>最後に、作成された構造体のフィールドは名前を持つため、 <code>origin.x</code> というようにドット表記でアクセスできます。</p>
 
 <!-- The values in `struct`s are immutable by default, like other bindings in Rust.
 Use `mut` to make them mutable -->
 
-<p>Rustの他の束縛のように、<code>struct</code>が持つ値はイミュータブルがデフォルトです。<code>mut</code>を使うと値をミュータブルにできます。</p>
+<p>Rustの他の束縛のように、 <code>struct</code> が持つ値はイミュータブルがデフォルトです。 <code>mut</code> を使うと値をミュータブルにできます。</p>
 <span class='rusttest'>struct Point {
     x: i32,
     y: i32,
@@ -274,7 +274,7 @@ fn main() {
 
 <!-- This will print `The point is at (5, 0)`. -->
 
-<p>これは<code>The point is at (5, 0)</code>と出力されます。</p>
+<p>これは <code>The point is at (5, 0)</code> と出力されます。</p>
 
 <!-- Rust does not support field mutability at the language level, so you cannot
 write something like this: -->
@@ -335,7 +335,7 @@ fn main() {
 <!-- A `struct` can include `..` to indicate that you want to use a copy of some
 other `struct` for some of the values. For example: -->
 
-<p><code>struct</code>の初期化時には、値の一部を他の構造体からコピーしたいことを示す<code>..</code>を含めることができます。例えば、</p>
+<p><code>struct</code> の初期化時には、値の一部を他の構造体からコピーしたいことを示す <code>..</code> を含めることができます。例えば、</p>
 <span class='rusttest'>fn main() {
     struct Point3d {
         x: i32,
@@ -379,7 +379,7 @@ ones, and it will copy the values you don’t specify:-->
 `struct`, called a ‘tuple struct’. Tuple structs have a name, but
 their fields don’t:-->
 
-<p>Rustには「タプル構造体」と呼ばれる、<a href="primitive-types.html#tuples">タプル</a>と<code>struct</code>のハイブリットのようなデータ型があります。タプル構造体自体には名前がありますが、そのフィールドには名前がありません。</p>
+<p>Rustには「タプル構造体」と呼ばれる、<a href="primitive-types.html#tuples">タプル</a>と <code>struct</code> のハイブリットのようなデータ型があります。タプル構造体自体には名前がありますが、そのフィールドには名前がありません。</p>
 <span class='rusttest'>fn main() {
     struct Color(i32, i32, i32);
     struct Point(i32, i32, i32);
@@ -402,7 +402,7 @@ their fields don’t:-->
 <!-- It is almost always better to use a `struct` than a tuple struct. We would write
 `Color` and `Point` like this instead: -->
 
-<p>ほとんどの場合タプル構造体よりも<code>struct</code>を使ったほうが良いです。<code>Color</code>や<code>Point</code>はこのようにも書けます。</p>
+<p>ほとんどの場合タプル構造体よりも <code>struct</code> を使ったほうが良いです。 <code>Color</code> や <code>Point</code> はこのようにも書けます。</p>
 <span class='rusttest'>fn main() {
     struct Color {
         red: i32,
@@ -431,7 +431,7 @@ their fields don’t:-->
 <!-- Now, we have actual names, rather than positions. Good names are important,
 and with a `struct`, we have actual names. -->
 
-<p>今、私たちはフィールドの位置ではなく実際のフィールドの名前を持っています。良い名前は重要で、<code>struct</code>を使うということは、実際に名前を持っているということです。</p>
+<p>今、私たちはフィールドの位置ではなく実際のフィールドの名前を持っています。良い名前は重要で、 <code>struct</code> を使うということは、実際に名前を持っているということです。</p>
 
 <blockquote>
 <p>訳注: 原文を元に噛み砕くと、「タプルはフィールドの並びによって区別され、構造体はフィールドの名前によって区別されます。これはタプルと構造体の最たる違いであり、構造体を持つことは名前を付けられたデータの集まりを持つことに等しいため、構造体における名前付けは重要です。」といった所でしょうか。</p>
@@ -462,13 +462,13 @@ and expressing its own semantic meaning: -->
 destructuring `let`, just as with regular tuples. In this case, the
 `let Inches(integer_length)` assigns `10` to `integer_length`. -->
 
-<p>上記の通り、<code>let</code>を使って分解することで、標準のタプルと同じように内部の整数型を取り出すことができます。
-このケースでは<code>let Inches(integer_length)</code>が<code>integer_length</code>へ<code>10</code>を束縛します。</p>
+<p>上記の通り、 <code>let</code> を使って分解することで、標準のタプルと同じように内部の整数型を取り出すことができます。
+このケースでは <code>let Inches(integer_length)</code> が <code>integer_length</code> へ <code>10</code> を束縛します。</p>
 
 <h1 id='unit-like-構造体' class='section-header'><a href='#unit-like-構造体'>Unit-like 構造体</a></h1>
 <!-- You can define a `struct` with no members at all: -->
 
-<p>あなたは全くメンバを持たない<code>struct</code>を定義できます。</p>
+<p>あなたは全くメンバを持たない <code>struct</code> を定義できます。</p>
 <span class='rusttest'>fn main() {
     struct Electron;
     
@@ -482,7 +482,7 @@ destructuring `let`, just as with regular tuples. In this case, the
 tuple, `()`, sometimes called ‘unit’. Like a tuple struct, it defines a
 new type. -->
 
-<p>空のタプルである<code>()</code>は時々<code>unit</code>と呼ばれ、それに似ていることからこのような構造体を<code>unit-like</code>と呼んでいます。タプル構造体のように、これは新しい型を定義します。</p>
+<p>空のタプルである <code>()</code> は時々 <code>unit</code> と呼ばれ、それに似ていることからこのような構造体を <code>unit-like</code> と呼んでいます。タプル構造体のように、これは新しい型を定義します。</p>
 
 <!-- This is rarely useful on its own (although sometimes it can serve as a
 marker type), but in combination with other features, it can become
@@ -491,7 +491,7 @@ implements a certain [trait][trait] to handle events. If you don’t have
 any data you need to store in the structure, you can just create a
 unit-like `struct`. -->
 
-<p>これは単体でもごくまれに役立ちます(もっとも、時々型をマーク代わりとして役立てる程度です)が、他の機能と組み合わせることにより便利になります。例えば、ライブラリはあなたにイベントを処理できる特定の<a href="traits.html">トレイト</a>が実装されたストラクチャの作成を要求するかもしれません。もしそのストラクチャの中に保存すべき値が何もなければ、あなたはダミーのデータを作成する必要はなく、ただunit-likeな<code>struct</code>を作るだけで良いのです。</p>
+<p>これは単体でもごくまれに役立ちます(もっとも、時々型をマーク代わりとして役立てる程度です)が、他の機能と組み合わせることにより便利になります。例えば、ライブラリはあなたにイベントを処理できる特定の<a href="traits.html">トレイト</a>が実装されたストラクチャの作成を要求するかもしれません。もしそのストラクチャの中に保存すべき値が何もなければ、あなたはダミーのデータを作成する必要はなく、ただunit-likeな <code>struct</code> を作るだけで良いのです。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

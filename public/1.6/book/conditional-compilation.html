@@ -95,11 +95,11 @@
 </li>
 <li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
 </li>
-<li><a  href='const-and-static.html'><b>4.26.</b> `const`と`static`</a>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
 </li>
 <li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
 </li>
-<li><a  href='type-aliases.html'><b>4.28.</b> `type`エイリアス</a>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
 </li>
 <li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
 </li>
@@ -238,7 +238,7 @@
 
 <!-- they get set in the [`[features]` section][features] of your `Cargo.toml`: -->
 
-<p>このようなスイッチの有効・無効の切り替えはCargoを利用している場合<code>Cargo.toml</code>中の <a href="http://doc.crates.io/manifest.html#the-features-section"><code>[features]</code> セクション</a> で設定できます。</p>
+<p>このようなスイッチの有効・無効の切り替えはCargoを利用している場合 <code>Cargo.toml</code> 中の <a href="http://doc.crates.io/manifest.html#the-features-section"><code>[features]</code> セクション</a> で設定できます。</p>
 
 <pre><code class="language-toml">[features]
 # no features by default
@@ -280,7 +280,7 @@ secure-password = [&quot;bcrypt&quot;]
 
 <p>もしこのコードを <code>cargo build --features &quot;foo&quot;</code> としてコンパイルを行うと、
 <code>--cfg features=&quot;foo&quot;</code> が <code>rustc</code> に渡され、出力には <code>mod foo</code> が含まれます。
-もし標準的な <code>cargo build</code> でコンパイルを行った場合、<code>rustc</code> に追加のフラグは渡されず<code>foo</code> モジュールは存在しない事になります。</p>
+もし標準的な <code>cargo build</code> でコンパイルを行った場合、<code>rustc</code> に追加のフラグは渡されず <code>foo</code> モジュールは存在しない事になります。</p>
 
 <h1 id='cfg_attr' class='section-header'><a href='#cfg_attr'>cfg_attr</a></h1>
 <!-- You can also set another attribute based on a `cfg` variable with `cfg_attr`: -->
