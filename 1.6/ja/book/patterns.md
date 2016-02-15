@@ -6,7 +6,7 @@
 パターンはRustにおいて極めて一般的な方法です。
 <!-- We use them in [variable
 bindings][bindings], [match statements][match], and other places, too.-->
-パターンは、[変数束縛][bindings]、[マッチ宣言][match]、などで使われています。
+パターンは、[変数束縛][bindings]、[マッチ文][match]、などで使われています。
 <!--Let’s go on a whirlwind tour of all of the things patterns can do!-->
 さあ、めくるめくパターンの旅を始めましょう！
 [bindings]: variable-bindings.html
@@ -31,8 +31,7 @@ match x {
 これは `one` を表示します。
 
 <!-- There’s one pitfall with patterns: like anything that introduces a new binding,they introduce shadowing. For example: -->
-
-パターンには一つ落とし穴があります。新しいバインディングを導入すると、しばしば落とし穴がついてきます。例を見ましょう。
+パターンには一つ落とし穴があります。新しい束縛を導入すると、他の束縛を導入するものと同じように、シャドーイングをします。
 
 ```rust
 let x = 'x';
@@ -46,7 +45,7 @@ println!("x: {}", x)
 ```
 
 <!-- This prints:-->
-これの結果は、
+これの結果は以下のようになります。
 
 ```text
 x: c c: c
@@ -56,13 +55,13 @@ x: x
 <!-- In other words, `x =>` matches the pattern and introduces a new binding named
 `x` that’s in scope for the match arm. Because we already have a binding named
 `x`, this new `x` shadows it. -->
-説明すると、 `x =>` はパターンへのマッチだけでなく、パターンが参照出来る範囲で、 `x` という名前のバインディングを導入します。
+説明すると、 `x =>` はパターンへのマッチだけでなく、マッチの腕内で有効な `x` という名前の束縛を導入します。
 
 <!-- # Multiple patterns -->
-# 多重パターンマッチ
+# 複式パターン
 
 <!-- You can match multiple patterns with `|`: -->
- `|` を使うと、多重パターンマッチが導入出来ます。
+ `|` を使うと、複式パターンが導入出来ます。
 
 
 ```rust
@@ -83,7 +82,7 @@ match x {
 
 <!-- If you have a compound data type, like a [`struct`][struct], you can destructure it
 inside of a pattern: -->
-例えば、[`struct`][struct]のようなデータ型を作成したいとき、パターンの内側のデータを分解することが出来ます。
+例えば、[`struct`][struct]のようなデータ型を作成したいとき、パターン内でデータを分配することが出来ます。
 
 ```rust
 struct Point {
@@ -101,7 +100,7 @@ match origin {
 [struct]: structs.html
 
 <!-- We can use `:` to give a value a different name.-->
-値に別の名前を付けたいときは、`:`を使うことが出来ます。
+値に別の名前を付けたいときは、 `:` を使うことが出来ます。
 
 ```rust
 struct Point {
@@ -117,7 +116,7 @@ match origin {
 ```
 
 <!-- If we only care about some of the values, we don’t have to give them all names: -->
-値のうちいくつかを扱いたい場合でも、値の全てに名前を付ける必要はありません。
+値のうちいくつかを扱いたい場合は、値の全てに名前を付ける必要はありません。
 
 ```rust
 struct Point {
@@ -163,7 +162,7 @@ match origin {
 [enums]: enums.html
 
 <!-- # Ignoring bindings -->
-# バインディングの無視
+# 束縛の無視
 
 <!-- You can use `_` in a pattern to disregard the type and value.-->
 パターン内の型や値を無視するために `_` を使うことが出来ます。
@@ -185,7 +184,7 @@ a general error message. -->
 最初の部分では、 `Ok` ヴァリアント内の値を `value` に結びつけています。しかし、 `Err` 部分ですと、特定のエラーを避けるために、また標準エラーメッセージを表示するために `_` を使っています。
 <!-- `_` is valid in any pattern that creates a binding. This can be useful to
 ignore parts of a larger structure: -->
- `_` はバインディングを伴うどんなパターンに於いても有効です。これは大きな構造の一部分を無視する際に有用です。
+ `_` は束縛を伴うどんなパターンに於いても有効です。これは大きな構造の一部分を無視する際に有用です。
 
 ```rust
 fn coordinate() -> (i32, i32, i32) {
@@ -255,7 +254,7 @@ match x {
 # レンジ
 
 <!-- You can match a range of values with `...`: -->
-`...`で値の幅のマッチを行うことが出来ます。
+ `...` で値のレンジのマッチを行うことが出来ます。
 
 ```rust
 let x = 1;
@@ -285,7 +284,7 @@ match x {
 これは `something else` を出力します。
 
 <!-- # Bindings -->
-# バインディング
+# 束縛
 
 <!-- You can bind values to names with `@`: -->
  `@` で値を名前と結びつけることが出来ます。
@@ -359,7 +358,7 @@ match x {
 これは `Got an int!` を出力します。
 
 <!--If you’re using `if` with multiple patterns, the `if` applies to both sides:-->
-多重パターンで `if` を使うと、 `if` は両方に適用されます。
+複式パターンで `if` を使うと、 `if` は両方に適用されます。
 
 ```rust
 let x = 4;
@@ -387,7 +386,7 @@ just the `5`. In other words, the precedence of `if` behaves like this: -->
 ```
 
 <!-- # Mix and Match -->
-# ミックスとマッチ
+# 混ぜてマッチ
 
 <!--Whew! That’s a lot of different ways to match things, and they can all be
 mixed and matched, depending on what you’re doing: -->
