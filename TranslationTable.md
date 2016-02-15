@@ -61,6 +61,7 @@
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | growable                       | 伸張可能
+| guard                          | ガード
 | hash                           | ハッシュ
 | identifier                     | 識別子
 | immutable                      | イミュータブル
