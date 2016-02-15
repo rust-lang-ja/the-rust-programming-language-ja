@@ -107,6 +107,7 @@
 | platform                       | プラットフォーム
 | pointer                        | ポインタ
 | process                        | プロセス
+| range                          | レンジ
 | raw pointer                    | 生ポインタ
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
