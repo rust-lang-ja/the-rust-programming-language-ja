@@ -24,6 +24,7 @@
 | block                          | ブロック
 | borrowing                      | 借用
 | bounds                         | 境界
+| bug                            | バグ
 | channel                        | チャネル
 | capture                        | キャプチャ
 | closure                        | クロージャ
@@ -36,11 +37,15 @@
 | continuous integration         | 継続的インテグレーション
 | crate                          | クレート
 | dangling                       | ダングリング
+| data race                      | データ競合
+| deadlock                       | デッドロック
 | declaration statement          | 宣言文
 | dereferencing                  | 参照外し
+| destructor                     | デストラクタ
 | destructuring                  | 分配
 | directory                      | ディレクトリ
 | directive                      | ディレクティブ
+| discriminant                   | 判別子
 | distribution                   | 配布物
 | diverge                        | ダイバージ
 | diverging                      | ダイバージング
@@ -59,6 +64,7 @@
 | hash                           | ハッシュ
 | identifier                     | 識別子
 | immutable                      | イミュータブル
+| implement                      | 実装する
 | initialize                     | 初期化する
 | input lifetime                 | 入力ライフタイム
 | install                        | インストール
@@ -68,6 +74,7 @@
 | keyword                        | キーワード
 | Intrinsics                     | Intrinsic
 | Lang Items                     | Lang Item
+| leak                           | リーク
 | lending                        | 貸付け
 | library                        | ライブラリ
 | lifetime                       | ライフタイム
@@ -83,11 +90,13 @@
 | mutable                        | ミュータブル
 | mutability                     | ミュータビリティ
 | mutable binding                | ミュータブルな束縛
+| null                           | ヌル
 | offline                        | オフライン
 | opaque                         | オペーク
 | open source                    | オープンソース
 | option                         | オプション
 | output lifetime                | 出力ライフタイム
+| overflow                       | オーバーフロー
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
@@ -98,12 +107,16 @@
 | platform                       | プラットフォーム
 | pointer                        | ポインタ
 | process                        | プロセス
+| raw pointer                    | 生ポインタ
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
 | regression                     | リグレッション
 | release                        | リリース
 | return                         | 返す
+| safe                           | 安全
+| safety check                   | 安全性検査
 | scope                          | スコープ
+| scoped                         | スコープ化された
 | script                         | スクリプト
 | shadow                         | 覆い隠す
 | shadowing                      | シャドーイング
@@ -129,6 +142,7 @@
 | unsafe                         | アンセーフ
 | unsigned                       | 符号無し
 | unsized type                   | サイズ不定型
+| unwinding                      | 巻き戻し
 | variable                       | 変数
 | variable binding               | 変数束縛
 | variant                        | ヴァリアント
