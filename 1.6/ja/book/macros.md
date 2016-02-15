@@ -234,29 +234,45 @@ macro_rules! foo {
 
 <!-- The outer braces are part of the syntax of `macro_rules!`. In fact, you can use -->
 <!-- `()` or `[]` instead. They simply delimit the right-hand side as a whole. -->
+外側の括弧は `macro_rules!` 構文の一部です。事実、`()` や `[]` をかわりに使うことができます。
+括弧は単純に右側を区切るために利用されています。
 
+<!--  The inner braces are part of the expanded syntax. Remember, the `vec!` macro is -->
+<!--  used in an expression context. To write an expression with multiple statements, -->
+<!--  including `let`-bindings, we use a block. If your macro expands to a single -->
+<!--  expression, you don’t need this extra layer of braces. -->
+内側の括弧は展開結果の一部です。
+`vec!` マクロは式を必要としているコンテキストで利用されていることを思いだしてください。
+複数の文や `let` 束縛を含む式を書きたいときにはブロックを利用します。
+もし、マクロが単一の式に展開されるときは、追加の括弧は必要ありません。
 
-The inner braces are part of the expanded syntax. Remember, the `vec!` macro is
-used in an expression context. To write an expression with multiple statements,
-including `let`-bindings, we use a block. If your macro expands to a single
-expression, you don’t need this extra layer of braces.
+<!-- Note that we never *declared* that the macro produces an expression. In fact, -->
+<!-- this is not determined until we use the macro as an expression. With care, you -->
+<!-- can write a macro whose expansion works in several contexts. For example, -->
+<!-- shorthand for a data type could be valid as either an expression or a pattern. -->
+マクロが式を生成すると *宣言* した事はないという点に注意してください。
+事実、それはマクロが式として利用されるまでは決定されません。
+注意深くすれば、複数のコンテキストで適切に展開されるマクロを書く事ができます。
+例えば、データ型の短縮形は、式としてもパターンとしても正しく動作します。
 
-Note that we never *declared* that the macro produces an expression. In fact,
-this is not determined until we use the macro as an expression. With care, you
-can write a macro whose expansion works in several contexts. For example,
-shorthand for a data type could be valid as either an expression or a pattern.
+<!-- ## Repetition -->
+## 繰り返し
 
-## Repetition
+<!-- The repetition operator follows two principal rules: -->
+繰り返し演算子は以下の2つの重要なルールに従います:
 
-The repetition operator follows two principal rules:
+<!-- 1. `$(...)*` walks through one "layer" of repetitions, for all of the `$name`s -->
+<!--    it contains, in lockstep, and -->
+<!-- 2. each `$name` must be under at least as many `$(...)*`s as it was matched -->
+<!--    against. If it is under more, it’ll be duplicated, as appropriate. -->
+1. `$(...)*` は繰り返しの一つの「層」で動作します、
+    含んでいる `$name` について規則正しく動作します。
+2. それぞれの `$name` はマッチしたときと同じ個数の `$(...)*` の内側になければなりません。
+    もし更に多くの `$(...)*` の中に表われた際には適切に複製されます。
 
-1. `$(...)*` walks through one "layer" of repetitions, for all of the `$name`s
-   it contains, in lockstep, and
-2. each `$name` must be under at least as many `$(...)*`s as it was matched
-   against. If it is under more, it’ll be duplicated, as appropriate.
-
-This baroque macro illustrates the duplication of variables from outer
-repetition levels.
+<!-- This baroque macro illustrates the duplication of variables from outer -->
+<!-- repetition levels. -->
+以下の複雑なマクロは一つ外の繰り返しのレベルから値を複製している例です:
 
 ```rust
 macro_rules! o_O {
@@ -278,20 +294,30 @@ fn main() {
 }
 ```
 
-That’s most of the matcher syntax. These examples use `$(...)*`, which is a
-"zero or more" match. Alternatively you can write `$(...)+` for a "one or
-more" match. Both forms optionally include a separator, which can be any token
-except `+` or `*`.
+<!-- That’s most of the matcher syntax. These examples use `$(...)*`, which is a -->
+<!-- "zero or more" match. Alternatively you can write `$(...)+` for a "one or -->
+<!-- more" match. Both forms optionally include a separator, which can be any token -->
+<!-- except `+` or `*`. -->
+上のコードはほとんどのマッチャーの構文を利用しています。
+この例では0個以上にマッチする `$(...)*` を利用しています、
+1つ以上にマッチさせたい場合は `$(...)+` を代りに利用する事ができます。
+また、どちらも補助的に区切りを指定する事ができます。区切りには、 `+` と `*` 意外の任意のトークンを指定することが可能です。
 
-This system is based on
+<!-- This system is based on -->
+<!-- "[Macro-by-Example](https://www.cs.indiana.edu/ftp/techreports/TR206.pdf)" -->
+<!-- (PDF link). -->
+このシステムは:
 "[Macro-by-Example](https://www.cs.indiana.edu/ftp/techreports/TR206.pdf)"
-(PDF link).
+(PDFリンク) に基づいています。
 
-# Hygiene
+<!-- # Hygiene -->
+# 健全性
 
-Some languages implement macros using simple text substitution, which leads to
-various problems. For example, this C program prints `13` instead of the
-expected `25`.
+<!-- Some languages implement macros using simple text substitution, which leads to -->
+<!-- various problems. For example, this C program prints `13` instead of the -->
+<!-- expected `25`. -->
+いくつかの言語に組込まれているマクロは単純なテキストの置換を用いています、しかしこれは多くの問題を発生させます。
+例えば、以下のC言語のプログラムは期待している `25` の代りに `13` と出力します:
 
 ```text
 #define FIVE_TIMES(x) 5 * x
@@ -302,10 +328,13 @@ int main() {
 }
 ```
 
-After expansion we have `5 * 2 + 3`, and multiplication has greater precedence
-than addition. If you’ve used C macros a lot, you probably know the standard
-idioms for avoiding this problem, as well as five or six others. In Rust, we
-don’t have to worry about it.
+<!-- After expansion we have `5 * 2 + 3`, and multiplication has greater precedence -->
+<!-- than addition. If you’ve used C macros a lot, you probably know the standard -->
+<!-- idioms for avoiding this problem, as well as five or six others. In Rust, we -->
+<!-- don’t have to worry about it. -->
+展開した結果は `5 * 2 + 3` となり、乗算は加算よりも優先度が高くなります。
+もしC言語のマクロを頻繁に利用しているなら、この問題を避けるための以下のようなイディオムを5、6個は知っているでしょう。
+Rustではこのような問題を恐れる必要はありません。
 
 ```rust
 macro_rules! five_times {
@@ -317,11 +346,14 @@ fn main() {
 }
 ```
 
-The metavariable `$x` is parsed as a single expression node, and keeps its
-place in the syntax tree even after substitution.
+<!-- The metavariable `$x` is parsed as a single expression node, and keeps its -->
+<!-- place in the syntax tree even after substitution. -->
+メタ変数 `$x` は構文木の一つの式の葉としてパースされ、構文木上の位置は置換されたあとも保存されます。
 
-Another common problem in macro systems is ‘variable capture’. Here’s a C
-macro, using [a GNU C extension] to emulate Rust’s expression blocks.
+<!-- Another common problem in macro systems is ‘variable capture’. Here’s a C -->
+<!-- macro, using [a GNU C extension] to emulate Rust’s expression blocks. -->
+他のマクロシステムで良くみられる問題は、「変数のキャプチャ」です。
+以下のC言語のマクロは [GNU C拡張][a GNU C extension] をRustの式のブロックをエミュレートするために利用しています。
 
 [a GNU C extension]: https://gcc.gnu.org/onlinedocs/gcc/Statement-Exprs.html
 
@@ -334,14 +366,16 @@ macro, using [a GNU C extension] to emulate Rust’s expression blocks.
 })
 ```
 
-Here’s a simple use case that goes terribly wrong:
+<!-- Here’s a simple use case that goes terribly wrong: -->
+以下はこのマクロを利用したときにひどい事になる単純な利用例です:
 
 ```text
 const char *state = "reticulating splines";
 LOG(state)
 ```
 
-This expands to
+<!-- This expands to -->
+このコードは以下のように展開されます
 
 ```text
 const char *state = "reticulating splines";
@@ -351,10 +385,13 @@ if (state > 0) {
 }
 ```
 
-The second variable named `state` shadows the first one.  This is a problem
-because the print statement should refer to both of them.
+<!-- The second variable named `state` shadows the first one.  This is a problem -->
+<!-- because the print statement should refer to both of them. -->
+2番目の変数 `state` は1つめの `state` を隠してしまいます。
+これは、print文が両方の変数を参照する必要があるためです。
 
-The equivalent Rust macro has the desired behavior.
+<!-- The equivalent Rust macro has the desired behavior. -->
+Rustにおける同様のマクロは期待する通りの動作をします。
 
 ```rust
 # fn get_log_state() -> i32 { 3 }
