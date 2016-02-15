@@ -48,7 +48,7 @@
     * [条件付きコンパイル](conditional-compilation.md)
     * [ドキュメント](documentation.md)
     * [イテレータ](iterators.md)
-    * [並行](concurrency.md)
+    * [並行性](concurrency.md)
     * [エラーハンドリング](error-handling.md)
     * [保証を選ぶ](choosing-your-guarantees.md)
     * [FFI](ffi.md)

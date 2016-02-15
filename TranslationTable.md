@@ -10,6 +10,8 @@
 
 | English                        | 日本語
 |:-------------------------------|:-------------
+| (lockの) acquire               | 獲得
+| aggregate type                 | 合成型
 | alignment                      | アラインメント
 | allocator                      | アロケータ
 | antipattern                    | アンチパターン
@@ -18,6 +20,7 @@
 | array                          | 配列
 | assignment                     | 代入
 | associated -                   | 関連-
+| atomic                         | アトミック
 | attribute                      | アトリビュート
 | binary                         | バイナリ
 | binding                        | 束縛
@@ -31,11 +34,14 @@
 | comma                          | カンマ
 | compile-time error             | コンパイル時エラー
 | compiler                       | コンパイラ
+| computer science               | コンピュータサイエンス
+| concurrency                    | 並行性
 | constant                       | 定数
 | constructor                    | コンストラクタ
 | continuous integration         | 継続的インテグレーション
 | crate                          | クレート
 | dangling                       | ダングリング
+| data race                      | データ競合
 | declaration statement          | 宣言文
 | dereferencing                  | 参照外し
 | destructuring                  | 分配
@@ -56,6 +62,7 @@
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | growable                       | 伸張可能
+| handle                         | ハンドル
 | hash                           | ハッシュ
 | identifier                     | 識別子
 | immutable                      | イミュータブル
@@ -100,8 +107,10 @@
 | process                        | プロセス
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
+| reference count                | 参照カウント
 | regression                     | リグレッション
 | release                        | リリース
+| (lockの) release               | 解放
 | return                         | 返す
 | scope                          | スコープ
 | script                         | スクリプト
@@ -120,6 +129,8 @@
 | syntactic sugar                | 糖衣構文
 | system                         | システム
 | tagged union                   | タグ付き共用体
+| thread-locality                | スレッドローカル性
+| threadsafe                     | スレッドセーフ
 | tick                           | クオート
 | trait                          | トレイト
 | type inference                 | 型推論
@@ -136,3 +147,4 @@
 | version                        | バージョン
 | warning                        | ウォーニング
 | wildcard                       | ワイルドカード
+| wrapper                        | ラッパ
