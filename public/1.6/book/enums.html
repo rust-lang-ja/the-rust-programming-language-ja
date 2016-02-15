@@ -95,11 +95,11 @@
 </li>
 <li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
 </li>
-<li><a  href='const-and-static.html'><b>4.26.</b> `const`と`static`</a>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
 </li>
 <li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
 </li>
-<li><a  href='type-aliases.html'><b>4.28.</b> `type`エイリアス</a>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
 </li>
 <li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
 </li>
@@ -228,7 +228,7 @@ enum is the sum of the sets of possible values for each variant. -->
 of the `enum` itself. This allows both of these to work: -->
 
 <p>各ヴァリアントの名前を使うためには、 <code>::</code> 構文を使います。
-<code>enum</code> 自体の名前によってスコープするのです。
+すなわち、ヴァリアントの名前は <code>enum</code> 自体の名前によってスコープ化されています。
 これにより、以下は動きます。</p>
 <span class='rusttest'>fn main() {
     enum Message {
@@ -255,7 +255,7 @@ of the `enum` itself. This allows both of these to work: -->
 <!-- Both variants are named `Move`, but since they’re scoped to the name of
 the enum, they can both be used without conflict. -->
 
-<p>どちらのヴァリアントも <code>Move</code> という名前ですが、列挙型の名前でスコープされているため、衝突することなく使うことができます。</p>
+<p>どちらのヴァリアントも <code>Move</code> という名前ですが、列挙型の名前でスコープ化されているため、衝突することなく使うことができます。</p>
 
 <!-- A value of an enum type contains information about which variant it is,
 in addition to any data associated with that variant. This is sometimes
