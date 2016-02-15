@@ -1,38 +1,62 @@
 % マクロ
 <!-- % Macros -->
 
-By now you’ve learned about many of the tools Rust provides for abstracting and
-reusing code. These units of code reuse have a rich semantic structure. For
-example, functions have a type signature, type parameters have trait bounds,
-and overloaded functions must belong to a particular trait.
+<!-- By now you’ve learned about many of the tools Rust provides for abstracting and -->
+<!-- reusing code. These units of code reuse have a rich semantic structure. For -->
+<!-- example, functions have a type signature, type parameters have trait bounds, -->
+<!-- and overloaded functions must belong to a particular trait. -->
+Rustが提供している多くのコードの再利用や抽象化に利用できるツールを学んできました。
+それらのコードの再利用はリッチな意味論的構造を持っています。
+例えば、関数は型シグネチャ、型パラメータはトレイト境界、オーバーロードされた関数はトレイトに所属してなければならない等です。
 
-This structure means that Rust’s core abstractions have powerful compile-time
-correctness checking. But this comes at the price of reduced flexibility. If
-you visually identify a pattern of repeated code, you may find it’s difficult
-or cumbersome to express that pattern as a generic function, a trait, or
-anything else within Rust’s semantics.
+<!-- This structure means that Rust’s core abstractions have powerful compile-time -->
+<!-- correctness checking. But this comes at the price of reduced flexibility. If -->
+<!-- you visually identify a pattern of repeated code, you may find it’s difficult -->
+<!-- or cumbersome to express that pattern as a generic function, a trait, or -->
+<!-- anything else within Rust’s semantics. -->
+この構造はRustののコアの抽象化がコンパイル時の正確性のチェックが強力であるということを意味しています。
+しかし、それはコードの自由度を犠牲にしています。
+もし、視覚的に繰り返しているコードのパターンを発見した時に、
+それらをジェネリックな関数やトレイトや、他のRustのセマンティクスとして表現することが困難であると気がつくでしょう。
 
-Macros allow us to abstract at a syntactic level. A macro invocation is
-shorthand for an "expanded" syntactic form. This expansion happens early in
-compilation, before any static checking. As a result, macros can capture many
-patterns of code reuse that Rust’s core abstractions cannot.
+<!-- Macros allow us to abstract at a syntactic level. A macro invocation is -->
+<!-- shorthand for an "expanded" syntactic form. This expansion happens early in -->
+<!-- compilation, before any static checking. As a result, macros can capture many -->
+<!-- patterns of code reuse that Rust’s core abstractions cannot. -->
+マクロは構文レベルでの抽象化をすることを可能にします。
+マクロの実行は構文の展開の簡略表現です。
+この構文の展開はコンパイルの初期段階で構文的なチェックが実行される前に行われます。
+その結果として、マクロはRustのコアの抽象化では不可能な多くのパターンのコードの再利用を可能としています。
 
-The drawback is that macro-based code can be harder to understand, because
-fewer of the built-in rules apply. Like an ordinary function, a well-behaved
-macro can be used without understanding its implementation. However, it can be
-difficult to design a well-behaved macro!  Additionally, compiler errors in
-macro code are harder to interpret, because they describe problems in the
-expanded code, not the source-level form that developers use.
 
-These drawbacks make macros something of a "feature of last resort". That’s not
-to say that macros are bad; they are part of Rust because sometimes they’re
-needed for truly concise, well-abstracted code. Just keep this tradeoff in
-mind.
+<!-- The drawback is that macro-based code can be harder to understand, because -->
+<!-- fewer of the built-in rules apply. Like an ordinary function, a well-behaved -->
+<!-- macro can be used without understanding its implementation. However, it can be -->
+<!-- difficult to design a well-behaved macro!  Additionally, compiler errors in -->
+<!-- macro code are harder to interpret, because they describe problems in the -->
+<!-- expanded code, not the source-level form that developers use. -->
+マクロベースのコードの欠点となりえるのは、組み込みルールの少なさに由来するそのコードの理解のしづらさです。
+普通の関数と同じように、良いマクロはその実装について理解しなくても使うことができます。
+しかしながら、そのような良いマクロを設計するのは困難です！
+食わて、マクロコード中のコンパイルエラーは開発者が書いたソールレベルではなく、
+展開した結果のコードの中の問題について書かれているために、とても理解しづらいです。
 
-# Defining a macro
 
-You may have seen the `vec!` macro, used to initialize a [vector][vector] with
-any number of elements.
+<!-- These drawbacks make macros something of a "feature of last resort". That’s not -->
+<!-- to say that macros are bad; they are part of Rust because sometimes they’re -->
+<!-- needed for truly concise, well-abstracted code. Just keep this tradeoff in -->
+<!-- mind. -->
+これらの欠点はマクロを「最後の手段」にしています。
+これは、マクロが良くないものだと言っているわけではありません、マクロはRustの一部です、
+なぜならばマクロを使うことで完結になったり、適切な抽象化が可能になる場面がしばしば存在するからです。
+ただ、このトレードオフを頭に入れておいて欲しいのです。
+
+<!-- # Defining a macro -->
+# マクロを定義する
+
+<!-- You may have seen the `vec!` macro, used to initialize a [vector][vector] with -->
+<!-- any number of elements. -->
+`vec!` マクロを見たことがあるでしょう、 [ベクタ][vector] を任意の数の要素で初期化するために使われていました。
 
 [vector]: vectors.html
 
@@ -41,8 +65,10 @@ let x: Vec<u32> = vec![1, 2, 3];
 # assert_eq!(x, [1, 2, 3]);
 ```
 
-This can’t be an ordinary function, because it takes any number of arguments.
-But we can imagine it as syntactic shorthand for
+<!-- This can’t be an ordinary function, because it takes any number of arguments. -->
+<!-- But we can imagine it as syntactic shorthand for -->
+`vec!` は通常の関数として定義することはできません、なぜなら `vec!` は任意の個数の引数を取るためです。
+しかし、 `vec!` を以下のコードの構文上の短縮形であると考えることができます:
 
 ```rust
 let x: Vec<u32> = {
@@ -55,10 +81,12 @@ let x: Vec<u32> = {
 # assert_eq!(x, [1, 2, 3]);
 ```
 
-We can implement this shorthand, using a macro: [^actual]
+<!-- We can implement this shorthand, using a macro: [^actual] -->
+このような短縮形をマクロ: [^actual] を用いることで実装することができます
 
-[^actual]: The actual definition of `vec!` in libcollections differs from the
-           one presented here, for reasons of efficiency and reusability.
+<!-- [^actual]: The actual definition of `vec!` in libcollections differs from the -->
+<!--           one presented here, for reasons of efficiency and reusability. -->
+[^actual]: `vec!` のlibcollectionsにおける実際の実装と、ここで示したコードは効率性や再利用性のために異なります。
 
 ```rust
 macro_rules! vec {
@@ -77,41 +105,57 @@ macro_rules! vec {
 # }
 ```
 
-Whoa, that’s a lot of new syntax! Let’s break it down.
+<!-- Whoa, that’s a lot of new syntax! Let’s break it down. -->
+ワオ！たくさんの新しい構文が現れました！細かく見ていきましょう。
 
 ```ignore
 macro_rules! vec { ... }
 ```
 
-This says we’re defining a macro named `vec`, much as `fn vec` would define a
-function named `vec`. In prose, we informally write a macro’s name with an
-exclamation point, e.g. `vec!`. The exclamation point is part of the invocation
-syntax and serves to distinguish a macro from an ordinary function.
+<!-- This says we’re defining a macro named `vec`, much as `fn vec` would define a -->
+<!-- function named `vec`. In prose, we informally write a macro’s name with an -->
+<!-- exclamation point, e.g. `vec!`. The exclamation point is part of the invocation -->
+<!-- syntax and serves to distinguish a macro from an ordinary function. -->
+これは、新しいマクロ `vec` を定義していることを意味しています、`vec` という関数を定義するときに `fn vec` と書くのと同じです。
+散文的に、非形式的にマクロ名をエクスクラメーションマーク(!) と共に記述します、例えば: `vec!` のように示します。
+エクスクラメーションマークはマクロ呼び出しの構文の一部で、マクロと通常の関数の区別をつけるためのものです。
 
-## Matching
+<!-- ## Matching -->
+## マッチング
 
-The macro is defined through a series of rules, which are pattern-matching
-cases. Above, we had
+<!-- The macro is defined through a series of rules, which are pattern-matching -->
+<!-- cases. Above, we had -->
+マクロは、幾つかのパターンマッチをするルールに従って定義されています、
+上のコード中では、以下の様なパターンが見られました:
 
 ```ignore
 ( $( $x:expr ),* ) => { ... };
 ```
 
-This is like a `match` expression arm, but the matching happens on Rust syntax
-trees, at compile time. The semicolon is optional on the last (here, only)
-case. The "pattern" on the left-hand side of `=>` is known as a ‘matcher’.
-These have [their own little grammar] within the language.
+<!-- This is like a `match` expression arm, but the matching happens on Rust syntax -->
+<!-- trees, at compile time. The semicolon is optional on the last (here, only) -->
+<!-- case. The "pattern" on the left-hand side of `=>` is known as a ‘matcher’. -->
+<!-- These have [their own little grammar] within the language. -->
+これは `match` 式の腕に似ていますが、Rustの構文木に対してコンパイル時にマッチします。
+セミコロンはここでだけ使うことのできるオプションです。
+`=>` の左側にある「パターン」は「マッチャー」として知られています。
+マッチャーは [小さなマッチャー独自の構文][their own little grammar] を持っています。
 
 [their own little grammar]: ../reference.html#macros
 
-The matcher `$x:expr` will match any Rust expression, binding that syntax tree
-to the ‘metavariable’ `$x`. The identifier `expr` is a ‘fragment specifier’;
-the full possibilities are enumerated later in this chapter.
-Surrounding the matcher with `$(...),*` will match zero or more expressions,
-separated by commas.
+<!-- The matcher `$x:expr` will match any Rust expression, binding that syntax tree -->
+<!-- to the ‘metavariable’ `$x`. The identifier `expr` is a ‘fragment specifier’; -->
+<!-- the full possibilities are enumerated later in this chapter. -->
+<!-- Surrounding the matcher with `$(...),*` will match zero or more expressions, -->
+<!-- separated by commas. -->
+マッチャー `$x:expr` は任意のRustの式にマッチし、マッチした構文木を「メタ変数」 `$x` に束縛します。
+識別子 `expr` は「フラグメント指定子」です。全てのフラグメント指定子の一覧はこの章で後ほど紹介します。
+マッチャーを `$(...),*` で囲むと0個以上のコンマで句切られた式にマッチします。
 
-Aside from the special matcher syntax, any Rust tokens that appear in a matcher
-must match exactly. For example,
+<!-- Aside from the special matcher syntax, any Rust tokens that appear in a matcher -->
+<!-- must match exactly. For example, -->
+特別なマッチャー構文は別にして、その他のいかなるマッチャー中に登場するトークンはそれ自身にマッチします。
+例えば:
 
 ```rust
 macro_rules! foo {
@@ -124,29 +168,36 @@ fn main() {
 }
 ```
 
-will print
+<!-- will print -->
+上のコードは以下の様な出力をします
 
 ```text
 mode Y: 3
 ```
 
-With
+<!-- With -->
+また、以下のようなコードでは
 
 ```rust,ignore
 foo!(z => 3);
 ```
 
-we get the compiler error
+<!-- we get the compiler error -->
+以下の様なコンパイルエラーが発生します
 
 ```text
 error: no rules expected the token `z`
 ```
 
-## Expansion
+<!-- ## Expansion -->
+## 展開
 
-The right-hand side of a macro rule is ordinary Rust syntax, for the most part.
-But we can splice in bits of syntax captured by the matcher. From the original
-example:
+<!-- The right-hand side of a macro rule is ordinary Rust syntax, for the most part. -->
+<!-- But we can splice in bits of syntax captured by the matcher. From the original -->
+<!-- example: -->
+マクロルールの右側は大部分が通常のRustの構文です。
+しかし、マッチャーによってキャプチャされた構文を繋げる事ができます。
+最初に示した `vec!` の例を見てみましょう:
 
 ```ignore
 $(
@@ -154,17 +205,24 @@ $(
 )*
 ```
 
-Each matched expression `$x` will produce a single `push` statement in the
-macro expansion. The repetition in the expansion proceeds in "lockstep" with
-repetition in the matcher (more on this in a moment).
+<!-- Each matched expression `$x` will produce a single `push` statement in the -->
+<!-- macro expansion. The repetition in the expansion proceeds in "lockstep" with -->
+<!-- repetition in the matcher (more on this in a moment). -->
+`$x` にマッチしたそれぞれの式はマクロ展開中に `push` 文を生成します。
+展開の各ステップは、マッチャー中の繰り返しと足並みを揃えて実行されます(これについてはもう少し説明します)。
 
-Because `$x` was already declared as matching an expression, we don’t repeat
-`:expr` on the right-hand side. Also, we don’t include a separating comma as
-part of the repetition operator. Instead, we have a terminating semicolon
-within the repeated block.
+<!-- Because `$x` was already declared as matching an expression, we don’t repeat -->
+<!-- `:expr` on the right-hand side. Also, we don’t include a separating comma as -->
+<!-- part of the repetition operator. Instead, we have a terminating semicolon -->
+<!-- within the repeated block. -->
+`$x` が既に式にマッチすると宣言されているために、`=>` の右側では `:expr` を繰り返しません。
+また、区切りのコンマは繰り返し演算子の一部には含めません。
+そのかわり、繰り返しブロックをセミコロンを用いて閉じます。
 
-Another detail: the `vec!` macro has *two* pairs of braces on the right-hand
-side. They are often combined like so:
+<!-- Another detail: the `vec!` macro has *two* pairs of braces on the right-hand -->
+<!-- side. They are often combined like so: -->
+そのほかの詳細としては: `vec!` マクロは *2つ* の括弧のペアを右側に含みます。
+そのような括弧はよく以下のように合せられます:
 
 ```ignore
 macro_rules! foo {
@@ -174,8 +232,9 @@ macro_rules! foo {
 }
 ```
 
-The outer braces are part of the syntax of `macro_rules!`. In fact, you can use
-`()` or `[]` instead. They simply delimit the right-hand side as a whole.
+<!-- The outer braces are part of the syntax of `macro_rules!`. In fact, you can use -->
+<!-- `()` or `[]` instead. They simply delimit the right-hand side as a whole. -->
+
 
 The inner braces are part of the expanded syntax. Remember, the `vec!` macro is
 used in an expression context. To write an expression with multiple statements,
