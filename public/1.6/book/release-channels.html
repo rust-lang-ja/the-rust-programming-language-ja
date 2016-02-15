@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Release Channels</title>
+    <title>リリースチャネル</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,13 +185,23 @@
 <div id='page'>
 
 
-    <h1 class="title">Release Channels</h1>
-    <p>The Rust project uses a concept called ‘release channels’ to manage releases.
-It’s important to understand this process to choose which version of Rust
-your project should use.</p>
+    <h1 class="title">リリースチャネル</h1>
+    <!-- % Release Channels -->
 
-<h1 id='overview' class='section-header'><a href='#overview'>Overview</a></h1>
-<p>There are three channels for Rust releases:</p>
+<!-- The Rust project uses a concept called ‘release channels’ to manage releases. -->
+
+<!-- It’s important to understand this process to choose which version of Rust -->
+
+<!-- your project should use. -->
+
+<p>Rustプロジェクトではリリースを管理するために「リリースチャネル」という考え方を採用しています。どのバージョンのRustを使用するか決めるためには、この考え方を理解することが重要になります。</p>
+
+<!-- # Overview -->
+
+<h1 id='概要' class='section-header'><a href='#概要'>概要</a></h1>
+<!-- There are three channels for Rust releases: -->
+
+<p>Rustのリリースには以下の3つのチャネルがあります。</p>
 
 <ul>
 <li>Nightly</li>
@@ -199,39 +209,75 @@ your project should use.</p>
 <li>Stable</li>
 </ul>
 
-<p>New nightly releases are created once a day. Every six weeks, the latest
-nightly release is promoted to ‘Beta’. At that point, it will only receive
-patches to fix serious errors. Six weeks later, the beta is promoted to
-‘Stable’, and becomes the next release of <code>1.x</code>.</p>
+<!-- New nightly releases are created once a day. Every six weeks, the latest -->
 
-<p>This process happens in parallel. So every six weeks, on the same day,
-nightly goes to beta, beta goes to stable. When <code>1.x</code> is released, at
-the same time, <code>1.(x + 1)-beta</code> is released, and the nightly becomes the
-first version of <code>1.(x + 2)-nightly</code>.</p>
+<!-- nightly release is promoted to ‘Beta’. At that point, it will only receive -->
 
-<h1 id='choosing-a-version' class='section-header'><a href='#choosing-a-version'>Choosing a version</a></h1>
-<p>Generally speaking, unless you have a specific reason, you should be using the
-stable release channel. These releases are intended for a general audience.</p>
+<!-- patches to fix serious errors. Six weeks later, the beta is promoted to -->
 
-<p>However, depending on your interest in Rust, you may choose to use nightly
-instead. The basic tradeoff is this: in the nightly channel, you can use
-unstable, new Rust features. However, unstable features are subject to change,
-and so any new nightly release may break your code. If you use the stable
-release, you cannot use experimental features, but the next release of Rust
-will not cause significant issues through breaking changes.</p>
+<!-- ‘Stable’, and becomes the next release of `1.x`. -->
 
-<h1 id='helping-the-ecosystem-through-ci' class='section-header'><a href='#helping-the-ecosystem-through-ci'>Helping the ecosystem through CI</a></h1>
-<p>What about beta? We encourage all Rust users who use the stable release channel
-to also test against the beta channel in their continuous integration systems.
-This will help alert the team in case there’s an accidental regression.</p>
+<p>新しいnightlyリリースは毎日作られます。6週間ごとに、最新のnightlyリリースが「Beta」に格上げされます。これ以降は深刻なエラーを修正するパッチのみが受け付けられます。さらに6週間後、betaは「Stable」に格上げされ、次の「1.x」リリースになります。</p>
 
-<p>Additionally, testing against nightly can catch regressions even sooner, and so
-if you don’t mind a third build, we’d appreciate testing against all channels.</p>
+<!-- This process happens in parallel. So every six weeks, on the same day, -->
 
-<p>As an example, many Rust programmers use <a href="https://travis-ci.org/">Travis</a> to
-test their crates, which is free for open source projects. Travis <a href="http://docs.travis-ci.com/user/languages/rust/">supports
-Rust directly</a>, and you can use a <code>.travis.yml</code> file like this to
-test on all channels:</p>
+<!-- nightly goes to beta, beta goes to stable. When `1.x` is released, at -->
+
+<!-- the same time, `1.(x + 1)-beta` is released, and the nightly becomes the -->
+
+<!-- first version of `1.(x + 2)-nightly`. -->
+
+<p>このプロセスは並行して行われます。つまり6週間毎の同じ日に、nightlyはbetaに、betaはstableになります。「1.x」がリリースされると同時に「1.(x + 1)-beta」がリリースされ、nightlyは「1.(x + 2)-nightly」の最初のバージョンになる、ということです。</p>
+
+<!-- # Choosing a version -->
+
+<h1 id='バージョンを選ぶ' class='section-header'><a href='#バージョンを選ぶ'>バージョンを選ぶ</a></h1>
+<!-- Generally speaking, unless you have a specific reason, you should be using the -->
+
+<!-- stable release channel. These releases are intended for a general audience. -->
+
+<p>一般的に言って、特別な理由がなければstableリリースチャネルを使うべきです。このリリースは一般のユーザ向けになっています。</p>
+
+<!-- However, depending on your interest in Rust, you may choose to use nightly -->
+
+<!-- instead. The basic tradeoff is this: in the nightly channel, you can use -->
+
+<!-- unstable, new Rust features. However, unstable features are subject to change, -->
+
+<!-- and so any new nightly release may break your code. If you use the stable -->
+
+<!-- release, you cannot use experimental features, but the next release of Rust -->
+
+<!-- will not cause significant issues through breaking changes. -->
+
+<p>しかしRustに特に関心のある方は、代わりにnightlyを選んでも構いません。基本的な交換条件は次の通りです。nightlyチャネルを選ぶと不安定で新しいフィーチャを使うことができます。しかし、不安定なフィーチャは変更されやすく、新しいnightlyリリースでソースコードが動かなくなってしまうかもしれません。stableリリースを使えば、実験的なフィーチャを使うことはできませんが、Rustのバージョンが上がっても破壊的な変更によるトラブルは起きないでしょう。</p>
+
+<!-- # Helping the ecosystem through CI -->
+
+<h1 id='ciによるエコシステム支援' class='section-header'><a href='#ciによるエコシステム支援'>CIによるエコシステム支援</a></h1>
+<!-- What about beta? We encourage all Rust users who use the stable release channel -->
+
+<!-- to also test against the beta channel in their continuous integration systems. -->
+
+<!-- This will help alert the team in case there’s an accidental regression. -->
+
+<p>betaとはどういうチャネルでしょうか？stableリリースチャネルを使う全てのユーザは、継続的インテグレーションシステムを使ってbetaリリースに対してもテストすることを推奨しています。こうすることで、突発的なリグレッションに備えることができます。</p>
+
+<!-- Additionally, testing against nightly can catch regressions even sooner, and so -->
+
+<!-- if you don’t mind a third build, we’d appreciate testing against all channels. -->
+
+<p>さらに、nightlyに対してもテストすることでより早くリグレッションを捉えることができます。もし差し支えなければ、この3つ目のビルドを含めた全てのチャネルに対してテストしてもらえると嬉しいです。</p>
+
+<!-- As an example, many Rust programmers use [Travis](https://travis-ci.org/) to -->
+
+<!-- test their crates, which is free for open source projects. Travis [supports -->
+
+<!-- Rust directly][travis], and you can use a `.travis.yml` file like this to -->
+
+<!-- test on all channels: -->
+
+<p>例えば、多くのRustプログラマが <a href="https://travis-ci.org/">Travis</a> をクレートのテストに使っています。(このサービスはオープンソースプロジェクトについては無料で使えます) Travisは <a href="http://docs.travis-ci.com/user/languages/rust/">Rustを直接サポート</a> しており、「<code>.travis.yml</code>」に以下のように書くことですべてのチャネルに対するテストを行うことができます。</p>
 
 <pre><code class="language-yaml">language: rust
 rust:
@@ -244,10 +290,15 @@ matrix:
     - rust: nightly
 </code></pre>
 
-<p>With this configuration, Travis will test all three channels, but if something
-breaks on nightly, it won’t fail your build. A similar configuration is
-recommended for any CI system, check the documentation of the one you’re
-using for more details.</p>
+<!-- With this configuration, Travis will test all three channels, but if something -->
+
+<!-- breaks on nightly, it won’t fail your build. A similar configuration is -->
+
+<!-- recommended for any CI system, check the documentation of the one you’re -->
+
+<!-- using for more details. -->
+
+<p>この設定で、Travisは3つ全てのチャネルに対してテストを行いますが、nightlyで何かおかしくなったとしてもビルドが失敗にはなりません。他のCIシステムでも同様の設定をお勧めします。詳細はお使いのシステムのドキュメントを参照してください。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

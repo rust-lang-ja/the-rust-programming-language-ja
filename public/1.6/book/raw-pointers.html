@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Raw Pointers</title>
+    <title>生ポインタ</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,39 +185,60 @@
 <div id='page'>
 
 
-    <h1 class="title">Raw Pointers</h1>
-    <p>Rust has a number of different smart pointer types in its standard library, but
+    <h1 class="title">生ポインタ</h1>
+    <!-- % Raw Pointers -->
+
+<!-- Rust has a number of different smart pointer types in its standard library, but
 there are two types that are extra-special. Much of Rust’s safety comes from
 compile-time checks, but raw pointers don’t have such guarantees, and are
-<a href="unsafe.html">unsafe</a> to use.</p>
+[unsafe][unsafe] to use. -->
 
-<p><code>*const T</code> and <code>*mut T</code> are called ‘raw pointers’ in Rust. Sometimes, when
+<p>Rustは標準ライブラリに異なるスマートポインタの型を幾つか用意していますが、更に特殊な型が2つあります。Rustの安全性の多くはコンパイル時のチェックに依るものですが、生ポインタを用いるとそういった保証が得られないため <a href="unsafe.html">unsafe</a> です。</p>
+
+<!-- `*const T` and `*mut T` are called ‘raw pointers’ in Rust. Sometimes, when
 writing certain kinds of libraries, you’ll need to get around Rust’s safety
 guarantees for some reason. In this case, you can use raw pointers to implement
-your library, while exposing a safe interface for your users. For example, <code>*</code>
+your library, while exposing a safe interface for your users. For example, `*`
 pointers are allowed to alias, allowing them to be used to write
-shared-ownership types, and even thread-safe shared memory types (the <code>Rc&lt;T&gt;</code>
-and <code>Arc&lt;T&gt;</code> types are both implemented entirely in Rust).</p>
+shared-ownership types, and even thread-safe shared memory types (the `Rc<T>`
+and `Arc<T>` types are both implemented entirely in Rust). -->
 
-<p>Here are some things to remember about raw pointers that are different than
-other pointer types. They:</p>
+<p><code>*const T</code> と <code>*mut T</code> はRustにおいて「生ポインタ」と呼ばれます。時々、ある種ののライブラリを書く際に、あなたは何らかの理由でRustが行う安全性の保証を避けなければならないこともあります。このようなケースでは、ユーザに安全なインターフェースを提供しつつ、ライブラリの実装に生ポインタを使用できます。例えば、 <code>*</code> ポインタはエイリアスとして振る舞うこともできるので、所有権を共有する型を書くのに用いたり、スレッドセーフな共有メモリ型でさえも実装できます。( <code>Rc&lt;T&gt;</code> と <code>Arc&lt;T&gt;</code> 型は完全にRustのみで実装されています)</p>
+
+<!-- Here are some things to remember about raw pointers that are different than
+other pointer types. They: -->
+
+<p>以下は覚えておくべき生ポインタとその他のポインタ型との違いです。</p>
+
+<!-- - are not guaranteed to point to valid memory and are not even
+  guaranteed to be non-null (unlike both `Box` and `&`); -->
+
+<!-- - do not have any automatic clean-up, unlike `Box`, and so require
+  manual resource management; -->
+
+<!-- - are plain-old-data, that is, they don't move ownership, again unlike
+  `Box`, hence the Rust compiler cannot protect against bugs like
+  use-after-free; -->
+
+<!-- - lack any form of lifetimes, unlike `&`, and so the compiler cannot
+  reason about dangling pointers; and
+- have no guarantees about aliasing or mutability other than mutation
+  not being allowed directly through a `*const T`. -->
 
 <ul>
-<li>are not guaranteed to point to valid memory and are not even
-guaranteed to be non-null (unlike both <code>Box</code> and <code>&amp;</code>);</li>
-<li>do not have any automatic clean-up, unlike <code>Box</code>, and so require
-manual resource management;</li>
-<li>are plain-old-data, that is, they don&#39;t move ownership, again unlike
-<code>Box</code>, hence the Rust compiler cannot protect against bugs like
-use-after-free;</li>
-<li>lack any form of lifetimes, unlike <code>&amp;</code>, and so the compiler cannot
-reason about dangling pointers; and</li>
-<li>have no guarantees about aliasing or mutability other than mutation
-not being allowed directly through a <code>*const T</code>.</li>
+<li>有効なメモリを指していることが保証されないどころか、nullでないことも保証されない( <code>Box</code> と <code>&amp;</code> では保証される)</li>
+<li><code>Box</code> とは異なり、自動的な後処理が一切行われないため、手動のリソース管理が必要</li>
+<li>plain-old-dataであるため、Rustコンパイラはuse-after-freeのようなバグから保護できない</li>
+<li><code>&amp;</code> と異なり、ライフタイムの機能が無効化されるため、コンパイラはダングリングポインタを推論できない</li>
+<li>また、 <code>*const T</code> を直接介した変更は拒むが、それ以外のエイリアシングやミュータビリティに関する保証はない</li>
 </ul>
 
-<h1 id='basics' class='section-header'><a href='#basics'>Basics</a></h1>
-<p>Creating a raw pointer is perfectly safe:</p>
+<!-- # Basics -->
+
+<h1 id='基本' class='section-header'><a href='#基本'>基本</a></h1>
+<!-- Creating a raw pointer is perfectly safe: -->
+
+<p>生ポインタを作成すること自体は絶対に安全です。</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     let raw = &amp;x as *const i32;
@@ -231,7 +252,9 @@ not being allowed directly through a <code>*const T</code>.</li>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>10</span>;
 <span class='kw'>let</span> <span class='ident'>raw_mut</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>i32</span>;</pre>
 
-<p>However, dereferencing one is not. This won’t work:</p>
+<!-- However, dereferencing one is not. This won’t work: -->
+
+<p>しかしながら参照外しは安全ではありません。以下は動作しないでしょう。</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     let raw = &amp;x as *const i32;
@@ -243,15 +266,19 @@ not being allowed directly through a <code>*const T</code>.</li>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;raw points at {}&quot;</span>, <span class='op'>*</span><span class='ident'>raw</span>);</pre>
 
-<p>It gives this error:</p>
+<!-- It gives this error: -->
+
+<p>このコードは以下のエラーが発生します。</p>
 
 <pre><code class="language-text">error: dereference of raw pointer requires unsafe function or block [E0133]
      println!(&quot;raw points at {}&quot;, *raw);
                                   ^~~~
 </code></pre>
 
-<p>When you dereference a raw pointer, you’re taking responsibility that it’s not
-pointing somewhere that would be incorrect. As such, you need <code>unsafe</code>:</p>
+<!-- When you dereference a raw pointer, you’re taking responsibility that it’s not
+pointing somewhere that would be incorrect. As such, you need `unsafe`: -->
+
+<p>生ポインタを参照外しする時、ポインタが間違った場所を指していないことに対して責任を負うことになります。そういう時は、 <code>unsafe</code> を付けなければなりません。</p>
 <span class='rusttest'>fn main() {
     let x = 5;
     let raw = &amp;x as *const i32;
@@ -267,35 +294,49 @@ pointing somewhere that would be incorrect. As such, you need <code>unsafe</code
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;raw points at {}&quot;</span>, <span class='ident'>points_at</span>);</pre>
 
-<p>For more operations on raw pointers, see <a href="../std/primitive.pointer.html">their API documentation</a>.</p>
+<!-- For more operations on raw pointers, see [their API documentation][rawapi]. -->
+
+<p>生ポインタの操作に関する詳細は、 <a href="../std/primitive.pointer.html">APIドキュメント</a> を参照してください。</p>
 
 <h1 id='ffi' class='section-header'><a href='#ffi'>FFI</a></h1>
-<p>Raw pointers are useful for FFI: Rust’s <code>*const T</code> and <code>*mut T</code> are similar to
-C’s <code>const T*</code> and <code>T*</code>, respectively. For more about this use, consult the
-<a href="ffi.html">FFI chapter</a>.</p>
+<!-- Raw pointers are useful for FFI: Rust’s `*const T` and `*mut T` are similar to
+C’s `const T*` and `T*`, respectively. For more about this use, consult the
+[FFI chapter][ffi]. -->
 
-<h1 id='references-and-raw-pointers' class='section-header'><a href='#references-and-raw-pointers'>References and raw pointers</a></h1>
-<p>At runtime, a raw pointer <code>*</code> and a reference pointing to the same piece of
-data have an identical representation. In fact, an <code>&amp;T</code> reference will
-implicitly coerce to an <code>*const T</code> raw pointer in safe code and similarly for
-the <code>mut</code> variants (both coercions can be performed explicitly with,
-respectively, <code>value as *const T</code> and <code>value as *mut T</code>).</p>
+<p>生ポインタはFFIを使う際に役立ちます。Rustの <code>*const T</code> と <code>*mut T</code> はそれぞれC言語の <code>const T*</code> と <code>T*</code> に似ているからです。これの使い方に関する詳細は、 <a href="ffi.html">FFIの章</a> を参照してください。</p>
 
-<p>Going the opposite direction, from <code>*const</code> to a reference <code>&amp;</code>, is not safe. A
-<code>&amp;T</code> is always valid, and so, at a minimum, the raw pointer <code>*const T</code> has to
-point to a valid instance of type <code>T</code>. Furthermore, the resulting pointer must
+<!-- # References and raw pointers -->
+
+<h1 id='参照と生ポインタ' class='section-header'><a href='#参照と生ポインタ'>参照と生ポインタ</a></h1>
+<!-- At runtime, a raw pointer `*` and a reference pointing to the same piece of
+data have an identical representation. In fact, an `&T` reference will
+implicitly coerce to an `*const T` raw pointer in safe code and similarly for
+the `mut` variants (both coercions can be performed explicitly with,
+respectively, `value as *const T` and `value as *mut T`). -->
+
+<p>実行時において、同じデータを指す生ポインタ <code>*</code> と参照は内部的に同一です。事実、 <code>unsafe</code> 外の安全なコードにおいて <code>&amp;T</code> 参照は <code>*const T</code> 生ポインタへ暗黙的に型強制されますし、 <code>mut</code> の場合でも同様です。(これら型強制は、それぞれ <code>value as *const T</code> と <code>value as *mut T</code> のように、明示的に行うこともできます。)</p>
+
+<!-- Going the opposite direction, from `*const` to a reference `&`, is not safe. A
+`&T` is always valid, and so, at a minimum, the raw pointer `*const T` has to
+point to a valid instance of type `T`. Furthermore, the resulting pointer must
 satisfy the aliasing and mutability laws of references. The compiler assumes
 these properties are true for any references, no matter how they are created,
 and so any conversion from raw pointers is asserting that they hold. The
-programmer <em>must</em> guarantee this.</p>
+programmer *must* guarantee this. -->
 
-<p>The recommended method for the conversion is:</p>
+<p>逆に、 <code>*const</code> から 参照 <code>&amp;</code> へ遡るのは安全ではありません。 <code>&amp;T</code> は常に有効であるため、最低でも <code>*const T</code> は型 <code>T</code> の有効な実体を指さなければならないのです。その上、ポインタは参照のエイリアシングとミュータビリティの規則も満たす必要があります。コンパイラはあらゆる参照についてこれらの性質が真であると仮定しており、その生成方法に依らず適用するため、生ポインタからのいかなる変換も、参照先の値が上記の性質を満たすと表明していることになります。プログラマがこのことを保証 <em>しなければならない</em> のです。</p>
+
+<!-- The recommended method for the conversion is: -->
+
+<p>おすすめの変換の方法は以下のとおりです。</p>
 <span class='rusttest'>fn main() {
     // explicit cast
+    // 明示的キャスト
     let i: u32 = 1;
     let p_imm: *const u32 = &amp;i as *const u32;
     
     // implicit coercion
+    // 暗黙的キャスト
     let mut m: u32 = 2;
     let p_mut: *mut u32 = &amp;mut m;
     
@@ -304,11 +345,11 @@ programmer <em>must</em> guarantee this.</p>
         let ref_mut: &amp;mut u32 = &amp;mut *p_mut;
     }
 }</span><pre class='rust rust-example-rendered'>
-<span class='comment'>// explicit cast</span>
+<span class='comment'>// 明示的キャスト</span>
 <span class='kw'>let</span> <span class='ident'>i</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>1</span>;
 <span class='kw'>let</span> <span class='ident'>p_imm</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>i</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u32</span>;
 
-<span class='comment'>// implicit coercion</span>
+<span class='comment'>// 暗黙的キャスト</span>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>2</span>;
 <span class='kw'>let</span> <span class='ident'>p_mut</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>m</span>;
 
@@ -317,10 +358,12 @@ programmer <em>must</em> guarantee this.</p>
     <span class='kw'>let</span> <span class='ident'>ref_mut</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>u32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>p_mut</span>;
 }</pre>
 
-<p>The <code>&amp;*x</code> dereferencing style is preferred to using a <code>transmute</code>. The latter
+<!-- The `&*x` dereferencing style is preferred to using a `transmute`. The latter
 is far more powerful than necessary, and the more restricted operation is
-harder to use incorrectly; for example, it requires that <code>x</code> is a pointer
-(unlike <code>transmute</code>).</p>
+harder to use incorrectly; for example, it requires that `x` is a pointer
+(unlike `transmute`). -->
+
+<p><code>&amp;*x</code> 参照外し方式は <code>transmute</code> を用いるよりも好ましいです。後者は必要以上に強力ですから、より用途が限定されている操作の方が間違って使いにくいでしょう。例えば、前者の方法は <code>x</code> がポインタである必要があります。( <code>transmute</code> とは異なります)</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

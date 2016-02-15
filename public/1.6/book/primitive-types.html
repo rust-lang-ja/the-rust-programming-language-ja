@@ -277,13 +277,13 @@
 
 <p>もし数値リテラルがその型を推論させるものを何も持たないのであれば、以下のとおりデフォルトになります。</p>
 <span class='rusttest'>fn main() {
-    let x = 42; // x has type i32
-    
-    let y = 1.0; // y has type f64
+    // let x = 42; // x has type i32
+    let x = 42; // xはi32型を持つ
+    // let y = 1.0; // y has type f64
+    let y = 1.0; // yはf64型を持つ
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>42</span>; <span class='comment'>// x has type i32</span>
-
-<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>1.0</span>; <span class='comment'>// y has type f64</span></pre>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>42</span>; <span class='comment'>// xはi32型を持つ</span>
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>1.0</span>; <span class='comment'>// yはf64型を持つ</span></pre>
 
 <!-- Here’s a list of the different numeric types, with links to their documentation --> 
 
@@ -494,12 +494,14 @@
 <code>&amp;</code> はスライスが参照と同じであることを示し、 <code>[]</code> はレンジを持ち、スライスの長さを定義します。</p>
 <span class='rusttest'>fn main() {
     let a = [0, 1, 2, 3, 4];
-    let complete = &amp;a[..]; // A slice containing all of the elements in a
-    let middle = &amp;a[1..4]; // A slice of a: just the elements 1, 2, and 3
+    // let complete = &amp;a[..]; // A slice containing all of the elements in a
+    let complete = &amp;a[..]; // aに含まれる全ての要素を持つスライス
+    // let middle = &amp;a[1..4]; // A slice of a: just the elements 1, 2, and 3
+    let middle = &amp;a[1..4]; // 1、2、3のみを要素に持つaのスライス
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
-<span class='kw'>let</span> <span class='ident'>complete</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>a</span>[..]; <span class='comment'>// A slice containing all of the elements in a</span>
-<span class='kw'>let</span> <span class='ident'>middle</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>a</span>[<span class='number'>1</span>..<span class='number'>4</span>]; <span class='comment'>// A slice of a: just the elements 1, 2, and 3</span></pre>
+<span class='kw'>let</span> <span class='ident'>complete</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>a</span>[..]; <span class='comment'>// aに含まれる全ての要素を持つスライス</span>
+<span class='kw'>let</span> <span class='ident'>middle</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>a</span>[<span class='number'>1</span>..<span class='number'>4</span>]; <span class='comment'>// 1、2、3のみを要素に持つaのスライス</span></pre>
 
 <!-- Slices have type `&[T]`. We’ll talk about that `T` when we cover --> 
 
@@ -630,11 +632,13 @@
 
 <p>コンマを付けることで要素1のタプルを丸括弧の中の値と混同しないように明示することができます。</p>
 <span class='rusttest'>fn main() {
-    (0,); // single-element tuple
-    (0); // zero in parentheses
+    // (0,); // single-element tuple
+     (0,); // 1要素のタプル
+    // (0); // zero in parentheses
+     (0); // 丸括弧に囲まれたゼロ
 }</span><pre class='rust rust-example-rendered'>
-(<span class='number'>0</span>,); <span class='comment'>// single-element tuple</span>
-(<span class='number'>0</span>); <span class='comment'>// zero in parentheses</span></pre>
+ (<span class='number'>0</span>,); <span class='comment'>// 1要素のタプル</span>
+ (<span class='number'>0</span>); <span class='comment'>// 丸括弧に囲まれたゼロ</span></pre>
 
 <!-- ## Tuple Indexing --> 
 
