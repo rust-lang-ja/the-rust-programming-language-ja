@@ -23,7 +23,7 @@ let y: bool = false;
 ```
 
 <!-- A common use of booleans is in [`if` conditionals][if]. --> 
-ブーリアンの一般的な使い方は、 [`if`条件][if] の中で用いるものです。
+ブーリアンの一般的な使い方は、 [`if` 条件][if] の中で用いるものです。
 
 [if]: if.html
 
