@@ -186,145 +186,297 @@
 
 
     <h1 class="title">Unsafe</h1>
-    <p>Rust’s main draw is its powerful static guarantees about behavior. But safety
+    <!--
+Rust’s main draw is its powerful static guarantees about behavior. But safety
 checks are conservative by nature: there are some programs that are actually
 safe, but the compiler is not able to verify this is true. To write these kinds
 of programs, we need to tell the compiler to relax its restrictions a bit. For
-this, Rust has a keyword, <code>unsafe</code>. Code using <code>unsafe</code> has less restrictions
-than normal code does.</p>
+this, Rust has a keyword, `unsafe`. Code using `unsafe` has less restrictions
+than normal code does.
+-->
 
-<p>Let’s go over the syntax, and then we’ll talk semantics. <code>unsafe</code> is used in
-four contexts. The first one is to mark a function as unsafe:</p>
+<p>Rustの主たる魅力は、プログラムの動作についての強力で静的な保証です。
+しかしながら、安全性検査は本来保守的なものです。
+すなわち、実際には安全なのに、そのことがコンパイラには検証できないプログラムがいくらか存在します。
+その類のプログラムを書くためには、制約を少し緩和するようコンパイラに対して伝えることが要ります。
+そのために、Rustには <code>unsafe</code> というキーワードがあります。
+<code>unsafe</code> を使ったコードは、普通のコードよりも制約が少なくなります。</p>
+
+<!--
+Let’s go over the syntax, and then we’ll talk semantics. `unsafe` is used in
+four contexts. The first one is to mark a function as unsafe:
+-->
+
+<p>まずシンタックスをみて、それからセマンティクスについて話しましょう。
+<code>unsafe</code> は4つの場面で使われます。
+1つめは、関数がアンセーフであることを印付ける場合です。</p>
 <span class='rusttest'>fn main() {
     unsafe fn danger_will_robinson() {
-        // scary stuff
+       // scary stuff
+        // 恐ろしいもの
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>danger_will_robinson</span>() {
-    <span class='comment'>// scary stuff</span>
+    <span class='comment'>// 恐ろしいもの</span>
 }</pre>
 
-<p>All functions called from <a href="ffi.html">FFI</a> must be marked as <code>unsafe</code>, for example.
-The second use of <code>unsafe</code> is an unsafe block:</p>
+<!--
+All functions called from [FFI][ffi] must be marked as `unsafe`, for example.
+The second use of `unsafe` is an unsafe block:
+-->
+
+<p>たとえば、<a href="ffi.html">FFI</a>から呼び出されるすべての関数は<code>unsafe</code>で印付けることが必要です。
+<code>unsafe</code>の2つめの用途は、アンセーフブロックです。</p>
 <span class='rusttest'>fn main() {
     unsafe {
-        // scary stuff
+       // scary stuff
+        // 恐ろしいもの
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> {
-    <span class='comment'>// scary stuff</span>
+    <span class='comment'>// 恐ろしいもの</span>
 }</pre>
 
-<p>The third is for unsafe traits:</p>
+<!--The third is for unsafe traits:-->
+
+<p>3つめは、アンセーフトレイトです。</p>
 <span class='rusttest'>fn main() {
     unsafe trait Scary { }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> <span class='kw'>trait</span> <span class='ident'>Scary</span> { }</pre>
 
-<p>And the fourth is for <code>impl</code>ementing one of those traits:</p>
+<!--And the fourth is for `impl`ementing one of those traits:-->
+
+<p>そして、4つめは、そのアンセーフトレイトを実装する場合です。</p>
 <span class='rusttest'>fn main() {
     unsafe trait Scary { }
     unsafe impl Scary for i32 {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>Scary</span> <span class='kw'>for</span> <span class='ident'>i32</span> {}</pre>
 
-<p>It’s important to be able to explicitly delineate code that may have bugs that
+<!--
+It’s important to be able to explicitly delineate code that may have bugs that
 cause big problems. If a Rust program segfaults, you can be sure it’s somewhere
-in the sections marked <code>unsafe</code>.</p>
+in the sections marked `unsafe`.
+-->
 
-<h1 id='what-does-safe-mean' class='section-header'><a href='#what-does-safe-mean'>What does ‘safe’ mean?</a></h1>
-<p>Safe, in the context of Rust, means ‘doesn’t do anything unsafe’. It’s also
+<p>大きな問題を引き起こすバグがあるかもしれないコードを明示できるのは重要なことです。
+もしRustのプログラムがセグメンテーション違反を起こしても、バグは <code>unsafe</code> で印付けられた区間のどこかにあると確信できます。</p>
+
+<h1 id='安全とはどういう意味か' class='section-header'><a href='#安全とはどういう意味か'>「安全」とはどういう意味か?</a></h1>
+<!--# What does ‘safe’ mean?-->
+
+<!--
+Safe, in the context of Rust, means ‘doesn’t do anything unsafe’. It’s also
 important to know that there are certain behaviors that are probably not
-desirable in your code, but are expressly <em>not</em> unsafe:</p>
+desirable in your code, but are expressly _not_ unsafe:
+-->
+
+<p>Rustの文脈で、安全とは「どのようなアンセーフなこともしない」ことを意味します。</p>
+
+<blockquote>
+<p>訳注:
+正確には、安全とは「決して未定義動作を起こさない」ということです。
+そして、安全性が保証されていないことを「アンセーフ」と呼びます。
+つまり、未定義動作が起きるおそれがあるなら、それはアンセーフです。</p>
+</blockquote>
+
+<p>知っておくべき重要なことに、たいていのコードにおいて望ましくないが、アンセーフ <em>ではない</em> とされている動作がいくらか存在するということがあります。</p>
+
+<!--
+* Deadlocks
+* Leaks of memory or other resources
+* Exiting without calling destructors
+* Integer overflow
+-->
 
 <ul>
-<li>Deadlocks</li>
-<li>Leaks of memory or other resources</li>
-<li>Exiting without calling destructors</li>
-<li>Integer overflow</li>
+<li>デッドロック</li>
+<li>メモリやその他のリソースのリーク</li>
+<li>デストラクタを呼び出さないプログラム終了</li>
+<li>整数オーバーフロー</li>
 </ul>
 
-<p>Rust cannot prevent all kinds of software problems. Buggy code can and will be
-written in Rust. These things aren’t great, but they don’t qualify as <code>unsafe</code>
-specifically.</p>
+<!--
+Rust cannot prevent all kinds of software problems. Buggy code can and will be
+written in Rust. These things aren’t great, but they don’t qualify as `unsafe`
+specifically.
+-->
 
-<p>In addition, the following are all undefined behaviors in Rust, and must be
-avoided, even when writing <code>unsafe</code> code:</p>
+<p>Rustはソフトウェアが抱えるすべての種類の問題を防げるわけではありません。
+Rustでバグのあるコードを書くことはできますし、実際に書かれるでしょう。
+これらの動作は良いことではありませんが、特にアンセーフだとは見なされません。</p>
+
+<!--
+In addition, the following are all undefined behaviors in Rust, and must be
+avoided, even when writing `unsafe` code:
+-->
+
+<p>さらに、Rustにおいては、次のものは未定義動作で、 <code>unsafe</code> コード中であっても、避ける必要があります。</p>
+
+<blockquote>
+<p>訳注:
+関数に付いている<code>unsafe</code>は「その関数の処理はアンセーフである」ということを表します。
+その一方で、ブロックに付いている<code>unsafe</code>は「ブロック中の個々の操作はアンセーフだが、全体としては安全な処理である」ということを表します。
+避ける必要があるのは、未定義動作が起こりうる処理をアンセーフブロックの中に書くことです。
+それは、アンセーフブロックの処理が安全であるために、その内部で未定義動作が決して起こらないことが必要だからです。
+アンセーフ関数には安全性の保証が要らないので、未定義動作が起こりうるアンセーフ関数を定義することに問題はありません。</p>
+</blockquote>
+
+<!--
+* Data races
+* Dereferencing a null/dangling raw pointer
+* Reads of [undef][undef] (uninitialized) memory
+* Breaking the [pointer aliasing rules][aliasing] with raw pointers.
+* `&mut T` and `&T` follow LLVM’s scoped [noalias][noalias] model, except if
+  the `&T` contains an `UnsafeCell<U>`. Unsafe code must not violate these
+  aliasing guarantees.
+* Mutating an immutable value/reference without `UnsafeCell<U>`
+* Invoking undefined behavior via compiler intrinsics:
+  * Indexing outside of the bounds of an object with `std::ptr::offset`
+    (`offset` intrinsic), with
+    the exception of one byte past the end which is permitted.
+  * Using `std::ptr::copy_nonoverlapping_memory` (`memcpy32`/`memcpy64`
+    intrinsics) on overlapping buffers
+* Invalid values in primitive types, even in private fields/locals:
+  * Null/dangling references or boxes
+  * A value other than `false` (0) or `true` (1) in a `bool`
+  * A discriminant in an `enum` not included in its type definition
+  * A value in a `char` which is a surrogate or above `char::MAX`
+  * Non-UTF-8 byte sequences in a `str`
+* Unwinding into Rust from foreign code or unwinding from Rust into foreign
+  code.
+-->
 
 <ul>
-<li>Data races</li>
-<li>Dereferencing a null/dangling raw pointer</li>
-<li>Reads of <a href="http://llvm.org/docs/LangRef.html#undefined-values">undef</a> (uninitialized) memory</li>
-<li>Breaking the <a href="http://llvm.org/docs/LangRef.html#pointer-aliasing-rules">pointer aliasing rules</a> with raw pointers.</li>
-<li><code>&amp;mut T</code> and <code>&amp;T</code> follow LLVM’s scoped <a href="http://llvm.org/docs/LangRef.html#noalias">noalias</a> model, except if
-the <code>&amp;T</code> contains an <code>UnsafeCell&lt;U&gt;</code>. Unsafe code must not violate these
-aliasing guarantees.</li>
-<li>Mutating an immutable value/reference without <code>UnsafeCell&lt;U&gt;</code></li>
-<li>Invoking undefined behavior via compiler intrinsics:
+<li>データ競合</li>
+<li>ヌル・ダングリング生ポインタの参照外し</li>
+<li><a href="http://llvm.org/docs/LangRef.html#undefined-values">undef</a> （未初期化）メモリの読み出し</li>
+<li>生ポインタによる <a href="http://llvm.org/docs/LangRef.html#pointer-aliasing-rules">pointer aliasing rules</a> の違反</li>
+<li><code>&amp;mut T</code> と <code>&amp;T</code> は、 <code>UnsafeCell&lt;U&gt;</code> を含む <code>&amp;T</code> を除き、LLVMのスコープ化された <a href="http://llvm.org/docs/LangRef.html#noalias">noalias</a> モデルに従っています。アンセーフコードは、それら参照のエイリアシング保証を破ってはいけません。</li>
+<li><code>UnsafeCell&lt;U&gt;</code> を持たないイミュータブルな値・参照の変更</li>
+<li>コンパイラIntrinsic経由の未定義挙動の呼び出し
 
 <ul>
-<li>Indexing outside of the bounds of an object with <code>std::ptr::offset</code>
-(<code>offset</code> intrinsic), with
-the exception of one byte past the end which is permitted.</li>
-<li>Using <code>std::ptr::copy_nonoverlapping_memory</code> (<code>memcpy32</code>/<code>memcpy64</code>
-intrinsics) on overlapping buffers</li>
+<li><code>std::ptr::offset</code> (<code>offset</code> intrinsic) を使って、オブジェクトの範囲外を指すこと。ただし、オブジェクトの最後より1バイト後を指すことは許されている。</li>
+<li>範囲の重なったバッファに対して <code>std::ptr::copy_nonoverlapping_memory</code> (<code>memcpy32</code>/<code>memcpy64</code>
+intrinsics) を使う</li>
 </ul></li>
-<li>Invalid values in primitive types, even in private fields/locals:
+<li>プリミティブ型の不正な値（プライベートなフィールドやローカル変数を含む）
 
 <ul>
-<li>Null/dangling references or boxes</li>
-<li>A value other than <code>false</code> (0) or <code>true</code> (1) in a <code>bool</code></li>
-<li>A discriminant in an <code>enum</code> not included in its type definition</li>
-<li>A value in a <code>char</code> which is a surrogate or above <code>char::MAX</code></li>
-<li>Non-UTF-8 byte sequences in a <code>str</code></li>
+<li>ヌルかダングリングである参照やボックス</li>
+<li><code>bool</code> における、 <code>false</code> (0) か <code>true</code> (1) でない値</li>
+<li><code>enum</code> の定義に含まれていない判別子</li>
+<li><code>char</code> における、サロゲートか <code>char::MAX</code> を超えた値</li>
+<li><code>str</code> における、UTF-8でないバイト列</li>
 </ul></li>
-<li>Unwinding into Rust from foreign code or unwinding from Rust into foreign
-code.</li>
+<li>他言語からRustへの巻き戻しや、Rustから他言語への巻き戻し</li>
 </ul>
 
-<h1 id='unsafe-superpowers' class='section-header'><a href='#unsafe-superpowers'>Unsafe Superpowers</a></h1>
-<p>In both unsafe functions and unsafe blocks, Rust will let you do three things
-that you normally can not do. Just three. Here they are:</p>
+<h1 id='アンセーフの能力' class='section-header'><a href='#アンセーフの能力'>アンセーフの能力</a></h1>
+<!--# Unsafe Superpowers-->
+
+<!--
+In both unsafe functions and unsafe blocks, Rust will let you do three things
+that you normally can not do. Just three. Here they are:
+-->
+
+<p>アンセーフ関数・アンセーフブロックでは、Rustは普段できない3つのことをさせてくれます。たった3つです。それは、</p>
+
+<!--
+1. Access or update a [static mutable variable][static].
+2. Dereference a raw pointer.
+3. Call unsafe functions. This is the most powerful ability.
+-->
 
 <ol>
-<li>Access or update a <a href="const-and-static.html#static">static mutable variable</a>.</li>
-<li>Dereference a raw pointer.</li>
-<li>Call unsafe functions. This is the most powerful ability.</li>
+<li><a href="const-and-static.html#static">静的ミュータブル変数</a>のアクセスとアップデート。</li>
+<li>生ポインタの参照外し。</li>
+<li>アンセーフ関数の呼び出し。これが最も強力な能力です。</li>
 </ol>
 
-<p>That’s it. It’s important that <code>unsafe</code> does not, for example, ‘turn off the
-borrow checker’. Adding <code>unsafe</code> to some random Rust code doesn’t change its
+<!--
+That’s it. It’s important that `unsafe` does not, for example, ‘turn off the
+borrow checker’. Adding `unsafe` to some random Rust code doesn’t change its
 semantics, it won’t just start accepting anything. But it will let you write
-things that <em>do</em> break some of the rules.</p>
+things that _do_ break some of the rules.
+-->
 
-<p>You will also encounter the <code>unsafe</code> keyword when writing bindings to foreign
-(non-Rust) interfaces. You&#39;re encouraged to write a safe, native Rust interface
-around the methods provided by the library.</p>
+<p>以上です。
+重要なのは、 <code>unsafe</code> が、たとえば「借用チェッカをオフにする」といったことを行わないことです。
+Rustのコードの適当な位置に <code>unsafe</code> を加えてもセマンティクスは変わらず、何でもただ受理するようになるということにはなりません。
+それでも、<code>unsafe</code> はルールのいくつかを破るコードを書けるようにはするのです。</p>
 
-<p>Let’s go over the basic three abilities listed, in order.</p>
+<!--
+You will also encounter the `unsafe` keyword when writing bindings to foreign
+(non-Rust) interfaces. You're encouraged to write a safe, native Rust interface
+around the methods provided by the library.
+-->
 
-<h2 id='access-or-update-a-static-mut' class='section-header'><a href='#access-or-update-a-static-mut'>Access or update a <code>static mut</code></a></h2>
-<p>Rust has a feature called ‘<code>static mut</code>’ which allows for mutable global state.
+<p>また、<code>unsafe</code> キーワードは、Rust以外の言語とのインターフェースを書くときに遭遇するでしょう。
+ライブラリの提供するメソッドの周りに、安全な、Rustネイティブのインターフェースを書くことが推奨されています。</p>
+
+<!--
+Let’s go over the basic three abilities listed, in order.
+-->
+
+<p>これから、その基本的な3つの能力を順番に見ていきましょう。</p>
+
+<h2 id='static-mut-のアクセスとアップデート' class='section-header'><a href='#static-mut-のアクセスとアップデート'><code>static mut</code> のアクセスとアップデート。</a></h2>
+<!--## Access or update a `static mut`-->
+
+<!--
+Rust has a feature called ‘`static mut`’ which allows for mutable global state.
 Doing so can cause a data race, and as such is inherently not safe. For more
-details, see the <a href="const-and-static.html#static">static</a> section of the book.</p>
+details, see the [static][static] section of the book.
+-->
 
-<h2 id='dereference-a-raw-pointer' class='section-header'><a href='#dereference-a-raw-pointer'>Dereference a raw pointer</a></h2>
-<p>Raw pointers let you do arbitrary pointer arithmetic, and can cause a number of
+<p>Rustには「<code>static mut</code>」という、ミュータブルでグローバルな状態を実現する機能があります。
+これを使うことはデータレースが起こるおそれがあるので、本質的に安全ではありません。
+詳細は、この本の<a href="const-and-static.html#static">static</a>セクションを参照してください。</p>
+
+<h2 id='生ポインタの参照外し' class='section-header'><a href='#生ポインタの参照外し'>生ポインタの参照外し</a></h2>
+<!--## Dereference a raw pointer-->
+
+<!--
+Raw pointers let you do arbitrary pointer arithmetic, and can cause a number of
 different memory safety and security issues. In some senses, the ability to
 dereference an arbitrary pointer is one of the most dangerous things you can
-do. For more on raw pointers, see <a href="raw-pointers.html">their section of the book</a>.</p>
+do. For more on raw pointers, see [their section of the book][rawpointers].
+-->
 
-<h2 id='call-unsafe-functions' class='section-header'><a href='#call-unsafe-functions'>Call unsafe functions</a></h2>
-<p>This last ability works with both aspects of <code>unsafe</code>: you can only call
-functions marked <code>unsafe</code> from inside an unsafe block.</p>
+<p>生ポインタによって任意のポインタ演算が可能になりますが、いくつもの異なるメモリ安全とセキュリティの問題が起こるおそれがあります。
+ある意味で、任意のポインタを参照外しする能力は行いうる操作のうち最も危険なもののひとつです。
+詳細は、<a href="raw-pointers.html">この本の生ポインタに関するセクション</a>を参照してください。</p>
 
-<p>This ability is powerful and varied. Rust exposes some <a href="intrinsics.html">compiler
-intrinsics</a> as unsafe functions, and some unsafe functions bypass
-safety checks, trading safety for speed.</p>
+<h2 id='アンセーフ関数の呼び出し' class='section-header'><a href='#アンセーフ関数の呼び出し'>アンセーフ関数の呼び出し</a></h2>
+<!--## Call unsafe functions-->
 
-<p>I’ll repeat again: even though you <em>can</em> do arbitrary things in unsafe blocks
+<!--
+This last ability works with both aspects of `unsafe`: you can only call
+functions marked `unsafe` from inside an unsafe block.
+-->
+
+<p>この最後の能力は、<code>unsafe</code>の両面とともに働きます。
+すなわち、<code>unsafe</code>で印付けられた関数は、アンセーフブロックの内部からのみ呼び出すことができます。</p>
+
+<!--
+This ability is powerful and varied. Rust exposes some [compiler
+intrinsics][intrinsics] as unsafe functions, and some unsafe functions bypass
+safety checks, trading safety for speed.
+-->
+
+<p>この能力は強力で多彩です。
+Rustはいくらかの<a href="intrinsics.html">compiler intrinsics</a>をアンセーフ関数として公開しており、また、いくつかのアンセーフ関数は安全性検査を回避することで、安全性とスピードを引き換えています。</p>
+
+<!--
+I’ll repeat again: even though you _can_ do arbitrary things in unsafe blocks
 and functions doesn’t mean you should. The compiler will act as though you’re
-upholding its invariants, so be careful!</p>
+upholding its invariants, so be careful!
+-->
+
+<p>繰り返しになりますが、アンセーフブロックと関数の内部で任意のことが <em>できる</em> としても、それをすべきだということを意味しません。コンパイラは、あなたが不変量を守っているかのように動作しますから、注意してください!</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
