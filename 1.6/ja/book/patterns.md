@@ -391,7 +391,6 @@ just the `5`. In other words, the precedence of `if` behaves like this: -->
 
 <!--Whew! That’s a lot of different ways to match things, and they can all be
 mixed and matched, depending on what you’re doing: -->
-
 さて、マッチにはまだ沢山の方法があります。やろうとしていることに依りますが、それらの方法を混ぜてマッチさせることも出来ます。
 
 ```rust,ignore
