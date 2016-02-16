@@ -155,6 +155,7 @@
 | syntactic sugar                | 糖衣構文
 | system                         | システム
 | tagged union                   | タグ付き共用体
+| term                           | 項
 | thread-locality                | スレッドローカル性
 | threadsafe                     | スレッドセーフ
 | tick                           | クオート

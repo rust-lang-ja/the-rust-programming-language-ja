@@ -34,12 +34,6 @@ Rustでは戻り値を使います。
 というのは、直和型(sum type) とコンビネータから始めることで、Restにおけるエラーハンドリングを徐々に改善していくための動機を与えるからです。
 このような構成ですので、もしすでに他の表現力豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
 
-<!-- 用語集候補：combinator -->
-
-<!-- 翻訳メモ：sum type -->
-<!-- https://www.quora.com/What-is-a-sum-type -->
-<!-- http://d-poppo.nazo.cc/blog/2015/01/union-types/ -->
-
 <!-- * [The Basics](#the-basics) -->
 <!--     * [Unwrapping explained](#unwrapping-explained) -->
 <!--     * [The `Option` type](#the-option-type) -->
@@ -70,16 +64,16 @@ Rustでは戻り値を使います。
 <!--     * [Adding functionality](#adding-functionality) -->
 <!--  [The short story](#the-short-story) -->
 
-* [基礎](#the-basics)
-    * [アンラップ(unwrap) とは](#unwrapping-explained)
-    * [`Option` 型](#the-option-type)
-        * [`Option<T>` 値で構成する](#composing-optiont-values)
-    * [`Result` 型](#the-result-type)
-        * [整数をパースする](#parsing-integers)
-        * [`Result` 型エイリアスを用いたイディオム](#the-result-type-alias-idiom)
-    * [小休止：アンラップは悪ではない](#a-brief-interlude-unwrapping-isnt-evil)
+* [基礎](#基礎)
+    * [アンラップ(unwrap) とは](#アンラップunwrap-とは)
+    * [`Option` 型](#option-型)
+        * [`Option<T>` 値を合成する](#optiont-値を合成する)
+    * [`Result` 型](#result-型)
+        * [整数をパースする](#整数をパースする)
+        * [`Result` 型エイリアスを用いたイディオム](#result-型エイリアスを用いたイディオム)
+    * [小休止：アンラップは悪ではない](#小休止アンラップは悪ではない)
 * [複数のエラー型を扱う](#working-with-multiple-error-types)
-    * [`Option` と `Result` で構成する](#composing-option-and-result)
+    * [`Option` と `Result` を合成する](#composing-option-and-result)
     * [コンビネータの限界](#the-limits-of-combinators)
     * [早期のリターン](#early-returns)
     * [`try!` マクロ](#the-try-macro)
@@ -88,7 +82,7 @@ Rustでは戻り値を使います。
     * [`Error` トレイト](#the-error-trait)
     * [`From` トレイト](#the-from-trait)
     * [本当の `try!` マクロ](#the-real-try-macro)
-    * [独自のエラー型で構成する](#composing-custom-error-types)
+    * [独自のエラー型を合成する](#composing-custom-error-types)
     * [ライブラリ作者たちへのアドバイス](#advice-for-library-writers)
 * [ケーススタディ：人口データを読み込むプログラム](#case-study-a-program-to-read-population-data)
     * [最初のセットアップ](#initial-setup)
@@ -101,7 +95,6 @@ Rustでは戻り値を使います。
 * [簡単な説明（まとめ）](#the-short-story)
 
 <!-- # The Basics -->
-<span id="the-basics"></span>
 # 基礎
 
 <!-- You can think of error handling as using *case analysis* to determine whether -->
@@ -182,7 +175,6 @@ fn main() {
 でも彼は、途中にある、あらゆるものを蹴散らしてしまいます。
 
 <!-- ## Unwrapping explained -->
-<span id="unwrapping-explained"></span>
 ## アンラップ(unwrap) とは
 
 <!-- In the previous example, we claimed -->
@@ -206,7 +198,6 @@ Rustでなにかを「アンラップする」時、こう言っているのと�
 どちらの型にも `unwrap` という名前のメソッドが定義されています。
 
 <!-- ### The `Option` type -->
-<span id="the-option-type"></span>
 ### `Option` 型
 
 <!-- The `Option` type is [defined in the standard library][5]: -->
@@ -332,8 +323,7 @@ impl<T> Option<T> {
 しかし残念なことに、そこにある `panic!` が意味するものは、`unwrap` が合成可能ではない、つまり、陶器店の中の雄牛だということです。
 
 <!--- ### Composing `Option<T>` values -->
-<span id="composing-optiont-values"></span>
-### `Option<T>` 値で構成する
+### `Option<T>` 値を合成する
 
 <!-- In an [example from before](#code-option-ex-string-find), -->
 <!-- we saw how to use `find` to discover the extension in a file name. Of course, -->
@@ -482,7 +472,7 @@ fn main() {
 <!-- need the file name which is typically extracted from a file *path*. While most -->
 <!-- file paths have a file name, not *all* of them do. For example, `.`, `..` or -->
 <!-- `/`. -->
-もうひとつ注目すべきコンビネータがあります。それは `and_then` です。これを使うと *不在の可能性* を考慮しながら、別々の処理を簡単に組み合わせることができます。
+もうひとつ特筆すべきコンビネータがあります。それは `and_then` です。これを使うと *不在の可能性* を考慮しながら、別々の処理を簡単に組み合わせることができます。
 例えば、この節のほとんどのコードは、与えられたファイル名について拡張子を見つけだします。
 そのためには、まずファイル *パス* から取り出したファイル名が必要です。
 大抵のパスにはファイル名がありますが、 *全て* がというわけではありません。
@@ -567,7 +557,6 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 `unwrap` のようなメソッドは、 `Option<T>` が `None` の時にパニックを起こすので、このような選択の機会を与えません。
 
 <!-- ## The `Result` type -->
-<span id="the-result-type"></span>
 ## `Result` 型
 
 <!-- The `Result` type is also -->
@@ -605,7 +594,7 @@ type Option<T> = Result<T, ()>;
 <!-- the type and value level terms have the same notation!) -->
 これは `Result` の2番目の型パラメータを `()` （「ユニット」または「空タプル」と発音します）に固定したものです。
 `()` 型のただ一つの値は `()` です。
-（そうなんです。型レベルと値レベルの用語が、全く同じ表記法を持ちます!）
+（そうなんです。型レベルと値レベルの項が、全く同じ表記法を持ちます!）
 
 <!-- The `Result` type is a way of representing one of two possible outcomes in a -->
 <!-- computation. By convention, one outcome is meant to be expected or “`Ok`” while -->
@@ -618,6 +607,7 @@ type Option<T> = Result<T, ()>;
 <!-- defined][7] -->
 <!-- in the standard library. Let's define it: -->
 `Option` と全く同じように、`Result` 型も標準ライブラリで [`unwrap` メソッドが定義されています][7] 。
+定義してみましょう：
 
 ```rust
 # enum Result<T, E> { Ok(T), Err(E) }
@@ -654,7 +644,6 @@ impl<T, E: ::std::fmt::Debug> Result<T, E> {
 では、例を見ていきましょう。
 
 <!-- ### Parsing integers -->
-<span id="parsing-integers"></span>
 ### 整数をパースする
 
 <!-- The Rust standard library makes converting strings to integers dead simple. -->
@@ -737,7 +726,7 @@ impl str {
 この関数を同じように一般化することもできますが（そして、そうするべきでしょうが）、今は明快さを優先しましょう。
 `i32` だけを扱うことにしますので、それの [`FromStr` の実装がどうなっているか探しましょう](../std/primitive.i32.html) 。
 （ブラウザで `CTRL-F` を押して「FromStr」を探します。）
-そして [関連型（associated type）][10] から `Err` を見つけます。
+そして [関連型(associated type)][10] から `Err` を見つけます。
 こうすれば、具体的なエラー型が見つかります。
 この場合、それは [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) です。
 これでようやく関数を書き直せます：
@@ -800,7 +789,6 @@ fn main() {
 さらに `Result` は2つ目の型パラメータを取りますので、エラー型だけに影響を与える [`map_err`](../std/result/enum.Result.html#method.map_err) （`map` に相当）と [`or_else`](../std/result/enum.Result.html#method.or_else) （`and_then` に相当）もあります。
 
 <!-- ### The `Result` type alias idiom -->
-<span id="the-result-type-alias-idiom"></span>
 ### `Result` 型エイリアスを用いたイディオム
 
 <!-- In the standard library, you may frequently see types like -->
@@ -846,7 +834,6 @@ fn double_number(number_str: &str) -> Result<i32> {
 それらは通常 `io::Result<T>` のように書かれ、`std::result` のプレーンな定義の代わりに `io` モジュールの型エイリアスを使っていることが、明確にわかるようになっています。
 
 <!-- ## A brief interlude: unwrapping isn't evil -->
-<span id="a-brief-interlude-unwrapping-isnt-evil"></span>
 ## 小休止：アンラップは悪ではない
 
 <!-- If you've been following along, you might have noticed that I've taken a pretty -->
@@ -877,7 +864,7 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!--   exposes a bug in your program. This can be explicit, like from an `assert!` -->
 <!--   failing, or it could be because your index into an array was out of bounds. -->
 * **パニックがプログラムのバグの兆候となる時。**
-  コードの中の不変的な条件が、ある特定のケースの発生を未然に防ぐ時（例えば、空のスタックから取り出そうとしたなど）、パニックを起こしても差し支えありません。
+  コードの中の不変条件が、ある特定のケースの発生を未然に防ぐ時（例えば、空のスタックから取り出そうとしたなど）、パニックを起こしても差し支えありません。
   なぜなら、そうすることでプログラムに潜むバグが明るみに出るからです。
   これは `assert!` の失敗のような明示的な要因によるものだったり、配列のインデックスが境界から外れたからだったりします。
 
