@@ -11,6 +11,8 @@
 | English                        | 日本語
 |:-------------------------------|:-------------
 | abort                          | アボート
+| (lockの) acquire               | 獲得
+| aggregate type                 | 合成型
 | alignment                      | アラインメント
 | allocator                      | アロケータ
 | antipattern                    | アンチパターン
@@ -19,6 +21,7 @@
 | array                          | 配列
 | assignment                     | 代入
 | associated -                   | 関連-
+| atomic                         | アトミック
 | attribute                      | アトリビュート
 | binary                         | バイナリ
 | binding                        | 束縛
@@ -36,6 +39,8 @@
 | compile-time error             | コンパイル時エラー
 | compiler                       | コンパイラ
 | composable                     | 合成可能
+| computer science               | コンピュータサイエンス
+| concurrency                    | 並行性
 | constant                       | 定数
 | constructor                    | コンストラクタ
 | continuous integration         | 継続的インテグレーション
@@ -70,6 +75,7 @@
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | growable                       | 伸張可能
+| handle                         | ハンドル
 | hash                           | ハッシュ
 | identifier                     | 識別子
 | immutable                      | イミュータブル
@@ -120,8 +126,10 @@
 | raw pointer                    | 生ポインタ
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
+| reference count                | 参照カウント
 | regression                     | リグレッション
 | release                        | リリース
+| (lockの) release               | 解放
 | return                         | 返す
 | return type                    | リターン型
 | return value                   | 戻り値
@@ -147,6 +155,8 @@
 | syntactic sugar                | 糖衣構文
 | system                         | システム
 | tagged union                   | タグ付き共用体
+| thread-locality                | スレッドローカル性
+| threadsafe                     | スレッドセーフ
 | tick                           | クオート
 | trait                          | トレイト
 | tuple                          | タプル
@@ -170,3 +180,4 @@
 | version                        | バージョン
 | warning                        | ウォーニング
 | wildcard                       | ワイルドカード
+| wrapper                        | ラッパ
