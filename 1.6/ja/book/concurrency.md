@@ -215,11 +215,11 @@ Rustはこれが安全でないだろうと知っているのです!
 <!-- wraps a value up with some extra runtime bookkeeping which allows us to -->
 <!-- share the ownership of the value between multiple references at the same time. -->
 Rustの標準アトミック参照カウント型である `Arc<T>` を使いましょう。
-これは、複数の参照の間で値を同時に共有できるようにするために、特別な実行時帳簿(runtime bookkeeping)で値をくるむものです。
+これは複数の参照間で値の所有権を同時に共有できるように、値を特別な実行時の管理用データでくるむものです。
 
 <!-- The bookkeeping consists of a count of how many of these references exist to -->
 <!-- the value, hence the reference count part of the name. -->
-この帳簿には、値への参照がいくつ存在しているかというカウントが記録されています。
+その管理用データには、値への参照がいくつ存在しているかというカウントが記録されています。
 すなわち名前の「参照カウント」の部分にあたります。
 
 <!-- The Atomic part means `Arc<T>` can safely be accessed from multiple threads. -->
@@ -407,7 +407,7 @@ fn main() {
 
 <!-- While this channel is just sending a generic signal, we can send any data that -->
 <!-- is `Send` over the channel! -->
-このチャネルがジェネリックなシグナルを送っている間にも、`Send` であるデータならばそのチャネルを通じて送ることができます!
+このチャネルはただシグナルを送っているだけですが、 `Send` であるデータならばなんでもこのチャネルを通じて送れます!
 
 ```rust
 use std::thread;
@@ -442,7 +442,7 @@ fn main() {
 <!-- A `panic!` will crash the currently executing thread. You can use Rust's -->
 <!-- threads as a simple isolation mechanism: -->
 `panic!` は現在実行中のスレッドをクラッシュさせます。
-Rustのスレッドは一つの独立したメカニズムとして使うことができます。
+Rustのスレッドは独立させるための単純なメカニズムとして使うことができます。
 
 ```rust
 use std::thread;
