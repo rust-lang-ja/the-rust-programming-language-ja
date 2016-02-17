@@ -101,8 +101,8 @@ Rustでは戻り値を使います。
 <!-- a computation was successful or not. As you will see, the key to ergonomic error -->
 <!-- handling is reducing the amount of explicit case analysis the programmer has to -->
 <!-- do while keeping code composable. -->
-エラーハンドリングとは、ある処理が成功したかどうかを *ケース分析* に基づいて判断するものだと考えられます。
-これから見ていくように、エラーハンドリングをエルゴノミックにするために重要なのは、プログラマがコードを合成可能(composable) に保ったまま、明示的なケース分析の回数を、いかに減らしていくかということです。
+エラーハンドリングとは、ある処理が成功したかどうかを *場合分け(case analysis)* に基づいて判断するものだと考えられます。
+これから見ていくように、エラーハンドリングをエルゴノミックにするために重要なのは、プログラマがコードを合成可能(composable) に保ったまま、明示的な場合分けの回数を、いかに減らしていくかということです。
 
 <!-- Keeping code composable is important, because without that requirement, we -->
 <!-- could [`panic`](../std/macro.panic!.html) whenever we -->
@@ -280,16 +280,16 @@ fn main() {
 <!-- analysis is the only way to get at the value stored inside an `Option<T>`. This -->
 <!-- means that you, as the programmer, must handle the case when an `Option<T>` is -->
 <!-- `None` instead of `Some(t)`. -->
-このコードは `find` 関数が返した `Option<usize>` の *ケース分析* に、 [パターンマッチ][1] を使っています。
-実のところ、ケース分析が、`Option<T>` に格納された値を取り出すための唯一の方法なのです。
+このコードは `find` 関数が返した `Option<usize>` の *場合分け* に、 [パターンマッチ][1] を使っています。
+実のところ、場合分けが、`Option<T>` に格納された値を取り出すための唯一の方法なのです。
 これは、`Option<T>` が `Some(t)` ではなく `None` だった時、プログラマであるあなたが、このケースに対処しなければならないことを意味します。
 
 <!-- But wait, what about `unwrap`,which we used [`previously`](#code-unwrap-double)? -->
 <!-- There was no case analysis there! Instead, the case analysis was put inside the -->
 <!-- `unwrap` method for you. You could define it yourself if you want: -->
 でも、ちょっと待ってください。 [さっき](#code-unwrap-double) 使った `unwrap` はどうだったでしょうか？
-ケース分析はどこにもありませんでした！
-実はケース分析は `unwrap` メソッドの中に埋め込まれていたのです。
+場合分けはどこにもありませんでした！
+実は場合分けは `unwrap` メソッドの中に埋め込まれていたのです。
 もし望むなら、このように自分で定義することもできます：
 
 <span id="code-option-def-unwrap"></span>
@@ -319,7 +319,7 @@ impl<T> Option<T> {
 <!-- The `unwrap` method *abstracts away the case analysis*. This is precisely the thing -->
 <!-- that makes `unwrap` ergonomic to use. Unfortunately, that `panic!` means that -->
 <!-- `unwrap` is not composable: it is the bull in the china shop. -->
-`unwrap` メソッドは *ケース分析を抽象化します* 。このことは確かに `unwrap` をエルゴノミックにしています。
+`unwrap` メソッドは *場合分けを抽象化します* 。このことは確かに `unwrap` をエルゴノミックにしています。
 しかし残念なことに、そこにある `panic!` が意味するものは、`unwrap` が合成可能ではない、つまり、陶器店の中の雄牛だということです。
 
 <!--- ### Composing `Option<T>` values -->
@@ -373,12 +373,12 @@ fn extension_explicit(file_name: &str) -> Option<&str> {
 <!-- tiresome. -->
 このコードはいたってシンプルですが、ひとつだけ注目して欲しいのは、`find` の型が不在の可能性について考慮することを強制していることです。
 これは良いことです。なぜなら、コンパイラが私たちに、ファイル名が拡張子を持たないケースを、うっかり忘れないようにしてくれるからです。
-しかし一方で、 `extension_explicit` でしたような明示的なケース分析を毎回続けるのは、なかなか面倒です。
+しかし一方で、 `extension_explicit` でしたような明示的な場合分けを毎回続けるのは、なかなか面倒です。
 
 <!-- In fact, the case analysis in `extension_explicit` follows a very common -->
 <!-- pattern: *map* a function on to the value inside of an `Option<T>`, unless the -->
 <!-- option is `None`, in which case, just return `None`. -->
-実は `extension_explicit` でのケース分析は、ごく一般的なパターンである、`Option<T>` への *map* の適用に当てはめられます。
+実は `extension_explicit` での場合分けは、ごく一般的なパターンである、`Option<T>` への *map* の適用に当てはめられます。
 これは、もしオプションが `None` なら `None` を返し、そうでなけれは、オプションの中の値に関数を適用する、というパターンです。
 
 <!-- Rust has parametric polymorphism, so it is very easy to define a combinator -->
@@ -401,7 +401,7 @@ fn map<F, T, A>(option: Option<T>, f: F) -> Option<A> where F: FnOnce(T) -> A {
 
 <!-- Armed with our new combinator, we can rewrite our `extension_explicit` method -->
 <!-- to get rid of the case analysis: -->
-新しいコンビネータを手に入れましたので、 `extension_explicit` メソッドを書き直して、ケース分析を省きましょう：
+新しいコンビネータを手に入れましたので、 `extension_explicit` メソッドを書き直して、場合分けを省きましょう：
 
 ```rust
 # fn find(_: &str, _: char) -> Option<usize> { None }
@@ -423,7 +423,7 @@ fn extension(file_name: &str) -> Option<&str> {
 <!-- with any `Option<T>`: -->
 もう一つの共通のパターンは、`Option` の値が `None` だった時のデフォルト値を与えることです。
 例えばファイルの拡張子がない時は、それを `rs` とみなすようなプログラムを書きたくなるかもしれません。
-ご想像の通り、このようなケース分析はファイルの拡張子に特有のものではありません。
+ご想像の通り、このような場合分けはファイルの拡張子に特有のものではありません。
 どんな `Option<T>` でも使えるでしょう：
 
 ```rust
@@ -481,7 +481,7 @@ fn main() {
 <!-- So, we are tasked with the challenge of finding an extension given a file -->
 <!-- *path*. Let's start with explicit case analysis: -->
 つまり、与えられたファイル *パス* から拡張子を見つけ出せるか、トライしなければなりません。
-まず明示的なケース分析から始めましょう：
+まず明示的な場合分けから始めましょう：
 
 
 ```rust
@@ -509,7 +509,7 @@ fn file_name(file_path: &str) -> Option<&str> {
 <!-- *always* [rewrapped with `Some`](#code-option-map). Instead, we need something -->
 <!-- like `map`, but which allows the caller to return another `Option`. Its generic -->
 <!-- implementation is even simpler than `map`: -->
-ケース分析を減らすために単に `map` コンビネータを使えばいいと思うかもしれませんが、型にうまく適合しません。
+場合分けを減らすために単に `map` コンビネータを使えばいいと思うかもしれませんが、型にうまく適合しません。
 なぜなら `map` が引数にとる関数は、中の値だけに適用されるからです。
 そして関数が返した値は *必ず* [`Some` でラップされ直します](#code-option-map) 。
 つまりこの代わりに、 `map` に似ていながら、呼び出し元が別の `Option` を返せるしくみが必要です。
@@ -526,7 +526,7 @@ fn and_then<F, T, A>(option: Option<T>, f: F) -> Option<A>
 ```
 
 <!-- Now we can rewrite our `file_path_ext` function without explicit case analysis: -->
-では、明示的なケース分析を省くように、 `file_path_ext` を書き直しましょう：
+では、明示的な場合分けを省くように、 `file_path_ext` を書き直しましょう：
 
 ```rust
 # fn extension(file_name: &str) -> Option<&str> { None }
@@ -544,7 +544,7 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 <!-- semantics) for `Result`, which we will talk about next. -->
 `Option` 型には、他にもたくさんのコンビネータが [標準ライブラリで定義されています][5] 。
 それらの一覧をざっと眺めて、なにがあるか知っておくといいでしょう。
-大抵の場合、ケース分析を減らすのに役立ちます。
+大抵の場合、場合分けを減らすのに役立ちます。
 それらのコンビネータに慣れるための努力は、すぐに報われるでしょう。
 なぜなら、そのほとんどは次に話す `Result` 型でも、（よく似たセマンティクスで）定義されているからです。
 
@@ -552,7 +552,7 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 <!-- explicit case analysis. They are also composable because they permit the caller -->
 <!-- to handle the possibility of absence in their own way. Methods like `unwrap` -->
 <!-- remove choices because they will panic if `Option<T>` is `None`. -->
-コンビネータは明示的なケース分析を減らしてくれるので、 `Option` のような型をエルゴノミックにします。
+コンビネータは明示的な場合分けを減らしてくれるので、 `Option` のような型をエルゴノミックにします。
 またこれらは *不在の可能性* を、呼び出し元がそれに合った方法で扱えるようにするので、合成可能だといえます。
 `unwrap` のようなメソッドは、 `Option<T>` が `None` の時にパニックを起こすので、このような選択の機会を与えません。
 
@@ -752,7 +752,7 @@ fn main() {
 <!-- This is a little better, but now we've written a lot more code! The case -->
 <!-- analysis has once again bitten us. -->
 これで少し良くなりましたが、たくさんのコードを書いてしまいました！
-ケース分析に、またしてもやられたわけです。
+場合分けに、またしてもやられたわけです。
 
 <!-- Combinators to the rescue! Just like `Option`, `Result` has lots of combinators -->
 <!-- defined as methods. There is a large intersection of common combinators between -->
@@ -920,14 +920,14 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!-- defined for `Result`. We can use these combinators to compose results of -->
 <!-- different computations without doing explicit case analysis. -->
 これまで話してきたのは `Option` のために定義されたコンビネータと、 `Result` のために定義されたコンビネータについてでした。
-これらのコンビネータを使うと、様々な処理の結果を明示的なケース分析なしに組み合わせることができました。
+これらのコンビネータを使うと、様々な処理の結果を明示的な場合分けなしに組み合わせることができました。
 
 <!-- Of course, in real code, things aren't always as clean. Sometimes you have a -->
 <!-- mix of `Option` and `Result` types. Must we resort to explicit case analysis, -->
 <!-- or can we continue using combinators? -->
 もちろん現実のコードは、いつもこんなにクリーンではありません。
 時には `Option` 型と `Result` 型が混在していることもあるでしょう。
-そんな時は、明確なケース分析に頼るしかないのでしょうか？
+そんな時は、明示的な場合分けに頼るしかないのでしょうか？
 それとも、コンビネータを使い続けることができるのでしょうか？
 
 <!-- For now, let's revisit one of the first examples in this chapter: -->
@@ -1048,7 +1048,7 @@ fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
 いままで `unwrap` を使わないよう説得してきたわけですが、最初にコードを書くときには `unwrap` が便利に使えます。
 こうすることで、エラーハンドリングではなく、本来解決すべき課題に集中できます。
 それと同時に `unwrap` は、適切なエラーハンドリングが必要とされる場所を教えてくれます。
-ここから始ることをコーディングへの取っ掛かりとしましょう。
+ここから始めることをコーディングへの取っ掛かりとしましょう。
 その後、リファクタリングによって、エラーハンドリングを改善していきます。
 
 ```rust,should_panic
@@ -1116,7 +1116,7 @@ fn main() {
 <!-- useful way of reporting an error. Thus, we must start by changing the return -->
 <!-- type from `i32` to something else. -->
 まず最初に `file_double` 関数をリファクタリングしましょう。
-この関数を、この課題の他の構成要素と合成可能にするためには、上記の問題のいずれかに遭遇しても、パニック *しない* ようにしなければなりません。
+この関数を、このプログラムの他の構成要素と合成可能にするためには、上記の問題のいずれかに遭遇しても、パニック *しない* ようにしなければなりません。
 これは実質的には、なにかの操作に失敗した時に、この関数が *エラーを返すべき* であることを意味します。
 ここでの問題は、`file_double` のリターン型が `i32` であるため、エラーの報告には全く役立たないことです。
 従ってリターン型を `i32` から別の何かに変えることから始めましょう。
@@ -1225,7 +1225,7 @@ fn main() {
 <!-- explicit case analysis. -->
 前の節で使ったコードを、 *早期のリターン* を使って書き直してみようと思います。
 早期のリターンとは、関数の途中で抜けることを指します。
-`file_double` のクロージャの中にいる間は、早期のリターンはできないので、明示的なケース分析までいったん戻る必要があります。
+`file_double` のクロージャの中にいる間は、早期のリターンはできないので、明示的な場合分けまでいったん戻る必要があります。
 
 ```rust
 use std::fs::File;
@@ -1263,7 +1263,7 @@ fn main() {
 <!-- function and returns the error (by converting it to a string). -->
 このコードが、コンビネータを使ったコードよりも良くなったのかについては、人によって意見が分かれるでしょう。
 でも、もしあなたがコンビネータによるアプローチに不慣れだったら、このコードのほうが読みやすいと思うかもしれません。
-ここでは明示的なケース分析を `match` と `if let` で行っています。
+ここでは明示的な場合分けを `match` と `if let` で行っています。
 もしエラーが起きたら関数の実行を打ち切って、エラーを（文字列に変換してから）返します。
 
 <!-- Isn't this a step backwards though? Previously, we said that the key to -->
@@ -1271,9 +1271,9 @@ fn main() {
 <!-- back to explicit case analysis here. It turns out, there are *multiple* ways to -->
 <!-- reduce explicit case analysis. Combinators aren't the only way. -->
 でもこれって逆戻りしてませんか？
-以前は、エラーハンドリングをエルゴノミックにするために、明示的なケース分析を減らすべきだと言っていました。
-それなのに、今は明示的なケース分析に戻ってしまっています。
-すぐにわかりますが、明示的なケース分析を減らす方法は *複数* あるのです。
+以前は、エラーハンドリングをエルゴノミックにするために、明示的な場合分けを減らすべきだと言っていました。
+それなのに、今は明示的な場合分けに戻ってしまっています。
+すぐにわかりますが、明示的な場合分けを減らす方法は *複数* あるのです。
 コンビネータが唯一の方法ではありません。
 
 <!-- ## The `try!` macro -->
@@ -1284,7 +1284,7 @@ fn main() {
 <!-- abstracts *control flow*. Namely, it can abstract the *early return* pattern -->
 <!-- seen above. -->
 Rustでのエラー処理の基礎となるのは `try!` マクロです。
-`try!` マクロはコンビネータと同様、ケース分析を抽象化します。
+`try!` マクロはコンビネータと同様、場合分けを抽象化します。
 しかし、コンビネータと異なるのは *制御フロー* も抽象化してくれることです。
 つまり、先ほど見た *早期リターン* のパターンを抽象化できるのです。
 
@@ -1311,7 +1311,7 @@ macro_rules! try {
 <!-- it does the case analysis and the early return for us, we get tighter code that -->
 <!-- is easier to read: -->
 `try!` マクロを使うと、最後の例をシンプルにすることが、とても簡単にできます。
-ケース分析と早期リターンを肩代わりしてくれますので、コードが締まって読みやすくなります。
+場合分けと早期リターンを肩代わりしてくれますので、コードが締まって読みやすくなります。
 
 ```rust
 use std::fs::File;
@@ -1395,14 +1395,14 @@ fn main() {
 これは *構造化されたデータ* で、IO操作において何が失敗したのかを示します。
 エラーによって違った対応を取りたいこともあるので、このことは重要です。
 （例： あなたのアプリケーションでは `BrokenPipe` エラーは正規の手順を踏んだ終了を意味し、 `NotFound` エラーはエラーコードと共に異常終了して、ユーザーにエラーを表示することを意味するかもしれません。）
-`io::ErrorKind` なら、呼び出し元でエラーの種類を調査するために、ケース分析が使えます。
+`io::ErrorKind` なら、呼び出し元でエラーの種類を調査するために、場合分けが使えます。
 これは `String` の中からエラーの詳細がなんだったのか探りだすことよりも、明らかに優れています。
 
 <!-- Instead of using a `String` as an error type in our previous example of reading -->
 <!-- an integer from a file, we can define our own error type that represents errors -->
 <!-- with *structured data*. We endeavor to not drop information from underlying -->
 <!-- errors in case the caller wants to inspect the details. -->
-ファイルから整数値を取り出す例で `String` をエラー型として用いた代わりに、独自のエラー型を定義し、 *構造化データ* によってエラー内容を表すことができます。
+ファイルから整数値を取り出す例で `String` をエラー型として用いた代わりに、独自のエラー型を定義し、 *構造化されたデータ* によってエラー内容を表すことができます。
 呼び出し元が詳細を検査したい時に備え、大元のエラーについての情報を取りこぼさないよう、努力してみましょう。
 
 <!-- The ideal way to represent *one of many possibilities* is to define our own -->

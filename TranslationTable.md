@@ -30,7 +30,7 @@
 | bounds                         | 境界
 | bug                            | バグ
 | capture                        | キャプチャ
-| case analysis                  | ケース分析
+| case analysis                  | 場合分け
 | channel                        | チャネル
 | closure                        | クロージャ
 | coercion                       | 型強制
