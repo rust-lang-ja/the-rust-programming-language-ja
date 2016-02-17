@@ -1,9 +1,12 @@
-% Testing
+% テスト
+<!-- % Testing -->
 
-> Program testing can be a very effective way to show the presence of bugs, but
-> it is hopelessly inadequate for showing their absence.
->
-> Edsger W. Dijkstra, "The Humble Programmer" (1972)
+<!-- &lt; Program testing can be a very effective way to show the presence of bugs, but -->
+<!-- &lt; it is hopelessly inadequate for showing their absence. -->
+<!-- &lt; -->
+<!-- &lt; Edsger W. Dijkstra, "The Humble Programmer" (1972) -->
+> プログラムのテストはバグの存在を示すためには非常に効率的な方法ですが、バグの不存在を示すためには絶望的に不十分です。
+> エドガー・W・ダイクストラ、『謙虚なるプログラマ』（1972）
 
 Let's talk about how to test Rust code. What we will not be talking about is
 the right way to test Rust code. There are many schools of thought regarding
