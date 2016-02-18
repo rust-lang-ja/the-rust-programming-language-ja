@@ -410,16 +410,22 @@ fn main() {
 }
 ```
 
-This works because Rust has a [hygienic macro system]. Each macro expansion
-happens in a distinct ‘syntax context’, and each variable is tagged with the
-syntax context where it was introduced. It’s as though the variable `state`
-inside `main` is painted a different "color" from the variable `state` inside
-the macro, and therefore they don’t conflict.
+<!-- This works because Rust has a [hygienic macro system]. Each macro expansion -->
+<!-- happens in a distinct ‘syntax context’, and each variable is tagged with the -->
+<!-- syntax context where it was introduced. It’s as though the variable `state` -->
+<!-- inside `main` is painted a different "color" from the variable `state` inside -->
+<!-- the macro, and therefore they don’t conflict. -->
+このマクロはRustが [健全なマクロシステム][hygienic macro system] を持っているためです。
+それぞれのマクロ展開は分割された「構文コンテキスト」で行なわれ、
+それぞれの変数はその変数が導入された構文コンテキストでタグ付けされます。
+これは、 `main` 中の `state` がマクロの中の `state` とは異なる「色」で塗られているためにコンフリクトしないという風に考える事ができます。
 
 [hygienic macro system]: https://en.wikipedia.org/wiki/Hygienic_macro
 
-This also restricts the ability of macros to introduce new bindings at the
-invocation site. Code such as the following will not work:
+<!-- This also restricts the ability of macros to introduce new bindings at the -->
+<!-- invocation site. Code such as the following will not work: -->
+この健全性のシステムはマクロが新しい束縛を呼出時に導入する事を制限します。
+以下のようなコードは動作しません:
 
 ```rust,ignore
 macro_rules! foo {
@@ -432,8 +438,10 @@ fn main() {
 }
 ```
 
-Instead you need to pass the variable name into the invocation, so it’s tagged
-with the right syntax context.
+<!-- Instead you need to pass the variable name into the invocation, so it’s tagged -->
+<!-- with the right syntax context. -->
+代りに変数名を呼出時に渡す必要があります、
+呼出時に渡す事で正しい構文コンテキストでタグ付けされます。
 
 ```rust
 macro_rules! foo {
@@ -446,8 +454,10 @@ fn main() {
 }
 ```
 
-This holds for `let` bindings and loop labels, but not for [items][items].
-So the following code does compile:
+<!-- This holds for `let` bindings and loop labels, but not for [items][items]. -->
+<!-- So the following code does compile: -->
+このルールは `let` 束縛やループについても同様ですが、 [アイテム][items] については適用されません。
+そのため、以下のコードはコンパイルが通ります:
 
 ```rust
 macro_rules! foo {
@@ -462,12 +472,16 @@ fn main() {
 
 [items]: ../reference.html#items
 
-# Recursive macros
+<!-- # Recursive macros -->
+# 再帰的マクロ
 
-A macro’s expansion can include more macro invocations, including invocations
-of the very same macro being expanded.  These recursive macros are useful for
-processing tree-structured input, as illustrated by this (simplistic) HTML
-shorthand:
+<!-- A macro’s expansion can include more macro invocations, including invocations -->
+<!-- of the very same macro being expanded.  These recursive macros are useful for -->
+<!-- processing tree-structured input, as illustrated by this (simplistic) HTML -->
+<!-- shorthand: -->
+マクロの展開は、さらなるマクロの呼出や、展開中のマクロ自身の呼出を含むことができます。
+そのような、再帰的なマクロは木構造を持つ入力の処理に便利です。
+以下では、かなり単純化したHTMLを例にしています:
 
 ```rust
 # #![allow(unused_must_use)]
@@ -501,91 +515,148 @@ fn main() {
 }
 ```
 
-# Debugging macro code
+<!-- # Debugging macro code -->
+# マクロをデバッグする
 
-To see the results of expanding macros, run `rustc --pretty expanded`. The
-output represents a whole crate, so you can also feed it back in to `rustc`,
-which will sometimes produce better error messages than the original
-compilation. Note that the `--pretty expanded` output may have a different
-meaning if multiple variables of the same name (but different syntax contexts)
-are in play in the same scope. In this case `--pretty expanded,hygiene` will
-tell you about the syntax contexts.
+<!-- To see the results of expanding macros, run `rustc --pretty expanded`. The -->
+<!-- output represents a whole crate, so you can also feed it back in to `rustc`, -->
+<!-- which will sometimes produce better error messages than the original -->
+<!-- compilation. Note that the `--pretty expanded` output may have a different -->
+<!-- meaning if multiple variables of the same name (but different syntax contexts) -->
+<!-- are in play in the same scope. In this case `--pretty expanded,hygiene` will -->
+<!-- tell you about the syntax contexts. -->
+マクロの展開結果を見るには、 `rustc --pretty expanded` を実行して下さい。
+出力結果はクレートの全体を表しています、そのため出力結果を再び `rustc` に与えることができます、
+そのようにすると屡々、直接コンパイルした場合よりもより良いエラーメッセージを得ることができます。
+しかし、 `--pretty expanded`  は同じ名前の変数(構文コンテキストは異なる)が同じスコープに複数存在する場合、
+出力結果のコード自体は、元のコードと意味が変わってくる場合があります。
+そのようになってしまう場合、 `--pretty expanded,hygiene` のようにすることで、構文コンテキストについて知ることができます。
 
-`rustc` provides two syntax extensions that help with macro debugging. For now,
-they are unstable and require feature gates.
+<!-- `rustc` provides two syntax extensions that help with macro debugging. For now, -->
+<!-- they are unstable and require feature gates. -->
+`rustc` はマクロのデバッグを補助する２つの構文を提供しています。
+今のところは、それらの構文は不安定であり、フィーチャーゲートを必要としています。
 
-* `log_syntax!(...)` will print its arguments to standard output, at compile
-  time, and "expand" to nothing.
+<!-- * `log_syntax!(...)` will print its arguments to standard output, at compile -->
+<!--   time, and "expand" to nothing. -->
+* `log_syntax!(...)` は与えられた引数をコンパイル時に標準入力に出力し、展開結果は何も生じません。
 
-* `trace_macros!(true)` will enable a compiler message every time a macro is
-  expanded. Use `trace_macros!(false)` later in expansion to turn it off.
+<!-- * `trace_macros!(true)` will enable a compiler message every time a macro is -->
+<!--   expanded. Use `trace_macros!(false)` later in expansion to turn it off. -->
+* `trace_macros!(true)` はマクロが展開されるたびにコンパイラがメッセージを出力するように設定できます、
+  `trace_macros!(false)` を展開の終わりごろに用いることで、メッセージの出力をオフにできます。
 
-# Syntactic requirements
+<!-- # Syntactic requirements -->
+# 構文の要請
 
-Even when Rust code contains un-expanded macros, it can be parsed as a full
-[syntax tree][ast]. This property can be very useful for editors and other
-tools that process code. It also has a few consequences for the design of
-Rust’s macro system.
+<!-- Even when Rust code contains un-expanded macros, it can be parsed as a full -->
+<!-- [syntax tree][ast]. This property can be very useful for editors and other -->
+<!-- tools that process code. It also has a few consequences for the design of -->
+<!-- Rust’s macro system. -->
+Rustのコードに展開されていないマクロが含まれていても、 [構文木][ast] としてパースすることができます。
+このような特性はテキストエディタや、その他のコードを処理するツールにとって非常に便利です。
+また、このような特性はRustのマクロシステムの設計にも影響を及ぼしています。
 
 [ast]: glossary.html#abstract-syntax-tree
 
-One consequence is that Rust must determine, when it parses a macro invocation,
-whether the macro stands in for
+<!-- One consequence is that Rust must determine, when it parses a macro invocation, -->
+<!-- whether the macro stands in for -->
+一つの影響としては、マクロ呼出のパースを行った時に、マクロが以下のどれを意味しているかを判定できる必要があります:
 
-* zero or more items,
-* zero or more methods,
-* an expression,
-* a statement, or
-* a pattern.
+<!-- * zero or more items, -->
+<!-- * zero or more methods, -->
+<!-- * an expression, -->
+<!-- * a statement, or -->
+<!-- * a pattern. -->
+* 0個以上のアイテム
+* 0個以上のメソッド
+* 式
+* 文
+* パターン
 
-A macro invocation within a block could stand for some items, or for an
-expression / statement. Rust uses a simple rule to resolve this ambiguity. A
-macro invocation that stands for items must be either
+<!-- A macro invocation within a block could stand for some items, or for an -->
+<!-- expression / statement. Rust uses a simple rule to resolve this ambiguity. A -->
+<!-- macro invocation that stands for items must be either -->
+ブロック中でのマクロ呼出は、幾つかのアイテムや、式 / 文 に対応します。
+Rustはこの曖昧性を判定するためにRustは単純なルールを利用します。
+タイテムに対応しているマクロ呼出しはいかのどちらかでなければならない
 
-* delimited by curly braces, e.g. `foo! { ... }`, or
-* terminated by a semicolon, e.g. `foo!(...);`
+<!-- * delimited by curly braces, e.g. `foo! { ... }`, or -->
+<!-- * terminated by a semicolon, e.g. `foo!(...);` -->
+* 波括弧で区切られている 例: `foo! { ... }`
+* セミコロンで終了している 例: `foo!(...);`
 
-Another consequence of pre-expansion parsing is that the macro invocation must
-consist of valid Rust tokens. Furthermore, parentheses, brackets, and braces
-must be balanced within a macro invocation. For example, `foo!([)` is
-forbidden. This allows Rust to know where the macro invocation ends.
+<!-- Another consequence of pre-expansion parsing is that the macro invocation must -->
+<!-- consist of valid Rust tokens. Furthermore, parentheses, brackets, and braces -->
+<!-- must be balanced within a macro invocation. For example, `foo!([)` is -->
+<!-- forbidden. This allows Rust to know where the macro invocation ends. -->
+その他の展開前のパースの制約はマクロ呼出は正しいRustトークンでなければならないというものです。
+もっというと、括弧や、各カッコ、波括弧はマクロ呼出し中でバランスしてなければなりません。
+例えば: `foo!([)` は禁止されています。
 
-More formally, the macro invocation body must be a sequence of ‘token trees’.
-A token tree is defined recursively as either
+<!-- More formally, the macro invocation body must be a sequence of ‘token trees’. -->
+<!-- A token tree is defined recursively as either -->
+もっと厳密に言うと、マクロ呼出しの本体は「トークンの木」のシーケンスである必要があります。
+トークンの木は以下のように再帰的に定義されています
 
-* a sequence of token trees surrounded by matching `()`, `[]`, or `{}`, or
-* any other single token.
+<!-- * a sequence of token trees surrounded by matching `()`, `[]`, or `{}`, or -->
+<!-- * any other single token. -->
+* マッチャー、 `()` 、 `[]` または `{}` で囲まれたトークンの木
+* その他の単一のトークン
 
-Within a matcher, each metavariable has a ‘fragment specifier’, identifying
-which syntactic form it matches.
+<!-- Within a matcher, each metavariable has a ‘fragment specifier’, identifying -->
+<!-- which syntactic form it matches. -->
+マッチャー内部ではそれぞれのメタ変数はマッチする構文を指定する「フラグメント指定子」を持っています。
 
-* `ident`: an identifier. Examples: `x`; `foo`.
-* `path`: a qualified name. Example: `T::SpecialA`.
-* `expr`: an expression. Examples: `2 + 2`; `if true { 1 } else { 2 }`; `f(42)`.
-* `ty`: a type. Examples: `i32`; `Vec<(char, String)>`; `&T`.
-* `pat`: a pattern. Examples: `Some(t)`; `(17, 'a')`; `_`.
-* `stmt`: a single statement. Example: `let x = 3`.
-* `block`: a brace-delimited sequence of statements. Example:
-  `{ log(error, "hi"); return 12; }`.
-* `item`: an [item][item]. Examples: `fn foo() { }`; `struct Bar;`.
-* `meta`: a "meta item", as found in attributes. Example: `cfg(target_os = "windows")`.
-* `tt`: a single token tree.
 
-There are additional rules regarding the next token after a metavariable:
+<!-- * `ident`: an identifier. Examples: `x`; `foo`. -->
+<!-- * `path`: a qualified name. Example: `T::SpecialA`. -->
+<!-- * `expr`: an expression. Examples: `2 + 2`; `if true { 1 } else { 2 }`; `f(42)`. -->
+<!-- * `ty`: a type. Examples: `i32`; `Vec<(char, String)>`; `&T`. -->
+<!-- * `pat`: a pattern. Examples: `Some(t)`; `(17, 'a')`; `_`. -->
+<!-- * `stmt`: a single statement. Example: `let x = 3`. -->
+<!-- * `block`: a brace-delimited sequence of statements. Example: -->
+<!--   `{ log(error, "hi"); return 12; }`. -->
+<!-- * `item`: an [item][item]. Examples: `fn foo() { }`; `struct Bar;`. -->
+<!-- * `meta`: a "meta item", as found in attributes. Example: `cfg(target_os = "windows")`. -->
+<!-- * `tt`: a single token tree. -->
+* `ident`: 識別子。 例: `x`; `foo`
+* `path`: 量化された名前。例: `T::SpecialA`
+* `expr`: 式。 例: `2 + 2`; `if true { 1 } else { 2 }`; `f(42)`
+* `ty`: 型。 例: `i32`; `Vec<(char, String)>`; `&T`
+* `pat`: パターン。 例: `Some(t)`; `(17, 'a')`; `_`
+* `stmt`: 単一の式。 例: `let x = 3`
+* `block`: 波括弧で区切られた文のシーケンス。 例: `{ log(error, "hi"); return 12 }`
+* `item`: [アイテム][item]。 例: `fn foo() { }`; `struct Bar;`
+* `meta`: アトリビュートで見られるような「メタアイテム」。 例: `cfg(target_os = "windows")`
+* `tt`: 単一のトークンの木
 
-* `expr` variables may only be followed by one of: `=> , ;`
-* `ty` and `path` variables may only be followed by one of: `=> , : = > as`
-* `pat` variables may only be followed by one of: `=> , = if in`
-* Other variables may be followed by any token.
+<!-- There are additional rules regarding the next token after a metavariable: -->
+またメタ変数の次のトークンについて以下のルールが存在します:
 
-These rules provide some flexibility for Rust’s syntax to evolve without
-breaking existing macros.
+<!-- * `expr` variables may only be followed by one of: `=> , ;` -->
+<!-- * `ty` and `path` variables may only be followed by one of: `=> , : = > as` -->
+<!-- * `pat` variables may only be followed by one of: `=> , = if in` -->
+<!-- * Other variables may be followed by any token. -->
+* `expr` 変数は `=> , ;` のどれか一つのみが次に現れます
+* `ty` と `path` 変数は `=> , : = > as` のどれか一つのみが次に現れます
+* `pat` 変数は `=> , = if in` のどれか一つのみが次に現れます
+* その他の変数は任意のトークンが次に現れます
 
-The macro system does not deal with parse ambiguity at all. For example, the
-grammar `$($t:ty)* $e:expr` will always fail to parse, because the parser would
-be forced to choose between parsing `$t` and parsing `$e`. Changing the
-invocation syntax to put a distinctive token in front can solve the problem. In
-this case, you can write `$(T $t:ty)* E $e:exp`.
+<!-- These rules provide some flexibility for Rust’s syntax to evolve without -->
+<!-- breaking existing macros. -->
+これらのルールは既存のマクロを破壊すること無くRustの構文を拡張するための自由度を与えます。
+
+<!-- The macro system does not deal with parse ambiguity at all. For example, the -->
+<!-- grammar `$($t:ty)* $e:expr` will always fail to parse, because the parser would -->
+<!-- be forced to choose between parsing `$t` and parsing `$e`. Changing the -->
+<!-- invocation syntax to put a distinctive token in front can solve the problem. In -->
+<!-- this case, you can write `$(T $t:ty)* E $e:exp`. -->
+マクロシステムはパースの曖昧さについてな何も関与しません。
+例えば、 `$($t:ty)* $e:expr` は常にパースが失敗します、
+なぜならパーサーは `$t` をパースするか、 `$e` をパースするかを選ぶことを強制されるためです。
+呼出構文を変更して識別可能なトークンを先頭につけることでこの問題は回避することができます。
+そのようにする場合、例えば `$(T $t:ty)* E $e:exp` のように書くことができます。
 
 [item]: ../reference.html#items
 
