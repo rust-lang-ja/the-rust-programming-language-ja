@@ -1102,7 +1102,7 @@ fn main() {
 <!-- standard library. You will see it again and again. -->
 最初の2つの問題は、[`std::io::Error`](../std/io/struct.Error.html) 型で記述されます。
 これは [`std::fs::File::open`](../std/fs/struct.File.html#method.open) と [`std::io::Read::read_to_string`](../std/io/trait.Read.html#method.read_to_string) のリターン型からわかります。
-（ちなみにどちらも、以前紹介した [`Result` 型エイリアスのイディオム](#the-result-type-alias-idiom) を用いています。
+（ちなみにどちらも、以前紹介した [`Result` 型エイリアスのイディオム](#result-型エイリアスを用いたイディオム) を用いています。
 `Result` 型のところをクリックすると、いま言った [型エイリアスを見たり](../std/io/type.Result.html)、必然的に、中で使われている `io::Error` 型も見ることになるでしょう。）
 3番目の問題は [`std::num::ParseIntError`](../std/num/struct.ParseIntError.html) 型で記述されます。
 特にこの `io::Error` 型は標準ライブラリ全体に *深く浸透しています* 。
@@ -1465,7 +1465,7 @@ fn main() {
 ここでの変更点は、（エラーを文字列に変換する） `map_err(|e| e.to_string())` を、`map_err(CliError::Io)` や `map_err(CliError::Parse)` へ切り替えたことです。
 こうして *呼び出し元* が、ユーザーに対してどの程度の詳細を報告するか決められるようになりました。
 `String` をエラー型として用いることは、事実上、呼び出し元からこうした選択肢を奪ってしまいます。
-`CliError` のような独自の `enum` エラー型を用いることは、 *構造化データ* によるエラーの説明だけでなく、これまでと同様の使いやすさをもたらします。
+`CliError` のような独自の `enum` エラー型を用いることは、 *構造化されたデータ* によるエラーの説明だけでなく、これまでと同様の使いやすさをもたらします。
 
 <!-- A rule of thumb is to define your own error type, but a `String` error type -->
 <!-- will do in a pinch, particularly if you're writing an application. If you're -->
