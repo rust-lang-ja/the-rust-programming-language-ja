@@ -68,6 +68,7 @@
 | ergonomic                      | エルゴノミック（人間にとって扱いやすいもの）
 | error                          | エラー
 | error handling                 | エラーハンドリング
+| existentially quantified type  | 存在量型
 | expression statement           | 式文
 | feature                        | フィーチャ
 | foreign                        | 他言語
