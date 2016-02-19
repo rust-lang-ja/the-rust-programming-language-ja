@@ -660,85 +660,118 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 
 [item]: ../reference.html#items
 
-# Scoping and macro import/export
+<!-- # Scoping and macro import/export -->
+# スコープとマクロのインポート/エクスポート
 
-Macros are expanded at an early stage in compilation, before name resolution.
-One downside is that scoping works differently for macros, compared to other
-constructs in the language.
+<!-- Macros are expanded at an early stage in compilation, before name resolution. -->
+<!-- One downside is that scoping works differently for macros, compared to other -->
+<!-- constructs in the language. -->
+マクロはコンパイルの早い段階、名前解決が行われる前に展開されます。
+一つの悪い側面としては、言語中のその他の構造とは異なり、マクロではスコープが少し違って動作するということです。
 
-Definition and expansion of macros both happen in a single depth-first,
-lexical-order traversal of a crate’s source. So a macro defined at module scope
-is visible to any subsequent code in the same module, which includes the body
-of any subsequent child `mod` items.
 
-A macro defined within the body of a single `fn`, or anywhere else not at
-module scope, is visible only within that item.
+<!-- Definition and expansion of macros both happen in a single depth-first, -->
+<!-- lexical-order traversal of a crate’s source. So a macro defined at module scope -->
+<!-- is visible to any subsequent code in the same module, which includes the body -->
+<!-- of any subsequent child `mod` items. -->
+マクロの定義と展開はクレートのソース上の順序どおりの深さ優先探索で行われます。
+そのため、モジュールスコープで定義されたマクロは、同じモジュール中で定義の後に続くコードから見えます、
+それらのコードの中には後に続く子の `mod` アイテムからも見えます。
 
-If a module has the `macro_use` attribute, its macros are also visible in its
-parent module after the child’s `mod` item. If the parent also has `macro_use`
-then the macros will be visible in the grandparent after the parent’s `mod`
-item, and so forth.
+<!-- A macro defined within the body of a single `fn`, or anywhere else not at -->
+<!-- module scope, is visible only within that item. -->
+`fn` の本体の中やその他のモジュールのスコープでない箇所で定義された定義されたマクロはそのアイテム中でしか見えません。
 
-The `macro_use` attribute can also appear on `extern crate`. In this context
-it controls which macros are loaded from the external crate, e.g.
+<!-- If a module has the `macro_use` attribute, its macros are also visible in its -->
+<!-- parent module after the child’s `mod` item. If the parent also has `macro_use` -->
+<!-- then the macros will be visible in the grandparent after the parent’s `mod` -->
+<!-- item, and so forth. -->
+もし、モジュールが `macro_use` アトリビュートを持っていた場合、
+それらのマクロはモジュールの親のモジュールからもこの `mod` アイテムの後でも見えます。
+もし親のモジュールが同様に `macro_use` アトリビュートを持っていた場合マクロは、
+親の親モジュールから親の `mod` アイテムが終わった後に見えます。
+
+<!-- The `macro_use` attribute can also appear on `extern crate`. In this context -->
+<!-- it controls which macros are loaded from the external crate, e.g. -->
+また、 `macro_use` アトリビュートは `extern create` でも利用することができます。
+そのコン的ステは、 `macro_use` アトリビュートは外部のクレートからどのマクロをロードするのかを指定します。
+以下がその例です:
 
 ```rust,ignore
 #[macro_use(foo, bar)]
 extern crate baz;
 ```
 
-If the attribute is given simply as `#[macro_use]`, all macros are loaded. If
-there is no `#[macro_use]` attribute then no macros are loaded. Only macros
-defined with the `#[macro_export]` attribute may be loaded.
+<!-- If the attribute is given simply as `#[macro_use]`, all macros are loaded. If -->
+<!-- there is no `#[macro_use]` attribute then no macros are loaded. Only macros -->
+<!-- defined with the `#[macro_export]` attribute may be loaded. -->
+もしアトリビュートが単純に `#[macro_use]` という形で指定されていた場合、全てのマクロがロードされます。
+もし、 `#[macro_use]` が指定されていなかった場合、
+`#[macro_export]` アトリビュートとともに定義されているマクロ以外は、どのマクロもロードされません。
 
-To load a crate’s macros without linking it into the output, use `#[no_link]`
-as well.
+<!-- To load a crate’s macros without linking it into the output, use `#[no_link]` -->
+<!-- as well. -->
+クレートのマクロを出力にリンクさせずにロードするには、 `#[no_link]` を利用して下さい。
 
-An example:
+<!-- An example: -->
+一例としては:
 
 ```rust
 macro_rules! m1 { () => (()) }
 
-// visible here: m1
+# // // visible here: m1
+// ここで見えるのは: m1
 
 mod foo {
-    // visible here: m1
+# //    // visible here: m1
+    // ここで見えるのは: m1
 
     #[macro_export]
     macro_rules! m2 { () => (()) }
 
-    // visible here: m1, m2
+# //    // visible here: m1, m2
+    // ここで見えるのは: m1、m2
 }
 
-// visible here: m1
+# // // visible here: m1
+// ここで見えるのは: m1
 
 macro_rules! m3 { () => (()) }
 
-// visible here: m1, m3
+# // // visible here: m1, m3
+// ここで見えるのは: m1、m3
 
 #[macro_use]
 mod bar {
-    // visible here: m1, m3
+# //    // visible here: m1, m3
+    // ここで見えるのは: m1、m3
 
     macro_rules! m4 { () => (()) }
 
-    // visible here: m1, m3, m4
+# //    // visible here: m1, m3, m4
+    // ここで見えるのは: m1、m3、m4
 }
 
-// visible here: m1, m3, m4
+# // // visible here: m1, m3, m4
+// ここで見えるのは: m1、m3、m4
 # fn main() { }
 ```
 
-When this library is loaded with `#[macro_use] extern crate`, only `m2` will
-be imported.
+<!-- When this library is loaded with `#[macro_use] extern crate`, only `m2` will -->
+<!-- be imported. -->
+ライブラリが `#[macro_use]` と共に外部のクレートをロードした場合、 `m2` だけがインポートされます。
 
-The Rust Reference has a [listing of macro-related
-attributes](../reference.html#macro-related-attributes).
+<!-- The Rust Reference has a [listing of macro-related -->
+<!-- attributes](../reference.html#macro-related-attributes). -->
+Rustのリファレンスは [マクロに関連するアトリビュートの一覧](../reference.html#macro-related-attributes) について掲載しています。
 
-# The variable `$crate`
+<!-- # The variable `$crate` -->
+# `$crate` 変数
 
-A further difficulty occurs when a macro is used in multiple crates. Say that
-`mylib` defines
+<!-- A further difficulty occurs when a macro is used in multiple crates. Say that -->
+<!-- `mylib` defines -->
+さらなる困難はマクロが複数のクレートで利用された時に発生します。
+`mylib` が以下のように定義されているとしましょう
 
 ```rust
 pub fn increment(x: u32) -> u32 {
@@ -757,15 +790,23 @@ macro_rules! inc_b {
 # fn main() { }
 ```
 
-`inc_a` only works within `mylib`, while `inc_b` only works outside the
-library. Furthermore, `inc_b` will break if the user imports `mylib` under
-another name.
+<!-- `inc_a` only works within `mylib`, while `inc_b` only works outside the -->
+<!-- library. Furthermore, `inc_b` will break if the user imports `mylib` under -->
+<!-- another name. -->
+`inc_a` は `mylib` の中でだけ動作します、かたや `inc_b` は `mylib` の外部でだけ動作します。
+さらにいえば、 `inc_b` はユーザーが `mylib` を異なる名前でインポートした際には動作しません。
 
-Rust does not (yet) have a hygiene system for crate references, but it does
-provide a simple workaround for this problem. Within a macro imported from a
-crate named `foo`, the special macro variable `$crate` will expand to `::foo`.
-By contrast, when a macro is defined and then used in the same crate, `$crate`
-will expand to nothing. This means we can write
+<!-- Rust does not (yet) have a hygiene system for crate references, but it does -->
+<!-- provide a simple workaround for this problem. Within a macro imported from a -->
+<!-- crate named `foo`, the special macro variable `$crate` will expand to `::foo`. -->
+<!-- By contrast, when a macro is defined and then used in the same crate, `$crate` -->
+<!-- will expand to nothing. This means we can write -->
+Rustは(まだ)健全なクレートの参照の仕組みを持っていません、
+しかし、この問題に対する簡単な対処方法を提供しています。
+`foo`というクレートからインポートされたマクロ中において、
+特別なマクロ変数 `$create` は `::foo` に展開されます。
+対照的に、マクロが同じクレートの中で定義され利用された場合、
+`$create` は何にも展開されません。これはつまり以下のように書けることを意味しています:
 
 ```rust
 #[macro_export]
@@ -775,23 +816,34 @@ macro_rules! inc {
 # fn main() { }
 ```
 
-to define a single macro that works both inside and outside our library. The
-function name will expand to either `::increment` or `::mylib::increment`.
+<!-- to define a single macro that works both inside and outside our library. The -->
+<!-- function name will expand to either `::increment` or `::mylib::increment`. -->
+これは、ライブラリの中でも外でも動作するマクロを定義しています。
+関数の名前は `::increment` または `::mylib::increment` に展開されます。
 
-To keep this system simple and correct, `#[macro_use] extern crate ...` may
-only appear at the root of your crate, not inside `mod`. This ensures that
-`$crate` is a single identifier.
 
-# The deep end
+<!-- To keep this system simple and correct, `#[macro_use] extern crate ...` may -->
+<!-- only appear at the root of your crate, not inside `mod`. This ensures that -->
+<!-- `$crate` is a single identifier. -->
+このシステムと簡潔に正しく保つために、
+`#[macro_use] extern crate ...` はクレートのルートにしか登場せず、 `mod` の中には現れません。
+これは `$crate` が単一の識別子をもつためのものです。
 
-The introductory chapter mentioned recursive macros, but it did not give the
-full story. Recursive macros are useful for another reason: Each recursive
-invocation gives you another opportunity to pattern-match the macro’s
-arguments.
 
-As an extreme example, it is possible, though hardly advisable, to implement
-the [Bitwise Cyclic Tag](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) automaton
-within Rust’s macro system.
+<!-- # The deep end -->
+# 最深部
+
+<!-- The introductory chapter mentioned recursive macros, but it did not give the -->
+<!-- full story. Recursive macros are useful for another reason: Each recursive -->
+<!-- invocation gives you another opportunity to pattern-match the macro’s -->
+<!-- arguments. -->
+導入のチャプターで再帰的なマクロについて言及しました、しかしそのチャプターでは詳細について話していませんでした。
+再帰的なマクロが便利な他の理由は: それぞれの再帰的な呼出はマクロに与えられた引数にたいしてパターンマッチを行える可能性を与えてくれます。
+
+<!-- As an extreme example, it is possible, though hardly advisable, to implement -->
+<!-- the [Bitwise Cyclic Tag](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) automaton -->
+<!-- within Rust’s macro system. -->
+極端な例としては、 [Bitwise Cyclic Tag](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) のオートマトンをRustのマクロで実装する事が可能です。
 
 ```rust
 macro_rules! bct {
@@ -817,17 +869,22 @@ macro_rules! bct {
 }
 ```
 
-Exercise: use macros to reduce duplication in the above definition of the
-`bct!` macro.
+<!-- Exercise: use macros to reduce duplication in the above definition of the -->
+<!-- `bct!` macro. -->
+演習: マクロを使って上の `bct!` マクロの定義の重複している部分を減らしてみましょう。
 
-# Common macros
+<!-- # Common macros -->
+# よく見られるマクロ
 
-Here are some common macros you’ll see in Rust code.
+<!-- Here are some common macros you’ll see in Rust code. -->
+以下は、Rustコード中でよく見られるマクロたちです。
 
 ## panic!
 
-This macro causes the current thread to panic. You can give it a message
-to panic with:
+<!-- This macro causes the current thread to panic. You can give it a message -->
+<!-- to panic with: -->
+このマクロは現在のスレッドをパニック状態にします。
+パニック時のメッセージを指定することができます。
 
 ```rust,no_run
 panic!("oh no!");
@@ -835,33 +892,44 @@ panic!("oh no!");
 
 ## vec!
 
-The `vec!` macro is used throughout the book, so you’ve probably seen it
-already. It creates `Vec<T>`s with ease:
+<!-- The `vec!` macro is used throughout the book, so you’ve probably seen it -->
+<!-- already. It creates `Vec<T>`s with ease: -->
+`vec!` マクロはこの本のなかで使われてきました、
+そのため、すでに見たことがあるでしょう。 `Vec<T>` を簡単に作成できます:
 
 ```rust
 let v = vec![1, 2, 3, 4, 5];
 ```
 
-It also lets you make vectors with repeating values. For example, a hundred
-zeroes:
+<!-- It also lets you make vectors with repeating values. For example, a hundred -->
+<!-- zeroes: -->
+また、値の繰り返しのベクタを作成することも可能です。
+たとえば、以下は100個の0を含むベクタの例です:
 
 ```rust
 let v = vec![0; 100];
 ```
 
-## assert! and assert_eq!
+<!-- ## assert! and assert_eq! -->
+## assert! と assert_eq!
 
-These two macros are used in tests. `assert!` takes a boolean. `assert_eq!`
-takes two values and checks them for equality. `true` passes, `false` `panic!`s.
-Like this:
+<!-- These two macros are used in tests. `assert!` takes a boolean. `assert_eq!` -->
+<!-- takes two values and checks them for equality. `true` passes, `false` `panic!`s. -->
+<!-- Like this: -->
+この２つのマクロはテスト時に利用します。
+`assert!` は真偽値を引数に取ります。
+`assert_eq!` は２つの等価性をチェックする値を引数に取ります。
+`true` ならばパスし、 `false` だった場合 `panic!` を起こします:
 
 ```rust,no_run
-// A-ok!
+# // // A-ok!
+// Okです！
 
 assert!(true);
 assert_eq!(5, 3 + 2);
 
-// nope :(
+# // // nope :(
+// 駄目だぁ :(
 
 assert!(5 < 3);
 assert_eq!(5, 3);
@@ -869,9 +937,13 @@ assert_eq!(5, 3);
 
 ## try!
 
-`try!` is used for error handling. It takes something that can return a
-`Result<T, E>`, and gives `T` if it’s a `Ok<T>`, and `return`s with the
-`Err(E)` if it’s that. Like this:
+<!-- `try!` is used for error handling. It takes something that can return a -->
+<!-- `Result<T, E>`, and gives `T` if it’s a `Ok<T>`, and `return`s with the -->
+<!-- `Err(E)` if it’s that. Like this: -->
+`try!` はエラーハンドリングのために利用します。
+`try!` は `Result<T, E>` を返す何らかの物を引数に取りもし  `Result<T, E>` が `Ok<T>` だった場合 `T` を、
+そうでなっく `Err(E)` だった場合は `return` を行います。
+例えば以下のように利用します:
 
 ```rust,no_run
 use std::fs::File;
@@ -883,7 +955,8 @@ fn foo() -> std::io::Result<()> {
 }
 ```
 
-This is cleaner than doing this:
+<!-- This is cleaner than doing this: -->
+このコードは以下のコードよりも綺麗です:
 
 ```rust,no_run
 use std::fs::File;
@@ -902,7 +975,8 @@ fn foo() -> std::io::Result<()> {
 
 ## unreachable!
 
-This macro is used when you think some code should never execute:
+<!-- This macro is used when you think some code should never execute: -->
+このマクロはあるコードが絶対に実行されるべきでないと考えている時に利用します。
 
 ```rust
 if false {
@@ -910,9 +984,11 @@ if false {
 }
 ```
 
-Sometimes, the compiler may make you have a different branch that you know
-will never, ever run. In these cases, use this macro, so that if you end
-up wrong, you’ll get a `panic!` about it.
+<!-- Sometimes, the compiler may make you have a different branch that you know -->
+<!-- will never, ever run. In these cases, use this macro, so that if you end -->
+<!-- up wrong, you’ll get a `panic!` about it. -->
+時々、コンパイラーによって絶対に呼び出されるはずがないと考えているブランチを作成する必要が生まれることが有ります。
+そういった時には、このマクロを利用しましょう、そのようにすることで、もし何か誤ってしまった時に、 `panic!` で知ることができます。
 
 ```rust
 let x: Option<i32> = None;
@@ -925,17 +1001,27 @@ match x {
 
 ## unimplemented!
 
-The `unimplemented!` macro can be used when you’re trying to get your functions
-to typecheck, and don’t want to worry about writing out the body of the
-function. One example of this situation is implementing a trait with multiple
-required methods, where you want to tackle one at a time. Define the others
-as `unimplemented!` until you’re ready to write them.
+<!-- The `unimplemented!` macro can be used when you’re trying to get your functions -->
+<!-- to typecheck, and don’t want to worry about writing out the body of the -->
+<!-- function. One example of this situation is implementing a trait with multiple -->
+<!-- required methods, where you want to tackle one at a time. Define the others -->
+<!-- as `unimplemented!` until you’re ready to write them. -->
+`unimplemented!` マクロはもし関数の本体の実装は指定内が、型チェックだけは行いたいという時に利用します。
+このような状況の一つの例としては複数のメソッドを必要としているトレイトのメソッドの一つを実装しようと試みている時などです。
+残りのメソッドたちを実装に取り掛かれるまで `unimplemented!` として定義することができます。
 
-# Procedural macros
+<!-- # Procedural macros -->
+# 手続きマクロ
 
-If Rust’s macro system can’t do what you need, you may want to write a
-[compiler plugin](compiler-plugins.html) instead. Compared to `macro_rules!`
-macros, this is significantly more work, the interfaces are much less stable,
-and bugs can be much harder to track down. In exchange you get the
-flexibility of running arbitrary Rust code within the compiler. Syntax
-extension plugins are sometimes called ‘procedural macros’ for this reason.
+<!-- If Rust’s macro system can’t do what you need, you may want to write a -->
+<!-- [compiler plugin](compiler-plugins.html) instead. Compared to `macro_rules!` -->
+<!-- macros, this is significantly more work, the interfaces are much less stable, -->
+<!-- and bugs can be much harder to track down. In exchange you get the -->
+<!-- flexibility of running arbitrary Rust code within the compiler. Syntax -->
+<!-- extension plugins are sometimes called ‘procedural macros’ for this reason. -->
+もしRustのマクロシステムでは必要としていることができない場合、
+[コンパイラプラグイン](compiler-plugins.html) を代わりに書きたくなるでしょう。
+コンパイラプラグインは `macro_rules!` マクロとくらべて、更に多くの作業が必要になり、
+インタフェースは少し不安定であり、バグはさらに追跡が困難になります。
+その代わり、コンパイラ中で実行できるコードの自由度を得ることができます。
+構文拡張プラグインがしばしば「手続きマクロ」と呼ばれるのはこのためです。
