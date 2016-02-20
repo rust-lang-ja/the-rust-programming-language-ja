@@ -117,7 +117,7 @@ macro_rules! vec { ... }
 <!-- exclamation point, e.g. `vec!`. The exclamation point is part of the invocation -->
 <!-- syntax and serves to distinguish a macro from an ordinary function. -->
 これは、新しいマクロ `vec` を定義していることを意味しています、`vec` という関数を定義するときに `fn vec` と書くのと同じです。
-散文的に、非形式的にマクロ名をエクスクラメーションマーク(!) と共に記述します、例えば: `vec!` のように示します。
+非公式ですが、実際には、マクロ名をエクスクラメーションマーク(!) と共に記述します、例えば: `vec!` のように示します。
 エクスクラメーションマークはマクロ呼び出しの構文の一部で、マクロと通常の関数の区別をつけるためのものです。
 
 <!-- ## Matching -->
@@ -300,7 +300,7 @@ fn main() {
 上のコードはほとんどのマッチャーの構文を利用しています。
 この例では0個以上にマッチする `$(...)*` を利用しています、
 1つ以上にマッチさせたい場合は `$(...)+` を代りに利用する事ができます。
-また、どちらも補助的に区切りを指定する事ができます。区切りには、 `+` と `*` 意外の任意のトークンを指定することが可能です。
+また、どちらも補助的に区切りを指定する事ができます。区切りには、 `+` と `*` 以外の任意のトークンを指定することが可能です。
 
 <!-- This system is based on -->
 <!-- "[Macro-by-Example](https://www.cs.indiana.edu/ftp/techreports/TR206.pdf)" -->
@@ -387,7 +387,7 @@ if (state > 0) {
 <!-- The second variable named `state` shadows the first one.  This is a problem -->
 <!-- because the print statement should refer to both of them. -->
 2番目の変数 `state` は1つめの `state` を隠してしまいます。
-これは、print文が両方の変数を参照する必要があるためです。
+この問題は、print文が両方の変数を参照する必要があるために起こります。
 
 <!-- The equivalent Rust macro has the desired behavior. -->
 Rustにおける同様のマクロは期待する通りの動作をします。
@@ -479,7 +479,7 @@ fn main() {
 <!-- processing tree-structured input, as illustrated by this (simplistic) HTML -->
 <!-- shorthand: -->
 マクロの展開は、展開中のマクロ自身も含めたその他のマクロ呼出しを含んでいることが可能です。
-そのような、以下の単純化したHTMLの短縮形のような、再帰的なマクロは木構造を持つ入力の処理に便利です:
+そのような再帰的なマクロは、以下の(単純化した)HTMLの短縮形のような、木構造を持つ入力の処理に便利です:
 
 ```rust
 # #![allow(unused_must_use)]
@@ -532,7 +532,7 @@ fn main() {
 
 <!-- `rustc` provides two syntax extensions that help with macro debugging. For now, -->
 <!-- they are unstable and require feature gates. -->
-`rustc` はマクロのデバッグを補助する２つの構文を提供しています。
+`rustc` はマクロのデバッグを補助する２つの構文拡張を提供しています。
 今のところは、それらの構文は不安定であり、フィーチャーゲートを必要としています。
 
 <!-- * `log_syntax!(...)` will print its arguments to standard output, at compile -->
@@ -589,18 +589,18 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 <!-- must be balanced within a macro invocation. For example, `foo!([)` is -->
 <!-- forbidden. This allows Rust to know where the macro invocation ends. -->
 その他の展開前にパース可能である事による制約はマクロ呼出は正しいRustトークンで構成されている必要があるというものです。
-そのうえ、括弧や、各カッコ、波括弧はマクロ呼出し中でバランスしてなければなりません。
+そのうえ、括弧や、角カッコ、波括弧はマクロ呼出し中でバランスしてなければなりません。
 例えば: `foo!([)` は禁止されています。
 これによってRustはマクロ呼出しがどこで終わっているかを知ることができます。
 
 <!-- More formally, the macro invocation body must be a sequence of ‘token trees’. -->
 <!-- A token tree is defined recursively as either -->
 もっと厳密に言うと、マクロ呼出しの本体は「トークンの木」のシーケンスである必要があります。
-トークンの木は以下の条件により再帰的に定義されています
+トークンの木は以下のいずれかの条件により再帰的に定義されています
 
 <!-- * a sequence of token trees surrounded by matching `()`, `[]`, or `{}`, or -->
 <!-- * any other single token. -->
-* マッチャー、 `()` 、 `[]` または `{}` で囲まれたトークンの木
+* マッチャー、 `()` 、 `[]` または `{}` で囲まれたトークンの木、あるいは、
 * その他の単一のトークン
 
 <!-- Within a matcher, each metavariable has a ‘fragment specifier’, identifying -->
@@ -619,11 +619,11 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 <!-- * `meta`: a "meta item", as found in attributes. Example: `cfg(target_os = "windows")`. -->
 <!-- * `tt`: a single token tree. -->
 * `ident`: 識別子。 例: `x`; `foo`
-* `path`: 量化された名前。例: `T::SpecialA`
+* `path`: 修飾された名前。例: `T::SpecialA`
 * `expr`: 式。 例: `2 + 2`; `if true { 1 } else { 2 }`; `f(42)`
 * `ty`: 型。 例: `i32`; `Vec<(char, String)>`; `&T`
 * `pat`: パターン。 例: `Some(t)`; `(17, 'a')`; `_`
-* `stmt`: 単一の式。 例: `let x = 3`
+* `stmt`: 単一の文。 例: `let x = 3`
 * `block`: 波括弧で区切られた文のシーケンス。 例: `{ log(error, "hi"); return 12 }`
 * `item`: [アイテム][item]。 例: `fn foo() { }`; `struct Bar;`
 * `meta`: アトリビュートで見られるような「メタアイテム」。 例: `cfg(target_os = "windows")`
@@ -840,7 +840,7 @@ macro_rules! inc {
 <!-- As an extreme example, it is possible, though hardly advisable, to implement -->
 <!-- the [Bitwise Cyclic Tag](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) automaton -->
 <!-- within Rust’s macro system. -->
-極端な例としては、 [Bitwise Cyclic Tag](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) のオートマトンをRustのマクロで実装する事が可能です。
+極端な例としては、 望ましくはありませんが、 [Bitwise Cyclic Tag](https://esolangs.org/wiki/Bitwise_Cyclic_Tag) のオートマトンをRustのマクロで実装する事が可能です。
 
 ```rust
 macro_rules! bct {
@@ -940,7 +940,7 @@ assert_eq!(5, 3);
 <!-- `Err(E)` if it’s that. Like this: -->
 `try!` はエラーハンドリングのために利用されています。
 `try!` は `Result<T, E>` を返す何らかの物を引数に取り、もし `Result<T, E>` が `Ok<T>` だった場合 `T` を、
-そうでなく `Err(E)` だった場合はそれを `return` します。
+そうでなく `Err(E)` だった場合はそれを返します。
 例えば以下のように利用します:
 
 ```rust,no_run
@@ -1020,6 +1020,6 @@ match x {
 もしRustのマクロシステムでは必要としていることができない場合、
 [コンパイラプラグイン](compiler-plugins.html) を代わりに書きたくなるでしょう。
 コンパイラプラグインは `macro_rules!` マクロとくらべて、更に多くの作業が必要になり、
-インタフェースは少し不安定であり、バグはさらに追跡が困難になります。
+インタフェースはかなり不安定であり、バグはさらに追跡が困難になります。
 引き換えに、任意のコードをコンパイラ中で実行できるという自由度を得ることができます。
 構文拡張プラグインがしばしば「手続きマクロ」と呼ばれるのはこのためです。
