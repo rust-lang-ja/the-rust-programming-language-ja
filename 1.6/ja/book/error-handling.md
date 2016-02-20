@@ -1524,7 +1524,7 @@ trait Error: Debug + Display {
 <!-- * Inspect the causal chain of an error, if one exists (via the `cause` method). -->
 * エラーの `Debug` 表現を取得する。
 * エラーのユーザー向け `Display` 表現を取得する。
-* エラーの簡単な説明を取得する（`cause` メソッド経由）。
+* エラーの簡単な説明を取得する（`description` メソッド経由）。
 * エラーの因果関係のチェーンが提供されているなら、それを調べる（`cause` メソッド経由）。
 
 <!-- The first two are a result of `Error` requiring impls for both `Debug` and -->
