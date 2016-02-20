@@ -69,6 +69,7 @@
 | error                          | エラー
 | error handling                 | エラーハンドリング
 | expression statement           | 式文
+| exterior                       | 外側の
 | feature                        | フィーチャ
 | foreign                        | 他言語
 | free-standing function         | フリースタンディングな関数
@@ -79,9 +80,11 @@
 | hash                           | ハッシュ
 | identifier                     | 識別子
 | immutable                      | イミュータブル
+| immutability                   | イミュータビリティ
 | implement                      | 実装する
 | initialize                     | 初期化する
 | input lifetime                 | 入力ライフタイム
+| interior                       | 内側の
 | install                        | インストール
 | installer                      | インストーラ
 | interpolate                    | インターポーレートする
@@ -133,6 +136,7 @@
 | return                         | 返す
 | return type                    | リターン型
 | return value                   | 戻り値
+| runtime                        | 実行時
 | safe                           | 安全
 | safety check                   | 安全性検査
 | scope                          | スコープ
