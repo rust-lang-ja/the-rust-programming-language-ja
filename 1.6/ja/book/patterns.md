@@ -55,7 +55,7 @@ x: x
 <!-- In other words, `x =>` matches the pattern and introduces a new binding named
 `x` that’s in scope for the match arm. Because we already have a binding named
 `x`, this new `x` shadows it. -->
-説明すると、 `x =>` はパターンへのマッチだけでなく、マッチの腕内で有効な `x` という名前の束縛を導入します。
+説明すると、 `x =>` はパターンへのマッチだけでなく、マッチの腕内で有効な `x` という名前の束縛を導入します。なぜなら既に `x` は束縛されており、この新しい `x` はそれを覆い隠します。
 
 <!-- # Multiple patterns -->
 # 複式パターン
