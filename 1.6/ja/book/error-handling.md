@@ -1513,18 +1513,19 @@ trait Error: Debug + Display {
 <!-- types that represent errors. This will prove useful for writing composable code -->
 <!-- as we'll see later. Otherwise, the trait allows you to do at least the -->
 <!-- following things: -->
-このトレイトはエラーを表す *全て* の型で実装されることを目的としており、ごく一般的なデフォルト実装を持ちます。
-この後すぐ見るように、このことが合成可能なコードを書くのに役立っています。
-一方で、このトレイトは最低でも以下のようなカスタマイズを可能にします：
+このトレイトは極めて一般的です。
+なぜなら、エラーを表す *全て* の型で実装されることを目的としているからです。
+この後すぐ見るように、このことが合成可能なコードを書くのに間違いなく役立ちます。
+それ以外にも、このトレイトでは最低でも以下のようなことができます：
 
 <!-- * Obtain a `Debug` representation of the error. -->
 <!-- * Obtain a user-facing `Display` representation of the error. -->
 <!-- * Obtain a short description of the error (via the `description` method). -->
 <!-- * Inspect the causal chain of an error, if one exists (via the `cause` method). -->
-* エラーの `Debug` 表現を取得する
-* エラーのユーザー向けの `Display` 表現を取得する
-* エラーの簡単な説明を取得する（`cause` メソッド経由）
-* エラーの因果関係のチェーンが提供されているなら、それを調べる（`cause` メソッド経由）
+* エラーの `Debug` 表現を取得する。
+* エラーのユーザー向け `Display` 表現を取得する。
+* エラーの簡単な説明を取得する（`cause` メソッド経由）。
+* エラーの因果関係のチェーンが提供されているなら、それを調べる（`cause` メソッド経由）。
 
 <!-- The first two are a result of `Error` requiring impls for both `Debug` and -->
 <!-- `Display`. The latter two are from the two methods defined on `Error`. The -->
@@ -1539,13 +1540,13 @@ trait Error: Debug + Display {
 `Error` の強力さは、実際に全てのエラー型が `Error` を実装していることから来ています。
 このことは、全てのエラーを1つの [トレイトオブジェクト](../book/trait-objects.html) として存在量化(existentially quantify) できることを意味します。
 これは `Box<Error>` または `&Error` と書くことで表明できます。
-まさに `cause` メソッドは `&Error` を返し、それ自身がトレイトオブジェクトです。
-`Error` トレイトのトレイトオブジェクトとしての用例については、後ほど再び取り上げます。
+実際に `cause` メソッドは `&Error` を返し、これ自体はトレイトオブジェクトです。
+`Error` トレイトのトレイトオブジェクトとしての用例については、後ほど再び取りあげます。
 
 <!-- For now, it suffices to show an example implementing the `Error` trait. Let's -->
 <!-- use the error type we defined in the -->
 <!-- [previous section](#defining-your-own-error-type): -->
-`Error` トレイトの実装例を見せるには十分でしょう。
+`Error` トレイトの実装例を見せるには、いまはこのくらいで十分でしょう。
 [前の節](#独自のエラー型を定義する) で定義したエラー型を使ってみましょう：
 
 ```rust
@@ -1567,13 +1568,13 @@ enum CliError {
 <!-- occurring: an error dealing with I/O or an error converting a string to a -->
 <!-- number. The error could represent as many error types as you want by adding new -->
 <!-- variants to the `enum` definition. -->
-このエラー型は2種類のエラー、つまり、IOを扱っている時のエラー、または、文字列を通知に変換するときのエラーが起こる可能性を示しています。
-`enum` 定義にバリエーションを加えることで、エラーの種類をいくらでも表現できます。
+このエラー型は2種類のエラー、つまり、IOを扱っているときのエラー、または、文字列を通知に変換するときのエラーが起こる可能性を示しています。
+`enum` 定義のバリアントを増やせば、エラーの種類をいくらでも表現できます。
 
 <!-- Implementing `Error` is pretty straight-forward. It's mostly going to be a lot -->
 <!-- explicit case analysis. -->
 `Error` を実装するのは実に単純な作業です。
-ほとんどの場合は明示的な場合分けの繰り返しになります。
+大抵は明示的な場合分けの繰り返しになります。
 
 ```rust,ignore
 use std::error;
@@ -1625,7 +1626,7 @@ impl error::Error for CliError {
 <!-- different error types and satisfy the contracts defined for `description` and -->
 <!-- `cause`. -->
 これは極めて典型的な `Error` の実装だということに留意してください。
-このように異なるエラー型にマッチさせて、`description` と `cause` のコントラクトを満たします。
+このように、それぞれのエラー型にマッチさせて、`description` と `cause` のコントラクトを満たします。
 
 <!-- ## The `From` trait -->
 ## `From` トレイト
@@ -1652,7 +1653,7 @@ trait From<T> {
 嬉しいくらい簡単でしょ？
 `From` は、ある特定の型 `T` から違う型へ変換するための汎用的な方法を提供するので大変便利です
 （この場合の「違う型」とは実装の対象、つまり `Self` です）。
-`From` で最も重要なのは [標準ライブラリで提供される一連の実装です](../std/convert/trait.From.html)。
+`From` を支えているのは [標準ライブラリで提供される一連の実装です](../std/convert/trait.From.html)。
 
 <!-- Here are a few simple examples demonstrating how `From` works: -->
 `From` がどのように動くか、いくつかの例を使って紹介しましょう：
@@ -1677,7 +1678,7 @@ impl<'a, E: Error + 'a> From<E> for Box<Error + 'a>
 <!-- trait object `Box<Error>`. This may not seem terribly surprising, but it is -->
 <!-- useful in a generic context. -->
 この実装では、 `Error` を実装した *全て* の型は、トレイトオブジェクト `Box<Error>` に変換できると言っています。
-これは、あまり驚くほどのものには見えませんが、一般的な状況では有用です。
+これは、驚きに値するものには見えないかもしれませんが、一般的なコンテキストで有用なのです。
 
 <!-- Remember the two errors we were dealing with previously? Specifically, -->
 <!-- `io::Error` and `num::ParseIntError`. Since both impl `Error`, they work with -->
@@ -1710,7 +1711,7 @@ let err2: Box<Error> = From::from(parse_err);
 <!-- Additionally, we constructed `err1` and `err2` using precisely the same -->
 <!-- function call: `From::from`. This is because `From::from` is overloaded on both -->
 <!-- its argument and its return type. -->
-ここに認識すべき、本当に重要なパターンがあります。
+ここに気づくべき、本当に重要なパターンがあります。
 `err1` と `err2` の両方ともが *同じ型* になっているのです。
 なぜなら、それらが存在量型、つまり、トレイトオブジェクトだからです。
 特にそれらの背後の型は、コンパイラーの知識から *消去されます* ので、 `err1` と `err2` が本当に同じに見えるのです。
@@ -1720,11 +1721,11 @@ let err2: Box<Error> = From::from(parse_err);
 <!-- This pattern is important because it solves a problem we had earlier: it gives -->
 <!-- us a way to reliably convert errors to the same type using the same function. -->
 このパターンは重要です。
-なぜなら、私たちが以前抱えていた問題を解決するからです：
+なぜなら、私たちが前から抱えていた問題を解決するからです：
 同じ関数を使って、エラーを同一の型に変換する、確かな方法を提供するからです。
 
 <!-- Time to revisit an old friend; the `try!` macro. -->
-いよいよ、私たちの旧友 `try!` マクロを再訪する時が訪れました。
+いよいよ、私たちの旧友 `try!` マクロを再訪するときが訪れました。
 
 <!-- ## The real `try!` macro -->
 ## 本当の `try!` マクロ
@@ -1760,7 +1761,7 @@ macro_rules! try {
 <!-- There's one tiny but powerful change: the error value is passed through -->
 <!-- `From::from`. This makes the `try!` macro a lot more powerful because it gives -->
 <!-- you automatic type conversion for free. -->
-ここには、たった一つですが、大きな違いがあります：
+文面上はわずかですが、非常に大きな違いがあります：
 エラーの値は `From::from` を経て渡されるのです。
 これにより `try!` マクロは、はるかに強力になります。
 なぜなら、自動的な型変換をただで手に入れられるのですから。
@@ -1822,7 +1823,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 
 <!-- When all three things are combined, we get code that is unencumbered by -->
 <!-- combinators, calls to `unwrap` or case analysis. -->
-これら3つが一つになった時、コンビネータ、 `unwrap` の呼び出し、場合分けなどの邪魔者を排除したコードが得られるのです。
+これら3つが一つになったとき、コンビネータ、 `unwrap` の呼び出し、場合分けなどの邪魔者を排除したコードが得られるのです。
 
 <!-- There's one little nit left: the `Box<Error>` type is *opaque*. If we -->
 <!-- return a `Box<Error>` to the caller, the caller can't (easily) inspect -->
@@ -1845,7 +1846,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 この方法が有効なシナリオもありますが、[この章で扱う範囲を超えています](https://crates.io/crates/error) ）
 
 <!-- It's time to revisit our custom `CliError` type and tie everything together. -->
-では、私たちのカスタムエラー型 `CliErro` に戻って、全てを一つにまとめ上げましょう。
+では、私たちのカスタムエラー型 `CliError` に戻って、全てを一つにまとめ上げましょう。
 
 <!-- ## Composing custom error types -->
 ## 独自のエラー型を合成する
@@ -1856,7 +1857,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 <!-- is opaque to callers. -->
 最後の説では `try!` マクロの本当の定義を確認し、それが `From::from` をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
 特にそこでは、エラーを `Box<Error>` に変換しました。
-これはたしかに動きますが、呼び出し元にとって型がオペークになってしまいました。
+これはたしかに動きますが、呼び出し元にとって、型がオペークになってしまいました。
 
 <!-- To fix this, we use the same remedy that we're already familiar with: a custom -->
 <!-- error type. Once again, here is the code that reads the contents of a file and -->
@@ -1965,7 +1966,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, CliError> {
 <!-- If we modified our `file_double` function to perform some other operation, say, -->
 <!-- convert a string to a float, then we'd need to add a new variant to our error -->
 <!-- type: -->
-もし `file_double` 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたい、と思ったら、エラー型のバリエーションを追加するだけです：
+もし `file_double` 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたいと思ったら、エラー型のバリアントを追加するだけです：
 
 ```rust
 use std::io;
@@ -2010,10 +2011,10 @@ impl From<num::ParseFloatError> for CliError {
 <!-- of how you do it, it's usually good practice to at least provide some -->
 <!-- information about the error beyond just its `String` -->
 <!-- representation. But certainly, this will vary depending on use cases. -->
-もし、あなたのライブラリーがカスタマイズされたエラーを報告しなければならないなら、恐らく、独自のエラー型を定義するべきでしょう。
+もし、あなたのライブラリがカスタマイズされたエラーを報告しなければならないなら、恐らく、独自のエラー型を定義するべきでしょう。
 エラーの表現を表にさらすか（例： [`ErrorKind`](../std/io/enum.ErrorKind.html) ） 、隠しておくか（例： [`ParseIntError`](../std/num/struct.ParseIntError.html) ）は、あなたの自由です。
 いずれかに関係なく、最低でも `String` による表現を超えたエラー情報を提供することが、ほとんどの場合、良い方法となるしょう。
-しかしこれは疑いなく、ユースケースに大きく依存します。
+しかしこれは紛れもなく、ユースケースに深く依存します。
 
 <!-- At a minimum, you should probably implement the -->
 <!-- [`Error`](../std/error/trait.Error.html) -->
@@ -2041,7 +2042,7 @@ impl From<num::ParseFloatError> for CliError {
 <!-- for [`io::Result`](../std/io/type.Result.html) -->
 <!-- and [`fmt::Result`](../std/fmt/type.Result.html). -->
 最後に、お好みで [`Result` 型エイリアス](#result-型エイリアスを用いたイディオム) を定義したくなるかもしれません。
-特にライブラリでエラー型を一つだけ定義している時は当てはまります。
+特にライブラリでエラー型を一つだけ定義しているときは当てはまります。
 この方法は標準ライブラリの [`io::Result`](../std/io/type.Result.html) や [`fmt::Result`](../std/fmt/type.Result.html) で用いられています。
 
 # Case study: A program to read population data
