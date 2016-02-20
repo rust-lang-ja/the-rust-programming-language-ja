@@ -939,8 +939,8 @@ assert_eq!(5, 3);
 <!-- `Result<T, E>`, and gives `T` if it’s a `Ok<T>`, and `return`s with the -->
 <!-- `Err(E)` if it’s that. Like this: -->
 `try!` はエラーハンドリングのために利用されています。
-`try!` は `Result<T, E>` を返す何らかの物を引数に取り、もし `Result<T, E>` が `Ok<T>` だった場合 `T` を、
-そうでなく `Err(E)` だった場合はそれを返します。
+`try!` は `Result<T, E>` を返す何らかの物を引数に取り、もし `Result<T, E>` が `Ok<T>` だった場合 `T` を返し、
+そうでなく `Err(E)` だった場合はそれを `return` します。
 例えば以下のように利用します:
 
 ```rust,no_run
