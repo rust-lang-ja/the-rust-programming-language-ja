@@ -612,5 +612,5 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 <!--One final note: documentation tests *cannot* be run on binary crates.-->
 <!--To see more on file arrangement see the [Crates and-->
 <!--Modules](crates-and-modules.html) section.-->
-最後の注意：バイナリファイル上のテストは実行 *できません* 。
+最後の注意：バイナリクレート上のテストは実行 *できません* 。
 ファイルの配置についてもっと知りたい場合は [クレートとモジュール](crates-and-modules.html) セクションを見ましょう。
