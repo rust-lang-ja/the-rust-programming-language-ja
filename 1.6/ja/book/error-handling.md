@@ -75,7 +75,7 @@ Rustでは戻り値を使います。
 * [複数のエラー型を扱う](#複数のエラー型を扱う)
     * [`Option` と `Result` を合成する](#option-と-result-を合成する)
     * [コンビネータの限界](#コンビネータの限界)
-    * [早期のリターン](#早期のリターン)
+    * [早期リターン](#早期リターン)
     * [`try!` マクロ](#try-マクロ)
     * [独自のエラー型を定義する](#独自のエラー型を定義する)
 * [標準ライブラリのトレイトによるエラー処理](#標準ライブラリのトレイトによるエラー処理)
@@ -182,7 +182,7 @@ fn main() {
 <!-- conditions, yet, the program does not include an explicit call to `panic` like -->
 <!-- the first example. This is because the -->
 <!-- panic is embedded in the calls to `unwrap`. -->
-先ほどの例で、プログラムが2つのエラー条件のいずれかを満たした時に、パニックすると言いました。
+先ほどの例で、プログラムが2つのエラー条件のいずれかを満たしたときに、パニックすると言いました。
 でもこのプログラムは、最初の例とは違って明示的に `panic` を呼び出してはいません。
 実はパニックは `unwrap` の呼び出しの中に埋め込まれているのです。
 
@@ -191,7 +191,7 @@ fn main() {
 <!-- It would be better if we just showed the code for unwrapping because it is so -->
 <!-- simple, but to do that, we will first need to explore the `Option` and `Result` -->
 <!-- types. Both of these types have a method called `unwrap` defined on them. -->
-Rustでなにかを「アンラップする」時、こう言っているのと同じです。
+Rustでなにかを「アンラップする」とき、こう言っているのと同じです。
 「計算結果を取り出しなさい。もしエラーになっていたのなら、パニックを起こしてプログラムを終了させなさい。」
 アンラップのコードはとてもシンプルなので、多分、それを見せたほうが早いでしょう。
 でもそのためには、まず `Option` と `Result` 型について調べる必要があります。
@@ -244,7 +244,7 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 <!-- with the type `fn<T>(value: T) -> Option<T>`. Correspondingly, `None` is also a -->
 <!-- value constructor, except it has no arguments. You can think of `None` as a -->
 <!-- function with the type `fn<T>() -> Option<T>`. -->
-この関数がマッチする文字を見つけた時、単に `offset` を返すだけではないことに注目してください。
+この関数がマッチする文字を見つけたとき、単に `offset` を返すだけではないことに注目してください。
 その代わりに `Some(offset)` を返します。
 `Some` は `Option` 型の *値コンストラクタ* の一つです。
 これは `fn<T>(value: T) -> Option<T>` という型の関数だと考えることもできます。
@@ -282,7 +282,7 @@ fn main() {
 <!-- `None` instead of `Some(t)`. -->
 このコードは `find` 関数が返した `Option<usize>` の *場合分け* に、 [パターンマッチ][1] を使っています。
 実のところ、場合分けが、`Option<T>` に格納された値を取り出すための唯一の方法なのです。
-これは、`Option<T>` が `Some(t)` ではなく `None` だった時、プログラマであるあなたが、このケースに対処しなければならないことを意味します。
+これは、`Option<T>` が `Some(t)` ではなく `None` だったとき、プログラマであるあなたが、このケースに対処しなければならないことを意味します。
 
 <!-- But wait, what about `unwrap`,which we used [`previously`](#code-unwrap-double)? -->
 <!-- There was no case analysis there! Instead, the case analysis was put inside the -->
@@ -421,8 +421,8 @@ fn extension(file_name: &str) -> Option<&str> {
 <!-- the extension of a file is `rs` even if none is present. As you might imagine, -->
 <!-- the case analysis for this is not specific to file extensions - it can work -->
 <!-- with any `Option<T>`: -->
-もう一つの共通のパターンは、`Option` の値が `None` だった時のデフォルト値を与えることです。
-例えばファイルの拡張子がない時は、それを `rs` とみなすようなプログラムを書きたくなるかもしれません。
+もう一つの共通のパターンは、`Option` の値が `None` だったときのデフォルト値を与えることです。
+例えばファイルの拡張子がないときは、それを `rs` とみなすようなプログラムを書きたくなるかもしれません。
 ご想像の通り、このような場合分けはファイルの拡張子に特有のものではありません。
 どんな `Option<T>` でも使えるでしょう：
 
@@ -554,7 +554,7 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
 <!-- remove choices because they will panic if `Option<T>` is `None`. -->
 コンビネータは明示的な場合分けを減らしてくれるので、 `Option` のような型をエルゴノミックにします。
 またこれらは *不在の可能性* を、呼び出し元がそれに合った方法で扱えるようにするので、合成可能だといえます。
-`unwrap` のようなメソッドは、 `Option<T>` が `None` の時にパニックを起こすので、このような選択の機会を与えません。
+`unwrap` のようなメソッドは、 `Option<T>` が `None` のときにパニックを起こすので、このような選択の機会を与えません。
 
 <!-- ## The `Result` type -->
 ## `Result` 型
@@ -707,7 +707,7 @@ impl str {
 それも悪いやり方ではありませんが、実装の内側では *なぜ* 文字列が整数としてパースできなかったを、ちゃんと区別しています。
 （空の文字列だったのか、有効な数字でなかったのか、大きすぎたり、小さすぎたりしたのか。）
 従って、`Result` を使ってより多くの情報を提供するほうが、単に「不在」を示すことよりも理にかなっています。
-今後、もし `Option` と `Result` のどちらを選ぶという事態に遭遇した時は、このような理由付けのやり方を真似てみてください。
+今後、もし `Option` と `Result` のどちらを選ぶという事態に遭遇したときは、このような理由付けのやり方を真似てみてください。
 もし詳細なエラー情報を提供できるのなら、多分、それをしたほうがいいでしょう。
 （後ほど別の例もお見せます。）
 
@@ -855,7 +855,7 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!--   appealing. -->
 * **即興で書いたサンプルコード。**
   サンプルコードや簡単なプログラムを書いていて、エラーハンドリングが単に重要でないこともあります。
-  このような時に `unwrap` の便利さは、とても魅力的に映るでしょう。
+  このようなときに `unwrap` の便利さは、とても魅力的に映るでしょう。
   これに打ち勝つのは難しいことです。
 
 <!-- * **When panicking indicates a bug in the program.** When the invariants of -->
@@ -863,8 +863,8 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!--   from an empty stack), then panicking can be permissible. This is because it -->
 <!--   exposes a bug in your program. This can be explicit, like from an `assert!` -->
 <!--   failing, or it could be because your index into an array was out of bounds. -->
-* **パニックがプログラムのバグの兆候となる時。**
-  コードの中の不変条件が、ある特定のケースの発生を未然に防ぐ時（例えば、空のスタックから取り出そうとしたなど）、パニックを起こしても差し支えありません。
+* **パニックがプログラムのバグの兆候となるとき。**
+  コードの中の不変条件が、ある特定のケースの発生を未然に防ぐとき（例えば、空のスタックから取り出そうとしたなど）、パニックを起こしても差し支えありません。
   なぜなら、そうすることでプログラムに潜むバグが明るみに出るからです。
   これは `assert!` の失敗のような明示的な要因によるものだったり、配列のインデックスが境界から外れたからだったりします。
 
@@ -876,7 +876,7 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!-- a bit nicer to deal with, since it will show your message instead of -->
 <!-- “callaed unwrap on a `None` value.” -->
 これは多分、完全なリストではないでしょう。
-さらに `Option` を使う時は、ほとんどの場合で [`expect`](../std/option/enum.Option.html#method.expect) メソッドを使う方がいいでしょう。
+さらに `Option` を使うときは、ほとんどの場合で [`expect`](../std/option/enum.Option.html#method.expect) メソッドを使う方がいいでしょう。
 `expect` は `unwrap` とほぼ同じことをしますが、 `expect` では与えられたメッセージを表示するところが異なります。
 この方が結果として起こったパニックを、少し扱いやすいものにします。
 なぜなら「 `None` な値に対してアンラップが呼ばれました」というメッセージの代わりに、指定したメッセージが表示されるからです。
@@ -927,7 +927,7 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!-- or can we continue using combinators? -->
 もちろん現実のコードは、いつもこんなにクリーンではありません。
 時には `Option` 型と `Result` 型が混在していることもあるでしょう。
-そんな時は、明示的な場合分けに頼るしかないのでしょうか？
+そんなときは、明示的な場合分けに頼るしかないのでしょうか？
 それとも、コンビネータを使い続けることができるのでしょうか？
 
 <!-- For now, let's revisit one of the first examples in this chapter: -->
@@ -958,7 +958,7 @@ fn main() {
 <!-- could just use a `String` to describe the error. Let's try: -->
 ここでの問題は `argv.nth(1)` が `Option` を返すのに、 `arg.parse()` は `Result` を返すことです。
 これらを直接合成することはできません。
-`Option` と `Result` の両方に出会った時の *通常の* 解決策は `Option` を `Result` に変換することです。
+`Option` と `Result` の両方に出会ったときの *通常の* 解決策は `Option` を `Result` に変換することです。
 この例で（`env::args()` が）コマンドライン引数を返さなかったということは、ユーザーがプログラムを正しく起動しなかったことを意味します。
 エラーの理由を示すために、単純に `String` を使うこともできます。
 試してみましょう：
@@ -995,7 +995,7 @@ fn main() {
 この例では、いくつか新しいことがあります。
 ひとつ目は [`Option::ok_or`](../std/option/enum.Option.html#method.ok_or) コンビネータを使ったことです。
 これは `Option` を `Result` へ変換する方法の一つです。
-変換には `Option` が `None` の時に使われるエラーを指定する必要があります。
+変換には `Option` が `None` のときに使われるエラーを指定する必要があります。
 他のコンビネータと同様に、その定義はとてもシンプルです：
 
 ```rust
@@ -1084,7 +1084,7 @@ fn main() {
 <!-- 2. A problem reading data from the file. -->
 <!-- 3. A problem parsing the data as a number. -->
 1. ファイルを開くときの問題
-2. ファイルからデータを読み込む時の問題
+2. ファイルからデータを読み込むときの問題
 3. データを数値としてパースするときの問題
 
 <!-- The first two problems are described via the -->
@@ -1117,7 +1117,7 @@ fn main() {
 <!-- type from `i32` to something else. -->
 まず最初に `file_double` 関数をリファクタリングしましょう。
 この関数を、このプログラムの他の構成要素と合成可能にするためには、上記の問題のいずれかに遭遇しても、パニック *しない* ようにしなければなりません。
-これは実質的には、なにかの操作に失敗した時に、この関数が *エラーを返すべき* であることを意味します。
+これは実質的には、なにかの操作に失敗したときに、この関数が *エラーを返すべき* であることを意味します。
 ここでの問題は、`file_double` のリターン型が `i32` であるため、エラーの報告には全く役立たないことです。
 従ってリターン型を `i32` から別の何かに変えることから始めましょう。
 
@@ -1133,7 +1133,7 @@ fn main() {
 `Option` なら間違いなく簡単に使えます。
 もし3つのエラーのどれかが起こったら、単に `None` を返せばいいのですから。
 これはたしかに動きますし、 *パニックを起こすよりは良くなっています* 。
-とはいえ、もっと良くすることもだってできます。
+とはいえ、もっと良くすることもできます。
 `Option` の代わりに、発生したエラーについての詳細を渡すべきでしょう。
 ここでは *エラーの可能性* を示したいのですから、`Result<i32, E>` を使うのがよさそうです。
 でも `E` を何にしたらいいのでしょうか？
@@ -1195,7 +1195,7 @@ fn main() {
 <!-- example, the very last call to `map` multiplies the `Ok(...)` value (which is -->
 <!-- an `i32`) by `2`. If an error had occurred before that point, this operation -->
 <!-- would have been skipped because of how `map` is defined. -->
-`map` は `Result` の値が `Ok(...)` の時に関数を適用するために使います。
+`map` は `Result` の値が `Ok(...)` のときに関数を適用するために使います。
 例えば、一番最後の `map` の呼び出しは、`Ok(...)` の値（ `i32` 型）に `2` を掛けます。
 もし、これより前にエラーが起きたなら、この操作は `map` の定義に従ってスキップされます。
 
@@ -1205,7 +1205,7 @@ fn main() {
 <!-- both `io::Error` and `num::ParseIntError` implement `ToString`, we can call the -->
 <!-- `to_string()` method to convert them. -->
 `map_err` は全体をうまく動かすための仕掛けです。
-`map_err` は `map` に似ていますが、 `Result` の値が `Err(...)` の時に関数を適用するところが異なります。
+`map_err` は `map` に似ていますが、 `Result` の値が `Err(...)` のときに関数を適用するところが異なります。
 今回の場合は、全てのエラーを `String` という同一の型に変換する予定でした。
 `io::Error` と `num::ParseIntError` の両方が `ToString` を実装していたので、 `to_string()` メソッドを呼ぶことで変換できました。
 
@@ -1214,18 +1214,18 @@ fn main() {
 <!-- returns. -->
 説明し終わった後でも、このコードは難解なままです。
 コンビネータの使い方をマスターすることは重要ですが、コンビネータには限界もあるのです。
-次は、早期のリターンと呼ばれる、別のアプローチを試してみましょう。
+次は、早期リターンと呼ばれる、別のアプローチを試してみましょう。
 
 <!-- ## Early returns -->
-## 早期のリターン
+## 早期リターン
 
 <!-- I'd like to take the code from the previous section and rewrite it using *early -->
 <!-- returns*. Early returns let you exit the function early. We can't return early -->
 <!-- in `file_double` from inside another closure, so we'll need to revert back to -->
 <!-- explicit case analysis. -->
-前の節で使ったコードを、 *早期のリターン* を使って書き直してみようと思います。
-早期のリターンとは、関数の途中で抜けることを指します。
-`file_double` のクロージャの中にいる間は、早期のリターンはできないので、明示的な場合分けまでいったん戻る必要があります。
+前の節で使ったコードを、 *早期リターン* を使って書き直してみようと思います。
+早期リターンとは、関数の途中で抜けることを指します。
+`file_double` のクロージャの中にいる間は、早期リターンはできないので、明示的な場合分けまでいったん戻る必要があります。
 
 ```rust
 use std::fs::File;
@@ -1403,7 +1403,7 @@ fn main() {
 <!-- with *structured data*. We endeavor to not drop information from underlying -->
 <!-- errors in case the caller wants to inspect the details. -->
 ファイルから整数値を取り出す例で `String` をエラー型として用いた代わりに、独自のエラー型を定義し、 *構造化されたデータ* によってエラー内容を表すことができます。
-呼び出し元が詳細を検査したい時に備え、大元のエラーについての情報を取りこぼさないよう、努力してみましょう。
+呼び出し元が詳細を検査したいときに備え、大元のエラーについての情報を取りこぼさないよう、努力してみましょう。
 
 <!-- The ideal way to represent *one of many possibilities* is to define our own -->
 <!-- sum type using `enum`. In our case, an error is either an `io::Error` or a -->
@@ -1471,8 +1471,8 @@ fn main() {
 <!-- will do in a pinch, particularly if you're writing an application. If you're -->
 <!-- writing a library, defining your own error type should be strongly preferred so -->
 <!-- that you don't remove choices from the caller unnecessarily. -->
-目安となる方法は独自のエラー型を定義することですが、 `String` エラー型も、いざという時に役立ちます。
-特にアプリケーションを書いている時などはそうです。
+目安となる方法は独自のエラー型を定義することですが、 `String` エラー型も、いざというときに役立ちます。
+特にアプリケーションを書いているときなどはそうです。
 もしライブラリを書いているのなら、呼び出し元の選択肢を理由もなく奪わないために、独自のエラー型を定義することを強く推奨します。
 
 <!-- # Standard library traits used for error handling -->
