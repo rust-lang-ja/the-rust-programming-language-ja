@@ -6,7 +6,7 @@
 <!-- example, functions have a type signature, type parameters have trait bounds, -->
 <!-- and overloaded functions must belong to a particular trait. -->
 Rustが提供している多くのコードの再利用や抽象化に利用できるツールを学びました。
-それらのコードの塊の再利用は豊富な意味論的構造を持っています。
+それらのコードの再利用のユニットは豊富な意味論的構造を持っています。
 例えば、関数は型シグネチャ、型パラメータはトレイト境界、オーバーロードされた関数はトレイトに所属していなければならない等です。
 
 <!-- This structure means that Rust’s core abstractions have powerful compile-time -->
