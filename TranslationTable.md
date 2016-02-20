@@ -74,6 +74,7 @@
 | free-standing function         | フリースタンディングな関数
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
+| glob                           | グロブ
 | growable                       | 伸張可能
 | handle                         | ハンドル
 | hash                           | ハッシュ
