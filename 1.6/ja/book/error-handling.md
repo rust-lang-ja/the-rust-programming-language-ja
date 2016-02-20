@@ -1980,6 +1980,7 @@ enum CliError {
 ```
 
 <!-- And add a new `From` impl: -->
+そして、新しい `From` 実装を追加します：
 
 ```rust
 # enum CliError {
