@@ -1,9 +1,13 @@
-% Inline Assembly
+% インラインアセンブリ
+<!-- % Inline Assembly -->
 
-For extremely low-level manipulations and performance reasons, one
-might wish to control the CPU directly. Rust supports using inline
-assembly to do this via the `asm!` macro. The syntax roughly matches
-that of GCC & Clang:
+<!-- For extremely low-level manipulations and performance reasons, one -->
+<!-- might wish to control the CPU directly. Rust supports using inline -->
+<!-- assembly to do this via the `asm!` macro. The syntax roughly matches -->
+<!-- that of GCC & Clang: -->
+極めて低レベルな技巧やパフォーマンス上の理由から、CPUを直接コントロールしたいと思う人もいるでしょう。
+Rustはそのような処理を行うためにインラインアセンブリを `asm!` マクロによってサポートしています。
+インラインアセンブリの構文はGCCやClangのものとおおまかに一致しています。
 
 ```ignore
 asm!(assembly template
