@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Borrow and AsRef</title>
+    <title>BorrowとAsRef</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,15 +185,27 @@
 <div id='page'>
 
 
-    <h1 class="title">Borrow and AsRef</h1>
-    <p>The <a href="../std/borrow/trait.Borrow.html"><code>Borrow</code></a> and <a href="../std/convert/trait.AsRef.html"><code>AsRef</code></a> traits are very similar, but
-different. Here’s a quick refresher on what these two traits mean.</p>
+    <h1 class="title">BorrowとAsRef</h1>
+    <!-- % Borrow and AsRef -->
+
+<!-- The [`Borrow`][borrow] and [`AsRef`][asref] traits are very similar, but -->
+
+<!-- different. Here’s a quick refresher on what these two traits mean. -->
+
+<p><a href="../std/borrow/trait.Borrow.html"><code>Borrow</code></a> トレイトと <a href="../std/convert/trait.AsRef.html"><code>AsRef</code></a> トレイトはとてもよく似ていますが違うものです。ここでは2つのトレイトの意味を簡単に説明します。</p>
+
+<!-- # Borrow -->
 
 <h1 id='borrow' class='section-header'><a href='#borrow'>Borrow</a></h1>
-<p>The <code>Borrow</code> trait is used when you’re writing a datastructure, and you want to
-use either an owned or borrowed type as synonymous for some purpose.</p>
+<!-- The `Borrow` trait is used when you’re writing a datastructure, and you want to -->
 
-<p>For example, <a href="../std/collections/struct.HashMap.html"><code>HashMap</code></a> has a <a href="../std/collections/struct.HashMap.html#method.get"><code>get</code> method</a> which uses <code>Borrow</code>:</p>
+<!-- use either an owned or borrowed type as synonymous for some purpose. -->
+
+<p><code>Borrow</code> トレイトはデータ構造を書いていて、所有型と借用型を同等に扱いたいときに使います。</p>
+
+<!-- For example, [`HashMap`][hashmap] has a [`get` method][get] which uses `Borrow`: -->
+
+<p>例えば、 <a href="../std/collections/struct.HashMap.html"><code>HashMap</code></a> には <code>Borrow</code> を使った <a href="../std/collections/struct.HashMap.html#method.get"><code>get</code> メソッド</a> があります。</p>
 <span class='rusttest'>fn main() {
     fn get&lt;Q: ?Sized&gt;(&amp;self, k: &amp;Q) -&gt; Option&lt;&amp;V&gt;
         where K: Borrow&lt;Q&gt;,
@@ -203,17 +215,25 @@ use either an owned or borrowed type as synonymous for some purpose.</p>
     <span class='kw'>where</span> <span class='ident'>K</span>: <span class='ident'>Borrow</span><span class='op'>&lt;</span><span class='ident'>Q</span><span class='op'>&gt;</span>,
           <span class='ident'>Q</span>: <span class='ident'>Hash</span> <span class='op'>+</span> <span class='ident'>Eq</span></pre>
 
-<p>This signature is pretty complicated. The <code>K</code> parameter is what we’re interested
-in here. It refers to a parameter of the <code>HashMap</code> itself:</p>
+<!-- This signature is pretty complicated. The `K` parameter is what we’re interested -->
+
+<!-- in here. It refers to a parameter of the `HashMap` itself: -->
+
+<p>このシグネチャは少し複雑です。<code>K</code> パラメータに注目してください。これは以下のように <code>HashMap</code> 自身のパラメータになっています。</p>
 <span class='rusttest'>fn main() {
     struct HashMap&lt;K, V, S = RandomState&gt; {
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>K</span>, <span class='ident'>V</span>, <span class='ident'>S</span> <span class='op'>=</span> <span class='ident'>RandomState</span><span class='op'>&gt;</span> {</pre>
 
-<p>The <code>K</code> parameter is the type of <em>key</em> the <code>HashMap</code> uses. So, looking at
-the signature of <code>get()</code> again, we can use <code>get()</code> when the key implements
-<code>Borrow&lt;Q&gt;</code>. That way, we can make a <code>HashMap</code> which uses <code>String</code> keys,
-but use <code>&amp;str</code>s when we’re searching:</p>
+<!-- The `K` parameter is the type of _key_ the `HashMap` uses. So, looking at -->
+
+<!-- the signature of `get()` again, we can use `get()` when the key implements -->
+
+<!-- `Borrow<Q>`. That way, we can make a `HashMap` which uses `String` keys, -->
+
+<!-- but use `&str`s when we’re searching: -->
+
+<p><code>K</code> パラメータは <code>HashMap</code> の「キー」を表す型です。ここで再び <code>get()</code> のシグネチャを見ると、キーが <code>Borrow&lt;Q&gt;</code> を実装しているときに <code>get()</code> を使えることが分かります。そのため、以下のように <code>String</code> をキーとした <code>HashMap</code> を検索するときに <code>&amp;str</code> を使うことができます。</p>
 <span class='rusttest'>fn main() {
     use std::collections::HashMap;
     
@@ -229,13 +249,21 @@ but use <code>&amp;str</code>s when we’re searching:</p>
 
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>map</span>.<span class='ident'>get</span>(<span class='string'>&quot;Foo&quot;</span>), <span class='prelude-val'>Some</span>(<span class='kw-2'>&amp;</span><span class='number'>42</span>));</pre>
 
-<p>This is because the standard library has <code>impl Borrow&lt;str&gt; for String</code>.</p>
+<!-- This is because the standard library has `impl Borrow<str> for String`. -->
 
-<p>For most types, when you want to take an owned or borrowed type, a <code>&amp;T</code> is
-enough. But one area where <code>Borrow</code> is effective is when there’s more than one
-kind of borrowed value. This is especially true of references and slices: you
-can have both an <code>&amp;T</code> or a <code>&amp;mut T</code>. If we wanted to accept both of these types,
-<code>Borrow</code> is up for it:</p>
+<p>これは標準ライブラリが <code>impl Borrow&lt;str&gt; for String</code> を提供しているためです。</p>
+
+<!-- For most types, when you want to take an owned or borrowed type, a `&T` is -->
+
+<!-- enough. But one area where `Borrow` is effective is when there’s more than one -->
+
+<!-- kind of borrowed value. This is especially true of references and slices: you -->
+
+<!-- can have both an `&T` or a `&mut T`. If we wanted to accept both of these types, -->
+
+<!-- `Borrow` is up for it: -->
+
+<p>所有型か借用型のどちらかを取りたい場合、たいていは <code>&amp;T</code> で十分ですが、借用された値が複数種類ある場合 <code>Borrow</code> が役に立ちます。特に参照とスライスは <code>&amp;T</code> と <code>&amp;mut T</code> のいずれも取りうるため、そのどちらも受け入れたい場合は <code>Borrow</code> がよいでしょう。</p>
 <span class='rusttest'>fn main() {
     use std::borrow::Borrow;
     use std::fmt::Display;
@@ -261,11 +289,18 @@ can have both an <code>&amp;T</code> or a <code>&amp;mut T</code>. If we wanted 
 <span class='ident'>foo</span>(<span class='kw-2'>&amp;</span><span class='ident'>i</span>);
 <span class='ident'>foo</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>i</span>);</pre>
 
-<p>This will print out <code>a is borrowed: 5</code> twice.</p>
+<!-- This will print out `a is borrowed: 5` twice. -->
+
+<p>上のコードは <code>a is borrowed: 5</code> を二度出力します。</p>
+
+<!-- # AsRef -->
 
 <h1 id='asref' class='section-header'><a href='#asref'>AsRef</a></h1>
-<p>The <code>AsRef</code> trait is a conversion trait. It’s used for converting some value to
-a reference in generic code. Like this:</p>
+<!-- The `AsRef` trait is a conversion trait. It’s used for converting some value to -->
+
+<!-- a reference in generic code. Like this: -->
+
+<p><code>AsRef</code> トレイトは変換用のトレイトです。ジェネリックなコードにおいて、値を参照に変換したい場合に使います。</p>
 <span class='rusttest'>fn main() {
     let s = &quot;Hello&quot;.to_string();
     
@@ -279,16 +314,28 @@ a reference in generic code. Like this:</p>
     <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_ref</span>();
 }</pre>
 
-<h1 id='which-should-i-use' class='section-header'><a href='#which-should-i-use'>Which should I use?</a></h1>
-<p>We can see how they’re kind of the same: they both deal with owned and borrowed
-versions of some type. However, they’re a bit different.</p>
+<!-- # Which should I use? -->
 
-<p>Choose <code>Borrow</code> when you want to abstract over different kinds of borrowing, or
-when you’re building a datastructure that treats owned and borrowed values in
-equivalent ways, such as hashing and comparison.</p>
+<h1 id='どちらを使うべきか' class='section-header'><a href='#どちらを使うべきか'>どちらを使うべきか</a></h1>
+<!-- We can see how they’re kind of the same: they both deal with owned and borrowed -->
 
-<p>Choose <code>AsRef</code> when you want to convert something to a reference directly, and
-you’re writing generic code.</p>
+<!-- versions of some type. However, they’re a bit different. -->
+
+<p>ここまでで見てきた通り、2つのトレイトは、どちらもある型の所有型バージョンと借用型バージョンの両方を扱う、という意味で同じような種類のものですが、少し違います。</p>
+
+<!-- Choose `Borrow` when you want to abstract over different kinds of borrowing, or -->
+
+<!-- when you’re building a datastructure that treats owned and borrowed values in -->
+
+<!-- equivalent ways, such as hashing and comparison. -->
+
+<p>いくつかの異なる種類の借用を抽象化したい場合や、ハッシュ化や比較のために所有型と借用型を同等に扱いたいデータ構造を作る場合は <code>Borrow</code> を使ってください。</p>
+
+<!-- Choose `AsRef` when you want to convert something to a reference directly, and -->
+
+<!-- you’re writing generic code. -->
+
+<p>ジェネリックなコードで値を参照に直接変換したい場合は <code>AsRef</code> を使ってください。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

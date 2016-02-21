@@ -186,17 +186,30 @@
 
 
     <h1 class="title">Intrinsics</h1>
-    <blockquote>
-<p><strong>Note</strong>: intrinsics will forever have an unstable interface, it is
-recommended to use the stable interfaces of libcore rather than intrinsics
-directly.</p>
+    <!-- > **Note**: intrinsics will forever have an unstable interface, it is -->
+
+<!-- > recommended to use the stable interfaces of libcore rather than intrinsics -->
+
+<!-- > directly. -->
+
+<blockquote>
+<p><strong>メモ</strong>: intrinsicsのインタフェースは常に不安定です、intrinsicsを直接利用するのではなく、
+libcoreの安定なインタフェースを利用することを推奨します。</p>
 </blockquote>
 
-<p>These are imported as if they were FFI functions, with the special
-<code>rust-intrinsic</code> ABI. For example, if one was in a freestanding
-context, but wished to be able to <code>transmute</code> between types, and
-perform efficient pointer arithmetic, one would import those functions
-via a declaration like</p>
+<!-- These are imported as if they were FFI functions, with the special -->
+
+<!-- `rust-intrinsic` ABI. For example, if one was in a freestanding -->
+
+<!-- context, but wished to be able to `transmute` between types, and -->
+
+<!-- perform efficient pointer arithmetic, one would import those functions -->
+
+<!-- via a declaration like -->
+
+<p>intrinsicsは特別なABI <code>rust-intrinsic</code> を用いて、FFIの関数で有るかのようにインポートされます。
+例えば、独立したコンテキストの中で型の間の <code>transmute</code> をしたい場合や、効率的なポインタ演算を行いたい場合、
+それらの関数を以下のような宣言を通してインポートします</p>
 <span class='rusttest'>#![feature(intrinsics)]
 fn main() {}
 
@@ -214,7 +227,9 @@ extern &quot;rust-intrinsic&quot; {
     <span class='kw'>fn</span> <span class='ident'>offset</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>dst</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>T</span>, <span class='ident'>offset</span>: <span class='ident'>isize</span>) <span class='op'>-&gt;</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>T</span>;
 }</pre>
 
-<p>As with any other FFI functions, these are always <code>unsafe</code> to call.</p>
+<!-- As with any other FFI functions, these are always `unsafe` to call. -->
+
+<p>他のFFI関数と同様に、呼出は常に <code>unsafe</code> です。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
