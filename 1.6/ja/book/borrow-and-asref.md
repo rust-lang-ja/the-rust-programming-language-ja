@@ -58,7 +58,7 @@ assert_eq!(map.get("Foo"), Some(&42));
 <!-- kind of borrowed value. This is especially true of references and slices: you -->
 <!-- can have both an `&T` or a `&mut T`. If we wanted to accept both of these types, -->
 <!-- `Borrow` is up for it: -->
-所有型か借用型のどちらかを取りたい場合、たいていは `&T` で十分ですが、借用された値が複数ある場合 `Borrow` が役に立ちます。特に参照とスライスは `&T` と `&mut T` のいずれも取りうるため、そのどちらも受け入れたい場合は `Borrow` がよいでしょう。
+所有型か借用型のどちらかを取りたい場合、たいていは `&T` で十分ですが、借用された値が複数種類ある場合 `Borrow` が役に立ちます。特に参照とスライスは `&T` と `&mut T` のいずれも取りうるため、そのどちらも受け入れたい場合は `Borrow` がよいでしょう。
 
 ```rust
 use std::borrow::Borrow;
@@ -97,7 +97,7 @@ fn foo<T: AsRef<str>>(s: T) {
 
 <!-- We can see how they’re kind of the same: they both deal with owned and borrowed -->
 <!-- versions of some type. However, they’re a bit different. -->
-ここまでで見てきた通り、2つのトレイトは、どちらも所有型と借用型を扱う、という意味で同じような種類のものですが、少し違います。
+ここまでで見てきた通り、2つのトレイトは、どちらもある型の所有型バージョンと借用型バージョンの両方を扱う、という意味で同じような種類のものですが、少し違います。
 
 <!-- Choose `Borrow` when you want to abstract over different kinds of borrowing, or -->
 <!-- when you’re building a datastructure that treats owned and borrowed values in -->
