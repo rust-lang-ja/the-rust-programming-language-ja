@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Testing</title>
+    <title>テスト</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,29 +185,55 @@
 <div id='page'>
 
 
-    <h1 class="title">Testing</h1>
-    <blockquote>
-<p>Program testing can be a very effective way to show the presence of bugs, but
-it is hopelessly inadequate for showing their absence.</p>
+    <h1 class="title">テスト</h1>
+    <!-- % Testing -->
 
-<p>Edsger W. Dijkstra, &quot;The Humble Programmer&quot; (1972)</p>
+<!-- &gt; Program testing can be a very effective way to show the presence of bugs, but -->
+
+<!-- &gt; it is hopelessly inadequate for showing their absence. -->
+
+<!-- &gt; -->
+
+<!-- &gt; Edsger W. Dijkstra, "The Humble Programmer" (1972) -->
+
+<blockquote>
+<p>プログラムのテストはバグの存在を示すためには非常に効率的な方法ですが、バグの不存在を示すためには絶望的に不十分です。
+エドガー・W・ダイクストラ、『謙虚なプログラマ』（1972）</p>
 </blockquote>
 
-<p>Let&#39;s talk about how to test Rust code. What we will not be talking about is
-the right way to test Rust code. There are many schools of thought regarding
-the right and wrong way to write tests. All of these approaches use the same
-basic tools, and so we&#39;ll show you the syntax for using them.</p>
+<!--Let's talk about how to test Rust code. What we will not be talking about is-->
 
-<h1 id='the-test-attribute' class='section-header'><a href='#the-test-attribute'>The <code>test</code> attribute</a></h1>
-<p>At its simplest, a test in Rust is a function that&#39;s annotated with the <code>test</code>
-attribute. Let&#39;s make a new project with Cargo called <code>adder</code>:</p>
+<!--the right way to test Rust code. There are many schools of thought regarding-->
+
+<!--the right and wrong way to write tests. All of these approaches use the same-->
+
+<!--basic tools, and so we'll show you the syntax for using them.-->
+
+<p>Rustのコードをテストする方法について話しましょう。
+ここではRustのコードをテストする正しい方法について議論するつもりはありません。
+テストを書くための正しい方法、誤った方法に関する流派はたくさんあります。
+それらの方法は全て、同じ基本的なツールを使うので、それらのツールを使うための文法をお見せしましょう。</p>
+
+<!--# The `test` attribute-->
+
+<h1 id='test-アトリビュート' class='section-header'><a href='#test-アトリビュート'><code>test</code> アトリビュート</a></h1>
+<!--At its simplest, a test in Rust is a function that's annotated with the `test`-->
+
+<!--attribute. Let's make a new project with Cargo called `adder`:-->
+
+<p>Rustでの一番簡単なテストは、 <code>test</code> アトリビュートの付いた関数です。
+<code>adder</code> という名前の新しいプロジェクトをCargoで作りましょう。</p>
 
 <pre><code class="language-bash">$ cargo new adder
 $ cd adder
 </code></pre>
 
-<p>Cargo will automatically generate a simple test when you make a new project.
-Here&#39;s the contents of <code>src/lib.rs</code>:</p>
+<!--Cargo will automatically generate a simple test when you make a new project.-->
+
+<!--Here's the contents of `src/lib.rs`:-->
+
+<p>新しいプロジェクトを作ると、Cargoは自動的に簡単なテストを生成します。
+これが <code>src/lib.rs</code> の内容です。</p>
 <span class='rusttest'>fn main() {
     #[test]
     fn it_works() {
@@ -217,9 +243,17 @@ Here&#39;s the contents of <code>src/lib.rs</code>:</p>
 <span class='kw'>fn</span> <span class='ident'>it_works</span>() {
 }</pre>
 
-<p>Note the <code>#[test]</code>. This attribute indicates that this is a test function. It
-currently has no body. That&#39;s good enough to pass! We can run the tests with
-<code>cargo test</code>:</p>
+<!--Note the `#[test]`. This attribute indicates that this is a test function. It-->
+
+<!--currently has no body. That's good enough to pass! We can run the tests with-->
+
+<!--`cargo test`:-->
+
+<p><code>#[test]</code> に注意しましょう。
+このアトリビュートは、この関数がテスト関数であるということを示します。
+今のところ、その関数には本文がありません。
+成功させるためにはそれで十分なのです!
+テストは <code>cargo test</code> で実行することができます。</p>
 
 <pre><code class="language-bash">$ cargo test
    Compiling adder v0.0.1 (file:///home/you/projects/adder)
@@ -237,27 +271,44 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>Cargo compiled and ran our tests. There are two sets of output here: one
-for the test we wrote, and another for documentation tests. We&#39;ll talk about
-those later. For now, see this line:</p>
+<!--Cargo compiled and ran our tests. There are two sets of output here: one-->
+
+<!--for the test we wrote, and another for documentation tests. We'll talk about-->
+
+<!--those later. For now, see this line:-->
+
+<p>Cargoはテストをコンパイルし、実行しました。
+ここでは2種類の結果が出力されています。1つは書かれたテストについてのもの、もう1つはドキュメンテーションテストについてのものです。
+それらについては後で話しましょう。
+とりあえず、この行を見ましょう。</p>
 
 <pre><code class="language-text">test it_works ... ok
 </code></pre>
 
-<p>Note the <code>it_works</code>. This comes from the name of our function:</p>
+<!--Note the `it_works`. This comes from the name of our function:-->
+
+<p><code>it_works</code> に注意しましょう。
+これは関数の名前に由来しています。</p>
 <span class='rusttest'>fn main() {
     fn it_works() {
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>it_works</span>() {</pre>
 
-<p>We also get a summary line:</p>
+<!--We also get a summary line:-->
+
+<p>次のようなサマリも出力されています。</p>
 
 <pre><code class="language-text">test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>So why does our do-nothing test pass? Any test which doesn&#39;t <code>panic!</code> passes,
-and any test that does <code>panic!</code> fails. Let&#39;s make our test fail:</p>
+<!--So why does our do-nothing test pass? Any test which doesn't `panic!` passes,-->
+
+<!--and any test that does `panic!` fails. Let's make our test fail:-->
+
+<p>なぜ何も書いていないテストがこのように成功するのでしょうか。
+<code>panic!</code> しないテストは全て成功で、 <code>panic!</code> するテストは全て失敗なのです。
+テストを失敗させましょう。</p>
 <span class='rusttest'>fn main() {
     #[test]
     fn it_works() {
@@ -269,9 +320,15 @@ and any test that does <code>panic!</code> fails. Let&#39;s make our test fail:<
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='boolval'>false</span>);
 }</pre>
 
-<p><code>assert!</code> is a macro provided by Rust which takes one argument: if the argument
-is <code>true</code>, nothing happens. If the argument is <code>false</code>, it <code>panic!</code>s. Let&#39;s run
-our tests again:</p>
+<!--`assert!` is a macro provided by Rust which takes one argument: if the argument-->
+
+<!--is `true`, nothing happens. If the argument is `false`, it `panic!`s. Let's run-->
+
+<!--our tests again:-->
+
+<p><code>assert!</code> はRustが提供するマクロで、1つの引数を取ります。引数が <code>true</code> であれば何も起きません。
+引数が <code>false</code> であれば <code>panic!</code> します。
+テストをもう一度実行しましょう。</p>
 
 <pre><code class="language-bash">$ cargo test
    Compiling adder v0.0.1 (file:///home/you/projects/adder)
@@ -295,36 +352,51 @@ test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured
 thread &#39;&lt;main&gt;&#39; panicked at &#39;Some tests failed&#39;, /home/steve/src/rust/src/libtest/lib.rs:247
 </code></pre>
 
-<p>Rust indicates that our test failed:</p>
+<!--Rust indicates that our test failed:-->
+
+<p>Rustは次のとおりテストが失敗したことを示しています。</p>
 
 <pre><code class="language-text">test it_works ... FAILED
 </code></pre>
 
-<p>And that&#39;s reflected in the summary line:</p>
+<!--And that's reflected in the summary line:-->
+
+<p>そして、それはサマリにも反映されます。</p>
 
 <pre><code class="language-text">test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>We also get a non-zero status code. We can use <code>$?</code> on OS X and Linux:</p>
+<!--We also get a non-zero status code. We can use `$?` on OS X and Linux:-->
+
+<p>ステータスコードも非0になっています。
+OS XやLinuxでは <code>$?</code> を使うことができます。</p>
 
 <pre><code class="language-bash">$ echo $?
 101
 </code></pre>
 
-<p>On Windows, if you’re using <code>cmd</code>:</p>
+<!--On Windows, if you’re using `cmd`:-->
+
+<p>Windowsでは、 <code>cmd</code> を使っていればこうです。</p>
 
 <pre><code class="language-bash">&gt; echo %ERRORLEVEL%
 </code></pre>
 
-<p>And if you’re using PowerShell:</p>
+<!--And if you’re using PowerShell:-->
+
+<p>そして、PowerShellを使っていればこうです。</p>
 
 <pre><code class="language-bash">&gt; echo $LASTEXITCODE # the code itself
 &gt; echo $? # a boolean, fail or succeed
 </code></pre>
 
-<p>This is useful if you want to integrate <code>cargo test</code> into other tooling.</p>
+<!--This is useful if you want to integrate `cargo test` into other tooling.-->
 
-<p>We can invert our test&#39;s failure with another attribute: <code>should_panic</code>:</p>
+<p>これは <code>cargo test</code> を他のツールと統合したいときに便利です。</p>
+
+<!--We can invert our test's failure with another attribute: `should_panic`:-->
+
+<p>もう1つのアトリビュート、 <code>should_panic</code> を使ってテストの失敗を反転させることができます。</p>
 <span class='rusttest'>fn main() {
     #[test]
     #[should_panic]
@@ -338,7 +410,10 @@ thread &#39;&lt;main&gt;&#39; panicked at &#39;Some tests failed&#39;, /home/ste
     <span class='macro'>assert</span><span class='macro'>!</span>(<span class='boolval'>false</span>);
 }</pre>
 
-<p>This test will now succeed if we <code>panic!</code> and fail if we complete. Let&#39;s try it:</p>
+<!--This test will now succeed if we `panic!` and fail if we complete. Let's try it:-->
+
+<p>今度は、このテストが <code>panic!</code> すれば成功で、完走すれば失敗です。
+試しましょう。</p>
 
 <pre><code class="language-bash">$ cargo test
    Compiling adder v0.0.1 (file:///home/you/projects/adder)
@@ -356,8 +431,11 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>Rust provides another macro, <code>assert_eq!</code>, that compares two arguments for
-equality:</p>
+<!--Rust provides another macro, `assert_eq!`, that compares two arguments for-->
+
+<!--equality:-->
+
+<p>Rustはもう1つのマクロ、 <code>assert_eq!</code> を提供しています。これは2つの引数の等価性を調べます。</p>
 <span class='rusttest'>fn main() {
     #[test]
     #[should_panic]
@@ -371,8 +449,12 @@ equality:</p>
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Hello&quot;</span>, <span class='string'>&quot;world&quot;</span>);
 }</pre>
 
-<p>Does this test pass or fail? Because of the <code>should_panic</code> attribute, it
-passes:</p>
+<!--Does this test pass or fail? Because of the `should_panic` attribute, it-->
+
+<!--passes:-->
+
+<p>このテストは成功でしょうか、失敗でしょうか。
+<code>should_panic</code> アトリビュートがあるので、これは成功です。</p>
 
 <pre><code class="language-bash">$ cargo test
    Compiling adder v0.0.1 (file:///home/you/projects/adder)
@@ -390,11 +472,20 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p><code>should_panic</code> tests can be fragile, as it&#39;s hard to guarantee that the test
-didn&#39;t fail for an unexpected reason. To help with this, an optional <code>expected</code>
-parameter can be added to the <code>should_panic</code> attribute. The test harness will
-make sure that the failure message contains the provided text. A safer version
-of the example above would be:</p>
+<!--`should_panic` tests can be fragile, as it's hard to guarantee that the test-->
+
+<!--didn't fail for an unexpected reason. To help with this, an optional `expected`-->
+
+<!--parameter can be added to the `should_panic` attribute. The test harness will-->
+
+<!--make sure that the failure message contains the provided text. A safer version-->
+
+<!--of the example above would be:-->
+
+<p><code>should_panic</code> を使ったテストは脆いテストです。なぜなら、テストが予想外の理由で失敗したのではないということを保証することが難しいからです。
+これを何とかするために、 <code>should_panic</code> アトリビュートにはオプションで <code>expected</code> パラメータを付けることができます。
+テストハーネスが、失敗したときのメッセージに与えられたテキストが含まれていることを確かめてくれます。
+前述の例のもっと安全なバージョンはこうなります。</p>
 <span class='rusttest'>fn main() {
     #[test]
     #[should_panic(expected = &quot;assertion failed&quot;)]
@@ -408,7 +499,10 @@ of the example above would be:</p>
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Hello&quot;</span>, <span class='string'>&quot;world&quot;</span>);
 }</pre>
 
-<p>That&#39;s all there is to the basics! Let&#39;s write one &#39;real&#39; test:</p>
+<!--That's all there is to the basics! Let's write one 'real' test:-->
+
+<p>基本はそれだけです!
+「リアルな」テストを書いてみましょう。</p>
 <span class='rusttest'>fn main() {
     pub fn add_two(a: i32) -&gt; i32 {
         a + 2
@@ -428,12 +522,21 @@ of the example above would be:</p>
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>add_two</span>(<span class='number'>2</span>));
 }</pre>
 
-<p>This is a very common use of <code>assert_eq!</code>: call some function with
-some known arguments and compare it to the expected output.</p>
+<!--This is a very common use of `assert_eq!`: call some function with-->
 
-<h1 id='the-ignore-attribute' class='section-header'><a href='#the-ignore-attribute'>The <code>ignore</code> attribute</a></h1>
-<p>Sometimes a few specific tests can be very time-consuming to execute. These
-can be disabled by default by using the <code>ignore</code> attribute:</p>
+<!--some known arguments and compare it to the expected output.-->
+
+<p>これは非常に一般的な <code>assert_eq!</code> の使い方です。いくつかの関数に結果の分かっている引数を渡して呼び出し、期待した結果と比較します。</p>
+
+<!--# The `ignore` attribute-->
+
+<h1 id='ignore-アトリビュート' class='section-header'><a href='#ignore-アトリビュート'><code>ignore</code> アトリビュート</a></h1>
+<!--Sometimes a few specific tests can be very time-consuming to execute. These-->
+
+<!--can be disabled by default by using the `ignore` attribute:-->
+
+<p>ときどき、特定のテストの実行に非常に時間が掛かることがあります。
+そのようなテストは、 <code>ignore</code> アトリビュートを使ってデフォルトでは無効にすることができます。</p>
 <span class='rusttest'>fn main() {
     #[test]
     fn it_works() {
@@ -443,7 +546,8 @@ can be disabled by default by using the <code>ignore</code> attribute:</p>
     #[test]
     #[ignore]
     fn expensive_test() {
-        // code that takes an hour to run
+      // code that takes an hour to run
+        // 実行に1時間掛かるコード
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -454,11 +558,14 @@ can be disabled by default by using the <code>ignore</code> attribute:</p>
 <span class='attribute'>#[<span class='ident'>test</span>]</span>
 <span class='attribute'>#[<span class='ident'>ignore</span>]</span>
 <span class='kw'>fn</span> <span class='ident'>expensive_test</span>() {
-    <span class='comment'>// code that takes an hour to run</span>
+    <span class='comment'>// 実行に1時間掛かるコード</span>
 }</pre>
 
-<p>Now we run our tests and see that <code>it_works</code> is run, but <code>expensive_test</code> is
-not:</p>
+<!--Now we run our tests and see that `it_works` is run, but `expensive_test` is-->
+
+<!--not:-->
+
+<p>テストを実行すると、 <code>it_works</code> が実行されることを確認できますが、今度は <code>expensive_test</code> は実行されません。</p>
 
 <pre><code class="language-bash">$ cargo test
    Compiling adder v0.0.1 (file:///home/you/projects/adder)
@@ -477,7 +584,9 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>The expensive tests can be run explicitly using <code>cargo test -- --ignored</code>:</p>
+<!--The expensive tests can be run explicitly using `cargo test -- --ignored`:-->
+
+<p>無効にされた高コストなテストは <code>cargo test -- --ignored</code> を使って明示的に実行することができます。</p>
 
 <pre><code class="language-bash">$ cargo test -- --ignored
      Running target/adder-91b3e234d4ed382a
@@ -494,13 +603,24 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>The <code>--ignored</code> argument is an argument to the test binary, and not to Cargo,
-which is why the command is <code>cargo test -- --ignored</code>.</p>
+<!--The `--ignored` argument is an argument to the test binary, and not to Cargo,-->
 
-<h1 id='the-tests-module' class='section-header'><a href='#the-tests-module'>The <code>tests</code> module</a></h1>
-<p>There is one way in which our existing example is not idiomatic: it&#39;s
-missing the <code>tests</code> module. The idiomatic way of writing our example
-looks like this:</p>
+<!--which is why the command is `cargo test -- --ignored`.-->
+
+<p><code>--ignored</code> アトリビュートはテストバイナリの引数であって、Cargoのものではありません。
+コマンドが <code>cargo test -- --ignored</code> となっているのはそういうことです。</p>
+
+<!--# The `tests` module-->
+
+<h1 id='tests-モジュール' class='section-header'><a href='#tests-モジュール'><code>tests</code> モジュール</a></h1>
+<!--There is one way in which our existing example is not idiomatic: it's-->
+
+<!--missing the `tests` module. The idiomatic way of writing our example-->
+
+<!--looks like this:-->
+
+<p>今までの例における手法は、慣用的ではありません。 <code>tests</code> モジュールがないからです。
+今までの例の慣用的な書き方はこのようになります。</p>
 <span class='rusttest'>fn main() {
     pub fn add_two(a: i32) -&gt; i32 {
         a + 2
@@ -530,17 +650,36 @@ looks like this:</p>
     }
 }</pre>
 
-<p>There&#39;s a few changes here. The first is the introduction of a <code>mod tests</code> with
-a <code>cfg</code> attribute. The module allows us to group all of our tests together, and
-to also define helper functions if needed, that don&#39;t become a part of the rest
-of our crate. The <code>cfg</code> attribute only compiles our test code if we&#39;re
-currently trying to run the tests. This can save compile time, and also ensures
-that our tests are entirely left out of a normal build.</p>
+<!--There's a few changes here. The first is the introduction of a `mod tests` with-->
 
-<p>The second change is the <code>use</code> declaration. Because we&#39;re in an inner module,
-we need to bring our test function into scope. This can be annoying if you have
-a large module, and so this is a common use of globs. Let&#39;s change our
-<code>src/lib.rs</code> to make use of it:</p>
+<!--a `cfg` attribute. The module allows us to group all of our tests together, and-->
+
+<!--to also define helper functions if needed, that don't become a part of the rest-->
+
+<!--of our crate. The `cfg` attribute only compiles our test code if we're-->
+
+<!--currently trying to run the tests. This can save compile time, and also ensures-->
+
+<!--that our tests are entirely left out of a normal build.-->
+
+<p>ここでは、いくつかの変更点があります。
+まず、 <code>cfg</code> アトリビュートの付いた <code>mod tests</code> を導入しました。
+このモジュールを使うと、全てのテストをグループ化することができます。また、必要であれば、ヘルパ関数を定義し、それをクレートの一部に含まれないようにすることもできます。
+ <code>cfg</code> アトリビュートによって、テストを実行しようとしているときにだけテストコードがコンパイルされるようになります。
+これは、コンパイル時間を節約し、テストが通常のビルドに全く影響しないことを保証してくれます。</p>
+
+<!--The second change is the `use` declaration. Because we're in an inner module,-->
+
+<!--we need to bring our test function into scope. This can be annoying if you have-->
+
+<!--a large module, and so this is a common use of globs. Let's change our-->
+
+<!--`src/lib.rs` to make use of it:-->
+
+<p>2つ目の変更点は、 <code>use</code> 宣言です。
+ここは内部モジュールの中なので、テスト関数をスコープの中に持ち込む必要があります。
+モジュールが大きい場合、これは面倒かもしれないので、ここがグロブの一般的な使い所です。
+<code>src/lib.rs</code> をグロブを使うように変更しましょう。</p>
 <span class='rusttest'>fn main() {
     pub fn add_two(a: i32) -&gt; i32 {
         a + 2
@@ -570,7 +709,10 @@ a large module, and so this is a common use of globs. Let&#39;s change our
     }
 }</pre>
 
-<p>Note the different <code>use</code> line. Now we run our tests:</p>
+<!--Note the different `use` line. Now we run our tests:-->
+
+<p><code>use</code> 行が変わったことに注意しましょう。
+さて、テストを実行します。</p>
 
 <pre><code class="language-bash">$ cargo test
     Updating registry `https://github.com/rust-lang/crates.io-index`
@@ -589,16 +731,31 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>It works!</p>
+<!--It works!-->
 
-<p>The current convention is to use the <code>tests</code> module to hold your &quot;unit-style&quot;
-tests. Anything that just tests one small bit of functionality makes sense to
-go here. But what about &quot;integration-style&quot; tests instead? For that, we have
-the <code>tests</code> directory.</p>
+<p>動きます!</p>
 
-<h1 id='the-tests-directory' class='section-header'><a href='#the-tests-directory'>The <code>tests</code> directory</a></h1>
-<p>To write an integration test, let&#39;s make a <code>tests</code> directory, and
-put a <code>tests/lib.rs</code> file inside, with this as its contents:</p>
+<!--The current convention is to use the `tests` module to hold your "unit-style"-->
+
+<!--tests. Anything that just tests one small bit of functionality makes sense to-->
+
+<!--go here. But what about "integration-style" tests instead? For that, we have-->
+
+<!--the `tests` directory.-->
+
+<p>現在の慣習では、 <code>tests</code> モジュールは「ユニット」テストを入れるために使うことになっています。
+単一の小さな機能の単位をテストするだけのものは全て、ここに入れる意味があります。
+しかし、「結合」テストはどうでしょうか。
+結合テストのためには、 <code>tests</code> ディレクトリがあります。</p>
+
+<!--# The `tests` directory-->
+
+<h1 id='tests-ディレクトリ' class='section-header'><a href='#tests-ディレクトリ'><code>tests</code> ディレクトリ</a></h1>
+<!--To write an integration test, let's make a `tests` directory, and-->
+
+<!--put a `tests/lib.rs` file inside, with this as its contents:-->
+
+<p>結合テストを書くために、 <code>tests</code> ディレクトリを作りましょう。そして、その中に次の内容の <code>tests/lib.rs</code> ファイルを置きます。</p>
 <span class='rusttest'>fn main() {
     extern crate adder;
     
@@ -614,13 +771,24 @@ put a <code>tests/lib.rs</code> file inside, with this as its contents:</p>
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>adder</span>::<span class='ident'>add_two</span>(<span class='number'>2</span>));
 }</pre>
 
-<p>This looks similar to our previous tests, but slightly different. We now have
-an <code>extern crate adder</code> at the top. This is because the tests in the <code>tests</code>
-directory are an entirely separate crate, and so we need to import our library.
-This is also why <code>tests</code> is a suitable place to write integration-style tests:
-they use the library like any other consumer of it would.</p>
+<!--This looks similar to our previous tests, but slightly different. We now have-->
 
-<p>Let&#39;s run them:</p>
+<!--an `extern crate adder` at the top. This is because the tests in the `tests`-->
+
+<!--directory are an entirely separate crate, and so we need to import our library.-->
+
+<!--This is also why `tests` is a suitable place to write integration-style tests:-->
+
+<!--they use the library like any other consumer of it would.-->
+
+<p>これは前のテストと似ていますが、少し違います。
+今回は、 <code>extern crate adder</code> を先頭に書いています。
+これは、 <code>tests</code> ディレクトリの中のテストが全く別のクレートであるため、ライブラリをインポートしなければならないからです。
+これは、なぜ <code>tests</code> が結合テストを書くのに適切な場所なのかという理由でもあります。そこにあるテストは、そのライブラリを他のプログラムと同じようなやり方で使うからです。</p>
+
+<!--Let's run them:-->
+
+<p>テストを実行しましょう。</p>
 
 <pre><code class="language-bash">$ cargo test
    Compiling adder v0.0.1 (file:///home/you/projects/adder)
@@ -645,22 +813,43 @@ running 0 tests
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>Now we have three sections: our previous test is also run, as well as our new
-one.</p>
+<!--Now we have three sections: our previous test is also run, as well as our new-->
 
-<p>That&#39;s all there is to the <code>tests</code> directory. The <code>tests</code> module isn&#39;t needed
-here, since the whole thing is focused on tests.</p>
+<!--one.-->
 
-<p>Let&#39;s finally check out that third section: documentation tests.</p>
+<p>今度は3つのセクションが出力されました。新しいテストが実行され、前に書いたテストも同様に実行されます。</p>
 
-<h1 id='documentation-tests' class='section-header'><a href='#documentation-tests'>Documentation tests</a></h1>
-<p>Nothing is better than documentation with examples. Nothing is worse than
-examples that don&#39;t actually work, because the code has changed since the
-documentation has been written. To this end, Rust supports automatically
-running examples in your documentation (<strong>note:</strong> this only works in library
-crates, not binary crates). Here&#39;s a fleshed-out <code>src/lib.rs</code> with examples:</p>
+<!--That's all there is to the `tests` directory. The `tests` module isn't needed-->
+
+<!--here, since the whole thing is focused on tests.-->
+
+<p><code>tests</code> ディレクトリについてはそれだけです。
+<code>tests</code> モジュールはここでは必要ありません。全てのものがテストのためのものだからです。</p>
+
+<!--Let's finally check out that third section: documentation tests.-->
+
+<p>最後に、3つ目のセクションを確認しましょう。ドキュメンテーションテストです。</p>
+
+<!--# Documentation tests-->
+
+<h1 id='ドキュメンテーションテスト' class='section-header'><a href='#ドキュメンテーションテスト'>ドキュメンテーションテスト</a></h1>
+<!--Nothing is better than documentation with examples. Nothing is worse than-->
+
+<!--examples that don't actually work, because the code has changed since the-->
+
+<!--documentation has been written. To this end, Rust supports automatically-->
+
+<!--running examples in your documentation (**note:** this only works in library-->
+
+<!--crates, not binary crates). Here's a fleshed-out `src/lib.rs` with examples:-->
+
+<p>例の付いたドキュメントほどよいものはありません。
+ドキュメントを書いた後にコードが変更された結果、実際に動かなくなった例ほど悪いものはありません。
+この状況を終わらせるために、Rustはあなたのドキュメント内の例の自動実行をサポートします（ <strong>注意：</strong> これはライブラリクレートの中でのみ動作し、バイナリクレートの中では動作しません）。
+これが例を付けた具体的な <code>src/lib.rs</code> です。</p>
 <span class='rusttest'>fn main() {
     //! The `adder` crate provides functions that add numbers to other numbers.
+    //! `adder`クレートはある数値を数値に加える関数を提供する
     //!
     //! # Examples
     //!
@@ -669,6 +858,7 @@ crates, not binary crates). Here&#39;s a fleshed-out <code>src/lib.rs</code> wit
     //! ```
     
     /// This function adds two to its argument.
+    /// この関数は引数に2を加える
     ///
     /// # Examples
     ///
@@ -691,7 +881,7 @@ crates, not binary crates). Here&#39;s a fleshed-out <code>src/lib.rs</code> wit
         }
     }
 }</span><pre class='rust rust-example-rendered'>
-<span class='doccomment'>//! The `adder` crate provides functions that add numbers to other numbers.</span>
+<span class='doccomment'>//! `adder`クレートはある数値を数値に加える関数を提供する</span>
 <span class='doccomment'>//!</span>
 <span class='doccomment'>//! # Examples</span>
 <span class='doccomment'>//!</span>
@@ -699,7 +889,7 @@ crates, not binary crates). Here&#39;s a fleshed-out <code>src/lib.rs</code> wit
 <span class='doccomment'>//! assert_eq!(4, adder::add_two(2));</span>
 <span class='doccomment'>//! ```</span>
 
-<span class='doccomment'>/// This function adds two to its argument.</span>
+<span class='doccomment'>/// この関数は引数に2を加える</span>
 <span class='doccomment'>///</span>
 <span class='doccomment'>/// # Examples</span>
 <span class='doccomment'>///</span>
@@ -722,12 +912,21 @@ crates, not binary crates). Here&#39;s a fleshed-out <code>src/lib.rs</code> wit
     }
 }</pre>
 
-<p>Note the module-level documentation with <code>//!</code> and the function-level
-documentation with <code>///</code>. Rust&#39;s documentation supports Markdown in comments,
-and so triple graves mark code blocks. It is conventional to include the
-<code># Examples</code> section, exactly like that, with examples following.</p>
+<!--Note the module-level documentation with `//!` and the function-level-->
 
-<p>Let&#39;s run the tests again:</p>
+<!--documentation with `///`. Rust's documentation supports Markdown in comments,-->
+
+<!--and so triple graves mark code blocks. It is conventional to include the-->
+
+<!--`# Examples` section, exactly like that, with examples following.-->
+
+<p>モジュールレベルのドキュメントには <code>//!</code> を付け、関数レベルのドキュメントには <code>///</code> を付けていることに注意しましょう。
+RustのドキュメントはMarkdown形式のコメントをサポートしていて、3連バッククオートはコードブロックを表します。
+<code># Examples</code> セクションを含めるのが慣習で、そのとおり、例が後に続きます。</p>
+
+<!--Let's run the tests again:-->
+
+<p>テストをもう一度実行しましょう。</p>
 
 <pre><code class="language-bash">$ cargo test
    Compiling adder v0.0.1 (file:///home/steve/tmp/adder)
@@ -754,17 +953,33 @@ test _0 ... ok
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 </code></pre>
 
-<p>Now we have all three kinds of tests running! Note the names of the
-documentation tests: the <code>_0</code> is generated for the module test, and <code>add_two_0</code>
-for the function test. These will auto increment with names like <code>add_two_1</code> as
-you add more examples.</p>
+<!--Now we have all three kinds of tests running! Note the names of the-->
 
-<p>We haven’t covered all of the details with writing documentation tests. For more,
-please see the <a href="documentation.html">Documentation chapter</a></p>
+<!--documentation tests: the `_0` is generated for the module test, and `add_two_0`-->
 
-<p>One final note: documentation tests <em>cannot</em> be run on binary crates.
-To see more on file arrangement see the <a href="crates-and-modules.html">Crates and
-Modules</a> section.</p>
+<!--for the function test. These will auto increment with names like `add_two_1` as-->
+
+<!--you add more examples.-->
+
+<p>今回は全ての種類のテストを実行しています!
+ドキュメンテーションテストの名前に注意しましょう。 <code>_0</code> はモジュールテストのために生成された名前で、 <code>add_two_0</code> は関数テストのために生成された名前です。
+例を追加するにつれて、それらの名前は <code>add_two_1</code> というような形で数値が増えていきます。</p>
+
+<!--We haven’t covered all of the details with writing documentation tests. For more,-->
+
+<!--please see the [Documentation chapter](documentation.html)-->
+
+<p>まだドキュメンテーションテストの書き方の詳細について、全てをカバーしてはいません。
+詳しくは <a href="documentation.html">ドキュメントの章</a> を見てください。</p>
+
+<!--One final note: documentation tests *cannot* be run on binary crates.-->
+
+<!--To see more on file arrangement see the [Crates and-->
+
+<!--Modules](crates-and-modules.html) section.-->
+
+<p>最後の注意：バイナリクレート上のテストは実行 <em>できません</em> 。
+ファイルの配置についてもっと知りたい場合は <a href="crates-and-modules.html">クレートとモジュール</a> セクションを見ましょう。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

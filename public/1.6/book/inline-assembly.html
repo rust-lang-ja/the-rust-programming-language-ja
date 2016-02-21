@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Inline Assembly</title>
+    <title>インラインアセンブリ</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,37 +185,63 @@
 <div id='page'>
 
 
-    <h1 class="title">Inline Assembly</h1>
-    <p>For extremely low-level manipulations and performance reasons, one
-might wish to control the CPU directly. Rust supports using inline
-assembly to do this via the <code>asm!</code> macro. The syntax roughly matches
-that of GCC &amp; Clang:</p>
+    <h1 class="title">インラインアセンブリ</h1>
+    <!-- % Inline Assembly -->
+
+<!-- For extremely low-level manipulations and performance reasons, one -->
+
+<!-- might wish to control the CPU directly. Rust supports using inline -->
+
+<!-- assembly to do this via the `asm!` macro. The syntax roughly matches -->
+
+<!-- that of GCC & Clang: -->
+
+<p>極めて低レベルな技巧やパフォーマンス上の理由から、CPUを直接コントロールしたいと思う人もいるでしょう。
+Rustはそのような処理を行うためにインラインアセンブリを <code>asm!</code> マクロによってサポートしています。
+インラインアセンブリの構文はGCCやClangのものとおおまかに一致しています。</p>
 <span class='rusttest'>fn main() {
-    asm!(assembly template
-       : output operands
-       : input operands
-       : clobbers
-       : options
+    // asm!(assembly template
+    asm!(アセンブリのテンプレート
+    //   : output operands
+       : 出力オペランド
+    //   : input operands
+       : 入力オペランド
+    //   : clobbers
+       : 破壊されるデータ
+    //   : options
+       : オプション
        );
 }</span><pre class='rust rust-example-rendered'>
-<span class='macro'>asm</span><span class='macro'>!</span>(<span class='ident'>assembly</span> <span class='ident'>template</span>
-   : <span class='ident'>output</span> <span class='ident'>operands</span>
-   : <span class='ident'>input</span> <span class='ident'>operands</span>
-   : <span class='ident'>clobbers</span>
-   : <span class='ident'>options</span>
+<span class='macro'>asm</span><span class='macro'>!</span>(<span class='ident'>アセンブリのテンプレート</span>
+   : <span class='ident'>出力オペランド</span>
+   : <span class='ident'>入力オペランド</span>
+   : <span class='ident'>破壊されるデータ</span>
+   : <span class='ident'>オプション</span>
    );</pre>
 
-<p>Any use of <code>asm</code> is feature gated (requires <code>#![feature(asm)]</code> on the
-crate to allow) and of course requires an <code>unsafe</code> block.</p>
+<!-- Any use of `asm` is feature gated (requires `#![feature(asm)]` on the -->
+
+<!-- crate to allow) and of course requires an `unsafe` block. -->
+
+<p><code>asm</code> のいかなる利用もフィーチャーゲートの対象です(利用するには <code>#![feature(asm)]</code> がクレートに必要になります)、
+そしてもちろん <code>unsafe</code> ブロックも必要です。</p>
+
+<!-- > **Note**: the examples here are given in x86/x86-64 assembly, but -->
+
+<!-- > all platforms are supported. -->
 
 <blockquote>
-<p><strong>Note</strong>: the examples here are given in x86/x86-64 assembly, but
-all platforms are supported.</p>
+<p><strong>メモ</strong>: ここでの例はx86/x86-64のアセンブリで示されますが、すべてのプラットフォームがサポートされています。</p>
 </blockquote>
 
-<h2 id='assembly-template' class='section-header'><a href='#assembly-template'>Assembly template</a></h2>
-<p>The <code>assembly template</code> is the only required parameter and must be a
-literal string (i.e. <code>&quot;&quot;</code>)</p>
+<!-- ## Assembly template -->
+
+<h2 id='アセンブリテンプレート' class='section-header'><a href='#アセンブリテンプレート'>アセンブリテンプレート</a></h2>
+<!-- The `assembly template` is the only required parameter and must be a -->
+
+<!-- literal string (i.e. `""`) -->
+
+<p><code>アセンブリテンプレート</code> のみが要求されるパラメータであり、文字列リテラル (例: &quot;&quot;) である必要があります。</p>
 <span class='rusttest'>#![feature(asm)]
 
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
@@ -226,6 +252,7 @@ fn foo() {
 }
 
 // other platforms
+// その他のプラットフォーム
 #[cfg(not(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;)))]
 fn foo() { /* ... */ }
 
@@ -244,7 +271,7 @@ fn main() {
     }
 }
 
-<span class='comment'>// other platforms</span>
+<span class='comment'>// その他のプラットフォーム</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>not</span>(<span class='ident'>any</span>(<span class='ident'>target_arch</span> <span class='op'>=</span> <span class='string'>&quot;x86&quot;</span>, <span class='ident'>target_arch</span> <span class='op'>=</span> <span class='string'>&quot;x86_64&quot;</span>)))]</span>
 <span class='kw'>fn</span> <span class='ident'>foo</span>() { <span class='comment'>/* ... */</span> }
 
@@ -254,10 +281,15 @@ fn main() {
     <span class='comment'>// ...</span>
 }</pre>
 
-<p>(The <code>feature(asm)</code> and <code>#[cfg]</code>s are omitted from now on.)</p>
+<!-- (The `feature(asm)` and `#[cfg]`s are omitted from now on.) -->
 
-<p>Output operands, input operands, clobbers and options are all optional
-but you must add the right number of <code>:</code> if you skip them:</p>
+<p>以後は、 <code>feature(asm)</code> と <code>#[cfg]</code> は省略して示します。</p>
+
+<!-- Output operands, input operands, clobbers and options are all optional -->
+
+<!-- but you must add the right number of `:` if you skip them: -->
+
+<p>出力オペランド、入力オペランド、破壊されるデータ、オプションはすべて省略可能ですが、省略する場合は <code>:</code> を正しい数書く必要が有ります。</p>
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn main() { unsafe {
@@ -274,7 +306,9 @@ asm!(&quot;xor %eax, %eax&quot;
     : <span class='string'>&quot;{eax}&quot;</span>
    );</pre>
 
-<p>Whitespace also doesn&#39;t matter:</p>
+<!-- Whitespace also doesn't matter: -->
+
+<p>空白も必要ではありません:</p>
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn main() { unsafe {
@@ -283,9 +317,17 @@ asm!(&quot;xor %eax, %eax&quot; ::: &quot;{eax}&quot;);
 </span><pre class='rust rust-example-rendered'>
 <span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;xor %eax, %eax&quot;</span> ::: <span class='string'>&quot;{eax}&quot;</span>);</pre>
 
-<h2 id='operands' class='section-header'><a href='#operands'>Operands</a></h2>
-<p>Input and output operands follow the same format: <code>: &quot;constraints1&quot;(expr1), &quot;constraints2&quot;(expr2), ...&quot;</code>. Output operand
-expressions must be mutable lvalues, or not yet assigned:</p>
+<!-- ## Operands -->
+
+<h2 id='オペランド' class='section-header'><a href='#オペランド'>オペランド</a></h2>
+<!-- Input and output operands follow the same format: `: -->
+
+<!-- "constraints1"(expr1), "constraints2"(expr2), ..."`. Output operand -->
+
+<!-- expressions must be mutable lvalues, or not yet assigned: -->
+
+<p>入力と出力のオペランドは、 <code>: &quot;制約1&quot;(式1), &quot;制約2&quot;(式2), ...</code> というフォーマットに従います。
+出力オペランドの式は変更可能な左辺値か、アサインされていない状態でなければなりません。</p>
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn add(a: i32, b: i32) -&gt; i32 {
@@ -320,11 +362,18 @@ fn main() {
     <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>add</span>(<span class='number'>3</span>, <span class='number'>14159</span>), <span class='number'>14162</span>)
 }</pre>
 
-<p>If you would like to use real operands in this position, however,
-you are required to put curly braces <code>{}</code> around the register that
-you want, and you are required to put the specific size of the
-operand. This is useful for very low level programming, where
-which register you use is important:</p>
+<!-- If you would like to use real operands in this position, however, -->
+
+<!-- you are required to put curly braces `{}` around the register that -->
+
+<!-- you want, and you are required to put the specific size of the -->
+
+<!-- operand. This is useful for very low level programming, where -->
+
+<!-- which register you use is important: -->
+
+<p>もし本当のオペランドをここで利用したい場合、 波括弧 <code>{}</code> で利用したいレジスタの周りを囲む必要があり、また、オペランドの特有のサイズを置く必要があります。
+これは、どのレジスタを利用するかが重要になる低レベルなプログラミングで有用です。</p>
 <span class='rusttest'>#![feature(asm)]
 fn main() {
     #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
@@ -338,43 +387,84 @@ fn main() {
 <span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;in %dx, %al&quot;</span> : <span class='string'>&quot;={al}&quot;</span>(<span class='ident'>result</span>) : <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>));
 <span class='ident'>result</span></pre>
 
-<h2 id='clobbers' class='section-header'><a href='#clobbers'>Clobbers</a></h2>
-<p>Some instructions modify registers which might otherwise have held
-different values so we use the clobbers list to indicate to the
-compiler not to assume any values loaded into those registers will
-stay valid.</p>
+<!-- ## Clobbers -->
+
+<h2 id='破壊されるデータ' class='section-header'><a href='#破壊されるデータ'>破壊されるデータ</a></h2>
+<!-- Some instructions modify registers which might otherwise have held -->
+
+<!-- different values so we use the clobbers list to indicate to the -->
+
+<!-- compiler not to assume any values loaded into those registers will -->
+
+<!-- stay valid. -->
+
+<p>幾つかのインストラクションは異なる値を持っている可能性のあるレジスタを変更する事があります、
+そのため、コンパイラがそれらのレジスタに格納された値が処理後にも有効であると思わないように、
+破壊されるデータのリストを利用します。</p>
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn main() { unsafe {
 // Put the value 0x200 in eax
-asm!(&quot;mov $$0x200, %eax&quot; : /* no outputs */ : /* no inputs */ : &quot;{eax}&quot;);
+// eaxに0x200を格納します
+// asm!(&quot;mov $$0x200, %eax&quot; : /* no outputs */ : /* no inputs */ : &quot;{eax}&quot;);
+asm!(&quot;mov $$0x200, %eax&quot; : /* 出力なし */ : /* 入力無し */ : &quot;{eax}&quot;);
 } }
 </span><pre class='rust rust-example-rendered'>
-<span class='comment'>// Put the value 0x200 in eax</span>
-<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;mov $$0x200, %eax&quot;</span> : <span class='comment'>/* no outputs */</span> : <span class='comment'>/* no inputs */</span> : <span class='string'>&quot;{eax}&quot;</span>);</pre>
+<span class='comment'>// eaxに0x200を格納します</span>
+<span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;mov $$0x200, %eax&quot;</span> : <span class='comment'>/* 出力なし */</span> : <span class='comment'>/* 入力無し */</span> : <span class='string'>&quot;{eax}&quot;</span>);</pre>
 
-<p>Input and output registers need not be listed since that information
-is already communicated by the given constraints. Otherwise, any other
-registers used either implicitly or explicitly should be listed.</p>
+<!-- Input and output registers need not be listed since that information -->
 
-<p>If the assembly changes the condition code register <code>cc</code> should be
-specified as one of the clobbers. Similarly, if the assembly modifies
-memory, <code>memory</code> should also be specified.</p>
+<!-- is already communicated by the given constraints. Otherwise, any other -->
 
-<h2 id='options' class='section-header'><a href='#options'>Options</a></h2>
-<p>The last section, <code>options</code> is specific to Rust. The format is comma
-separated literal strings (i.e. <code>:&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;</code>). It&#39;s used to
-specify some extra info about the inline assembly:</p>
+<!-- registers used either implicitly or explicitly should be listed. -->
 
-<p>Current valid options are:</p>
+<p>入力と出力のレジスタは変更される可能性があることが制約によってすでに伝わっているためにリストに載せる必要はありません。
+それ以外では、その他の暗黙的、明示的に利用されるレジスタをリストに載せる必要があります。</p>
+
+<!-- If the assembly changes the condition code register `cc` should be -->
+
+<!-- specified as one of the clobbers. Similarly, if the assembly modifies -->
+
+<!-- memory, `memory` should also be specified. -->
+
+<p>もしアセンブリが条件コードを変更する場合レジスタ <code>cc</code> も破壊されるデータのリストに指定する必要があります。
+同様に、もしアセンブリがメモリを変更する場合 <code>memory</code> もリストに指定する必要があります。</p>
+
+<!-- ## Options -->
+
+<h2 id='オプション' class='section-header'><a href='#オプション'>オプション</a></h2>
+<!-- The last section, `options` is specific to Rust. The format is comma -->
+
+<!-- separated literal strings (i.e. `:"foo", "bar", "baz"`). It's used to -->
+
+<!-- specify some extra info about the inline assembly: -->
+
+<p>最後のセクション、 <code>options</code> はRust特有のものです。
+<code>options</code> の形式は、コンマで区切られた文字列リテラルのリスト(例: <code>:&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;</code>)です。
+これはインラインアセンブリについての追加の情報を指定するために利用されます:</p>
+
+<!-- Current valid options are: -->
+
+<p>現在有効なオプションは以下の通りです:</p>
+
+<!-- 1. *volatile* - specifying this is analogous to-->
+
+<!--    `__asm__ __volatile__ (...)` in gcc/clang.-->
+
+<!-- 2. *alignstack* - certain instructions expect the stack to be-->
+
+<!--    aligned a certain way (i.e. SSE) and specifying this indicates to-->
+
+<!--    the compiler to insert its usual stack alignment code-->
+
+<!-- 3. *intel* - use intel syntax instead of the default AT&T.-->
 
 <ol>
-<li><em>volatile</em> - specifying this is analogous to
-<code>__asm__ __volatile__ (...)</code> in gcc/clang.</li>
-<li><em>alignstack</em> - certain instructions expect the stack to be
-aligned a certain way (i.e. SSE) and specifying this indicates to
-the compiler to insert its usual stack alignment code</li>
-<li><em>intel</em> - use intel syntax instead of the default AT&amp;T.</li>
+<li><em>volatile</em> - このオプションを指定することは、gcc/clangで <code>__asm__ __volatile__ (...)</code> を指定することと類似しています。</li>
+<li><em>alignstack</em> - いくつかのインストラクションはスタックが決まった方式(例: SSE)でアラインされていることを期待しています、
+このオプションを指定することはコンパイラに通常のスタックをアラインメントするコードの挿入を指示します。</li>
+<li><em>intel</em> - デフォルトのAT&amp;T構文の代わりにインテル構文を利用することを意味しています。</li>
 </ol>
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
@@ -392,11 +482,19 @@ println!(&quot;eax is currently {}&quot;, result);
 }
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;eax is currently {}&quot;</span>, <span class='ident'>result</span>);</pre>
 
-<h2 id='more-information' class='section-header'><a href='#more-information'>More Information</a></h2>
-<p>The current implementation of the <code>asm!</code> macro is a direct binding to <a href="http://llvm.org/docs/LangRef.html#inline-assembler-expressions">LLVM&#39;s
-inline assembler expressions</a>, so be sure to check out <a href="http://llvm.org/docs/LangRef.html#inline-assembler-expressions">their
-documentation as well</a> for more information about clobbers,
-constraints, etc.</p>
+<!-- ## More Information -->
+
+<h2 id='さらなる情報' class='section-header'><a href='#さらなる情報'>さらなる情報</a></h2>
+<!-- The current implementation of the `asm!` macro is a direct binding to [LLVM's -->
+
+<!-- inline assembler expressions][llvm-docs], so be sure to check out [their -->
+
+<!-- documentation as well][llvm-docs] for more information about clobbers, -->
+
+<!-- constraints, etc. -->
+
+<p>現在の <code>asm!</code> マクロの実装は <a href="http://llvm.org/docs/LangRef.html#inline-assembler-expressions">LLVMのインラインアセンブリ表現</a> への直接的なバインディングです、
+そのため破壊されるデータのリストや、制約、その他の情報について <a href="http://llvm.org/docs/LangRef.html#inline-assembler-expressions">LLVMのドキュメント</a> を確認してください。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
