@@ -33,8 +33,7 @@ mod tests {
 ```
 
 <!-- Note the `test` feature gate, which enables this unstable feature. -->
-`test` フィーチャーゲートを使っていることに注意して下さい、
-`test` フィーチャーゲートを使うことで、不安定なベンチマークのフィーチャーを有効にしています。
+不安定なベンチマークのフィーチャーを有効にするため、 `test` フィーチャーゲートを利用していることに注意して下さい。
 
 <!-- We've imported the `test` crate, which contains our benchmarking support. -->
 <!-- We have a new function as well, with the `bench` attribute. Unlike regular -->
@@ -43,8 +42,8 @@ mod tests {
 <!-- contains the code we'd like to benchmark. -->
 ベンチマークテストのサポートを含んだ `test` クレートをインポートしています。
 また、 `bench` アトリビュートのついた新しい関数を定義しています。
-引数を取らない通常のテストと異なり、ベンチマークテストは `&mut Bencher` を引数に取ります。
-`Bencher` はベンチマークしたいコードを含んだクロージャを引数に取る `iter` メソッドを提供します。
+引数を取らない通常のテストとは異なり、ベンチマークテストは `&mut Bencher` を引数に取ります。
+`Bencher` はベンチマークしたいコードを含んだクロージャを引数に取る `iter` メソッドを提供しています。
 
 <!-- We can run benchmark tests with `cargo bench`: -->
 ベンチマークテストは以下のように `cargo bench` のようにして実施できます:
