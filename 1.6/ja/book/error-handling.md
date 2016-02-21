@@ -1846,7 +1846,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 この方法が有効なシナリオもありますが、[この章で扱う範囲を超えています](https://crates.io/crates/error) ）
 
 <!-- It's time to revisit our custom `CliError` type and tie everything together. -->
-では、私たちのカスタムエラー型 `CliError` に戻って、全てを一つにまとめ上げましょう。
+では、私たちの独自のエラー型 `CliError` に戻って、全てを一つにまとめ上げましょう。
 
 <!-- ## Composing custom error types -->
 ## 独自のエラー型を合成する
