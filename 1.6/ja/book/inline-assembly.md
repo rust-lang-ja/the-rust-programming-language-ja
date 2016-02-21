@@ -37,7 +37,7 @@ asm!(アセンブリのテンプレート
 
 <!-- The `assembly template` is the only required parameter and must be a -->
 <!-- literal string (i.e. `""`) -->
-`アセンブリテンプレート` のみが要求されるパラメータであり、文字列リテラルである必要があります。
+`アセンブリテンプレート` のみが要求されるパラメータであり、文字列リテラル (例: "") である必要があります。
 
 ```rust
 #![feature(asm)]
@@ -49,7 +49,7 @@ fn foo() {
     }
 }
 
-# // // other platforms
+# // other platforms
 // その他のプラットフォーム
 #[cfg(not(any(target_arch = "x86", target_arch = "x86_64")))]
 fn foo() { /* ... */ }
@@ -154,7 +154,7 @@ result
 # #![feature(asm)]
 # #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
 # fn main() { unsafe {
-# // // Put the value 0x200 in eax
+# // Put the value 0x200 in eax
 // eaxに0x200を格納します
 # // asm!("mov $$0x200, %eax" : /* no outputs */ : /* no inputs */ : "{eax}");
 asm!("mov $$0x200, %eax" : /* 出力なし */ : /* 入力無し */ : "{eax}");
@@ -165,7 +165,7 @@ asm!("mov $$0x200, %eax" : /* 出力なし */ : /* 入力無し */ : "{eax}");
 <!-- is already communicated by the given constraints. Otherwise, any other -->
 <!-- registers used either implicitly or explicitly should be listed. -->
 入力と出力のレジスタは変更される可能性があることが制約によってすでに伝わっているためにリストに載せる必要はありません。
-その以外では、その他の暗黙的、明示的に利用されるレジスタをリストに載せる必要があります。
+それ以外では、その他の暗黙的、明示的に利用されるレジスタをリストに載せる必要があります。
 
 <!-- If the assembly changes the condition code register `cc` should be -->
 <!-- specified as one of the clobbers. Similarly, if the assembly modifies -->
