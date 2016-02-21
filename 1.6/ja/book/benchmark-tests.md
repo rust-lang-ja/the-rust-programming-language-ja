@@ -1,4 +1,5 @@
-% Benchmark tests
+% ベンチマークテスト
+<!-- % Benchmark tests -->
 
 Rust supports benchmark tests, which can test the performance of your
 code. Let's make our `src/lib.rs` look like this (comments elided):
