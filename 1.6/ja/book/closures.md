@@ -1,4 +1,5 @@
-% Closures
+<!-- % Closures -->
+% クロージャ
 
 Sometimes it is useful to wrap up a function and _free variables_ for better
 clarity and reuse. The free variables that can be used come from the
