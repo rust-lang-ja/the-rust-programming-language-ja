@@ -88,6 +88,7 @@
 | interpolate                    | インターポーレートする
 | interpolation                  | インターポーレーション
 | Intrinsics                     | Intrinsic
+| key                            | キー
 | keyword                        | キーワード
 | Lang Items                     | Lang Item
 | leak                           | リーク
@@ -116,6 +117,7 @@
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
+| parameter                      | パラメータ
 | parametric polymorphism        | パラメトリック多相
 | parse                          | パース、パースする
 | patch                          | パッチ
