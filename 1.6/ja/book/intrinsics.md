@@ -13,7 +13,7 @@
 <!-- via a declaration like -->
 intrinsicsは特別なABI `rust-intrinsic` を用いて、FFIの関数で有るかのようにインポートされます。
 例えば、独立したコンテキストの中で型の間の `transmute` をしたい場合や、効率的なポインタ演算を行いたい場合、
-それらの関数を以下ような宣言を通してインポートします
+それらの関数を以下のような宣言を通してインポートします
 
 ```rust
 #![feature(intrinsics)]
