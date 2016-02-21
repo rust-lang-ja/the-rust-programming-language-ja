@@ -63,7 +63,7 @@ A type without a statically known size or alignment. ([more info][link])
 <!-- that expressions can have side-effects. For example, a function included in an -->
 <!-- expression might perform actions other than simply returning a value. -->
 コンピュータプログラミングに於いて、式は値、定数、変数、演算子、1つの値へと評価される関数の組み合わせです。
-例えば、`2 + (3 * 4)`は値14を返す式です。式が副作用を持ちうることに意味はありません。
+例えば、 `2 + (3 * 4)` は値14を返す式です。式が副作用を持ちうることに意味はありません。
 例えば、ある式に含まれる関数がただ値を返す以外にも何か作用をするかもしれません。
 
 

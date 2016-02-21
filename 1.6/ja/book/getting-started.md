@@ -22,9 +22,9 @@ Rustを使い始める最初のステップはインストールです。
 <!-- the start of each command. We’ll see many tutorials and examples around the web -->
 <!-- that follow this convention: `$` for commands run as our regular user, and `#` -->
 <!-- for commands we should be running as an administrator. -->
-コマンドを色々提示しますが、それらは全て`$`から始まります。`$`を入力する必要はありません。
-`$`はただコマンドの先頭を示しているだけです。
-これから、Web上でも「`$`で始まるものは一般ユーザで実行し`#`で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになります。
+コマンドを色々提示しますが、それらは全て `$` から始まります。 `$` を入力する必要はありません。
+`$` はただコマンドの先頭を示しているだけです。
+これから、Web上でも「 `$` で始まるものは一般ユーザで実行し `#` で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになります。
 
 <!-- ## Platform support -->
 ## プラットフォームのサポート
@@ -55,7 +55,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <!-- * Official release artifacts are provided for the platform. -->
 <!-- * Documentation for how to use and how to build the platform is available. -->
 * 自動テストがそのプラットフォーム上で走るようセットアップされている
-* `rust-lang/rust`レポジトリのmasterブランチへの変更はテストが通ってからされる
+* `rust-lang/rust` レポジトリのmasterブランチへの変更はテストが通ってからされる
 * 公式のリリースがそのプラットフォーム向けに提供される
 * 使用方法及びビルド方法のドキュメントがある
 
@@ -86,7 +86,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <!--   standard library is compiled, but for others the full bootstrap is run. -->
 <!-- * Official release artifacts are provided for the platform. -->
 * 自動ビルドはセットアップされているがテストは走っていないかもしれない
-* `rust-lang/rust`レポジトリのmasterブランチへの変更は **ビルドが** 通ってからされる。
+* `rust-lang/rust` レポジトリのmasterブランチへの変更は **ビルドが** 通ってからされる。
   これは標準ライブラリしかコンパイル出来ないものもあれば完全なブートストラップまで出来るものもあることを意味するということに注意してください。
 * 公式のリリースがそのプラットフォーム向けに提供される
 
@@ -195,7 +195,7 @@ Continue? (y/N)
 > ```
 
 <!-- From here, press `y` for ‘yes’, and then follow the rest of the prompts. -->
-ここで「はい」の意味で`y`を押しましょう。そして以後のプロンプトに従って下さい。
+ここで「はい」の意味で `y` を押しましょう。そして以後のプロンプトに従って下さい。
 
 <!-- ## Installing on Windows -->
 ## Windowsでのインストール
@@ -219,7 +219,7 @@ $ sudo /usr/local/lib/rustlib/uninstall.sh
 
 <!-- If we used the Windows installer, we can re-run the `.msi` and it will give us -->
 <!-- an uninstall option. -->
-Windowsのインストーラを使ったなら`.msi`をもう一度実行すればアンインストールのオプションが出てきます。
+Windowsのインストーラを使ったなら `.msi` をもう一度実行すればアンインストールのオプションが出てきます。
 
 <!-- ## Troubleshooting -->
 ## トラブルシューティング
@@ -267,8 +267,8 @@ repair, or remove installation」ページの「Change」を選択し、「Add t
 <!-- On Windows, it's in a `share/doc` directory, inside the directory to which Rust -->
 <!-- was installed. -->
 インストーラはドキュメントのコピーもローカルにインストールしますので、オフラインで読めます。
-UNIXシステムでは`/usr/local/share/doc/rust`にあります。
-WindowsではRustをインストールした所の`share/doc`ディレクトリにあります。
+UNIXシステムでは `/usr/local/share/doc/rust` にあります。
+WindowsではRustをインストールした所の `share/doc` ディレクトリにあります。
 
 
 <!-- # Hello, world! -->
@@ -328,7 +328,7 @@ $ cd hello_world
 
 <!-- &gt; Note: If you’re on Windows and not using PowerShell, the `~` may not work. -->
 <!-- &gt; Consult the documentation for your shell for more details. -->
-> 留意: WindowsでかつPowerShellを使っていないのなら `~`は上手く動かないかもしれません。
+> 留意: WindowsでかつPowerShellを使っていないのなら  `~` は上手く動かないかもしれません。
 > 使っているシェルのドキュメントをあたってみて下さい。
 
 <!-- ## Writing and Running a Rust Program -->
@@ -365,7 +365,7 @@ Hello, world!
 <!-- system, you should see the string `Hello, world!` print to the terminal. If you -->
 <!-- did, then congratulations! You've officially written a Rust program. That makes -->
 <!-- you a Rust programmer! Welcome.  -->
-Windowsでは`main`を`main.exe`と読み替えて下さい。使っているOSに関わらず、`Hello, world!`の文字列がターミナルに印字されるのを目にする筈です。
+Windowsでは `main` を `main.exe` と読み替えて下さい。使っているOSに関わらず、 `Hello, world!` の文字列がターミナルに印字されるのを目にする筈です。
 目にしたなら、おめでとうございます！あなたは正式にRustのプログラムを記述しました。これであなたもRustプログラマです！ようこそ。
 
 
@@ -389,20 +389,20 @@ fn main() {
 <!-- were arguments, they would go inside the parentheses (`(` and `)`), and because -->
 <!-- we aren’t returning anything from this function, we can omit the return type -->
 <!-- entirely. -->
-これらの行はRustの *関数* を定義します。`main`関数は特別です。全てのRustプログラムの開始点になります。
-最初の行は「引数を取らず、返り値も返さない関数`main`を宣言します」といっています。
-引数があれば、括弧(`(`と`)`)の中に入りますし、今回はこの関数から何も値を返さないので返り値の型を完全に省略出来ます。
+これらの行はRustの *関数* を定義します。 `main` 関数は特別です。全てのRustプログラムの開始点になります。
+最初の行は「引数を取らず、返り値も返さない関数 `main` を宣言します」といっています。
+引数があれば、括弧(`(` と `)`)の中に入りますし、今回はこの関数から何も値を返さないので返り値の型を完全に省略出来ます。
 
 <!-- Also note that the function body is wrapped in curly braces (`{` and `}`). Rust -->
 <!-- requires these around all function bodies. It's considered good style to put -->
 <!-- the opening curly brace on the same line as the function declaration, with one -->
 <!-- space in between. -->
-さらに、関数の本体部が波括弧(`{`と`}`)で括られていることに留意して下さい。
+さらに、関数の本体部が波括弧(`{` と `}`)で括られていることに留意して下さい。
 Rustは全ての関数の本体部に波括弧を要請します。
 関数宣言と同じ行に1スペース空けて開き波括弧を置くのが良いスタイルとされます。
 
 <!-- Inside the `main()` function: -->
-`main()`関数の中では
+`main()` 関数の中では
 
 ```rust
     println!("Hello, world!");
@@ -420,9 +420,9 @@ Rustは全ての関数の本体部に波括弧を要請します。
 <!-- discuss Rust macros in more detail later, but for now you just need to -->
 <!-- know that when you see a `!` that means that you’re calling a macro instead of -->
 <!-- a normal function.  -->
-2つ目の重要な部分は`println!()`の行です。これはRustのメタプログラミング機構、 *[マクロ][macro]* の呼び出しです。
-もし関数を呼び出しているのなら、`println()`のようになります(! がありません)。
-Rustのマクロについては後程詳細に議論しますが、今のところ`!`を見たら普通の関数ではなくマクロを呼び出していることを意味するということだけ知っておいて下さい。
+2つ目の重要な部分は `println!()` の行です。これはRustのメタプログラミング機構、 *[マクロ][macro]* の呼び出しです。
+もし関数を呼び出しているのなら、 `println()` のようになります(! がありません)。
+Rustのマクロについては後程詳細に議論しますが、今のところ `!` を見たら普通の関数ではなくマクロを呼び出していることを意味するということだけ知っておいて下さい。
 
 
 [macro]: macros.html
@@ -431,9 +431,9 @@ Rustのマクロについては後程詳細に議論しますが、今のとこ�
 <!-- complicated topic in a systems programming language, and this is a *[statically -->
 <!-- allocated]* string. We pass this string as an argument to `println!`, which -->
 <!-- prints the string to the screen. Easy enough! -->
-次は 文字列の`"Hello, world"`です。
+次は 文字列の `"Hello, world"` です。
 システムプログラミング言語では文字列は驚くほど複雑なトピックで、これは *[静的に確保された][statically allocated]* 文字列です。
-文字列をスクリーンに印字してくれる`println!`にこれを引数として渡します。簡単ですね！
+文字列をスクリーンに印字してくれる `println!` にこれを引数として渡します。簡単ですね！
 
 [statically allocated]: the-stack-and-the-heap.html
 
@@ -442,7 +442,7 @@ Rustのマクロについては後程詳細に議論しますが、今のとこ�
 <!-- The `;` indicates that this expression is over, and the next one is ready to -->
 <!-- begin. Most lines of Rust code end with a `;`. -->
 件の行はセミコロン(`;`)で終わります。Rustは *[式指向言語][expression-oriented language]* で、ほとんどのものは文ではなく式になります。
-`;`は式が終わり、次の式が始まることを示します。Rustのコードのほとんどの行は`;`で終わります。
+`;` は式が終わり、次の式が始まることを示します。Rustのコードのほとんどの行は `;` で終わります。
 
 <!-- [expression-oriented language]: glossary.html#expression-oriented-language -->
 [expression-oriented language]: glossary.html#式指向言語
@@ -459,7 +459,7 @@ Rustのマクロについては後程詳細に議論しますが、今のとこ�
 <!-- compiler by entering the `rustc` command and passing it the name of your source -->
 <!-- file, like this: -->
 Rustのプログラムを走らせる前に、コンパイルする必要があります。
-Rustのコンパイラはこのように`rustc`と入力してソースファイルの名前を渡してあげることで使えます。
+Rustのコンパイラはこのように `rustc` と入力してソースファイルの名前を渡してあげることで使えます。
 
 ```bash
 $ rustc main.rs
@@ -469,9 +469,9 @@ $ rustc main.rs
 <!-- `gcc` or `clang`. After compiling successfully, Rust should output a binary -->
 <!-- executable, which you can see on Linux or OSX by entering the `ls` command in -->
 <!-- your shell as follows: -->
-CまたはC++のバックグラウンドを持つならこれが`gcc`や`clang`に似ていことに気付くでしょう。
+CまたはC++のバックグラウンドを持つならこれが `gcc` や `clang` に似ていことに気付くでしょう。
 コンパイルが成功したら、Rustは実行可能バイナリを吐いている筈です。
-LinuxかOSXなら以下のように`ls`コマンドで確認出来ます。
+LinuxかOSXなら以下のように `ls` コマンドで確認出来ます。
 
 ```bash
 $ ls
@@ -489,8 +489,8 @@ main.exe  main.rs
 <!-- This shows we have two files: the source code, with an `.rs` extension, and the -->
 <!-- executable (`main.exe` on Windows, `main` everywhere else). All that's left to -->
 <!-- do from here is run the `main` or `main.exe` file, like this: -->
-2つのファイルがあるといっています。`.rs`拡張子を持ったソースコードと実行可能ファイル(Windowsでは`main.exe`、それ以外では`main`)。
-ここからあとは`main`または`main.exe`のファイルをこのように実行するだけです。
+2つのファイルがあるといっています。 `.rs` 拡張子を持ったソースコードと実行可能ファイル(Windowsでは `main.exe` 、それ以外では `main` )。
+ここからあとは `main` または `main.exe` のファイルをこのように実行するだけです。
 
 
 ```bash
@@ -499,7 +499,7 @@ $ ./main  # あるいはWindowsならmain.exe
 
 <!-- If *main.rs* were your "Hello, world!" program, this would print `Hello, -->
 <!-- world!` to your terminal. -->
-もし *main.rs* が「Hello, world!」プログラムなら、これで`Hello, world!`とターミナルに印字することでしょう。
+もし *main.rs* が「Hello, world!」プログラムなら、これで `Hello, world!` とターミナルに印字することでしょう。
 
 <!-- If you come from a dynamic language like Ruby, Python, or JavaScript, you may -->
 <!-- not be used to compiling and running a program being separate steps. Rust is an -->
@@ -511,7 +511,7 @@ $ ./main  # あるいはWindowsならmain.exe
 <!-- is a tradeoff in language design. -->
 もしRubyやPython、JavaScriptなどの動的な言語から来たのならコンパイルと実行が別の手順になっていることに馴れないでしょう。
 Rustは、プログラムをコンパイルして、それを別の誰かに渡したら、Rustがなくても動く、 *事前コンパイル* 言語です。
-他方別の誰かに`.rb`や`.py`、`.js`を渡したら(それぞれ)Ruby、PythonあるいはJavaScriptの実装が必要になりますが、コンパイルにも実行にも1つのコマンドで事足ります。
+他方別の誰かに `.rb` や `.py` 、 `.js` を渡したら(それぞれ)Ruby、PythonあるいはJavaScriptの実装が必要になりますが、コンパイルにも実行にも1つのコマンドで事足ります。
 全ては言語設計上のトレードオフです。
 
 <!-- Just compiling with `rustc` is fine for simple programs, but as your project -->
@@ -519,7 +519,7 @@ Rustは、プログラムをコンパイルして、それを別の誰かに渡�
 <!-- and make it easy to share your code with other people and projects. Next, I'll -->
 <!-- introduce you to a tool called Cargo, which will help you write real-world Rust -->
 <!-- programs. -->
-単純なプログラムなら単に`rustc`でコンパイルすれば十分ですがプロジェクトが大きくなるにつれてプロジェクトの全てのオプションを管理したり他の人やプロジェクトと容易に共有出来るようにしたくなるでしょう。
+単純なプログラムなら単に `rustc` でコンパイルすれば十分ですがプロジェクトが大きくなるにつれてプロジェクトの全てのオプションを管理したり他の人やプロジェクトと容易に共有出来るようにしたくなるでしょう。
 次は現実世界のRustプログラムを書く手助けになるCargoというツールを紹介します。
 
 <!-- # Hello, Cargo! -->
@@ -556,7 +556,7 @@ $ cargo --version
 <!-- Into a terminal. If you see a version number, great! If you see an error like -->
 <!-- ‘`command not found`’, then you should look at the documentation for the system -->
 <!-- in which you installed Rust, to determine if Cargo is separate. -->
-バージョン番号を確認出来たなら、良かった！「`コマンドが見つかりません`」などのエラーが出たなら
+バージョン番号を確認出来たなら、良かった！「 `コマンドが見つかりません` 」などのエラーが出たなら
 Rustをインストールしたシステムのドキュメントを見て、Cargoが別になっているか判断しましょう。
 
 <!-- ## Converting to Cargo -->
@@ -572,7 +572,7 @@ Hello WorldプログラムをCargoに変換しましょう。
 <!--    and make a new one. -->
 <!-- 3. Make a Cargo configuration file. -->
 1. ソースファイルを正しいディレクトリに置く
-2. 古い実行可能ファイル(Windowsなら`main.exe`、他では`main`)を消し、新しいものを作る
+2. 古い実行可能ファイル(Windowsなら `main.exe` 、他では `main`)を消し、新しいものを作る
 3. Cargoの設定ファイルを作る
 
 <!-- Let's get started! -->
@@ -604,15 +604,15 @@ READMEやライセンス情報、他のコードに関係ないものはプロ�
 <!-- Now, copy *main.rs* to the *src* directory, and delete the compiled file you -->
 <!-- created with `rustc`. As usual, replace `main` with `main.exe` if you're on -->
 <!-- Windows. -->
-では、 *main.rs* を *src* ディレクトリにコピーして、`rustc`でコンパイルして作ったファイルを削除します。
-これまで通り、Windowsなら`main`を`main.exe`に読み替えて下さい。
+では、 *main.rs* を *src* ディレクトリにコピーして、 `rustc` でコンパイルして作ったファイルを削除します。
+これまで通り、Windowsなら `main` を `main.exe` に読み替えて下さい。
 
 <!-- This example retains `main.rs` as the source filename because it's creating an -->
 <!-- executable. If you wanted to make a library instead, you'd name the file -->
 <!-- `lib.rs`. This convention is used by Cargo to successfully compile your -->
 <!-- projects, but it can be overridden if you wish.  -->
-今回の例では実行可能ファイルを作るので`main.rs`の名前を引き続き使います。
-もしライブラリを作りたいなら`lib.rs`という名前にすることになります。
+今回の例では実行可能ファイルを作るので `main.rs` の名前を引き続き使います。
+もしライブラリを作りたいなら `lib.rs` という名前にすることになります。
 この規約はCargoでプロジェクトを正しくコンパイルするのに使われていますが、望むなら上書きすることも出来ます。
 
 <!-- ### Creating a Configuration File -->
@@ -620,11 +620,11 @@ READMEやライセンス情報、他のコードに関係ないものはプロ�
 
 <!-- Next, create a new file inside your *hello_world* directory, and call it -->
 <!-- `Cargo.toml`. -->
-次に、 *hello_world* ディレクトリ下にファイルを作ります。それを`Cargo.toml`とします。
+次に、 *hello_world* ディレクトリ下にファイルを作ります。それを `Cargo.toml` とします。
 
 <!-- Make sure to capitalize the `C` in `Cargo.toml`, or Cargo won't know what to do -->
 <!-- with the configuration file.  -->
-ちゃんと`Cargo.toml`の`C`が大文字になっていることを確認しましょう、そうしないとCargoが設定ファイルと認識出来なくなります。
+ちゃんと `Cargo.toml` の `C` が大文字になっていることを確認しましょう、そうしないとCargoが設定ファイルと認識出来なくなります。
 
 <!-- This file is in the *[TOML]* (Tom's Obvious, Minimal Language) format. TOML is -->
 <!-- similar to INI, but has some extra goodies, and is used as Cargo’s -->
@@ -649,7 +649,7 @@ authors = [ "あなたの名前 <you@example.com>" ]
 <!-- The first line, `[package]`, indicates that the following statements are -->
 <!-- configuring a package. As we add more information to this file, we’ll add other -->
 <!-- sections, but for now, we just have the package configuration. -->
-最初の行、`[package]`は下に続く記述がパッケージの設定であることを示します。
+最初の行、 `[package]` は下に続く記述がパッケージの設定であることを示します。
 さらなる情報をこのファイルに追加する時には他のセクションを追加することになりますが、今のところパッケージの設定しかしていません。
 
 <!-- The other three lines set the three bits of configuration that Cargo needs to -->
@@ -677,12 +677,12 @@ Hello, world!
 ```
 
 <!-- Bam! If all goes well, `Hello, world!` should print to the terminal once more.  -->
-ババーン!全てが上手くいったら、もう一度`Hello, world!`がターミナルに印字される筈です。
+ババーン!全てが上手くいったら、もう一度 `Hello, world!` がターミナルに印字される筈です。
 
 <!-- You just built a project with `cargo build` and ran it with -->
 <!-- `./target/debug/hello_world`, but you can actually do both in one step with -->
 <!-- `cargo run` as follows: -->
-`cargo build`でプロジェクトをビルドして`./target/debug/hello_world`でそれを実行したのですが、実は次のように`cargo run`一発でそれらを実行出来ます。
+`cargo build` でプロジェクトをビルドして `./target/debug/hello_world` でそれを実行したのですが、実は次のように `cargo run` 一発でそれらを実行出来ます。
 
 ```bash
 $ cargo run
@@ -713,10 +713,10 @@ Cargoはプロジェクトのファイルのどれかが変更されていない
 <!-- but it will become useful in future. With complex projects composed of multiple -->
 <!-- crates, it’s much easier to let Cargo coordinate the build. With Cargo, you can -->
 <!-- just run `cargo build`, and it should work the right way. -->
-単純なプロジェクトではCargoを使っても単に`rustc`を使うのとさほど変わないでしょうが将来において役に立つでしょう。
+単純なプロジェクトではCargoを使っても単に `rustc` を使うのとさほど変わないでしょうが将来において役に立つでしょう。
 特に、クレートを使い始めた時によく当て嵌ります。
 複数のクレートで構成された複雑なプロジェクトではCargoにビルドを任せた方がとても簡単になります。
-Cargoを使えば`cargo build`を実行するだけで正しく動いてくれます。
+Cargoを使えば `cargo build` を実行するだけで正しく動いてくれます。
 
 <!-- ## Building for Release -->
 ## リリースビルド
@@ -726,7 +726,7 @@ Cargoを使えば`cargo build`を実行するだけで正しく動いてくれ�
 <!-- your Rust code run faster, but turning them on makes your program take longer -->
 <!-- to compile. This is why there are two different profiles, one for development, -->
 <!-- and one for building the final program you’ll give to a user. -->
-最終的にプロジェクトのリリース準備が整ったら`cargo build --release`を使うことで最適化を掛けてプロジェクトをコンパイル出来ます。
+最終的にプロジェクトのリリース準備が整ったら `cargo build --release` を使うことで最適化を掛けてプロジェクトをコンパイル出来ます。
 最適化を掛けることでRustのコードは速くなりますが、コンパイル時間は長くなります。
 こういう訳で、開発向けとユーザへ配布する最終版プログラムを作る時向けの2つの違うプロファイルが存在するのです。
 
@@ -753,7 +753,7 @@ Cargoは *Cargo.lock* でアプリケーションの依存を追跡します。
 
 <!-- That’s it! If you've been following along, you should have successfully built -->
 <!-- `hello_world` with Cargo.  -->
-出来ました!ここまでついて来たならCargoで`hello_world`をビルドする所まで出来た筈です。
+出来ました!ここまでついて来たならCargoで `hello_world` をビルドする所まで出来た筈です。
 
 <!-- Even though the project is simple, it now uses much of the real tooling you’ll -->
 <!-- use for the rest of your Rust career. In fact, you can expect to start -->
@@ -777,7 +777,7 @@ $ cargo build
 Cargoで即座に開発を始められる骨組だけのプロジェクトを素早く作ることが出来ます。
 
 <!-- To start a new project with Cargo, enter `cargo new` at the command line: -->
-Cargoで新たなプロジェクトを始めるには、`cargo new`をコマンドラインに入力します。
+Cargoで新たなプロジェクトを始めるには、 `cargo new` をコマンドラインに入力します。
 
 ```bash
 $ cargo new hello_world --bin
@@ -786,18 +786,18 @@ $ cargo new hello_world --bin
 <!-- This command passes `--bin` because the goal is to get straight to making an -->
 <!-- executable application, as opposed to a library. Executables are often called -->
 <!-- *binaries* (as in `/usr/bin`, if you’re on a Unix system). -->
-ライブラリではなく実行可能アプリケーションを作りたいのでこのコマンドは`--bin`を渡しています。
-実行可能ファイルはよく *バイナリ* と呼ばれます(なのでUnixシステムでは`/usr/bin/`に入っています)。
+ライブラリではなく実行可能アプリケーションを作りたいのでこのコマンドは `--bin` を渡しています。
+実行可能ファイルはよく *バイナリ* と呼ばれます(なのでUnixシステムでは `/usr/bin/` に入っています)。
 
 <!-- Cargo has generated two files and one directory for us: a `Cargo.toml` and a -->
 <!-- *src* directory with a *main.rs* file inside. These should look familliar, -->
 <!-- they’re exactly what we created by hand, above. -->
-Cargoは2つのファイルと1つのディレクトリ、`Cargo.toml`と *main.rs* の入った *src* ディレクトリを生成します。
+Cargoは2つのファイルと1つのディレクトリ、 `Cargo.toml` と *main.rs* の入った *src* ディレクトリを生成します。
 上で作ったのと全く同じ、見たことのある構成ですね。
 
 <!-- This output is all you need to get started. First, open `Cargo.toml`. It should -->
 <!-- look something like this: -->
-これさえあれば始められます。まず、`Cargo.toml`を開きます。このようになっている筈です。
+これさえあれば始められます。まず、 `Cargo.toml` を開きます。このようになっている筈です。
 
 ```toml
 [package]
@@ -810,11 +810,11 @@ authors = ["あなたの名前 <you@example.com>"]
 <!-- Cargo has populated *Cargo.toml* with reasonable defaults based on the arguments -->
 <!-- you gave it and your `git` global configuration. You may notice that Cargo has -->
 <!-- also initialized the `hello_world` directory as a `git` repository. -->
-Cargoは引数と`git`の設定を基に *Cargo.toml* に適当な値を埋めます。
-Cargoが`hello_world`ディレクトリを`git`レポジトリとして初期化していることにも気付くでしょう。
+Cargoは引数と `git` の設定を基に *Cargo.toml* に適当な値を埋めます。
+Cargoが `hello_world` ディレクトリを `git` レポジトリとして初期化していることにも気付くでしょう。
 
 <!-- Here’s what should be in `src/main.rs`: -->
-`src/main.rs`の中身はこのようになっている筈です。
+`src/main.rs` の中身はこのようになっている筈です。
 
 ```rust
 fn main() {
