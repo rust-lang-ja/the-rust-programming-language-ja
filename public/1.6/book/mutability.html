@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Mutability</title>
+    <title>ミュータビリティ</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,33 +185,52 @@
 <div id='page'>
 
 
-    <h1 class="title">Mutability</h1>
-    <p>Mutability, the ability to change something, works a bit differently in Rust
-than in other languages. The first aspect of mutability is its non-default
-status:</p>
+    <h1 class="title">ミュータビリティ</h1>
+    <!-- % Mutability -->
+
+<!-- Mutability, the ability to change something, works a bit differently in Rust -->
+
+<!-- than in other languages. The first aspect of mutability is its non-default -->
+
+<!-- status: -->
+
+<p>Rustにおけるミュータビリティ、何かを変更する能力は、他のプログラミング言語とはすこし異なっています。
+ミュータビリティの一つ目の特徴は、それがデフォルトでは無いという点です:</p>
 <span class='rusttest'>fn main() {
     let x = 5;
-    x = 6; // error!
+    // x = 6; // error!
+    x = 6; // エラー!
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
-<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>6</span>; <span class='comment'>// error!</span></pre>
+<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>6</span>; <span class='comment'>// エラー!</span></pre>
 
-<p>We can introduce mutability with the <code>mut</code> keyword:</p>
+<!-- We can introduce mutability with the `mut` keyword: -->
+
+<p><code>mut</code> キーワードによりミュータビリティを導入できます:</p>
 <span class='rusttest'>fn main() {
     let mut x = 5;
     
-    x = 6; // no problem!
+    // x = 6; // no problem!
+    x = 6; // 問題なし!
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
-<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>6</span>; <span class='comment'>// no problem!</span></pre>
+<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>6</span>; <span class='comment'>// 問題なし!</span></pre>
 
-<p>This is a mutable <a href="variable-bindings.html">variable binding</a>. When a binding is mutable, it means
-you’re allowed to change what the binding points to. So in the above example,
-it’s not so much that the value at <code>x</code> is changing, but that the binding
-changed from one <code>i32</code> to another.</p>
+<!-- This is a mutable [variable binding][vb]. When a binding is mutable, it means -->
 
-<p>If you want to change what the binding points to, you’ll need a <a href="references-and-borrowing.html">mutable reference</a>:</p>
+<!-- you’re allowed to change what the binding points to. So in the above example, -->
+
+<!-- it’s not so much that the value at `x` is changing, but that the binding -->
+
+<!-- changed from one `i32` to another. -->
+
+<p>これはミュータブルな <a href="variable-bindings.html">変数束縛</a> です。束縛がミュータブルであるとき、その束縛が何を指すかを変更して良いことを意味します。
+つまり上記の例では、<code>x</code> の値を変更したのではなく、ある <code>i32</code> から別の値へと束縛が変わったのです。</p>
+
+<!-- If you want to change what the binding points to, you’ll need a [mutable reference][mr]: -->
+
+<p>束縛が指す先を変更する場合は、<a href="references-and-borrowing.html">ミュータブル参照</a> を使う必要があるでしょう:</p>
 <span class='rusttest'>fn main() {
     let mut x = 5;
     let y = &amp;mut x;
@@ -219,11 +238,18 @@ changed from one <code>i32</code> to another.</p>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;</pre>
 
-<p><code>y</code> is an immutable binding to a mutable reference, which means that you can’t
-bind <code>y</code> to something else (<code>y = &amp;mut z</code>), but you can mutate the thing that’s
-bound to <code>y</code> (<code>*y = 5</code>). A subtle distinction.</p>
+<!-- `y` is an immutable binding to a mutable reference, which means that you can’t -->
 
-<p>Of course, if you need both:</p>
+<!-- bind `y` to something else (`y = &mut z`), but you can mutate the thing that’s -->
+
+<!-- bound to `y` (`*y = 5`). A subtle distinction. -->
+
+<p><code>y</code> はミュータブル参照へのイミュータブルな束縛であり、 <code>y</code> を他の束縛に変える(<code>y = &amp;mut z</code>)ことはできません。
+しかし、<code>y</code> に束縛されているものを変化させること(<code>*y = 5</code>)は可能です。微妙な区別です。</p>
+
+<!-- Of course, if you need both: -->
+
+<p>もちろん、両方が必要ならば:</p>
 <span class='rusttest'>fn main() {
     let mut x = 5;
     let mut y = &amp;mut x;
@@ -231,11 +257,18 @@ bound to <code>y</code> (<code>*y = 5</code>). A subtle distinction.</p>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;</pre>
 
-<p>Now <code>y</code> can be bound to another value, and the value it’s referencing can be
-changed.</p>
+<!-- Now `y` can be bound to another value, and the value it’s referencing can be -->
 
-<p>It’s important to note that <code>mut</code> is part of a <a href="patterns.html">pattern</a>, so you
-can do things like this:</p>
+<!-- changed. -->
+
+<p>今度は <code>y</code> が他の値を束縛することもできますし、参照している値を変更することもできます。</p>
+
+<!-- It’s important to note that `mut` is part of a [pattern][pattern], so you -->
+
+<!-- can do things like this: -->
+
+<p><code>mut</code> は <a href="patterns.html">パターン</a> の一部を成すことに十分注意してください。
+つまり、次のようなことが可能です:</p>
 <span class='rusttest'>fn main() {
     let (mut x, y) = (5, 6);
     
@@ -246,10 +279,17 @@ can do things like this:</p>
 
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='kw-2'>mut</span> <span class='ident'>x</span>: <span class='ident'>i32</span>) {</pre>
 
-<h1 id='interior-vs-exterior-mutability' class='section-header'><a href='#interior-vs-exterior-mutability'>Interior vs. Exterior Mutability</a></h1>
-<p>However, when we say something is ‘immutable’ in Rust, that doesn’t mean that
-it’s not able to be changed: we mean something has ‘exterior mutability’. Consider,
-for example, <a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code></a>:</p>
+<!-- # Interior vs. Exterior Mutability -->
+
+<h1 id='内側-vs-外側のミュータビリティ' class='section-header'><a href='#内側-vs-外側のミュータビリティ'>内側 vs. 外側のミュータビリティ</a></h1>
+<!-- However, when we say something is ‘immutable’ in Rust, that doesn’t mean that -->
+
+<!-- it’s not able to be changed: we mean something has ‘exterior mutability’. Consider, -->
+
+<!-- for example, [`Arc<T>`][arc]: -->
+
+<p>一方で、Rustで「イミュータブル(immutable)」について言及するとき、変更不可能であることを意味しない:
+「外側のミュータビリティ(exterior mutability)」を表します。例として、<a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code></a> を考えます:</p>
 <span class='rusttest'>fn main() {
     use std::sync::Arc;
     
@@ -261,31 +301,64 @@ for example, <a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code></a>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='number'>5</span>);
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>clone</span>();</pre>
 
-<p>When we call <code>clone()</code>, the <code>Arc&lt;T&gt;</code> needs to update the reference count. Yet
-we’ve not used any <code>mut</code>s here, <code>x</code> is an immutable binding, and we didn’t take
-<code>&amp;mut 5</code> or anything. So what gives?</p>
+<!-- When we call `clone()`, the `Arc<T>` needs to update the reference count. Yet -->
 
-<p>To understand this, we have to go back to the core of Rust’s guiding
-philosophy, memory safety, and the mechanism by which Rust guarantees it, the
-<a href="ownership.html">ownership</a> system, and more specifically, <a href="references-and-borrowing.html#borrowing">borrowing</a>:</p>
+<!-- we’ve not used any `mut`s here, `x` is an immutable binding, and we didn’t take -->
+
+<!-- `&mut 5` or anything. So what gives? -->
+
+<p><code>clone()</code> を呼び出すとき、<code>Arc&lt;T&gt;</code> は参照カウントを更新する必要があります。しかし、
+ここでは <code>mut</code> を一切使っていません。つまり <code>x</code> はイミュータブルな束縛であり、
+<code>&amp;mut 5</code> のような引数もとりません。一体どうなっているの?</p>
+
+<!-- To understand this, we have to go back to the core of Rust’s guiding -->
+
+<!-- philosophy, memory safety, and the mechanism by which Rust guarantees it, the -->
+
+<!-- [ownership][ownership] system, and more specifically, [borrowing][borrowing]: -->
+
+<p>これを理解するには、Rust言語の設計哲学の中心をなすメモリ安全性と、Rustがそれを保証するメカニズムである <a href="ownership.html">所有権</a> システム、
+特に <a href="references-and-borrowing.html#borrowing">借用</a> に立ち返る必要があります。</p>
+
+<!-- > You may have one or the other of these two kinds of borrows, but not both at -->
+
+<!-- > the same time: -->
+
+<!-- > -->
+
+<!-- > * one or more references (`&T`) to a resource, -->
+
+<!-- > * exactly one mutable reference (`&mut T`). -->
 
 <blockquote>
-<p>You may have one or the other of these two kinds of borrows, but not both at
-the same time:</p>
+<p>次の2種類の借用のどちらか1つを持つことはありますが、両方を同時に持つことはありません。</p>
 
 <ul>
-<li>one or more references (<code>&amp;T</code>) to a resource,</li>
-<li>exactly one mutable reference (<code>&amp;mut T</code>).</li>
+<li>リソースに対する1つ以上の参照（<code>&amp;T</code>）</li>
+<li>ただ1つのミュータブルな参照（<code>&amp;mut T</code>）</li>
 </ul>
 </blockquote>
 
-<p>So, that’s the real definition of ‘immutability’: is this safe to have two
-pointers to? In <code>Arc&lt;T&gt;</code>’s case, yes: the mutation is entirely contained inside
-the structure itself. It’s not user facing. For this reason, it hands out <code>&amp;T</code>
-with <code>clone()</code>. If it handed out <code>&amp;mut T</code>s, though, that would be a problem.</p>
+<!-- So, that’s the real definition of ‘immutability’: is this safe to have two -->
 
-<p>Other types, like the ones in the <a href="../std/cell/index.html"><code>std::cell</code></a> module, have the
-opposite: interior mutability. For example:</p>
+<!-- pointers to? In `Arc<T>`’s case, yes: the mutation is entirely contained inside -->
+
+<!-- the structure itself. It’s not user facing. For this reason, it hands out `&T` -->
+
+<!-- with `clone()`. If it handed out `&mut T`s, though, that would be a problem. -->
+
+<p>つまり、「イミュータビリティ」の真の定義はこうです: これは2箇所から指されても安全ですか?
+<code>Arc&lt;T&gt;</code> の例では、イエス: 変更は完全にそれ自身の構造の内側で行われます。ユーザからは見えません。
+このような理由により、 <code>clone()</code> を用いて <code>T&amp;</code> を配るのです。仮に <code>&amp;mut T</code> を配ってしまうと、
+問題になるでしょう。
+（訳注: <code>Arc&lt;T&gt;</code>を用いて複数スレッドにイミュータブル参照を配布し、スレッド間でオブジェクトを共有できます。）</p>
+
+<!-- Other types, like the ones in the [`std::cell`][stdcell] module, have the -->
+
+<!-- opposite: interior mutability. For example: -->
+
+<p><a href="../std/cell/index.html"><code>std::cell</code></a> モジュールにあるような別の型では、反対の性質: 内側のミュータビリティ(interior mutability)を持ちます。
+例えば:</p>
 <span class='rusttest'>fn main() {
     use std::cell::RefCell;
     
@@ -299,8 +372,12 @@ opposite: interior mutability. For example:</p>
 
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>borrow_mut</span>();</pre>
 
-<p>RefCell hands out <code>&amp;mut</code> references to what’s inside of it with the
-<code>borrow_mut()</code> method. Isn’t that dangerous? What if we do:</p>
+<!-- RefCell hands out `&mut` references to what’s inside of it with the -->
+
+<!-- `borrow_mut()` method. Isn’t that dangerous? What if we do: -->
+
+<p>RefCellでは <code>borrow_mut()</code> メソッドによって、その内側にある値への <code>&amp;mut</code> 参照を配ります。
+それって危ないのでは? もし次のようにすると:</p>
 <span class='rusttest'>fn main() {
     use std::cell::RefCell;
     
@@ -317,27 +394,45 @@ opposite: interior mutability. For example:</p>
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>borrow_mut</span>();
 <span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>borrow_mut</span>();</pre>
 
-<p>This will in fact panic, at runtime. This is what <code>RefCell</code> does: it enforces
-Rust’s borrowing rules at runtime, and <code>panic!</code>s if they’re violated. This
-allows us to get around another aspect of Rust’s mutability rules. Let’s talk
-about it first.</p>
+<!-- This will in fact panic, at runtime. This is what `RefCell` does: it enforces -->
 
-<h2 id='field-level-mutability' class='section-header'><a href='#field-level-mutability'>Field-level mutability</a></h2>
-<p>Mutability is a property of either a borrow (<code>&amp;mut</code>) or a binding (<code>let mut</code>).
-This means that, for example, you cannot have a <a href="structs.html"><code>struct</code></a> with
-some fields mutable and some immutable:</p>
+<!-- Rust’s borrowing rules at runtime, and `panic!`s if they’re violated. This -->
+
+<!-- allows us to get around another aspect of Rust’s mutability rules. Let’s talk -->
+
+<!-- about it first. -->
+
+<p>実際に、このコードは実行時にパニックするでしょう。これが <code>RefCell</code> が行うことです:
+Rustの借用ルールを実行時に強制し、違反したときには <code>panic!</code> を呼び出します。
+これによりRustのミュータビリティ・ルールのもう一つの特徴を回避できるようになります。
+最初に見ていきましょう。</p>
+
+<!-- ## Field-level mutability -->
+
+<h2 id='フィールドレベルのミュータビリティ' class='section-header'><a href='#フィールドレベルのミュータビリティ'>フィールド・レベルのミュータビリティ</a></h2>
+<!-- Mutability is a property of either a borrow (`&mut`) or a binding (`let mut`). -->
+
+<!-- This means that, for example, you cannot have a [`struct`][struct] with -->
+
+<!-- some fields mutable and some immutable: -->
+
+<p>ミュータビリティとは、借用(<code>&amp;mut</code>)や束縛(<code>let mut</code>)に関する属性です。これが意味するのは、
+例えば、一部がミュータブルで一部がイミュータブルなフィールドを持つ <a href="structs.html"><code>struct</code></a> は作れないということです。</p>
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
-        mut y: i32, // nope
+    // mut y: i32, // nope
+        mut y: i32, // ダメ
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
-    <span class='kw-2'>mut</span> <span class='ident'>y</span>: <span class='ident'>i32</span>, <span class='comment'>// nope</span>
+    <span class='kw-2'>mut</span> <span class='ident'>y</span>: <span class='ident'>i32</span>, <span class='comment'>// ダメ</span>
 }</pre>
 
-<p>The mutability of a struct is in its binding:</p>
+<!-- The mutability of a struct is in its binding: -->
+
+<p>構造体のミュータビリティは、それへの束縛の一部です。</p>
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -350,7 +445,8 @@ some fields mutable and some immutable:</p>
     
     let b = Point { x: 5, y: 6};
     
-    b.x = 10; // error: cannot assign to immutable field `b.x`
+    // b.x = 10; // error: cannot assign to immutable field `b.x`
+    b.x = 10; // エラー: イミュータブルなフィールド `b.x` へ代入できない
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
@@ -363,9 +459,11 @@ some fields mutable and some immutable:</p>
 
 <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>5</span>, <span class='ident'>y</span>: <span class='number'>6</span>};
 
-<span class='ident'>b</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>10</span>; <span class='comment'>// error: cannot assign to immutable field `b.x`</span></pre>
+<span class='ident'>b</span>.<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>10</span>; <span class='comment'>// エラー: イミュータブルなフィールド `b.x` へ代入できない</span></pre>
 
-<p>However, by using <a href="../std/cell/struct.Cell.html"><code>Cell&lt;T&gt;</code></a>, you can emulate field-level mutability:</p>
+<!-- However, by using [`Cell<T>`][cell], you can emulate field-level mutability: -->
+
+<p>しかし、<a href="../std/cell/struct.Cell.html"><code>Cell&lt;T&gt;</code></a> を使えば、フィールド・レベルのミュータビリティをエミュレートできます。</p>
 <span class='rusttest'>fn main() {
     use std::cell::Cell;
     
@@ -393,7 +491,9 @@ some fields mutable and some immutable:</p>
 
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;y: {:?}&quot;</span>, <span class='ident'>point</span>.<span class='ident'>y</span>);</pre>
 
-<p>This will print <code>y: Cell { value: 7 }</code>. We’ve successfully updated <code>y</code>.</p>
+<!-- This will print `y: Cell { value: 7 }`. We’ve successfully updated `y`. -->
+
+<p>このコードは <code>y: Cell { value: 7 }</code> と表示するでしょう。ちゃんと <code>y</code> を更新できました。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
