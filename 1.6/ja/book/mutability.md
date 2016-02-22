@@ -46,7 +46,7 @@ let y = &mut x;
 <!-- bind `y` to something else (`y = &mut z`), but you can mutate the thing that’s -->
 <!-- bound to `y` (`*y = 5`). A subtle distinction. -->
 `y` はミュータブル参照へのイミュータブルな束縛であり、 `y` を他の束縛に変える(`y = &mut z`)ことはできません。
-しかし、`y` に束縛されているものを変化させること(`*y = 5`)は可能です。
+しかし、`y` に束縛されているものを変化させること(`*y = 5`)は可能です。微妙な区別です。
 
 <!-- Of course, if you need both: -->
 もちろん、両方が必要ならば:
@@ -123,7 +123,7 @@ let y = x.clone();
 <!-- the structure itself. It’s not user facing. For this reason, it hands out `&T` -->
 <!-- with `clone()`. If it handed out `&mut T`s, though, that would be a problem. -->
 つまり、「イミュータビリティ」の真の定義はこうです: これは2箇所から指されても安全ですか?
-`Arc<T>` の例では、イエス: 変更は完全にそれ自身の構造の内側で行われます。ユーザ向いではありません。
+`Arc<T>` の例では、イエス: 変更は完全にそれ自身の構造の内側で行われます。ユーザからは見えません。
 このような理由により、 `clone()` を用いて `T&` を配るのです。仮に `&mut T` を配ってしまうと、
 問題になるでしょう。
 （訳注: `Arc<T>`を用いて複数スレッドにイミュータブル参照を配布し、スレッド間でオブジェクトを共有できます。）
