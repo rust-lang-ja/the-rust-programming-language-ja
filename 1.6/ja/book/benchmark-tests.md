@@ -4,7 +4,7 @@
 <!-- Rust supports benchmark tests, which can test the performance of your -->
 <!-- code. Let's make our `src/lib.rs` look like this (comments elided): -->
 Rustはコードのパフォーマンスをテストできるベンチマークテストをサポートしています。
-早速、`src/lib.rc`を以下のように作っていきましょう(コメントは省略しています):
+早速、 `src/lib.rc` を以下のように作っていきましょう(コメントは省略しています):
 
 ```rust,ignore
 #![feature(test)]
@@ -139,7 +139,8 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
 # struct X;
 # impl X { fn iter<T, F>(&self, _: F) where F: FnMut() -> T {} } let b = X;
 b.iter(|| {
-    // note lack of `;` (could also use an explicit `return`).
+#    // note lack of `;` (could also use an explicit `return`).
+    // `;` が無いことに注意して下さい (明示的な `return` を使うこともできます)。
     (0..1000).fold(0, |old, new| old ^ new)
 });
 ```
