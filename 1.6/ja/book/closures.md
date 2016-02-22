@@ -1,15 +1,20 @@
-<!-- % Closures -->
 % クロージャ
+<!-- % Closures -->
 
-Sometimes it is useful to wrap up a function and _free variables_ for better
-clarity and reuse. The free variables that can be used come from the
-enclosing scope and are ‘closed over’ when used in the function. From this, we
-get the name ‘closures’ and Rust provides a really great implementation of
-them, as we’ll see.
+<!-- Sometimes it is useful to wrap up a function and _free variables_ for better -->
+<!-- clarity and reuse. The free variables that can be used come from the -->
+<!-- enclosing scope and are ‘closed over’ when used in the function. From this, we -->
+<!-- get the name ‘closures’ and Rust provides a really great implementation of -->
+<!-- them, as we’ll see. -->
+しばしば、関数と _自由変数_ と一つにまとめておくことがコードの明確さや再利用の役に立つことが有ります。
+自由変数は外部のスコープから来て、関数中で使われるときに「閉じ込め」られます。
+このことから、これを「クロージャ」と呼びRustはこれから見ていくようにクロージャの非常に良い実装を提供しています。
 
-# Syntax
+<!-- # Syntax -->
+# 構文
 
-Closures look like this:
+<!-- Closures look like this: -->
+クロージャは以下のような見た目です:
 
 ```rust
 let plus_one = |x: i32| x + 1;
@@ -17,10 +22,14 @@ let plus_one = |x: i32| x + 1;
 assert_eq!(2, plus_one(1));
 ```
 
-We create a binding, `plus_one`, and assign it to a closure. The closure’s
-arguments go between the pipes (`|`), and the body is an expression, in this
-case, `x + 1`. Remember that `{ }` is an expression, so we can have multi-line
-closures too:
+<!-- We create a binding, `plus_one`, and assign it to a closure. The closure’s -->
+<!-- arguments go between the pipes (`|`), and the body is an expression, in this -->
+<!-- case, `x + 1`. Remember that `{ }` is an expression, so we can have multi-line -->
+<!-- closures too: -->
+束縛 `plus_one` を作成し、クロージャをアサインしています。
+クロージャの引数はパイプ( `|` )の間に書きます、そしてクロージャの本体は式です、
+この場合は `x + 1` がそれに当たります。
+`{ }` が式であることを思い出して下さい、 `{ }` が式であるため、複数行のクロージャを作成することも可能です:
 
 ```rust
 let plus_two = |x| {
@@ -35,10 +44,13 @@ let plus_two = |x| {
 assert_eq!(4, plus_two(2));
 ```
 
-You’ll notice a few things about closures that are a bit different from regular
-named functions defined with `fn`. The first is that we did not need to
-annotate the types of arguments the closure takes or the values it returns. We
-can:
+<!-- You’ll notice a few things about closures that are a bit different from regular -->
+<!-- named functions defined with `fn`. The first is that we did not need to -->
+<!-- annotate the types of arguments the closure takes or the values it returns. We -->
+<!-- can: -->
+いくつかクロージャと通常の `fn` で定義される関数との違いに気がつくでしょう。
+一つ目はクロージャの引数や返り値の型を示す必要が無い事です。
+型を以下のように示すこともできます:
 
 ```rust
 let plus_one = |x: i32| -> i32 { x + 1 };
@@ -46,15 +58,22 @@ let plus_one = |x: i32| -> i32 { x + 1 };
 assert_eq!(2, plus_one(1));
 ```
 
-But we don’t have to. Why is this? Basically, it was chosen for ergonomic
-reasons. While specifying the full type for named functions is helpful with
-things like documentation and type inference, the full type signatures of
-closures are rarely documented since they’re anonymous, and they don’t cause
-the kinds of error-at-a-distance problems that inferring named function types
-can.
+<!-- But we don’t have to. Why is this? Basically, it was chosen for ergonomic -->
+<!-- reasons. While specifying the full type for named functions is helpful with -->
+<!-- things like documentation and type inference, the full type signatures of -->
+<!-- closures are rarely documented since they’re anonymous, and they don’t cause -->
+<!-- the kinds of error-at-a-distance problems that inferring named function types -->
+<!-- can. -->
+しかし、このように型を示す必要はありません。
+なぜでしょう？一言で言えば、これは使いやすさのためです。
+名前の有る関数の型を全て指定するのはドキュメンテーションや型推論の役に立つとしても、
+クロージャの型は示されません、これはクロージャたちが匿名であり、
+さらに名前付きの関数が引き起こすと思われるような遠くで発生するエラーの要因ともならないためです。
 
-The second is that the syntax is similar, but a bit different. I’ve added
-spaces here for easier comparison:
+<!-- The second is that the syntax is similar, but a bit different. I’ve added -->
+<!-- spaces here for easier comparison: -->
+通常の関数との違いの二つ目は、構文は似ていますが、ほんの少し違うという点です。
+比較がしやすいようにスペースを適宜つけて以下に示しています:
 
 ```rust
 fn  plus_one_v1   (x: i32) -> i32 { x + 1 }
@@ -62,9 +81,11 @@ let plus_one_v2 = |x: i32| -> i32 { x + 1 };
 let plus_one_v3 = |x: i32|          x + 1  ;
 ```
 
-Small differences, but they’re similar.
+<!-- Small differences, but they’re similar. -->
+小さな違いは有りますが似ています。
 
-# Closures and their environment
+<!-- # Closures and their environment -->
+# クロージャとクロージャの環境
 
 The environment for a closure can include bindings from its enclosing scope in
 addition to parameters and local bindings. It looks like this:
