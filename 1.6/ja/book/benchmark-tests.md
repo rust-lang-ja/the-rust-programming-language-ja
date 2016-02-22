@@ -33,7 +33,7 @@ mod tests {
 ```
 
 <!-- Note the `test` feature gate, which enables this unstable feature. -->
-不安定なベンチマークのフィーチャーを有効にするため、 `test` フィーチャーゲートを利用していることに注意して下さい。
+不安定なベンチマークのフィーチャを有効にするため、 `test` フィーチャゲートを利用していることに注意して下さい。
 
 <!-- We've imported the `test` crate, which contains our benchmarking support. -->
 <!-- We have a new function as well, with the `bench` attribute. Unlike regular -->
@@ -86,7 +86,7 @@ test result: ok. 0 passed; 0 failed; 1 ignored; 1 measured
 * セットアップのコードを `iter` の外に移し、計測したい箇所のみを `iter` の中に書きましょう。
 * それぞれの繰り返しでコードが「同じこと」をするようにし、集計をしたり状態を変更したりといったことはしないで下さい。
 * 利用している外部の関数についても冪等にしましょう、ベンチマークはその関数をおそらく何度も実行します。
-* 内側の `iter` ループを短く高速にしましょう、そうすることでベンチマークの実行は高速になり、キャリブレータは実行の長さをより良い制度で補正できるようになります。
+* 内側の `iter` ループを短く高速にしましょう、そうすることでベンチマークの実行は高速になり、キャリブレータは実行の長さをより良い精度で補正できるようになります。
 * パフォーマンスの向上(または低下)をピンポイントで突き止められるように、`iter` ループ中のコードの処理を簡潔にしましょう。
 
 <!-- ## Gotcha: optimizations -->
