@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Benchmark tests</title>
+    <title>ベンチマークテスト</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,9 +185,15 @@
 <div id='page'>
 
 
-    <h1 class="title">Benchmark tests</h1>
-    <p>Rust supports benchmark tests, which can test the performance of your
-code. Let&#39;s make our <code>src/lib.rs</code> look like this (comments elided):</p>
+    <h1 class="title">ベンチマークテスト</h1>
+    <!-- % Benchmark tests -->
+
+<!-- Rust supports benchmark tests, which can test the performance of your -->
+
+<!-- code. Let's make our `src/lib.rs` look like this (comments elided): -->
+
+<p>Rustはコードのパフォーマンスをテストできるベンチマークテストをサポートしています。
+早速、 <code>src/lib.rc</code> を以下のように作っていきましょう(コメントは省略しています):</p>
 <span class='rusttest'>#![feature(test)]
 
 fn main() {
@@ -237,15 +243,28 @@ fn main() {
     }
 }</pre>
 
-<p>Note the <code>test</code> feature gate, which enables this unstable feature.</p>
+<!-- Note the `test` feature gate, which enables this unstable feature. -->
 
-<p>We&#39;ve imported the <code>test</code> crate, which contains our benchmarking support.
-We have a new function as well, with the <code>bench</code> attribute. Unlike regular
-tests, which take no arguments, benchmark tests take a <code>&amp;mut Bencher</code>. This
-<code>Bencher</code> provides an <code>iter</code> method, which takes a closure. This closure
-contains the code we&#39;d like to benchmark.</p>
+<p>不安定なベンチマークのフィーチャを有効にするため、 <code>test</code> フィーチャゲートを利用していることに注意して下さい。</p>
 
-<p>We can run benchmark tests with <code>cargo bench</code>:</p>
+<!-- We've imported the `test` crate, which contains our benchmarking support. -->
+
+<!-- We have a new function as well, with the `bench` attribute. Unlike regular -->
+
+<!-- tests, which take no arguments, benchmark tests take a `&mut Bencher`. This -->
+
+<!-- `Bencher` provides an `iter` method, which takes a closure. This closure -->
+
+<!-- contains the code we'd like to benchmark. -->
+
+<p>ベンチマークテストのサポートを含んだ <code>test</code> クレートをインポートしています。
+また、 <code>bench</code> アトリビュートのついた新しい関数を定義しています。
+引数を取らない通常のテストとは異なり、ベンチマークテストは <code>&amp;mut Bencher</code> を引数に取ります。
+<code>Bencher</code> はベンチマークしたいコードを含んだクロージャを引数に取る <code>iter</code> メソッドを提供しています。</p>
+
+<!-- We can run benchmark tests with `cargo bench`: -->
+
+<p>ベンチマークテストは以下のように <code>cargo bench</code> のようにして実施できます:</p>
 
 <pre><code class="language-bash">$ cargo bench
    Compiling adder v0.0.1 (file:///home/steve/tmp/adder)
@@ -258,31 +277,66 @@ test tests::bench_add_two ... bench:         1 ns/iter (+/- 0)
 test result: ok. 0 passed; 0 failed; 1 ignored; 1 measured
 </code></pre>
 
-<p>Our non-benchmark test was ignored. You may have noticed that <code>cargo bench</code>
-takes a bit longer than <code>cargo test</code>. This is because Rust runs our benchmark
-a number of times, and then takes the average. Because we&#39;re doing so little
-work in this example, we have a <code>1 ns/iter (+/- 0)</code>, but this would show
-the variance if there was one.</p>
+<!-- Our non-benchmark test was ignored. You may have noticed that `cargo bench` -->
 
-<p>Advice on writing benchmarks:</p>
+<!-- takes a bit longer than `cargo test`. This is because Rust runs our benchmark -->
+
+<!-- a number of times, and then takes the average. Because we're doing so little -->
+
+<!-- work in this example, we have a `1 ns/iter (+/- 0)`, but this would show -->
+
+<!-- the variance if there was one. -->
+
+<p>ベンチマークでないテストは無視されます。
+<code>cargo bench</code> が <code>cargo test</code> よりも時間がかかることにお気づきになったかもしれません。
+これは、Rustがベンチマークをかなりの回数繰り返し実行し、その結果の平均を取るためです。
+今回のコードでは非常に小さな処理しか行っていないために、 <code>1 ns/iter (+/- 0)</code> という結果を得ました、
+しかし、この結果は変動することがあるでしょう。</p>
+
+<!-- Advice on writing benchmarks: -->
+
+<p>以下は、ベンチマークを書くときのアドバイスです:</p>
+
+<!-- * Move setup code outside the `iter` loop; only put the part you want to measure inside -->
+
+<!-- * Make the code do "the same thing" on each iteration; do not accumulate or change state -->
+
+<!-- * Make the outer function idempotent too; the benchmark runner is likely to run -->
+
+<!--   it many times -->
+
+<!-- *  Make the inner `iter` loop short and fast so benchmark runs are fast and the -->
+
+<!--    calibrator can adjust the run-length at fine resolution -->
+
+<!-- * Make the code in the `iter` loop do something simple, to assist in pinpointing -->
+
+<!--   performance improvements (or regressions) -->
 
 <ul>
-<li>Move setup code outside the <code>iter</code> loop; only put the part you want to measure inside</li>
-<li>Make the code do &quot;the same thing&quot; on each iteration; do not accumulate or change state</li>
-<li>Make the outer function idempotent too; the benchmark runner is likely to run
-it many times</li>
-<li> Make the inner <code>iter</code> loop short and fast so benchmark runs are fast and the
-calibrator can adjust the run-length at fine resolution</li>
-<li>Make the code in the <code>iter</code> loop do something simple, to assist in pinpointing
-performance improvements (or regressions)</li>
+<li>セットアップのコードを <code>iter</code> の外に移し、計測したい箇所のみを <code>iter</code> の中に書きましょう。</li>
+<li>それぞれの繰り返しでコードが「同じこと」をするようにし、集計をしたり状態を変更したりといったことはしないで下さい。</li>
+<li>利用している外部の関数についても冪等にしましょう、ベンチマークはその関数をおそらく何度も実行します。</li>
+<li>内側の <code>iter</code> ループを短く高速にしましょう、そうすることでベンチマークの実行は高速になり、キャリブレータは実行の長さをより良い精度で補正できるようになります。</li>
+<li>パフォーマンスの向上(または低下)をピンポイントで突き止められるように、<code>iter</code> ループ中のコードの処理を簡潔にしましょう。</li>
 </ul>
 
-<h2 id='gotcha-optimizations' class='section-header'><a href='#gotcha-optimizations'>Gotcha: optimizations</a></h2>
-<p>There&#39;s another tricky part to writing benchmarks: benchmarks compiled with
-optimizations activated can be dramatically changed by the optimizer so that
-the benchmark is no longer benchmarking what one expects. For example, the
-compiler might recognize that some calculation has no external effects and
-remove it entirely.</p>
+<!-- ## Gotcha: optimizations -->
+
+<h2 id='注意点-最適化' class='section-header'><a href='#注意点-最適化'>注意点: 最適化</a></h2>
+<!-- There's another tricky part to writing benchmarks: benchmarks compiled with -->
+
+<!-- optimizations activated can be dramatically changed by the optimizer so that -->
+
+<!-- the benchmark is no longer benchmarking what one expects. For example, the -->
+
+<!-- compiler might recognize that some calculation has no external effects and -->
+
+<!-- remove it entirely. -->
+
+<p>ベンチマークを書くときに気をつけなければならないその他の点は: 最適化を有効にしてコンパイルしたベンチマークは劇的に最適化され、
+もはや本来ベンチマークしたかったコードとは異なるという点です。
+たとえば、コンパイラは幾つかの計算がなにも外部に影響を及ぼさないことを認識してそれらの計算を取り除くかもしれません。</p>
 <span class='rusttest'>#![feature(test)]
 
 fn main() {
@@ -308,7 +362,9 @@ fn main() {
     });
 }</pre>
 
-<p>gives the following results</p>
+<!-- gives the following results -->
+
+<p>このベンチマークは以下の様な結果となります</p>
 
 <pre><code class="language-text">running 1 test
 test bench_xor_1000_ints ... bench:         0 ns/iter (+/- 0)
@@ -316,27 +372,43 @@ test bench_xor_1000_ints ... bench:         0 ns/iter (+/- 0)
 test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
 </code></pre>
 
-<p>The benchmarking runner offers two ways to avoid this. Either, the closure that
-the <code>iter</code> method receives can return an arbitrary value which forces the
-optimizer to consider the result used and ensures it cannot remove the
-computation entirely. This could be done for the example above by adjusting the
-<code>b.iter</code> call to</p>
+<!-- The benchmarking runner offers two ways to avoid this. Either, the closure that -->
+
+<!-- the `iter` method receives can return an arbitrary value which forces the -->
+
+<!-- optimizer to consider the result used and ensures it cannot remove the -->
+
+<!-- computation entirely. This could be done for the example above by adjusting the -->
+
+<!-- `b.iter` call to -->
+
+<p>ベンチマークランナーはこの問題を避ける2つの手段を提供します。
+<code>iter</code> メソッドが受け取るクロージャは任意の値を返すことができ、
+オプティマイザに計算の結果が利用されていると考えさせ、その計算を取り除くことができないと保証することができます。
+これは、上のコードにおいて <code>b.iter</code> の呼出を以下のようにすることで可能です:</p>
 <span class='rusttest'>fn main() {
     struct X;
     impl X { fn iter&lt;T, F&gt;(&amp;self, _: F) where F: FnMut() -&gt; T {} } let b = X;
     b.iter(|| {
-        // note lack of `;` (could also use an explicit `return`).
+       // note lack of `;` (could also use an explicit `return`).
+        // `;` が無いことに注意して下さい (明示的な `return` を使うこともできます)。
         (0..1000).fold(0, |old, new| old ^ new)
     });
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
-    <span class='comment'>// note lack of `;` (could also use an explicit `return`).</span>
+    <span class='comment'>// `;` が無いことに注意して下さい (明示的な `return` を使うこともできます)。</span>
     (<span class='number'>0</span>..<span class='number'>1000</span>).<span class='ident'>fold</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>old</span>, <span class='ident'>new</span><span class='op'>|</span> <span class='ident'>old</span> <span class='op'>^</span> <span class='ident'>new</span>)
 });</pre>
 
-<p>Or, the other option is to call the generic <code>test::black_box</code> function, which
-is an opaque &quot;black box&quot; to the optimizer and so forces it to consider any
-argument as used.</p>
+<!-- Or, the other option is to call the generic `test::black_box` function, which -->
+
+<!-- is an opaque "black box" to the optimizer and so forces it to consider any -->
+
+<!-- argument as used. -->
+
+<p>もう一つの方法としては、ジェネリックな <code>test::black_box</code> 関数を呼び出すという手段が有ります、
+<code>test::black_box</code> 関数はオプティマイザにとって不透明な「ブラックボックス」であり、
+オプティマイザに引数のどれもが利用されていると考えさせることができます。</p>
 <span class='rusttest'>#![feature(test)]
 
 extern crate test;
@@ -361,11 +433,18 @@ b.iter(|| {
     (<span class='number'>0</span>..<span class='ident'>n</span>).<span class='ident'>fold</span>(<span class='number'>0</span>, <span class='op'>|</span><span class='ident'>a</span>, <span class='ident'>b</span><span class='op'>|</span> <span class='ident'>a</span> <span class='op'>^</span> <span class='ident'>b</span>)
 })</pre>
 
-<p>Neither of these read or modify the value, and are very cheap for small values.
-Larger values can be passed indirectly to reduce overhead (e.g.
-<code>black_box(&amp;huge_struct)</code>).</p>
+<!-- Neither of these read or modify the value, and are very cheap for small values. -->
 
-<p>Performing either of the above changes gives the following benchmarking results</p>
+<!-- Larger values can be passed indirectly to reduce overhead (e.g. -->
+
+<!-- `black_box(&huge_struct)`). -->
+
+<p>2つの手段のどちらも値を読んだり変更したりせず、小さな値に対して非常に低コストです。
+大きな値は、オーバーヘッドを減らすために間接的に渡すことができます(例: <code>black_box(&amp;huge_struct)</code>)。</p>
+
+<!-- Performing either of the above changes gives the following benchmarking results -->
+
+<p>上記のどちらかの変更を施すことでベンチマークの結果は以下のようになります</p>
 
 <pre><code class="language-text">running 1 test
 test bench_xor_1000_ints ... bench:       131 ns/iter (+/- 3)
@@ -373,8 +452,11 @@ test bench_xor_1000_ints ... bench:       131 ns/iter (+/- 3)
 test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
 </code></pre>
 
-<p>However, the optimizer can still modify a testcase in an undesirable manner
-even when using either of the above.</p>
+<!-- However, the optimizer can still modify a testcase in an undesirable manner -->
+
+<!-- even when using either of the above. -->
+
+<p>しかしながら、上のどちらかの方法をとったとしても依然オプティマイザはテストケースを望まない形で変更する場合があります。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
