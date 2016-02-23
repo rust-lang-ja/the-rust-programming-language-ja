@@ -1,12 +1,20 @@
 % スタックとヒープ
 
+<!--
 As a systems language, Rust operates at a low level. If you’re coming from a
 high-level language, there are some aspects of systems programming that you may
 not be familiar with. The most important one is how memory works, with a stack
 and a heap. If you’re familiar with how C-like languages use stack allocation,
 this chapter will be a refresher. If you’re not, you’ll learn about this more
 general concept, but with a Rust-y focus.
+-->
+Rustはシステム言語なので、低水準の操作を行います。
+もしあなたが高水準言語を使ってきたのであれば、システムプログラミングのいくつかの側面をよく知らないかもしれません。
+一番重要なのは、スタックとヒープと関連してメモリがどのように機能するかということです。
+もしC言語のような言語でスタックアロケーションをどのように使っているかをよく知っているのであれば、この章は復習になるでしょう。
+そうでなければ、このより一般的な概念について、Rust流の焦点の絞り方ではありますが、学んでゆくことになるでしょう。
 
+<!--
 As with most things, when learning about them, we’ll use a simplified model to
 start. This lets you get a handle on the basics, without getting bogged down
 with details which are, for now, irrelevant. The examples we’ll use aren’t 100%
@@ -14,22 +22,44 @@ accurate, but are representative for the level we’re trying to learn at right
 now. Once you have the basics down, learning more about how allocators are
 implemented, virtual memory, and other advanced topics will reveal the leaks in
 this particular abstraction.
+-->
+ほとんどの物事と同様に、それらについて学ぶにあたって、まず簡略化したモデルを使って始めましょう。
+そうすることで、今は無関係な枝葉末節に足を取られることなく、基本を把握できます。
+これから使う例示は100%正確ではありませんが、現時点で学ぼうとするレベルのための見本になっています。
+ひとたび基本を飲み込めば、アロケータがどう実装されているかや仮想メモリなどの発展的なトピックを学ぶことによって、この特殊な抽象モデルが取り漏らしているものが明らかになるでしょう。
 
-# Memory management
+# メモリ管理
+<!--# Memory management-->
 
+<!--
 These two terms are about memory management. The stack and the heap are
 abstractions that help you determine when to allocate and deallocate memory.
+-->
+これら2つの用語はメモリ管理についてのものです。スタックとヒープは、いつメモリがアロケート・デアロケートするのかを決定するのを助ける抽象化です。
 
+<!--
 Here’s a high-level comparison:
+-->
+比較の概要です:
 
+<!--
 The stack is very fast, and is where memory is allocated in Rust by default.
 But the allocation is local to a function call, and is limited in size. The
 heap, on the other hand, is slower, and is explicitly allocated by your
 program. But it’s effectively unlimited in size, and is globally accessible.
+-->
+スタックはとても高速で、Rustにおいてデフォルトでメモリが確保される場所です。
+しかし、このアロケーションはひとつの関数呼び出しに限られた局所的なもので、サイズに制限があります。
+一方、ヒープはより遅く、プログラムによって明示的にアロケートされます。
+しかし、事実上サイズに制限がなく、広域的にアクセス可能です。
 
-# The Stack
+# スタック
+<!--# The Stack-->
 
+<!--
 Let’s talk about this Rust program:
+-->
+次のRustプログラムについて話しましょう:
 
 ```rust
 fn main() {
@@ -37,10 +67,17 @@ fn main() {
 }
 ```
 
+<!--
 This program has one variable binding, `x`. This memory needs to be allocated
 from somewhere. Rust ‘stack allocates’ by default, which means that basic
 values ‘go on the stack’. What does that mean?
+-->
+このプログラムは変数 `x` の束縛をひとつ含んでいます。
+このメモリはどこかからアロケートされる必要があります。
+Rustはデフォルトで「スタックアロケート」、すなわち基本的な値を「スタックに置く」ということをします。
+それはどういう意味でしょうか。
 
+<!--
 Well, when a function gets called, some memory gets allocated for all of its
 local variables and some other information. This is called a ‘stack frame’, and
 for the purpose of this tutorial, we’re going to ignore the extra information
@@ -48,19 +85,38 @@ and just consider the local variables we’re allocating. So in this case, when
 `main()` is run, we’ll allocate a single 32-bit integer for our stack frame.
 This is automatically handled for you, as you can see; we didn’t have to write
 any special Rust code or anything.
+-->
+関数が呼び出されたとき、関数中のローカル変数とそのほかの多少の情報のためにメモリがいくらかアロケートされます。
+これを「スタックフレーム」と呼びますが、このチュートリアルにおいては、余分な情報は無視して、アロケートするローカル変数だけを考えることにします。
+なので今回の場合は、 `main()` が実行されるとき、スタックフレームとして32ビット整数をただ1つアロケートすることになります。
+これは、見ての通り自動的に取り扱われるので、特別なRustコードか何かを書く必要はありません。
 
+<!--
 When the function exits, its stack frame gets deallocated. This happens
 automatically as well.
+-->
+関数が終了するとき、スタックフレームはデアロケートされます。これもアロケーションと同様自動的に行われます。
 
+<!--
 That’s all there is for this simple program. The key thing to understand here
 is that stack allocation is very, very fast. Since we know all the local
 variables we have ahead of time, we can grab the memory all at once. And since
 we’ll throw them all away at the same time as well, we can get rid of it very
 fast too.
+-->
+これが、この単純なプログラムにあるものすべてです。
+ここで理解する鍵となるのは、スタックアロケーションはとても、とても高速だということです。
+ローカル変数はすべて事前にわかっているので、メモリを一度に確保できます。
+また、破棄するときも同様に、変数をすべて同時に破棄できるので、こちらもとても高速に済みます。
 
+<!--
 The downside is that we can’t keep values around if we need them for longer
 than a single function. We also haven’t talked about what the word, ‘stack’,
 means. To do that, we need a slightly more complicated example:
+-->
+この話でよくないことは、単一の関数を超えて値が必要でも、その値を保持しつづけられないことです。
+また、「スタック」が何を意味するのかについてまだ話していませんでした。
+その点について見るために、もう少し複雑な例が必要です。
 
 ```rust
 fn foo() {
@@ -75,6 +131,7 @@ fn main() {
 }
 ```
 
+<!--
 This program has three variables total: two in `foo()`, one in `main()`. Just
 as before, when `main()` is called, a single integer is allocated for its stack
 frame. But before we can show what happens when `foo()` is called, we need to
@@ -83,19 +140,38 @@ memory to your program that’s pretty simple: a huge list of addresses, from 0
 to a large number, representing how much RAM your computer has. For example, if
 you have a gigabyte of RAM, your addresses go from `0` to `1,073,741,823`. That
 number comes from 2<sup>30</sup>, the number of bytes in a gigabyte. [^gigabyte]
+-->
+このプログラムには変数が `foo()` に2つ、 `main()` に1つで、全部で3つあります。
+前の例と同様に `main()` が呼び出されたときは1つの整数がスタックフレームとしてアロケートされます。
+しかし、 `foo()` が呼び出されたときに何が起こるかを話す前に、まずメモリ上に何が置いてあるかを図示する必要があります。
+オペレーティングシステムは、メモリをプログラムに対してとてもシンプルなものとして見せています。それは、0からコンピュータが搭載しているRAMの容量を表現する大きな数までのアドレスの巨大なリストです。
+たとえば、もしあなたのコンピュータに1ギガバイトのRAMがのっていれば、アドレスは`0`から`1,073,741,823`になります。
+この数値は、1ギガバイトのバイト数である2<sup>30</sup>から来ています。[^gigabyte]
 
+<!--
 [^gigabyte]: ‘Gigabyte’ can mean two things: 10^9, or 2^30. The SI standard resolved this by stating that ‘gigabyte’ is 10^9, and ‘gibibyte’ is 2^30. However, very few people use this terminology, and rely on context to differentiate. We follow in that tradition here.
+-->
+[^gigabyte]: 「ギガバイト」が指すものには、 10<sup>9</sup> と 2<sup>30</sup> の2つがありえます。国際単位系 SI では「ギガバイト」は 10<sup>9</sup> を、「ギビバイト」は 2<sup>30</sup> を指すと決めることで、この問題を解決しています。しかしながら、このような用語法を使う人はとても少なく、文脈で両者を区別しています。ここでは、その慣習に則っています。
 
+<!--
 This memory is kind of like a giant array: addresses start at zero and go
 up to the final number. So here’s a diagram of our first stack frame:
+-->
+このメモリは巨大な配列のようなものです。すなわち、アドレスは0から始まり、最後の番号まで続いています。そして、これが最初のスタックフレームの図です:
 
 | Address | Name | Value |
 |---------|------|-------|
 | 0       | x    | 42    |
 
+<!--
 We’ve got `x` located at address `0`, with the value `42`.
+-->
+この図から、 `x` はアドレス `0` に置かれ、その値は `42` だとわかります。
 
+<!--
 When `foo()` is called, a new stack frame is allocated:
+-->
+`foo()` が呼び出されると、新しいスタックフレームがアロケートされます:
 
 | Address | Name | Value |
 |---------|------|-------|
@@ -103,31 +179,53 @@ When `foo()` is called, a new stack frame is allocated:
 | 1       | y    | 5     |
 | 0       | x    | 42    |
 
+<!--
 Because `0` was taken by the first frame, `1` and `2` are used for `foo()`’s
 stack frame. It grows upward, the more functions we call.
+-->
+`0` は最初のフレームに取られているので、 `1` と `2` が `foo()` のスタックフレームのために使われます。
+これは、関数呼び出しが行われるたびに上に伸びていきます。
 
-
+<!--
 There are some important things we have to take note of here. The numbers 0, 1,
 and 2 are all solely for illustrative purposes, and bear no relationship to the
 address values the computer will use in reality. In particular, the series of
 addresses are in reality going to be separated by some number of bytes that
 separate each address, and that separation may even exceed the size of the
 value being stored.
+-->
+ここで注意しなければならない重要なことがいくつかあります。
+`0`, `1`, `2` といった番号は単に解説するためのもので、コンピュータが実際に使うアドレス値とは関係がありません。
+特に、連続したアドレスは、実際にはそれぞれ数バイトずつ隔てられていて、その間隔は格納されている値のサイズより大きいこともあります。
 
+<!--
 After `foo()` is over, its frame is deallocated:
+-->
+`foo()` が終了した後、そのフレームはデアロケートされます:
 
 | Address | Name | Value |
 |---------|------|-------|
 | 0       | x    | 42    |
 
+<!--
 And then, after `main()`, even this last value goes away. Easy!
+-->
+そして `main()` の後には、残っている値も消えてなくなります。簡単ですね!
 
+<!--
 It’s called a ‘stack’ because it works like a stack of dinner plates: the first
 plate you put down is the last plate to pick back up. Stacks are sometimes
 called ‘last in, first out queues’ for this reason, as the last value you put
 on the stack is the first one you retrieve from it.
+-->
+「スタック」という名は、積み重ねたディナープレート（a stack of dinner plates）のように働くことに由来します。
+最初に置かれたプレートは、最後に取り去られるプレートです。
+そのため、スタックはしばしば「last in, first out queues」（訳注: 最後に入ったものが最初に出るキュー、LIFOと略記される）と呼ばれ、最後にスタックに積んだ値は最初にスタックから取り出す値になります。
 
+<!--
 Let’s try a three-deep example:
+-->
+3段階の深さの例を見てみましょう:
 
 ```rust
 fn bar() {
@@ -149,13 +247,19 @@ fn main() {
 }
 ```
 
+<!--
 Okay, first, we call `main()`:
+-->
+いいですね、まず、 `main()` を呼び出します:
 
 | Address | Name | Value |
 |---------|------|-------|
 | 0       | x    | 42    |
 
+<!--
 Next up, `main()` calls `foo()`:
+-->
+次に、 `main()` は `foo()` を呼び出します:
 
 | Address | Name | Value |
 |---------|------|-------|
@@ -164,7 +268,10 @@ Next up, `main()` calls `foo()`:
 | 1       | a    | 5     |
 | 0       | x    | 42    |
 
+<!--
 And then `foo()` calls `bar()`:
+-->
+そして `foo()` は `bar()` を呼び出します:
 
 | Address | Name | Value |
 |---------|------|-------|
@@ -174,10 +281,16 @@ And then `foo()` calls `bar()`:
 | 1       | a    | 5     |
 | 0       | x    | 42    |
 
+<!--
 Whew! Our stack is growing tall.
+-->
+ふう、スタックが高く伸びましたね。
 
+<!--
 After `bar()` is over, its frame is deallocated, leaving just `foo()` and
 `main()`:
+-->
+`bar()` が終了した後、そのフレームはデアロケートされて `foo()` と `main()` だけが残ります:
 
 | Address | Name | Value |
 |---------|------|-------|
@@ -186,14 +299,21 @@ After `bar()` is over, its frame is deallocated, leaving just `foo()` and
 | 1       | a    | 5     |
 | 0       | x    | 42    |
 
+<!--
 And then `foo()` ends, leaving just `main()`:
+-->
+そして `foo()` が終了すると `main()` だけが残ります:
 
 | Address | Name | Value |
 |---------|------|-------|
 | 0       | x    | 42    |
 
+<!--
 And then we’re done. Getting the hang of it? It’s like piling up dishes: you
 add to the top, you take away from the top.
+-->
+ついに、やりとげました。コツをつかみましたか? 皿を積み重ねるようなものです。
+つまり、一番上に追加し、一番上から取るんです。
 
 # The Heap
 

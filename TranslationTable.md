@@ -14,6 +14,8 @@
 | (lockの) acquire               | 獲得
 | aggregate type                 | 合成型
 | alignment                      | アラインメント
+| allocate                       | アロケートする
+| allocation                     | アロケーション
 | allocator                      | アロケータ
 | antipattern                    | アンチパターン
 | application                    | アプリケーション
@@ -48,6 +50,7 @@
 | dangling                       | ダングリング
 | data race                      | データ競合
 | deadlock                       | デッドロック
+| deallocate                     | デアロケートする
 | declaration statement          | 宣言文
 | dereferencing                  | 参照外し
 | destructor                     | デストラクタ
