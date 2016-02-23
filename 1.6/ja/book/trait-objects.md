@@ -1,17 +1,20 @@
 % トレイトオブジェクト
 <!-- % Trait Objects -->
 
-When code involves polymorphism, there needs to be a mechanism to determine
+<!-- When code involves polymorphism, there needs to be a mechanism to determine
 which specific version is actually run. This is called ‘dispatch’. There are
 two major forms of dispatch: static dispatch and dynamic dispatch. While Rust
 favors static dispatch, it also supports dynamic dispatch through a mechanism
-called ‘trait objects’.
+called ‘trait objects’. -->
+コードがポリモーフィズムを伴う場合、実際に実行するバージョンを決定するメカニズムが必要です。これは「ディスパッチ」(dispatch)と呼ばれます。ディスパッチには主に静的ディスパッチと動的ディスパッチという2つの形態があります。Rustは静的ディスパッチを支持している一方で、「トレイトオブジェクト」(trait objects)と呼ばれるメカニズムにより動的ディスパッチもサポートしています。
 
-## Background
+<!-- ## Background -->
+## 背景
 
-For the rest of this chapter, we’ll need a trait and some implementations.
+<!-- For the rest of this chapter, we’ll need a trait and some implementations.
 Let’s make a simple one, `Foo`. It has one method that is expected to return a
-`String`.
+`String`. -->
+後の本章のために、トレイトとその実装が幾つか必要です。単純に `Foo` としましょう。これは `String` 型の値を返す関数を1つ持っています。
 
 ```rust
 trait Foo {
@@ -19,7 +22,8 @@ trait Foo {
 }
 ```
 
-We’ll also implement this trait for `u8` and `String`:
+<!-- We’ll also implement this trait for `u8` and `String`: -->
+また、このトレイトを `u8` と `String` に実装します。
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -33,9 +37,11 @@ impl Foo for String {
 ```
 
 
-## Static dispatch
+<!-- ## Static dispatch -->
+## 静的ディスパッチ
 
-We can use this trait to perform static dispatch with trait bounds:
+<!-- We can use this trait to perform static dispatch with trait bounds: -->
+トレイト境界による静的ディスパッチを実現するためにこのトレイトを使うことができます。
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -54,10 +60,11 @@ fn main() {
 }
 ```
 
-Rust uses ‘monomorphization’ to perform static dispatch here. This means that
+<!-- Rust uses ‘monomorphization’ to perform static dispatch here. This means that
 Rust will create a special version of `do_something()` for both `u8` and
 `String`, and then replace the call sites with calls to these specialized
-functions. In other words, Rust generates something like this:
+functions. In other words, Rust generates something like this: -->
+Rustはここで静的ディスパッチを実現するため「モノモーフィゼーション」(monomorphization)を用います。これはRustが `u8` と `String` それぞれ専用の `do_something()` を作成し、それら専用の関数を宛がうように呼び出しの部分を書き換えるという意味です。言い換えれば、Rustは以下のようなコードを生成します。
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -80,45 +87,58 @@ fn main() {
 }
 ```
 
-This has a great upside: static dispatch allows function calls to be
+<!-- This has a great upside: static dispatch allows function calls to be
 inlined because the callee is known at compile time, and inlining is
 the key to good optimization. Static dispatch is fast, but it comes at
 a tradeoff: ‘code bloat’, due to many copies of the same function
-existing in the binary, one for each type.
+existing in the binary, one for each type. -->
+これは素晴らしい利点です。呼び出し先はコンパイル時に分かっているため、静的ディスパッチは関数呼び出しをインライン化できます。インライン化は優れた最適化の鍵です。静的ディスパッチは高速ですが、バイナリ的には既にあるはずの同じ関数をそれぞれの型毎に幾つもコピーするため、トレードオフとして「コードの膨張」(code bloat)が発生してしまいます。
 
-Furthermore, compilers aren’t perfect and may “optimize” code to become slower.
+<!-- Furthermore, compilers aren’t perfect and may “optimize” code to become slower.
 For example, functions inlined too eagerly will bloat the instruction cache
 (cache rules everything around us). This is part of the reason that `#[inline]`
 and `#[inline(always)]` should be used carefully, and one reason why using a
-dynamic dispatch is sometimes more efficient.
+dynamic dispatch is sometimes more efficient. -->
+その上、コンパイラは完璧ではなく、「最適化」したコードが遅くなってしまうこともあります。 例えば、あまりにも熱心にインライン化された関数は命令キャッシュを膨張させてしまいます（ここではキャッシュが全てです）。それが `#[inline]` や `#[inline(always)]` を慎重に使うべきである理由の1つであり、時として動的ディスパッチが静的ディスパッチよりも効率的である1つの理由なのです。
 
-However, the common case is that it is more efficient to use static dispatch,
+<!-- However, the common case is that it is more efficient to use static dispatch,
 and one can always have a thin statically-dispatched wrapper function that does
 a dynamic dispatch, but not vice versa, meaning static calls are more flexible.
 The standard library tries to be statically dispatched where possible for this
-reason.
+reason. -->
+しかしながら、一般的なケースでは静的ディスパッチを使用する方が効率的であり、また、動的ディスパッチを行う薄い静的ディスパッチラッパー関数を実装することは常に可能ですが、その逆はできません。これは静的な呼び出しの方が柔軟性に富むことを示唆しています。標準ライブラリはこの理由から可能な限り静的ディスパッチで実装するよう心がけています。
 
-## Dynamic dispatch
+> 訳注: 「動的ディスパッチを行う薄い静的ディスパッチラッパー関数を実装することは常に可能だがその逆はできない」について
 
-Rust provides dynamic dispatch through a feature called ‘trait objects’. Trait
+> 静的ディスパッチはコンパイル時に定まるのに対し、動的ディスパッチは実行時に結果が分かります。従って、動的ディスパッチが伴う処理を静的ディスパッチ関数でラッピングし、半静的なディスパッチとすることは常に可能（原文で「thin」と形容しているのはこのため）ですが、動的ディスパッチで遷移した値を元に静的ディスパッチを行うことはできないと言うわけです。
+
+## 動的ディスパッチ
+<!-- ## Dynamic dispatch -->
+
+<!-- Rust provides dynamic dispatch through a feature called ‘trait objects’. Trait
 objects, like `&Foo` or `Box<Foo>`, are normal values that store a value of
 *any* type that implements the given trait, where the precise type can only be
-known at runtime.
+known at runtime. -->
+Rustは「トレイトオブジェクト」と呼ばれる機能によって動的ディスパッチを提供しています。トレイトオブジェクトは `&Foo` か `Box<Foo>` の様に記述され、指定されたトレイトを実装する *あらゆる* 型の値を保持する通常の値です。ただし、その正確な型は実行時になって初めて知ることができます。
 
-A trait object can be obtained from a pointer to a concrete type that
+<!-- A trait object can be obtained from a pointer to a concrete type that
 implements the trait by *casting* it (e.g. `&x as &Foo`) or *coercing* it
-(e.g. using `&x` as an argument to a function that takes `&Foo`).
+(e.g. using `&x` as an argument to a function that takes `&Foo`). -->
+トレイトオブジェクトはトレイトを実装した具体的な型を指すポインタから *キャスト* する(e.g. `&x as &Foo` )か、 *型強制* する（e.g. `&Foo` を取る関数の引数として `&x` を用いる）ことで得られます。
 
-These trait object coercions and casts also work for pointers like `&mut T` to
+<!-- These trait object coercions and casts also work for pointers like `&mut T` to
 `&mut Foo` and `Box<T>` to `Box<Foo>`, but that’s all at the moment. Coercions
-and casts are identical.
+and casts are identical. -->
+これらトレイトオブジェクトの型強制とキャストは `&mut T` を `&mut Foo` へ、 `Box<T>` を `Box<Foo>` へ、というようにどちらもポインタに対する操作ですが、取り敢えず今はこれだけです。型変換とキャストは同一です。
 
-This operation can be seen as ‘erasing’ the compiler’s knowledge about the
+<!-- This operation can be seen as ‘erasing’ the compiler’s knowledge about the
 specific type of the pointer, and hence trait objects are sometimes referred to
-as ‘type erasure’.
+as ‘type erasure’. -->
+この操作がまるでポインタの具体的な型に関するコンパイラの記憶を「消去している」(erasing)ように見えることから、トレイトオブジェクトは時に「型消去」(type erasure)とも呼ばれます。
 
-Coming back to the example above, we can use the same trait to perform dynamic
-dispatch with trait objects by casting:
+<!-- Coming back to the example above, we can use the same trait to perform dynamic
+dispatch with trait objects by casting: -->
+上記の例に戻ってみると、キャストによるトレイトオブジェクトを用いた動的ディスパッチ実現のために、先程と同じFooトレイトを使用できます。
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -135,7 +155,8 @@ fn main() {
 }
 ```
 
-or by coercing:
+<!-- or by coercing: -->
+または型強制によって、
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -152,28 +173,33 @@ fn main() {
 }
 ```
 
-A function that takes a trait object is not specialized to each of the types
+<!-- A function that takes a trait object is not specialized to each of the types
 that implements `Foo`: only one copy is generated, often (but not always)
 resulting in less code bloat. However, this comes at the cost of requiring
 slower virtual function calls, and effectively inhibiting any chance of
-inlining and related optimizations from occurring.
+inlining and related optimizations from occurring. -->
+トレイトオブジェクトを受け取った関数が `Foo` を実装した特定の型毎に特殊化されることはありません。関数は1つだけ生成され、多くの場合（とはいえ常にではありませんが）コードの膨張は少なく済みます。しかしながら、これは低速な仮想関数の呼び出しが必要となるため、実質的にインライン化とそれに関連する最適化の機会を阻害してしまいます。
 
-### Why pointers?
+<!-- ### Why pointers? -->
+### 何故ポインタなのか?
 
-Rust does not put things behind a pointer by default, unlike many managed
+<!-- Rust does not put things behind a pointer by default, unlike many managed
 languages, so types can have different sizes. Knowing the size of the value at
 compile time is important for things like passing it as an argument to a
 function, moving it about on the stack and allocating (and deallocating) space
-on the heap to store it.
+on the heap to store it. -->
+Rustはガーベジコレクタによって管理される多くの言語とは異なり、デフォルトではポインタの参照先に値を配置するようなことはしませんから、型によってサイズが違います。関数へ引数として渡されるような値を、スタック領域へムーブしたり保存のためヒープ領域上にメモリをアロケート（デアロケートも同様）するには、コンパイル時に値のサイズを知っていることが重要となります。
 
-For `Foo`, we would need to have a value that could be at least either a
+<!-- For `Foo`, we would need to have a value that could be at least either a
 `String` (24 bytes) or a `u8` (1 byte), as well as any other type for which
 dependent crates may implement `Foo` (any number of bytes at all). There’s no
 way to guarantee that this last point can work if the values are stored without
-a pointer, because those other types can be arbitrarily large.
+a pointer, because those other types can be arbitrarily large. -->
+`Foo` のために、 `String` (24 bytes)か `u8` (1 byte)、及び（全く中身の無い） `Foo` が実装されているであろう依存クレイト内の型のうち、少なくとも何れか1つの値を格納する必要があります。ポインタ無しで値を保存した場合、その直後の動作が正しいかどうかを保証する方法がありません。型によって値のサイズがそれぞれ異なるからです。
 
-Putting the value behind a pointer means the size of the value is not relevant
-when we are tossing a trait object around, only the size of the pointer itself.
+<!-- Putting the value behind a pointer means the size of the value is not relevant
+when we are tossing a trait object around, only the size of the pointer itself. -->
+トレイトオブジェクトの場合、渡されるのはポインタ自体のサイズのみです。ポインタの参照先に値を配置するということは、変数が値自体のサイズに依存しなくなるということであり、これによって1つの変数に異なる型の値を格納できるようになります。
 
 ### Representation
 
