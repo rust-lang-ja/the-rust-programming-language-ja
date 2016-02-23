@@ -78,6 +78,7 @@
 | generics                       | ジェネリクス
 | glob                           | グロブ
 | growable                       | 伸張可能
+| guard                          | ガード
 | handle                         | ハンドル
 | hash                           | ハッシュ
 | identifier                     | 識別子
@@ -130,6 +131,7 @@
 | platform                       | プラットフォーム
 | pointer                        | ポインタ
 | process                        | プロセス
+| range                          | レンジ
 | raw pointer                    | 生ポインタ
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
