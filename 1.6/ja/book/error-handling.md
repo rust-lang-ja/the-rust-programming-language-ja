@@ -246,7 +246,7 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 <!-- function with the type `fn<T>() -> Option<T>`. -->
 この関数がマッチする文字を見つけたとき、単に `offset` を返すだけではないことに注目してください。
 その代わりに `Some(offset)` を返します。
-`Some` は `Option` 型の *値コンストラクタ* の一つです。
+`Some` は `Option` 型のヴァリアントの一つ、つまり *値コンストラクタ* です。
 これは `fn<T>(value: T) -> Option<T>` という型の関数だと考えることもできます。
 これに対応して `None` もまた値コンストラクタですが、こちらには引数がありません。
 `None` は `fn<T>() -> Option<T>` という型の関数だと考えることもできます。
@@ -1569,7 +1569,7 @@ enum CliError {
 <!-- number. The error could represent as many error types as you want by adding new -->
 <!-- variants to the `enum` definition. -->
 このエラー型は2種類のエラー、つまり、IOを扱っているときのエラー、または、文字列を通知に変換するときのエラーが起こる可能性を示しています。
-`enum` 定義のバリアントを増やせば、エラーの種類をいくらでも表現できます。
+`enum` 定義のヴァリアントを増やせば、エラーの種類をいくらでも表現できます。
 
 <!-- Implementing `Error` is pretty straight-forward. It's mostly going to be a lot -->
 <!-- explicit case analysis. -->
@@ -1966,7 +1966,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, CliError> {
 <!-- If we modified our `file_double` function to perform some other operation, say, -->
 <!-- convert a string to a float, then we'd need to add a new variant to our error -->
 <!-- type: -->
-もし `file_double` 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたいと思ったら、エラー型のバリアントを追加するだけです：
+もし `file_double` 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたいと思ったら、エラー型のヴァリアントを追加するだけです：
 
 ```rust
 use std::io;
@@ -2652,7 +2652,7 @@ fn search<P: AsRef<Path>>
 
 <!-- Since we have three distinct errors (IO, CSV parsing and not found), let's -->
 <!-- define an `enum` with three variants: -->
-3つの異なるエラー（IO、CSVのパース、検索結果なし）がありますので `enum` として3つのバリアントを定義しましょう：
+3つの異なるエラー（IO、CSVのパース、検索結果なし）がありますので `enum` として3つのヴァリアントを定義しましょう：
 
 ```rust,ignore
 #[derive(Debug)]
