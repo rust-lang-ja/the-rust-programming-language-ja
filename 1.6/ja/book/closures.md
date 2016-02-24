@@ -87,8 +87,10 @@ let plus_one_v3 = |x: i32|          x + 1  ;
 <!-- # Closures and their environment -->
 # クロージャとクロージャの環境
 
-The environment for a closure can include bindings from its enclosing scope in
-addition to parameters and local bindings. It looks like this:
+<!-- The environment for a closure can include bindings from its enclosing scope in -->
+<!-- addition to parameters and local bindings. It looks like this: -->
+クロージャの環境はクロージャを囲んでいるスコープ中の束縛を引数やローカルな束縛に追加で含むことが可能です。
+例えば以下のようになります:
 
 ```rust
 let num = 5;
@@ -97,9 +99,13 @@ let plus_num = |x: i32| x + num;
 assert_eq!(10, plus_num(5));
 ```
 
-This closure, `plus_num`, refers to a `let` binding in its scope: `num`. More
-specifically, it borrows the binding. If we do something that would conflict
-with that binding, we get an error. Like this one:
+<!-- This closure, `plus_num`, refers to a `let` binding in its scope: `num`. More -->
+<!-- specifically, it borrows the binding. If we do something that would conflict -->
+<!-- with that binding, we get an error. Like this one: -->
+クロージャ `plus_num` はスコープ内の `let` 束縛 `num` を参照しています。
+より厳密に言うと、クロージャ `plus_num` は束縛 `num` を借用しています。
+もし、この束縛と衝突する処理を行うとエラーが発生します。
+例えば、以下のようなコードは:
 
 ```rust,ignore
 let mut num = 5;
@@ -108,7 +114,8 @@ let plus_num = |x: i32| x + num;
 let y = &mut num;
 ```
 
-Which errors with:
+<!-- Which errors with: -->
+以下のエラーを発生させます:
 
 ```text
 error: cannot borrow `num` as mutable because it is also borrowed as immutable
@@ -129,22 +136,28 @@ fn main() {
 ^
 ```
 
-A verbose yet helpful error message! As it says, we can’t take a mutable borrow
-on `num` because the closure is already borrowing it. If we let the closure go
-out of scope, we can:
+<!-- A verbose yet helpful error message! As it says, we can’t take a mutable borrow -->
+<!-- on `num` because the closure is already borrowing it. If we let the closure go -->
+<!-- out of scope, we can: -->
+冗長ですが役に立つエラーメッセージです!
+エラーが示しているように、クロージャが既に `num` を借用しているために、 `num` の変更可能な借用を取得することはできません。
+もしクロージャがスコープ外になるようにした場合以下のようにできます:
 
 ```rust
 let mut num = 5;
 {
     let plus_num = |x: i32| x + num;
 
-} // plus_num goes out of scope, borrow of num ends
+# // } // plus_num goes out of scope, borrow of num ends
+} // plus_numがスコープ外に出て、numの借用が終わります
 
 let y = &mut num;
 ```
 
-If your closure requires it, however, Rust will take ownership and move
-the environment instead. This doesn’t work:
+<!-- If your closure requires it, however, Rust will take ownership and move -->
+<!-- the environment instead. This doesn’t work: -->
+もしクロージャが必要としたならば、Rustは所有権を取り、かわりに環境をムーブします。
+以下のコードは動作しません:
 
 ```rust,ignore
 let nums = vec![1, 2, 3];
@@ -154,7 +167,8 @@ let takes_nums = || nums;
 println!("{:?}", nums);
 ```
 
-We get this error:
+<!-- We get this error: -->
+このコードは以下の様なエラーを発生させます:
 
 ```text
 note: `nums` moved into closure environment here because it has type
@@ -163,14 +177,19 @@ let takes_nums = || nums;
                  ^~~~~~~
 ```
 
-`Vec<T>` has ownership over its contents, and therefore, when we refer to it
-in our closure, we have to take ownership of `nums`. It’s the same as if we’d
-passed `nums` to a function that took ownership of it.
+<!-- `Vec<T>` has ownership over its contents, and therefore, when we refer to it -->
+<!-- in our closure, we have to take ownership of `nums`. It’s the same as if we’d -->
+<!-- passed `nums` to a function that took ownership of it. -->
+`Vec<T>` は `Vec<T>` の要素に対する所有権を持っています、
+それゆえそれらの要素をクロージャ内で参照した場合、 `num` の所有権を取ることになります。
+これは `num` の所有権を取るを関数に渡した場合と同じです。
 
-## `move` closures
+<!-- ## `move` closures -->
+## `move` クロージャ
 
-We can force our closure to take ownership of its environment with the `move`
-keyword:
+<!-- We can force our closure to take ownership of its environment with the `move` -->
+<!-- keyword: -->
+`move` キーワードを用いることで、クロージャに環境の所有権を取得することを強制することができます。
 
 ```rust
 let num = 5;
@@ -178,9 +197,13 @@ let num = 5;
 let owns_num = move |x: i32| x + num;
 ```
 
-Now, even though the keyword is `move`, the variables follow normal move semantics.
-In this case, `5` implements `Copy`, and so `owns_num` takes ownership of a copy
-of `num`. So what’s the difference?
+<!-- Now, even though the keyword is `move`, the variables follow normal move semantics. -->
+<!-- In this case, `5` implements `Copy`, and so `owns_num` takes ownership of a copy -->
+<!-- of `num`. So what’s the difference? -->
+今や、 `move` というキーワードにもかかわらず、変数は通常のmoveのセマンティクスに従います。
+この場合、 `5` は `Copy` を実装しています、
+そのため `owns_num` は `num` のコピーの所有権を取得します。
+では、なにが異なるのでしょうか？
 
 ```rust
 let mut num = 5;
@@ -194,12 +217,15 @@ let mut num = 5;
 assert_eq!(10, num);
 ```
 
-So in this case, our closure took a mutable reference to `num`, and then when
-we called `add_num`, it mutated the underlying value, as we’d expect. We also
-needed to declare `add_num` as `mut` too, because we’re mutating its
-environment.
+<!-- So in this case, our closure took a mutable reference to `num`, and then when -->
+<!-- we called `add_num`, it mutated the underlying value, as we’d expect. We also -->
+<!-- needed to declare `add_num` as `mut` too, because we’re mutating its -->
+<!-- environment. -->
+このケースでは、クロージャは `num` の変更可能な参照を取得し、 `add_num` を呼び出した時予想したように `num` の値を変更します。
+`add_num` を同様に `mut` として宣言する必要があります、なぜならクロージャ `add_num` はその環境を変更するためです。
 
-If we change to a `move` closure, it’s different:
+<!-- If we change to a `move` closure, it’s different: -->
+もしクロージャを `move` に変更した場合、結果は変化します:
 
 ```rust
 let mut num = 5;
@@ -213,36 +239,53 @@ let mut num = 5;
 assert_eq!(5, num);
 ```
 
-We only get `5`. Rather than taking a mutable borrow out on our `num`, we took
-ownership of a copy.
+<!-- We only get `5`. Rather than taking a mutable borrow out on our `num`, we took -->
+<!-- ownership of a copy. -->
+結果は `5` になります。`num` の変更可能な借用を取得するよりもむしろ、コピーの所有権を取得します。
 
-Another way to think about `move` closures: they give a closure its own stack
-frame.  Without `move`, a closure may be tied to the stack frame that created
-it, while a `move` closure is self-contained. This means that you cannot
-generally return a non-`move` closure from a function, for example.
+<!-- Another way to think about `move` closures: they give a closure its own stack -->
+<!-- frame.  Without `move`, a closure may be tied to the stack frame that created -->
+<!-- it, while a `move` closure is self-contained. This means that you cannot -->
+<!-- generally return a non-`move` closure from a function, for example. -->
+`move` クロージャについて考えるその他の方法は: スタックフレームをクロージャに与えるます。
+`move` がなかった場合、クロージャはクロージャを作成したスタックフレームと結合されます、
+`move` クロージャは自己従属しているとしても。
+これは一般的に、`move` でないクロージャを関数から返すことはできないという事を意味しています。
 
-But before we talk about taking and returning closures, we should talk some
-more about the way that closures are implemented. As a systems language, Rust
-gives you tons of control over what your code does, and closures are no
-different.
+<!-- But before we talk about taking and returning closures, we should talk some -->
+<!-- more about the way that closures are implemented. As a systems language, Rust -->
+<!-- gives you tons of control over what your code does, and closures are no -->
+<!-- different. -->
+クロージャを引数に取ったり、帰り値として返したりということについて説明する間に、
+クロージャの実装についてもう少し説明する必要があります。
+システム言語としてRustはコードの動作についてコントロールする方法を大量に提供しています、
+そしてそれはクロージャも例外ではありません。
 
-# Closure implementation
+<!-- # Closure implementation -->
+# クロージャの実装
 
-Rust’s implementation of closures is a bit different than other languages. They
-are effectively syntax sugar for traits. You’ll want to make sure to have read
-the [traits chapter][traits] before this one, as well as the chapter on [trait
-objects][trait-objects].
+<!-- Rust’s implementation of closures is a bit different than other languages. They -->
+<!-- are effectively syntax sugar for traits. You’ll want to make sure to have read -->
+<!-- the [traits chapter][traits] before this one, as well as the chapter on [trait -->
+<!-- objects][trait-objects]. -->
+Rustにおけるクロージャの実装は他の言事は少し異なります。
+クロージャは効率的なトレイトへの糖衣構文となっています。
+[トレイト][traits] や [トレイトオブジェクト][trait-objects] についてのチャプターを学ぶ前に読みたくなるでしょう。
 
 [traits]: traits.html
 [trait-objects]: trait-objects.html
 
-Got all that? Good.
+<!-- Got all that? Good. -->
+よろしいですか？ では、続きを説明いたします。
 
-The key to understanding how closures work under the hood is something a bit
-strange: Using `()` to call a function, like `foo()`, is an overloadable
-operator. From this, everything else clicks into place. In Rust, we use the
-trait system to overload operators. Calling functions is no different. We have
-three separate traits to overload with:
+<!-- The key to understanding how closures work under the hood is something a bit -->
+<!-- strange: Using `()` to call a function, like `foo()`, is an overloadable -->
+<!-- operator. From this, everything else clicks into place. In Rust, we use the -->
+<!-- trait system to overload operators. Calling functions is no different. We have -->
+<!-- three separate traits to overload with: -->
+クロージャの内部的な動作を理解するための鍵は少し奇妙です: 関数を呼び出すのに `()` を 例えば `foo()` の様に使いますが、これはオーバーロード可能な演算子です。
+これから、残りの全てを正しく理解することができます。Rustでは、トレイトを演算子のオーバーロードに利用します。
+関数の予備だしも例外ではありません。３つのオーバーロードするトレイトが存在します:
 
 ```rust
 # mod foo {
@@ -262,24 +305,37 @@ pub trait FnOnce<Args> {
 # }
 ```
 
-You’ll notice a few differences between these traits, but a big one is `self`:
-`Fn` takes `&self`, `FnMut` takes `&mut self`, and `FnOnce` takes `self`. This
-covers all three kinds of `self` via the usual method call syntax. But we’ve
-split them up into three traits, rather than having a single one. This gives us
-a large amount of control over what kind of closures we can take.
+<!-- You’ll notice a few differences between these traits, but a big one is `self`: -->
+<!-- `Fn` takes `&self`, `FnMut` takes `&mut self`, and `FnOnce` takes `self`. This -->
+<!-- covers all three kinds of `self` via the usual method call syntax. But we’ve -->
+<!-- split them up into three traits, rather than having a single one. This gives us -->
+<!-- a large amount of control over what kind of closures we can take. -->
+これらのトレイトの間の僅かな違いに気がつくことでしょう、しかし大きな違いは `self` についてです:
+`Fn` は `&self` を引数に取ります、 `FnMut` は `&mut self` を引数に取ります、そして `FnOnce` は `self` を引数に取ります。
+これは通常のメソッド呼び出しにおける `self` のすべての種類をカバーしています。
+しかし、これら `self` の各種類を一つの大きなトレイトにまとめるのではなく異なるトレイトに分けています。
+このようにすることで、どのような種類のクロージャを取るのかについて多くをコントロールすることができます。
 
-The `|| {}` syntax for closures is sugar for these three traits. Rust will
-generate a struct for the environment, `impl` the appropriate trait, and then
-use it.
+<!-- The `|| {}` syntax for closures is sugar for these three traits. Rust will -->
+<!-- generate a struct for the environment, `impl` the appropriate trait, and then -->
+<!-- use it. -->
+クロージャに対する構文 `|| {}` は上述の3つのトレイトへの糖衣構文です。
+Rustは環境の構造体を作成し、 適切なトレイトを `impl` し、それを利用します。
 
-# Taking closures as arguments
 
-Now that we know that closures are traits, we already know how to accept and
-return closures: just like any other trait!
+<!-- # Taking closures as arguments -->
+# クロージャを引数に取る
 
-This also means that we can choose static vs dynamic dispatch as well. First,
-let’s write a function which takes something callable, calls it, and returns
-the result:
+<!-- Now that we know that closures are traits, we already know how to accept and -->
+<!-- return closures: just like any other trait! -->
+クロージャが実際にはトレイトであることを知ったので、
+クロージャをどのように引数として取ったり返り値として返せばいいかわかりました: 通常のトレイトと同様に行うのです!
+
+<!-- This also means that we can choose static vs dynamic dispatch as well. First, -->
+<!-- let’s write a function which takes something callable, calls it, and returns -->
+<!-- the result: -->
+これは、静的なディスパッチと動的なディスパッチを洗濯することができるという事も意味しています。
+手始めに呼び出し可能な何かを引数にとりそれを呼び出し、その結果を返す関数を書いてみましょう:
 
 ```rust
 fn call_with_one<F>(some_closure: F) -> i32
@@ -293,10 +349,13 @@ let answer = call_with_one(|x| x + 2);
 assert_eq!(3, answer);
 ```
 
-We pass our closure, `|x| x + 2`, to `call_with_one`. It just does what it
-suggests: it calls the closure, giving it `1` as an argument.
+<!-- We pass our closure, `|x| x + 2`, to `call_with_one`. It just does what it -->
+<!-- suggests: it calls the closure, giving it `1` as an argument. -->
+クロージャ `|x| x + 2` を `call_with_one` に渡しました。
+これは `call_with_one` という関数名から推測される処理を行います: クロージャに `1` を与えて呼び出します。
 
-Let’s examine the signature of `call_with_one` in more depth:
+<!-- Let’s examine the signature of `call_with_one` in more depth: -->
+`call_with_one` のシグネチャを詳細に見ていきましょう:
 
 ```rust
 fn call_with_one<F>(some_closure: F) -> i32
@@ -304,8 +363,10 @@ fn call_with_one<F>(some_closure: F) -> i32
 #    some_closure(1) }
 ```
 
-We take one parameter, and it has the type `F`. We also return a `i32`. This part
-isn’t interesting. The next part is:
+<!-- We take one parameter, and it has the type `F`. We also return a `i32`. This part -->
+<!-- isn’t interesting. The next part is: -->
+型 `F` を持つ引数を１つ取り、返り値として `i32` を返します。
+この部分は特に注目には値しません。次の部分は:
 
 ```rust
 # fn call_with_one<F>(some_closure: F) -> i32
@@ -313,20 +374,30 @@ isn’t interesting. The next part is:
 #   some_closure(1) }
 ```
 
-Because `Fn` is a trait, we can bound our generic with it. In this case, our
-closure takes a `i32` as an argument and returns an `i32`, and so the generic
-bound we use is `Fn(i32) -> i32`.
+<!-- Because `Fn` is a trait, we can bound our generic with it. In this case, our -->
+<!-- closure takes a `i32` as an argument and returns an `i32`, and so the generic -->
+<!-- bound we use is `Fn(i32) -> i32`. -->
+`Fn` がトレイトであるために、ジェネリックの境界として `Fn` を指定する事ができます。
+この場合はクロージャは `i32` を引数として取り、 `i32` を返します、そのため
+ジェネリックの境界として `Fn(i32) -> i32` を指定子ます。
 
-There’s one other key point here: because we’re bounding a generic with a
-trait, this will get monomorphized, and therefore, we’ll be doing static
-dispatch into the closure. That’s pretty neat. In many languages, closures are
-inherently heap allocated, and will always involve dynamic dispatch. In Rust,
-we can stack allocate our closure environment, and statically dispatch the
-call. This happens quite often with iterators and their adapters, which often
-take closures as arguments.
+<!-- There’s one other key point here: because we’re bounding a generic with a -->
+<!-- trait, this will get monomorphized, and therefore, we’ll be doing static -->
+<!-- dispatch into the closure. That’s pretty neat. In many languages, closures are -->
+<!-- inherently heap allocated, and will always involve dynamic dispatch. In Rust, -->
+<!-- we can stack allocate our closure environment, and statically dispatch the -->
+<!-- call. This happens quite often with iterators and their adapters, which often -->
+<!-- take closures as arguments. -->
+キーポイントがここにもあります: ジェネリックをトレイトで境界を指定したために、この関数は単相化されます、
+それゆえ、静的なディスパッチをクロージャに対して行います。これはとても素敵です。
+多くの言語では、クロージャは常にヒープにアロケートされ、常に動的ディスパッチが行われます。
+Rustではスタックにクロージャの環境をアロケーションし、呼び出しを静的にディスパッチすることができます。
+これは比較的頻繁にクロージャを引数として取るイテレータやそれらのアダプタにおいて発生します。
 
-Of course, if we want dynamic dispatch, we can get that too. A trait object
-handles this case, as usual:
+<!-- Of course, if we want dynamic dispatch, we can get that too. A trait object -->
+<!-- handles this case, as usual: -->
+もちろん、動的ディスパッチ行いたいときは、そのようにすることもできます。
+そのような場合もトレイトオブジェクトが通常どうりに対応します:
 
 ```rust
 fn call_with_one(some_closure: &Fn(i32) -> i32) -> i32 {
@@ -338,14 +409,18 @@ let answer = call_with_one(&|x| x + 2);
 assert_eq!(3, answer);
 ```
 
-Now we take a trait object, a `&Fn`. And we have to make a reference
-to our closure when we pass it to `call_with_one`, so we use `&||`.
+<!-- Now we take a trait object, a `&Fn`. And we have to make a reference -->
+<!-- to our closure when we pass it to `call_with_one`, so we use `&||`. -->
+トレイトオブジェクトを引数に取るようになり、
+また `call_with_one` にクロージャを渡すときに参照を利用するようにしました、
+そのため `&||` を利用しています。
 
-# Function pointers and closures
+<!-- # Function pointers and closures -->
+# 関数ポインタとクロージャ
 
-A function pointer is kind of like a closure that has no environment. As such,
-you can pass a function pointer to any function expecting a closure argument,
-and it will work:
+<!-- A function pointer is kind of like a closure that has no environment. As such, -->
+<!-- you can pass a function pointer to any function expecting a closure argument, -->
+<!-- and it will work: -->
 
 ```rust
 fn call_with_one(some_closure: &Fn(i32) -> i32) -> i32 {
