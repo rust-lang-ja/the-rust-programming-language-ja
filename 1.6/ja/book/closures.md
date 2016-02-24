@@ -421,6 +421,8 @@ assert_eq!(3, answer);
 <!-- A function pointer is kind of like a closure that has no environment. As such, -->
 <!-- you can pass a function pointer to any function expecting a closure argument, -->
 <!-- and it will work: -->
+関数ポインタは環境を持たないクロージャのようなものです。
+そのため、クロージャを引数として期待している関数に関数ポインタを渡すことができます。
 
 ```rust
 fn call_with_one(some_closure: &Fn(i32) -> i32) -> i32 {
@@ -438,19 +440,24 @@ let answer = call_with_one(&f);
 assert_eq!(2, answer);
 ```
 
-In this example, we don’t strictly need the intermediate variable `f`,
-the name of the function works just fine too:
+<!-- In this example, we don’t strictly need the intermediate variable `f`, -->
+<!-- the name of the function works just fine too: -->
+この例では、中間の変数 `f` が必ず必要なわけではありません、関数名を指定することでもきちんと動作します:
 
 ```ignore
 let answer = call_with_one(&add_one);
 ```
 
-# Returning closures
+<!-- # Returning closures -->
+# クロージャを返す
 
-It’s very common for functional-style code to return closures in various
-situations. If you try to return a closure, you may run into an error. At
-first, it may seem strange, but we’ll figure it out. Here’s how you’d probably
-try to return a closure from a function:
+<!-- It’s very common for functional-style code to return closures in various -->
+<!-- situations. If you try to return a closure, you may run into an error. At -->
+<!-- first, it may seem strange, but we’ll figure it out. Here’s how you’d probably -->
+<!-- try to return a closure from a function: -->
+関数を用いたスタイルのコードでは、クロージャを返す事は非常によく見られます。
+もし、クロージャを返す事を試みた場合、エラーが発生します。これは一見奇妙に思われますが、理解することができます。
+以下は、関数からクロージャを返すことを試みた場合のコードです:
 
 ```rust,ignore
 fn factory() -> (Fn(i32) -> i32) {
@@ -465,7 +472,8 @@ let answer = f(1);
 assert_eq!(6, answer);
 ```
 
-This gives us these long, related errors:
+<!-- This gives us these long, related errors: -->
+このコードは以下の長いエラーを発生させます:
 
 ```text
 error: the trait `core::marker::Sized` is not implemented for the type
@@ -483,11 +491,15 @@ let f = factory();
     ^
 ```
 
-In order to return something from a function, Rust needs to know what
-size the return type is. But since `Fn` is a trait, it could be various
-things of various sizes: many different types can implement `Fn`. An easy
-way to give something a size is to take a reference to it, as references
-have a known size. So we’d write this:
+<!-- In order to return something from a function, Rust needs to know what -->
+<!-- size the return type is. But since `Fn` is a trait, it could be various -->
+<!-- things of various sizes: many different types can implement `Fn`. An easy -->
+<!-- way to give something a size is to take a reference to it, as references -->
+<!-- have a known size. So we’d write this: -->
+関数から何かを返すにあたって、Rustは返り値の型のサイズを知る必要があります。
+しかし、 `Fn` はトレイトであるため、そのサイズや種類は多岐にわたることになります: 多くの異なる型が `Fn` を実装できます。
+何かにサイズを与える簡単な方法は、それに対する参照を取得する方法です、参照は既知のサイズを持っています。
+そのため、以下のように書くことができます:
 
 ```rust,ignore
 fn factory() -> &(Fn(i32) -> i32) {
@@ -502,7 +514,8 @@ let answer = f(1);
 assert_eq!(6, answer);
 ```
 
-But we get another error:
+<!-- But we get another error: -->
+しかし、他のエラーが発生してしまいます:
 
 ```text
 error: missing lifetime specifier [E0106]
@@ -510,10 +523,12 @@ fn factory() -> &(Fn(i32) -> i32) {
                 ^~~~~~~~~~~~~~~~~
 ```
 
-Right. Because we have a reference, we need to give it a lifetime. But
-our `factory()` function takes no arguments, so
-[elision](lifetimes.html#lifetime-elision) doesn’t kick in here. Then what
-choices do we have? Try `'static`:
+<!-- Right. Because we have a reference, we need to give it a lifetime. But -->
+<!-- our `factory()` function takes no arguments, so -->
+<!-- [elision](lifetimes.html#lifetime-elision) doesn’t kick in here. Then what -->
+<!-- choices do we have? Try `'static`: -->
+ふむ。これはリファレンスを利用したため、ライフタイムを指定する必要が有ることによります。
+しかし、 `factory()` 関数は引数を何も取りません、そのため []
 
 ```rust,ignore
 fn factory() -> &'static (Fn(i32) -> i32) {
