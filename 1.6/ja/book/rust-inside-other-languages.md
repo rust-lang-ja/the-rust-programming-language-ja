@@ -1,4 +1,5 @@
-% Rust Inside Other Languages
+% 他言語と共存する
+<!-- % Rust Inside Other Languages -->
 
 For our third project, we’re going to choose something that shows off one of
 Rust’s greatest strengths: a lack of a substantial runtime.
@@ -177,7 +178,7 @@ build  deps  examples  libembed.so  native
 
 That `libembed.so` is our ‘shared object’ library. We can use this file
 just like any shared object library written in C! As an aside, this may be
-`embed.dll` (Microsoft Windows) or `libembed.dylib` (Mac OS X), depending on 
+`embed.dll` (Microsoft Windows) or `libembed.dylib` (Mac OS X), depending on
 your operating system.
 
 Now that we’ve got our Rust library built, let’s use it from our Ruby.
