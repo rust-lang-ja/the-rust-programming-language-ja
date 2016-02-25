@@ -1714,7 +1714,7 @@ let err2: Box<Error> = From::from(parse_err);
 ここに気づくべき、本当に重要なパターンがあります。
 `err1` と `err2` の両方ともが *同じ型* になっているのです。
 なぜなら、それらが存在量化型、つまり、トレイトオブジェクトだからです。
-特にそれらの背後の型は、コンパイラーの知識から *消去されます* ので、 `err1` と `err2` が本当に同じに見えるのです。
+特にそれらの背後の型は、コンパイラの知識から *消去されます* ので、 `err1` と `err2` が本当に同じに見えるのです。
 さらに私たちは同じ関数呼び出し `From::from` を使って `err1` と `err2` をコンストラクトしました。
 これは `From::from` が引数とリターン型の両方でオーバーロードされているからです。
 
@@ -2228,8 +2228,8 @@ Rustは私たちにエラーハンドリングが明示的であることを（ 
 # // Type based decoding absolves us of a lot of the nitty gritty error
 # // handling, like parsing strings as integers or floats.
 // この構造体はCSVファイルの各行のデータを表現します。
-// 型に基づくデコードは、文字列を整数や浮動小数点数にパースしてしまう
-// といった、核心部分のエラーハンドリングの大半を免除してくれます。
+// 型に基づいたデコードにより、文字列を整数や浮動小数点数にパースして
+// しまうといった、核心部分のエラーハンドリングの大半から解放されます。
 #[derive(Debug, RustcDecodable)]
 struct Row {
     country: String,
@@ -2336,13 +2336,13 @@ fn main() {
 <!-- compiler can no longer reason about its underlying type. -->
 `Box<Error>` の良いところは *とにかく動く* ことです。
 エラー型を定義して `From` を実装する、といったことは必要ありません。
-これの欠点は `Box<Error>` がトレイトオブジェクトなので *型が消去* され、コンパイラーが背後の型を推測できなくなることです。
+これの欠点は `Box<Error>` がトレイトオブジェクトなので *型消去* され、コンパイラが背後の型を推測できなくなることです。
 
 <!-- [Previously](#the-limits-of-combinators) we started refactoring our code by -->
 <!-- changing the type of our function from `T` to `Result<T, OurErrorType>`. In -->
 <!-- this case, `OurErrorType` is just `Box<Error>`. But what's `T`? And can we add -->
 <!-- a return type to `main`? -->
-[以前](#the-limits-of-combinators) コードのリファクタリングを、関数の型を `T` から `Result<T, 私たちのエラー型>` に変更することから始めました。
+[以前](#コンビネータの限界) コードのリファクタリングを、関数の型を `T` から `Result<T, 私たちのエラー型>` に変更することから始めました。
 ここでは `私たちのエラー型` は単に `Box<Error>` です。
 でも `T` は何になるでしょう？
 それに `main` にリターン型を付けられるのでしょうか？
@@ -2558,7 +2558,7 @@ match search(&data_file, &city) {
 <!-- 3. Modify the `search` function to take an *optional* file path. When `None`, -->
 <!--    it should know to read from stdin. -->
 1. プログラムの引数を微修正して、唯一のパラメータとして「都市」を受け付け、人口データは標準入力から読み込むようにする。
-2. プログラムを修正して、標準入力経由でファイルが渡されなかったときに、`-f` オプションからファイルを得られるようにする。
+2. プログラムを修正して、ファイルが標準入力に流し込まれなかったときに、`-f` オプションからファイルを得られるようにする。
 3. `search` 関数を修正して、ファイルパスを `オプションで` 受け取れるようにする。もし `None` なら標準入力から読み込む。
 
 <!-- First, here's the new usage: -->
@@ -2903,6 +2903,11 @@ match search(&args.arg_data_path, &args.arg_city) {
   あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、この章を紹介してください！）
 * もし即興のプログラムを書いているなら `unwrap` を使うことに罪悪感を持たなくてもいいでしょう。
   ただし警告があります：もしそれが最終的に他の人たちの手に渡るなら、彼らが貧弱なエラーメッセージに動揺してもおかしくありません。
+<!-- * If you're writing a quick 'n' dirty program and feel ashamed about panicking -->
+<!--   anyway, then use either a `String` or a `Box<Error + Send + Sync>` for your -->
+<!--   error type (the `Box<Error + Send + Sync>` type is because of the -->
+<!--   [available `From` impls](../std/convert/trait.From.html)). -->
+* もし即興のプログラムを書いていて、パニックすることに、どうしても後ろめたさを感じるなら、エラー型として `String` か `Box<Error + Send + Sync>` のいずれかを使ってください（ `Box<Error + Send + Sync>` は [`From` 実装がある](../std/convert/trait.From.html) ので使えます）。
 * これらに該当しないなら、独自のエラー型を定義し、適切な [`From`](../std/convert/trait.From.html) と [`Error`](../std/error/trait.Error.html) を実装することで [`try!`](../std/macro.try!.html) マクロをエルゴノミックにしましょう。
 * もしライブラリを書いていて、そのコードがエラーを起こす可能性があるなら、独自のエラー型を定義し、 [`std::error::Error`](../std/error/trait.Error.html) トレイトを実装してください。
   もし必要なら [`From`](../std/convert/trait.From.html) を実装することで、ライブラリ自身と呼び出し元のコードを書きやすくしてください。
