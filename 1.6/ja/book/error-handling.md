@@ -1515,7 +1515,7 @@ trait Error: Debug + Display {
 <!-- following things: -->
 このトレイトは極めて一般的です。
 なぜなら、エラーを表す *全て* の型で実装されることを目的としているからです。
-この後すぐ見るように、このことが合成可能なコードを書くのに間違いなく役立ちます。
+この後すぐ見るように、このことは合成可能なコードを書くのに間違いなく役立ちます。
 それ以外にも、このトレイトでは最低でも以下のようなことができます：
 
 <!-- * Obtain a `Debug` representation of the error. -->
@@ -1651,8 +1651,8 @@ trait From<T> {
 <!-- [set of implementations provided by the standard -->
 <!-- library](../std/convert/trait.From.html). -->
 嬉しいくらい簡単でしょ？
-`From` は、ある特定の型 `T` から違う型へ変換するための汎用的な方法を提供するので大変便利です
-（この場合の「違う型」とは実装の対象、つまり `Self` です）。
+`From` は、ある特定の `T` という型 *から* 、別の型へ変換するための汎用的な方法を提供するので大変便利です
+（この場合の「別の型」とは実装の主体、つまり `Self` です）。
 `From` を支えているのは [標準ライブラリで提供される一連の実装です](../std/convert/trait.From.html)。
 
 <!-- Here are a few simple examples demonstrating how `From` works: -->
@@ -1668,7 +1668,7 @@ let cow: ::std::borrow::Cow<str> = From::from("foo");
 <!-- It turns out, there is one critical impl: -->
 たしかに `From` が文字列を変換するのに便利なことはわかりました。
 でもエラーについてはどうでしょうか？
-結論から言うと、これが最も重要な実装です：
+結論から言うと、これが重要な実装です：
 
 ```rust,ignore
 impl<'a, E: Error + 'a> From<E> for Box<Error + 'a>
@@ -1713,7 +1713,7 @@ let err2: Box<Error> = From::from(parse_err);
 <!-- its argument and its return type. -->
 ここに気づくべき、本当に重要なパターンがあります。
 `err1` と `err2` の両方ともが *同じ型* になっているのです。
-なぜなら、それらが存在量型、つまり、トレイトオブジェクトだからです。
+なぜなら、それらが存在量化型、つまり、トレイトオブジェクトだからです。
 特にそれらの背後の型は、コンパイラーの知識から *消去されます* ので、 `err1` と `err2` が本当に同じに見えるのです。
 さらに私たちは同じ関数呼び出し `From::from` を使って `err1` と `err2` をコンストラクトしました。
 これは `From::from` が引数とリターン型の両方でオーバーロードされているからです。
@@ -1789,7 +1789,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, String> {
 <!-- section, `From` has an impl that lets it convert any error type into a -->
 <!-- `Box<Error>`: -->
 以前 `map_err` の呼び出しを取り除くことができると約束しました。
-もちろんです。ここでしなければいけないのは `From` と共に動く型を一つ選ぶことです。
+もちろんです。ここでしなければいけないのは `From` と共に動く型を一つ選ぶだけでよいのです。
 前の節で見たように `From` の実装の一つは、どんなエラー型でも `Box<Error>` に変換できます：
 
 ```rust
@@ -1855,7 +1855,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 <!-- automatic type conversion for us by calling `From::from` on the error value. -->
 <!-- In particular, we converted errors to `Box<Error>`, which works, but the type -->
 <!-- is opaque to callers. -->
-最後の説では `try!` マクロの本当の定義を確認し、それが `From::from` をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
+最後の節では `try!` マクロの本当の定義を確認し、それが `From::from` をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
 特にそこでは、エラーを `Box<Error>` に変換しました。
 これはたしかに動きますが、呼び出し元にとって、型がオペークになってしまいました。
 
@@ -1924,7 +1924,7 @@ impl From<num::ParseIntError> for CliError {
 <!-- All these impls are doing is teaching `From` how to create a `CliError` from -->
 <!-- other error types. In our case, construction is as simple as invoking the -->
 <!-- corresponding value constructor. Indeed, it is *typically* this easy. -->
-これらの実装がしていることは、`From` に対して、どうやって他のエラー型を元に `CliError` を作るのかを教えてあげることです。
+これらの実装がしていることは、`From` に対して、どうやって他のエラー型を元に `CliError` を作るのか、教えてあげているだけです。
 このケースでは、単に対応する値コンストラクタを呼ぶことで構築しています。
 本当に *普通は* これくらい簡単にできてしまいます。
 
