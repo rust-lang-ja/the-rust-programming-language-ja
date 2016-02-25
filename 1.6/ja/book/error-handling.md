@@ -1568,7 +1568,7 @@ enum CliError {
 <!-- occurring: an error dealing with I/O or an error converting a string to a -->
 <!-- number. The error could represent as many error types as you want by adding new -->
 <!-- variants to the `enum` definition. -->
-このエラー型は2種類のエラー、つまり、IOを扱っているときのエラー、または、文字列を通知に変換するときのエラーが起こる可能性を示しています。
+このエラー型は2種類のエラー、つまり、IOを扱っているときのエラー、または、文字列を数値に変換するときのエラーが起こる可能性を示しています。
 `enum` 定義のヴァリアントを増やせば、エラーの種類をいくらでも表現できます。
 
 <!-- Implementing `Error` is pretty straight-forward. It's mostly going to be a lot -->
@@ -2139,7 +2139,7 @@ cargo build --release
 Getoptsについては、あまり深く説明しませんが、詳細を解説した [ドキュメント][15] があります。
 簡単に言うと、Getoptsはオプションのベクタから、引数のパーサーとヘルプメッセージを生成します（実際には、ベクタは構造体とメソッドの背後に隠れています）。
 パースが終わると、プログラムの引数をRustの構造体へとデコードできます。
-これにより、例えば、フラグが指定されたかとか、フラグの引数がなんであったかといった、フラグの情報を取り出せるようになります。
+そこから、例えば、フラグが指定されたかとか、フラグの引数がなんであったかといった、フラグの情報を取り出せるようになります。
 プログラムに適切な `extern crate` 文を追加して、Getoptsの基本的な引数を設定すると、こうなります：
 
 ```rust,ignore
@@ -2171,7 +2171,8 @@ fn main() {
     let data_path = args[1].clone();
     let city = args[2].clone();
 
-	// Do stuff with information
+#     // Do stuff with information
+    // 情報を元にいろいろなことをする
 }
 ```
 
@@ -2460,7 +2461,8 @@ fn search<P: AsRef<Path>>
     for row in rdr.decode::<Row>() {
         let row = try!(row);
         match row.population {
-            None => { } // skip it
+#           // None => { } // skip it
+            None => { } // スキップする
             Some(count) => if row.city == city {
                 found.push(PopulationCount {
                     city: row.city,
@@ -2497,7 +2499,7 @@ fn search<P: AsRef<Path>>
 このコードで1点注意があります：
 `Box<Error>` の代わりに `Box<Error + Send + Sync>` を使いました。
 こうすると、プレーンな文字列をエラー型に変換できます。
-[この `From` 実装](../std/convert/trait.From.html) を使うために、このような追加の境界が必要でした。
+[この `From` 実装](../std/convert/trait.From.html) を使うために、このような追加の制限が必要でした。
 
 ```rust,ignore
 # // We are making use of this impl in the code above, since we call `From::from`
@@ -2636,7 +2638,8 @@ fn search<P: AsRef<Path>>
         Some(ref file_path) => Box::new(try!(fs::File::open(file_path))),
     };
     let mut rdr = csv::Reader::from_reader(input);
-    // The rest remains unchanged!
+#     // The rest remains unchanged!
+    // これ以降は変更なし！
 }
 ```
 
@@ -2740,7 +2743,8 @@ fn search<P: AsRef<Path>>
     for row in rdr.decode::<Row>() {
         let row = try!(row);
         match row.population {
-            None => { } // skip it
+#           // None => { } // skip it
+            None => { } // スキップする
             Some(count) => if row.city == city {
                 found.push(PopulationCount {
                     city: row.city,
@@ -2775,7 +2779,7 @@ fn search<P: AsRef<Path>>
 <!-- 1. Defined a new error type. -->
 <!-- 2. Added impls for `Error`, `Display` and two for `From`. -->
 1. 新しいエラー型を定義した。
-2. `Error` と `Display` の実装を追加し、2つのエラー対して `From` も実装した。
+2. `Error` と `Display` の実装を追加し、2つのエラーに対して `From` も実装した。
 
 <!-- The big downside here is that our program didn't improve a whole lot. -->
 <!-- There is quite a bit of overhead to representing errors with `enum`s, -->
