@@ -330,18 +330,18 @@ Rustでは戻り値を使います。</p>
 <li><a href="#%E7%8B%AC%E8%87%AA%E3%81%AE%E3%82%A8%E3%83%A9%E3%83%BC%E5%9E%8B%E3%82%92%E5%90%88%E6%88%90%E3%81%99%E3%82%8B">独自のエラー型を合成する</a></li>
 <li><a href="#%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E4%BD%9C%E8%80%85%E3%81%9F%E3%81%A1%E3%81%B8%E3%81%AE%E3%82%A2%E3%83%89%E3%83%90%E3%82%A4%E3%82%B9">ライブラリ作者たちへのアドバイス</a></li>
 </ul></li>
-<li><a href="#case-study-a-program-to-read-population-data">ケーススタディ：人口データを読み込むプログラム</a>
+<li><a href="#%E3%82%B1%E3%83%BC%E3%82%B9%E3%82%B9%E3%82%BF%E3%83%87%E3%82%A3%EF%BC%9A%E4%BA%BA%E5%8F%A3%E3%83%87%E3%83%BC%E3%82%BF%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0">ケーススタディ：人口データを読み込むプログラム</a>
 
 <ul>
-<li><a href="#initial-setup">最初のセットアップ</a></li>
-<li><a href="#argument-parsing">引数のパース</a></li>
-<li><a href="#writing-the-logic">ロジックを書く</a></li>
-<li><a href="#error-handling-with-boxerror"><code>Box&lt;Error&gt;</code> によるエラー処理</a></li>
-<li><a href="#reading-from-stdin">標準入力から読み込む</a></li>
-<li><a href="#error-handling-with-a-custom-type">独自のエラー型によるエラー処理</a></li>
-<li><a href="#adding-functionality">機能を追加する</a></li>
+<li><a href="#%E6%9C%80%E5%88%9D%E3%81%AE%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97">最初のセットアップ</a></li>
+<li><a href="#%E5%BC%95%E6%95%B0%E3%81%AE%E3%83%91%E3%83%BC%E3%82%B9">引数のパース</a></li>
+<li><a href="#%E3%83%AD%E3%82%B8%E3%83%83%E3%82%AF%E3%82%92%E6%9B%B8%E3%81%8F">ロジックを書く</a></li>
+<li><a href="#boxerror-%E3%81%AB%E3%82%88%E3%82%8B%E3%82%A8%E3%83%A9%E3%83%BC%E5%87%A6%E7%90%86"><code>Box&lt;Error&gt;</code> によるエラー処理</a></li>
+<li><a href="#%E6%A8%99%E6%BA%96%E5%85%A5%E5%8A%9B%E3%81%8B%E3%82%89%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80">標準入力から読み込む</a></li>
+<li><a href="#%E7%8B%AC%E8%87%AA%E3%81%AE%E3%82%A8%E3%83%A9%E3%83%BC%E5%9E%8B%E3%81%AB%E3%82%88%E3%82%8B%E3%82%A8%E3%83%A9%E3%83%BC%E5%87%A6%E7%90%86">独自のエラー型によるエラー処理</a></li>
+<li><a href="#%E6%A9%9F%E8%83%BD%E3%82%92%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B">機能を追加する</a></li>
 </ul></li>
-<li><a href="#the-short-story">簡単な説明（まとめ）</a></li>
+<li><a href="#%E3%81%BE%E3%81%A8%E3%82%81">まとめ</a></li>
 </ul>
 
 <!-- # The Basics -->
@@ -567,7 +567,7 @@ fn main() {
 
 <p>この関数がマッチする文字を見つけたとき、単に <code>offset</code> を返すだけではないことに注目してください。
 その代わりに <code>Some(offset)</code> を返します。
-<code>Some</code> は <code>Option</code> 型の <em>値コンストラクタ</em> の一つです。
+<code>Some</code> は <code>Option</code> 型のヴァリアントの一つ、つまり <em>値コンストラクタ</em> です。
 これは <code>fn&lt;T&gt;(value: T) -&gt; Option&lt;T&gt;</code> という型の関数だと考えることもできます。
 これに対応して <code>None</code> もまた値コンストラクタですが、こちらには引数がありません。
 <code>None</code> は <code>fn&lt;T&gt;() -&gt; Option&lt;T&gt;</code> という型の関数だと考えることもできます。</p>
@@ -2483,7 +2483,7 @@ fn main() {
 
 <p>このトレイトは極めて一般的です。
 なぜなら、エラーを表す <em>全て</em> の型で実装されることを目的としているからです。
-この後すぐ見るように、このことが合成可能なコードを書くのに間違いなく役立ちます。
+この後すぐ見るように、このことは合成可能なコードを書くのに間違いなく役立ちます。
 それ以外にも、このトレイトでは最低でも以下のようなことができます：</p>
 
 <!-- * Obtain a `Debug` representation of the error. -->
@@ -2566,8 +2566,8 @@ fn main() {
 
 <!-- variants to the `enum` definition. -->
 
-<p>このエラー型は2種類のエラー、つまり、IOを扱っているときのエラー、または、文字列を通知に変換するときのエラーが起こる可能性を示しています。
-<code>enum</code> 定義のバリアントを増やせば、エラーの種類をいくらでも表現できます。</p>
+<p>このエラー型は2種類のエラー、つまり、IOを扱っているときのエラー、または、文字列を数値に変換するときのエラーが起こる可能性を示しています。
+<code>enum</code> 定義のヴァリアントを増やせば、エラーの種類をいくらでも表現できます。</p>
 
 <!-- Implementing `Error` is pretty straight-forward. It's mostly going to be a lot -->
 
@@ -2699,8 +2699,8 @@ fn main() {
 <!-- library](../std/convert/trait.From.html). -->
 
 <p>嬉しいくらい簡単でしょ？
-<code>From</code> は、ある特定の型 <code>T</code> から違う型へ変換するための汎用的な方法を提供するので大変便利です
-（この場合の「違う型」とは実装の対象、つまり <code>Self</code> です）。
+<code>From</code> は、ある特定の <code>T</code> という型 <em>から</em> 、別の型へ変換するための汎用的な方法を提供するので大変便利です
+（この場合の「別の型」とは実装の主体、つまり <code>Self</code> です）。
 <code>From</code> を支えているのは <a href="../std/convert/trait.From.html">標準ライブラリで提供される一連の実装です</a>。</p>
 
 <!-- Here are a few simple examples demonstrating how `From` works: -->
@@ -2721,7 +2721,7 @@ fn main() {
 
 <p>たしかに <code>From</code> が文字列を変換するのに便利なことはわかりました。
 でもエラーについてはどうでしょうか？
-結論から言うと、これが最も重要な実装です：</p>
+結論から言うと、これが重要な実装です：</p>
 <span class='rusttest'>fn main() {
     impl&lt;&#39;a, E: Error + &#39;a&gt; From&lt;E&gt; for Box&lt;Error + &#39;a&gt;
 }</span><pre class='rust rust-example-rendered'>
@@ -2790,8 +2790,8 @@ fn main() {
 
 <p>ここに気づくべき、本当に重要なパターンがあります。
 <code>err1</code> と <code>err2</code> の両方ともが <em>同じ型</em> になっているのです。
-なぜなら、それらが存在量型、つまり、トレイトオブジェクトだからです。
-特にそれらの背後の型は、コンパイラーの知識から <em>消去されます</em> ので、 <code>err1</code> と <code>err2</code> が本当に同じに見えるのです。
+なぜなら、それらが存在量化型、つまり、トレイトオブジェクトだからです。
+特にそれらの背後の型は、コンパイラの知識から <em>消去されます</em> ので、 <code>err1</code> と <code>err2</code> が本当に同じに見えるのです。
 さらに私たちは同じ関数呼び出し <code>From::from</code> を使って <code>err1</code> と <code>err2</code> をコンストラクトしました。
 これは <code>From::from</code> が引数とリターン型の両方でオーバーロードされているからです。</p>
 
@@ -2901,7 +2901,7 @@ fn main() {
 <!-- `Box<Error>`: -->
 
 <p>以前 <code>map_err</code> の呼び出しを取り除くことができると約束しました。
-もちろんです。ここでしなければいけないのは <code>From</code> と共に動く型を一つ選ぶことです。
+もちろんです。ここでしなければいけないのは <code>From</code> と共に動く型を一つ選ぶだけでよいのです。
 前の節で見たように <code>From</code> の実装の一つは、どんなエラー型でも <code>Box&lt;Error&gt;</code> に変換できます：</p>
 <span class='rusttest'>fn main() {
     use std::error::Error;
@@ -3003,7 +3003,7 @@ fn main() {
 
 <!-- is opaque to callers. -->
 
-<p>最後の説では <code>try!</code> マクロの本当の定義を確認し、それが <code>From::from</code> をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
+<p>最後の節では <code>try!</code> マクロの本当の定義を確認し、それが <code>From::from</code> をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
 特にそこでは、エラーを <code>Box&lt;Error&gt;</code> に変換しました。
 これはたしかに動きますが、呼び出し元にとって、型がオペークになってしまいました。</p>
 
@@ -3116,7 +3116,7 @@ fn main() {
 
 <!-- corresponding value constructor. Indeed, it is *typically* this easy. -->
 
-<p>これらの実装がしていることは、<code>From</code> に対して、どうやって他のエラー型を元に <code>CliError</code> を作るのかを教えてあげることです。
+<p>これらの実装がしていることは、<code>From</code> に対して、どうやって他のエラー型を元に <code>CliError</code> を作るのか、教えてあげているだけです。
 このケースでは、単に対応する値コンストラクタを呼ぶことで構築しています。
 本当に <em>普通は</em> これくらい簡単にできてしまいます。</p>
 
@@ -3177,7 +3177,7 @@ fn main() {
 
 <!-- type: -->
 
-<p>もし <code>file_double</code> 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたいと思ったら、エラー型のバリアントを追加するだけです：</p>
+<p>もし <code>file_double</code> 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたいと思ったら、エラー型のヴァリアントを追加するだけです：</p>
 <span class='rusttest'>fn main() {
     use std::io;
     use std::num;
@@ -3298,36 +3298,80 @@ fn main() {
 特にライブラリでエラー型を一つだけ定義しているときは当てはまります。
 この方法は標準ライブラリの <a href="../std/io/type.Result.html"><code>io::Result</code></a> や <a href="../std/fmt/type.Result.html"><code>fmt::Result</code></a> で用いられています。</p>
 
-<h1 id='case-study-a-program-to-read-population-data' class='section-header'><a href='#case-study-a-program-to-read-population-data'>Case study: A program to read population data</a></h1>
-<p>This chapter was long, and depending on your background, it might be
-rather dense. While there is plenty of example code to go along with
-the prose, most of it was specifically designed to be pedagogical. So,
-we&#39;re going to do something new: a case study.</p>
+<!-- # Case study: A program to read population data -->
 
-<p>For this, we&#39;re going to build up a command line program that lets you
-query world population data. The objective is simple: you give it a location
-and it will tell you the population. Despite the simplicity, there is a lot
-that can go wrong!</p>
+<h1 id='ケーススタディ人口データを読み込むプログラム' class='section-header'><a href='#ケーススタディ人口データを読み込むプログラム'>ケーススタディ：人口データを読み込むプログラム</a></h1>
+<!-- This chapter was long, and depending on your background, it might be -->
 
-<p>The data we&#39;ll be using comes from the <a href="https://github.com/petewarden/dstkdata">Data Science
-Toolkit</a>. I&#39;ve prepared some data from it for this exercise. You
-can either grab the <a href="http://burntsushi.net/stuff/worldcitiespop.csv.gz">world population data</a> (41MB gzip compressed,
-145MB uncompressed) or just the <a href="http://burntsushi.net/stuff/uscitiespop.csv.gz">US population data</a> (2.2MB gzip
-compressed, 7.2MB uncompressed).</p>
+<!-- rather dense. While there is plenty of example code to go along with -->
 
-<p>Up until now, we&#39;ve kept the code limited to Rust&#39;s standard library. For a real
-task like this though, we&#39;ll want to at least use something to parse CSV data,
-parse the program arguments and decode that stuff into Rust types automatically. For that, we&#39;ll use the
-<a href="https://crates.io/crates/csv"><code>csv</code></a>,
-and <a href="https://crates.io/crates/rustc-serialize"><code>rustc-serialize</code></a> crates.</p>
+<!-- the prose, most of it was specifically designed to be pedagogical. So, -->
 
-<h2 id='initial-setup' class='section-header'><a href='#initial-setup'>Initial setup</a></h2>
-<p>We&#39;re not going to spend a lot of time on setting up a project with
-Cargo because it is already covered well in <a href="../book/hello-cargo.html">the Cargo
-chapter</a> and <a href="http://doc.crates.io/guide.html">Cargo&#39;s documentation</a>.</p>
+<!-- we're going to do something new: a case study. -->
 
-<p>To get started from scratch, run <code>cargo new --bin city-pop</code> and make sure your
-<code>Cargo.toml</code> looks something like this:</p>
+<p>この章は長かったですね。
+あなたのバックグラウンドにもよりますが、内容が少し濃すぎたかもしれません。
+たくさんのコード例に、散文的な説明が添えられる形で進行しましたが、これは主に学習を助けるために、あえてこう構成されていたのでした。
+次はなにか新しいことをしましょう。ケーススタディです。</p>
+
+<!-- For this, we're going to build up a command line program that lets you -->
+
+<!-- query world population data. The objective is simple: you give it a location -->
+
+<!-- and it will tell you the population. Despite the simplicity, there is a lot -->
+
+<!-- that can go wrong! -->
+
+<p>ここでは世界の人口データを問い合わせるための、コマンドラインプログラムを構築します。
+目標はシンプルです：プログラムに場所を与えると、人口を教えてくれます。
+シンプルにも関わらず、失敗しそうな所がたくさんあります！</p>
+
+<!-- The data we'll be using comes from the [Data Science -->
+
+<!-- Toolkit][11]. I've prepared some data from it for this exercise. You -->
+
+<!-- can either grab the [world population data][12] (41MB gzip compressed, -->
+
+<!-- 145MB uncompressed) or just the [US population data][13] (2.2MB gzip -->
+
+<!-- compressed, 7.2MB uncompressed). -->
+
+<p>ここで使うデータは <a href="https://github.com/petewarden/dstkdata">データサイエンスツールキット</a> から取得したものです。
+これを元に演習で使うデータを準備しましたので、2つのファイルのどちらかをダウンロードしてください：
+<a href="http://burntsushi.net/stuff/worldcitiespop.csv.gz">世界の人口データ</a> （gzip圧縮時 41MB、解凍時 145MB）と、 <a href="http://burntsushi.net/stuff/uscitiespop.csv.gz">アメリカ合衆国の人口データ</a> （gzip 圧縮時 2.2MB、解凍時 7.2MB）があります。</p>
+
+<!-- Up until now, we've kept the code limited to Rust's standard library. For a real -->
+
+<!-- task like this though, we'll want to at least use something to parse CSV data, -->
+
+<!-- parse the program arguments and decode that stuff into Rust types automatically. For that, we'll use the -->
+
+<!-- [`csv`](https://crates.io/crates/csv), -->
+
+<!-- and [`rustc-serialize`](https://crates.io/crates/rustc-serialize) crates. -->
+
+<p>いままで書いてきたコードでは、Rustの標準ライブラリだけを使うようにしてきました。
+今回のような現実のタスクでは、最低でもCSVデータをパースする部分と、プログラムの引数をパースして、自動的にRustの型にデコードする部分に何か使いたいでしょう。
+これには <a href="https://crates.io/crates/csv"><code>csv</code></a> と <a href="https://crates.io/crates/rustc-serialize"><code>rustc-serialize</code></a> クレートを使います。</p>
+
+<!-- ## Initial setup -->
+
+<h2 id='最初のセットアップ' class='section-header'><a href='#最初のセットアップ'>最初のセットアップ</a></h2>
+<!-- We're not going to spend a lot of time on setting up a project with -->
+
+<!-- Cargo because it is already covered well in [the Cargo -->
+
+<!-- chapter](../book/hello-cargo.html) and [Cargo's documentation][14]. -->
+
+<!-- 訳者コメント：hello-cargo.htmlがリンク切れのため、リンク先を変更しました。 -->
+
+<p>Cargoを使ってプロジェクトをセットアップしますが、その方法はすでに <a href="../book/getting-started.html#hello-cargo">Hello, Cargo!</a> と <a href="http://doc.crates.io/guide.html">Cargoのドキュメント</a> でカバーされていますので、ここでは簡単に説明します。</p>
+
+<!-- To get started from scratch, run `cargo new --bin city-pop` and make sure your -->
+
+<!-- `Cargo.toml` looks something like this: -->
+
+<p>何もない状態から始めるには、<code>cargo new --bin city-pop</code> を実行し、 <code>Cargo.toml</code> を以下のように編集します：</p>
 
 <pre><code class="language-text">[package]
 name = &quot;city-pop&quot;
@@ -3343,24 +3387,46 @@ rustc-serialize = &quot;0.*&quot;
 getopts = &quot;0.*&quot;
 </code></pre>
 
-<p>You should already be able to run:</p>
+<!-- You should already be able to run: -->
+
+<p>これでもう実行できるはずです：</p>
 
 <pre><code class="language-text">cargo build --release
 ./target/release/city-pop
-# Outputs: Hello, world!
+# 出力: Hello, world!
 </code></pre>
 
-<h2 id='argument-parsing' class='section-header'><a href='#argument-parsing'>Argument parsing</a></h2>
-<p>Let&#39;s get argument parsing out of the way. We won&#39;t go into too much
-detail on Getopts, but there is <a href="http://doc.rust-lang.org/getopts/getopts/index.html">some good documentation</a>
-describing it. The short story is that Getopts generates an argument
-parser and a help message from a vector of options (The fact that it
-is a vector is hidden behind a struct and a set of methods). Once the
-parsing is done, we can decode the program arguments into a Rust
-struct. From there, we can get information about the flags, for
-instance, whether they were passed in, and what arguments they
-had. Here&#39;s our program with the appropriate <code>extern crate</code>
-statements, and the basic argument setup for Getopts:</p>
+<!-- Outputs: Hello, world! -->
+
+<!-- ## Argument parsing -->
+
+<h2 id='引数のパース' class='section-header'><a href='#引数のパース'>引数のパース</a></h2>
+<!-- Let's get argument parsing out of the way. We won't go into too much -->
+
+<!-- detail on Getopts, but there is [some good documentation][15] -->
+
+<!-- describing it. The short story is that Getopts generates an argument -->
+
+<!-- parser and a help message from a vector of options (The fact that it -->
+
+<!-- is a vector is hidden behind a struct and a set of methods). Once the -->
+
+<!-- parsing is done, we can decode the program arguments into a Rust -->
+
+<!-- struct. From there, we can get information about the flags, for -->
+
+<!-- instance, whether they were passed in, and what arguments they -->
+
+<!-- had. Here's our program with the appropriate `extern crate` -->
+
+<!-- statements, and the basic argument setup for Getopts: -->
+
+<p>引数のパースができるようにしましょう。
+Getoptsについては、あまり深く説明しませんが、詳細を解説した <a href="http://doc.rust-lang.org/getopts/getopts/index.html">ドキュメント</a> があります。
+簡単に言うと、Getoptsはオプションのベクタから、引数のパーサーとヘルプメッセージを生成します（実際には、ベクタは構造体とメソッドの背後に隠れています）。
+パースが終わると、プログラムの引数をRustの構造体へとデコードできます。
+そこから、例えば、フラグが指定されたかとか、フラグの引数がなんであったかといった、フラグの情報を取り出せるようになります。
+プログラムに適切な <code>extern crate</code> 文を追加して、Getoptsの基本的な引数を設定すると、こうなります：</p>
 <span class='rusttest'>extern crate getopts;
 extern crate rustc_serialize;
 
@@ -3390,6 +3456,7 @@ fn main() {
     let city = args[2].clone();
 
     // Do stuff with information
+    // 情報を元にいろいろなことをする
 }
 </span><pre class='rust rust-example-rendered'>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>getopts</span>;
@@ -3420,36 +3487,87 @@ fn main() {
     <span class='kw'>let</span> <span class='ident'>data_path</span> <span class='op'>=</span> <span class='ident'>args</span>[<span class='number'>1</span>].<span class='ident'>clone</span>();
     <span class='kw'>let</span> <span class='ident'>city</span> <span class='op'>=</span> <span class='ident'>args</span>[<span class='number'>2</span>].<span class='ident'>clone</span>();
 
-    <span class='comment'>// Do stuff with information</span>
+    <span class='comment'>// 情報を元にいろいろなことをする</span>
 }</pre>
 
-<p>First, we get a vector of the arguments passed into our program. We
-then store the first one, knowing that it is our program&#39;s name. Once
-that&#39;s done, we set up our argument flags, in this case a simplistic
-help message flag. Once we have the argument flags set up, we use
-<code>Options.parse</code> to parse the argument vector (starting from index one,
-because index 0 is the program name). If this was successful, we
-assign matches to the parsed object, if not, we panic. Once past that,
-we test if the user passed in the help flag, and if so print the usage
-message. The option help messages are constructed by Getopts, so all
-we have to do to print the usage message is tell it what we want it to
-print for the program name and template. If the user has not passed in
-the help flag, we assign the proper variables to their corresponding
-arguments.</p>
+<blockquote>
+<p>訳注</p>
 
-<h2 id='writing-the-logic' class='section-header'><a href='#writing-the-logic'>Writing the logic</a></h2>
-<p>We all write code differently, but error handling is usually the last thing we
-want to think about. This isn&#39;t great for the overall design of a program, but
-it can be useful for rapid prototyping. Because Rust forces us to be explicit
-about error handling (by making us call <code>unwrap</code>), it is easy to see which
-parts of our program can cause errors.</p>
+<ul>
+<li>Usage: {} [options] <data-path> <city>：使用法：{} [options] <data-path> <city></li>
+<li>Show this usage message.：この使用法のメッセージを表示する。</li>
+</ul>
+</blockquote>
 
-<p>In this case study, the logic is really simple. All we need to do is parse the
-CSV data given to us and print out a field in matching rows. Let&#39;s do it. (Make
-sure to add <code>extern crate csv;</code> to the top of your file.)</p>
+<!-- First, we get a vector of the arguments passed into our program. We -->
+
+<!-- then store the first one, knowing that it is our program's name. Once -->
+
+<!-- that's done, we set up our argument flags, in this case a simplistic -->
+
+<!-- help message flag. Once we have the argument flags set up, we use -->
+
+<!-- `Options.parse` to parse the argument vector (starting from index one, -->
+
+<!-- because index 0 is the program name). If this was successful, we -->
+
+<!-- assign matches to the parsed object, if not, we panic. Once past that, -->
+
+<!-- we test if the user passed in the help flag, and if so print the usage -->
+
+<!-- message. The option help messages are constructed by Getopts, so all -->
+
+<!-- we have to do to print the usage message is tell it what we want it to -->
+
+<!-- print for the program name and template. If the user has not passed in -->
+
+<!-- the help flag, we assign the proper variables to their corresponding -->
+
+<!-- argumaents. -->
+
+<p>このように、まず、このプログラムに渡された引数のベクタを取得します。
+次に、最初の要素、つまり、プログラムの名前を格納します。
+続いて引数フラグをセットアップしますが、今回はごく簡単なヘルプメッセージフラグが一つあるだけです。
+セットアップできたら <code>Options.parse</code> を使って引数のベクタをパースします（インデックス0はプログラム名ですので、インデックス1から始めます）。
+もしパースに成功したら、パースしたオブジェクトをマッチで取り出しますし、失敗したならパニックさせます。
+ここまでたどり着いたら、ヘルプフラグが指定されたか調べて、もしそうなら使用法のメッセージを表示します。
+ヘルプメッセージのオプションはGetoptsにより生成済みですので、使用法のメッセージを表示するために追加で必要なのは、プログラム名とテンプレートだけです。
+もしユーザーがヘルプフラグを指定しなかったなら、変数を用意して、対応する引数の値をセットします。</p>
+
+<!-- ## Writing the logic -->
+
+<h2 id='ロジックを書く' class='section-header'><a href='#ロジックを書く'>ロジックを書く</a></h2>
+<!-- We all write code differently, but error handling is usually the last thing we -->
+
+<!-- want to think about. This isn't great for the overall design of a program, but -->
+
+<!-- it can be useful for rapid prototyping. Because Rust forces us to be explicit -->
+
+<!-- about error handling (by making us call `unwrap`), it is easy to see which -->
+
+<!-- parts of our program can cause errors. -->
+
+<p>コードを書く順番は人それぞれですが、エラーハンドリングは最後に考えることが多いでしょう。
+これはプログラム全体の設計にとっては、あまり良いことではありません。
+しかし、ラピッドプロトタイピングには便利かもしれません。
+Rustは私たちにエラーハンドリングが明示的であることを（ <code>unwrap</code> を呼ばせることで）強制しますので、プログラムのどこがエラーを起こすかは、簡単にわかります。</p>
+
+<!-- In this case study, the logic is really simple. All we need to do is parse the -->
+
+<!-- CSV data given to us and print out a field in matching rows. Let's do it. (Make -->
+
+<!-- sure to add `extern crate csv;` to the top of your file.) -->
+
+<p>このケーススタディでは、ロジックは非常にシンプルです。
+やることは、与えられたCSVデータをパースして、マッチした行にあるフィールドを表示するだけです。
+やってみましょう。
+（ファイルの先頭に <code>extern crate csv;</code> を追加することを忘れずに。）</p>
 <span class='rusttest'>// This struct represents the data in each row of the CSV file.
 // Type based decoding absolves us of a lot of the nitty gritty error
 // handling, like parsing strings as integers or floats.
+// この構造体はCSVファイルの各行のデータを表現します。
+// 型に基づいたデコードにより、文字列を整数や浮動小数点数にパースして
+// しまうといった、核心部分のエラーハンドリングの大半から解放されます。
 #[derive(Debug, RustcDecodable)]
 struct Row {
     country: String,
@@ -3457,9 +3575,12 @@ struct Row {
     accent_city: String,
     region: String,
 
-    // Not every row has data for the population, latitude or longitude!
-    // So we express them as `Option` types, which admits the possibility of
-    // absence. The CSV parser will fill in the correct value for us.
+   // Not every row has data for the population, latitude or longitude!
+   // So we express them as `Option` types, which admits the possibility of
+   // absence. The CSV parser will fill in the correct value for us.
+    // 人口、経度、緯度などのデータは全ての行にあるわけではありません！
+    // そこで、これらは不在の可能性を許す `Option` 型で表現します。
+    // CSVパーサーは、これらを正しい値で埋めてくれます。
     population: Option&lt;u64&gt;,
     latitude: Option&lt;f64&gt;,
     longitude: Option&lt;f64&gt;,
@@ -3504,9 +3625,9 @@ fn main() {
     }
 }
 </span><pre class='rust rust-example-rendered'>
-<span class='comment'>// This struct represents the data in each row of the CSV file.</span>
-<span class='comment'>// Type based decoding absolves us of a lot of the nitty gritty error</span>
-<span class='comment'>// handling, like parsing strings as integers or floats.</span>
+<span class='comment'>// この構造体はCSVファイルの各行のデータを表現します。</span>
+<span class='comment'>// 型に基づいたデコードにより、文字列を整数や浮動小数点数にパースして</span>
+<span class='comment'>// しまうといった、核心部分のエラーハンドリングの大半から解放されます。</span>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>, <span class='ident'>RustcDecodable</span>)]</span>
 <span class='kw'>struct</span> <span class='ident'>Row</span> {
     <span class='ident'>country</span>: <span class='ident'>String</span>,
@@ -3514,9 +3635,9 @@ fn main() {
     <span class='ident'>accent_city</span>: <span class='ident'>String</span>,
     <span class='ident'>region</span>: <span class='ident'>String</span>,
 
-    <span class='comment'>// Not every row has data for the population, latitude or longitude!</span>
-    <span class='comment'>// So we express them as `Option` types, which admits the possibility of</span>
-    <span class='comment'>// absence. The CSV parser will fill in the correct value for us.</span>
+    <span class='comment'>// 人口、経度、緯度などのデータは全ての行にあるわけではありません！</span>
+    <span class='comment'>// そこで、これらは不在の可能性を許す `Option` 型で表現します。</span>
+    <span class='comment'>// CSVパーサーは、これらを正しい値で埋めてくれます。</span>
     <span class='ident'>population</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>u64</span><span class='op'>&gt;</span>,
     <span class='ident'>latitude</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>,
     <span class='ident'>longitude</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span>,
@@ -3561,52 +3682,122 @@ fn main() {
     }
 }</pre>
 
-<p>Let&#39;s outline the errors. We can start with the obvious: the three places that
-<code>unwrap</code> is called:</p>
+<blockquote>
+<p>訳注：</p>
+
+<p>population count：人口のカウント</p>
+</blockquote>
+
+<!-- Let's outline the errors. We can start with the obvious: the three places that -->
+
+<!-- `unwrap` is called: -->
+
+<p>ここで、エラーの概要を把握しましょう。
+まずは明白なところ、つまり <code>unwrap</code> が呼ばれている3ヶ所から始めます：</p>
+
+<!-- 1. [`fs::File::open`](../std/fs/struct.File.html#method.open) -->
+
+<!--    can return an -->
+
+<!--    [`io::Error`](../std/io/struct.Error.html). -->
+
+<!-- 2. [`csv::Reader::decode`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode) -->
+
+<!--    decodes one record at a time, and -->
+
+<!--    [decoding a -->
+
+<!--    record](http://burntsushi.net/rustdoc/csv/struct.DecodedRecords.html) -->
+
+<!--    (look at the `Item` associated type on the `Iterator` impl) -->
+
+<!--    can produce a -->
+
+<!--    [`csv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html). -->
+
+<!-- 3. If `row.population` is `None`, then calling `expect` will panic. -->
 
 <ol>
-<li><a href="../std/fs/struct.File.html#method.open"><code>fs::File::open</code></a>
-can return an
-<a href="../std/io/struct.Error.html"><code>io::Error</code></a>.</li>
-<li><a href="http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode"><code>csv::Reader::decode</code></a>
-decodes one record at a time, and
-<a href="http://burntsushi.net/rustdoc/csv/struct.DecodedRecords.html">decoding a
-record</a>
-(look at the <code>Item</code> associated type on the <code>Iterator</code> impl)
-can produce a
-<a href="http://burntsushi.net/rustdoc/csv/enum.Error.html"><code>csv::Error</code></a>.</li>
-<li>If <code>row.population</code> is <code>None</code>, then calling <code>expect</code> will panic.</li>
+<li><a href="../std/fs/struct.File.html#method.open"><code>fs::File::open</code></a> が <a href="../std/io/struct.Error.html"><code>io::Error</code></a> を返すかもしれない。</li>
+<li><a href="http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode"><code>csv::Reader::decode</code></a> は1度に1件のレコードをデコードし、 <a href="http://burntsushi.net/rustdoc/csv/struct.DecodedRecords.html">レコードのデコード</a> （<code>Iterator</code> の impl の <code>Item</code> 関連型を見てください）は <a href="http://burntsushi.net/rustdoc/csv/enum.Error.html"><code>csv::Error</code></a> を起こすかもしれない。</li>
+<li>もし <code>row.population</code> が <code>None</code> なら、 <code>expect</code> の呼び出しはパニックする。</li>
 </ol>
 
-<p>Are there any others? What if we can&#39;t find a matching city? Tools like <code>grep</code>
-will return an error code, so we probably should too. So we have logic errors
-specific to our problem, IO errors and CSV parsing errors. We&#39;re going to
-explore two different ways to approach handling these errors.</p>
+<!-- Are there any others? What if we can't find a matching city? Tools like `grep` -->
 
-<p>I&#39;d like to start with <code>Box&lt;Error&gt;</code>. Later, we&#39;ll see how defining our own
-error type can be useful.</p>
+<!-- will return an error code, so we probably should too. So we have logic errors -->
 
-<h2 id='error-handling-with-boxerror' class='section-header'><a href='#error-handling-with-boxerror'>Error handling with <code>Box&lt;Error&gt;</code></a></h2>
-<p><code>Box&lt;Error&gt;</code> is nice because it <em>just works</em>. You don&#39;t need to define your own
-error types and you don&#39;t need any <code>From</code> implementations. The downside is that
-since <code>Box&lt;Error&gt;</code> is a trait object, it <em>erases the type</em>, which means the
-compiler can no longer reason about its underlying type.</p>
+<!-- specific to our problem, IO errors and CSV parsing errors. We're going to -->
 
-<p><a href="#the-limits-of-combinators">Previously</a> we started refactoring our code by
-changing the type of our function from <code>T</code> to <code>Result&lt;T, OurErrorType&gt;</code>. In
-this case, <code>OurErrorType</code> is just <code>Box&lt;Error&gt;</code>. But what&#39;s <code>T</code>? And can we add
-a return type to <code>main</code>?</p>
+<!-- explore two different ways to approach handling these errors. -->
 
-<p>The answer to the second question is no, we can&#39;t. That means we&#39;ll need to
-write a new function. But what is <code>T</code>? The simplest thing we can do is to
-return a list of matching <code>Row</code> values as a <code>Vec&lt;Row&gt;</code>. (Better code would
-return an iterator, but that is left as an exercise to the reader.)</p>
+<p>他にもありますか？
+もし一致する都市が見つからなかったら？
+<code>grep</code> のようなツールはエラーコードを返しますので、ここでも、そうするべきかもしれません。
+つまり、IOエラーとCSVパースエラーの他に、このプログラム特有のエラーロジックがあるわけです。
+これらのエラーを扱うために、2つのアプローチを試してみましょう。</p>
 
-<p>Let&#39;s refactor our code into its own function, but keep the calls to <code>unwrap</code>.
-Note that we opt to handle the possibility of a missing population count by
-simply ignoring that row.</p>
+<!-- I'd like to start with `Box<Error>`. Later, we'll see how defining our own -->
+
+<!-- error type can be useful. -->
+
+<p>まず <code>Box&lt;Error&gt;</code> から始めたいと思います。
+その後で、独自のエラー型を定義すると、どのように便利になるかを見てみましょう。</p>
+
+<!-- ## Error handling with `Box<Error>` -->
+
+<h2 id='boxerror-によるエラー処理' class='section-header'><a href='#boxerror-によるエラー処理'><code>Box&lt;Error&gt;</code> によるエラー処理</a></h2>
+<!-- `Box<Error>` is nice because it *just works*. You don't need to define your own -->
+
+<!-- error types and you don't need any `From` implementations. The downside is that -->
+
+<!-- since `Box<Error>` is a trait object, it *erases the type*, which means the -->
+
+<!-- compiler can no longer reason about its underlying type. -->
+
+<p><code>Box&lt;Error&gt;</code> の良いところは <em>とにかく動く</em> ことです。
+エラー型を定義して <code>From</code> を実装する、といったことは必要ありません。
+これの欠点は <code>Box&lt;Error&gt;</code> がトレイトオブジェクトなので <em>型消去</em> され、コンパイラが背後の型を推測できなくなることです。</p>
+
+<!-- [Previously](#the-limits-of-combinators) we started refactoring our code by -->
+
+<!-- changing the type of our function from `T` to `Result<T, OurErrorType>`. In -->
+
+<!-- this case, `OurErrorType` is just `Box<Error>`. But what's `T`? And can we add -->
+
+<!-- a return type to `main`? -->
+
+<p><a href="#%E3%82%B3%E3%83%B3%E3%83%93%E3%83%8D%E3%83%BC%E3%82%BF%E3%81%AE%E9%99%90%E7%95%8C">以前</a> コードのリファクタリングを、関数の型を <code>T</code> から <code>Result&lt;T, 私たちのエラー型&gt;</code> に変更することから始めました。
+ここでは <code>私たちのエラー型</code> は単に <code>Box&lt;Error&gt;</code> です。
+でも <code>T</code> は何になるでしょう？
+それに <code>main</code> にリターン型を付けられるのでしょうか？</p>
+
+<!-- The answer to the second question is no, we can't. That means we'll need to -->
+
+<!-- write a new function. But what is `T`? The simplest thing we can do is to -->
+
+<!-- return a list of matching `Row` values as a `Vec<Row>`. (Better code would -->
+
+<!-- return an iterator, but that is left as an exercise to the reader.) -->
+
+<p>2つ目の質問の答えはノーです。できません。
+つまり新しい関数を書くことになります。
+では <code>T</code> は何になるでしょう？
+一番簡単にできるのは、マッチした <code>Row</code> 値のリストを <code>Vec&lt;Row&gt;</code> として返すことです。
+（もっと良いコードはイテレータを返すかもしれませんが、これは読者の皆さんへの練習問題とします。）</p>
+
+<!-- Let's refactor our code into its own function, but keep the calls to `unwrap`. -->
+
+<!-- Note that we opt to handle the possibility of a missing population count by -->
+
+<!-- simply ignoring that row. -->
+
+<p>該当のコードを、専用の関数へとリファクタリングしましょう。
+ただし <code>unwrap</code> の呼び出しはそのままにします。
+また、人口のカウントがない場合は、いまは単にその行を無視することに注意してください。</p>
 <span class='rusttest'>struct Row {
     // unchanged
+    // 変更なし
 }
 
 struct PopulationCount {
@@ -3614,6 +3805,8 @@ struct PopulationCount {
     country: String,
     // This is no longer an `Option` because values of this type are only
     // constructed if they have a population count.
+    // これは `Option` から変更します。なぜなら、この型の値は
+    // 人口のカウントがあるときだけ構築されるようになったからです。
     count: u64,
 }
 
@@ -3628,7 +3821,8 @@ fn search&lt;P: AsRef&lt;Path&gt;&gt;(file_path: P, city: &amp;str) -&gt; Vec&lt
     for row in rdr.decode::&lt;Row&gt;() {
         let row = row.unwrap();
         match row.population {
-            None =&gt; { } // skip it
+          // None =&gt; { } // skip it
+            None =&gt; { } // スキップする
             Some(count) =&gt; if row.city == city {
                 found.push(PopulationCount {
                     city: row.city,
@@ -3666,14 +3860,14 @@ fn main() {
 }
 </span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Row</span> {
-    <span class='comment'>// unchanged</span>
+    <span class='comment'>// 変更なし</span>
 }
 
 <span class='kw'>struct</span> <span class='ident'>PopulationCount</span> {
     <span class='ident'>city</span>: <span class='ident'>String</span>,
     <span class='ident'>country</span>: <span class='ident'>String</span>,
-    <span class='comment'>// This is no longer an `Option` because values of this type are only</span>
-    <span class='comment'>// constructed if they have a population count.</span>
+    <span class='comment'>// これは `Option` から変更します。なぜなら、この型の値は</span>
+    <span class='comment'>// 人口のカウントがあるときだけ構築されるようになったからです。</span>
     <span class='ident'>count</span>: <span class='ident'>u64</span>,
 }
 
@@ -3688,7 +3882,7 @@ fn main() {
     <span class='kw'>for</span> <span class='ident'>row</span> <span class='kw'>in</span> <span class='ident'>rdr</span>.<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>Row</span><span class='op'>&gt;</span>() {
         <span class='kw'>let</span> <span class='ident'>row</span> <span class='op'>=</span> <span class='ident'>row</span>.<span class='ident'>unwrap</span>();
         <span class='kw'>match</span> <span class='ident'>row</span>.<span class='ident'>population</span> {
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { } <span class='comment'>// skip it</span>
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { } <span class='comment'>// スキップする</span>
             <span class='prelude-val'>Some</span>(<span class='ident'>count</span>) <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='ident'>row</span>.<span class='ident'>city</span> <span class='op'>==</span> <span class='ident'>city</span> {
                 <span class='ident'>found</span>.<span class='ident'>push</span>(<span class='ident'>PopulationCount</span> {
                     <span class='ident'>city</span>: <span class='ident'>row</span>.<span class='ident'>city</span>,
@@ -3726,19 +3920,35 @@ fn main() {
 }
 </pre>
 
-<p>While we got rid of one use of <code>expect</code> (which is a nicer variant of <code>unwrap</code>),
-we still should handle the absence of any search results.</p>
+<!-- While we got rid of one use of `expect` (which is a nicer variant of `unwrap`), -->
 
-<p>To convert this to proper error handling, we need to do the following:</p>
+<!-- we still should handle the absence of any search results. -->
+
+<p><code>expect</code> （<code>unwrap</code> の少し良い版）の使用を1つ取り除くことができましたが、検索の結果が無いときのハンドリングは、依然として必要です。</p>
+
+<!-- To convert this to proper error handling, we need to do the following: -->
+
+<p>このエラーを適切に処理するためには、以下のようにします：</p>
+
+<!-- 1. Change the return type of `search` to be `Result<Vec<PopulationCount>, -->
+
+<!--    Box<Error>>`. -->
+
+<!-- 2. Use the [`try!` macro](#code-try-def) so that errors are returned to the -->
+
+<!--    caller instead of panicking the program. -->
+
+<!-- 3. Handle the error in `main`. -->
 
 <ol>
-<li>Change the return type of <code>search</code> to be <code>Result&lt;Vec&lt;PopulationCount&gt;, Box&lt;Error&gt;&gt;</code>.</li>
-<li>Use the <a href="#code-try-def"><code>try!</code> macro</a> so that errors are returned to the
-caller instead of panicking the program.</li>
-<li>Handle the error in <code>main</code>.</li>
+<li><code>search</code> のリターン型を <code>Result&lt;Vec&lt;PopulationCount&gt;, Box&lt;Error&gt;&gt;</code> に変更する。</li>
+<li><a href="#code-try-def"><code>try!</code> マクロ</a> を使用することで、プログラムをパニックする代わりに、エラーを呼び出し元に返す。</li>
+<li><code>main</code> でエラーをハンドリングする。</li>
 </ol>
 
-<p>Let&#39;s try it:</p>
+<!-- Let's try it: -->
+
+<p>やってみましょう：</p>
 <span class='rusttest'>fn main() {
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: P, city: &amp;str)
@@ -3749,7 +3959,8 @@ caller instead of panicking the program.</li>
         for row in rdr.decode::&lt;Row&gt;() {
             let row = try!(row);
             match row.population {
-                None =&gt; { } // skip it
+              // None =&gt; { } // skip it
+                None =&gt; { } // スキップする
                 Some(count) =&gt; if row.city == city {
                     found.push(PopulationCount {
                         city: row.city,
@@ -3775,7 +3986,7 @@ caller instead of panicking the program.</li>
     <span class='kw'>for</span> <span class='ident'>row</span> <span class='kw'>in</span> <span class='ident'>rdr</span>.<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>Row</span><span class='op'>&gt;</span>() {
         <span class='kw'>let</span> <span class='ident'>row</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>row</span>);
         <span class='kw'>match</span> <span class='ident'>row</span>.<span class='ident'>population</span> {
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { } <span class='comment'>// skip it</span>
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { } <span class='comment'>// スキップする</span>
             <span class='prelude-val'>Some</span>(<span class='ident'>count</span>) <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='ident'>row</span>.<span class='ident'>city</span> <span class='op'>==</span> <span class='ident'>city</span> {
                 <span class='ident'>found</span>.<span class='ident'>push</span>(<span class='ident'>PopulationCount</span> {
                     <span class='ident'>city</span>: <span class='ident'>row</span>.<span class='ident'>city</span>,
@@ -3792,34 +4003,62 @@ caller instead of panicking the program.</li>
     }
 }</pre>
 
-<p>Instead of <code>x.unwrap()</code>, we now have <code>try!(x)</code>. Since our function returns a
-<code>Result&lt;T, E&gt;</code>, the <code>try!</code> macro will return early from the function if an
-error occurs.</p>
+<blockquote>
+<p>訳注：</p>
 
-<p>There is one big gotcha in this code: we used <code>Box&lt;Error + Send + Sync&gt;</code>
-instead of <code>Box&lt;Error&gt;</code>. We did this so we could convert a plain string to an
-error type. We need these extra bounds so that we can use the
-<a href="../std/convert/trait.From.html">corresponding <code>From</code>
-impls</a>:</p>
+<p>No matching cities with a population were found.：<br/>
+条件に合う人口データ付きの街は見つかりませんでした。</p>
+</blockquote>
+
+<!-- Instead of `x.unwrap()`, we now have `try!(x)`. Since our function returns a -->
+
+<!-- `Result<T, E>`, the `try!` macro will return early from the function if an -->
+
+<!-- error occurs. -->
+
+<p><code>x.unwrap()</code> の代わりに、今では <code>try!(x)</code> があります。
+私たちの関数が <code>Result&lt;T, E&gt;</code> を返すので、エラーの発生時、 <code>try!</code> マクロは関数の途中で戻ります。</p>
+
+<!-- There is one big gotcha in this code: we used `Box<Error + Send + Sync>` -->
+
+<!-- instead of `Box<Error>`. We did this so we could convert a plain string to an -->
+
+<!-- error type. We need these extra bounds so that we can use the -->
+
+<!-- [corresponding `From` -->
+
+<!-- impls](../std/convert/trait.From.html): -->
+
+<p>このコードで1点注意があります：
+<code>Box&lt;Error&gt;</code> の代わりに <code>Box&lt;Error + Send + Sync&gt;</code> を使いました。
+こうすると、プレーンな文字列をエラー型に変換できます。
+<a href="../std/convert/trait.From.html">この <code>From</code> 実装</a> を使うために、このような追加の制限が必要でした。</p>
 <span class='rusttest'>fn main() {
     // We are making use of this impl in the code above, since we call `From::from`
     // on a `&amp;&#39;static str`.
+    // 上のコードでは `&amp;&#39;static str` に対して `From::from` を呼ぶことで、
+    // こちらの実装を使おうとしています。
     impl&lt;&#39;a, &#39;b&gt; From&lt;&amp;&#39;b str&gt; for Box&lt;Error + Send + Sync + &#39;a&gt;
     
     // But this is also useful when you need to allocate a new string for an
     // error message, usually with `format!`.
+    // もし `format!` などを使ってエラーメッセージのために新しい文字列を
+    // 割り当てる場合は、こちらの実装も使えます。
     impl From&lt;String&gt; for Box&lt;Error + Send + Sync&gt;
 }</span><pre class='rust rust-example-rendered'>
-<span class='comment'>// We are making use of this impl in the code above, since we call `From::from`</span>
-<span class='comment'>// on a `&amp;&#39;static str`.</span>
+<span class='comment'>// 上のコードでは `&amp;&#39;static str` に対して `From::from` を呼ぶことで、</span>
+<span class='comment'>// こちらの実装を使おうとしています。</span>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>
 
-<span class='comment'>// But this is also useful when you need to allocate a new string for an</span>
-<span class='comment'>// error message, usually with `format!`.</span>
+<span class='comment'>// もし `format!` などを使ってエラーメッセージのために新しい文字列を</span>
+<span class='comment'>// 割り当てる場合は、こちらの実装も使えます。</span>
 <span class='kw'>impl</span> <span class='ident'>From</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Error</span> <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='ident'>Sync</span><span class='op'>&gt;</span></pre>
 
-<p>Since <code>search</code> now returns a <code>Result&lt;T, E&gt;</code>, <code>main</code> should use case analysis
-when calling <code>search</code>:</p>
+<!-- Since `search` now returns a `Result<T, E>`, `main` should use case analysis -->
+
+<!-- when calling `search`: -->
+
+<p><code>search</code> が <code>Result&lt;T, E&gt;</code> を返すようになったため、 <code>main</code> は <code>search</code> を呼ぶときに場合分けをしなければなりません：</p>
 <span class='rusttest'>fn main() {
     ...
     match search(&amp;data_file, &amp;city) {
@@ -3843,28 +4082,56 @@ when calling <code>search</code>:</p>
 }
 ...</pre>
 
-<p>Now that we&#39;ve seen how to do proper error handling with <code>Box&lt;Error&gt;</code>, let&#39;s
-try a different approach with our own custom error type. But first, let&#39;s take
-a quick break from error handling and add support for reading from <code>stdin</code>.</p>
+<!-- Now that we've seen how to do proper error handling with `Box<Error>`, let's -->
 
-<h2 id='reading-from-stdin' class='section-header'><a href='#reading-from-stdin'>Reading from stdin</a></h2>
-<p>In our program, we accept a single file for input and do one pass over the
-data. This means we probably should be able to accept input on stdin. But maybe
-we like the current format too—so let&#39;s have both!</p>
+<!-- try a different approach with our own custom error type. But first, let's take -->
 
-<p>Adding support for stdin is actually quite easy. There are only three things we
-have to do:</p>
+<!-- a quick break from error handling and add support for reading from `stdin`. -->
+
+<p><code>Box&lt;Error&gt;</code> を使った適切なエラーハンドリングについて見ましたので、次は独自のエラー型による別のアプローチを試してみましょう。
+でもその前に、少しの間、エラーハンドリングから離れて、 <code>stdin</code> からの読み込みをサポートしましょう。</p>
+
+<!-- ## Reading from stdin -->
+
+<h2 id='標準入力から読み込む' class='section-header'><a href='#標準入力から読み込む'>標準入力から読み込む</a></h2>
+<!-- In our program, we accept a single file for input and do one pass over the -->
+
+<!-- data. This means we probably should be able to accept input on stdin. But maybe -->
+
+<!-- we like the current format too—so let's have both! -->
+
+<p>このプログラムでは、入力としてファイルをただ一つ受け取り、1回のパスでデータを処理しています。
+これは、標準入力からの入力を受け付けたほうがいいことを意味しているのかもしれません。
+でも、いまの方法も捨てがたいので、両方できるようにしましょう！</p>
+
+<!-- Adding support for stdin is actually quite easy. There are only three things we -->
+
+<!-- have to do: -->
+
+<p>標準入力のサポートを追加するのは実に簡単です。
+やることは3つだけです：</p>
+
+<!-- 1. Tweak the program arguments so that a single parameter—the -->
+
+<!--    city—can be accepted while the population data is read from stdin. -->
+
+<!-- 2. Modify the program so that an option `-f` can take the file, if it -->
+
+<!--     is not passed into stdin. -->
+
+<!-- 3. Modify the `search` function to take an *optional* file path. When `None`, -->
+
+<!--    it should know to read from stdin. -->
 
 <ol>
-<li>Tweak the program arguments so that a single parameter—the
-city—can be accepted while the population data is read from stdin.</li>
-<li>Modify the program so that an option <code>-f</code> can take the file, if it
-is not passed into stdin.</li>
-<li>Modify the <code>search</code> function to take an <em>optional</em> file path. When <code>None</code>,
-it should know to read from stdin.</li>
+<li>プログラムの引数を微修正して、唯一のパラメータとして「都市」を受け付け、人口データは標準入力から読み込むようにする。</li>
+<li>プログラムを修正して、ファイルが標準入力に流し込まれなかったときに、<code>-f</code> オプションからファイルを得られるようにする。</li>
+<li><code>search</code> 関数を修正して、ファイルパスを <code>オプションで</code> 受け取れるようにする。もし <code>None</code> なら標準入力から読み込む。</li>
 </ol>
 
-<p>First, here&#39;s the new usage:</p>
+<!-- First, here's the new usage: -->
+
+<p>まず、使用法を変更します：</p>
 <span class='rusttest'>fn main() {
     fn print_usage(program: &amp;str, opts: Options) {
         println!(&quot;{}&quot;, opts.usage(&amp;format!(&quot;Usage: {} [options] &lt;city&gt;&quot;, program)));
@@ -3874,7 +4141,9 @@ it should know to read from stdin.</li>
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>opts</span>.<span class='ident'>usage</span>(<span class='kw-2'>&amp;</span><span class='macro'>format</span><span class='macro'>!</span>(<span class='string'>&quot;Usage: {} [options] &lt;city&gt;&quot;</span>, <span class='ident'>program</span>)));
 }</pre>
 
-<p>The next part is going to be only a little harder:</p>
+<!-- The next part is going to be only a little harder: -->
+
+<p>次のパートはやや難しくなります：</p>
 <span class='rusttest'>fn main() {
     ...
     let mut opts = Options::new();
@@ -3916,22 +4185,54 @@ it should know to read from stdin.</li>
 }
 ...</pre>
 
-<p>In this piece of code, we take <code>file</code> (which has the type
-<code>Option&lt;String&gt;</code>), and convert it to a type that <code>search</code> can use, in
-this case, <code>&amp;Option&lt;AsRef&lt;Path&gt;&gt;</code>. To do this, we take a reference of
-file, and map <code>Path::new</code> onto it. In this case, <code>as_ref()</code> converts
-the <code>Option&lt;String&gt;</code> into an <code>Option&lt;&amp;str&gt;</code>, and from there, we can
-execute <code>Path::new</code> to the content of the optional, and return the
-optional of the new value. Once we have that, it is a simple matter of
-getting the <code>city</code> argument and executing <code>search</code>.</p>
+<blockquote>
+<p>訳注：</p>
 
-<p>Modifying <code>search</code> is slightly trickier. The <code>csv</code> crate can build a
-parser out of
-<a href="http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.from_reader">any type that implements <code>io::Read</code></a>.
-But how can we use the same code over both types? There&#39;s actually a
-couple ways we could go about this. One way is to write <code>search</code> such
-that it is generic on some type parameter <code>R</code> that satisfies
-<code>io::Read</code>. Another way is to just use trait objects:</p>
+<p>Choose an input file, instead of using STDIN：<br/>
+STDINを使う代わりに、入力ファイルを選択する。</p>
+</blockquote>
+
+<!-- In this piece of code, we take `file` (which has the type -->
+
+<!-- `Option<String>`), and convert it to a type that `search` can use, in -->
+
+<!-- this case, `&Option<AsRef<Path>>`. To do this, we take a reference of -->
+
+<!-- file, and map `Path::new` onto it. In this case, `as_ref()` converts -->
+
+<!-- the `Option<String>` into an `Option<&str>`, and from there, we can -->
+
+<!-- execute `Path::new` to the content of the optional, and return the -->
+
+<!-- optional of the new value. Once we have that, it is a simple matter of -->
+
+<!-- getting the `city` argument and executing `search`. -->
+
+<p>このコードでは（<code>Option&lt;String&gt;</code> 型の） <code>file</code> を受け取り、 <code>search</code> が使える型、つまり今回は <code>&amp;Option&lt;AsRef&lt;Path&gt;&gt;</code> へ変換します。
+そのためには <code>file</code> の参照を得て、それに対して <code>Path::new</code> をマップします。
+このケースでは <code>as_ref()</code> が <code>Option&lt;String&gt;</code> を <code>Option&lt;&amp;str&gt;</code> へ変換しますので、続いて、そのオプション値の中身に対して <code>Path::new</code> を実行することで、新しいオプション値を返します。
+ここまでできれば、残りは単に <code>city</code> 引数を取得して <code>search</code> を実行するだけです。</p>
+
+<!-- Modifying `search` is slightly trickier. The `csv` crate can build a -->
+
+<!-- parser out of -->
+
+<!-- [any type that implements `io::Read`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.from_reader). -->
+
+<!-- But how can we use the same code over both types? There's actually a -->
+
+<!-- couple ways we could go about this. One way is to write `search` such -->
+
+<!-- that it is generic on some type parameter `R` that satisfies -->
+
+<!-- `io::Read`. Another way is to just use trait objects: -->
+
+<p><code>search</code> の修正は少し厄介です。
+<code>csv</code> トレイトは <a href="http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.from_reader"><code>io::Read</code> を実装している型</a> からなら、いずれかを問わず、パーサーを構築できます。
+しかし両方の型に同じコードが使えるのでしょうか？
+これを実際する方法は2つあります。
+ひとつの方法は <code>search</code> を <code>io::Read</code> を満たす型パラメータ <code>R</code> に対するジェネリックとして書くことです。
+もうひとつの方法は、以下のように、トレイトオブジェクトを使うことです：</p>
 <span class='rusttest'>fn main() {
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: &amp;Option&lt;P&gt;, city: &amp;str)
@@ -3943,6 +4244,7 @@ that it is generic on some type parameter <code>R</code> that satisfies
         };
         let mut rdr = csv::Reader::from_reader(input);
         // The rest remains unchanged!
+        // これ以降は変更なし！
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>search</span><span class='op'>&lt;</span><span class='ident'>P</span>: <span class='ident'>AsRef</span><span class='op'>&lt;</span><span class='ident'>Path</span><span class='op'>&gt;&gt;</span>
@@ -3954,17 +4256,28 @@ that it is generic on some type parameter <code>R</code> that satisfies
         <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>file_path</span>) <span class='op'>=&gt;</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>fs</span>::<span class='ident'>File</span>::<span class='ident'>open</span>(<span class='ident'>file_path</span>))),
     };
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>rdr</span> <span class='op'>=</span> <span class='ident'>csv</span>::<span class='ident'>Reader</span>::<span class='ident'>from_reader</span>(<span class='ident'>input</span>);
-    <span class='comment'>// The rest remains unchanged!</span>
+    <span class='comment'>// これ以降は変更なし！</span>
 }</pre>
 
-<h2 id='error-handling-with-a-custom-type' class='section-header'><a href='#error-handling-with-a-custom-type'>Error handling with a custom type</a></h2>
-<p>Previously, we learned how to
-<a href="#composing-custom-error-types">compose errors using a custom error type</a>.
-We did this by defining our error type as an <code>enum</code> and implementing <code>Error</code>
-and <code>From</code>.</p>
+<!-- ## Error handling with a custom type -->
 
-<p>Since we have three distinct errors (IO, CSV parsing and not found), let&#39;s
-define an <code>enum</code> with three variants:</p>
+<h2 id='独自のエラー型によるエラー処理' class='section-header'><a href='#独自のエラー型によるエラー処理'>独自のエラー型によるエラー処理</a></h2>
+<!-- Previously, we learned how to -->
+
+<!-- [compose errors using a custom error type](#composing-custom-error-types). -->
+
+<!-- We did this by defining our error type as an `enum` and implementing `Error` -->
+
+<!-- and `From`. -->
+
+<p>以前、どうやって <a href="#composing-custom-error-types">独自のエラー型を使ってエラーを合成する</a> のか学びました。
+そのときはエラー型を <code>enum</code> 型として定義して、<code>Error</code> と <code>From</code> を実装することで実現しました。</p>
+
+<!-- Since we have three distinct errors (IO, CSV parsing and not found), let's -->
+
+<!-- define an `enum` with three variants: -->
+
+<p>3つの異なるエラー（IO、CSVのパース、検索結果なし）がありますので <code>enum</code> として3つのヴァリアントを定義しましょう：</p>
 <span class='rusttest'>fn main() {
     #[derive(Debug)]
     enum CliError {
@@ -3980,7 +4293,9 @@ define an <code>enum</code> with three variants:</p>
     <span class='ident'>NotFound</span>,
 }</pre>
 
-<p>And now for impls on <code>Display</code> and <code>Error</code>:</p>
+<!-- And now for impls on `Display` and `Error`: -->
+
+<p><code>Display</code> と <code>Error</code> を実装します：</p>
 <span class='rusttest'>fn main() {
     impl fmt::Display for CliError {
         fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
@@ -4024,11 +4339,20 @@ define an <code>enum</code> with three variants:</p>
     }
 }</pre>
 
-<p>Before we can use our <code>CliError</code> type in our <code>search</code> function, we need to
-provide a couple <code>From</code> impls. How do we know which impls to provide? Well,
-we&#39;ll need to convert from both <code>io::Error</code> and <code>csv::Error</code> to <code>CliError</code>.
-Those are the only external errors, so we&#39;ll only need two <code>From</code> impls for
-now:</p>
+<!-- Before we can use our `CliError` type in our `search` function, we need to -->
+
+<!-- provide a couple `From` impls. How do we know which impls to provide? Well, -->
+
+<!-- we'll need to convert from both `io::Error` and `csv::Error` to `CliError`. -->
+
+<!-- Those are the only external errors, so we'll only need two `From` impls for -->
+
+<!-- now: -->
+
+<p><code>CliError</code> を <code>search</code> 関数の型に使う前に、いくつかの <code>From</code> 実装を用意しなければなりません。
+どのエラーについて用意したらいいのでしょう？
+ええと <code>io::Error</code> と <code>csv::Error</code> の両方を <code>CliError</code> に変換する必要があります。
+外部エラーはこれだけですので、今は2つの <code>From</code> 実装だけが必要になるのです：</p>
 <span class='rusttest'>fn main() {
     impl From&lt;io::Error&gt; for CliError {
         fn from(err: io::Error) -&gt; CliError {
@@ -4054,14 +4378,26 @@ now:</p>
     }
 }</pre>
 
-<p>The <code>From</code> impls are important because of how
-<a href="#code-try-def"><code>try!</code> is defined</a>. In particular, if an error occurs,
-<code>From::from</code> is called on the error, which in this case, will convert it to our
-own error type <code>CliError</code>.</p>
+<!-- The `From` impls are important because of how -->
 
-<p>With the <code>From</code> impls done, we only need to make two small tweaks to our
-<code>search</code> function: the return type and the “not found” error. Here it is in
-full:</p>
+<!-- [`try!` is defined](#code-try-def). In particular, if an error occurs, -->
+
+<!-- `From::from` is called on the error, which in this case, will convert it to our -->
+
+<!-- own error type `CliError`. -->
+
+<p><a href="#code-try-def"><code>try!</code> がこのように定義</a> されているので、 <code>From</code> の実装が重要になります。
+特にエラーが起こると、エラーに対して <code>From::from</code> が呼ばれますので、このケースでは、それらのエラーが私たち独自のエラー型 <code>CliError</code> へ変換されます。</p>
+
+<!-- With the `From` impls done, we only need to make two small tweaks to our -->
+
+<!-- `search` function: the return type and the “not found” error. Here it is in -->
+
+<!-- full: -->
+
+<p><code>From</code> の実装ができましたので、<code>search</code> 関数に2つの小さな修正が必要です：
+リターン型と「not found」エラーです。
+全体はこうなります：</p>
 <span class='rusttest'>fn main() {
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: &amp;Option&lt;P&gt;, city: &amp;str)
@@ -4075,7 +4411,8 @@ full:</p>
         for row in rdr.decode::&lt;Row&gt;() {
             let row = try!(row);
             match row.population {
-                None =&gt; { } // skip it
+              // None =&gt; { } // skip it
+                None =&gt; { } // スキップする
                 Some(count) =&gt; if row.city == city {
                     found.push(PopulationCount {
                         city: row.city,
@@ -4104,7 +4441,7 @@ full:</p>
     <span class='kw'>for</span> <span class='ident'>row</span> <span class='kw'>in</span> <span class='ident'>rdr</span>.<span class='ident'>decode</span>::<span class='op'>&lt;</span><span class='ident'>Row</span><span class='op'>&gt;</span>() {
         <span class='kw'>let</span> <span class='ident'>row</span> <span class='op'>=</span> <span class='macro'>try</span><span class='macro'>!</span>(<span class='ident'>row</span>);
         <span class='kw'>match</span> <span class='ident'>row</span>.<span class='ident'>population</span> {
-            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { } <span class='comment'>// skip it</span>
+            <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> { } <span class='comment'>// スキップする</span>
             <span class='prelude-val'>Some</span>(<span class='ident'>count</span>) <span class='op'>=&gt;</span> <span class='kw'>if</span> <span class='ident'>row</span>.<span class='ident'>city</span> <span class='op'>==</span> <span class='ident'>city</span> {
                 <span class='ident'>found</span>.<span class='ident'>push</span>(<span class='ident'>PopulationCount</span> {
                     <span class='ident'>city</span>: <span class='ident'>row</span>.<span class='ident'>city</span>,
@@ -4121,34 +4458,74 @@ full:</p>
     }
 }</pre>
 
-<p>No other changes are necessary.</p>
+<!-- No other changes are necessary. -->
 
-<h2 id='adding-functionality' class='section-header'><a href='#adding-functionality'>Adding functionality</a></h2>
-<p>Writing generic code is great, because generalizing stuff is cool, and
-it can then be useful later. But sometimes, the juice isn&#39;t worth the
-squeeze. Look at what we just did in the previous step:</p>
+<p>これ以外の変更は不要です。</p>
+
+<!-- ## Adding functionality -->
+
+<h2 id='機能を追加する' class='section-header'><a href='#機能を追加する'>機能を追加する</a></h2>
+<!-- Writing generic code is great, because generalizing stuff is cool, and -->
+
+<!-- it can then be useful later. But sometimes, the juice isn't worth the -->
+
+<!-- squeeze. Look at what we just did in the previous step: -->
+
+<p>汎用的なコードを書くのは素晴らしいことです。
+なぜなら、物事を汎用的にするのはクールですし、後になって役立つかもしれません。
+でも時には、その苦労の甲斐がないこともあります。
+最後のステップで何をしたか振り返ってみましょう：</p>
+
+<!-- 1. Defined a new error type. -->
+
+<!-- 2. Added impls for `Error`, `Display` and two for `From`. -->
 
 <ol>
-<li>Defined a new error type.</li>
-<li>Added impls for <code>Error</code>, <code>Display</code> and two for <code>From</code>.</li>
+<li>新しいエラー型を定義した。</li>
+<li><code>Error</code> と <code>Display</code> の実装を追加し、2つのエラーに対して <code>From</code> も実装した。</li>
 </ol>
 
-<p>The big downside here is that our program didn&#39;t improve a whole lot.
-There is quite a bit of overhead to representing errors with <code>enum</code>s,
-especially in short programs like this.</p>
+<!-- The big downside here is that our program didn't improve a whole lot. -->
 
-<p><em>One</em> useful aspect of using a custom error type like we&#39;ve done here is that
-the <code>main</code> function can now choose to handle errors differently. Previously,
-with <code>Box&lt;Error&gt;</code>, it didn&#39;t have much of a choice: just print the message.
-We&#39;re still doing that here, but what if we wanted to, say, add a <code>--quiet</code>
-flag? The <code>--quiet</code> flag should silence any verbose output.</p>
+<!-- There is quite a bit of overhead to representing errors with `enum`s, -->
 
-<p>Right now, if the program doesn&#39;t find a match, it will output a message saying
-so. This can be a little clumsy, especially if you intend for the program to
-be used in shell scripts.</p>
+<!-- especially in short programs like this. -->
 
-<p>So let&#39;s start by adding the flags. Like before, we need to tweak the usage
-string and add a flag to the Option variable. Once we&#39;ve done that, Getopts does the rest:</p>
+<p>ここでの大きな問題は、このプログラムは全体で見ると大して良くならなかったことです。
+<code>enum</code> でエラーを表現するには、多くの付随する作業が必要です。
+特にこのような短いプログラムでは、それが顕著に現れました。</p>
+
+<!-- *One* useful aspect of using a custom error type like we've done here is that -->
+
+<!-- the `main` function can now choose to handle errors differently. Previously, -->
+
+<!-- with `Box<Error>`, it didn't have much of a choice: just print the message. -->
+
+<!-- We're still doing that here, but what if we wanted to, say, add a `--quiet` -->
+
+<!-- flag? The `--quiet` flag should silence any verbose output. -->
+
+<p>ここでしたような独自のエラー型を使うのが便利といえる <em>一つの</em> 要素は、 <code>main</code> 関数がエラーによってどう対処するのかを選択できるようになったことです。
+以前の <code>Box&lt;Error&gt;</code> では、メッセージを表示する以外、選択の余地はほとんどありませんでした。
+いまでもそうですが、例えば、もし <code>--quiet</code> フラグを追加したくなったらどうでしょうか？
+<code>--quiet</code> フラグは詳細な出力を抑止すべきです。</p>
+
+<!-- Right now, if the program doesn't find a match, it will output a message saying -->
+
+<!-- so. This can be a little clumsy, especially if you intend for the program to -->
+
+<!-- be used in shell scripts. -->
+
+<p>いま現在は、プログラムがマッチするものを見つけられなかったとき、それを告げるメッセージを表示します。
+これは、特にプログラムをシェルスクリプトから使いたいときなどは、扱いにくいかもしれません。</p>
+
+<!-- So let's start by adding the flags. Like before, we need to tweak the usage -->
+
+<!-- string and add a flag to the Option variable. Once we've done that, Getopts does the rest: -->
+
+<p>フラグを追加してみましょう。
+以前したように、使用法についての文字列を少し修正して、オプション変数にフラグを追加します。
+そこまですれば、残りはGetoptsがやってくれます：</p>
 <span class='rusttest'>fn main() {
     ...
     let mut opts = Options::new();
@@ -4164,8 +4541,12 @@ string and add a flag to the Option variable. Once we&#39;ve done that, Getopts 
 <span class='ident'>opts</span>.<span class='ident'>optflag</span>(<span class='string'>&quot;q&quot;</span>, <span class='string'>&quot;quiet&quot;</span>, <span class='string'>&quot;Silences errors and warnings.&quot;</span>);
 ...</pre>
 
-<p>Now we just need to implement our “quiet” functionality. This requires us to
-tweak the case analysis in <code>main</code>:</p>
+<!-- Now we just need to implement our “quiet” functionality. This requires us to -->
+
+<!-- tweak the case analysis in `main`: -->
+
+<p>後は「quiet」機能を実装するだけです。
+<code>main</code> 関数の場合分けを少し修正します：</p>
 <span class='rusttest'>fn main() {
     match search(&amp;args.arg_data_path, &amp;args.arg_city) {
         Err(CliError::NotFound) if args.flag_quiet =&gt; process::exit(1),
@@ -4183,61 +4564,140 @@ tweak the case analysis in <code>main</code>:</p>
     }
 }</pre>
 
-<p>Certainly, we don&#39;t want to be quiet if there was an IO error or if the data
-failed to parse. Therefore, we use case analysis to check if the error type is
-<code>NotFound</code> <em>and</em> if <code>--quiet</code> has been enabled. If the search failed, we still
-quit with an exit code (following <code>grep</code>&#39;s convention).</p>
+<blockquote>
+<p>訳注：</p>
 
-<p>If we had stuck with <code>Box&lt;Error&gt;</code>, then it would be pretty tricky to implement
-the <code>--quiet</code> functionality.</p>
+<p>Silences errors and warnings.：エラーや警告を抑止します。</p>
+</blockquote>
 
-<p>This pretty much sums up our case study. From here, you should be ready to go
-out into the world and write your own programs and libraries with proper error
-handling.</p>
+<!-- Certainly, we don't want to be quiet if there was an IO error or if the data -->
 
-<h1 id='the-short-story' class='section-header'><a href='#the-short-story'>The Short Story</a></h1>
-<p>Since this chapter is long, it is useful to have a quick summary for error
-handling in Rust. These are some good “rules of thumb.&quot; They are emphatically
-<em>not</em> commandments. There are probably good reasons to break every one of these
-heuristics!</p>
+<!-- failed to parse. Therefore, we use case analysis to check if the error type is -->
+
+<!-- `NotFound` *and* if `--quiet` has been enabled. If the search failed, we still -->
+
+<!-- quit with an exit code (following `grep`'s convention). -->
+
+<p>もちろん、IOエラーが起こったり、データのパースに失敗したときは、エラーを抑止したくはありません。
+そこで場合分けを行い、エラータイプが <code>NotFound</code> <em>かつ</em> <code>--quiet</code> が指定されたかを検査しています。
+もし検索に失敗したら、今まで通り（ <code>grep</code> の動作にならい）なにも表示せず、exitコードと共に終了します。</p>
+
+<!-- If we had stuck with `Box<Error>`, then it would be pretty tricky to implement -->
+
+<!-- the `--quiet` functionality. -->
+
+<p>もし <code>Box&lt;Error&gt;</code> で留まっていたら、 <code>--quiet</code> 機能を実装するのは、かなり面倒だったでしょう。</p>
+
+<!-- This pretty much sums up our case study. From here, you should be ready to go -->
+
+<!-- out into the world and write your own programs and libraries with proper error -->
+
+<!-- handling. -->
+
+<p>これが、このケーススタディの締めくくりとなります。
+これからは外の世界に飛び出して、あなた自身のプログラムやライブラリを、適切なエラーハンドリングと共に書くことができるでしょう。</p>
+
+<!-- # The Short Story -->
+
+<h1 id='まとめ' class='section-header'><a href='#まとめ'>まとめ</a></h1>
+<!-- Since this chapter is long, it is useful to have a quick summary for error -->
+
+<!-- handling in Rust. These are some good “rules of thumb." They are emphatically -->
+
+<!-- *not* commandments. There are probably good reasons to break every one of these -->
+
+<!-- heuristics! -->
+
+<p>この章は長いので、Rustにおけるエラー処理について簡単にまとめたほうがいいでしょう。
+そこには「大まかな法則」が存在しますが、これらは命令的なものでは断固として <em>ありません</em> 。
+それぞれのヒューリスティックを破るだけの十分な理由もあり得ます！</p>
+
+<!-- * If you're writing short example code that would be overburdened by error -->
+
+<!--   handling, it's probably just fine to use `unwrap` (whether that's -->
+
+<!--   [`Result::unwrap`](../std/result/enum.Result.html#method.unwrap), -->
+
+<!--   [`Option::unwrap`](../std/option/enum.Option.html#method.unwrap) -->
+
+<!--   or preferably -->
+
+<!--   [`Option::expect`](../std/option/enum.Option.html#method.expect)). -->
+
+<!--   Consumers of your code should know to use proper error handling. (If they -->
+
+<!--   don't, send them here!) -->
+
+<!-- * If you're writing a quick 'n' dirty program, don't feel ashamed if you use -->
+
+<!--   `unwrap`. Be warned: if it winds up in someone else's hands, don't be -->
+
+<!--   surprised if they are agitated by poor error messages! -->
+
+<!-- * If you're writing a quick 'n' dirty program and feel ashamed about panicking -->
+
+<!--   anyway, then use either a `String` or a `Box<Error + Send + Sync>` for your -->
+
+<!--   error type (the `Box<Error + Send + Sync>` type is because of the -->
+
+<!--   [available `From` impls](../std/convert/trait.From.html)). -->
+
+<!-- * Otherwise, in a program, define your own error types with appropriate -->
+
+<!--   [`From`](../std/convert/trait.From.html) -->
+
+<!--   and -->
+
+<!--   [`Error`](../std/error/trait.Error.html) -->
+
+<!--   impls to make the [`try!`](../std/macro.try!.html) -->
+
+<!--   macro more ergonomic. -->
+
+<!-- * If you're writing a library and your code can produce errors, define your own -->
+
+<!--   error type and implement the -->
+
+<!--   [`std::error::Error`](../std/error/trait.Error.html) -->
+
+<!--   trait. Where appropriate, implement -->
+
+<!--   [`From`](../std/convert/trait.From.html) to make both -->
+
+<!--   your library code and the caller's code easier to write. (Because of Rust's -->
+
+<!--   coherence rules, callers will not be able to impl `From` on your error type, -->
+
+<!--   so your library should do it.) -->
+
+<!-- * Learn the combinators defined on -->
+
+<!--   [`Option`](../std/option/enum.Option.html) -->
+
+<!--   and -->
+
+<!--   [`Result`](../std/result/enum.Result.html). -->
+
+<!--   Using them exclusively can be a bit tiring at times, but I've personally -->
+
+<!--   found a healthy mix of `try!` and combinators to be quite appealing. -->
+
+<!--   `and_then`, `map` and `unwrap_or` are my favorites. -->
 
 <ul>
-<li>If you&#39;re writing short example code that would be overburdened by error
-handling, it&#39;s probably just fine to use <code>unwrap</code> (whether that&#39;s
-<a href="../std/result/enum.Result.html#method.unwrap"><code>Result::unwrap</code></a>,
-<a href="../std/option/enum.Option.html#method.unwrap"><code>Option::unwrap</code></a>
-or preferably
-<a href="../std/option/enum.Option.html#method.expect"><code>Option::expect</code></a>).
-Consumers of your code should know to use proper error handling. (If they
-don&#39;t, send them here!)</li>
-<li>If you&#39;re writing a quick &#39;n&#39; dirty program, don&#39;t feel ashamed if you use
-<code>unwrap</code>. Be warned: if it winds up in someone else&#39;s hands, don&#39;t be
-surprised if they are agitated by poor error messages!</li>
-<li>If you&#39;re writing a quick &#39;n&#39; dirty program and feel ashamed about panicking
-anyway, then use either a <code>String</code> or a <code>Box&lt;Error + Send + Sync&gt;</code> for your
-error type (the <code>Box&lt;Error + Send + Sync&gt;</code> type is because of the
-<a href="../std/convert/trait.From.html">available <code>From</code> impls</a>).</li>
-<li>Otherwise, in a program, define your own error types with appropriate
-<a href="../std/convert/trait.From.html"><code>From</code></a>
-and
-<a href="../std/error/trait.Error.html"><code>Error</code></a>
-impls to make the <a href="../std/macro.try!.html"><code>try!</code></a>
-macro more ergonomic.</li>
-<li>If you&#39;re writing a library and your code can produce errors, define your own
-error type and implement the
-<a href="../std/error/trait.Error.html"><code>std::error::Error</code></a>
-trait. Where appropriate, implement
-<a href="../std/convert/trait.From.html"><code>From</code></a> to make both
-your library code and the caller&#39;s code easier to write. (Because of Rust&#39;s
-coherence rules, callers will not be able to impl <code>From</code> on your error type,
-so your library should do it.)</li>
-<li>Learn the combinators defined on
-<a href="../std/option/enum.Option.html"><code>Option</code></a>
-and
-<a href="../std/result/enum.Result.html"><code>Result</code></a>.
-Using them exclusively can be a bit tiring at times, but I&#39;ve personally
-found a healthy mix of <code>try!</code> and combinators to be quite appealing.
-<code>and_then</code>, <code>map</code> and <code>unwrap_or</code> are my favorites.</li>
+<li>もし短いサンプルコードを書いていて、エラーハンドリングが重荷になるようなら、 <code>unwrap</code> を使っても大丈夫かもしれません（ <a href="../std/result/enum.Result.html#method.unwrap"><code>Result::unwrap</code></a>, <a href="../std/option/enum.Option.html#method.unwrap"><code>Option::unwrap</code></a>, <a href="../std/option/enum.Option.html#method.expect"><code>Option::expect</code></a> のいずれかが使えます）。
+あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、この章を紹介してください！）</li>
+<li>もし即興のプログラムを書いているなら <code>unwrap</code> を使うことに罪悪感を持たなくてもいいでしょう。
+ただし警告があります：もしそれが最終的に他の人たちの手に渡るなら、彼らが貧弱なエラーメッセージに動揺してもおかしくありません。</li>
+<li>もし即興のプログラムを書いていて、パニックすることに、どうしても後ろめたさを感じるなら、エラー型として <code>String</code> か <code>Box&lt;Error + Send + Sync&gt;</code> のいずれかを使ってください（ <code>Box&lt;Error + Send + Sync&gt;</code> は <a href="../std/convert/trait.From.html"><code>From</code> 実装がある</a> ので使えます）。</li>
+<li>これらに該当しないなら、独自のエラー型を定義し、適切な <a href="../std/convert/trait.From.html"><code>From</code></a> と <a href="../std/error/trait.Error.html"><code>Error</code></a> を実装することで <a href="../std/macro.try!.html"><code>try!</code></a> マクロをエルゴノミックにしましょう。</li>
+<li>もしライブラリを書いていて、そのコードがエラーを起こす可能性があるなら、独自のエラー型を定義し、 <a href="../std/error/trait.Error.html"><code>std::error::Error</code></a> トレイトを実装してください。
+もし必要なら <a href="../std/convert/trait.From.html"><code>From</code></a> を実装することで、ライブラリ自身と呼び出し元のコードを書きやすくしてください。
+（Rustの調和性規則(coherence rule) により、呼び出し側では、あなたのエラー型に対して <code>From</code> を実装することはできません。
+ライブラリでするべきです。）</li>
+<li><a href="../std/option/enum.Option.html"><code>Option</code></a> と <a href="../std/result/enum.Result.html"><code>Result</code></a> で定義されているコンビネータについて学んでください。
+それだけを使うのは大変ですが、 <code>try!</code> と コンビネータを適度にミックスすることは、個人的には、とても魅力的な方法だと考えています。
+<code>and_then</code>, <code>map</code>, <code>unwrap_or</code> が私のお気に入りです。</li>
 </ul>
 
     <script type="text/javascript">
