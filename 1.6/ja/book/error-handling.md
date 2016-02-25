@@ -2907,10 +2907,6 @@ match search(&args.arg_data_path, &args.arg_city) {
   あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、この章を紹介してください！）
 * もし即興のプログラムを書いているなら `unwrap` を使うことに罪悪感を持たなくてもいいでしょう。
   ただし警告があります：もしそれが最終的に他の人たちの手に渡るなら、彼らが貧弱なエラーメッセージに動揺してもおかしくありません。
-<!-- * If you're writing a quick 'n' dirty program and feel ashamed about panicking -->
-<!--   anyway, then use either a `String` or a `Box<Error + Send + Sync>` for your -->
-<!--   error type (the `Box<Error + Send + Sync>` type is because of the -->
-<!--   [available `From` impls](../std/convert/trait.From.html)). -->
 * もし即興のプログラムを書いていて、パニックすることに、どうしても後ろめたさを感じるなら、エラー型として `String` か `Box<Error + Send + Sync>` のいずれかを使ってください（ `Box<Error + Send + Sync>` は [`From` 実装がある](../std/convert/trait.From.html) ので使えます）。
 * これらに該当しないなら、独自のエラー型を定義し、適切な [`From`](../std/convert/trait.From.html) と [`Error`](../std/error/trait.Error.html) を実装することで [`try!`](../std/macro.try!.html) マクロをエルゴノミックにしましょう。
 * もしライブラリを書いていて、そのコードがエラーを起こす可能性があるなら、独自のエラー型を定義し、 [`std::error::Error`](../std/error/trait.Error.html) トレイトを実装してください。
