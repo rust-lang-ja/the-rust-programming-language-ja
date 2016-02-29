@@ -10,7 +10,7 @@ Rustの重要な特長の1つは、プログラムのコストと保証を制御
 <!--run time and compile time enforcement. This section will explain a few selected abstractions in-->
 <!--detail.-->
 Rustの標準ライブラリには、様々な「ラッパ型」の抽象があり、それらはコスト、エルゴノミクス、保証の間の多数のトレードオフをまとめています。
-それらのトレードオフの多くでは実行時とコンパイル時のどちらかを選ばなければなりません。
+それらのトレードオフの多くでは実行時とコンパイル時のどちらかを選ばせてくれます。
 このセクションでは、いくつかの抽象を選び、詳細に説明します。
 
 <!--Before proceeding, it is highly recommended that one reads about [ownership][ownership] and-->
@@ -29,7 +29,7 @@ Rustの標準ライブラリには、様々な「ラッパ型」の抽象があ�
 <!--out references to the contained data, it is the only owner of the data. In particular, consider-->
 <!--the following:-->
 [`Box<T>`][box] は「所有される」ポインタ、すなわち「ボックス」です。
-それは中身のデータへの参照を渡すことができますが、そのデータの唯一の所有者です。
+ボックスは中身のデータへの参照を渡すことができますが、ボックスだけがそのデータの唯一の所有者です。
 特に、次のことを考えましょう。
 
 ```rust
@@ -43,7 +43,7 @@ let y = x;
 <!--programmer to use `x` after this. A box can similarly be moved _out_ of a function by returning it.-->
 ここで、そのボックスは `y` に _ムーブ_ されました。
 `x` はもはやそれを所有していないので、これ以降、コンパイラはプログラマが `x` を使うことを許しません。
-同様に、ボックスはそれを戻すことで関数の _外_ にムーブさせることもできます。
+同様に、ボックスはそれを返すことで関数の _外_ にムーブさせることもできます。
 
 <!--When a box (that hasn't been moved) goes out of scope, destructors are run. These destructors take-->
 <!--care of deallocating the inner data.-->
@@ -54,7 +54,7 @@ let y = x;
 <!--heap and safely pass around a pointer to that memory, this is ideal. Note that you will only be-->
 <!--allowed to share references to this by the regular borrowing rules, checked at compile time.-->
 これは動的割当てのゼロコスト抽象化です。
-もしヒープにメモリを割り当てたくて、そのメモリへのポインタを安全に渡したいのであれば、これは理想的です。
+もしヒープにメモリを割り当てたくて、そのメモリへのポインタを安全に取り回したいのであれば、これは理想的です。
 コンパイル時にチェックされる通常の借用のルールに基づいてこれへの参照を共有することが許されているだけだということに注意しましょう。
 
 [box]: ../std/boxed/struct.Box.html
@@ -226,7 +226,7 @@ println!("{}", x);
 <!--unnecessary. However, this also relaxes the guarantees that the restriction provides; so if your-->
 <!--invariants depend on data stored within `Cell`, you should be careful.-->
 これは「ミュータブルなエイリアスはない」という制約を、それが不要な場所において緩和します。
-しかし、これはその制約が提供する保証をも緩和してしまいます。もし不変性が `Cell` に保存されているデータに依存しているのであれば、注意すべきです。
+しかし、これはその制約が提供する保証をも緩和してしまいます。もし不変条件が `Cell` に保存されているデータに依存しているのであれば、注意すべきです。
 
 <!--This is useful for mutating primitives and other `Copy` types when there is no easy way of-->
 <!--doing it in line with the static rules of `&` and `&mut`.-->
@@ -296,15 +296,14 @@ let x = RefCell::new(vec![1,2,3,4]);
 例えば、Rustコンパイラの内部の [`ctxt`構造体][ctxt] にあるたくさんのマップはこのラッパの中にあります。
 それらは（初期化の直後ではなく生成の過程で）一度だけ変更されるか、又はきれいに分離された場所で数回変更されます。
 しかし、この構造体はあらゆる場所で全般的に使われているので、ミュータブルなポインタとイミュータブルなポインタとをジャグリング的に扱うのは難しく（あるいは不可能で）、おそらく拡張の困難な `&` ポインタのスープになってしまいます。
-
 一方、 `RefCell` はそれらにアクセスするための（ゼロコストではありませんが）低コストの方法です。
-将来、もし誰かが既に借用されたセルを変更しようとするコードを追加すれば、それは（普通は確定的に）パニックを引き起こすでしょう。これは、その違反した借用まで遡ることができます。
+将来、もし誰かが既に借用されたセルを変更しようとするコードを追加すれば、それは（普通は確定的に）パニックを引き起こすでしょう。これは、その違反した借用まで遡り得ます。
 
 <!--Similarly, in Servo's DOM there is a lot of mutation, most of which is local to a DOM type, but some-->
 <!--of which crisscrosses the DOM and modifies various things. Using `RefCell` and `Cell` to guard all-->
 <!--mutation lets us avoid worrying about mutability everywhere, and it simultaneously highlights the-->
 <!--places where mutation is _actually_ happening.-->
-同様に、ServoのDOMではたくさんの変更が行われるようになっていて、そのほとんどはDOM型にローカルです。しかし、そのいくつかはDOMと変更された様々なものとの間での食い違いを生じさせます。
+同様に、ServoのDOMではたくさんの変更が行われるようになっていて、そのほとんどはDOM型にローカルです。しかし、複数のDOMに縦横無尽にまたがり、様々なものを変更するものもあります。
 全ての変更をガードするために `RefCell` と `Cell` を使うことで、あらゆる場所でのミュータビリティについて心配する必要がなくなり、それは同時に、変更が _実際に_ 起こっている場所を強調してくれます。
 
 <!--Note that `RefCell` should be avoided if a mostly simple solution is possible with `&` pointers.-->
@@ -435,7 +434,7 @@ C++と同じセマンティクスで使うためには、 `Arc<Mutex<T>>` 、 `A
 <!--Both of these provide safe shared mutability across threads, however they are prone to deadlocks.-->
 <!--Some level of additional protocol safety can be obtained via the type system.-->
 それらのどちらもスレッド間での安全で共有されたミュータビリティを提供しますが、それらはデッドロックしがちです。
-型システムによって、一定レベルでの追加のプロトコルの安全性を得ることができます。
+型システムによって、ある程度の追加のプロトコルの安全性を得ることができます。
 
 <!--#### Costs-->
 #### コスト
