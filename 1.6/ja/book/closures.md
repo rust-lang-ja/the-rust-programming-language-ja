@@ -158,7 +158,7 @@ let y = &mut num;
 
 <!-- If your closure requires it, however, Rust will take ownership and move -->
 <!-- the environment instead. This doesn’t work: -->
-もしクロージャが `num` の変更可能な借用を要求した場合、Rustは借用する代わりに環境の所有権を取りムーブします。
+もしクロージャが `num` を要求した場合、Rustは借用する代わりに環境の所有権を取りムーブします。
 そのため、以下のコードは動作しません:
 
 ```rust,ignore
@@ -270,7 +270,7 @@ assert_eq!(5, num);
 <!-- the [traits chapter][traits] before this one, as well as the chapter on [trait -->
 <!-- objects][trait-objects]. -->
 Rustにおけるクロージャの実装は他の言語とは少し異なります。
-Rustにおけるクロージャは効率的なトレイトへの糖衣構文です。
+Rustにおけるクロージャは実質的にトレイトへの糖衣構文です。
 続きの説明を読む前に [トレイト][traits] や [トレイトオブジェクト][trait-objects] についてのチャプターを学ぶ前に読みたくなるでしょう。
 
 [traits]: traits.html
@@ -313,7 +313,7 @@ pub trait FnOnce<Args> {
 <!-- covers all three kinds of `self` via the usual method call syntax. But we’ve -->
 <!-- split them up into three traits, rather than having a single one. This gives us -->
 <!-- a large amount of control over what kind of closures we can take. -->
-これらのトレイトの間の僅かな違いに気がつくことでしょう、しかし大きな違いは `self` についてです:
+これらのトレイトの間のいくつかの違いに気がつくことでしょう、しかし大きな違いは `self` についてです:
 `Fn` は `&self` を引数に取ります、 `FnMut` は `&mut self` を引数に取ります、そして `FnOnce` は `self` を引数に取ります。
 これは通常のメソッド呼び出しにおける `self` のすべての種類をカバーしています。
 しかし、これら `self` の各種類を一つの大きなトレイトにまとめるのではなく異なるトレイトに分けています。
@@ -399,8 +399,8 @@ Rustではスタックにクロージャの環境をアロケートし、呼び�
 
 <!-- Of course, if we want dynamic dispatch, we can get that too. A trait object -->
 <!-- handles this case, as usual: -->
-もちろん、動的ディスパッチ行いたいときは、そうすることもできます。
-そのような場合もトレイトオブジェクトが通常どうりに対応します:
+もちろん、動的ディスパッチを行いたいときは、そうすることもできます。
+そのような場合もトレイトオブジェクトが通常どおりに対応します:
 
 ```rust
 fn call_with_one(some_closure: &Fn(i32) -> i32) -> i32 {
@@ -584,7 +584,7 @@ error: mismatched types:
 <!-- a ‘trait object’ by `Box`ing up the `Fn`. This _almost_ works: -->
 また、このエラーは返り値の型が参照であることを期待しているが、
 上のコードではそうなっていないということについても指摘しています。
-しかし、直接的に `'static` ライフタイムをオブジェクトに割り当てることはできません。
+もうちょっというと、直接的に `'static` ライフタイムをオブジェクトに割り当てることはできません。
 そこで、`Fn` をボックス化することで「トレイトオブジェクト」を返すという方法を取ります。
 そうすると、動作するまであと一歩のところまで来ます:
 
