@@ -112,6 +112,7 @@
 | mutability                     | ミュータビリティ
 | mutable                        | ミュータブル
 | mutable binding                | ミュータブルな束縛
+| mutual-exclusion               | 相互排他
 | null                           | ヌル
 | offline                        | オフライン
 | opaque                         | オペーク
