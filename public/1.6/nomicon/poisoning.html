@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Poisoning</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='meet-safe-and-unsafe.html'><b>2.</b> Meet Safe and Unsafe</a>
+<ul class='section'>
+<li><a  href='safe-unsafe-meaning.html'><b>2.1.</b> How Safe and Unsafe Interact</a>
+</li>
+<li><a  href='working-with-unsafe.html'><b>2.2.</b> Working with Unsafe</a>
+</li>
+</ul>
+</li>
+<li><a  href='data.html'><b>3.</b> Data Layout</a>
+<ul class='section'>
+<li><a  href='repr-rust.html'><b>3.1.</b> repr(Rust)</a>
+</li>
+<li><a  href='exotic-sizes.html'><b>3.2.</b> Exotically Sized Types</a>
+</li>
+<li><a  href='other-reprs.html'><b>3.3.</b> Other reprs</a>
+</li>
+</ul>
+</li>
+<li><a  href='ownership.html'><b>4.</b> Ownership</a>
+<ul class='section'>
+<li><a  href='references.html'><b>4.1.</b> References</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.2.</b> Lifetimes</a>
+</li>
+<li><a  href='lifetime-mismatch.html'><b>4.3.</b> Limits of Lifetimes</a>
+</li>
+<li><a  href='lifetime-elision.html'><b>4.4.</b> Lifetime Elision</a>
+</li>
+<li><a  href='unbounded-lifetimes.html'><b>4.5.</b> Unbounded Lifetimes</a>
+</li>
+<li><a  href='hrtb.html'><b>4.6.</b> Higher-Rank Trait Bounds</a>
+</li>
+<li><a  href='subtyping.html'><b>4.7.</b> Subtyping and Variance</a>
+</li>
+<li><a  href='dropck.html'><b>4.8.</b> Drop Check</a>
+</li>
+<li><a  href='phantom-data.html'><b>4.9.</b> PhantomData</a>
+</li>
+<li><a  href='borrow-splitting.html'><b>4.10.</b> Splitting Borrows</a>
+</li>
+</ul>
+</li>
+<li><a  href='conversions.html'><b>5.</b> Type Conversions</a>
+<ul class='section'>
+<li><a  href='coercions.html'><b>5.1.</b> Coercions</a>
+</li>
+<li><a  href='dot-operator.html'><b>5.2.</b> The Dot Operator</a>
+</li>
+<li><a  href='casts.html'><b>5.3.</b> Casts</a>
+</li>
+<li><a  href='transmutes.html'><b>5.4.</b> Transmutes</a>
+</li>
+</ul>
+</li>
+<li><a  href='uninitialized.html'><b>6.</b> Uninitialized Memory</a>
+<ul class='section'>
+<li><a  href='checked-uninit.html'><b>6.1.</b> Checked</a>
+</li>
+<li><a  href='drop-flags.html'><b>6.2.</b> Drop Flags</a>
+</li>
+<li><a  href='unchecked-uninit.html'><b>6.3.</b> Unchecked</a>
+</li>
+</ul>
+</li>
+<li><a  href='obrm.html'><b>7.</b> Ownership Based Resource Management</a>
+<ul class='section'>
+<li><a  href='constructors.html'><b>7.1.</b> Constructors</a>
+</li>
+<li><a  href='destructors.html'><b>7.2.</b> Destructors</a>
+</li>
+<li><a  href='leaking.html'><b>7.3.</b> Leaking</a>
+</li>
+</ul>
+</li>
+<li><a  href='unwinding.html'><b>8.</b> Unwinding</a>
+<ul class='section'>
+<li><a  href='exception-safety.html'><b>8.1.</b> Exception Safety</a>
+</li>
+<li><a class='active' href='poisoning.html'><b>8.2.</b> Poisoning</a>
+</li>
+</ul>
+</li>
+<li><a  href='concurrency.html'><b>9.</b> Concurrency</a>
+<ul class='section'>
+<li><a  href='races.html'><b>9.1.</b> Races</a>
+</li>
+<li><a  href='send-and-sync.html'><b>9.2.</b> Send and Sync</a>
+</li>
+<li><a  href='atomics.html'><b>9.3.</b> Atomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='vec.html'><b>10.</b> Implementing Vec</a>
+<ul class='section'>
+<li><a  href='vec-layout.html'><b>10.1.</b> Layout</a>
+</li>
+<li><a  href='vec-alloc.html'><b>10.2.</b> Allocating</a>
+</li>
+<li><a  href='vec-push-pop.html'><b>10.3.</b> Push and Pop</a>
+</li>
+<li><a  href='vec-dealloc.html'><b>10.4.</b> Deallocating</a>
+</li>
+<li><a  href='vec-deref.html'><b>10.5.</b> Deref</a>
+</li>
+<li><a  href='vec-insert-remove.html'><b>10.6.</b> Insert and Remove</a>
+</li>
+<li><a  href='vec-into-iter.html'><b>10.7.</b> IntoIter</a>
+</li>
+<li><a  href='vec-raw.html'><b>10.8.</b> RawVec</a>
+</li>
+<li><a  href='vec-drain.html'><b>10.9.</b> Drain</a>
+</li>
+<li><a  href='vec-zsts.html'><b>10.10.</b> Handling Zero-Sized Types</a>
+</li>
+<li><a  href='vec-final.html'><b>10.11.</b> Final Code</a>
+</li>
+</ul>
+</li>
+<li><a  href='arc-and-mutex.html'><b>11.</b> Implementing Arc and Mutex</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Poisoning</h1>
+    <p>Although all unsafe code <em>must</em> ensure it has minimal exception safety, not all
+types ensure <em>maximal</em> exception safety. Even if the type does, your code may
+ascribe additional meaning to it. For instance, an integer is certainly
+exception-safe, but has no semantics on its own. It&#39;s possible that code that
+panics could fail to correctly update the integer, producing an inconsistent
+program state.</p>
+
+<p>This is <em>usually</em> fine, because anything that witnesses an exception is about
+to get destroyed. For instance, if you send a Vec to another thread and that
+thread panics, it doesn&#39;t matter if the Vec is in a weird state. It will be
+dropped and go away forever. However some types are especially good at smuggling
+values across the panic boundary.</p>
+
+<p>These types may choose to explicitly <em>poison</em> themselves if they witness a panic.
+Poisoning doesn&#39;t entail anything in particular. Generally it just means
+preventing normal usage from proceeding. The most notable example of this is the
+standard library&#39;s Mutex type. A Mutex will poison itself if one of its
+MutexGuards (the thing it returns when a lock is obtained) is dropped during a
+panic. Any future attempts to lock the Mutex will return an <code>Err</code> or panic.</p>
+
+<p>Mutex poisons not for true safety in the sense that Rust normally cares about. It
+poisons as a safety-guard against blindly using the data that comes out of a Mutex
+that has witnessed a panic while locked. The data in such a Mutex was likely in the
+middle of being modified, and as such may be in an inconsistent or incomplete state.
+It is important to note that one cannot violate memory safety with such a type
+if it is correctly written. After all, it must be minimally exception-safe!</p>
+
+<p>However if the Mutex contained, say, a BinaryHeap that does not actually have the
+heap property, it&#39;s unlikely that any code that uses it will do
+what the author intended. As such, the program should not proceed normally.
+Still, if you&#39;re double-plus-sure that you can do <em>something</em> with the value,
+the Mutex exposes a method to get the lock anyway. It <em>is</em> safe, after all.
+Just maybe nonsense.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>
