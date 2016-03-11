@@ -49,7 +49,7 @@ style: $(TARGET_DIR)/style/index.html
 
 $(TARGET_DIR)/book/index.html: $(wildcard $(BASE_DIR)/book/*.md) | $(TARGET_DIR)
 	rm -rf $(TARGET_DIR)/book
-	$(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/nomicon
+	$(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/book
 
 $(TARGET_DIR)/nomicon/index.html: $(wildcard $(BASE_DIR)/nomicon/*.md) | $(TARGET_DIR)
 	rm -rf $(TARGET_DIR)/nomicon
