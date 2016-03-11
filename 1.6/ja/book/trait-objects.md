@@ -99,7 +99,7 @@ For example, functions inlined too eagerly will bloat the instruction cache
 (cache rules everything around us). This is part of the reason that `#[inline]`
 and `#[inline(always)]` should be used carefully, and one reason why using a
 dynamic dispatch is sometimes more efficient. -->
-その上、コンパイラは完璧ではなく、「最適化」したコードが遅くなってしまうこともあります。 例えば、あまりにも熱心にインライン化された関数は命令キャッシュを膨張させてしまいます（ここではキャッシュが全てです）。それが `#[inline]` や `#[inline(always)]` を慎重に使うべきである理由の1つであり、時として動的ディスパッチが静的ディスパッチよりも効率的である1つの理由なのです。
+その上、コンパイラは完璧ではなく、「最適化」したコードが遅くなってしまうこともあります。 例えば、あまりにも熱心にインライン化された関数は命令キャッシュを膨張させてしまいます（コンピュータ内ではキャッシュが全てです）。それが `#[inline]` や `#[inline(always)]` を慎重に使うべきである理由の1つであり、時として動的ディスパッチが静的ディスパッチよりも効率的である1つの理由なのです。
 
 <!-- However, the common case is that it is more efficient to use static dispatch,
 and one can always have a thin statically-dispatched wrapper function that does
@@ -181,7 +181,7 @@ inlining and related optimizations from occurring. -->
 トレイトオブジェクトを受け取った関数が `Foo` を実装した特定の型毎に特殊化されることはありません。関数は1つだけ生成され、多くの場合（とはいえ常にではありませんが）コードの膨張は少なく済みます。しかしながら、これは低速な仮想関数の呼び出しが必要となるため、実質的にインライン化とそれに関連する最適化の機会を阻害してしまいます。
 
 <!-- ### Why pointers? -->
-### 何故ポインタなのか?
+### 何故ポインタなのか？
 
 <!-- Rust does not put things behind a pointer by default, unlike many managed
 languages, so types can have different sizes. Knowing the size of the value at
@@ -201,19 +201,23 @@ a pointer, because those other types can be arbitrarily large. -->
 when we are tossing a trait object around, only the size of the pointer itself. -->
 トレイトオブジェクトの場合、渡されるのはポインタ自体のサイズのみです。ポインタの参照先に値を配置するということは、変数が値自体のサイズに依存しなくなるということであり、これによって1つの変数に異なる型の値を格納できるようになります。
 
-### Representation
+<!-- ### Representation -->
+### トレイトオブジェクトの内部表現
 
-The methods of the trait can be called on a trait object via a special record
+<!-- The methods of the trait can be called on a trait object via a special record
 of function pointers traditionally called a ‘vtable’ (created and managed by
-the compiler).
+the compiler). -->
+トレイトのメソッドはトレイトオブジェクト内にある伝統的に「vtable」（これはコンパイラによって作成、管理されます）と呼ばれる特別な関数ポインタのレコードを介して呼び出すことができます。
 
-Trait objects are both simple and complicated: their core representation and
+<!-- Trait objects are both simple and complicated: their core representation and
 layout is quite straight-forward, but there are some curly error messages and
-surprising behaviors to discover.
+surprising behaviors to discover. -->
+トレイトオブジェクトは単純ですが難解でもあります。核となる表現と設計は非常に単純ですが、複雑なエラーメッセージを吐いたり、予期せぬ振る舞いが見つかったりします。
 
-Let’s start simple, with the runtime representation of a trait object. The
+<!-- Let’s start simple, with the runtime representation of a trait object. The
 `std::raw` module contains structs with layouts that are the same as the
-complicated built-in types, [including trait objects][stdraw]:
+complicated built-in types, [including trait objects][stdraw]: -->
+単純な例として、トレイトオブジェクトの実行時の再現から始めましょう。 `std::raw` モジュールは複雑なビルドインの型と同じレイアウトの構造体を格納しており、 [トレイトオブジェクトも含まれています](https://doc.rust-lang.org/std/raw/) 。
 
 ```rust
 # mod foo {
@@ -226,18 +230,20 @@ pub struct TraitObject {
 
 [stdraw]: ../std/raw/struct.TraitObject.html
 
-That is, a trait object like `&Foo` consists of a ‘data’ pointer and a ‘vtable’
+<!-- That is, a trait object like `&Foo` consists of a ‘data’ pointer and a ‘vtable’ -->
 pointer.
+つまり、 `&Foo` のようなトレイトオブジェクトは「data」ポインタと「vtable」ポインタから成るわけです。
 
-The data pointer addresses the data (of some unknown type `T`) that the trait
+<!-- The data pointer addresses the data (of some unknown type `T`) that the trait
 object is storing, and the vtable pointer points to the vtable (‘virtual method
-table’) corresponding to the implementation of `Foo` for `T`.
+table’) corresponding to the implementation of `Foo` for `T`. -->
+dataポインタはトレイトオブジェクトが保存している（何らかの不明な型 `T` の）データを指しており、vtableポインタは `T` への `Foo` の実装に対応するvtable（「virtual method table」）を指しています。
 
-
-A vtable is essentially a struct of function pointers, pointing to the concrete
+<!-- A vtable is essentially a struct of function pointers, pointing to the concrete
 piece of machine code for each method in the implementation. A method call like
 `trait_object.method()` will retrieve the correct pointer out of the vtable and
-then do a dynamic call of it. For example:
+then do a dynamic call of it. For example: -->
+vtableは本質的には関数ポインタの構造体で、実装内における各メソッドの具体的な機械語の命令列を指しています。 `trait_object.method()` のようなメソッド呼び出しを行うとvtableの中から適切なポインタを取り出し動的に呼び出しを行います。例えば、
 
 ```rust,ignore
 struct FooVtable {
@@ -250,19 +256,22 @@ struct FooVtable {
 // u8:
 
 fn call_method_on_u8(x: *const ()) -> String {
-    // the compiler guarantees that this function is only called
-    // with `x` pointing to a u8
+# //     // the compiler guarantees that this function is only called
+# //     // with `x` pointing to a u8
+    // `x` がu8を指しているとき、コンパイラはこの関数だけが呼び出されることを保証します
     let byte: &u8 = unsafe { &*(x as *const u8) };
 
     byte.method()
 }
 
 static Foo_for_u8_vtable: FooVtable = FooVtable {
-    destructor: /* compiler magic */,
+# //     destructor: /* compiler magic */,
+    destructor: /* コンパイラマジック */,
     size: 1,
     align: 1,
 
-    // cast to a function pointer
+# //     // cast to a function pointer
+    // 関数ポインタへキャスト
     method: call_method_on_u8 as fn(*const ()) -> String,
 };
 
@@ -270,16 +279,19 @@ static Foo_for_u8_vtable: FooVtable = FooVtable {
 // String:
 
 fn call_method_on_String(x: *const ()) -> String {
-    // the compiler guarantees that this function is only called
-    // with `x` pointing to a String
+# //     // the compiler guarantees that this function is only called
+# //     // with `x` pointing to a String
+    // `x`がStringを指しているとき、コンパイラはこの関数だけが呼ばれることを保証します
     let string: &String = unsafe { &*(x as *const String) };
 
     string.method()
 }
 
 static Foo_for_String_vtable: FooVtable = FooVtable {
-    destructor: /* compiler magic */,
-    // values for a 64-bit computer, halve them for 32-bit ones
+# //     destructor: /* compiler magic */,
+    destructor: /* コンパイラマジック */,
+# //     // values for a 64-bit computer, halve them for 32-bit ones
+    // 64-bitコンピュータの値を、32-bitコンピュータ向けに半分にしておく
     size: 24,
     align: 8,
 
@@ -287,7 +299,7 @@ static Foo_for_String_vtable: FooVtable = FooVtable {
 };
 ```
 
-The `destructor` field in each vtable points to a function that will clean up
+<!-- The `destructor` field in each vtable points to a function that will clean up
 any resources of the vtable’s type: for `u8` it is trivial, but for `String` it
 will free the memory. This is necessary for owning trait objects like
 `Box<Foo>`, which need to clean-up both the `Box` allocation as well as the
@@ -295,11 +307,13 @@ internal type when they go out of scope. The `size` and `align` fields store
 the size of the erased type, and its alignment requirements; these are
 essentially unused at the moment since the information is embedded in the
 destructor, but will be used in the future, as trait objects are progressively
-made more flexible.
+made more flexible. -->
+各vtableの `destructor` フィールドはvtableが対応する型のリソースを片付ける関数を指しています。 `u8` のvtableは単純な型なので何もしませんが、 `String` のvtableはメモリを解放します。このフィールドは `Box<Foo>` のような自作トレイトオブジェクトのために必要であり、 `Box` によるアロケートは勿論のことスコープ外に出た際に内部の型のリソースを片付けるのにも必要です。 `size` 及び `align` フィールドは消去された型のサイズとアライメント要件を保存しています。これらの情報はデストラクタにも組み込まれているため現時点では基本的に使われていませんが、将来、トレイトオブジェクトがより柔軟になることで使われるようになるでしょう。
 
-Suppose we’ve got some values that implement `Foo`. The explicit form of
+<!-- Suppose we’ve got some values that implement `Foo`. The explicit form of
 construction and use of `Foo` trait objects might look a bit like (ignoring the
-type mismatches: they’re all just pointers anyway):
+type mismatches: they’re all just pointers anyway): -->
+仮に `Foo` を実装する値を幾つか得たとします。構文による明示的な形式とこれまでに紹介した `Foo` トレイトオブジェクトの用法は少しだけ似ているかもしれません。(とにかく全てポインタにすることで型の不一致を無視しています)
 
 ```rust,ignore
 let a: String = "foo".to_string();
@@ -307,17 +321,21 @@ let x: u8 = 1;
 
 // let b: &Foo = &a;
 let b = TraitObject {
-    // store the data
+# //     // store the data
+    // データを保存
     data: &a,
-    // store the methods
+# //     // store the methods
+    // メソッドを保存
     vtable: &Foo_for_String_vtable
 };
 
 // let y: &Foo = x;
 let y = TraitObject {
-    // store the data
+# //     // store the data
+    // データを保存
     data: &x,
-    // store the methods
+# //     // store the methods
+    // メソッドを保存
     vtable: &Foo_for_u8_vtable
 };
 
@@ -328,17 +346,20 @@ let y = TraitObject {
 (y.vtable.method)(y.data);
 ```
 
-## Object Safety
+<!-- ## Object Safety -->
+## オブジェクトの安全性
 
-Not every trait can be used to make a trait object. For example, vectors implement
-`Clone`, but if we try to make a trait object:
+<!-- Not every trait can be used to make a trait object. For example, vectors implement
+`Clone`, but if we try to make a trait object: -->
+全てのトレイトがトレイトオブジェクトとして使えるわけではありません。例えば、ベクタは `Clone` を実装しますが、トレイトオブジェクトを作ろうとすると、
 
 ```ignore
 let v = vec![1, 2, 3];
 let o = &v as &Clone;
 ```
 
-We get an error:
+<!-- We get an error: -->
+エラーが発生します。
 
 ```text
 error: cannot convert to a trait object because trait `core::clone::Clone` is not object-safe [E0038]
@@ -349,19 +370,26 @@ let o = &v as &Clone;
         ^~
 ```
 
-The error says that `Clone` is not ‘object-safe’. Only traits that are
+<!-- The error says that `Clone` is not ‘object-safe’. Only traits that are
 object-safe can be made into trait objects. A trait is object-safe if both of
-these are true:
+these are true: -->
+エラーは `Clone` が「object-safe」でないと言っています。トレイトオブジェクトにできるのはobject-safeなトレイトのみです。以下の両方が真であるならばトレイトはobject-safeであるといえます。
 
-* the trait does not require that `Self: Sized`
-* all of its methods are object-safe
+<!-- * the trait does not require that `Self: Sized` -->
+<!-- * all of its methods are object-safe -->
+* トレイトが `Self: Sized` を要求しないこと
+* トレイトのメソッド全てがobject-safeであること
 
-So what makes a method object-safe? Each method must require that `Self: Sized`
-or all of the following:
+<!-- So what makes a method object-safe? Each method must require that `Self: Sized`
+or all of the following: -->
+では何がメソッドをobject-safeにするのでしょう？各メソッドは `Self: Sized` を要求するか、以下の全てを満足しなければなりません。
 
-* must not have any type parameters
-* must not use `Self`
+<!-- * must not have any type parameters -->
+<!-- * must not use `Self` -->
+* どのような型パラメータも持ってはならない
+* `Self` を使ってはならない
 
-Whew! As we can see, almost all of these rules talk about `Self`. A good intuition
+<!-- Whew! As we can see, almost all of these rules talk about `Self`. A good intuition
 is “except in special circumstances, if your trait’s method uses `Self`, it is not
-object-safe.”
+object-safe.” -->
+ひゃー！見ての通り、これらルールのほとんどは `Self` について話しています。「特別な状況を除いて、トレイトのメソッドで `Self` を使うとobject-safeではなくなる」と考えるのが良いでしょう。
