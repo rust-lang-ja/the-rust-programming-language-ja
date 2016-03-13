@@ -387,7 +387,7 @@ Rustの主要な売りの1つが参照をいかに安全に簡単に使えるか
 
 <!-- If we leave off calling these two methods, our program will compile, but -->
 <!-- we’ll get a warning: -->
-この2つのメソッドを呼び出したままにしておくと、プログラムはコンパイルしますが、警告が出ます。
+この2つのメソッドを呼び出さないままにしておくと、プログラムはコンパイルしますが、警告が出ます。
 
 ```bash
 $ cargo build
