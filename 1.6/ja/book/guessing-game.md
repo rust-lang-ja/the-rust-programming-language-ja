@@ -804,7 +804,7 @@ enum Foo {
 <!-- With this definition, anything of type `Foo` can be either a -->
 <!-- `Foo::Bar` or a `Foo::Baz`. We use the `::` to indicate the -->
 <!-- namespace for a particular `enum` variant. -->
-この定義だと、 `Foo` のに属するものは `Foo::Bar` あるいは `Foo::Baz` です。
+この定義だと、 `Foo` 型のものは `Foo::Bar` あるいは `Foo::Baz` のいずれかです。
 `::` を使って `enum` のバリアントの名前空間を指示します。
 
 <!-- The [`Ordering`][ordering] `enum` has three possible variants: `Less`, `Equal`, -->
