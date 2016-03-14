@@ -963,7 +963,7 @@ Rustには[様々なビルトインの数値型][number]がありますが、今
 <!-- such, we’ll do the same thing we did with `read_line()`: use the `expect()` -->
 <!-- method to crash if there’s an error. -->
 `read_line()` と同じように、 `parse()` の呼び出しでもエラーが起き得ます。
-文字列に `A %` が含まれていたらどうなるでしょう?それは数値には変換出来ません。
+文字列に `A👍%` が含まれていたらどうなるでしょう?それは数値には変換出来ません。
 なので、 `read_line()` と同じように `expect()` を使ってエラーがあったらクラッシュするようにします。
 
 <!-- Let’s try our program out! -->
