@@ -679,7 +679,7 @@ fn main() {
 <!-- them. It’s inclusive on the lower bound, but exclusive on the upper bound, -->
 <!-- so we need `1` and `101` to get a number ranging from one to a hundred. -->
 `rand::thread_rng()` を使って現在いる[スレッド][concurrency]にローカルな乱数生成器のコピーを取得しています。
-上で `use rand::Rnd` したので生成器は `gen_range()` メソッドを使えます。
+上で `use rand::Rng` したので生成器は `gen_range()` メソッドを使えます。
 このメソッドは2つの引数を取り、それらの間にある数を生成します。
 下限は含みますが、上限は含まないので1から100までの数を生成するには `1` と `101` を渡す必要があります。
 
