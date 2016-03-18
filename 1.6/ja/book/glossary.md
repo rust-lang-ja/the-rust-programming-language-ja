@@ -1,4 +1,5 @@
-% Glossary
+% 用語集
+<!-- % Glossary -->
 
 Not every Rustacean has a background in systems programming, nor in computer
 science, so we've added explanations of terms that might be unfamiliar.
