@@ -1,15 +1,20 @@
 % 用語集
 <!-- % Glossary -->
 
-Not every Rustacean has a background in systems programming, nor in computer
-science, so we've added explanations of terms that might be unfamiliar.
+<!-- Not every Rustacean has a background in systems programming, nor in computer -->
+<!-- science, so we've added explanations of terms that might be unfamiliar. -->
+全てのRustaceanがシステムプログラミングあるいはコンピュータサイエンスのバックグラウンドを持つ訳でもないので馴染みがないかもしれない用語について説明を付与しました。
 
-### Abstract Syntax Tree
+<!-- ### Abstract Syntax Tree -->
+### 抽象構文木
 
-When a compiler is compiling your program, it does a number of different things.
-One of the things that it does is turn the text of your program into an
-‘abstract syntax tree’, or ‘AST’. This tree is a representation of the structure
-of your program. For example, `2 + 3` can be turned into a tree:
+<!-- When a compiler is compiling your program, it does a number of different things. -->
+<!-- One of the things that it does is turn the text of your program into an -->
+<!-- ‘abstract syntax tree’, or ‘AST’. This tree is a representation of the structure -->
+<!-- of your program. For example, `2 + 3` can be turned into a tree: -->
+コンパイラがプログラムをコンパイルする時、様々なことをします。
+その1つがテキストを「抽象構文木」（「AST」とも）に変換することです。
+この木はプログラムの構造を表します。例えば、 `2 + 3` は以下のような木に変換されます。
 
 ```text
   +
@@ -17,7 +22,8 @@ of your program. For example, `2 + 3` can be turned into a tree:
 2   3
 ```
 
-And `2 + (3 * 4)` would look like this:
+<!-- And `2 + (3 * 4)` would look like this: -->
+そして `2 + (3 * 4)` はこのようになるでしょう。
 
 ```text
   +
@@ -27,9 +33,11 @@ And `2 + (3 * 4)` would look like this:
   3   4
 ```
 
-### Arity
+<!-- ### Arity -->
+### アリティ
 
-Arity refers to the number of arguments a function or operation takes.
+<!-- Arity refers to the number of arguments a function or operation takes. -->
+アリティは関数、あるいは操作がとる引数の数を指します。
 
 ```rust
 let x = (2, 3);
@@ -37,7 +45,8 @@ let y = (4, 6);
 let z = (8, 2, 6);
 ```
 
-In the example above `x` and `y` have arity 2. `z` has arity 3.
+<!-- In the example above `x` and `y` have arity 2. `z` has arity 3. -->
+上記の例では `x` と `y` はアリティ2を、 `z` はアリティ3を持ちます。
 
 <!-- ### Bounds -->
 ### 境界
