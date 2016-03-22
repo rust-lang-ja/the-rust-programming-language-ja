@@ -84,7 +84,7 @@ loop {
 ```
 
 <!-- Into code like this: -->
-`when let` を用いることで、以下のように書くことができます:
+`while let` を用いることで、以下のように書くことができます:
 
 ```rust
 let mut v = vec![1, 3, 5, 7, 11];
