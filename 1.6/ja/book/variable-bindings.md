@@ -145,7 +145,7 @@ x = 10;
 <!-- out of the scope of this guide. In general, you can often avoid explicit -->
 <!-- mutation, and so it is preferable in Rust. That said, sometimes, mutation is -->
 <!-- what you need, so it’s not verboten. -->
-可能な時はにミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
+可能な時にはミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
 一般に、明示的な変更は避けられることが多いのでRustでもそうした方が良いのです。
 しかし変更が本当に必要なこともあるという意味で、厳禁という訳ではないのです。
 
