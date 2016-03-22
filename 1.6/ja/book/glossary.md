@@ -13,7 +13,7 @@
 <!-- ‘abstract syntax tree’, or ‘AST’. This tree is a representation of the structure -->
 <!-- of your program. For example, `2 + 3` can be turned into a tree: -->
 コンパイラがプログラムをコンパイルする時、様々なことをします。
-その1つがテキストを「抽象構文木」（「AST」とも）に変換することです。
+その1つがテキストを「抽象構文木」（または「AST」）に変換することです。
 この木はプログラムの構造を表します。例えば、 `2 + 3` は以下のような木に変換されます。
 
 ```text
