@@ -196,6 +196,7 @@
 
 <p>Rustにおけるミュータビリティ、何かを変更する能力は、他のプログラミング言語とはすこし異なっています。
 ミュータビリティの一つ目の特徴は、それがデフォルトでは無いという点です:</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     // x = 6; // error!
@@ -207,6 +208,7 @@
 <!-- We can introduce mutability with the `mut` keyword: -->
 
 <p><code>mut</code> キーワードによりミュータビリティを導入できます:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     
@@ -231,6 +233,7 @@
 <!-- If you want to change what the binding points to, you’ll need a [mutable reference][mr]: -->
 
 <p>束縛が指す先を変更する場合は、<a href="references-and-borrowing.html">ミュータブル参照</a> を使う必要があるでしょう:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     let y = &amp;mut x;
@@ -250,6 +253,7 @@
 <!-- Of course, if you need both: -->
 
 <p>もちろん、両方が必要ならば:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     let mut y = &amp;mut x;
@@ -269,6 +273,7 @@
 
 <p><code>mut</code> は <a href="patterns.html">パターン</a> の一部を成すことに十分注意してください。
 つまり、次のようなことが可能です:</p>
+
 <span class='rusttest'>fn main() {
     let (mut x, y) = (5, 6);
     
@@ -290,6 +295,7 @@
 
 <p>一方で、Rustで「イミュータブル(immutable)」について言及するとき、変更不可能であることを意味しない:
 「外側のミュータビリティ(exterior mutability)」を表します。例として、<a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code></a> を考えます:</p>
+
 <span class='rusttest'>fn main() {
     use std::sync::Arc;
     
@@ -349,7 +355,7 @@
 
 <p>つまり、「イミュータビリティ」の真の定義はこうです: これは2箇所から指されても安全ですか?
 <code>Arc&lt;T&gt;</code> の例では、イエス: 変更は完全にそれ自身の構造の内側で行われます。ユーザからは見えません。
-このような理由により、 <code>clone()</code> を用いて <code>T&amp;</code> を配るのです。仮に <code>&amp;mut T</code> を配ってしまうと、
+このような理由により、 <code>clone()</code> を用いて <code>&amp;T</code> を配るのです。仮に <code>&amp;mut T</code> を配ってしまうと、
 問題になるでしょう。
 （訳注: <code>Arc&lt;T&gt;</code>を用いて複数スレッドにイミュータブル参照を配布し、スレッド間でオブジェクトを共有できます。）</p>
 
@@ -359,6 +365,7 @@
 
 <p><a href="../std/cell/index.html"><code>std::cell</code></a> モジュールにあるような別の型では、反対の性質: 内側のミュータビリティ(interior mutability)を持ちます。
 例えば:</p>
+
 <span class='rusttest'>fn main() {
     use std::cell::RefCell;
     
@@ -378,6 +385,7 @@
 
 <p>RefCellでは <code>borrow_mut()</code> メソッドによって、その内側にある値への <code>&amp;mut</code> 参照を配ります。
 それって危ないのでは? もし次のようにすると:</p>
+
 <span class='rusttest'>fn main() {
     use std::cell::RefCell;
     
@@ -418,6 +426,7 @@ Rustの借用ルールを実行時に強制し、違反したときには <code>
 
 <p>ミュータビリティとは、借用(<code>&amp;mut</code>)や束縛(<code>let mut</code>)に関する属性です。これが意味するのは、
 例えば、一部がミュータブルで一部がイミュータブルなフィールドを持つ <a href="structs.html"><code>struct</code></a> は作れないということです。</p>
+
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -433,6 +442,7 @@ Rustの借用ルールを実行時に強制し、違反したときには <code>
 <!-- The mutability of a struct is in its binding: -->
 
 <p>構造体のミュータビリティは、それへの束縛の一部です。</p>
+
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -464,6 +474,7 @@ Rustの借用ルールを実行時に強制し、違反したときには <code>
 <!-- However, by using [`Cell<T>`][cell], you can emulate field-level mutability: -->
 
 <p>しかし、<a href="../std/cell/struct.Cell.html"><code>Cell&lt;T&gt;</code></a> を使えば、フィールド・レベルのミュータビリティをエミュレートできます。</p>
+
 <span class='rusttest'>fn main() {
     use std::cell::Cell;
     
