@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Glossary</title>
+    <title>用語集</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,22 +185,38 @@
 <div id='page'>
 
 
-    <h1 class="title">Glossary</h1>
-    <p>Not every Rustacean has a background in systems programming, nor in computer
-science, so we&#39;ve added explanations of terms that might be unfamiliar.</p>
+    <h1 class="title">用語集</h1>
+    <!-- % Glossary -->
 
-<h3 id='abstract-syntax-tree' class='section-header'><a href='#abstract-syntax-tree'>Abstract Syntax Tree</a></h3>
-<p>When a compiler is compiling your program, it does a number of different things.
-One of the things that it does is turn the text of your program into an
-‘abstract syntax tree’, or ‘AST’. This tree is a representation of the structure
-of your program. For example, <code>2 + 3</code> can be turned into a tree:</p>
+<!-- Not every Rustacean has a background in systems programming, nor in computer -->
+
+<!-- science, so we've added explanations of terms that might be unfamiliar. -->
+
+<p>全てのRustaceanがシステムプログラミングあるいはコンピュータサイエンスのバックグラウンドを持つ訳でもないので馴染みがないかもしれない用語について説明を付与しました。</p>
+
+<!-- ### Abstract Syntax Tree -->
+
+<h3 id='抽象構文木' class='section-header'><a href='#抽象構文木'>抽象構文木</a></h3>
+<!-- When a compiler is compiling your program, it does a number of different things. -->
+
+<!-- One of the things that it does is turn the text of your program into an -->
+
+<!-- ‘abstract syntax tree’, or ‘AST’. This tree is a representation of the structure -->
+
+<!-- of your program. For example, `2 + 3` can be turned into a tree: -->
+
+<p>コンパイラがプログラムをコンパイルする時、様々なことをします。
+その1つがテキストを「抽象構文木」（または「AST」）に変換することです。
+この木はプログラムの構造を表します。例えば、 <code>2 + 3</code> は以下のような木に変換されます。</p>
 
 <pre><code class="language-text">  +
  / \
 2   3
 </code></pre>
 
-<p>And <code>2 + (3 * 4)</code> would look like this:</p>
+<!-- And `2 + (3 * 4)` would look like this: -->
+
+<p>そして <code>2 + (3 * 4)</code> はこのようになるでしょう。</p>
 
 <pre><code class="language-text">  +
  / \
@@ -209,8 +225,13 @@ of your program. For example, <code>2 + 3</code> can be turned into a tree:</p>
   3   4
 </code></pre>
 
-<h3 id='arity' class='section-header'><a href='#arity'>Arity</a></h3>
-<p>Arity refers to the number of arguments a function or operation takes.</p>
+<!-- ### Arity -->
+
+<h3 id='アリティ' class='section-header'><a href='#アリティ'>アリティ</a></h3>
+<!-- Arity refers to the number of arguments a function or operation takes. -->
+
+<p>アリティは関数、あるいは操作がとる引数の数を指します。</p>
+
 <span class='rusttest'>fn main() {
     let x = (2, 3);
     let y = (4, 6);
@@ -220,7 +241,9 @@ of your program. For example, <code>2 + 3</code> can be turned into a tree:</p>
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> (<span class='number'>4</span>, <span class='number'>6</span>);
 <span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> (<span class='number'>8</span>, <span class='number'>2</span>, <span class='number'>6</span>);</pre>
 
-<p>In the example above <code>x</code> and <code>y</code> have arity 2. <code>z</code> has arity 3.</p>
+<!-- In the example above `x` and `y` have arity 2. `z` has arity 3. -->
+
+<p>上記の例では <code>x</code> と <code>y</code> はアリティ2を、 <code>z</code> はアリティ3を持ちます。</p>
 
 <!-- ### Bounds -->
 
