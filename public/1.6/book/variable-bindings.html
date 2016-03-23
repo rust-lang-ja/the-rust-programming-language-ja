@@ -202,6 +202,7 @@
 <p>訳注: 普通、束縛というときは名前 <em>を</em> 値 <em>へ</em> と束縛しますが、このドキュメントでは逆になっています。
      Rustでは他の言語と違って1つの値に対して1つの名前が対応するのであえてこう書いてるのかもしれません。</p>
 </blockquote>
+
 <span class='rusttest'>fn main() {
     let x = 5;
 }
@@ -233,6 +234,7 @@
 <p>多くの言語では変数束縛は <em>変数</em> と呼ばれるでしょうが、Rustの変数束縛は多少皮を被せてあります。
 例えば、 <code>let</code> の左側の式は「<a href="patterns.html">パターン</a>」であって、ただの変数名ではありません。
 これはこのようなことが出来るということです。</p>
+
 <span class='rusttest'>fn main() {
     let (x, y) = (1, 2);
 }</span><pre class='rust rust-example-rendered'>
@@ -270,6 +272,7 @@
 <!-- We can add the type if we want to, though. Types come after a colon (`:`): -->
 
 <p>書きたいなら型を書くことも出来ます。型はコロン(<code>:</code>)のあとに書きます。</p>
+
 <span class='rusttest'>fn main() {
     let x: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
@@ -299,6 +302,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 
 <p>以後の例では型はコメントで注釈することにします。
 先の例はこのようになります。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5; // x: i32
 }
@@ -324,6 +328,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 <!-- By default, bindings are *immutable*. This code will not compile: -->
 
 <p>デフォルトで、 束縛は <em>イミュータブル</em> です。このコードのコンパイルは通りません。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     x = 10;
@@ -348,6 +353,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 <!-- If you want a binding to be mutable, you can use `mut`: -->
 
 <p>束縛をミュータブルにしたいなら、<code>mut</code>が使えます。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5; // mut x: i32
     x = 10;
@@ -380,7 +386,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 
 <!-- what you need, so it’s not verboten. -->
 
-<p>可能な時はにミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
+<p>可能な時にはミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
 一般に、明示的な変更は避けられることが多いのでRustでもそうした方が良いのです。
 しかし変更が本当に必要なこともあるという意味で、厳禁という訳ではないのです。</p>
 
@@ -398,6 +404,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 <!-- Let’s try it out. Change your `src/main.rs` file to look like this: -->
 
 <p>試してみましょう。 <code>src/main.rs</code> をいじってこのようにしてみて下さい。</p>
+
 <span class='rusttest'>fn main() {
     let x: i32;
 
@@ -433,6 +440,7 @@ src/main.rs:2     let x: i32;
 <p>Rustは一度も使われない変数について警告を出しますが、一度も使われないので人畜無害です。
 ところがこの <code>x</code> を使おうとすると事は一変します。やってみましょう。
 プログラムをこのように変更して下さい。</p>
+
 <span class='rusttest'>fn main() {
     let x: i32;
 
@@ -520,6 +528,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 ブロックは <code>{</code> と <code>}</code> に囲まれた文の集まりです。関数定義もブロックです!
 以下の例では異なるブロックで有効な2つの変数束縛、 <code>x</code> と <code>y</code> を定義しています。
 <code>x</code> は <code>fn main() {}</code> ブロックの中でアクセス可能ですが、 <code>y</code> は内側のブロックからのみアクセス出来ます。</p>
+
 <span class='rusttest'>fn main() {
     let x: i32 = 17;
     {
@@ -577,6 +586,7 @@ To learn more, run the command again with --verbose.
 
 <p>さらに加えて、変数束縛は覆い隠すことが出来ます(訳注: このことをシャドーイングと言います)。
 つまり後に出てくる同じ名前の変数束縛があるとそれがスコープに入り、以前の束縛を上書きするのです。</p>
+
 <span class='rusttest'>fn main() {
     let x: i32 = 8;
     {
@@ -612,6 +622,7 @@ To learn more, run the command again with --verbose.
 
 <p>シャドーイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用が出来ないケースがあります。
 その1つにシャドーイングは同じ名前に違う型の値を再束縛することが出来ます。</p>
+
 <span class='rusttest'>fn main() {
     let mut x: i32 = 1;
     x = 7;
