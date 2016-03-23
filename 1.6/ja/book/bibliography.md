@@ -54,7 +54,7 @@
 * [The data locality of work stealing](http://www.aladdin.cs.cmu.edu/papers/pdfs/y2000/locality_spaa00.pdf)
 * [Dynamic circular work stealing deque](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&rep=rep1&type=pdf) - ChaseとLevのdeque
 * [Work-first and help-first scheduling policies for async-finish task parallelism](http://www.cs.rice.edu/%7Eyguo/pubs/PID824943.pdf) - 完全正格(fully-strict)なワークスティーリング(work stealing)より一般的
-* [A Java fork/join calamity](http://www.coopsoft.com/ar/CalamityArticle.html) - Javaの fork/joinライブラリについての評価。一部ワークスティーリングの非正格な計算への応用。
+* [A Java fork/join calamity](http://www.coopsoft.com/ar/CalamityArticle.html) - Javaの fork/joinライブラリについての評価。特にワークスティーリングの非正格な計算への応用。
 * [Scheduling techniques for concurrent systems](http://www.stanford.edu/~ouster/cgi-bin/papers/coscheduling.pdf)
 * [Contention aware scheduling](http://www.blagodurov.net/files/a8-blagodurov.pdf)
 * [Balanced work stealing for time-sharing multicores](http://www.cse.ohio-state.edu/hpcs/WWW/HTML/publications/papers/TR-12-1.pdf)
@@ -113,7 +113,7 @@
 <!-- * [Ownership is Theft: Experiences Building an Embedded OS in Rust - Amit Levy, et. al.](http://amitlevy.com/papers/tock-plos2015.pdf) -->
 * [GPU Programming in Rust: Implementing High Level Abstractions in a
 Systems Level
-Language](http://www.cs.indiana.edu/~eholk/papers/hips2013.pdf)。 Eric Holkによる初期のGPU。
+Language](http://www.cs.indiana.edu/~eholk/papers/hips2013.pdf)。 Eric Holkによる初期のGPU研究。
 * [Parallel closures: a new twist on an old
   idea](https://www.usenix.org/conference/hotpar12/parallel-closures-new-twist-old-idea)
   - 正確にはRustについてではないが、nmatsakisによるもの（訳注: nmatsakisはmozillaのデベロッパ）
