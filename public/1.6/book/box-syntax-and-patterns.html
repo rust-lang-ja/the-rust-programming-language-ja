@@ -197,6 +197,7 @@
 <!-- a `Box`. An example usage would be: -->
 
 <p>今のところ、安定版において <code>Box</code> を作成する唯一の方法は <code>Box::new</code> メソッドです。安定版のRustではパターンマッチで <code>Box</code> を分解することもできません。不安定版の <code>box</code> キーワードは <code>Box</code> の作成と分解の両方に使えます。使い方は以下の通りです。</p>
+
 <span class='rusttest'>#![feature(box_syntax, box_patterns)]
 
 fn main() {
@@ -249,6 +250,7 @@ fn main() {
 <!-- so as to avoid copying a large data structure. For example: -->
 
 <p>ポインタを持つ多くのプログラミング言語では、巨大なデータ構造のコピーを避けるため、関数からポインタを返してきました。例えば以下のように書くことができます。</p>
+
 <span class='rusttest'>struct BigStruct {
     one: i32,
     two: i32,
@@ -300,6 +302,7 @@ fn main() {
 <!-- This is an antipattern in Rust. Instead, write this: -->
 
 <p>これはRustではアンチパターンです。代わりに以下のように書きます。</p>
+
 <span class='rusttest'>#![feature(box_syntax)]
 
 struct BigStruct {

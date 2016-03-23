@@ -282,6 +282,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- like this: -->
 
 <p><a href="ownership.html">所有権</a> セクションの最後に、このような感じの厄介な関数に出会いました。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(v1: Vec&lt;i32&gt;, v2: Vec&lt;i32&gt;) -&gt; (Vec&lt;i32&gt;, Vec&lt;i32&gt;, i32) {
       // do stuff with v1 and v2
@@ -315,6 +316,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <p>しかし、これはRust的なコードではありません。なぜなら、それは借用の利点を生かしていないからです。
 これが最初のステップです。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(v1: &amp;Vec&lt;i32&gt;, v2: &amp;Vec&lt;i32&gt;) -&gt; i32 {
       // do stuff with v1 and v2
@@ -371,6 +373,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <p>参照は束縛とちょうど同じようにイミュータブルです。
 これは <code>foo()</code> の中ではベクタは全く変更できないことを意味します。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(v: &amp;Vec&lt;i32&gt;) {
          v.push(5);
@@ -411,6 +414,7 @@ v.push(5);
 <p>参照には2つ目の種類、 <code>&amp;mut T</code> があります。
 「ミュータブルな参照」によって借用しているリソースを変更することができるようになります。
 例は次のとおりです。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     {
@@ -540,6 +544,7 @@ fn main() {
 <!-- Here’s the code: -->
 
 <p>これがコードです。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     let y = &amp;mut x;
@@ -593,6 +598,7 @@ fn main() {
 必要なものは、 <code>println!</code> を呼び出し、イミュータブルな借用を作ろうとする <em>前に</em> 終わるミュータブルな借用です。
 Rustでは借用はその有効なスコープと結び付けられます。
 そしてスコープはこのように見えます。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     
@@ -625,6 +631,7 @@ Rustでは借用はその有効なスコープと結び付けられます。
 <!-- So when we add the curly braces: -->
 
 <p>そして、波括弧を追加するときはこうなります。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     
@@ -679,6 +686,7 @@ Rustでは借用はその有効なスコープと結び付けられます。
 
 <p>一例は「イテレータの無効」です。それは繰返しを行っているコレクションを変更しようとするときに起こります。
 Rustの借用チェッカはこれの発生を回避します。</p>
+
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 2, 3];
     
@@ -701,6 +709,7 @@ Rustの借用チェッカはこれの発生を回避します。</p>
 <p>これは1から3までをプリントアウトします。
 ベクタに対して繰り返すとき、要素への参照だけを受け取ります。
 そして、 <code>v</code> はそれ自体イミュータブルとして借用され、それは繰返しを行っている間はそれを変更できないことを意味します。</p>
+
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 2, 3];
     
@@ -755,6 +764,7 @@ Rustはこれが真であることを保証するために、参照のスコー�
 
 <p>もしRustがこの所有物をチェックしなければ、無効な参照をうっかり使ってしまうかもしれません。
 例えばこうです。</p>
+
 <span class='rusttest'>fn main() {
     let y: &amp;i32;
     {
@@ -814,6 +824,7 @@ statement 0 at 4:18
 
 <p>参照がそれの参照する変数より <em>前に</em> 宣言されたとき、同じ問題が起こります。
 これは同じスコープにあるリソースはそれらの宣言された順番と逆に解放されるからです。</p>
+
 <span class='rusttest'>fn main() {
     let y: &amp;i32;
     let x = 5;

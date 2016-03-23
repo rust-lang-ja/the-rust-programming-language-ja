@@ -194,6 +194,7 @@
 
 <p>標準ライブラリは特別なトレイト <a href="../std/ops/trait.Deref.html"><code>Dref</code></a> を提供します。
 <code>Deref</code> は通常、参照外し演算子 <code>*</code> をオーバーロードするために利用されます。</p>
+
 <span class='rusttest'>use std::ops::Deref;
 
 struct DerefExample&lt;T&gt; {
@@ -245,6 +246,7 @@ fn main() {
 これは、 <code>Deref&lt;Target=T&gt;</code> を実装している型 <code>U</code> があるときに、
 <code>&amp;U</code> が自動的に <code>&amp;T</code> に型強制されるというルールです。
 例えば:</p>
+
 <span class='rusttest'>fn main() {
     fn foo(s: &amp;str) {
     //    // borrow a string for a second
@@ -289,6 +291,7 @@ fn main() {
 <p>以上です! このルールはRustが自動的に変換を行う唯一の箇所の一つです。
 これによって、多くの柔軟性が手にはいります。
 例えば <code>Rc&lt;T&gt;</code> は <code>Deref&lt;Target=T&gt;</code> を実装しているため、以下のコードは正しく動作します:</p>
+
 <span class='rusttest'>fn main() {
     use std::rc::Rc;
     
@@ -338,6 +341,7 @@ Rustはこのような変換を型がマッチするまで必要なだけ繰り�
 <!-- Another very common implementation provided by the standard library is: -->
 
 <p>標準ライブラリに頻繁に見られるその他の実装は例えば以下の様なものが有ります:</p>
+
 <span class='rusttest'>fn main() {
     fn foo(s: &amp;[i32]) {
     //    // borrow a slice for a second
@@ -372,6 +376,7 @@ Rustはこのような変換を型がマッチするまで必要なだけ繰り�
 
 <p><code>Deref</code> はメソッド呼び出し時にも自動的に呼びだされます。
 例えば以下の様なコードを見てみましょう:</p>
+
 <span class='rusttest'>fn main() {
     struct Foo;
     
@@ -399,6 +404,7 @@ Rustはこのような変換を型がマッチするまで必要なだけ繰り�
 
 <p><code>f</code> は <code>&amp;&amp;Foo</code> であり、 <code>foo</code> は <code>&amp;self</code> を引数に取るにも関わらずこのコードは動作します。
 これは、以下が全て等価なことによります:</p>
+
 <span class='rusttest'>fn main() {
     f.foo();
     (&amp;f).foo();

@@ -191,6 +191,7 @@
 <!--Every Rust program has at least one function, the `main` function:-->
 
 <p>Rustのプログラムには全て、少なくとも1つの関数、 <code>main</code> 関数があります。</p>
+
 <span class='rusttest'>fn main() {
 }
 </span><pre class='rust rust-example-rendered'>
@@ -208,6 +209,7 @@
 <p>これは評価可能な関数定義の最も単純なものです。
 前に言ったように、 <code>fn</code> は「これは関数です」ということを示します。この関数には引数がないので、名前と丸括弧が続きます。そして、その本文を表す波括弧が続きます。
 これが <code>foo</code> という名前の関数です。</p>
+
 <span class='rusttest'>fn main() {
     fn foo() {
     }
@@ -219,6 +221,7 @@
 
 <p>それでは、引数を取る場合はどうでしょうか。
 これが数値を出力する関数です。</p>
+
 <span class='rusttest'>fn main() {
     fn print_number(x: i32) {
         println!(&quot;x is: {}&quot;, x);
@@ -231,6 +234,7 @@
 <!--Here’s a complete program that uses `print_number`:-->
 
 <p>これが <code>print_number</code> を使う完全なプログラムです。</p>
+
 <span class='rusttest'>fn main() {
     print_number(5);
 }
@@ -257,6 +261,7 @@ fn print_number(x: i32) {
 <!--Here’s a complete program that adds two numbers together and prints them:-->
 
 <p>これが2つの数値を足して結果を出力する完全なプログラムです。</p>
+
 <span class='rusttest'>fn main() {
     print_sum(5, 6);
 }
@@ -285,6 +290,7 @@ fn print_sum(x: i32, y: i32) {
 
 <p><code>let</code> と異なり、あなたは関数の引数の型を宣言 <em>しなければなりません</em> 。
 これは動きません。</p>
+
 <span class='rusttest'>fn main() {
     fn print_sum(x, y) {
         println!(&quot;sum is: {}&quot;, x + y);
@@ -320,6 +326,7 @@ fn print_number(x, y) {
 
 <p>戻り値についてはどうでしょうか。
 これが整数に1を加える関数です。</p>
+
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
         x + 1
@@ -341,6 +348,7 @@ fn print_number(x, y) {
 関数の最後の行が何を返すのかを決定します。
 ここにセミコロンがないことに気が付くでしょう。
 もしそれを追加すると、こうなります。</p>
+
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
         x + 1;
@@ -416,6 +424,7 @@ Rubyではこうなります。</p>
 
 <p>しかし、Rustでは束縛を導入するための <code>let</code> の使用は式では <em>ありません</em> 。
 次の例はコンパイルエラーを起こします。</p>
+
 <span class='rusttest'>fn main() {
     // let x = (let y = 5); // expected identifier, found keyword `let`
     let x = (let y = 5); // 識別子を期待していましたが、キーワード `let` が見付かりました
@@ -441,6 +450,7 @@ Rubyではこうなります。</p>
 <!--other returned value would be too surprising:-->
 
 <p>次のことに注意しましょう。既に束縛されている変数（例えば、 <code>y = 5</code> ）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では <code>5</code> ）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル <code>()</code> です。なぜなら、割り当てられる値には <a href="ownership.html">単一の所有者</a> しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。</p>
+
 <span class='rusttest'>fn main() {
     let mut y = 5;
     
@@ -477,6 +487,7 @@ Rubyではこうなります。</p>
 
 <p>「ほとんど」と言ったところの例外は何でしょうか。
 この例で既に見ています。</p>
+
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
         x + 1
@@ -502,6 +513,7 @@ Rustはこの挙動がおそらく求めているものではないというこ�
 
 <p>しかし、早期リターンについてはどうでしょうか。
 Rustはそのためのキーワード <code>return</code> を持っています。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
         return x;
@@ -523,6 +535,7 @@ Rustはそのためのキーワード <code>return</code> を持っています�
 <!--style:-->
 
 <p><code>return</code> を関数の最後の行で使っても動きますが、それはよろしくないスタイルだと考えられています。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
         return x + 1;
@@ -548,6 +561,7 @@ Rustはそのためのキーワード <code>return</code> を持っています�
 <!--do not return:-->
 
 <p>Rustはリターンしない関数、「ダイバージング関数」のための特別な構文をいくつか持っています。</p>
+
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
         panic!(&quot;This function never returns!&quot;);
@@ -628,6 +642,7 @@ stack backtrace:
 <!--A diverging function can be used as any type:-->
 
 <p>ダイバージング関数は任意の型として使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
        panic!(&quot;This function never returns!&quot;);
@@ -644,6 +659,7 @@ stack backtrace:
 <!--We can also create variable bindings which point to functions:-->
 
 <p>関数を指示する変数束縛を作ることもできます。</p>
+
 <span class='rusttest'>fn main() {
     let f: fn(i32) -&gt; i32;
 }</span><pre class='rust rust-example-rendered'>
@@ -655,6 +671,7 @@ stack backtrace:
 
 <p><code>f</code> は <code>i32</code> を引数として受け取り、 <code>i32</code> を返す関数を指示する変数束縛です。
 例えばこうです。</p>
+
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 {
         i + 1
@@ -679,6 +696,7 @@ stack backtrace:
 <!--We can then use `f` to call the function:-->
 
 <p>そして、その関数を呼び出すために <code>f</code> を使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 { i + 1 }
     let f = plus_one;

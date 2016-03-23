@@ -194,6 +194,7 @@
 
 <p>Rustはコードのパフォーマンスをテストできるベンチマークテストをサポートしています。
 早速、 <code>src/lib.rc</code> を以下のように作っていきましょう(コメントは省略しています):</p>
+
 <span class='rusttest'>#![feature(test)]
 
 fn main() {
@@ -337,6 +338,7 @@ test result: ok. 0 passed; 0 failed; 1 ignored; 1 measured
 <p>ベンチマークを書くときに気をつけなければならないその他の点は: 最適化を有効にしてコンパイルしたベンチマークは劇的に最適化され、
 もはや本来ベンチマークしたかったコードとは異なるという点です。
 たとえば、コンパイラは幾つかの計算がなにも外部に影響を及ぼさないことを認識してそれらの計算を取り除くかもしれません。</p>
+
 <span class='rusttest'>#![feature(test)]
 
 fn main() {
@@ -386,6 +388,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
 <code>iter</code> メソッドが受け取るクロージャは任意の値を返すことができ、
 オプティマイザに計算の結果が利用されていると考えさせ、その計算を取り除くことができないと保証することができます。
 これは、上のコードにおいて <code>b.iter</code> の呼出を以下のようにすることで可能です:</p>
+
 <span class='rusttest'>fn main() {
     struct X;
     impl X { fn iter&lt;T, F&gt;(&amp;self, _: F) where F: FnMut() -&gt; T {} } let b = X;
@@ -409,6 +412,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
 <p>もう一つの方法としては、ジェネリックな <code>test::black_box</code> 関数を呼び出すという手段が有ります、
 <code>test::black_box</code> 関数はオプティマイザにとって不透明な「ブラックボックス」であり、
 オプティマイザに引数のどれもが利用されていると考えさせることができます。</p>
+
 <span class='rusttest'>#![feature(test)]
 
 extern crate test;

@@ -192,6 +192,7 @@
 several possible variants: -->
 
 <p>Rustの <code>enum</code> は、いくつかのヴァリアントのうちからどれか一つをとるデータを表す型です。</p>
+
 <span class='rusttest'>fn main() {
     enum Message {
         Quit,
@@ -230,6 +231,7 @@ of the `enum` itself. This allows both of these to work: -->
 <p>各ヴァリアントの名前を使うためには、 <code>::</code> 構文を使います。
 すなわち、ヴァリアントの名前は <code>enum</code> 自体の名前によってスコープ化されています。
 これにより、以下は動きます。</p>
+
 <span class='rusttest'>fn main() {
     enum Message {
         Move { x: i32, y: i32 },
@@ -270,6 +272,7 @@ possible variants: -->
 データが、それ自身がどの型なのかを示す「タグ」をもっているためです。
 コンパイラはこの情報を用いて、列挙型内のデータへ安全にアクセスすることを強制します。
 例えば、値をどれか一つのヴァリアントであるかのようにみなして、その中身を取り出すということはできません。</p>
+
 <span class='rusttest'>fn main() {
     fn process_color_change(msg: Message) {
     //    let Message::ChangeColor(r, g, b) = msg; // compile-time error
@@ -298,6 +301,7 @@ equality yet, but we’ll find out in the [`traits`][traits] section. -->
 
 <p>列挙型のコンストラクタも、関数のように使うことができます。
 例えばこうです。</p>
+
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),
@@ -309,6 +313,7 @@ equality yet, but we’ll find out in the [`traits`][traits] section. -->
 <!-- Is the same as -->
 
 <p>これは、以下と同じです。</p>
+
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),
@@ -332,6 +337,7 @@ to convert a vector of `String`s into a vector of `Message::Write`s: -->
 
 <p>また、すぐに役立つことではないのですが、<a href="closures.html"><code>クロージャ</code></a> までいくと、関数を他の関数へ引数として渡す話をします。
 例えば、これを <a href="iterators.html"><code>イテレータ</code></a> とあわせることで、 <code>String</code> のベクタから <code>Message::Write</code> へ変換することができます。</p>
+
 <span class='rusttest'>fn main() {
     enum Message {
     Write(String),

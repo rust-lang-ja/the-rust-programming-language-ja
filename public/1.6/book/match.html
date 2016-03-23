@@ -199,6 +199,7 @@
 <p>しばしば、２つ以上の可能な処理が存在するためや、分岐条件が非常に複雑になるために単純な <a href="if.html"><code>if</code></a>/<code>else</code> では充分でない場合があります。
 Rustにはキーワード <code>match</code> が存在し、複雑な <code>if</code>/<code>else</code> のグループをさらに強力なもので置き換えられます。
 以下の例を見てみましょう:</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -279,6 +280,7 @@ Rustにはキーワード <code>match</code> が存在し、複雑な <code>if</
 <!-- side of a `let` binding or directly where an expression is used: -->
 
 <p><code>match</code> は式でも有ります、これはつまり <code>let</code> 束縛の右側や式が使われているところで利用することができるということを意味しています。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -314,6 +316,7 @@ Rustにはキーワード <code>match</code> が存在し、複雑な <code>if</
 <!-- variants of an enum: -->
 
 <p><code>match</code> の他の重要な利用方法としては列挙型のバリアントを処理することがあります:</p>
+
 <span class='rusttest'>fn main() {
     enum Message {
         Quit,

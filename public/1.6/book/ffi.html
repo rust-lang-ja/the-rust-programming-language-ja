@@ -232,6 +232,7 @@ libc = &quot;0.2.0&quot;
 <!-- compile if snappy is installed: -->
 
 <p>次のコードは、snappyがインストールされていればコンパイルできる他言語関数を呼び出す最小の例です。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::size_t;
@@ -296,6 +297,7 @@ Cライブラリは、スレッドセーフでないインターフェイスを�
 <!-- The `extern` block can be extended to cover the entire snappy API: -->
 
 <p><code>extern</code> ブロックはsnappyのAPI全体をカバーするように拡張することができます。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{c_int, size_t};
@@ -364,6 +366,7 @@ fn main() {}
 Rustのベクタは隣接したメモリのブロックであることが保証されています。
 その長さは現在含んでいる要素の数で、容量は割り当てられたメモリの要素の合計のサイズです。
 長さは、容量以下です。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{c_int, size_t};
@@ -406,6 +409,7 @@ pub fn validate_compressed_buffer(src: &amp;[u8]) -&gt; bool {
 <p><code>snappy_max_compressed_length</code> 関数は、圧縮後の結果を保持するために必要な最大の容量のベクタを割り当てるために使うことができます。
 そして、そのベクタは結果を受け取るための引数として<code>snappy_compress</code>関数に渡されます。
 結果を受け取るための引数は、長さをセットするために、圧縮後の本当の長さを取得するためにも渡されます。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{size_t, c_int};
@@ -448,6 +452,7 @@ pub fn compress(src: &amp;[u8]) -&gt; Vec&lt;u8&gt; {
 <!-- format and `snappy_uncompressed_length` will retrieve the exact buffer size required. -->
 
 <p>snappyは展開後のサイズを圧縮フォーマットの一部として保存していて、 <code>snappy_uncompressed_length</code> が必要となるバッファの正確なサイズを取得するため、展開も同様です。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 use libc::{size_t, c_int};
@@ -551,6 +556,7 @@ Rustで定義された関数を外部のライブラリに渡すことは可能�
 <!-- Rust code: -->
 
 <p>これがRustのコードです。</p>
+
 <span class='rusttest'>extern fn callback(a: i32) {
     println!(&quot;I&#39;m called from C with value {0}&quot;, a);
 }
@@ -639,6 +645,7 @@ void trigger_callback() {
 <!-- Rust code: -->
 
 <p>これがRustのコードです。</p>
+
 <span class='rusttest'>#[repr(C)]
 struct RustObject {
     a: i32,
@@ -908,6 +915,7 @@ void trigger_callback() {
 
 <p>一方、アンセーフな関数はそれを全世界に向けて広告します。
 アンセーフな関数はこのように書きます。</p>
+
 <span class='rusttest'>fn main() {
     unsafe fn kaboom(ptr: *const i32) -&gt; i32 { *ptr }
 }</span><pre class='rust rust-example-rendered'>
@@ -928,6 +936,7 @@ void trigger_callback() {
 
 <p>他言語APIはしばしばグローバルな状態を追跡するようなことをするためのグローバル変数をエクスポートします。
 それらの値にアクセスするために、それらを <code>extern</code> ブロックの中で <code>static</code> キーワードを付けて宣言します。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -961,6 +970,7 @@ fn main() {
 
 <p>あるいは、他言語インターフェイスが提供するグローバルな状態を変更しなければならないこともあるかもしれません。
 これをするために、スタティックな値を変更することができるように <code>mut</code> 付きで宣言することができます。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -1023,6 +1033,7 @@ fn main() {
 <p>他言語で書かれたコードの多くはC ABIをエクスポートしていて、Rustは他言語関数の呼出しのときのデフォルトとしてそのプラットフォーム上のCの呼出規則を使います。
 他言語関数の中には、特にWindows APIですが、他の呼出規則を使うものもあります。
 Rustにはコンパイラに対してどの規則を使うかを教える方法があります。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -1177,6 +1188,7 @@ Cとのインターフェイスにおいては、ヌルになり得るポイン�
 
 <p>RustのコードをCから呼び出せる方法でコンパイルしたいときがあるかもしれません。
 これは割と簡単ですが、いくつか必要なことがあります。</p>
+
 <span class='rusttest'>#[no_mangle]
 pub extern fn hello_rust() -&gt; *const u8 {
     &quot;Hello, world!\0&quot;.as_ptr()
@@ -1213,6 +1225,7 @@ fn main() {}
 <p>FFIを扱うときに <code>panic!</code> に注意することは重要です。
 FFIの境界をまたぐ <code>panic!</code> の動作は未定義です。
 もしあなたがパニックし得るコードを書いているのであれば、他のスレッドで実行して、パニックがCに波及しないようにすべきです。</p>
+
 <span class='rusttest'>use std::thread;
 
 #[no_mangle]
@@ -1261,6 +1274,7 @@ void bar(void *arg);
 <!-- We can represent this in Rust with the `c_void` type: -->
 
 <p>Rustではこれを <code>c_void</code> 型で表現することができます。</p>
+
 <span class='rusttest'>#![feature(libc)]
 extern crate libc;
 
@@ -1301,6 +1315,7 @@ void bar(struct Bar *arg);
 <!-- To do this in Rust, let’s create our own opaque types with `enum`: -->
 
 <p>これをRustで実現するために、<code>enum</code>で独自のオペーク型を作りましょう。</p>
+
 <span class='rusttest'>pub enum Foo {}
 pub enum Bar {}
 

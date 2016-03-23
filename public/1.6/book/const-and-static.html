@@ -191,6 +191,7 @@
 <!-- Rust has a way of defining constants with the `const` keyword: -->
 
 <p>Rustでは <code>const</code> を用いることで定数を定義することができます:</p>
+
 <span class='rusttest'>fn main() {
     const N: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
@@ -232,6 +233,7 @@
 <!-- Here’s an example: -->
 
 <p>以下に例を示します:</p>
+
 <span class='rusttest'>fn main() {
     static N: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
@@ -247,6 +249,7 @@
 
 <p>静的アイテムはプログラム全体のライフタイムの間生きています。
 そのため定数に保存されている参照は <a href="lifetimes.html"><code>static</code> ライフタイム</a>を持ちます:</p>
+
 <span class='rusttest'>fn main() {
     static NAME: &amp;&#39;static str = &quot;Steve&quot;;
 }</span><pre class='rust rust-example-rendered'>
@@ -258,6 +261,7 @@
 <!-- You can introduce mutability with the `mut` keyword: -->
 
 <p><code>mut</code> を利用することでミュータビリティを導入することができます:</p>
+
 <span class='rusttest'>fn main() {
     static mut N: i32 = 5;
 }</span><pre class='rust rust-example-rendered'>
@@ -271,6 +275,7 @@
 
 <p>この静的な変数 <code>N</code> はミュータブルであるため、別のスレッドから読まれている間に変更される可能性があり、メモリの不安全性の原因となります。
 そのため <code>static mut</code> な変数にアクセスを行うことは <a href="unsafe.html"><code>unsafe</code></a> であり、 <code>unsafe</code> ブロック中で行う必要があります。</p>
+
 <span class='rusttest'>fn main() {
     static mut N: i32 = 5;
     

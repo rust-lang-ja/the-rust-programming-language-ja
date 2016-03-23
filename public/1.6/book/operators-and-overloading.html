@@ -202,6 +202,7 @@
 <!-- For example, the `+` operator can be overloaded with the `Add` trait: -->
 
 <p>例えば、 <code>+</code> の演算子は <code>Add</code> トレイトを利用することでオーバーロードすることができます:</p>
+
 <span class='rusttest'>use std::ops::Add;
 
 #[derive(Debug)]
@@ -274,6 +275,7 @@ fn main() {
 <!-- detail: -->
 
 <p>それらのトレイトの実装はパターンに従います。 <a href="../std/ops/trait.Add.html"><code>Add</code></a> トレイトを詳しく見ていきましょう:</p>
+
 <span class='rusttest'>fn main() {
     mod foo {
     pub trait Add&lt;RHS = Self&gt; {
@@ -297,6 +299,7 @@ fn main() {
 
 <p>関連する３つの型が存在します: <code>impl Add</code> を実装するもの、 デフォルトが <code>Self</code> の <code>RHS</code>、 そして <code>Output</code> 。
 例えば、式 <code>let z = x + y</code> においては <code>x</code> は <code>Self</code> 型 <code>y</code> は RHS、 <code>z</code> は <code>Self::Output</code> 型となります。</p>
+
 <span class='rusttest'>fn main() {
     struct Point;
     use std::ops::Add;
@@ -321,6 +324,7 @@ fn main() {
 <!-- will let you do this: -->
 
 <p>上のコードによって以下の様に書けるようになります:</p>
+
 <span class='rusttest'>fn main() {
     let p: Point = // ...
     let x: f64 = p + 2i32;
@@ -337,6 +341,7 @@ fn main() {
 
 <p>オペレータトレイトがどのように定義されているかについて学びましたので、
 <a href="traits.html">トレイトについての章</a> の <code>HasArea</code> トレイトと <code>Square</code> 構造体をさらに一般的に定義することができます:</p>
+
 <span class='rusttest'>use std::ops::Mul;
 
 trait HasArea&lt;T&gt; {
@@ -401,6 +406,7 @@ fn main() {
 
 <p><code>HasArea</code> と <code>Square</code> について、型パラメータ <code>T</code> を宣言し <code>f64</code> で置換しました。
 <code>impl</code> はさらに関連するモディフィケーションを必要とします:</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; HasArea&lt;T&gt; for Square&lt;T&gt;
             where T: Mul&lt;Output=T&gt; + Copy { ... }

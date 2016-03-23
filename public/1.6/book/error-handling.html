@@ -369,6 +369,7 @@ Rustでは戻り値を使います。</p>
 <p>コードを合成可能に保つのは重要です。
 なぜなら、もしこの要求がなかったら、想定外のことが起こる度に <a href="../std/macro.panic!.html"><code>panic</code></a> することを選ぶかもしれないからです。
 （<code>panic</code> は現タスクを巻き戻し(unwind) して、ほとんどの場合、プログラム全体をアボートします。）</p>
+
 <span class='rusttest'>// Guess a number between 1 and 10.
 // If it matches the number we had in mind, return true. Else, return false.
 // 1から10までの数字を予想します。
@@ -424,6 +425,7 @@ fn main() {
 このプログラムは引数として整数を受け取り、2倍した後に表示します。</p>
 
 <p><span id="code-unwrap-double"></span></p>
+
 <span class='rusttest'>use std::env;
 
 fn main() {
@@ -499,6 +501,7 @@ fn main() {
 <!-- The `Option` type is [defined in the standard library][5]: -->
 
 <p><code>Option</code> 型は <a href="../std/option/enum.Option.html">標準ライブラリで定義されています</a>：</p>
+
 <span class='rusttest'>fn main() {
     enum Option&lt;T&gt; {
         None,
@@ -526,6 +529,7 @@ fn main() {
 では、文字列から文字を検索する例を見てみましょう。</p>
 
 <p><span id="code-option-ex-string-find"></span></p>
+
 <span class='rusttest'>fn main() {
     // Searches `haystack` for the Unicode character `needle`. If one is found, the
     // byte offset of the character is returned. Otherwise, `None` is returned.
@@ -582,6 +586,7 @@ fn main() {
 でもこれはまだ、話の半分に過ぎません。
 残りの半分は、いま書いた <code>find</code> 関数を <em>使う</em> 場面です。
 これを使って、ファイル名から拡張子を見つけてみましょう。</p>
+
 <span class='rusttest'>fn find(_: &amp;str, _: char) -&gt; Option&lt;usize&gt; { None }
 fn main() {
     let file_name = &quot;foobar.rs&quot;;
@@ -634,6 +639,7 @@ fn main() {
 もし望むなら、このように自分で定義することもできます：</p>
 
 <p><span id="code-option-def-unwrap"></span></p>
+
 <span class='rusttest'>fn main() {
     enum Option&lt;T&gt; {
         None,
@@ -709,6 +715,7 @@ fn main() {
 <!-- sense to put it into a function: -->
 
 <p>ファイル名から拡張子を取り出すことは一般的な操作ですので、それを関数にすることは理にかなっています。</p>
+
 <span class='rusttest'>fn main() {
     fn find(_: &amp;str, _: char) -&gt; Option&lt;usize&gt; { None }
     // Returns the extension of the given file name, where the extension is defined
@@ -776,6 +783,7 @@ fn main() {
 <p>Rustはパラメトリック多相をサポートしていますので、このパターンを抽象化するためのコンビネータが簡単に定義できます：</p>
 
 <p><span id="code-option-map"></span></p>
+
 <span class='rusttest'>fn main() {
     fn map&lt;F, T, A&gt;(option: Option&lt;T&gt;, f: F) -&gt; Option&lt;A&gt; where F: FnOnce(T) -&gt; A {
         match option {
@@ -800,6 +808,7 @@ fn main() {
 <!-- to get rid of the case analysis: -->
 
 <p>新しいコンビネータを手に入れましたので、 <code>extension_explicit</code> メソッドを書き直して、場合分けを省きましょう：</p>
+
 <span class='rusttest'>fn main() {
     fn find(_: &amp;str, _: char) -&gt; Option&lt;usize&gt; { None }
     // Returns the extension of the given file name, where the extension is defined
@@ -833,6 +842,7 @@ fn main() {
 例えばファイルの拡張子がないときは、それを <code>rs</code> とみなすようなプログラムを書きたくなるかもしれません。
 ご想像の通り、このような場合分けはファイルの拡張子に特有のものではありません。
 どんな <code>Option&lt;T&gt;</code> でも使えるでしょう：</p>
+
 <span class='rusttest'>fn main() {
     fn unwrap_or&lt;T&gt;(option: Option&lt;T&gt;, default: T) -&gt; T {
         match option {
@@ -854,6 +864,7 @@ fn main() {
 
 <p>ここでの仕掛けは、<code>Option&lt;T&gt;</code> に入れる値と同じ型になるよう、デフォルト値の型を制限していることです。
 これを使うのは、すごく簡単です：</p>
+
 <span class='rusttest'>fn find(haystack: &amp;str, needle: char) -&gt; Option&lt;usize&gt; {
     for (offset, c) in haystack.char_indices() {
         if c == needle {
@@ -912,6 +923,7 @@ fn main() {
 
 <p>つまり、与えられたファイル <em>パス</em> から拡張子を見つけ出せるか、トライしなければなりません。
 まず明示的な場合分けから始めましょう：</p>
+
 <span class='rusttest'>fn main() {
     fn extension(file_name: &amp;str) -&gt; Option&lt;&amp;str&gt; { None }
     fn file_path_ext_explicit(file_path: &amp;str) -&gt; Option&lt;&amp;str&gt; {
@@ -962,6 +974,7 @@ fn main() {
 そして関数が返した値は <em>必ず</em> <a href="#code-option-map"><code>Some</code> でラップされ直します</a> 。
 つまりこの代わりに、 <code>map</code> に似ていながら、呼び出し元が別の <code>Option</code> を返せるしくみが必要です。
 これの汎用的な実装は <code>map</code> よりもシンプルです：</p>
+
 <span class='rusttest'>fn main() {
     fn and_then&lt;F, T, A&gt;(option: Option&lt;T&gt;, f: F) -&gt; Option&lt;A&gt;
             where F: FnOnce(T) -&gt; Option&lt;A&gt; {
@@ -982,6 +995,7 @@ fn main() {
 <!-- Now we can rewrite our `file_path_ext` function without explicit case analysis: -->
 
 <p>では、明示的な場合分けを省くように、 <code>file_path_ext</code> を書き直しましょう：</p>
+
 <span class='rusttest'>fn main() {
     fn extension(file_name: &amp;str) -&gt; Option&lt;&amp;str&gt; { None }
     fn file_name(file_path: &amp;str) -&gt; Option&lt;&amp;str&gt; { None }
@@ -1032,6 +1046,7 @@ fn main() {
 <p><code>Result</code> 型も <a href="../std/result/">標準ライブラリで定義されています</a> 。</p>
 
 <p><span id="code-result-def"></span></p>
+
 <span class='rusttest'>fn main() {
     enum Result&lt;T, E&gt; {
         Ok(T),
@@ -1061,6 +1076,7 @@ fn main() {
 これは厳密には <code>Option</code> をさらに一般化した形式だといえます。
 以下のような型エイリアスがあるとしましょう。
 これは全てにおいて、本物の <code>Option&lt;T&gt;</code> と等しいセマンティクスを持ちます。</p>
+
 <span class='rusttest'>fn main() {
     type Option&lt;T&gt; = Result&lt;T, ()&gt;;
 }</span><pre class='rust rust-example-rendered'>
@@ -1095,6 +1111,7 @@ fn main() {
 
 <p><code>Option</code> と全く同じように、<code>Result</code> 型も標準ライブラリで <a href="../std/result/enum.Result.html#method.unwrap"><code>unwrap</code> メソッドが定義されています</a> 。
 定義してみましょう：</p>
+
 <span class='rusttest'>fn main() {
     enum Result&lt;T, E&gt; { Ok(T), Err(E) }
     impl&lt;T, E: ::std::fmt::Debug&gt; Result&lt;T, E&gt; {
@@ -1160,6 +1177,7 @@ fn main() {
 
 <p>Rustの標準ライブラリを使うと、文字列を整数に変換することが、すごく簡単にできます。
 あまりにも簡単なので、実際のところ、以下のように書きたいという誘惑に負けることがあります：</p>
+
 <span class='rusttest'>fn double_number(number_str: &amp;str) -&gt; i32 {
     2 * number_str.parse::&lt;i32&gt;().unwrap()
 }
@@ -1206,6 +1224,7 @@ fn main() {
 そのためには、<code>double_number</code> の戻り値の型（リターン型）を変更しなければなりません。
 でも、一体何に？
 ええと、これはつまり、標準ライブラリの <a href="../std/primitive.str.html#method.parse"><code>parse</code> メソッド</a> のシグネチャを見ろということです。</p>
+
 <span class='rusttest'>fn main() {
     impl str {
         fn parse&lt;F: FromStr&gt;(&amp;self) -&gt; Result&lt;F, F::Err&gt;;
@@ -1274,6 +1293,7 @@ fn main() {
 こうすれば、具体的なエラー型が見つかります。
 この場合、それは <a href="../std/num/struct.ParseIntError.html"><code>std::num::ParseIntError</code></a> です。
 これでようやく関数を書き直せます：</p>
+
 <span class='rusttest'>use std::num::ParseIntError;
 
 fn double_number(number_str: &amp;str) -&gt; Result&lt;i32, ParseIntError&gt; {
@@ -1323,6 +1343,7 @@ fn main() {
 ちょうど <code>Option</code> と同じように <code>Result</code> にもたくさんのコンビネータが、メソッドとして定義されています。
 <code>Result</code> と <code>Option</code> の間では、共通のコンビネータが数多く存在します。
 例えば <code>map</code> も共通なものの一つです：</p>
+
 <span class='rusttest'>use std::num::ParseIntError;
 
 fn double_number(number_str: &amp;str) -&gt; Result&lt;i32, ParseIntError&gt; {
@@ -1392,6 +1413,7 @@ fn main() {
 種を明かすと、<code>Result</code> の型エイリアスを定義して、一方の型パラメータを特定の型に <em>固定</em> したのです。
 通常はエラー型の方を固定します。
 例えば、先ほどの整数のパースの例は、こう書き換えることもできます。</p>
+
 <span class='rusttest'>fn main() {
     use std::num::ParseIntError;
     use std::result;
@@ -1577,6 +1599,7 @@ fn main() {
 <!-- For now, let's revisit one of the first examples in this chapter: -->
 
 <p>ここで、この章の最初の方にあった例に戻ってみましょう：</p>
+
 <span class='rusttest'>use std::env;
 
 fn main() {
@@ -1624,6 +1647,7 @@ fn main() {
 試してみましょう：</p>
 
 <p><span id="code-error-double-string"></span></p>
+
 <span class='rusttest'>use std::env;
 
 fn double_arg(mut argv: env::Args) -&gt; Result&lt;i32, String&gt; {
@@ -1677,6 +1701,7 @@ fn main() {
 これは <code>Option</code> を <code>Result</code> へ変換する方法の一つです。
 変換には <code>Option</code> が <code>None</code> のときに使われるエラーを指定する必要があります。
 他のコンビネータと同様に、その定義はとてもシンプルです：</p>
+
 <span class='rusttest'>fn main() {
     fn ok_or&lt;T, E&gt;(option: Option&lt;T&gt;, err: E) -&gt; Result&lt;T, E&gt; {
         match option {
@@ -1755,6 +1780,7 @@ fn main() {
 それと同時に <code>unwrap</code> は、適切なエラーハンドリングが必要とされる場所を教えてくれます。
 ここから始めることをコーディングへの取っ掛かりとしましょう。
 その後、リファクタリングによって、エラーハンドリングを改善していきます。</p>
+
 <span class='rusttest'>use std::fs::File;
 use std::io::Read;
 use std::path::Path;
@@ -1897,6 +1923,7 @@ fn main() {
 2つの <em>異なる</em> 型のエラーが起こり得ますので、これらを共通の型に変換する必要があります。
 そのような型の一つに <code>String</code> があります。
 この変更がコードにどんな影響を与えるか見てみましょう：</p>
+
 <span class='rusttest'>use std::fs::File;
 use std::io::Read;
 use std::path::Path;
@@ -2033,6 +2060,7 @@ fn main() {
 <p>前の節で使ったコードを、 <em>早期リターン</em> を使って書き直してみようと思います。
 早期リターンとは、関数の途中で抜けることを指します。
 <code>file_double</code> のクロージャの中にいる間は、早期リターンはできないので、明示的な場合分けまでいったん戻る必要があります。</p>
+
 <span class='rusttest'>use std::fs::File;
 use std::io::Read;
 use std::path::Path;
@@ -2137,6 +2165,7 @@ fn main() {
 <p><code>try!</code> マクロの簡略化した定義はこうなります：</p>
 
 <p><span id="code-try-def-simple"></span></p>
+
 <span class='rusttest'>fn main() {
     macro_rules! try {
         ($e:expr) =&gt; (match $e {
@@ -2167,6 +2196,7 @@ fn main() {
 
 <p><code>try!</code> マクロを使うと、最後の例をシンプルにすることが、とても簡単にできます。
 場合分けと早期リターンを肩代わりしてくれますので、コードが締まって読みやすくなります。</p>
+
 <span class='rusttest'>use std::fs::File;
 use std::io::Read;
 use std::path::Path;
@@ -2321,6 +2351,7 @@ fn main() {
 <p><em>多くの可能性のうちの一つ</em> を表す理想的な方法は、 <code>enum</code> を使って独自の直和型を定義することです。
 このケースでは、エラーは <code>io::Error</code> もしくは <code>num::ParseIntError</code> でした。
 ここから思い浮かぶ自然な定義は：</p>
+
 <span class='rusttest'>fn main() {
     use std::io;
     use std::num;
@@ -2354,6 +2385,7 @@ fn main() {
 
 <p>コードの微調整はいとも簡単です。
 エラーを文字列に変換する代わりに、エラーに対応する値コンストラクタを用いて <code>CliError</code> 型に変換すればいいのです：</p>
+
 <span class='rusttest'>#[derive(Debug)]
 enum CliError { Io(::std::io::Error), Parse(::std::num::ParseIntError) }
 use std::fs::File;
@@ -2450,6 +2482,7 @@ fn main() {
 <!-- library](../std/error/trait.Error.html): -->
 
 <p><code>Error</code> トレイトは <a href="../std/error/trait.Error.html">標準ライブラリで定義されています</a> ：</p>
+
 <span class='rusttest'>fn main() {
     use std::fmt::{Debug, Display};
     
@@ -2533,6 +2566,7 @@ fn main() {
 
 <p><code>Error</code> トレイトの実装例を見せるには、いまはこのくらいで十分でしょう。
 <a href="#%E7%8B%AC%E8%87%AA%E3%81%AE%E3%82%A8%E3%83%A9%E3%83%BC%E5%9E%8B%E3%82%92%E5%AE%9A%E7%BE%A9%E3%81%99%E3%82%8B">前の節</a> で定義したエラー型を使ってみましょう：</p>
+
 <span class='rusttest'>fn main() {
     use std::io;
     use std::num;
@@ -2575,6 +2609,7 @@ fn main() {
 
 <p><code>Error</code> を実装するのは実に単純な作業です。
 大抵は明示的な場合分けの繰り返しになります。</p>
+
 <span class='rusttest'>fn main() {
     use std::error;
     use std::fmt;
@@ -2677,6 +2712,7 @@ fn main() {
 <p><code>std::convert::From</code> は <a href="../std/convert/trait.From.html">標準ライブラリで定義されています</a> ：</p>
 
 <p><span id="code-from-def"></span></p>
+
 <span class='rusttest'>fn main() {
     trait From&lt;T&gt; {
         fn from(T) -&gt; Self;
@@ -2706,6 +2742,7 @@ fn main() {
 <!-- Here are a few simple examples demonstrating how `From` works: -->
 
 <p><code>From</code> がどのように動くか、いくつかの例を使って紹介しましょう：</p>
+
 <span class='rusttest'>fn main() {
     let string: String = From::from(&quot;foo&quot;);
     let bytes: Vec&lt;u8&gt; = From::from(&quot;foo&quot;);
@@ -2722,6 +2759,7 @@ fn main() {
 <p>たしかに <code>From</code> が文字列を変換するのに便利なことはわかりました。
 でもエラーについてはどうでしょうか？
 結論から言うと、これが重要な実装です：</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;&#39;a, E: Error + &#39;a&gt; From&lt;E&gt; for Box&lt;Error + &#39;a&gt;
 }</span><pre class='rust rust-example-rendered'>
@@ -2745,6 +2783,7 @@ fn main() {
 <p>さっき扱った2つのエラーを覚えてますか？
 具体的には <code>io::Error</code> と <code>num::ParseIntError</code> でした。
 どちらも <code>Error</code> を実装していますので <code>From</code> で動きます。</p>
+
 <span class='rusttest'>fn main() {
     use std::error::Error;
     use std::fs;
@@ -2813,6 +2852,7 @@ fn main() {
 <!-- Previously, we presented this definition of `try!`: -->
 
 <p><code>try!</code> の定義は、以前このように提示されました：</p>
+
 <span class='rusttest'>fn main() {
     macro_rules! try {
         ($e:expr) =&gt; (match $e {
@@ -2836,6 +2876,7 @@ fn main() {
 本当の定義は <a href="../std/macro.try!.html">標準ライブラリの中にあります</a>：</p>
 
 <p><span id="code-try-def"></span></p>
+
 <span class='rusttest'>fn main() {
     macro_rules! try {
         ($e:expr) =&gt; (match $e {
@@ -2867,6 +2908,7 @@ fn main() {
 <!-- previously to read a file and convert its contents to an integer: -->
 
 <p>強力になった <code>try!</code> マクロを手に入れたので、以前書いた、ファイルを読み込んで内容を整数値に変換するコードを見直してみましょう：</p>
+
 <span class='rusttest'>fn main() {
     use std::fs::File;
     use std::io::Read;
@@ -2903,6 +2945,7 @@ fn main() {
 <p>以前 <code>map_err</code> の呼び出しを取り除くことができると約束しました。
 もちろんです。ここでしなければいけないのは <code>From</code> と共に動く型を一つ選ぶだけでよいのです。
 前の節で見たように <code>From</code> の実装の一つは、どんなエラー型でも <code>Box&lt;Error&gt;</code> に変換できます：</p>
+
 <span class='rusttest'>fn main() {
     use std::error::Error;
     use std::fs::File;
@@ -3015,6 +3058,7 @@ fn main() {
 
 <p>これを直すために、すでによく知っている改善方法である独自のエラー型を使いましょう。
 もう一度、ファイルの内容を読み込んで整数値に変換するコードです：</p>
+
 <span class='rusttest'>fn main() {
     use std::fs::File;
     use std::io::{self, Read};
@@ -3077,6 +3121,7 @@ fn main() {
 ここでの問題は <code>io::Error</code> や <code>num::ParseIntError</code> といったエラー型を、私たち独自の <code>CliError</code> に変換できる <code>From</code> の実装が無いことです。
 もちろん、これは簡単に直せます！
 <code>CliError</code> を定義したわけですから、それに対して <code>From</code> を実装できます：</p>
+
 <span class='rusttest'>fn main() {
     #[derive(Debug)]
     enum CliError { Io(io::Error), Parse(num::ParseIntError) }
@@ -3123,6 +3168,7 @@ fn main() {
 <!-- We can finally rewrite `file_double`: -->
 
 <p>これでようやく <code>file_double</code> を書き直せます：</p>
+
 <span class='rusttest'>fn main() {
     use std::io;
     use std::num;
@@ -3178,6 +3224,7 @@ fn main() {
 <!-- type: -->
 
 <p>もし <code>file_double</code> 関数を変更して、なにか他の操作、例えば、文字列を浮動小数点数に変換させたいと思ったら、エラー型のヴァリアントを追加するだけです：</p>
+
 <span class='rusttest'>fn main() {
     use std::io;
     use std::num;
@@ -3200,6 +3247,7 @@ fn main() {
 <!-- And add a new `From` impl: -->
 
 <p>そして、新しい <code>From</code> 実装を追加します：</p>
+
 <span class='rusttest'>fn main() {
     enum CliError {
         Io(::std::io::Error),
@@ -3427,6 +3475,7 @@ Getoptsについては、あまり深く説明しませんが、詳細を解説�
 パースが終わると、プログラムの引数をRustの構造体へとデコードできます。
 そこから、例えば、フラグが指定されたかとか、フラグの引数がなんであったかといった、フラグの情報を取り出せるようになります。
 プログラムに適切な <code>extern crate</code> 文を追加して、Getoptsの基本的な引数を設定すると、こうなります：</p>
+
 <span class='rusttest'>extern crate getopts;
 extern crate rustc_serialize;
 
@@ -3562,6 +3611,7 @@ Rustは私たちにエラーハンドリングが明示的であることを（ 
 やることは、与えられたCSVデータをパースして、マッチした行にあるフィールドを表示するだけです。
 やってみましょう。
 （ファイルの先頭に <code>extern crate csv;</code> を追加することを忘れずに。）</p>
+
 <span class='rusttest'>// This struct represents the data in each row of the CSV file.
 // Type based decoding absolves us of a lot of the nitty gritty error
 // handling, like parsing strings as integers or floats.
@@ -3795,6 +3845,7 @@ fn main() {
 <p>該当のコードを、専用の関数へとリファクタリングしましょう。
 ただし <code>unwrap</code> の呼び出しはそのままにします。
 また、人口のカウントがない場合は、いまは単にその行を無視することに注意してください。</p>
+
 <span class='rusttest'>struct Row {
     // unchanged
     // 変更なし
@@ -3949,6 +4000,7 @@ fn main() {
 <!-- Let's try it: -->
 
 <p>やってみましょう：</p>
+
 <span class='rusttest'>fn main() {
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: P, city: &amp;str)
@@ -4033,6 +4085,7 @@ fn main() {
 <code>Box&lt;Error&gt;</code> の代わりに <code>Box&lt;Error + Send + Sync&gt;</code> を使いました。
 こうすると、プレーンな文字列をエラー型に変換できます。
 <a href="../std/convert/trait.From.html">この <code>From</code> 実装</a> を使うために、このような追加の制限が必要でした。</p>
+
 <span class='rusttest'>fn main() {
     // We are making use of this impl in the code above, since we call `From::from`
     // on a `&amp;&#39;static str`.
@@ -4059,6 +4112,7 @@ fn main() {
 <!-- when calling `search`: -->
 
 <p><code>search</code> が <code>Result&lt;T, E&gt;</code> を返すようになったため、 <code>main</code> は <code>search</code> を呼ぶときに場合分けをしなければなりません：</p>
+
 <span class='rusttest'>fn main() {
     ...
     match search(&amp;data_file, &amp;city) {
@@ -4132,6 +4186,7 @@ fn main() {
 <!-- First, here's the new usage: -->
 
 <p>まず、使用法を変更します：</p>
+
 <span class='rusttest'>fn main() {
     fn print_usage(program: &amp;str, opts: Options) {
         println!(&quot;{}&quot;, opts.usage(&amp;format!(&quot;Usage: {} [options] &lt;city&gt;&quot;, program)));
@@ -4144,6 +4199,7 @@ fn main() {
 <!-- The next part is going to be only a little harder: -->
 
 <p>次のパートはやや難しくなります：</p>
+
 <span class='rusttest'>fn main() {
     ...
     let mut opts = Options::new();
@@ -4233,6 +4289,7 @@ STDINを使う代わりに、入力ファイルを選択する。</p>
 これを実際する方法は2つあります。
 ひとつの方法は <code>search</code> を <code>io::Read</code> を満たす型パラメータ <code>R</code> に対するジェネリックとして書くことです。
 もうひとつの方法は、以下のように、トレイトオブジェクトを使うことです：</p>
+
 <span class='rusttest'>fn main() {
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: &amp;Option&lt;P&gt;, city: &amp;str)
@@ -4278,6 +4335,7 @@ STDINを使う代わりに、入力ファイルを選択する。</p>
 <!-- define an `enum` with three variants: -->
 
 <p>3つの異なるエラー（IO、CSVのパース、検索結果なし）がありますので <code>enum</code> として3つのヴァリアントを定義しましょう：</p>
+
 <span class='rusttest'>fn main() {
     #[derive(Debug)]
     enum CliError {
@@ -4296,6 +4354,7 @@ STDINを使う代わりに、入力ファイルを選択する。</p>
 <!-- And now for impls on `Display` and `Error`: -->
 
 <p><code>Display</code> と <code>Error</code> を実装します：</p>
+
 <span class='rusttest'>fn main() {
     impl fmt::Display for CliError {
         fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
@@ -4353,6 +4412,7 @@ STDINを使う代わりに、入力ファイルを選択する。</p>
 どのエラーについて用意したらいいのでしょう？
 ええと <code>io::Error</code> と <code>csv::Error</code> の両方を <code>CliError</code> に変換する必要があります。
 外部エラーはこれだけですので、今は2つの <code>From</code> 実装だけが必要になるのです：</p>
+
 <span class='rusttest'>fn main() {
     impl From&lt;io::Error&gt; for CliError {
         fn from(err: io::Error) -&gt; CliError {
@@ -4398,6 +4458,7 @@ STDINを使う代わりに、入力ファイルを選択する。</p>
 <p><code>From</code> の実装ができましたので、<code>search</code> 関数に2つの小さな修正が必要です：
 リターン型と「not found」エラーです。
 全体はこうなります：</p>
+
 <span class='rusttest'>fn main() {
     fn search&lt;P: AsRef&lt;Path&gt;&gt;
              (file_path: &amp;Option&lt;P&gt;, city: &amp;str)
@@ -4526,6 +4587,7 @@ STDINを使う代わりに、入力ファイルを選択する。</p>
 <p>フラグを追加してみましょう。
 以前したように、使用法についての文字列を少し修正して、オプション変数にフラグを追加します。
 そこまですれば、残りはGetoptsがやってくれます：</p>
+
 <span class='rusttest'>fn main() {
     ...
     let mut opts = Options::new();
@@ -4547,6 +4609,7 @@ STDINを使う代わりに、入力ファイルを選択する。</p>
 
 <p>後は「quiet」機能を実装するだけです。
 <code>main</code> 関数の場合分けを少し修正します：</p>
+
 <span class='rusttest'>fn main() {
     match search(&amp;args.arg_data_path, &amp;args.arg_city) {
         Err(CliError::NotFound) if args.flag_quiet =&gt; process::exit(1),

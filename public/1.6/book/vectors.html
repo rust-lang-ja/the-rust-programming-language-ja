@@ -202,6 +202,7 @@
 <code>T</code> はどんなタイプのベクタをも作成することが可能なことを意味しています。(詳細は<a href="generics.html">ジェネリクス</a>を御覧ください)
 ベクタはデータを常にヒープ上にアロケーションします。
 ベクタは以下のように <code>vec!</code> マクロを用いて作成できます:</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5]; // v: Vec&lt;i32&gt;
 }</span><pre class='rust rust-example-rendered'>
@@ -219,6 +220,7 @@ Rustではどちらの括弧もどちらのシチュエーションでも利用�
 <!-- There’s an alternate form of `vec!` for repeating an initial value: -->
 
 <p><code>vec!</code> には初期値の繰り返しを表現するための形式があります:</p>
+
 <span class='rusttest'>fn main() {
     // let v = vec![0; 10]; // ten zeroes
     let v = vec![0; 10]; // 0が10個
@@ -229,6 +231,7 @@ Rustではどちらの括弧もどちらのシチュエーションでも利用�
 <!-- To get the value at a particular index in the vector, we use `[]`s: -->
 
 <p>ベクタ中の特定のインデックスの値にアクセスするには <code>[]</code> を利用します:</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5];
     
@@ -245,6 +248,7 @@ Rustではどちらの括弧もどちらのシチュエーションでも利用�
 <!-- It’s also important to note that you must index with the `usize` type: -->
 
 <p>また、インデックスは <code>usize</code> 型でなければならない点に注意しましょう:</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5];
     
@@ -294,6 +298,7 @@ error: aborting due to previous error
 <!-- are three versions: -->
 
 <p>ベクタである値に対して <code>for</code> を用いて以下の様な3つの方法でイテレートすることができます:</p>
+
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 2, 3, 4, 5];
     

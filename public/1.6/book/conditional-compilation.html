@@ -195,6 +195,7 @@
 <p>Rustには <code>#[cfg]</code> という特別なアトリビュートがあり、
 コンパイラに渡されたフラグに合わせてコードをコンパイルすることを可能にします。
 <code>#[cfg]</code> アトリビュートは以下の2つの形式で利用することができます:</p>
+
 <span class='rusttest'>fn main() {
     #[cfg(foo)]
     fn foo() {}
@@ -209,6 +210,7 @@
 <!-- They also have some helpers: -->
 
 <p>また、以下の様なヘルパーが存在します:</p>
+
 <span class='rusttest'>fn main() {
     #[cfg(any(unix, windows))]
     fn foo() {}
@@ -228,6 +230,7 @@
 <!-- These can nest arbitrarily: -->
 
 <p>ヘルパーは以下のように自由にネストすることが可能です:</p>
+
 <span class='rusttest'>fn main() {
     #[cfg(any(not(unix), all(target_os=&quot;macos&quot;, target_arch = &quot;powerpc&quot;)))]
     fn foo() {}
@@ -261,6 +264,7 @@ secure-password = [&quot;bcrypt&quot;]
 
 <p>渡されたすべての <code>cfg</code> フラグによってどのフラグが有効に成るか決定され、
 それによってどのコードがコンパイルされるかも決定されます。以下のコードを見てみましょう:</p>
+
 <span class='rusttest'>fn main() {
     #[cfg(feature = &quot;foo&quot;)]
     mod foo {
@@ -286,6 +290,7 @@ secure-password = [&quot;bcrypt&quot;]
 <!-- You can also set another attribute based on a `cfg` variable with `cfg_attr`: -->
 
 <p>また、<code>cfg_attr</code> を用いることで、<code>cfg</code> に設定された値によってアトリビュートを有効にすることができます:</p>
+
 <span class='rusttest'>fn main() {
     #[cfg_attr(a, b)]
     fn foo() {}
@@ -303,6 +308,7 @@ secure-password = [&quot;bcrypt&quot;]
 <!-- elsewhere in your code, too: -->
 
 <p><code>cfg!</code> <a href="compiler-plugins.html">拡張構文</a> は以下のようにコード中でフラグを利用することを可能にします:</p>
+
 <span class='rusttest'>fn main() {
     if cfg!(target_os = &quot;macos&quot;) || cfg!(target_os = &quot;ios&quot;) {
         println!(&quot;Think Different!&quot;);

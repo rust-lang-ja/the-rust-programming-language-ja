@@ -195,6 +195,7 @@
 <!-- Remember Rust's `for` loop? Here's an example: -->
 
 <p>Rustの <code>for</code> ループを覚えていますか？以下が例です。</p>
+
 <span class='rusttest'>fn main() {
     for x in 0..10 {
         println!(&quot;{}&quot;, x);
@@ -214,6 +215,7 @@ call the `.next()` method on repeatedly, and it gives us a sequence of things. -
 <!-- Like this: -->
 
 <p>こんな風に:</p>
+
 <span class='rusttest'>fn main() {
     let mut range = 0..10;
     
@@ -264,6 +266,7 @@ suppose you needed to iterate over the contents of a vector. You may be tempted
 to write this: -->
 
 <p>レンジはとても素朴な機能ですから、度々別のより良い手段を用いることもあります。ここであるRustのアンチパターンについて考えてみましょう。それはレンジをC言語ライクな <code>for</code> ループの再現に用いることです。例えばベクタの中身をイテレートする必要があったとしましょう。あなたはこう書きたくなるかもしれません。</p>
+
 <span class='rusttest'>fn main() {
     let nums = vec![1, 2, 3];
     
@@ -281,6 +284,7 @@ to write this: -->
 directly, so write this: -->
 
 <p>これは実際のイテレータの使い方からすれば全く正しくありません。あなたはベクタを直接反復処理できるのですから、こう書くべきです。</p>
+
 <span class='rusttest'>fn main() {
     let nums = vec![1, 2, 3];
     
@@ -311,6 +315,7 @@ not an `i32` itself. `println!` handles the dereferencing for us, so we don't
 see it. This code works fine too: -->
 
 <p>ここにはもう1つ、<code>println!</code> の動作という詳細が100%はっきりしていない処理があります。 <code>num</code> は実際には <code>&amp;i32</code> 型です。これは <code>i32</code> の参照であり、 <code>i32</code> それ自体ではありません。 <code>println!</code> は上手い具合に参照外し(dereferencing)をしてくれますから、これ以上深追いはしないことにします。以下のコードも正しく動作します。</p>
+
 <span class='rusttest'>fn main() {
     let nums = vec![1, 2, 3];
     
@@ -366,6 +371,7 @@ The most common consumer is `collect()`. This code doesn't quite compile,
 but it shows the intention: -->
 
 <p><em>コンシューマ</em> とはイテレータに作用し、何らかの値を返すものです。最も一般的なコンシューマは <code>collect()</code> です。このコードは全くコンパイルできませんが、意図するところは伝わるでしょう。</p>
+
 <span class='rusttest'>fn main() {
     let one_to_one_hundred = (1..101).collect();
 }</span><pre class='rust rust-example-rendered'>
@@ -378,6 +384,7 @@ type of things you want to collect, and so you need to let it know.
 Here's the version that does compile: -->
 
 <p>ご覧のとおり、ここではイテレータの <code>collect()</code> を呼び出しています。 <code>collect()</code> はイテレータが渡す沢山の値を全て受け取り、その結果をコレクションとして返します。それならなぜこのコードはコンパイルできないのでしょうか？Rustはあなたが集めたい値の型を判断することができないため、あなたが欲しい型を指定する必要があります。以下のバージョンはコンパイルできます。</p>
+
 <span class='rusttest'>fn main() {
     let one_to_one_hundred = (1..101).collect::&lt;Vec&lt;i32&gt;&gt;();
 }</span><pre class='rust rust-example-rendered'>
@@ -389,6 +396,7 @@ need to use the whole type, though. Using a `_` will let you provide
 a partial hint: -->
 
 <p>もしあなたが覚えているなら、 <code>::&lt;&gt;</code> 構文で型ヒント(type hint)を与え、整数型のベクタが欲しいと伝えることができます。かといって常に型をまるごとを書く必要はありません。 <code>_</code> を用いることで部分的に推論してくれます。</p>
+
 <span class='rusttest'>fn main() {
     let one_to_one_hundred = (1..101).collect::&lt;Vec&lt;_&gt;&gt;();
 }</span><pre class='rust rust-example-rendered'>
@@ -403,6 +411,7 @@ a partial hint: -->
 is one: -->
 
 <p><code>collect()</code> は最も一般的なコンシューマですが、他にもあります。 <code>find()</code> はそのひとつです。</p>
+
 <span class='rusttest'>fn main() {
     let greater_than_forty_two = (0..100)
                                  .find(|x| *x &gt; 42);
@@ -431,6 +440,7 @@ returns an `Option` rather than the element itself. -->
 <!-- Another important consumer is `fold`. Here's what it looks like: -->
 
 <p>もう一つの重要なコンシューマは <code>fold</code> です。こんな風になります。</p>
+
 <span class='rusttest'>fn main() {
     let sum = (1..4).fold(0, |sum, x| sum + x);
 }</span><pre class='rust rust-example-rendered'>
@@ -486,6 +496,7 @@ in this iterator: -->
 <!-- We called `fold()` with these arguments: -->
 
 <p>これらの引数で <code>fold()</code> を呼び出してみました。</p>
+
 <span class='rusttest'>fn main() {
     (1..4)
     .fold(0, |sum, x| sum + x);
@@ -526,6 +537,7 @@ for example, does not actually generate the numbers `1-99`, instead
 creating a value that merely represents the sequence: -->
 
 <p>前に言ったように、イテレータは <code>.next()</code> メソッドを繰り返し呼び出すことができ、その都度順番に値を返すものです。メソッドを繰り返し呼ぶ必要があることから、イテレータは <em>lazy</em> であり、前もって全ての値を生成できないことがわかります。このコードでは、例えば <code>1-99</code> の値は実際には生成されておらず、代わりにただシーケンスを表すだけの値を生成しています。</p>
+
 <span class='rusttest'>fn main() {
     let nums = 1..100;
 }</span><pre class='rust rust-example-rendered'>
@@ -535,6 +547,7 @@ creating a value that merely represents the sequence: -->
 Let's add the consumer: -->
 
 <p>私たちはレンジを何にも使っていないため、値を生成しません。コンシューマを追加してみましょう。</p>
+
 <span class='rusttest'>fn main() {
     let nums = (1..100).collect::&lt;Vec&lt;i32&gt;&gt;();
 }</span><pre class='rust rust-example-rendered'>
@@ -550,6 +563,7 @@ it will do the work of generating the sequence. -->
 in turn: -->
 
 <p>レンジは基本的な2つのイテレータのうちの1つです。もう片方は <code>iter()</code> です。 <code>iter()</code> はベクタを順に各要素を渡すシンプルなイテレータへ変換できます。</p>
+
 <span class='rusttest'>fn main() {
     let nums = vec![1, 2, 3];
     
@@ -580,6 +594,7 @@ we need to talk about with regards to iterators. Let's get to it! -->
 a new iterator. The simplest one is called `map`: -->
 
 <p><em>イテレータアダプタ</em> はイテレータを受け取って何らかの方法で加工し、新たなイテレータを生成します。 <code>map</code> はその中でも最も単純なものです。</p>
+
 <span class='rusttest'>fn main() {
     (1..100).map(|x| x + 1);
 }</span><pre class='rust rust-example-rendered'>
@@ -602,6 +617,7 @@ compile the example, you'll get a warning: -->
 doesn't print any numbers: -->
 
 <p>また遅延性にぶつかりました！このクロージャは実行されませんね。例えば以下の例は何の数字も出力されません。</p>
+
 <span class='rusttest'>fn main() {
     (1..100).map(|x| println!(&quot;{}&quot;, x));
 }</span><pre class='rust rust-example-rendered'>
@@ -617,6 +633,7 @@ iterator over the next `n` elements of the original iterator. Let's try it out
 with an infinite iterator: -->
 
 <p>他にも面白いイテレータアダプタは山ほどあります。 <code>take(n)</code> は元のイテレータの <code>n</code> 要素目までを実行するイテレータを返します。先程言及していた無限を扱えるイテレータで試してみましょう。</p>
+
 <span class='rusttest'>fn main() {
     for i in (1..).take(5) {
         println!(&quot;{}&quot;, i);
@@ -642,6 +659,7 @@ returns `true` or `false`. The new iterator `filter()` produces
 only the elements that the closure returns `true` for: -->
 
 <p><code>filter()</code> は引数としてクロージャをとるアダプタです。このクロージャは <code>true</code> か <code>false</code> を返します。 <code>filter()</code> が生成する新たなイテレータはそのクロージャが <code>true</code> を返した要素のみとなります。</p>
+
 <span class='rusttest'>fn main() {
     for i in (1..100).filter(|&amp;x| x % 2 == 0) {
         println!(&quot;{}&quot;, i);
@@ -667,6 +685,7 @@ itself.) -->
 a few times, and then consume the result. Check it out: -->
 
 <p>あなたはここまでに説明された3つの概念を全て繋げることができます。イテレータから始まり、アダプタを幾つか繋ぎ、結果を消費するといった感じです。これを見て下さい。</p>
+
 <span class='rusttest'>fn main() {
     (1..)
         .filter(|&amp;x| x % 2 == 0)

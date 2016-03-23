@@ -196,6 +196,7 @@ called ‘trait objects’.</p>
 <p>For the rest of this chapter, we’ll need a trait and some implementations.
 Let’s make a simple one, <code>Foo</code>. It has one method that is expected to return a
 <code>String</code>.</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
         fn method(&amp;self) -&gt; String;
@@ -206,6 +207,7 @@ Let’s make a simple one, <code>Foo</code>. It has one method that is expected 
 }</pre>
 
 <p>We’ll also implement this trait for <code>u8</code> and <code>String</code>:</p>
+
 <span class='rusttest'>fn main() {
     trait Foo { fn method(&amp;self) -&gt; String; }
     impl Foo for u8 {
@@ -226,6 +228,7 @@ Let’s make a simple one, <code>Foo</code>. It has one method that is expected 
 
 <h2 id='static-dispatch' class='section-header'><a href='#static-dispatch'>Static dispatch</a></h2>
 <p>We can use this trait to perform static dispatch with trait bounds:</p>
+
 <span class='rusttest'>trait Foo { fn method(&amp;self) -&gt; String; }
 impl Foo for u8 { fn method(&amp;self) -&gt; String { format!(&quot;u8: {}&quot;, *self) } }
 impl Foo for String { fn method(&amp;self) -&gt; String { format!(&quot;string: {}&quot;, *self) } }
@@ -257,6 +260,7 @@ fn main() {
 Rust will create a special version of <code>do_something()</code> for both <code>u8</code> and
 <code>String</code>, and then replace the call sites with calls to these specialized
 functions. In other words, Rust generates something like this:</p>
+
 <span class='rusttest'>trait Foo { fn method(&amp;self) -&gt; String; }
 impl Foo for u8 { fn method(&amp;self) -&gt; String { format!(&quot;u8: {}&quot;, *self) } }
 impl Foo for String { fn method(&amp;self) -&gt; String { format!(&quot;string: {}&quot;, *self) } }
@@ -330,6 +334,7 @@ as ‘type erasure’.</p>
 
 <p>Coming back to the example above, we can use the same trait to perform dynamic
 dispatch with trait objects by casting:</p>
+
 <span class='rusttest'>trait Foo { fn method(&amp;self) -&gt; String; }
 impl Foo for u8 { fn method(&amp;self) -&gt; String { format!(&quot;u8: {}&quot;, *self) } }
 impl Foo for String { fn method(&amp;self) -&gt; String { format!(&quot;string: {}&quot;, *self) } }
@@ -354,6 +359,7 @@ fn main() {
 }</pre>
 
 <p>or by coercing:</p>
+
 <span class='rusttest'>trait Foo { fn method(&amp;self) -&gt; String; }
 impl Foo for u8 { fn method(&amp;self) -&gt; String { format!(&quot;u8: {}&quot;, *self) } }
 impl Foo for String { fn method(&amp;self) -&gt; String { format!(&quot;string: {}&quot;, *self) } }
@@ -411,6 +417,7 @@ surprising behaviors to discover.</p>
 <p>Let’s start simple, with the runtime representation of a trait object. The
 <code>std::raw</code> module contains structs with layouts that are the same as the
 complicated built-in types, <a href="../std/raw/struct.TraitObject.html">including trait objects</a>:</p>
+
 <span class='rusttest'>fn main() {
     mod foo {
     pub struct TraitObject {
@@ -435,6 +442,7 @@ table’) corresponding to the implementation of <code>Foo</code> for <code>T</c
 piece of machine code for each method in the implementation. A method call like
 <code>trait_object.method()</code> will retrieve the correct pointer out of the vtable and
 then do a dynamic call of it. For example:</p>
+
 <span class='rusttest'>fn main() {
     struct FooVtable {
         destructor: fn(*mut ()),
@@ -541,6 +549,7 @@ made more flexible.</p>
 <p>Suppose we’ve got some values that implement <code>Foo</code>. The explicit form of
 construction and use of <code>Foo</code> trait objects might look a bit like (ignoring the
 type mismatches: they’re all just pointers anyway):</p>
+
 <span class='rusttest'>fn main() {
     let a: String = &quot;foo&quot;.to_string();
     let x: u8 = 1;
@@ -595,6 +604,7 @@ type mismatches: they’re all just pointers anyway):</p>
 <h2 id='object-safety' class='section-header'><a href='#object-safety'>Object Safety</a></h2>
 <p>Not every trait can be used to make a trait object. For example, vectors implement
 <code>Clone</code>, but if we try to make a trait object:</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     let o = &amp;v as &amp;Clone;

@@ -251,6 +251,7 @@
 <!-- which allocator is in use is done simply by linking to the desired allocator: -->
 
 <p>コンパイラによる既定の選択はほとんどの場合うまく動きますが、しばしば多少の調整が必要になることがあります。コンパイラのアロケータ選択を上書きするには、単に希望のアロケータとリンクするだけです。</p>
+
 <span class='rusttest'>#![feature(alloc_system)]
 
 extern crate alloc_system;
@@ -277,6 +278,7 @@ fn main() {
 <!-- uses jemalloc by default one would write: -->
 
 <p>この例で生成されるバイナリは既定のjemallocとリンクする代わりに、システムアロケータを使います。逆に既定でjemallocを使う動的ライブラリを生成するには次のようにします。</p>
+
 <span class='rusttest'>#![feature(alloc_jemalloc)]
 #![crate_type = &quot;dylib&quot;]
 
@@ -313,6 +315,7 @@ fn main() {}
 <!-- annotated version of `alloc_system` -->
 
 <p>時々jemallocとシステムアロケータの選択では足りず、全く新しいカスタムアロケータが必要になることがあります。この場合、アロケータAPI(例えば <code>alloc_system</code> や <code>alloc_jemalloc</code> と同様のもの)を実装した独自のクレートを書くことになります。例として、 <code>alloc_system</code> の簡素な注釈付きバージョンを見てみましょう。</p>
+
 <span class='rusttest'>// only needed for rustdoc --test down below
 #![feature(lang_items)]
 //// The compiler needs to be instructed that this crate is an allocator in order
@@ -461,6 +464,7 @@ fn main() {}
 <!-- After we compile this crate, it can be used as follows: -->
 
 <p>このクレートをコンパイルすると、次のように使えるようになります。</p>
+
 <span class='rusttest'>extern crate my_allocator;
 
 fn main() {

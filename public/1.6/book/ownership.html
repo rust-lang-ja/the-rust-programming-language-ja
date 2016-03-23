@@ -286,6 +286,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <p>Rustでは <a href="variable-bindings.html">変数束縛</a> は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
 これは束縛がスコープから外れるとき、Rustは束縛されているリソースを解放するだろうということを意味します。
 例えばこうです。</p>
+
 <span class='rusttest'>fn main() {
     fn foo() {
         let v = vec![1, 2, 3];
@@ -321,6 +322,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <p>しかし、ここではもっと微妙なことがあります。それは、Rustは与えられたリソースに対する束縛が <em>1つだけ</em> あるということを保証するということです。
 例えば、もしベクタがあれば、それを別の束縛に割り当てることはできます。</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     
@@ -333,6 +335,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- But, if we try to use `v` afterwards, we get an error: -->
 
 <p>しかし、もし後で <code>v</code> を使おうとすると、エラーが出ます。</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     
@@ -360,6 +363,7 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 <!-- try to use something after we’ve passed it as an argument: -->
 
 <p>もし所有権を受け取る関数を定義して、引数として何かを渡した後でそれを使おうとするならば、同じようなことが起きます。</p>
+
 <span class='rusttest'>fn main() {
     fn take(v: Vec&lt;i32&gt;) {
       // what happens here isn’t important.
@@ -402,6 +406,7 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <p>束縛をムーブした後ではそれを使うことができないということの理由は微妙ですが重要です。
 このようなコードを書いたとします。</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
     
@@ -458,6 +463,7 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 しかし、この挙動を変更する <a href="traits.html">トレイト</a> があります。それは <code>Copy</code> と呼ばれます。
 トレイトについてはまだ議論していませんが、とりあえずそれらを挙動を追加するある型への注釈として考えることができます。
 例えばこうです。</p>
+
 <span class='rusttest'>fn main() {
     let v = 1;
     
@@ -494,6 +500,7 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <p>全てのプリミティブ型は <code>Copy</code> トレイトを実装しているので、推測どおりそれらの所有権は「所有権ルール」に従ってはムーブしません。
 例として、次の2つのコードスニペットはコンパイルが通ります。なぜなら、 <code>i32</code> 型と <code>bool</code> 型は <code>Copy</code> トレイトを実装するからです。</p>
+
 <span class='rusttest'>fn main() {
     let a = 5;
 
@@ -515,6 +522,7 @@ fn double(x: i32) -&gt; i32 {
 <span class='kw'>fn</span> <span class='ident'>double</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='ident'>x</span> <span class='op'>*</span> <span class='number'>2</span>
 }</pre>
+
 <span class='rusttest'>fn main() {
     let a = true;
 
@@ -560,6 +568,7 @@ println!(&quot;{}&quot;, a);
 <!-- Of course, if we had to hand ownership back with every function we wrote: -->
 
 <p>もちろん、もし書いた全ての関数で所有権を返さなければならないのであれば、こうなります。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(v: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
       // do stuff with v
@@ -581,6 +590,7 @@ println!(&quot;{}&quot;, a);
 
 <p>これは非常に退屈になるでしょう。
 もっとたくさんのものの所有権を受け取れば、それはもっとひどくなります。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(v1: Vec&lt;i32&gt;, v2: Vec&lt;i32&gt;) -&gt; (Vec&lt;i32&gt;, Vec&lt;i32&gt;, i32) {
       // do stuff with v1 and v2

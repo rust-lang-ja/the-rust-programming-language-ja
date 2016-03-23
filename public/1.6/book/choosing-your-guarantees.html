@@ -225,6 +225,7 @@
 <p><a href="../std/boxed/struct.Box.html"><code>Box&lt;T&gt;</code></a> は「所有される」ポインタ、すなわち「ボックス」です。
 ボックスは中身のデータへの参照を渡すことができますが、ボックスだけがそのデータの唯一の所有者です。
 特に、次のことを考えましょう。</p>
+
 <span class='rusttest'>fn main() {
     let x = Box::new(1);
     let y = x;
@@ -435,6 +436,7 @@
 
 <p>このラッパを使うことで、維持されている不変性に違反してしまう可能性もあるので、それを使うときには注意しましょう。
 もしフィールドが <code>Cell</code> でラップされているならば、そのデータの塊はミュータブルで、最初にそれを読み込んだときとそれを使おうと思ったときで同じままだとは限らないということのよい目印になります。</p>
+
 <span class='rusttest'>fn main() {
     use std::cell::Cell;
     
@@ -463,6 +465,7 @@
 <!--This has the same runtime cost as the following:-->
 
 <p>これには次のものと同じ実行時のコストが掛かります。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 1;
     let y = &amp;mut x;
@@ -544,6 +547,7 @@
 参照カウントはスマートポインタがスコープから外れたときに元に戻されます。
 このシステムによって、ミュータブルな借用が有効なときには決してその他の借用が有効にならないということを動的に保証することができます。
 もしプログラマがそのような借用を作ろうとすれば、スレッドはパニックするでしょう。</p>
+
 <span class='rusttest'>fn main() {
     use std::cell::RefCell;
     
@@ -738,6 +742,7 @@ C++と同じセマンティクスで使うためには、 <code>Arc&lt;Mutex&lt;
 <p><a href="../std/sync/struct.Mutex.html"><code>Mutex&lt;T&gt;</code></a> と <a href="../std/sync/struct.RwLock.html"><code>RwLock&lt;T&gt;</code></a> はRAIIガード（ガードとは、ロックのようにそれらのデストラクタが呼び出されるまである状態を保持するオブジェクトのことです）による相互排他を提供します。
 それらの両方とも、その <code>lock()</code> を呼び出すまでミューテックスは不透明です。その時点で、スレッドはロックが得られ、ガードが戻されるまでブロックします。
 このガードを使うことで、中身のデータに（ミュータブルに）アクセスできるようになり、ロックはガードがスコープから外れたときに解放されます。</p>
+
 <span class='rusttest'>fn main() {
     {
         let guard = mutex.lock();

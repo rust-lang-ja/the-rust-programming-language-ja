@@ -262,6 +262,7 @@ function result. -->
 <!-- The `as` keyword does safe casting: -->
 
 <p><code>as</code> というキーワードは安全なキャストを行います。</p>
+
 <span class='rusttest'>fn main() {
     let x: i32 = 5;
     
@@ -318,6 +319,7 @@ expression, `e as U2` is not necessarily so (in fact it will only be valid if
 <!-- For example -->
 
 <p>例えば、</p>
+
 <span class='rusttest'>fn main() {
     let one = true as u8;
     let at_sign = 64 as char;
@@ -389,6 +391,7 @@ some constraints. It is only unsafe to dereference the pointer: -->
 
 <p>驚くかもしれませんが、いくつかの制約のもとで、 <a href="raw-pointers.html">生ポインタ</a> と整数の間のキャストや、ポインタと他の型の間のキャストは安全です。
 安全でないのはポインタの参照外しだけなのです。</p>
+
 <span class='rusttest'>fn main() {
     // let a = 300 as *const char; // a pointer to location 300
     let a = 300 as *const char; // 300番地へのポインタ
@@ -444,6 +447,7 @@ some constraints. It is only unsafe to dereference the pointer: -->
 cast four bytes into a `u32`: -->
 
 <p><code>as</code> は安全なキャストしか許さず、例えば4つのバイト値を <code>u32</code> へキャストすることはできません。</p>
+
 <span class='rusttest'>fn main() {
     let a = [0u8, 0u8, 0u8, 0u8];
     
@@ -494,6 +498,7 @@ Rust lets us: -->
 
 <p>先ほどの例では、4つの <code>u8</code> からなる配列が ちゃんと <code>u32</code> を表していることを知った上で、キャストを行おうとしました。
 これは、<code>as</code> の代わりに <code>transmute</code> を使うことで、次のように書けます。</p>
+
 <span class='rusttest'>fn main() {
     use std::mem;
     
@@ -529,6 +534,7 @@ the types are the same size. This errors: -->
 
 <p><code>transmute</code> はほとんどチェックを行わないのですが、最低限、型同士が同じサイズかの確認はします。
 そのため、次の例はエラーになります。</p>
+
 <span class='rusttest'>fn main() {
     use std::mem;
     

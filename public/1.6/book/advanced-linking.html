@@ -212,6 +212,7 @@
 <p>どのようにリンクをカスタマイズするかを <code>rustc</code> に指示するために、1つの方法があります。それは、 <code>link_args</code> アトリビュートを使うことです。
 このアトリビュートは <code>extern</code> ブロックに適用され、生成物を作るときにリンカに渡したいフラグをそのまま指定します。
 使い方の例は次のようになります。</p>
+
 <span class='rusttest'>#![feature(link_args)]
 
 #[link_args = &quot;-foo -bar -baz&quot;]

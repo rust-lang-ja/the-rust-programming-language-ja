@@ -210,6 +210,7 @@ four contexts. The first one is to mark a function as unsafe:
 <p>まずシンタックスをみて、それからセマンティクスについて話しましょう。
 <code>unsafe</code> は4つの場面で使われます。
 1つめは、関数がアンセーフであることを印付ける場合です。</p>
+
 <span class='rusttest'>fn main() {
     unsafe fn danger_will_robinson() {
        // scary stuff
@@ -227,6 +228,7 @@ The second use of `unsafe` is an unsafe block:
 
 <p>たとえば、<a href="ffi.html">FFI</a>から呼び出されるすべての関数は<code>unsafe</code>で印付けることが必要です。
 <code>unsafe</code>の2つめの用途は、アンセーフブロックです。</p>
+
 <span class='rusttest'>fn main() {
     unsafe {
        // scary stuff
@@ -240,6 +242,7 @@ The second use of `unsafe` is an unsafe block:
 <!--The third is for unsafe traits:-->
 
 <p>3つめは、アンセーフトレイトです。</p>
+
 <span class='rusttest'>fn main() {
     unsafe trait Scary { }
 }</span><pre class='rust rust-example-rendered'>
@@ -248,6 +251,7 @@ The second use of `unsafe` is an unsafe block:
 <!--And the fourth is for `impl`ementing one of those traits:-->
 
 <p>そして、4つめは、そのアンセーフトレイトを実装する場合です。</p>
+
 <span class='rusttest'>fn main() {
     unsafe trait Scary { }
     unsafe impl Scary for i32 {}

@@ -191,6 +191,7 @@
 <!-- Sometimes, functions can have the same names. Consider this code: -->
 
 <p>しばしば、同名の関数が存在する時があります。たとえば、以下のコードでは:</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
         fn f(&amp;self);
@@ -256,6 +257,7 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 
 <p>このような場合は、どのメソッドを呼び出す必要があるのかについて曖昧性を排除する手段が必要です。
 そのようなフィーチャーは 「共通の関数呼び出し構文」と呼ばれ、以下のように書けます:</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
         fn f(&amp;self);
@@ -280,6 +282,7 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 <!-- Let’s break it down. -->
 
 <p>部分的に見ていきましょう。</p>
+
 <span class='rusttest'>fn main() {
     Foo::
     Bar::
@@ -295,6 +298,7 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 
 <p>まず、呼び出しのこの部分は２つのトレイト <code>Foo</code> と <code>Bar</code> の型を表しています。
 この部分が、実際にどちらのトレイトのメソッドを呼び出しているのかを指定し、曖昧性を排除している箇所になります。</p>
+
 <span class='rusttest'>fn main() {
     f(&amp;b)
 }</span><pre class='rust rust-example-rendered'>
@@ -313,6 +317,7 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 <!-- The form of UFCS we just talked about: -->
 
 <p>すぐ上で説明した、以下のような共通の関数呼び出し構文:</p>
+
 <span class='rusttest'>fn main() {
     Trait::method(args);
 }</span><pre class='rust rust-example-rendered'>
@@ -323,6 +328,7 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 <!-- situations: -->
 
 <p>これは短縮形であり、時々必要になる以下の様な展開された形式もあります:</p>
+
 <span class='rusttest'>fn main() {
     &lt;Type as Trait&gt;::method(args);
 }</span><pre class='rust rust-example-rendered'>
@@ -345,6 +351,7 @@ note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
 <!-- Here’s an example of using the longer form. -->
 
 <p>長い形式を用いたサンプルコードは以下の通りです:</p>
+
 <span class='rusttest'>trait Foo {
     fn foo() -&gt; i32;
 }

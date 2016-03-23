@@ -239,6 +239,7 @@ other pointer types. They: -->
 <!-- Creating a raw pointer is perfectly safe: -->
 
 <p>生ポインタを作成すること自体は絶対に安全です。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     let raw = &amp;x as *const i32;
@@ -255,6 +256,7 @@ other pointer types. They: -->
 <!-- However, dereferencing one is not. This won’t work: -->
 
 <p>しかしながら参照外しは安全ではありません。以下は動作しないでしょう。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     let raw = &amp;x as *const i32;
@@ -279,6 +281,7 @@ other pointer types. They: -->
 pointing somewhere that would be incorrect. As such, you need `unsafe`: -->
 
 <p>生ポインタを参照外しする時、ポインタが間違った場所を指していないことに対して責任を負うことになります。そういう時は、 <code>unsafe</code> を付けなければなりません。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     let raw = &amp;x as *const i32;
@@ -329,6 +332,7 @@ programmer *must* guarantee this. -->
 <!-- The recommended method for the conversion is: -->
 
 <p>おすすめの変換の方法は以下のとおりです。</p>
+
 <span class='rusttest'>fn main() {
     // explicit cast
     // 明示的キャスト

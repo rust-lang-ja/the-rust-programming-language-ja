@@ -191,6 +191,7 @@
 <!-- With the `associated_consts` feature, you can define constants like this: -->
 
 <p><code>associated_consts</code> フィーチャを使うと、以下のように定数を定義することができます。</p>
+
 <span class='rusttest'>#![feature(associated_consts)]
 
 trait Foo {
@@ -222,6 +223,7 @@ fn main() {
 <!-- Any implementor of `Foo` will have to define `ID`. Without the definition: -->
 
 <p><code>Foo</code> を実装する場合、必ず <code>ID</code> を定義しなければなりません。もし以下のように定義がなかった場合</p>
+
 <span class='rusttest'>#![feature(associated_consts)]
 
 fn main() {
@@ -254,6 +256,7 @@ fn main() {
 <!-- A default value can be implemented as well: -->
 
 <p>既定値についても以下のように実装できます。</p>
+
 <span class='rusttest'>#![feature(associated_consts)]
 
 trait Foo {
@@ -303,6 +306,7 @@ fn main() {
 <!-- for a `struct` or an `enum` works fine too: -->
 
 <p>関連定数は必ずしもトレイトに関連付けられる必要はありません。 <code>struct</code> や <code>enum</code> の <code>impl</code> ブロックにおいても使うことができます。</p>
+
 <span class='rusttest'>#![feature(associated_consts)]
 
 fn main() {

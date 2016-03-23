@@ -209,6 +209,7 @@ Rustはこれから見ていくようにクロージャの非常に良い実装�
 <!-- Closures look like this: -->
 
 <p>クロージャは以下のような見た目です:</p>
+
 <span class='rusttest'>fn main() {
     let plus_one = |x: i32| x + 1;
     
@@ -230,6 +231,7 @@ Rustはこれから見ていくようにクロージャの非常に良い実装�
 クロージャの引数はパイプ( <code>|</code> )の間に書きます、そしてクロージャの本体は式です、
 この場合は <code>x + 1</code> がそれに当たります。
 <code>{ }</code> が式であることを思い出して下さい、 そのため複数行のクロージャを作成することも可能です:</p>
+
 <span class='rusttest'>fn main() {
     let plus_two = |x| {
         let mut result: i32 = x;
@@ -264,6 +266,7 @@ Rustはこれから見ていくようにクロージャの非常に良い実装�
 <p>いくつかクロージャと通常の <code>fn</code> で定義される関数との間の違いに気がつくことでしょう。
 一つ目はクロージャの引数や返り値の型を示す必要が無いことです。
 型を以下のように示すことも可能です:</p>
+
 <span class='rusttest'>fn main() {
     let plus_one = |x: i32| -&gt; i32 { x + 1 };
     
@@ -297,6 +300,7 @@ Rustはこれから見ていくようにクロージャの非常に良い実装�
 
 <p>通常の関数との違いの二つ目は、構文が大部分は似ていますがほんの少しだけ違うという点です。
 比較がしやすいようにスペースを適宜補って以下に示します:</p>
+
 <span class='rusttest'>fn main() {
     fn  plus_one_v1   (x: i32) -&gt; i32 { x + 1 }
     let plus_one_v2 = |x: i32| -&gt; i32 { x + 1 };
@@ -319,6 +323,7 @@ Rustはこれから見ていくようにクロージャの非常に良い実装�
 
 <p>クロージャの環境は引数やローカルな束縛に加えてクロージャを囲んでいるスコープ中の束縛を含むことができます。
 例えば以下のようになります:</p>
+
 <span class='rusttest'>fn main() {
     let num = 5;
     let plus_num = |x: i32| x + num;
@@ -340,6 +345,7 @@ Rustはこれから見ていくようにクロージャの非常に良い実装�
 より厳密に言うと、クロージャ <code>plus_num</code> は束縛を借用しています。
 もし、この束縛と衝突する処理を行うとエラーが発生します。
 例えば、以下のようなコードでは:</p>
+
 <span class='rusttest'>fn main() {
     let mut num = 5;
     let plus_num = |x: i32| x + num;
@@ -383,6 +389,7 @@ fn main() {
 エラーが示しているように、クロージャが既に <code>num</code> を借用しているために、
 <code>num</code> の変更可能な借用を取得することはできません。
 もしクロージャがスコープ外になるようにした場合以下のようにできます:</p>
+
 <span class='rusttest'>fn main() {
     let mut num = 5;
     {
@@ -407,6 +414,7 @@ fn main() {
 
 <p>もしクロージャが <code>num</code> を要求した場合、Rustは借用する代わりに環境の所有権を取りムーブします。
 そのため、以下のコードは動作しません:</p>
+
 <span class='rusttest'>fn main() {
     let nums = vec![1, 2, 3];
     
@@ -448,6 +456,7 @@ let takes_nums = || nums;
 <!-- keyword: -->
 
 <p><code>move</code> キーワードを用いることで、クロージャに環境の所有権を取得することを強制することができます。</p>
+
 <span class='rusttest'>fn main() {
     let num = 5;
     
@@ -467,6 +476,7 @@ let takes_nums = || nums;
 この場合、 <code>5</code> は <code>Copy</code> を実装しています、
 そのため <code>owns_num</code> は <code>num</code> のコピーの所有権を取得します。
 では、なにが異なるのでしょうか？</p>
+
 <span class='rusttest'>fn main() {
     let mut num = 5;
     
@@ -502,6 +512,7 @@ let takes_nums = || nums;
 <!-- If we change to a `move` closure, it’s different: -->
 
 <p>もしクロージャを <code>move</code> に変更した場合、結果が異なります:</p>
+
 <span class='rusttest'>fn main() {
     let mut num = 5;
     
@@ -588,6 +599,7 @@ Rustにおけるクロージャは実質的にトレイトへの糖衣構文で�
 Rustでは、トレイトを演算子のオーバーロードに利用します。
 それは関数の呼び出しも例外ではありません。
 <code>()</code> をオーバーロードするのに利用可能な、3つの異なるトレイトが存在します:</p>
+
 <span class='rusttest'>fn main() {
     mod foo {
     pub trait Fn&lt;Args&gt; : FnMut&lt;Args&gt; {
@@ -662,6 +674,7 @@ Rustは環境用の構造体を作成し、 適切なトレイトを <code>impl<
 
 <p>これは、静的ディスパッチと動的ディスパッチを選択することができるということも意味しています。
 手始めに呼び出し可能な何かを引数にとり、それを呼び出し、結果を返す関数を書いてみましょう:</p>
+
 <span class='rusttest'>fn main() {
     fn call_with_one&lt;F&gt;(some_closure: F) -&gt; i32
         where F : Fn(i32) -&gt; i32 {
@@ -693,6 +706,7 @@ Rustは環境用の構造体を作成し、 適切なトレイトを <code>impl<
 <!-- Let’s examine the signature of `call_with_one` in more depth: -->
 
 <p><code>call_with_one</code> のシグネチャを詳細に見ていきましょう:</p>
+
 <span class='rusttest'>fn main() {
     fn call_with_one&lt;F&gt;(some_closure: F) -&gt; i32
        where F : Fn(i32) -&gt; i32 {
@@ -706,6 +720,7 @@ Rustは環境用の構造体を作成し、 適切なトレイトを <code>impl<
 
 <p>型 <code>F</code> の引数を１つ取り、返り値として <code>i32</code> を返します。
 この部分は特に注目には値しません。次の部分は:</p>
+
 <span class='rusttest'>fn main() {
     fn call_with_one&lt;F&gt;(some_closure: F) -&gt; i32
         where F : Fn(i32) -&gt; i32 {
@@ -749,6 +764,7 @@ Rustではスタックにクロージャの環境をアロケートし、呼び�
 
 <p>もちろん、動的ディスパッチを行いたいときは、そうすることもできます。
 そのような場合もトレイトオブジェクトが通常どおりに対応します:</p>
+
 <span class='rusttest'>fn main() {
     fn call_with_one(some_closure: &amp;Fn(i32) -&gt; i32) -&gt; i32 {
         some_closure(1)
@@ -785,6 +801,7 @@ Rustではスタックにクロージャの環境をアロケートし、呼び�
 
 <p>関数ポインタは環境を持たないクロージャのようなものです。
 そのため、クロージャを引数として期待している関数に関数ポインタを渡すことができます。</p>
+
 <span class='rusttest'>fn main() {
     fn call_with_one(some_closure: &amp;Fn(i32) -&gt; i32) -&gt; i32 {
         some_closure(1)
@@ -819,6 +836,7 @@ Rustではスタックにクロージャの環境をアロケートし、呼び�
 <!-- the name of the function works just fine too: -->
 
 <p>この例では、中間の変数 <code>f</code> が必ずしも必要なわけではありません、関数名を指定することでもきちんと動作します:</p>
+
 <span class='rusttest'>fn main() {
     let answer = call_with_one(&amp;add_one);
 }</span><pre class='rust rust-example-rendered'>
@@ -838,6 +856,7 @@ Rustではスタックにクロージャの環境をアロケートし、呼び�
 <p>関数を用いたスタイルのコードでは、クロージャを返すことは非常によく見られます。
 もし、クロージャを返すことを試みた場合、エラーが発生します。これは一見奇妙に思われますが、理解することができます。
 以下は、関数からクロージャを返すことを試みた場合のコードです:</p>
+
 <span class='rusttest'>fn main() {
     fn factory() -&gt; (Fn(i32) -&gt; i32) {
         let num = 5;
@@ -894,6 +913,7 @@ let f = factory();
 しかし、 <code>Fn</code> はトレイトであるため、そのサイズや種類は多岐にわたることになります: 多くの異なる型が <code>Fn</code> を実装できます。
 何かにサイズを与える簡単な方法は、それに対する参照を取得する方法です、参照は既知のサイズを持っています。
 そのため、以下のように書くことができます:</p>
+
 <span class='rusttest'>fn main() {
     fn factory() -&gt; &amp;(Fn(i32) -&gt; i32) {
         let num = 5;
@@ -938,6 +958,7 @@ fn factory() -&gt; &amp;(Fn(i32) -&gt; i32) {
 しかし、 <code>factory()</code> 関数は引数を何も取りません、
 そのため <a href="lifetimes.html#lifetime-elision">ライフタイムの省略</a> は実施されません。
 では、どのような選択肢が有るのでしょうか？ <code>&#39;static</code> を試してみましょう:</p>
+
 <span class='rusttest'>fn main() {
     fn factory() -&gt; &amp;&#39;static (Fn(i32) -&gt; i32) {
         let num = 5;
@@ -1009,6 +1030,7 @@ fn factory() -&gt; &amp;(Fn(i32) -&gt; i32) {
 もうちょっというと、直接的に <code>&#39;static</code> ライフタイムをオブジェクトに割り当てることはできません。
 そこで、<code>Fn</code> をボックス化することで「トレイトオブジェクト」を返すという方法を取ります。
 そうすると、動作するまであと一歩のところまで来ます:</p>
+
 <span class='rusttest'>fn factory() -&gt; Box&lt;Fn(i32) -&gt; i32&gt; {
     let num = 5;
 
@@ -1059,6 +1081,7 @@ Box::new(|x| x + num)
 そのため、もしこのクロージャを返り値とした場合、
 そのあと <code>factory()</code> 関数の処理は終了し、スタックフレームが取り除かれクロージャはゴミとなったメモリを参照することになります!
 上のコードに最後の修正を施すことによって動作させることができるようになります:</p>
+
 <span class='rusttest'>fn factory() -&gt; Box&lt;Fn(i32) -&gt; i32&gt; {
     let num = 5;
 

@@ -282,6 +282,7 @@ $ cd embed
 </code></pre>
 
 <p>This program is fairly easy to write in Rust:</p>
+
 <span class='rusttest'>fn main() {
     use std::thread;
     
@@ -330,6 +331,7 @@ each thread.</p>
 that’s callable from C. If we tried to hook this up to another language right
 now, it wouldn’t work. We only need to make two small changes to fix this,
 though. The first is to modify the beginning of our code:</p>
+
 <span class='rusttest'>fn main() {
     #[no_mangle]
     pub extern fn process() {

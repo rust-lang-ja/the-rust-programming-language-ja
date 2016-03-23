@@ -210,6 +210,7 @@ libcoreの安定なインタフェースを利用することを推奨します�
 <p>intrinsicsは特別なABI <code>rust-intrinsic</code> を用いて、FFIの関数で有るかのようにインポートされます。
 例えば、独立したコンテキストの中で型の間の <code>transmute</code> をしたい場合や、効率的なポインタ演算を行いたい場合、
 それらの関数を以下のような宣言を通してインポートします</p>
+
 <span class='rusttest'>#![feature(intrinsics)]
 fn main() {}
 

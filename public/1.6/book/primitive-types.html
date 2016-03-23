@@ -207,6 +207,7 @@
 
 <p>Rustには <code>bool</code> と名付けられた組込みのブーリアン型があります。
 それは <code>true</code> と <code>false</code> という2つの値を持ちます。</p>
+
 <span class='rusttest'>fn main() {
     let x = true;
     
@@ -235,6 +236,7 @@
 
 <p><code>char</code> 型は1つのユニコードのスカラ値を表現します。
 <code>char</code> はシングルクオート（ <code>&#39;</code> ）で作ることができます。</p>
+
 <span class='rusttest'>fn main() {
     let x = &#39;x&#39;;
     let two_hearts = &#39;💕&#39;;
@@ -276,6 +278,7 @@
 <!-- If a number literal has nothing to cause its type to be inferred, it defaults: --> 
 
 <p>もし数値リテラルがその型を推論させるものを何も持たないのであれば、以下のとおりデフォルトになります。</p>
+
 <span class='rusttest'>fn main() {
     // let x = 42; // x has type i32
     let x = 42; // xはi32型を持つ
@@ -387,6 +390,7 @@
 <p>多くのプログラミング言語のように、Rustには何かのシーケンスを表現するためのリスト型があります。
 最も基本的なものは <em>配列</em> 、固定長の同じ型の要素のリストです。
 デフォルトでは、配列はイミュータブルです。</p>
+
 <span class='rusttest'>fn main() {
     let a = [1, 2, 3]; // a: [i32; 3]
     let mut m = [1, 2, 3]; // m: [i32; 3]
@@ -410,6 +414,7 @@
 
 <p>配列の各要素を同じ値で初期化するための省略表現があります。
 この例では、 <code>a</code> の各要素は <code>0</code> で初期化されます。</p>
+
 <span class='rusttest'>fn main() {
     let a = [0; 20]; // a: [i32; 20]
 }</span><pre class='rust rust-example-rendered'>
@@ -418,6 +423,7 @@
 <!-- You can get the number of elements in an array `a` with `a.len()`: --> 
 
 <p>配列 <code>a</code> の要素の個数は <code>a.len()</code> で得ることができます。</p>
+
 <span class='rusttest'>fn main() {
     let a = [1, 2, 3];
     
@@ -430,6 +436,7 @@
 <!-- You can access a particular element of an array with *subscript notation*: --> 
 
 <p>配列の特定の要素には <em>添字記法</em> でアクセスすることができます。</p>
+
 <span class='rusttest'>fn main() {
     let names = [&quot;Graydon&quot;, &quot;Brian&quot;, &quot;Niko&quot;]; // names: [&amp;str; 3]
     
@@ -492,6 +499,7 @@
 
 <p>様々なものからスライスを作るためには <code>&amp;</code> と <code>[]</code> の組合せを使うことができます。
 <code>&amp;</code> はスライスが参照と同じであることを示し、 <code>[]</code> はレンジを持ち、スライスの長さを定義します。</p>
+
 <span class='rusttest'>fn main() {
     let a = [0, 1, 2, 3, 4];
     // let complete = &amp;a[..]; // A slice containing all of the elements in a
@@ -542,6 +550,7 @@
 
 <p>タプルは固定サイズの順序ありリストです。
 このようなものです。</p>
+
 <span class='rusttest'>fn main() {
     let x = (1, &quot;hello&quot;);
 }</span><pre class='rust rust-example-rendered'>
@@ -553,6 +562,7 @@
 
 <p>丸括弧とコンマがこの長さ2のタプルを形成します。
 これは同じコードですが、型注釈が付いています。</p>
+
 <span class='rusttest'>fn main() {
     let x: (i32, &amp;str) = (1, &quot;hello&quot;);
 }</span><pre class='rust rust-example-rendered'>
@@ -581,6 +591,7 @@
 
 <p>もしそれらの持っている型と <a href="glossary.html#arity">アリティ</a> が同じであれば、あるタプルを他のタプルに割り当てることができます。
 タプルの長さが同じであれば、それらのタプルのアリティは同じです。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = (1, 2); // x: (i32, i32)
     let y = (2, 3); // y: (i32, i32)
@@ -598,6 +609,7 @@
 
 <p>タプルのフィールドには <em>分配束縛let</em> を通じてアクセスすることができます。
 これが例です。</p>
+
 <span class='rusttest'>fn main() {
     let (x, y, z) = (1, 2, 3);
     
@@ -631,6 +643,7 @@
 <!-- comma: --> 
 
 <p>コンマを付けることで要素1のタプルを丸括弧の中の値と混同しないように明示することができます。</p>
+
 <span class='rusttest'>fn main() {
     // (0,); // single-element tuple
      (0,); // 1要素のタプル
@@ -646,6 +659,7 @@
 <!-- You can also access fields of a tuple with indexing syntax: --> 
 
 <p>タプルのフィールドにはインデックス構文でアクセスすることもできます。</p>
+
 <span class='rusttest'>fn main() {
     let tuple = (1, 2, 3);
     
@@ -682,6 +696,7 @@
 
 <p>関数も型を持ちます!
 それらはこのようになります。</p>
+
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 { x }
     

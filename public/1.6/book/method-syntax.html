@@ -192,6 +192,7 @@
 can be awkward. Consider this code: -->
 
 <p>関数は素晴らしいのですが、幾つかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。以下のコードについて考えてみます。</p>
+
 <span class='rusttest'>fn main() {
     baz(bar(foo));
 }</span><pre class='rust rust-example-rendered'>
@@ -202,6 +203,7 @@ order that the functions would get called in, that’s inside-out: ‘foo bar ba
 Wouldn’t it be nice if we could do this instead? -->
 
 <p>私たちはこれを左から右へ、「baz bar foo」と読むことになりますが、関数が呼び出される順番は異なり、内側から外へ「foo bar baz」となります。もし代わりにこうできたらいいとは思いませんか?</p>
+
 <span class='rusttest'>fn main() {
     foo.bar().baz();
 }</span><pre class='rust rust-example-rendered'>
@@ -218,6 +220,7 @@ the ability to use this ‘method call syntax’ via the `impl` keyword. -->
 <!-- Here’s how it works: -->
 
 <p>どんな風に動作するかが以下になります。</p>
+
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,
@@ -277,6 +280,7 @@ ownership, as well as taking immutable references over mutable ones. Here’s an
 example of all three variants: -->
 
 <p>所有権を渡すよりも借用を好んで使うべきなのは勿論のこと、ミュータブルな参照よりもイミュータブルな参照を渡すべきですから、 <code>&amp;self</code> を常用すべきです。以下が3種類全ての例です。</p>
+
 <span class='rusttest'>fn main() {
     struct Circle {
         x: f64,
@@ -322,6 +326,7 @@ example of all three variants: -->
 have also been written like this: -->
 
 <p>好きな数だけ <code>impl</code> ブロックを使用することができます。前述の例は以下のように書くこともできるでしょう。</p>
+
 <span class='rusttest'>fn main() {
     struct Circle {
         x: f64,
@@ -379,6 +384,7 @@ original example, `foo.bar().baz()`? This is called ‘method chaining’. Let�
 look at an example: -->
 
 <p>ここまでで、<code>foo.bar()</code> というようなメソッドの呼び出し方が分かりましたね。ですが元の例の <code>foo.bar().baz()</code> はどうなっているのでしょう?これは「メソッドチェーン」と呼ばれています。以下の例を見て下さい。</p>
+
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,
@@ -430,6 +436,7 @@ fn main() {
 <!-- Check the return type: -->
 
 <p>以下の返す型を確認して下さい。</p>
+
 <span class='rusttest'>fn main() {
     struct Circle;
     impl Circle {
@@ -450,6 +457,7 @@ fn main() {
 Here’s a pattern that’s very common in Rust code: -->
 
 <p>あなたは <code>self</code> を引数に取らない関連関数を定義することもできます。以下のパターンはRustのコードにおいて非常にありふれた物です。</p>
+
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,
@@ -507,6 +515,7 @@ have method overloading, named arguments, or variable arguments. We employ
 the builder pattern instead. It looks like this: -->
 
 <p>ユーザが <code>Circle</code> を作成できるようにしつつも、書き換えたいプロパティだけを設定すれば良いようにしたいとしましょう。もし指定が無ければ <code>x</code> と <code>y</code> が <code>0.0</code> 、 <code>radius</code> が <code>1.0</code> であるものとします。Rustはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がない代わりにBuilderパターンを採用しており、それは以下のようになります。</p>
+
 <span class='rusttest'>struct Circle {
     x: f64,
     y: f64,

@@ -206,6 +206,7 @@
 <!-- For example, [`HashMap`][hashmap] has a [`get` method][get] which uses `Borrow`: -->
 
 <p>例えば、 <a href="../std/collections/struct.HashMap.html"><code>HashMap</code></a> には <code>Borrow</code> を使った <a href="../std/collections/struct.HashMap.html#method.get"><code>get</code> メソッド</a> があります。</p>
+
 <span class='rusttest'>fn main() {
     fn get&lt;Q: ?Sized&gt;(&amp;self, k: &amp;Q) -&gt; Option&lt;&amp;V&gt;
         where K: Borrow&lt;Q&gt;,
@@ -220,6 +221,7 @@
 <!-- in here. It refers to a parameter of the `HashMap` itself: -->
 
 <p>このシグネチャは少し複雑です。<code>K</code> パラメータに注目してください。これは以下のように <code>HashMap</code> 自身のパラメータになっています。</p>
+
 <span class='rusttest'>fn main() {
     struct HashMap&lt;K, V, S = RandomState&gt; {
 }</span><pre class='rust rust-example-rendered'>
@@ -234,6 +236,7 @@
 <!-- but use `&str`s when we’re searching: -->
 
 <p><code>K</code> パラメータは <code>HashMap</code> の「キー」を表す型です。ここで再び <code>get()</code> のシグネチャを見ると、キーが <code>Borrow&lt;Q&gt;</code> を実装しているときに <code>get()</code> を使えることが分かります。そのため、以下のように <code>String</code> をキーとした <code>HashMap</code> を検索するときに <code>&amp;str</code> を使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     use std::collections::HashMap;
     
@@ -264,6 +267,7 @@
 <!-- `Borrow` is up for it: -->
 
 <p>所有型か借用型のどちらかを取りたい場合、たいていは <code>&amp;T</code> で十分ですが、借用された値が複数種類ある場合 <code>Borrow</code> が役に立ちます。特に参照とスライスは <code>&amp;T</code> と <code>&amp;mut T</code> のいずれも取りうるため、そのどちらも受け入れたい場合は <code>Borrow</code> がよいでしょう。</p>
+
 <span class='rusttest'>fn main() {
     use std::borrow::Borrow;
     use std::fmt::Display;
@@ -301,6 +305,7 @@
 <!-- a reference in generic code. Like this: -->
 
 <p><code>AsRef</code> トレイトは変換用のトレイトです。ジェネリックなコードにおいて、値を参照に変換したい場合に使います。</p>
+
 <span class='rusttest'>fn main() {
     let s = &quot;Hello&quot;.to_string();
     

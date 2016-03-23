@@ -221,6 +221,7 @@ compile time.</p>
 <p>Let&#39;s write a plugin
 <a href="https://github.com/rust-lang/rust/tree/master/src/test/auxiliary/roman_numerals.rs"><code>roman_numerals.rs</code></a>
 that implements Roman numeral integer literals.</p>
+
 <span class='rusttest'>fn main() {
     #![crate_type=&quot;dylib&quot;]
     #![feature(plugin_registrar, rustc_private)]
@@ -345,6 +346,7 @@ that implements Roman numeral integer literals.</p>
 }</pre>
 
 <p>Then we can use <code>rn!()</code> like any other macro:</p>
+
 <span class='rusttest'>#![feature(plugin)]
 #![plugin(roman_numerals)]
 
@@ -382,6 +384,7 @@ a more involved macro example, see
 
 <p>You can use <a href="../syntax/parse/index.html"><code>syntax::parse</code></a> to turn token trees into
 higher-level syntax elements like expressions:</p>
+
 <span class='rusttest'>fn main() {
     fn expand_foo(cx: &amp;mut ExtCtxt, sp: Span, args: &amp;[TokenTree])
             -&gt; Box&lt;MacResult+&#39;static&gt; {
@@ -431,6 +434,7 @@ starting point for an improved quasiquote as an ordinary plugin library.</p>
 infrastructure</a> with additional checks for
 code style, safety, etc. Now let&#39;s write a plugin <a href="https://github.com/rust-lang/rust/blob/master/src/test/auxiliary/lint_plugin_test.rs"><code>lint_plugin_test.rs</code></a>
 that warns about any item named <code>lintme</code>.</p>
+
 <span class='rusttest'>#![feature(plugin_registrar)]
 #![feature(box_syntax, rustc_private)]
 
@@ -509,6 +513,7 @@ fn main() {
 }</pre>
 
 <p>Then code like</p>
+
 <span class='rusttest'>fn main() {
     #![plugin(lint_plugin_test)]
     

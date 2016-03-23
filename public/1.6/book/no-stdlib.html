@@ -206,6 +206,7 @@ default shim for the C <code>main</code> function with your own.</p>
 
 <p>The function marked <code>#[start]</code> is passed the command line parameters
 in the same format as C:</p>
+
 <span class='rusttest'>#![feature(libc)]
 #![feature(lang_items)]
 #![feature(start)]
@@ -253,6 +254,7 @@ fn start(_argc: isize, _argv: *const *const u8) -&gt; isize {
 with <code>#![no_main]</code> and then create the appropriate symbol with the
 correct ABI and the correct name, which requires overriding the
 compiler&#39;s name mangling too:</p>
+
 <span class='rusttest'>#![feature(libc)]
 #![feature(lang_items)]
 #![feature(start)]

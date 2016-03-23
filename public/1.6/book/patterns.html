@@ -205,6 +205,7 @@ bindings][bindings], [match statements][match], and other places, too.-->
 ‘any’ case: -->
 
 <p>簡単な復習：リテラルに対しては直接マッチさせられます。また、 <code>_</code> は「任意の」ケースとして振る舞います。</p>
+
 <span class='rusttest'>fn main() {
     let x = 1;
     
@@ -231,6 +232,7 @@ bindings][bindings], [match statements][match], and other places, too.-->
 <!-- There’s one pitfall with patterns: like anything that introduces a new binding,they introduce shadowing. For example: -->
 
 <p>パターンには一つ落とし穴があります。新しい束縛を導入すると、他の束縛を導入するものと同じように、シャドーイングします。例えば：</p>
+
 <span class='rusttest'>fn main() {
     let x = &#39;x&#39;;
     let c = &#39;c&#39;;
@@ -270,6 +272,7 @@ x: x
 <!-- You can match multiple patterns with `|`: -->
 
 <p><code>|</code> を使うと、複式パターンが導入できます：</p>
+
 <span class='rusttest'>fn main() {
     let x = 1;
     
@@ -298,6 +301,7 @@ x: x
 inside of a pattern: -->
 
 <p>例えば <a href="structs.html"><code>struct</code></a> のような複合データ型を作成したいとき、パターン内でデータを分解することができます。</p>
+
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -324,6 +328,7 @@ inside of a pattern: -->
 <!-- We can use `:` to give a value a different name.-->
 
 <p>値に別の名前を付けたいときは、 <code>:</code> を使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -350,6 +355,7 @@ inside of a pattern: -->
 <!-- If we only care about some of the values, we don’t have to give them all names: -->
 
 <p>値の一部だけを扱いたい場合は、値の全てに名前を付ける必要はありません。</p>
+
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -380,6 +386,7 @@ inside of a pattern: -->
 <!-- You can do this kind of match on any member, not just the first:-->
 
 <p>どのメンバに対してもこの種のマッチを行うことができます。たとえ最初ではなくても：</p>
+
 <span class='rusttest'>fn main() {
     struct Point {
         x: i32,
@@ -422,6 +429,7 @@ inside of a pattern: -->
 <!-- For example, here’s a `match` against a `Result<T, E>`: -->
 
 <p>例として、 <code>Result&lt;T, E&gt;</code> に対して <code>match</code> を適用してみましょう：</p>
+
 <span class='rusttest'>fn main() {
     let some_value: Result&lt;i32, &amp;&#39;static str&gt; = Err(&quot;There was an error&quot;);
     match some_value {
@@ -444,6 +452,7 @@ a general error message. -->
 ignore parts of a larger structure: -->
 
 <p><code>_</code> は束縛を伴うどんなパターンにおいても有効です。これは大きな構造の一部分を無視する際に有用です。</p>
+
 <span class='rusttest'>fn main() {
     fn coordinate() -&gt; (i32, i32, i32) {
         // generate and return some sort of triple tuple
@@ -467,6 +476,7 @@ ignore the middle element. -->
 <!-- Similarly, you can use `..` in a pattern to disregard multiple values. -->
 
 <p>同様に <code>..</code> でパターン内の複数の値を無視することができます。</p>
+
 <span class='rusttest'>fn main() {
     enum OptionalTuple {
         Value(i32, i32, i32),
@@ -502,6 +512,7 @@ ignore the middle element. -->
 <!-- If you want to get a [reference][ref], use the `ref` keyword:-->
 
 <p>もし <a href="references-and-borrowing.html">リファレンス</a> を取得したいときは <code>ref</code> キーワードを使いましょう。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -524,6 +535,7 @@ keyword _creates_ a reference, for use in the pattern. If you need a mutable
 reference, `ref mut` will work in the same way: -->
 
 <p>ここで <code>match</code> 内の <code>r</code> は <code>&amp;i32</code> 型を持っています。言い換えると <code>ref</code> キーワードがリファレンスを <em>作ります</em> 。</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     
@@ -543,6 +555,7 @@ reference, `ref mut` will work in the same way: -->
 <!-- You can match a range of values with `...`: -->
 
 <p><code>...</code> で値のレンジのマッチを行うことができます：</p>
+
 <span class='rusttest'>fn main() {
     let x = 1;
     
@@ -565,6 +578,7 @@ reference, `ref mut` will work in the same way: -->
 <!-- Ranges are mostly used with integers and `char`s: -->
 
 <p>レンジは大体、整数か <code>char</code> 型で使われます：</p>
+
 <span class='rusttest'>fn main() {
     let x = &#39;💅&#39;;
     
@@ -592,6 +606,7 @@ reference, `ref mut` will work in the same way: -->
 <!-- You can bind values to names with `@`: -->
 
 <p><code>@</code> で値を名前と結びつけることができます。</p>
+
 <span class='rusttest'>fn main() {
     let x = 1;
     
@@ -612,6 +627,7 @@ do a complicated match of part of a data structure: -->
 
 <p>これは <code>got a range element 1</code> を出力します。
 データ構造の一部に対する複雑なマッチが欲しいときに有用です：</p>
+
 <span class='rusttest'>fn main() {
     #[derive(Debug)]
     struct Person {
@@ -645,6 +661,7 @@ do a complicated match of part of a data structure: -->
 of the pattern: -->
 
 <p>もし <code>|</code> で <code>@</code> を使うときは、パターンのそれぞれの部分が名前と結びついているか確認する必要があります：</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     
@@ -666,6 +683,7 @@ of the pattern: -->
 <!--You can introduce ‘match guards’ with `if`: -->
 
 <p><code>if</code> を使うことでマッチガードを導入することができます：</p>
+
 <span class='rusttest'>fn main() {
     enum OptionalInt {
         Value(i32),
@@ -700,6 +718,7 @@ of the pattern: -->
 <!--If you’re using `if` with multiple patterns, the `if` applies to both sides:-->
 
 <p>複式パターンで <code>if</code> を使うと、 <code>if</code> は両方に適用されます：</p>
+
 <span class='rusttest'>fn main() {
     let x = 4;
     let y = false;
@@ -739,6 +758,7 @@ just the `5`. In other words, the precedence of `if` behaves like this: -->
 mixed and matched, depending on what you’re doing: -->
 
 <p>ふう、マッチには様々な方法があるのですね。やりたいこと次第で、それらを混ぜてマッチさせることもできます：</p>
+
 <span class='rusttest'>fn main() {
     match x {
         Foo { x: Some(ref name), y: None } =&gt; ...

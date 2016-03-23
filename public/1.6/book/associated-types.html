@@ -205,6 +205,7 @@
 この説明はすこし抽象的なので、実際の例を見ていきましょう。
 例えば、 <code>Graph</code> トレイトを定義したいとしましょう、このときジェネリックになる２つの型: 頂点の型、辺の型 が存在します。
 そのため、以下のように <code>Graph&lt;N, E&gt;</code> と書きたくなるでしょう:</p>
+
 <span class='rusttest'>fn main() {
     trait Graph&lt;N, E&gt; {
         fn has_edge(&amp;self, &amp;N, &amp;N) -&gt; bool;
@@ -226,6 +227,7 @@
 
 <p>たしかに上のようなコードは動作しますが、この <code>Graph</code> の定義は少し扱いづらいです。
 たとえば、任意の <code>Graph</code> を引数に取る関数は、 <em>同時に</em> 頂点 <code>N</code> と辺 <code>E</code> についてもジェネリックとなることになります:</p>
+
 <span class='rusttest'>fn main() {
     fn distance&lt;N, E, G: Graph&lt;N, E&gt;&gt;(graph: &amp;G, start: &amp;N, end: &amp;N) -&gt; u32 { ... }
 }</span><pre class='rust rust-example-rendered'>
@@ -243,6 +245,7 @@
 
 <p>本当に表現したいことは、それぞれのグラフ( <code>Graph</code> )は辺( <code>E</code> )や頂点( <code>N</code> )で構成されているということです。
 それは、以下のように関連型を用いて表現することができます:</p>
+
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -265,6 +268,7 @@
 <!-- Now, our clients can be abstract over a given `Graph`: -->
 
 <p>このようにすると、<code>Graph</code> を使った関数は以下のように書くことができます:</p>
+
 <span class='rusttest'>fn main() {
     fn distance&lt;G: Graph&gt;(graph: &amp;G, start: &amp;G::N, end: &amp;G::N) -&gt; u32 { ... }
 }</span><pre class='rust rust-example-rendered'>
@@ -284,6 +288,7 @@
 <!-- Let’s build that `Graph` trait. Here’s the definition: -->
 
 <p>早速、<code>Graph</code> トレイトを定義しましょう。以下がその定義です:</p>
+
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -315,6 +320,7 @@
 
 <p>これらの <code>type</code> 宣言は、関数で利用できるものと同じものが全て利用できます。
 たとえば、 <code>N</code> 型が <code>Display</code> を実装していて欲しい時、つまり私達が頂点を出力したい時、以下のようにして指定することができます:</p>
+
 <span class='rusttest'>fn main() {
     use std::fmt;
     
@@ -345,6 +351,7 @@
 
 <p>通常のトレイトと同様に、関連型を使っているトレイトは実装するために <code>impl</code> を利用します。
 以下は、シンプルなGraphの実装例です:</p>
+
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -429,6 +436,7 @@
 
 <p>すこし触れておきたい構文: トレイトオブジェクト が有ります。
 もし、トレイトオブジェクトを以下のように関連型から作成しようとした場合:</p>
+
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;
@@ -475,6 +483,7 @@ let obj = Box::new(graph) as Box&lt;Graph&gt;;
 
 <p>上のようにしてトレイトオブジェクトを作ることはできません、なぜなら関連型について知らないからです
 代わりに以下のように書くことができます:</p>
+
 <span class='rusttest'>fn main() {
     trait Graph {
         type N;

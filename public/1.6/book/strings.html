@@ -224,6 +224,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <p>Rustは主要な文字列型を二種類持っています: <code>&amp;str</code> と <code>String</code>です。
 まず <code>&amp;str</code> について説明しましょう。 <code>&amp;str</code> は「文字列のスライス」と呼ばれます。
 文字列のスライスは固定のサイズを持ち、変更不可能です。そして、文字列のスライスはUTF-8のバイトシーケンスへの参照です。</p>
+
 <span class='rusttest'>fn main() {
     let greeting = &quot;Hello there.&quot;; // greeting: &amp;&#39;static str
 }</span><pre class='rust rust-example-rendered'>
@@ -251,6 +252,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <p>文字列リテラルは複数行に渡ることができます。
 複数行の文字列リテラルを記述する方法は、2つの形式があります。
 一つ目の形式は、改行と行頭の空白を文字列に含む形式です:</p>
+
 <span class='rusttest'>fn main() {
     let s = &quot;foo
         bar&quot;;
@@ -265,6 +267,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <!-- The second, with a `\`, trims the spaces and the newline: -->
 
 <p>もう一つは <code>\</code> を用いて、空白と改行を削る形式です:</p>
+
 <span class='rusttest'>fn main() {
     let s = &quot;foo\
         bar&quot;;
@@ -287,6 +290,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <p>Rustは <code>&amp;str</code> だけでなく、 <code>String</code> というヒープにアロケートされる文字列の形式も持っています。
 この文字列は伸張可能であり、またUTF-8であることが保証されています。
 <code>String</code> は一般的に文字列のスライスをメソッド <code>to_string</code> を用いて変換することで生成されます。</p>
+
 <span class='rusttest'>fn main() {
     let mut s = &quot;Hello&quot;.to_string(); // mut s: String
     println!(&quot;{}&quot;, s);
@@ -303,6 +307,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <!-- `String`s will coerce into `&str` with an `&`: -->
 
 <p><code>String</code> は <code>&amp;</code> によって <code>&amp;str</code> に型強制されます。</p>
+
 <span class='rusttest'>fn takes_slice(slice: &amp;str) {
     println!(&quot;Got: {}&quot;, slice);
 }
@@ -332,6 +337,7 @@ fn main() {
 <p>このような変換は <code>&amp;str</code> の代わりに、 <code>&amp;str</code> のトレイトを引数として期待している関数では自動的には行われません。
 たとえば、 <a href="../std/net/struct.TcpStream.html#method.connect"><code>TcpStream::connect</code></a> は引数として型 <code>ToSocketAddrs</code> を要求しています。
 このような関数には <code>&amp;str</code> は渡せますが、 <code>String</code> は <code>&amp;*</code> を用いて明示的に変換する必要があります。</p>
+
 <span class='rusttest'>fn main() {
     use std::net::TcpStream;
     
@@ -362,6 +368,7 @@ fn main() {
 <!-- Because strings are valid UTF-8, strings do not support indexing: -->
 
 <p>文字列が正しいUTF-8であるため、文字列はインデクシングをサポートしていません:</p>
+
 <span class='rusttest'>fn main() {
     let s = &quot;hello&quot;;
     
@@ -390,6 +397,7 @@ fn main() {
 そのような作業はとても高コストな演算であり、誤解してはならない点です。
 さらに言えば、「文字」というものはUnicodeにおいては正確に定義されていません。
 文字列を、それぞれのバイトとして見ることも、コードポイントの集まりとして見ることもできるのです。</p>
+
 <span class='rusttest'>fn main() {
     let hachiko = &quot;忠犬ハチ公&quot;;
     
@@ -434,6 +442,7 @@ fn main() {
 <!-- You can get something similar to an index like this: -->
 
 <p>インデクシングするのと近い結果を以下の様にして得ることができます:</p>
+
 <span class='rusttest'>fn main() {
     let hachiko = &quot;忠犬ハチ公&quot;;
     let dog = hachiko.chars().nth(1); // hachiko[1]のような感じで
@@ -448,6 +457,7 @@ fn main() {
 <!-- You can get a slice of a string with slicing syntax: -->
 
 <p>文字列のスライスは以下のようにスライス構文を用いて取得することができます:</p>
+
 <span class='rusttest'>fn main() {
     let dog = &quot;hachiko&quot;;
     let hachi = &amp;dog[0..5];
@@ -461,6 +471,7 @@ fn main() {
 
 <p>しかし、注意しなくてはならない点はこれらのオフセットは <em>バイト</em> であって <em>文字</em> のオフセットではないという点です。
 そのため、以下のコードは実行時に失敗します:</p>
+
 <span class='rusttest'>fn main() {
     let dog = &quot;忠犬ハチ公&quot;;
     let hachi = &amp;dog[0..2];
@@ -482,6 +493,7 @@ character boundary&#39;
 <!-- If you have a `String`, you can concatenate a `&str` to the end of it: -->
 
 <p><code>String</code> が存在するとき、 <code>&amp;str</code> を末尾に結合することができます:</p>
+
 <span class='rusttest'>fn main() {
     let hello = &quot;Hello &quot;.to_string();
     let world = &quot;world!&quot;;
@@ -496,6 +508,7 @@ character boundary&#39;
 <!-- But if you have two `String`s, you need an `&`: -->
 
 <p>しかし、２つの <code>String</code> を結合するには、 <code>&amp;</code> が必要になります:</p>
+
 <span class='rusttest'>fn main() {
     let hello = &quot;Hello &quot;.to_string();
     let world = &quot;world!&quot;.to_string();

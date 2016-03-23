@@ -199,6 +199,7 @@
 <p>極めて低レベルな技巧やパフォーマンス上の理由から、CPUを直接コントロールしたいと思う人もいるでしょう。
 Rustはそのような処理を行うためにインラインアセンブリを <code>asm!</code> マクロによってサポートしています。
 インラインアセンブリの構文はGCCやClangのものとおおまかに一致しています。</p>
+
 <span class='rusttest'>fn main() {
     // asm!(assembly template
     asm!(アセンブリのテンプレート
@@ -242,6 +243,7 @@ Rustはそのような処理を行うためにインラインアセンブリを 
 <!-- literal string (i.e. `""`) -->
 
 <p><code>アセンブリテンプレート</code> のみが要求されるパラメータであり、文字列リテラル (例: &quot;&quot;) である必要があります。</p>
+
 <span class='rusttest'>#![feature(asm)]
 
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
@@ -290,6 +292,7 @@ fn main() {
 <!-- but you must add the right number of `:` if you skip them: -->
 
 <p>出力オペランド、入力オペランド、破壊されるデータ、オプションはすべて省略可能ですが、省略する場合は <code>:</code> を正しい数書く必要が有ります。</p>
+
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn main() { unsafe {
@@ -309,6 +312,7 @@ asm!(&quot;xor %eax, %eax&quot;
 <!-- Whitespace also doesn't matter: -->
 
 <p>空白も必要ではありません:</p>
+
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn main() { unsafe {
@@ -328,6 +332,7 @@ asm!(&quot;xor %eax, %eax&quot; ::: &quot;{eax}&quot;);
 
 <p>入力と出力のオペランドは、 <code>: &quot;制約1&quot;(式1), &quot;制約2&quot;(式2), ...</code> というフォーマットに従います。
 出力オペランドの式は変更可能な左辺値か、アサインされていない状態でなければなりません。</p>
+
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn add(a: i32, b: i32) -&gt; i32 {
@@ -374,6 +379,7 @@ fn main() {
 
 <p>もし本当のオペランドをここで利用したい場合、 波括弧 <code>{}</code> で利用したいレジスタの周りを囲む必要があり、また、オペランドの特有のサイズを置く必要があります。
 これは、どのレジスタを利用するかが重要になる低レベルなプログラミングで有用です。</p>
+
 <span class='rusttest'>#![feature(asm)]
 fn main() {
     #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
@@ -401,6 +407,7 @@ fn main() {
 <p>幾つかのインストラクションは異なる値を持っている可能性のあるレジスタを変更する事があります、
 そのため、コンパイラがそれらのレジスタに格納された値が処理後にも有効であると思わないように、
 破壊されるデータのリストを利用します。</p>
+
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn main() { unsafe {
@@ -466,6 +473,7 @@ asm!(&quot;mov $$0x200, %eax&quot; : /* 出力なし */ : /* 入力無し */ : &
 このオプションを指定することはコンパイラに通常のスタックをアラインメントするコードの挿入を指示します。</li>
 <li><em>intel</em> - デフォルトのAT&amp;T構文の代わりにインテル構文を利用することを意味しています。</li>
 </ol>
+
 <span class='rusttest'>#![feature(asm)]
 #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
 fn main() {

@@ -234,6 +234,7 @@ $ cd adder
 
 <p>新しいプロジェクトを作ると、Cargoは自動的に簡単なテストを生成します。
 これが <code>src/lib.rs</code> の内容です。</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     fn it_works() {
@@ -289,6 +290,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 
 <p><code>it_works</code> に注意しましょう。
 これは関数の名前に由来しています。</p>
+
 <span class='rusttest'>fn main() {
     fn it_works() {
     }
@@ -309,6 +311,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 <p>なぜ何も書いていないテストがこのように成功するのでしょうか。
 <code>panic!</code> しないテストは全て成功で、 <code>panic!</code> するテストは全て失敗なのです。
 テストを失敗させましょう。</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     fn it_works() {
@@ -397,6 +400,7 @@ OS XやLinuxでは <code>$?</code> を使うことができます。</p>
 <!--We can invert our test's failure with another attribute: `should_panic`:-->
 
 <p>もう1つのアトリビュート、 <code>should_panic</code> を使ってテストの失敗を反転させることができます。</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     #[should_panic]
@@ -436,6 +440,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 <!--equality:-->
 
 <p>Rustはもう1つのマクロ、 <code>assert_eq!</code> を提供しています。これは2つの引数の等価性を調べます。</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     #[should_panic]
@@ -486,6 +491,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 これを何とかするために、 <code>should_panic</code> アトリビュートにはオプションで <code>expected</code> パラメータを付けることができます。
 テストハーネスが、失敗したときのメッセージに与えられたテキストが含まれていることを確かめてくれます。
 前述の例のもっと安全なバージョンはこうなります。</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     #[should_panic(expected = &quot;assertion failed&quot;)]
@@ -503,6 +509,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 
 <p>基本はそれだけです!
 「リアルな」テストを書いてみましょう。</p>
+
 <span class='rusttest'>fn main() {
     pub fn add_two(a: i32) -&gt; i32 {
         a + 2
@@ -537,6 +544,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 
 <p>ときどき、特定のテストの実行に非常に時間が掛かることがあります。
 そのようなテストは、 <code>ignore</code> アトリビュートを使ってデフォルトでは無効にすることができます。</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     fn it_works() {
@@ -621,6 +629,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 
 <p>今までの例における手法は、慣用的ではありません。 <code>tests</code> モジュールがないからです。
 今までの例の慣用的な書き方はこのようになります。</p>
+
 <span class='rusttest'>fn main() {
     pub fn add_two(a: i32) -&gt; i32 {
         a + 2
@@ -680,6 +689,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 ここは内部モジュールの中なので、テスト関数をスコープの中に持ち込む必要があります。
 モジュールが大きい場合、これは面倒かもしれないので、ここがグロブの一般的な使い所です。
 <code>src/lib.rs</code> をグロブを使うように変更しましょう。</p>
+
 <span class='rusttest'>fn main() {
     pub fn add_two(a: i32) -&gt; i32 {
         a + 2
@@ -756,6 +766,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 <!--put a `tests/lib.rs` file inside, with this as its contents:-->
 
 <p>結合テストを書くために、 <code>tests</code> ディレクトリを作りましょう。そして、その中に次の内容の <code>tests/lib.rs</code> ファイルを置きます。</p>
+
 <span class='rusttest'>fn main() {
     extern crate adder;
     
@@ -847,6 +858,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 ドキュメントを書いた後にコードが変更された結果、実際に動かなくなった例ほど悪いものはありません。
 この状況を終わらせるために、Rustはあなたのドキュメント内の例の自動実行をサポートします（ <strong>注意：</strong> これはライブラリクレートの中でのみ動作し、バイナリクレートの中では動作しません）。
 これが例を付けた具体的な <code>src/lib.rs</code> です。</p>
+
 <span class='rusttest'>fn main() {
     //! The `adder` crate provides functions that add numbers to other numbers.
     //! `adder`クレートはある数値を数値に加える関数を提供する

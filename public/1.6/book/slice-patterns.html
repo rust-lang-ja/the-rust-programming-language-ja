@@ -193,6 +193,7 @@
 <!-- `slice_patterns` feature: -->
 
 <p>スライスや配列に対してマッチを行いたい場合、 <code>slice_patterns</code> フィーチャを有効にすると以下のように <code>&amp;</code> を使うことができます。</p>
+
 <span class='rusttest'>#![feature(slice_patterns)]
 
 fn main() {
@@ -224,6 +225,7 @@ fn main() {
 <!-- slice will be bound to that name. For example: -->
 
 <p><code>advanced_slice_patterns</code> フィーチャを有効にすると、スライスにマッチするパターンの中で <code>..</code> を使ってその要素の数が任意であることを示すことができます。このワイルドカードは与えるパターン配列の中で一度だけ使うことができます。もし <code>..</code> の前に識別子(訳注: 以下の例では <code>inside</code> )があれば、そのスライスの結果はその識別子名に束縛されます。例えば以下のようになります。</p>
+
 <span class='rusttest'>#![feature(advanced_slice_patterns, slice_patterns)]
 
 fn is_symmetric(list: &amp;[u32]) -&gt; bool {

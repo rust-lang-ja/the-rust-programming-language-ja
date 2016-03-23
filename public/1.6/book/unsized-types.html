@@ -238,6 +238,7 @@
 
 <p>なぜこんなにややこしいのでしょうか？ これは、<code>[T]</code> はポインタを通してのみ操作可能であるため、
 もし言語がサイズ不定型をサポートしていなかった場合、以下のようなコードを書くことは不可能となります:</p>
+
 <span class='rusttest'>fn main() {
     impl Foo for str {
 }</span><pre class='rust rust-example-rendered'>
@@ -246,6 +247,7 @@
 <!-- or -->
 
 <p>また、以下の様なコードも:</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; Foo for [T] {
 }</span><pre class='rust rust-example-rendered'>
@@ -254,6 +256,7 @@
 <!-- Instead, you would have to write: -->
 
 <p>このように書く代わりに、以下のように書く必要があることになるでしょう:</p>
+
 <span class='rusttest'>fn main() {
     impl Foo for &amp;str {
 }</span><pre class='rust rust-example-rendered'>
@@ -276,6 +279,7 @@
 <!-- can use the special bound, `?Sized`: -->
 
 <p>もし動的サイズ型を引数に取れるような関数を定義したい場合、特別な境界 <code>?Sized</code> を利用できます:</p>
+
 <span class='rusttest'>fn main() {
     struct Foo&lt;T: ?Sized&gt; {
         f: T,

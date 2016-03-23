@@ -196,6 +196,7 @@
 
 <p>トレイトについて学びましたので、Rustの標準ライブラリによって提供されている具体的なトレイト <a href="../std/ops/trait.Drop.html"><code>Drop</code></a>について説明しましょう。
 <code>Drop</code> トレイトは値がスコープ外になった時にコードを実行する方法を提供します:</p>
+
 <span class='rusttest'>struct HasDrop;
 
 impl Drop for HasDrop {
@@ -245,6 +246,7 @@ fn main() {
 
 <p>これだけです！ <code>Drop</code> のメカニズムは非常にシンプルです、しかし少しだけ注意すべき点があります。
 たとえば、値がドロップされる順序は、それらが定義された順序と反対の順序になります:</p>
+
 <span class='rusttest'>struct Firework {
     strength: i32,
 }

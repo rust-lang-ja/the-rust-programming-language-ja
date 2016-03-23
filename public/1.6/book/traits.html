@@ -197,6 +197,7 @@ functionality a type must provide. -->
 syntax][methodsyntax]: -->
 
 <p><a href="method-syntax.html">メソッド構文</a>で関数を呼び出すのに用いていた、 <code>impl</code> キーワードを思い出して下さい。</p>
+
 <span class='rusttest'>fn main() {
     struct Circle {
         x: f64,
@@ -227,6 +228,7 @@ signature, then implement the trait for a type. In this example, we implement th
 
 <p>始めにトレイトをメソッドのシグネチャと共に定義し、続いてある型のためにトレイトを実装するという流れを除けばトレイトはメソッド構文に似ています。
 この例では、 <code>Circle</code> に <code>HasArea</code> トレイトを実装しています。</p>
+
 <span class='rusttest'>fn main() {
     struct Circle {
         x: f64,
@@ -274,6 +276,7 @@ behavior. Generic functions can exploit this to constrain, or [bound][bounds], t
 accept. Consider this function, which does not compile: -->
 
 <p>トレイトはある型の振る舞いを確約できるため有用です。ジェネリック関数は制約、あるいは <a href="glossary.html#bounds">境界</a> が許容する型のみを受け取るためにトレイトを利用できます。以下の関数を考えて下さい、これはコンパイルできません。</p>
+
 <span class='rusttest'>fn main() {
     fn print_area&lt;T&gt;(shape: T) {
         println!(&quot;This shape has an area of {}&quot;, shape.area());
@@ -295,6 +298,7 @@ method. But we can add a trait bound to our generic `T`, ensuring
 that it does: -->
 
 <p><code>T</code> はあらゆる型になれるため、 <code>area</code> メソッドが実装されているか確認できません。ですがジェネリックな <code>T</code> にはトレイト境界を追加でき、境界が実装を保証してくれます。</p>
+
 <span class='rusttest'>fn main() {
     trait HasArea {
         fn area(&amp;self) -&gt; f64;
@@ -316,6 +320,7 @@ which implements `HasArea` will have an `.area()` method. -->
 <!-- Here’s an extended example of how this works: -->
 
 <p>トレイトの動作を確認するために拡張した例が以下になります。</p>
+
 <span class='rusttest'>trait HasArea {
     fn area(&amp;self) -&gt; f64;
 }
@@ -426,6 +431,7 @@ This shape has an area of 1
 passed in the correct types. If we pass in an incorrect type: -->
 
 <p>見ての通り、上記の <code>print_area</code> はジェネリックですが、適切な型が渡されることを保証しています。もし不適切な型を渡すと、</p>
+
 <span class='rusttest'>fn main() {
     print_area(5);
 }</span><pre class='rust rust-example-rendered'>
@@ -446,6 +452,7 @@ do is append the bound when you declare type parameters. Here is a new
 type `Rectangle<T>` and its operation `is_square()`: -->
 
 <p>ジェネリック構造体もトレイト境界による恩恵を受けることができます。型パラメータを宣言する際に境界を追加するだけで良いのです。以下が新しい型 <code>Rectangle&lt;T&gt;</code> とそのメソッド <code>is_square()</code> です。</p>
+
 <span class='rusttest'>struct Rectangle&lt;T&gt; {
     x: T,
     y: T,
@@ -504,6 +511,7 @@ fn main() {
 a type that implements the [`core::cmp::PartialEq`][PartialEq] trait: -->
 
 <p><code>is_square()</code> は両辺が等しいかチェックする必要があるため、両辺の型は <a href="../core/cmp/trait.PartialEq.html"><code>core::cmp::PartialEq</code></a> トレイトを実装しなければなりません。</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;T: PartialEq&gt; Rectangle&lt;T&gt; { ... }
 }</span><pre class='rust rust-example-rendered'>
@@ -530,6 +538,7 @@ implement a trait for any type. So technically, we _could_ implement `HasArea`
 for `i32`: -->
 
 <p>ここまでで、構造体へトレイトの実装を追加することだけを説明してきましたが、あらゆる型についてトレイトを実装することもできます。技術的には、 <code>i32</code> に <code>HasArea</code> を実装することも <em>できなくはない</em> です。</p>
+
 <span class='rusttest'>fn main() {
     trait HasArea {
         fn area(&amp;self) -&gt; f64;
@@ -572,6 +581,7 @@ extra functionality to `File`s, for doing file I/O. By default, a `File`
 won’t have its methods: -->
 
 <p>ここまでくると世紀末感漂いますが、手が負えなくなることを防ぐためにトレイトの実装周りには2つの制限が設けられています。第1に、あなたのスコープ内で定義されていないトレイトは適用されません。例えば、標準ライブラリは <code>File</code> にI/O機能を追加するための <code>Write</code> トレイトを提供しています。デフォルトでは、 <code>File</code> は <code>Writes</code> で定義されるメソッド群を持っていません。</p>
+
 <span class='rusttest'>fn main() {
     let mut f = std::fs::File::open(&quot;foo.txt&quot;).expect(&quot;Couldn’t open foo.txt&quot;);
     // let buf = b&quot;whatever&quot;; // byte string literal. buf: &amp;[u8; 8]
@@ -596,6 +606,7 @@ let result = f.write(buf);
 <!-- We need to `use` the `Write` trait first: -->
 
 <p>始めに <code>Write</code> トレイトを <code>use</code> する必要があります。</p>
+
 <span class='rusttest'>fn main() {
     use std::io::Write;
     
@@ -640,6 +651,7 @@ What’s that mean? Check out the chapter on [trait objects][to] for more detail
 <!-- You’ve seen that you can bound a generic type parameter with a trait: -->
 
 <p>トレイトによってジェネリックな型パラメータに境界が与えられることを見てきました。</p>
+
 <span class='rusttest'>fn main() {
     fn foo&lt;T: Clone&gt;(x: T) {
         x.clone();
@@ -652,6 +664,7 @@ What’s that mean? Check out the chapter on [trait objects][to] for more detail
 <!-- If you need more than one bound, you can use `+`: -->
 
 <p>1つ以上の境界を与えたい場合、 <code>+</code> を使えます。</p>
+
 <span class='rusttest'>fn main() {
     use std::fmt::Debug;
     
@@ -679,6 +692,7 @@ bounds isn’t too bad, but as the number increases, the syntax gets increasingl
 awkward: -->
 
 <p>ジェネリック型もトレイト境界の数も少ない関数を書いているうちは悪く無いのですが、数が増えるとこの構文ではいよいよ不便になってきます。</p>
+
 <span class='rusttest'>fn main() {
     use std::fmt::Debug;
     
@@ -704,6 +718,7 @@ far right. The bounds are getting in the way. -->
 <!-- Rust has a solution, and it’s called a ‘`where` clause’: -->
 
 <p>Rustは「 <code>where</code> 節」と呼ばれる解決策を持っています。</p>
+
 <span class='rusttest'>use std::fmt::Debug;
 
 fn foo&lt;T: Clone, K: Clone + Debug&gt;(x: T, y: K) {
@@ -748,6 +763,7 @@ and then add `where` after the parameter list. For longer lists, whitespace can
 be added: -->
 
 <p><code>foo()</code> は先程見せたままの構文で、 <code>bar()</code> は <code>where</code> 節を用いています。型パラメータを定義する際に境界の設定をせず、引数リストの後ろに <code>where</code> を追加するだけで良いのです。長いリストであれば、空白を加えることもできます。</p>
+
 <span class='rusttest'>fn main() {
     use std::fmt::Debug;
     
@@ -778,6 +794,7 @@ be added: -->
 <!-- `where` is also more powerful than the simpler syntax. For example: -->
 
 <p>また、<code>where</code> は基本の構文よりも強力です。例えば、</p>
+
 <span class='rusttest'>fn main() {
     trait ConvertTo&lt;Output&gt; {
         fn convert(&amp;self) -&gt; Output;
@@ -835,6 +852,7 @@ on the left-hand side not only of type parameters `T`, but also of types (`i32` 
 <!-- A default method can be added to a trait definition if it is already known how a typical implementor will define a method. For example, `is_invalid()` is defined as the opposite of `is_valid()`: -->
 
 <p>典型的な実装者がどうメソッドを定義するか既に分かっているならば、トレイトの定義にデフォルトメソッドを加えることができます。例えば、以下の <code>is_invalid()</code> は <code>is_valid()</code> の反対として定義されます。</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
         fn is_valid(&amp;self) -&gt; bool;
@@ -851,6 +869,7 @@ on the left-hand side not only of type parameters `T`, but also of types (`i32` 
 <!-- Implementors of the `Foo` trait need to implement `is_valid()` but not `is_invalid()` due to the added default behavior. This default behavior can still be overridden as in: -->
 
 <p><code>Foo</code> トレイトの実装者は <code>is_valid()</code> を実装する必要がありますが、デフォルトの動作が加えられている <code>is_invalid()</code> には必要ありません。</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
         fn is_valid(&amp;self) -&gt; bool;
@@ -924,6 +943,7 @@ on the left-hand side not only of type parameters `T`, but also of types (`i32` 
 <!-- Sometimes, implementing a trait requires implementing another trait: -->
 
 <p>時々、1つのトレイトの実装に他のトレイトの実装が必要になります。</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
         fn foo(&amp;self);
@@ -944,6 +964,7 @@ on the left-hand side not only of type parameters `T`, but also of types (`i32` 
 <!-- Implementors of `FooBar` must also implement `Foo`, like this: -->
 
 <p><code>FooBar</code> の実装者は <code>Foo</code> も実装しなければなりません。以下のようになります。</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
         fn foo(&amp;self);
@@ -986,6 +1007,7 @@ quite tedious. For that reason, Rust provides an [attribute][attributes] that
 allows you to let Rust automatically implement traits for you: -->
 
 <p>繰り返し<code>Debug</code> や <code>Default</code> のようなトレイトを実装するのは非常にうんざりさせられます。そのような理由から、Rustは自動的にトレイトを実装するための <a href="attributes.html">アトリビュート</a> を提供しています。</p>
+
 <span class='rusttest'>#[derive(Debug)]
 struct Foo;
 

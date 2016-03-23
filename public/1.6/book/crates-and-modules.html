@@ -255,6 +255,7 @@ above.</p>
 <h1 id='defining-modules' class='section-header'><a href='#defining-modules'>Defining Modules</a></h1>
 <p>To define each of our modules, we use the <code>mod</code> keyword. Let’s make our
 <code>src/lib.rs</code> look like this:</p>
+
 <span class='rusttest'>fn main() {
     mod english {
         mod greetings {
@@ -318,6 +319,7 @@ easier to split up crates into multiple files, and Rust supports this in two
 ways.</p>
 
 <p>Instead of declaring a module like this:</p>
+
 <span class='rusttest'>fn main() {
     mod english {
         // contents of our module go here
@@ -328,6 +330,7 @@ ways.</p>
 }</pre>
 
 <p>We can instead declare our module like this:</p>
+
 <span class='rusttest'>fn main() {
     mod english;
 }</span><pre class='rust rust-example-rendered'>
@@ -366,6 +369,7 @@ seven files:</p>
 </code></pre>
 
 <p><code>src/lib.rs</code> is our crate root, and looks like this:</p>
+
 <span class='rusttest'>fn main() {
     mod english;
     mod japanese;
@@ -378,6 +382,7 @@ seven files:</p>
 on our preference. In this case, because our modules have sub-modules, we’ve
 chosen the second. Both <code>src/english/mod.rs</code> and <code>src/japanese/mod.rs</code> look
 like this:</p>
+
 <span class='rusttest'>fn main() {
     mod greetings;
     mod farewells;
@@ -395,6 +400,7 @@ these sub-modules don’t have their own sub-modules, we’ve chosen to make the
 both empty at the moment. Let’s add some functions.</p>
 
 <p>Put this in <code>src/english/greetings.rs</code>:</p>
+
 <span class='rusttest'>fn main() {
     fn hello() -&gt; String {
         &quot;Hello!&quot;.to_string()
@@ -405,6 +411,7 @@ both empty at the moment. Let’s add some functions.</p>
 }</pre>
 
 <p>Put this in <code>src/english/farewells.rs</code>:</p>
+
 <span class='rusttest'>fn main() {
     fn goodbye() -&gt; String {
         &quot;Goodbye.&quot;.to_string()
@@ -415,6 +422,7 @@ both empty at the moment. Let’s add some functions.</p>
 }</pre>
 
 <p>Put this in <code>src/japanese/greetings.rs</code>:</p>
+
 <span class='rusttest'>fn main() {
     fn hello() -&gt; String {
         &quot;こんにちは&quot;.to_string()
@@ -429,6 +437,7 @@ something else. It’s not important that you actually put ‘konnichiwa’ to l
 about the module system.</p>
 
 <p>Put this in <code>src/japanese/farewells.rs</code>:</p>
+
 <span class='rusttest'>fn main() {
     fn goodbye() -&gt; String {
         &quot;さようなら&quot;.to_string()
@@ -448,6 +457,7 @@ another crate.</p>
 our library.</p>
 
 <p>Make a <code>src/main.rs</code> and put this in it (it won’t quite compile yet):</p>
+
 <span class='rusttest'>extern crate phrases;
 
 fn main() {
@@ -508,6 +518,7 @@ depth.</p>
 public, and so private is the default. To make things public, you use the <code>pub</code>
 keyword. Let’s focus on the <code>english</code> module first, so let’s reduce our <code>src/main.rs</code>
 to just this:</p>
+
 <span class='rusttest'>extern crate phrases;
 
 fn main() {
@@ -523,6 +534,7 @@ fn main() {
 }</pre>
 
 <p>In our <code>src/lib.rs</code>, let’s add <code>pub</code> to the <code>english</code> module declaration:</p>
+
 <span class='rusttest'>fn main() {
     pub mod english;
     mod japanese;
@@ -531,6 +543,7 @@ fn main() {
 <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
 
 <p>And in our <code>src/english/mod.rs</code>, let’s make both <code>pub</code>:</p>
+
 <span class='rusttest'>fn main() {
     pub mod greetings;
     pub mod farewells;
@@ -539,6 +552,7 @@ fn main() {
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>farewells</span>;</pre>
 
 <p>In our <code>src/english/greetings.rs</code>, let’s add <code>pub</code> to our <code>fn</code> declaration:</p>
+
 <span class='rusttest'>fn main() {
     pub fn hello() -&gt; String {
         &quot;Hello!&quot;.to_string()
@@ -549,6 +563,7 @@ fn main() {
 }</pre>
 
 <p>And also in <code>src/english/farewells.rs</code>:</p>
+
 <span class='rusttest'>fn main() {
     pub fn goodbye() -&gt; String {
         &quot;Goodbye.&quot;.to_string()
@@ -588,6 +603,7 @@ refer to them with shorter names. Let’s talk about <code>use</code>.</p>
 <h1 id='importing-modules-with-use' class='section-header'><a href='#importing-modules-with-use'>Importing Modules with <code>use</code></a></h1>
 <p>Rust has a <code>use</code> keyword, which allows us to import names into our local scope.
 Let’s change our <code>src/main.rs</code> to look like this:</p>
+
 <span class='rusttest'>extern crate phrases;
 
 use phrases::english::greetings;
@@ -612,6 +628,7 @@ fn main() {
 the functions by a much shorter name. By convention, when importing functions, it’s
 considered best practice to import the module, rather than the function directly. In
 other words, you <em>can</em> do this:</p>
+
 <span class='rusttest'>extern crate phrases;
 
 use phrases::english::greetings::hello;
@@ -637,6 +654,7 @@ naming conflict. In our short program, it’s not a big deal, but as it grows, i
 becomes a problem. If we have conflicting names, Rust will give a compilation
 error. For example, if we made the <code>japanese</code> functions public, and tried to do
 this:</p>
+
 <span class='rusttest'>extern crate phrases;
 
 use phrases::english::greetings::hello;
@@ -669,6 +687,7 @@ Could not compile `phrases`.
 
 <p>If we’re importing multiple names from the same module, we don’t have to type it out
 twice. Instead of this:</p>
+
 <span class='rusttest'>fn main() {
     use phrases::english::greetings;
     use phrases::english::farewells;
@@ -677,6 +696,7 @@ twice. Instead of this:</p>
 <span class='kw'>use</span> <span class='ident'>phrases</span>::<span class='ident'>english</span>::<span class='ident'>farewells</span>;</pre>
 
 <p>We can use this shortcut:</p>
+
 <span class='rusttest'>fn main() {
     use phrases::english::{greetings, farewells};
 }</span><pre class='rust rust-example-rendered'>
@@ -688,6 +708,7 @@ to re-export a function inside another module. This allows you to present an ext
 interface that may not directly map to your internal code organization.</p>
 
 <p>Let’s look at an example. Modify your <code>src/main.rs</code> to read like this:</p>
+
 <span class='rusttest'>extern crate phrases;
 
 use phrases::english::{greetings,farewells};
@@ -715,6 +736,7 @@ fn main() {
 }</pre>
 
 <p>Then, modify your <code>src/lib.rs</code> to make the <code>japanese</code> mod public:</p>
+
 <span class='rusttest'>fn main() {
     pub mod english;
     pub mod japanese;
@@ -723,6 +745,7 @@ fn main() {
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
 
 <p>Next, make the two functions public, first in <code>src/japanese/greetings.rs</code>:</p>
+
 <span class='rusttest'>fn main() {
     pub fn hello() -&gt; String {
         &quot;こんにちは&quot;.to_string()
@@ -733,6 +756,7 @@ fn main() {
 }</pre>
 
 <p>And then in <code>src/japanese/farewells.rs</code>:</p>
+
 <span class='rusttest'>fn main() {
     pub fn goodbye() -&gt; String {
         &quot;さようなら&quot;.to_string()
@@ -743,6 +767,7 @@ fn main() {
 }</pre>
 
 <p>Finally, modify your <code>src/japanese/mod.rs</code> to read like this:</p>
+
 <span class='rusttest'>fn main() {
     pub use self::greetings::hello;
     pub use self::farewells::goodbye;
@@ -794,6 +819,7 @@ Goodbye in Japanese: さようなら
 <h2 id='complex-imports' class='section-header'><a href='#complex-imports'>Complex imports</a></h2>
 <p>Rust offers several advanced options that can add compactness and
 convenience to your <code>extern crate</code> and <code>use</code> statements. Here is an example:</p>
+
 <span class='rusttest'>extern crate phrases as sayings;
 
 use sayings::japanese::greetings as ja_greetings;
@@ -840,6 +866,7 @@ should be used sparingly.</p>
 globbing to compress three <code>use</code> statements into one (this sort of syntax
 may be familiar if you&#39;ve written Linux shell scripts before). The
 uncompressed form of this statement would be:</p>
+
 <span class='rusttest'>fn main() {
     use sayings::english;
     use sayings::english::greetings as en_greetings;

@@ -214,6 +214,7 @@ program. But it’s effectively unlimited in size, and is globally accessible.</
 
 <h1 id='the-stack' class='section-header'><a href='#the-stack'>The Stack</a></h1>
 <p>Let’s talk about this Rust program:</p>
+
 <span class='rusttest'>fn main() {
     let x = 42;
 }
@@ -246,6 +247,7 @@ fast too.</p>
 <p>The downside is that we can’t keep values around if we need them for longer
 than a single function. We also haven’t talked about what the word, ‘stack’,
 means. To do that, we need a slightly more complicated example:</p>
+
 <span class='rusttest'>fn foo() {
     let y = 5;
     let z = 100;
@@ -368,6 +370,7 @@ called ‘last in, first out queues’ for this reason, as the last value you pu
 on the stack is the first one you retrieve from it.</p>
 
 <p>Let’s try a three-deep example:</p>
+
 <span class='rusttest'>fn bar() {
     let i = 6;
 }
@@ -567,6 +570,7 @@ longer than a single function’s execution. For this, we can use the heap.</p>
 
 <p>In Rust, you can allocate memory on the heap with the <a href="../std/boxed/index.html"><code>Box&lt;T&gt;</code> type</a>.
 Here’s an example:</p>
+
 <span class='rusttest'>fn main() {
     let x = Box::new(5);
     let y = 42;
@@ -758,6 +762,7 @@ allocated on the heap:</p>
 <h1 id='arguments-and-borrowing' class='section-header'><a href='#arguments-and-borrowing'>Arguments and borrowing</a></h1>
 <p>We’ve got some basic examples with the stack and the heap going, but what about
 function arguments and borrowing? Here’s a small Rust program:</p>
+
 <span class='rusttest'>fn foo(i: &amp;i32) {
     let z = 42;
 }
@@ -854,6 +859,7 @@ the underlying memory, things wouldn’t work very well.</p>
 
 <h1 id='a-complex-example' class='section-header'><a href='#a-complex-example'>A complex example</a></h1>
 <p>Okay, let’s go through this complex program step-by-step:</p>
+
 <span class='rusttest'>fn foo(x: &amp;i32) {
     let y = 10;
     let z = &amp;y;

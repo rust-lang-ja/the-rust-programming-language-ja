@@ -222,6 +222,7 @@
 
 <p>Rustのプロジェクトでドキュメントを書く1つ目の方法は、ソースコードに注釈を付けることで行います。
 ドキュメンテーションコメントはこの目的のために使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     /// Constructs a new `Rc&lt;T&gt;`.
     /// 新しい`Rc&lt;T&gt;`の生成
@@ -277,6 +278,7 @@
 
 <p>Rustはそれらのコメントを把握し、ドキュメントを生成するときにそれらを使います。
 このことは次のように列挙型のようなもののドキュメントを作成するときに重要です。</p>
+
 <span class='rusttest'>fn main() {
     /// The `Option` type. See [the module level documentation](index.html) for more.
     /// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照
@@ -300,6 +302,7 @@
 <!-- The above works, but this does not: -->
 
 <p>上記の例は動きますが、これは動きません。</p>
+
 <span class='rusttest'>fn main() {
     /// The `Option` type. See [the module level documentation](index.html) for more.
     /// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照
@@ -339,6 +342,7 @@ hello.rs:4 }
 <!-- Anyway, let's cover each part of this comment in detail: -->
 
 <p>とりあえず、このコメントの各部分を詳細にカバーしましょう。</p>
+
 <span class='rusttest'>fn main() {
     /// Constructs a new `Rc&lt;T&gt;`.
     /// 新しい`Rc&lt;T&gt;`の生成
@@ -354,6 +358,7 @@ hello.rs:4 }
 一文で。
 基本だけを。
 高レベルから。</p>
+
 <span class='rusttest'>fn main() {
     ///
     /// Other details about constructing `Rc&lt;T&gt;`s, maybe describing complicated
@@ -387,6 +392,7 @@ hello.rs:4 }
 それらには <code>#</code> が付いていて、ヘッダであることを示しています。
 一般的には、4種類のヘッダが使われます。
 今のところそれらは特別な構文ではなく、単なる慣習です。</p>
+
 <span class='rusttest'>fn main() {
     /// # Panics
     fn foo() {}
@@ -403,6 +409,7 @@ hello.rs:4 }
 
 <p>Rustにおいて、関数の回復不可能な誤用（つまり、プログラミングエラー）は普通、パニックによって表現されます。パニックは、少なくとも現在のスレッド全体の息の根を止めてしまいます。
 もし関数にこのような、パニックによって検出されたり強制されたりするような自明でない取決めがあるときには、ドキュメントを作成することは非常に重要です。</p>
+
 <span class='rusttest'>fn main() {
     /// # Failures
     fn foo() {}
@@ -419,6 +426,7 @@ hello.rs:4 }
 
 <p>もし関数やメソッドが <code>Result&lt;T, E&gt;</code> を戻すのであれば、それが <code>Err(E)</code> を戻したときの状況をドキュメントで説明するのはよいことです。
 これは <code>Panics</code> のときに比べると重要性は少し下です。失敗は型システムによってコード化されますが、それでもまだそうすることはよいことだからです。</p>
+
 <span class='rusttest'>fn main() {
     /// # Safety
     fn foo() {}
@@ -430,6 +438,7 @@ hello.rs:4 }
 <!-- responsible for upholding. -->
 
 <p>もし関数が <code>unsafe</code> であれば、呼出元が動作を続けるためにはどの不変条件について責任を持つべきなのかを説明すべきです。</p>
+
 <span class='rusttest'>fn main() {
     /// # Examples
     ///
@@ -459,6 +468,7 @@ hello.rs:4 }
 <p>4つ目は <code>Examples</code> です。
 関数やメソッドの使い方の例を1つ以上含めてください。そうすればユーザから愛されることでしょう。
 それらの例はコードブロック注釈内に入れます。コードブロック注釈についてはすぐ後で話しますが、それらは1つ以上のセクションを持つことができます。</p>
+
 <span class='rusttest'>fn main() {
     /// # Examples
     ///
@@ -505,6 +515,7 @@ hello.rs:4 }
 <!-- To write some Rust code in a comment, use the triple graves: -->
 
 <p>コメント内にRustのコードを書くためには、3連バッククオートを使います。</p>
+
 <span class='rusttest'>fn main() {
     /// ```
     /// println!(&quot;Hello, world&quot;);
@@ -518,6 +529,7 @@ hello.rs:4 }
 <!-- If you want something that's not Rust code, you can add an annotation: -->
 
 <p>もしRustのコードではないものを書きたいのであれば、注釈を追加することができます。</p>
+
 <span class='rusttest'>fn main() {
     /// ```c
     /// printf(&quot;Hello, world\n&quot;);
@@ -554,6 +566,7 @@ hello.rs:4 }
 <!-- Let's discuss our sample example documentation: -->
 
 <p>次のようなドキュメントにおける例について議論しましょう。</p>
+
 <span class='rusttest'>fn main() {
     /// ```
     /// println!(&quot;Hello, world&quot;);
@@ -573,6 +586,7 @@ hello.rs:4 }
 <p><code>fn main()</code> とかがここでは不要だということに気が付くでしょう。
 <code>rustdoc</code> は自動的に <code>main()</code> ラッパーをコードの周りに、正しい場所へ配置するためのヒューリスティクスを使って追加します。
 例えば、こうです。</p>
+
 <span class='rusttest'>fn main() {
     /// ```
     /// use std::rc::Rc;
@@ -590,6 +604,7 @@ hello.rs:4 }
 <!-- This will end up testing: -->
 
 <p>これが、テストのときには結局こうなります。</p>
+
 <span class='rusttest'>fn main() {
     use std::rc::Rc;
     let five = Rc::new(5);
@@ -662,6 +677,7 @@ hello.rs:4 }
 <!-- looks different than the output: -->
 
 <p>それは出力とは違って見えます。</p>
+
 <span class='rusttest'>fn main() {
     /// Some documentation.
     /// 何らかのドキュメント
@@ -696,6 +712,7 @@ hello.rs:4 }
 <!-- For example, imagine that we wanted to document this code: -->
 
 <p>例えば、このコードをドキュメントに書きたいとします。</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     let y = 6;
@@ -713,6 +730,7 @@ hello.rs:4 }
 
 <blockquote>
 <p>まず、<code>x</code>に5をセットする</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     let y = 6;
@@ -723,6 +741,7 @@ hello.rs:4 }
 <!-- > Next, we set `y` to six: -->
 
 <p>次に、<code>y</code>に6をセットする</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     let y = 6;
@@ -733,6 +752,7 @@ hello.rs:4 }
 <!-- > Finally, we print the sum of `x` and `y`: -->
 
 <p>最後に、<code>x</code>と<code>y</code>との合計を出力する</p>
+
 <span class='rusttest'>fn main() {
     let x = 5;
     let y = 6;
@@ -789,6 +809,7 @@ hello.rs:4 }
 <!-- Here’s an example of documenting a macro: -->
 
 <p>これはマクロのドキュメントの例です。</p>
+
 <span class='rusttest'>/// Panic with a given message unless an expression evaluates to true.
 /// 式がtrueと評価されない限り、与えられたメッセージとともにパニックする
 ///
@@ -853,6 +874,7 @@ fn main() {}
 
 <p><code>#</code> の使うと便利な場所のもう1つのケースは、エラーハンドリングを無視したいときです。
 次のようにしたいとしましょう。</p>
+
 <span class='rusttest'>fn main() {
     /// use std::io;
     /// let mut input = String::new(); 
@@ -867,6 +889,7 @@ fn main() {}
 <!-- don't return anything so this will give a mismatched types error. -->
 
 <p>問題は <code>try!</code> が <code>Result&lt;T, E&gt;</code> を返すところ、テスト関数は何も返さないことで、これは型のミスマッチエラーを起こします。</p>
+
 <span class='rusttest'>fn main() {
     /// A doc test using try!
     /// try!を使ったドキュメンテーションテスト
@@ -931,6 +954,7 @@ $ cargo test
 <!-- thing when testing your code: -->
 
 <p><code>rustdoc</code> がコードをテストするときに正しく動作するのを助けるために便利な注釈があと少しあります。</p>
+
 <span class='rusttest'>fn main() {
     /// ```ignore
     /// fn foo() {
@@ -952,6 +976,7 @@ $ cargo test
 <p><code>ignore</code> ディレクティブはRustにコードを無視するよう指示します。
 これはあまりに汎用的なので、必要になることはほとんどありません。
 もしそれがコードではなければ、代わりに <code>text</code> の注釈を付けること、又は問題となる部分だけが表示された、動作する例を作るために <code>#</code> を使うことを検討してください。</p>
+
 <span class='rusttest'>fn main() {
     /// ```should_panic
     /// assert!(false);
@@ -967,6 +992,7 @@ $ cargo test
 <!-- not actually pass as a test. -->
 
 <p><code>should_panic</code> は、そのコードは正しくコンパイルされるべきではあるが、実際にテストとして成功する必要まではないということを <code>rustdoc</code> に教えます。</p>
+
 <span class='rusttest'>fn main() {
     /// ```no_run
     /// loop {
@@ -998,6 +1024,7 @@ $ cargo test
 <p>Rustには別の種類のドキュメンテーションコメント、 <code>//!</code> があります。
 このコメントは次に続く要素のドキュメントではなく、それを囲っている要素のドキュメントです。
 言い換えると、こうです。</p>
+
 <span class='rusttest'>fn main() {
     mod foo {
       //! This is documentation for the `foo` module.
@@ -1022,6 +1049,7 @@ $ cargo test
 
 <p><code>//!</code> を頻繁に見る場所がここ、モジュールドキュメントです。
 もし <code>foo.rs</code> 内にモジュールを持っていれば、しばしばそのコードを開くとこれを見るでしょう。</p>
+
 <span class='rusttest'>fn main() {
     //! A module for using `foo`s.
     //! `foo`で使われるモジュール
@@ -1058,6 +1086,7 @@ $ cargo test
 
 <p>ドキュメントをMarkdownファイルに書くとき、ドキュメントにコメントのプレフィックスを付ける必要はありません。
 例えば、こうする必要はありません。</p>
+
 <span class='rusttest'>fn main() {
     /// # Examples
     ///
@@ -1115,6 +1144,7 @@ let five = Rc::new(5);
 <!-- attributes: -->
 
 <p>もっと深いレベルで言えは、ドキュメンテーションコメントはドキュメントアトリビュートの糖衣構文です。</p>
+
 <span class='rusttest'>fn main() {
     /// this
     fn foo() {}
@@ -1129,6 +1159,7 @@ let five = Rc::new(5);
 <!-- are the same, as are these: -->
 
 <p>これらは同じもので、次のものも同じものです。</p>
+
 <span class='rusttest'>fn main() {
     //! this
     
@@ -1150,6 +1181,7 @@ let five = Rc::new(5);
 <!-- `rustdoc` will show the documentation for a public re-export in both places: -->
 
 <p><code>rustdoc</code> はパブリックな再エクスポートがなされた場合に、両方の場所にドキュメントを表示します。</p>
+
 <span class='rusttest'>fn main() {
     extern crate foo;
     
@@ -1171,6 +1203,7 @@ let five = Rc::new(5);
 <!-- This behavior can be suppressed with `no_inline`: -->
 
 <p>この振舞いは <code>no_inline</code> で抑制することができます。</p>
+
 <span class='rusttest'>fn main() {
     extern crate foo;
     
@@ -1196,6 +1229,7 @@ let five = Rc::new(5);
 <p>ときどき、プロジェクト内の公開されている全てのものについて、ドキュメントが作成されていることを確認したいことがあります。これは特にライブラリについて作業をしているときにあります。
 Rustでは、要素にドキュメントがないときに警告やエラーを生成することができます。
 警告を生成するためには、 <code>warn</code> を使います。</p>
+
 <span class='rusttest'>fn main() {
     #![warn(missing_docs)]
 }</span><pre class='rust rust-example-rendered'>
@@ -1204,6 +1238,7 @@ Rustでは、要素にドキュメントがないときに警告やエラーを�
 <!-- And to generate errors you use `deny`: -->
 
 <p>そしてエラーを生成するとき、 <code>deny</code> を使います。</p>
+
 <span class='rusttest'>fn main() {
     #![deny(missing_docs)]
 }</span><pre class='rust rust-example-rendered'>
@@ -1215,6 +1250,7 @@ Rustでは、要素にドキュメントがないときに警告やエラーを�
 
 <p>何かを明示的にドキュメント化されていないままにするため、それらの警告やエラーを無効にしたい場合があります。
 これは <code>allow</code> を使えば可能です。</p>
+
 <span class='rusttest'>fn main() {
     #[allow(missing_docs)]
     struct Undocumented;
@@ -1225,6 +1261,7 @@ Rustでは、要素にドキュメントがないときに警告やエラーを�
 <!-- You might even want to hide items from the documentation completely: -->
 
 <p>ドキュメントから要素を完全に見えなくしたいこともあるかもしれません。</p>
+
 <span class='rusttest'>fn main() {
     #[doc(hidden)]
     struct Hidden;
@@ -1240,6 +1277,7 @@ Rustでは、要素にドキュメントがないときに警告やエラーを�
 <!-- `#![doc]` version of the attribute: -->
 
 <p><code>rustdoc</code> の生成するHTMLのいくつかの外見は、 <code>#![doc]</code> アトリビュートを通じて制御することができます。</p>
+
 <span class='rusttest'>fn main() {
     #![doc(html_logo_url = &quot;https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png&quot;,
            html_favicon_url = &quot;https://www.rust-lang.org/favicon.ico&quot;,
@@ -1261,6 +1299,7 @@ Rustでは、要素にドキュメントがないときに警告やエラーを�
 <!-- through the `#![doc(test(..))]` attribute. -->
 
 <p><code>rustdoc</code> がドキュメントの例をテストする方法は、 <code>#[doc(test(..))]</code> アトリビュートを通じて設定することができます。</p>
+
 <span class='rusttest'>fn main() {
     #![doc(test(attr(allow(unused_variables), deny(warnings))))]
 }</span><pre class='rust rust-example-rendered'>
@@ -1304,6 +1343,7 @@ Rustでは、要素にドキュメントがないときに警告やエラーを�
 
 <p>ドキュメンテーションコメント内のMarkdownは最終的なウェブページの中に無修正で挿入されます。
 リテラルのHTMLには注意してください。</p>
+
 <span class='rusttest'>fn main() {
     /// &lt;script&gt;alert(document.cookie)&lt;/script&gt;
     fn foo() {}

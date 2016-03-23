@@ -331,6 +331,7 @@ Rustには、コードを確かめるのを支援する強力で静的な型シ�
 
 <p>Rustの標準ライブラリはスレッドのためのライブラリを提供しており、それによりRustのコードを並列に走らせることができます。
 これが <code>std::thread</code> を使う基本的な例です。</p>
+
 <span class='rusttest'>use std::thread;
 
 fn main() {
@@ -356,6 +357,7 @@ fn main() {
 <p><code>thread::spawn()</code> というメソッドは <a href="closures.html">クロージャ</a> を受け取り、それを新たなスレッドで実行します。
 そして、元のスレッドにハンドルを返します。
 このハンドルは、子スレッドが終了するのを待機しその結果を取り出すのに使うことが出来ます。</p>
+
 <span class='rusttest'>use std::thread;
 
 fn main() {
@@ -434,6 +436,7 @@ solving the &#39;shared&#39; part.</p>
 
 <p>例として、多くの言語で起こるようなデータ競合を含んだRustプログラムをあげます。
 これは、コンパイルが通りません。</p>
+
 <span class='rusttest'>use std::thread;
 use std::time::Duration;
 
@@ -513,6 +516,7 @@ fn main() {
 
 <p>「アトミック」という部分は <code>Arc&lt;T&gt;</code> が複数スレッドから安全にアクセスできることを意味しています。
 このためにコンパイラは、内部のカウントの更新には、データ競合が起こりえない分割不能な操作が用いられることを保証します。</p>
+
 <span class='rusttest'>use std::thread;
 use std::sync::Arc;
 use std::time::Duration;
@@ -593,6 +597,7 @@ fn main() {
 <!-- Here's the working version: -->
 
 <p>これが動くバージョンです。</p>
+
 <span class='rusttest'>use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -639,6 +644,7 @@ among the threads. -->
 <!-- [`Mutex`](../std/sync/struct.Mutex.html) has this signature: -->
 
 <p>また、<a href="../std/sync/struct.Mutex.html"><code>Mutex</code></a> の <a href="../std/sync/struct.Mutex.html#method.lock"><code>lock</code></a> メソッドは以下のシグネチャを持つことにも注意してください。</p>
+
 <span class='rusttest'>fn main() {
     fn lock(&amp;self) -&gt; LockResult&lt;MutexGuard&lt;T&gt;&gt;
 }</span><pre class='rust rust-example-rendered'>
@@ -653,6 +659,7 @@ among the threads. -->
 <!-- Let's examine the body of the thread more closely: -->
 
 <p>それでは、スレッドの中身をさらに詳しく見ていきましょう。</p>
+
 <span class='rusttest'>use std::sync::{Arc, Mutex};
 use std::thread;
 use std::time::Duration;
@@ -720,6 +727,7 @@ thread::spawn(move || {
 <!-- than waiting for a specific time: -->
 
 <p>このコードが、適当な時間を待つ代わりに、同期のためにチャネルを使ったバージョンです。</p>
+
 <span class='rusttest'>use std::sync::{Arc, Mutex};
 use std::thread;
 use std::sync::mpsc;
@@ -782,6 +790,7 @@ fn main() {
 <!-- is `Send` over the channel! -->
 
 <p>このチャネルはただシグナルを送っているだけですが、 <code>Send</code> であるデータならばなんでもこのチャネルを通じて送れます!</p>
+
 <span class='rusttest'>use std::thread;
 use std::sync::mpsc;
 
@@ -839,6 +848,7 @@ fn main() {
 
 <p><code>panic!</code> は現在実行中のスレッドをクラッシュさせます。
 Rustのスレッドは独立させるための単純なメカニズムとして使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     use std::thread;
     

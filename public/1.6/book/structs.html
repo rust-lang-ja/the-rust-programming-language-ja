@@ -193,6 +193,7 @@ doing calculations involving coordinates in 2D space, we would need both an `x`
 and a `y` value: -->
 
 <p><code>struct</code> はより複雑なデータ型を作る方法の1つです。例えば、もし私たちが2次元空間の座標に関する計算を行っているとして、 <code>x</code> と <code>y</code> 、両方の値が必要になるでしょう。</p>
+
 <span class='rusttest'>fn main() {
     let origin_x = 0;
     let origin_y = 0;
@@ -203,6 +204,7 @@ and a `y` value: -->
 <!-- A `struct` lets us combine these two into a single, unified datatype: -->
 
 <p><code>struct</code> でこれら2つを1つのデータ型にまとめることができます。</p>
+
 <span class='rusttest'>struct Point {
     x: i32,
     y: i32,
@@ -246,6 +248,7 @@ notation: `origin.x`. -->
 Use `mut` to make them mutable -->
 
 <p>Rustの他の束縛のように、 <code>struct</code> が持つ値はイミュータブルがデフォルトです。 <code>mut</code> を使うと値をミュータブルにできます。</p>
+
 <span class='rusttest'>struct Point {
     x: i32,
     y: i32,
@@ -280,6 +283,7 @@ fn main() {
 write something like this: -->
 
 <p>Rustは言語レベルでフィールドのミュータビリティに対応していないため、以下の様に書くことはできません。</p>
+
 <span class='rusttest'>fn main() {
     struct Point {
         mut x: i32,
@@ -297,6 +301,7 @@ significantly simplifies things. It even lets you make things mutable for a shor
 time only: -->
 
 <p>ミュータビリティは束縛に付与できる属性であり、構造体自体に付与できる属性ではありません。もしあなたがフィールドレベルのミュータビリティを使うのであれば、初めこそ奇妙に見えるものの、非常に簡単に実現できる方法があります。以下の方法で少しの間だけミュータブルな構造体を作ることができます。</p>
+
 <span class='rusttest'>struct Point {
     x: i32,
     y: i32,
@@ -336,6 +341,7 @@ fn main() {
 other `struct` for some of the values. For example: -->
 
 <p><code>struct</code> の初期化時には、値の一部を他の構造体からコピーしたいことを示す <code>..</code> を含めることができます。例えば、</p>
+
 <span class='rusttest'>fn main() {
     struct Point3d {
         x: i32,
@@ -360,6 +366,7 @@ have to be the same `struct` either, you can use this syntax when making new
 ones, and it will copy the values you don’t specify:-->
 
 <p>ここでは<code>point</code>に新しい<code>y</code>を与えていますが、<code>x</code>と<code>z</code>は古い値を維持します。どれかの<code>struct</code>と同じ値を作る他にも、この構文を新たな値の作成に使用でき、明示することなく値のコピーが行えます。</p>
+
 <span class='rusttest'>fn main() {
     struct Point3d {
         x: i32,
@@ -380,6 +387,7 @@ ones, and it will copy the values you don’t specify:-->
 their fields don’t:-->
 
 <p>Rustには「タプル構造体」と呼ばれる、<a href="primitive-types.html#tuples">タプル</a>と <code>struct</code> のハイブリットのようなデータ型があります。タプル構造体自体には名前がありますが、そのフィールドには名前がありません。</p>
+
 <span class='rusttest'>fn main() {
     struct Color(i32, i32, i32);
     struct Point(i32, i32, i32);
@@ -390,6 +398,7 @@ their fields don’t:-->
 <!-- These two will not be equal, even if they have the same values: -->
 
 <p>これら2つは同じ値を持つ同士であったとしても等しくありません。</p>
+
 <span class='rusttest'>fn main() {
     struct Color(i32, i32, i32);
     struct Point(i32, i32, i32);
@@ -403,6 +412,7 @@ their fields don’t:-->
 `Color` and `Point` like this instead: -->
 
 <p>ほとんどの場合タプル構造体よりも <code>struct</code> を使ったほうが良いです。 <code>Color</code> や <code>Point</code> はこのようにも書けます。</p>
+
 <span class='rusttest'>fn main() {
     struct Color {
         red: i32,
@@ -443,6 +453,7 @@ it allows you to create a new type, distinct from that of its contained value
 and expressing its own semantic meaning: -->
 
 <p>タプル構造体が非常に便利な場合も <em>あります</em> が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。</p>
+
 <span class='rusttest'>fn main() {
     struct Inches(i32);
     
@@ -469,6 +480,7 @@ destructuring `let`, just as with regular tuples. In this case, the
 <!-- You can define a `struct` with no members at all: -->
 
 <p>あなたは全くメンバを持たない <code>struct</code> を定義できます。</p>
+
 <span class='rusttest'>fn main() {
     struct Electron;
     

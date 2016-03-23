@@ -191,6 +191,7 @@
 <!-- Declarations can be annotated with ‘attributes’ in Rust. They look like this: -->
 
 <p>Rustでは以下のように「アトリビュート」によって宣言を修飾することができます。</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     fn foo() {}
@@ -200,6 +201,7 @@
 <!-- or like this: -->
 
 <p>または以下のように:</p>
+
 <span class='rusttest'>fn main() {
     mod foo {
     #![test]
@@ -212,6 +214,7 @@
 <!-- applies to: -->
 
 <p>２つの違いは <code>!</code> に有ります、 <code>!</code> はアトリビュートが適用されるものを変更します:</p>
+
 <span class='rusttest'>fn main() {
     #[foo]
     struct Foo;
@@ -242,6 +245,7 @@
 <!-- For example, consider a function like this: -->
 
 <p>例を挙げると、たとえば以下の様な関数では:</p>
+
 <span class='rusttest'>fn main() {
     #[test]
     fn check() {
@@ -265,6 +269,7 @@
 <!-- Attributes may also have additional data: -->
 
 <p>アトリビュートは以下のように、追加のデータを持つことができます:</p>
+
 <span class='rusttest'>fn main() {
     #[inline(always)]
     fn super_fast_fn() {
@@ -276,6 +281,7 @@
 <!-- Or even keys and values: -->
 
 <p>また、キーと値についても持つことができます:</p>
+
 <span class='rusttest'>fn main() {
     #[cfg(target_os = &quot;macos&quot;)]
     mod macos_only {

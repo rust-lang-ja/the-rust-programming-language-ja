@@ -321,6 +321,7 @@ Rustでの所有権システムはこれをライフタイムと呼ばれる概�
 <!-- or explicit about the lifetime of the reference: -->
 
 <p>引数として参照を受け取る関数について、参照のライフタイムを黙示又は明示することができます。</p>
+
 <span class='rusttest'>fn main() {
     // implicit
     // 黙示的に
@@ -351,6 +352,7 @@ Rustでの所有権システムはこれをライフタイムと呼ばれる概�
 <p><code>&#39;a</code>は「ライフタイムa」と読みます。
 技術的には参照は全てそれに関連するライフタイムを持ちますが、一般的な場合にはコンパイラがそれらを省略してもよいように計らってくれます（つまり、「省略」できるということです。 <a href="#lifetime-elision">「ライフタイムの省略」</a> 以下を見ましょう）。
 しかし、それに入る前に、明示の例を分解しましょう。</p>
+
 <span class='rusttest'>fn main() {
     fn bar&lt;&#39;a&gt;(...)
 }</span><pre class='rust rust-example-rendered'>
@@ -377,6 +379,7 @@ Rustでの所有権システムはこれをライフタイムと呼ばれる概�
 <p><code>&lt;&gt;</code> はライフタイムを宣言するために使われます。
 これは <code>bar</code> が1つのライフタイム <code>&#39;a</code> を持つことを意味します。
 もし2つの参照引数があれば、それは次のような感じになるでしょう。</p>
+
 <span class='rusttest'>fn main() {
     fn bar&lt;&#39;a, &#39;b&gt;(...)
 }</span><pre class='rust rust-example-rendered'>
@@ -385,6 +388,7 @@ Rustでの所有権システムはこれをライフタイムと呼ばれる概�
 <!-- Then in our parameter list, we use the lifetimes we’ve named: -->
 
 <p>そして引数リストでは、名付けたライフタイムを使います。</p>
+
 <span class='rusttest'>fn main() {
     ...(x: &amp;&#39;a i32)
 }</span><pre class='rust rust-example-rendered'>
@@ -393,6 +397,7 @@ Rustでの所有権システムはこれをライフタイムと呼ばれる概�
 <!-- If we wanted an `&mut` reference, we’d do this: -->
 
 <p>もし <code>&amp;mut</code> 参照が欲しいのならば、次のようにします。</p>
+
 <span class='rusttest'>fn main() {
     ...(x: &amp;&#39;a mut i32)
 }</span><pre class='rust rust-example-rendered'>
@@ -417,6 +422,7 @@ Rustでの所有権システムはこれをライフタイムと呼ばれる概�
 <!-- contain references: -->
 
 <p>参照を含む <a href="structs.html"><code>struct</code></a> を使うときにも、明示的なライフタイムを必要とするでしょう。</p>
+
 <span class='rusttest'>struct Foo&lt;&#39;a&gt; {
     x: &amp;&#39;a i32,
 }
@@ -444,6 +450,7 @@ fn main() {
 
 <p>見てのとおり、 <code>struct</code> もライフタイムを持つことができます。
 これは関数と同じ方法です。</p>
+
 <span class='rusttest'>fn main() {
     struct Foo&lt;&#39;a&gt; {
     x: &amp;&#39;a i32,
@@ -454,6 +461,7 @@ fn main() {
 <!-- declares a lifetime, and -->
 
 <p>このようにライフタイムを宣言します。</p>
+
 <span class='rusttest'>fn main() {
     struct Foo&lt;&#39;a&gt; {
     x: &amp;&#39;a i32,
@@ -475,6 +483,7 @@ fn main() {
 <!-- Let’s implement a method on `Foo`: -->
 
 <p><code>Foo</code> に次のようなメソッドを実装しましょう。</p>
+
 <span class='rusttest'>struct Foo&lt;&#39;a&gt; {
     x: &amp;&#39;a i32,
 }
@@ -521,6 +530,7 @@ fn main() {
 <!-- If you have multiple references, you can use the same lifetime multiple times: -->
 
 <p>もし複数の参照があれば、同じライフタイムを複数回使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     fn x_or_y&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39;a str {
        x
@@ -536,6 +546,7 @@ fn main() {
 
 <p>これは <code>x</code> と <code>y</code> が両方とも同じスコープで有効であり、戻り値もそのスコープで有効であることを示します。
 もし <code>x</code> と <code>y</code> に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使うことができます。</p>
+
 <span class='rusttest'>fn main() {
     fn x_or_y&lt;&#39;a, &#39;b&gt;(x: &amp;&#39;a str, y: &amp;&#39;b str) -&gt; &amp;&#39;a str {
        x
@@ -558,6 +569,7 @@ fn main() {
 
 <p>ライフタイムについて考えるには、参照の有効なスコープを可視化することです。
 例えばこうです。</p>
+
 <span class='rusttest'>fn main() {
 //     let y = &amp;5;     // -+ y goes into scope
 //                     //  |
@@ -580,6 +592,7 @@ fn main() {
 <!-- Adding in our `Foo`: -->
 
 <p><code>Foo</code> を追加するとこうなります。</p>
+
 <span class='rusttest'>struct Foo&lt;&#39;a&gt; {
     x: &amp;&#39;a i32,
 }
@@ -614,6 +627,7 @@ fn main() {
 <p><code>f</code> は <code>y</code> のスコープの中で有効なので、全て動きます。
 もしそれがそうではなかったらどうでしょうか。
 このコードは動かないでしょう。</p>
+
 <span class='rusttest'>struct Foo&lt;&#39;a&gt; {
     x: &amp;&#39;a i32,
 }
@@ -685,6 +699,7 @@ fn main() {
 <p>「static」と名付けられたライフタイムは特別なライフタイムです。
 それは何かがプログラム全体に渡るライフタイムを持つことを示します。
 ほとんどのRustのプログラマが最初に <code>&#39;static</code> に出会うのは、文字列を扱うときです。</p>
+
 <span class='rusttest'>fn main() {
     let x: &amp;&#39;static str = &quot;Hello, world.&quot;;
 }</span><pre class='rust rust-example-rendered'>
@@ -698,6 +713,7 @@ fn main() {
 
 <p>文字列リテラルは <code>&amp;&#39;static str</code> 型を持ちます。なぜなら、参照が常に有効だからです。それらは最終的なバイナリのデータセグメントに焼き付けられます。
 もう1つの例はグローバルです。</p>
+
 <span class='rusttest'>fn main() {
     static FOO: i32 = 5;
     let x: &amp;&#39;static i32 = &amp;FOO;
@@ -748,6 +764,7 @@ fn main() {
 <p>ライフタイムの省略について話すときには、 <em>入力ライフタイム</em> と <em>出力ライフタイム</em> という用語を使います。
 <em>入力ライフタイム</em> は関数の引数に関連するライフタイムで、 <em>出力ライフタイム</em> は関数の戻り値に関連するライフタイムです。
 例えば、次の関数は入力ライフタイムを持ちます。</p>
+
 <span class='rusttest'>fn main() {
     fn foo&lt;&#39;a&gt;(bar: &amp;&#39;a str)
 }</span><pre class='rust rust-example-rendered'>
@@ -756,6 +773,7 @@ fn main() {
 <!-- This one has an output lifetime: -->
 
 <p>この関数は出力ライフタイムを持ちます。</p>
+
 <span class='rusttest'>fn main() {
     fn foo&lt;&#39;a&gt;() -&gt; &amp;&#39;a str
 }</span><pre class='rust rust-example-rendered'>
@@ -764,6 +782,7 @@ fn main() {
 <!-- This one has a lifetime in both positions: -->
 
 <p>この関数は両方の位置のライフタイムを持ちます。</p>
+
 <span class='rusttest'>fn main() {
     fn foo&lt;&#39;a&gt;(bar: &amp;&#39;a str) -&gt; &amp;&#39;a str
 }</span><pre class='rust rust-example-rendered'>
@@ -810,6 +829,7 @@ fn main() {
 
 <p>ここにライフタイムの省略された関数の例を示します。
 省略されたライフタイムの各例をその展開した形式と組み合わせています。</p>
+
 <span class='rusttest'>fn main() {
     // fn print(s: &amp;str); // elided
     // fn print&lt;&#39;a&gt;(s: &amp;&#39;a str); // expanded

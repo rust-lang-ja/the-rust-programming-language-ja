@@ -198,6 +198,7 @@
 
 <p>Rustで使えるループなかで最もシンプルな形式が、無限 <code>loop</code> です。Rustのキーワード <code>loop</code> によって、
 何らかの終了状態に到達するまでずっとループし続ける手段を提供します。Rustの無限 <code>loop</code> はこのように:</p>
+
 <span class='rusttest'>fn main() {
     loop {
         println!(&quot;Loop forever!&quot;);
@@ -211,6 +212,7 @@
 <!-- Rust also has a `while` loop. It looks like this: -->
 
 <p>Rustには <code>while</code> ループもあります。このように:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5; // mut x: i32
     let mut done = false; // mut done: bool
@@ -247,6 +249,7 @@
 <!-- If you need an infinite loop, you may be tempted to write this: -->
 
 <p>無限ループの必要があるとき、次のように書きたくなるかもしれません:</p>
+
 <span class='rusttest'>fn main() {
     while true {
 }</span><pre class='rust rust-example-rendered'>
@@ -255,6 +258,7 @@
 <!-- However, `loop` is far better suited to handle this case: -->
 
 <p>しかし、こういった場合には <code>loop</code> の方がずっと適しています。</p>
+
 <span class='rusttest'>fn main() {
     loop {
 }</span><pre class='rust rust-example-rendered'>
@@ -292,6 +296,7 @@ Rustの <code>for</code> ループは、次のような「Cスタイル」 <code
 <!-- Instead, it looks like this: -->
 
 <p>代わりに、このように書きます:</p>
+
 <span class='rusttest'>fn main() {
     for x in 0..10 {
         println!(&quot;{}&quot;, x); // x: i32
@@ -304,6 +309,7 @@ Rustの <code>for</code> ループは、次のような「Cスタイル」 <code
 <!-- In slightly more abstract terms, -->
 
 <p>もう少し抽象的な用語を使うと、</p>
+
 <span class='rusttest'>fn main() {
     for var in expression {
         code
@@ -358,7 +364,8 @@ Rustの <code>for</code> ループは、次のような「Cスタイル」 <code
 
 <!-- #### On ranges: -->
 
-<h4 id='レンジを対象に' class='section-header'><a href='#レンジを対象に'>レンジを対象に:</a></h4><span class='rusttest'>fn main() {
+<h4 id='レンジを対象に' class='section-header'><a href='#レンジを対象に'>レンジを対象に:</a></h4>
+<span class='rusttest'>fn main() {
     for (i,j) in (5..10).enumerate() {
         println!(&quot;i = {} and j = {}&quot;, i, j);
     }
@@ -384,7 +391,8 @@ i = 4 and j = 9
 
 <!-- #### On iterators: -->
 
-<h4 id='イテレータを対象に' class='section-header'><a href='#イテレータを対象に'>イテレータを対象に:</a></h4><span class='rusttest'>fn main() {
+<h4 id='イテレータを対象に' class='section-header'><a href='#イテレータを対象に'>イテレータを対象に:</a></h4>
+<span class='rusttest'>fn main() {
     let lines = &quot;hello\nworld&quot;.lines();
     for (linenumber, line) in lines.enumerate() {
         println!(&quot;{}: {}&quot;, linenumber, line);
@@ -410,6 +418,7 @@ i = 4 and j = 9
 <!-- Let’s take a look at that `while` loop we had earlier: -->
 
 <p>さきほどの <code>while</code> ループを見てみましょう:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     let mut done = false;
@@ -449,6 +458,7 @@ Rustには反復の変更を手伝う2つキーワード: <code>break</code> と
 <!-- In this case, we can write the loop in a better way with `break`: -->
 
 <p>この例では、 <code>break</code> を使ってループを記述した方が良いでしょう:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 5;
     
@@ -481,6 +491,7 @@ Rustには反復の変更を手伝う2つキーワード: <code>break</code> と
 
 <p><code>continue</code> も似ていますが、ループを終了させるのではなく、次の反復へと進めます。
 これは奇数だけを表示するでしょう:</p>
+
 <span class='rusttest'>fn main() {
     for x in 0..10 {
         if x % 2 == 0 { continue; }
@@ -515,6 +526,7 @@ Rustには反復の変更を手伝う2つキーワード: <code>break</code> と
 そんな状況に出会うこともあるでしょう。大抵の他言語と同様に、 <code>break</code> や <code>continue</code> は最内ループに適用されるのがデフォルトです。
 外側のループに <code>break</code> や <code>continue</code> を使いたいという状況では、 <code>break</code> や <code>continue</code> 文の適用先を指定するラベルを使えます。
 これは <code>x</code> と <code>y</code> 両方が奇数のときだけ表示を行います:</p>
+
 <span class='rusttest'>fn main() {
     &#39;outer: for x in 0..10 {
         &#39;inner: for y in 0..10 {

@@ -267,6 +267,7 @@
 <!-- any number of elements. -->
 
 <p><code>vec!</code> マクロを見たことがあるでしょう、 <a href="vectors.html">ベクタ</a> を任意の要素で初期化するために使われていました。</p>
+
 <span class='rusttest'>fn main() {
     let x: Vec&lt;u32&gt; = vec![1, 2, 3];
     assert_eq!(x, [1, 2, 3]);
@@ -279,6 +280,7 @@
 
 <p><code>vec!</code> は通常の関数として定義することはできません、なぜなら <code>vec!</code> は任意の個数の引数を取るためです。
 しかし、 <code>vec!</code> を以下のコードの構文上の短縮形であると考えることができます:</p>
+
 <span class='rusttest'>fn main() {
     let x: Vec&lt;u32&gt; = {
         let mut temp_vec = Vec::new();
@@ -304,6 +306,7 @@
 <!-- [^actual]: The actual definition of `vec!` in libcollections differs from the -->
 
 <!--           one presented here, for reasons of efficiency and reusability. -->
+
 <span class='rusttest'>macro_rules! vec {
     ( $( $x:expr ),* ) =&gt; {
         {
@@ -334,6 +337,7 @@ fn main() {
 <!-- Whoa, that’s a lot of new syntax! Let’s break it down. -->
 
 <p>ワオ！たくさんの新しい構文が現れました！細かく見ていきましょう。</p>
+
 <span class='rusttest'>fn main() {
     macro_rules! vec { ... }
 }</span><pre class='rust rust-example-rendered'>
@@ -360,6 +364,7 @@ fn main() {
 
 <p>マクロは、幾つかのパターンマッチのケースを利用したルールに従って定義されています、
 上のコード中では、以下の様なパターンが見られました:</p>
+
 <span class='rusttest'>fn main() {
     ( $( $x:expr ),* ) =&gt; { ... };
 }</span><pre class='rust rust-example-rendered'>
@@ -398,6 +403,7 @@ fn main() {
 
 <p>特別なマッチャー構文は別にして、マッチャー中に登場するその他の任意のトークンはそれ自身に正確にマッチする必要があります。
 例えば:</p>
+
 <span class='rusttest'>macro_rules! foo {
     (x =&gt; $e:expr) =&gt; (println!(&quot;mode X: {}&quot;, $e));
     (y =&gt; $e:expr) =&gt; (println!(&quot;mode Y: {}&quot;, $e));
@@ -426,6 +432,7 @@ fn main() {
 <!-- With -->
 
 <p>また、以下のようなコードでは</p>
+
 <span class='rusttest'>fn main() {
     foo!(z =&gt; 3);
 }</span><pre class='rust rust-example-rendered'>
@@ -450,6 +457,7 @@ fn main() {
 <p>マクロルールの右辺は大部分が通常のRustの構文です。
 しかし、マッチャーによってキャプチャされた構文を繋げる事ができます。
 最初に示した <code>vec!</code> の例を見てみましょう:</p>
+
 <span class='rusttest'>fn main() {
     $(
         temp_vec.push($x);
@@ -486,6 +494,7 @@ $(
 
 <p>そのほかの詳細としては: <code>vec!</code> マクロは <em>2つ</em> の括弧のペアを右辺に含みます。
 それらの括弧はよく以下のように合せられます:</p>
+
 <span class='rusttest'>fn main() {
     macro_rules! foo {
         () =&gt; {{
@@ -558,6 +567,7 @@ $(
 <!-- repetition levels. -->
 
 <p>以下の複雑なマクロは一つ外の繰り返しのレベルから値を複製している例です:</p>
+
 <span class='rusttest'>macro_rules! o_O {
     (
         $(
@@ -648,6 +658,7 @@ int main() {
 <p>展開した結果は <code>5 * 2 + 3</code> となり、乗算は加算よりも優先度が高くなります。
 もしC言語のマクロを頻繁に利用しているなら、この問題を避けるためのイディオムを5、6個は知っているでしょう。
 Rustではこのような問題を恐れる必要はありません。</p>
+
 <span class='rusttest'>macro_rules! five_times {
     ($x:expr) =&gt; (5 * $x);
 }
@@ -714,6 +725,7 @@ if (state &gt; 0) {
 <!-- The equivalent Rust macro has the desired behavior. -->
 
 <p>Rustにおける同様のマクロは期待する通りの動作をします。</p>
+
 <span class='rusttest'>fn get_log_state() -&gt; i32 { 3 }
 macro_rules! log {
     ($msg:expr) =&gt; {{
@@ -764,6 +776,7 @@ fn main() {
 
 <p>この健全性のシステムはマクロが新しい束縛を呼出時に導入する事を制限します。
 以下のようなコードは動作しません:</p>
+
 <span class='rusttest'>macro_rules! foo {
     () =&gt; (let x = 3);
 }
@@ -788,6 +801,7 @@ fn main() {
 
 <p>代りに変数名を呼出時に渡す必要があります、
 呼出時に渡す事で正しい構文コンテキストでタグ付けされます。</p>
+
 <span class='rusttest'>macro_rules! foo {
     ($v:ident) =&gt; (let $v = 3);
 }
@@ -812,6 +826,7 @@ fn main() {
 
 <p>このルールは <code>let</code> 束縛やループについても同様ですが、 <a href="../reference.html#items">アイテム</a> については適用されません。
 そのため、以下のコードはコンパイルが通ります:</p>
+
 <span class='rusttest'>macro_rules! foo {
     () =&gt; (fn x() { });
 }
@@ -843,6 +858,7 @@ fn main() {
 
 <p>マクロの展開は、展開中のマクロ自身も含めたその他のマクロ呼出しを含んでいることが可能です。
 そのような再帰的なマクロは、以下の(単純化した)HTMLの短縮形のような、木構造を持つ入力の処理に便利です:</p>
+
 <span class='rusttest'>#![allow(unused_must_use)]
 macro_rules! write_html {
     ($w:expr, ) =&gt; (());
@@ -1168,6 +1184,7 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 <p>また、 <code>macro_use</code> アトリビュートは <code>extern create</code> の上でも利用することができます。
 そのようにした場合、 <code>macro_use</code> アトリビュートは外部のクレートからどのマクロをロードするのかを指定します。
 以下がその例です:</p>
+
 <span class='rusttest'>fn main() {
     #[macro_use(foo, bar)]
     extern crate baz;
@@ -1194,6 +1211,7 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 <!-- An example: -->
 
 <p>一例としては:</p>
+
 <span class='rusttest'>macro_rules! m1 { () =&gt; (()) }
 
 // // visible here: m1
@@ -1284,6 +1302,7 @@ fn main() { }
 
 <p>さらなる困難はマクロが複数のクレートで利用された時に発生します。
 <code>mylib</code> が以下のように定義されているとしましょう</p>
+
 <span class='rusttest'>pub fn increment(x: u32) -&gt; u32 {
     x + 1
 }
@@ -1338,6 +1357,7 @@ fn main() { }
 特別なマクロ変数 <code>$create</code> は <code>::foo</code> に展開されます。
 対照的に、マクロが同じクレートの中で定義され利用された場合、
 <code>$create</code> は何にも展開されません。これはつまり以下のように書けることを意味しています:</p>
+
 <span class='rusttest'>#[macro_export]
 macro_rules! inc {
     ($x:expr) =&gt; ( $crate::increment($x) )
@@ -1386,6 +1406,7 @@ fn main() { }
 <!-- within Rust’s macro system. -->
 
 <p>極端な例としては、 望ましくはありませんが、 <a href="https://esolangs.org/wiki/Bitwise_Cyclic_Tag">Bitwise Cyclic Tag</a> のオートマトンをRustのマクロで実装する事が可能です。</p>
+
 <span class='rusttest'>fn main() {
     macro_rules! bct {
         // cmd 0:  d ... =&gt; ...
@@ -1452,6 +1473,7 @@ fn main() { }
 
 <p>このマクロは現在のスレッドをパニック状態にします。
 パニック時のメッセージを指定することができます。</p>
+
 <span class='rusttest'>fn main() {
     panic!(&quot;oh no!&quot;);
 }</span><pre class='rust rust-example-rendered'>
@@ -1464,6 +1486,7 @@ fn main() { }
 
 <p><code>vec!</code> マクロはこの本のなかで使われてきましたので、 すでに見たことがあるでしょう。
 <code>vec!</code> マクロは <code>Vec&lt;T&gt;</code> を簡単に作成できます:</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5];
 }</span><pre class='rust rust-example-rendered'>
@@ -1475,6 +1498,7 @@ fn main() { }
 
 <p>また、値の繰り返しのベクタを作成することも可能です。
 たとえば、以下は100個の0を含むベクタの例です:</p>
+
 <span class='rusttest'>fn main() {
     let v = vec![0; 100];
 }</span><pre class='rust rust-example-rendered'>
@@ -1493,6 +1517,7 @@ fn main() { }
 <code>assert!</code> は真偽値を引数に取ります。
 <code>assert_eq!</code> は２つの等価性をチェックする値を引数に取ります。
 <code>true</code> ならばパスし、 <code>false</code> だった場合 <code>panic!</code> を起こします:</p>
+
 <span class='rusttest'>fn main() {
     // // A-ok!
     // Okです！
@@ -1527,6 +1552,7 @@ fn main() { }
 <code>try!</code> は <code>Result&lt;T, E&gt;</code> を返す何らかの物を引数に取り、もし <code>Result&lt;T, E&gt;</code> が <code>Ok&lt;T&gt;</code> だった場合 <code>T</code> を返し、
 そうでなく <code>Err(E)</code> だった場合はそれを <code>return</code> します。
 例えば以下のように利用します:</p>
+
 <span class='rusttest'>fn main() {
     use std::fs::File;
     
@@ -1547,6 +1573,7 @@ fn main() { }
 <!-- This is cleaner than doing this: -->
 
 <p>このコードは以下のコードよりも綺麗です:</p>
+
 <span class='rusttest'>fn main() {
     use std::fs::File;
     
@@ -1578,6 +1605,7 @@ fn main() { }
 <!-- This macro is used when you think some code should never execute: -->
 
 <p>このマクロはあるコードが絶対に実行されるべきでないと考えている時に利用します。</p>
+
 <span class='rusttest'>fn main() {
     if false {
         unreachable!();
@@ -1595,6 +1623,7 @@ fn main() { }
 
 <p>時々、コンパイラーによって絶対に呼び出されるはずがないと考えているブランチを作成することになる時があります。
 そういった時には、このマクロを利用しましょう、そうすることでもし何か誤ってしまった時に、 <code>panic!</code> で知ることができます。</p>
+
 <span class='rusttest'>fn main() {
     let x: Option&lt;i32&gt; = None;
     

@@ -220,6 +220,7 @@
 <!-- To use `#![no_std]`, add a it to your crate root: -->
 
 <p><code>#![no_std]</code> アトリビュートを利用するには、クレートのトップに以下のように追加します:</p>
+
 <span class='rusttest'>fn main() {
     #![no_std]
     
@@ -251,6 +252,7 @@
 それと同じように、もし <code>#![no_std]</code> を利用しているときは、
 Rustは自動的に <code>core</code> と <a href="../core/prelude/v1/">そのプレリュード</a> をスコープに導入します。
 これは、例えば多くの以下のようなコードが動作することを意味しています:</p>
+
 <span class='rusttest'>fn main() {
     #![no_std]
     

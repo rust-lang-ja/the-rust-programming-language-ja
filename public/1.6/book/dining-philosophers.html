@@ -315,6 +315,7 @@ $ cd dining_philosophers
 <!-- in `src/main.rs`: -->
 
 <p>それでは、問題をモデル化するところから始めましょう。 <code>src/main.rs</code> にて、哲学者から手を付けていきます:</p>
+
 <span class='rusttest'>struct Philosopher {
     name: String,
 }
@@ -375,6 +376,7 @@ fn main() {
 <!-- Let’s continue: -->
 
 <p>では続けましょう:</p>
+
 <span class='rusttest'>fn main() {
     struct Philosopher {
         name: String,
@@ -401,6 +403,7 @@ fn main() {
 
 <p>この <code>impl</code> ブロックは <code>Philosopher</code> 構造体に関する定義を与えます。ここでは、 <code>new</code> という「関連関数(associated function)」を定義します。
 最初の行は次の通りです:</p>
+
 <span class='rusttest'>fn main() {
     struct Philosopher {
         name: String,
@@ -420,6 +423,7 @@ fn main() {
 <!-- string. It returns an instance of our `Philosopher` struct. -->
 
 <p>関数は <code>&amp;str</code> 型の引数1つ、 <code>name</code> をとります。これは他の文字列への参照です。そして <code>Philosopher</code> 構造体のインスタンスを返します。</p>
+
 <span class='rusttest'>fn main() {
     struct Philosopher {
         name: String,
@@ -486,6 +490,7 @@ Rustではほとんどが値を返す式となります。関数についても�
 
 <p>この <code>new()</code> という名前、Rustにとって特別な意味を持ちませんが、構造体の新しいインスタンスを生成する関数としてよく用いられます。
 その理由について話す前に、再び <code>main()</code> を見ていきましょう:</p>
+
 <span class='rusttest'>struct Philosopher {
     name: String,
 }
@@ -521,6 +526,7 @@ fn main() {
 <!-- that `new()` function, it would look like this: -->
 
 <p>ここでは、5つの新しい哲学者に対して5つの変数束縛を作ります。仮に <code>new</code> 関数を定義 <em>しない</em> なら、次ように書く必要があります:</p>
+
 <span class='rusttest'>struct Philosopher {
     name: String,
 }
@@ -558,6 +564,7 @@ fn main() {
 <p>下準備が終ったので、ここでの残る問題、哲学者の問題に取り組める多くの方法があります。
 まずは逆順に: 哲学者が食事を終わらせる部分から始めていきましょう。この小さなステップでは、
 メソッドを1つ作り、全ての哲学者に対して呼び出します:</p>
+
 <span class='rusttest'>struct Philosopher {
     name: String,
 }
@@ -635,6 +642,7 @@ fn main() {
 <!-- In the body of the loop, we call `p.eat()`, which is defined above: -->
 
 <p>ループ本体の中では、上記で定義した <code>p.eat()</code> を呼び出します:</p>
+
 <span class='rusttest'>fn main() {
     fn eat(&amp;self) {
         println!(&quot;{} is done eating.&quot;, self.name);
@@ -676,6 +684,7 @@ Michel Foucault is done eating.
 <!-- eat. Here’s the next version: -->
 
 <p>続いて、哲学者たちが一瞬で食事を終えるのではなく、本当に食事するようにしたいです。これが次のバージョンです:</p>
+
 <span class='rusttest'>use std::thread;
 use std::time::Duration;
 
@@ -753,6 +762,7 @@ fn main() {
 <!-- Just a few changes. Let’s break it down. -->
 
 <p>大した変更はありません。順に見ていきましょう。</p>
+
 <span class='rusttest'>fn main() {
     use std::thread;
 }</span><pre class='rust rust-example-rendered'>
@@ -763,6 +773,7 @@ fn main() {
 <!-- from the standard library, and so we need to `use` it. -->
 
 <p><code>use</code> は名前をスコープに持ち込みます。標準ライブラリから <code>thread</code> モジュールを使いたいので、 <code>use</code> が必要になります。</p>
+
 <span class='rusttest'>fn main() {
         fn eat(&amp;self) {
             println!(&quot;{} is eating.&quot;, self.name);
@@ -813,6 +824,7 @@ Michel Foucault is done eating.
 <!-- Here’s the next iteration: -->
 
 <p>哲学者たちを並行に食事させるには、小さな変更を加える必要があります。これが次のイテレーションです:</p>
+
 <span class='rusttest'>use std::thread;
 use std::time::Duration;
 
@@ -904,6 +916,7 @@ fn main() {
 <!-- first change: -->
 
 <p><code>main()</code> 内のループ変更と、1ヵ所の追加で全部です!まずは前半の変更から:</p>
+
 <span class='rusttest'>fn main() {
     let handles: Vec&lt;_&gt; = philosophers.into_iter().map(|p| {
         thread::spawn(move || {
@@ -920,6 +933,7 @@ fn main() {
 <!-- While this is only five lines, they’re a dense five. Let’s break it down. -->
 
 <p>たった5行ですが、内容の濃い5行になっています。では見ていきましょう。</p>
+
 <span class='rusttest'>fn main() {
     let handles: Vec&lt;_&gt; =
 }</span><pre class='rust rust-example-rendered'>
@@ -941,6 +955,7 @@ fn main() {
 スレッドはそのスレッドを制御するハンドルを返すのでこの名前としました。後ほど議論する問題があるため、
 ここでは明示的な型アノテーションが必要となります。 <code>_</code> は型プレースホルダです。
 つまり「 <code>handles</code> は何らかの型のベクトルとするが、その型が何であるかはRustが解決せよ。」と言っています。</p>
+
 <span class='rusttest'>fn main() {
     philosophers.into_iter().map(|p| {
 }</span><pre class='rust rust-example-rendered'>
@@ -956,6 +971,7 @@ fn main() {
 
 <p>哲学者のリストに対して <code>into_iter()</code> を呼び出します。このメソッドは、哲学者の所有権を持つイテレータを生成します。
 スレッドに各要素を渡すため、このようにしました。イテレータに対して <code>map</code> を呼び出し、その引数として要素毎に順番に呼ばれるクロージャを渡します。</p>
+
 <span class='rusttest'>fn main() {
         thread::spawn(move || {
             p.eat();
@@ -990,6 +1006,7 @@ fn main() {
 <p>スレッド内では、 <code>p</code> に対して <code>eat()</code> を呼び出しておしまいです。 <code>thread::spawn</code> 呼び出しの末尾にセミコロンを置かないことで、
 式としている点に注意してください。正しい戻り値を返すために、この区別は重要です。詳細については、
 <a href="functions.html#expressions-vs-statements">式 vs. 文</a> を参照ください。</p>
+
 <span class='rusttest'>fn main() {
     }).collect();
 }</span><pre class='rust rust-example-rendered'>
@@ -1008,6 +1025,7 @@ fn main() {
 <p>最後に、 <code>map</code> 呼び出しの結果をまとめ上げます。 <code>collect()</code> は何らかのコレクション型を生成しますが、要求する戻り値型アノテーションを必要とします:
 ここでは <code>Vec&lt;T&gt;</code> です。またその要素は <code>thread::spawn</code> 呼び出しの戻り値、つまり各スレッドへのハンドルとなっています。
 フゥー!</p>
+
 <span class='rusttest'>fn main() {
     for h in handles {
         h.join().unwrap();
@@ -1052,6 +1070,7 @@ Michel Foucault is done eating.
 <!-- To do that, let’s make a new `struct`: -->
 
 <p>という訳で、新しい <code>struct</code> を作っていきましょう:</p>
+
 <span class='rusttest'>fn main() {
     use std::sync::Mutex;
     
@@ -1080,6 +1099,7 @@ Michel Foucault is done eating.
 <!-- Let’s modify the program to use the `Table`: -->
 
 <p>プログラムで <code>Table</code> を使うよう変更しましょう:</p>
+
 <span class='rusttest'>use std::thread;
 use std::time::Duration;
 use std::sync::{Mutex, Arc};
@@ -1217,6 +1237,7 @@ fn main() {
 <!-- Let’s go over the details: -->
 
 <p>変更がたくさん!とはいえ、このイテレーションで、動作するプログラムが出来ました。細かく見ていきましょう:</p>
+
 <span class='rusttest'>fn main() {
     use std::sync::{Mutex, Arc};
 }</span><pre class='rust rust-example-rendered'>
@@ -1227,6 +1248,7 @@ fn main() {
 <!-- We’ll talk more about it when we use it. -->
 
 <p>ここでは <code>std::sync</code> パッケージからもう一つの構造体: <code>Arc&lt;T&gt;</code> を利用します。その詳細は使うときに説明します。</p>
+
 <span class='rusttest'>fn main() {
     struct Philosopher {
         name: String,
@@ -1253,6 +1275,7 @@ fn main() {
 <p><code>Philosopher</code> に2つのフィールドを追加する必要があります。哲学者はそれぞれ2本のフォークを使います:
 1本は左手に、もう1本は右手に。フォークの表現はベクトルのインデックスに対応するため、ここでは <code>usize</code> 型を使います。
 2つの値は <code>Table</code> が保持する <code>forks</code> のインデクス値を表しています。</p>
+
 <span class='rusttest'>fn main() {
     fn new(name: &amp;str, left: usize, right: usize) -&gt; Philosopher {
         Philosopher {
@@ -1275,6 +1298,7 @@ fn main() {
 <!-- `new()`. -->
 
 <p>インスタンス生成時に <code>left</code> と <code>right</code> の値が必要になりますから、 <code>new()</code> を拡張しました。</p>
+
 <span class='rusttest'>fn main() {
     fn eat(&amp;self, table: &amp;Table) {
         let _left = table.forks[self.left].lock().unwrap();
@@ -1352,6 +1376,7 @@ fn main() {
 <!-- `_right` go out of scope, automatically. -->
 
 <p>ロックの解放はどうしましょう?はい、 <code>_left</code> と <code>_right</code> がスコープから抜けるとき、自動的に解放されます。</p>
+
 <span class='rusttest'>fn main() {
         let table = Arc::new(Table { forks: vec![
             Mutex::new(()),
@@ -1380,6 +1405,7 @@ fn main() {
 <p>続いて、 <code>main()</code> では、新しい <code>Table</code> を作って <code>Arc&lt;T&gt;</code> に包んでいます。「arc」は「アトミック参照カウント(atomic reference count)」を意味し、
 複数スレッドから <code>Table</code> を共有するために必要となります。共有するときは参照カウントを増やし、
 各スレッドの終了時にはカウントを減らします。</p>
+
 <span class='rusttest'>fn main() {
     let philosophers = vec![
         Philosopher::new(&quot;Judith Butler&quot;, 0, 1),
@@ -1417,6 +1443,7 @@ fn main() {
 これは_非常に_重要な部分です。規則性という点では、最後以外は特に問題ありません。ムッシュ・フーコー(Foucault)は <code>4, 0</code> を引数にとるべきですが、
 代わりに、 <code>0, 4</code> としています。これはデッドロックを防ぐためのものです。実は: 哲学者の一人は左利きだったのです!
 これは問題解決の一つのやり方ですが、私の見立てでは、最も単純な方法です。実引数の順番を変更すれば、デッドロックが生じるのを観測できるでしょう。</p>
+
 <span class='rusttest'>fn main() {
     let handles: Vec&lt;_&gt; = philosophers.into_iter().map(|p| {
         let table = table.clone();
