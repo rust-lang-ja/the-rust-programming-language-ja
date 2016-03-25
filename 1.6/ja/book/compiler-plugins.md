@@ -38,17 +38,22 @@
 <!-- of a library. -->
 普通の慣行ではコンパイラプラグインは自身のクレートに置かれて、 `macro_rules!` マクロやコンシューマが使うライブラリのコードとは分けられます。
 
-# Syntax extensions
+<!-- # Syntax extensions -->
+# 構文拡張
 
-Plugins can extend Rust's syntax in various ways. One kind of syntax extension
-is the procedural macro. These are invoked the same way as [ordinary
-macros](macros.html), but the expansion is performed by arbitrary Rust
-code that manipulates [syntax trees](../syntax/ast/index.html) at
-compile time.
+<!-- Plugins can extend Rust's syntax in various ways. One kind of syntax extension -->
+<!-- is the procedural macro. These are invoked the same way as [ordinary -->
+<!-- macros](macros.html), but the expansion is performed by arbitrary Rust -->
+<!-- code that manipulates [syntax trees](../syntax/ast/index.html) at -->
+<!-- compile time. -->
+PluginはRustの構文を様々な方法で拡張出来ます。構文拡張の一種に手続的マクロがあります。
+これらは[普通のマクロ](macros.html)と同じように実行されますが展開は任意の[syntax trees](../syntax/ast/index.html)をコンパイル時に操作するRustのコードが行います。
 
-Let's write a plugin
-[`roman_numerals.rs`](https://github.com/rust-lang/rust/tree/master/src/test/auxiliary/roman_numerals.rs)
-that implements Roman numeral integer literals.
+<!-- Let's write a plugin -->
+<!-- [`roman_numerals.rs`](https://github.com/rust-lang/rust/tree/master/src/test/auxiliary/roman_numerals.rs) -->
+<!-- that implements Roman numeral integer literals. -->
+ローマ数字リテラルを実装する[`roman_numerals.rs`](https://github.com/rust-lang/rust/tree/master/src/test/auxiliary/roman_numerals.rs)を書いてみましょう。
+
 
 ```ignore
 #![crate_type="dylib"]
@@ -62,7 +67,8 @@ use syntax::codemap::Span;
 use syntax::parse::token;
 use syntax::ast::TokenTree;
 use syntax::ext::base::{ExtCtxt, MacResult, DummyResult, MacEager};
-use syntax::ext::build::AstBuilder;  // trait for expr_usize
+#// use syntax::ext::build::AstBuilder;  // trait for expr_usize
+use syntax::ext::build::AstBuilder;  // expr_usizeのトレイト
 use rustc_plugin::Registry;
 
 fn expand_rn(cx: &mut ExtCtxt, sp: Span, args: &[TokenTree])
@@ -113,7 +119,8 @@ pub fn plugin_registrar(reg: &mut Registry) {
 }
 ```
 
-Then we can use `rn!()` like any other macro:
+<!-- Then we can use `rn!()` like any other macro: -->
+`rn!()` マクロを他の任意のマクロと同じように使えます。
 
 ```ignore
 #![feature(plugin)]
@@ -124,29 +131,38 @@ fn main() {
 }
 ```
 
-The advantages over a simple `fn(&str) -> u32` are:
+<!-- The advantages over a simple `fn(&str) -> u32` are: -->
+単純な `fn(&str) -> u32` に対する利点は
 
-* The (arbitrarily complex) conversion is done at compile time.
-* Input validation is also performed at compile time.
-* It can be extended to allow use in patterns, which effectively gives
-  a way to define new literal syntax for any data type.
+<!-- * The (arbitrarily complex) conversion is done at compile time. -->
+<!-- * Input validation is also performed at compile time. -->
+<!-- * It can be extended to allow use in patterns, which effectively gives -->
+<!--   a way to define new literal syntax for any data type. -->
+* （任意に複雑な）変換がコンパイル時に行われる
+* 入力バリデーションもコンパイル時に行なわれる
+* パターンで使えるように拡張出来るので、実質的に任意のデータ型に対して新たなリテラル構文を与えられる
 
-In addition to procedural macros, you can define new
-[`derive`](../reference.html#derive)-like attributes and other kinds of
-extensions.  See
-[`Registry::register_syntax_extension`](../rustc_plugin/registry/struct.Registry.html#method.register_syntax_extension)
-and the [`SyntaxExtension`
-enum](https://doc.rust-lang.org/syntax/ext/base/enum.SyntaxExtension.html).  For
-a more involved macro example, see
-[`regex_macros`](https://github.com/rust-lang/regex/blob/master/regex_macros/src/lib.rs).
+<!-- In addition to procedural macros, you can define new -->
+<!-- [`derive`](../reference.html#derive)-like attributes and other kinds of -->
+<!-- extensions.  See -->
+<!-- [`Registry::register_syntax_extension`](../rustc_plugin/registry/struct.Registry.html#method.register_syntax_extension) -->
+<!-- and the [`SyntaxExtension` -->
+<!-- enum](https://doc.rust-lang.org/syntax/ext/base/enum.SyntaxExtension.html).  For -->
+<!-- a more involved macro example, see -->
+<!-- [`regex_macros`](https://github.com/rust-lang/regex/blob/master/regex_macros/src/lib.rs). -->
+手続き的マクロに加えて[`derive`](../reference.html#derive)ライクなアトリビュートや他の拡張を書けます。
+[`Registry::register_syntax_extension`](../rustc_plugin/registry/struct.Registry.html#method.register_syntax_extension)や[`SyntaxExtension` 列挙型](https://doc.rust-lang.org/syntax/ext/base/enum.SyntaxExtension.html)を参照して下さい。
+もっと複雑なマクロの例は[`regex_macros`](https://github.com/rust-lang/regex/blob/master/regex_macros/src/lib.rs)を参照して下さい。
 
+<!-- ## Tips and tricks -->
+## 豆知識と小技
 
-## Tips and tricks
+<!-- Some of the [macro debugging tips](macros.html#debugging-macro-code) are applicable. -->
+[マクロデバッグの豆知識](macros.html#debugging-macro-code)のいくつかが使えます。
 
-Some of the [macro debugging tips](macros.html#debugging-macro-code) are applicable.
-
-You can use [`syntax::parse`](../syntax/parse/index.html) to turn token trees into
-higher-level syntax elements like expressions:
+<!-- You can use [`syntax::parse`](../syntax/parse/index.html) to turn token trees into -->
+<!-- higher-level syntax elements like expressions: -->
+[`syntax::parse`](../syntax/parse/index.html)を使うことでトークン木を式などの高レベルな構文要素に変換出来ます。
 
 ```ignore
 fn expand_foo(cx: &mut ExtCtxt, sp: Span, args: &[TokenTree])
@@ -157,35 +173,43 @@ fn expand_foo(cx: &mut ExtCtxt, sp: Span, args: &[TokenTree])
     let expr: P<Expr> = parser.parse_expr();
 ```
 
-Looking through [`libsyntax` parser
-code](https://github.com/rust-lang/rust/blob/master/src/libsyntax/parse/parser.rs)
-will give you a feel for how the parsing infrastructure works.
+<!-- Looking through [`libsyntax` parser -->
+<!-- code](https://github.com/rust-lang/rust/blob/master/src/libsyntax/parse/parser.rs) -->
+<!-- will give you a feel for how the parsing infrastructure works. -->
+[`libsyntax` のパーサのコード](https://github.com/rust-lang/rust/blob/master/src/libsyntax/parse/parser.rs)を見るとパーサ機構がどのように機能しているかを感られるでしょう。
 
-Keep the [`Span`s](../syntax/codemap/struct.Span.html) of
-everything you parse, for better error reporting. You can wrap
-[`Spanned`](../syntax/codemap/struct.Spanned.html) around
-your custom data structures.
+<!-- Keep the [`Span`s](../syntax/codemap/struct.Span.html) of -->
+<!-- everything you parse, for better error reporting. You can wrap -->
+<!-- [`Spanned`](../syntax/codemap/struct.Spanned.html) around -->
+<!-- your custom data structures. -->
+パースしたものの[`Span`](../syntax/codemap/struct.Span.html)は良いエラー報告のために保持しておきましょう。
+自身のデータ構造を[`Spanned`](../syntax/codemap/struct.Spanned.html)でラップ出来ます。
 
-Calling
-[`ExtCtxt::span_fatal`](../syntax/ext/base/struct.ExtCtxt.html#method.span_fatal)
-will immediately abort compilation. It's better to instead call
-[`ExtCtxt::span_err`](../syntax/ext/base/struct.ExtCtxt.html#method.span_err)
-and return
-[`DummyResult`](../syntax/ext/base/struct.DummyResult.html),
-so that the compiler can continue and find further errors.
+<!-- Calling -->
+<!-- [`ExtCtxt::span_fatal`](../syntax/ext/base/struct.ExtCtxt.html#method.span_fatal) -->
+<!-- will immediately abort compilation. It's better to instead call -->
+<!-- [`ExtCtxt::span_err`](../syntax/ext/base/struct.ExtCtxt.html#method.span_err) -->
+<!-- and return -->
+<!-- [`DummyResult`](../syntax/ext/base/struct.DummyResult.html), -->
+<!-- so that the compiler can continue and find further errors. -->
+[`ExtCtxt::span_fatal`](../syntax/ext/base/struct.ExtCtxt.html#method.span_fatal)を呼ぶとコンパイルは即座に中断されます。
+[`ExtCtxt::span_err`](../syntax/ext/base/struct.ExtCtxt.html#method.span_err)を呼んで[`DummyResult`](../syntax/ext/base/struct.DummyResult.html)を返せばコンパイラはさらなるエラーを発見できるのでその方が良いでしょう。
 
-To print syntax fragments for debugging, you can use
-[`span_note`](../syntax/ext/base/struct.ExtCtxt.html#method.span_note) together
-with
-[`syntax::print::pprust::*_to_string`](https://doc.rust-lang.org/syntax/print/pprust/index.html#functions).
+<!-- To print syntax fragments for debugging, you can use -->
+<!-- [`span_note`](../syntax/ext/base/struct.ExtCtxt.html#method.span_note) together -->
+<!-- with -->
+<!-- [`syntax::print::pprust::* _to_string`](https://doc.rust-lang.org/syntax/print/pprust/index.html#functions). -->
+構文の断片を表示するには[`span_note`](../syntax/ext/base/struct.ExtCtxt.html#method.span_note)と[`syntax::print::pprust::*_to_string`](https://doc.rust-lang.org/syntax/print/pprust/index.html#functions)を使えば出来ます。
 
-The example above produced an integer literal using
-[`AstBuilder::expr_usize`](../syntax/ext/build/trait.AstBuilder.html#tymethod.expr_usize).
-As an alternative to the `AstBuilder` trait, `libsyntax` provides a set of
-[quasiquote macros](../syntax/ext/quote/index.html).  They are undocumented and
-very rough around the edges.  However, the implementation may be a good
-starting point for an improved quasiquote as an ordinary plugin library.
-
+<!-- The example above produced an integer literal using -->
+<!-- [`AstBuilder::expr_usize`](../syntax/ext/build/trait.AstBuilder.html#tymethod.expr_usize). -->
+<!-- As an alternative to the `AstBuilder` trait, `libsyntax` provides a set of -->
+<!-- [quasiquote macros](../syntax/ext/quote/index.html).  They are undocumented and -->
+<!-- very rough around the edges.  However, the implementation may be a good -->
+<!-- starting point for an improved quasiquote as an ordinary plugin library. -->
+上記の例では[`AstBuilder::expr_usize`](../syntax/ext/build/trait.AstBuilder.html#tymethod.expr_usize)を使って整数リテラルを作りました。
+`AstBuilder` トレイトの代替として `libsyntax` は[準クォート ](../syntax/ext/quote/index.html)マクロを提供しています。
+ドキュメントがない上に荒削りです。しかしながら実装は改善された普通のプラグインライブラリののとっかかりにはほど良いでしょう。
 
 # Lint plugins
 
