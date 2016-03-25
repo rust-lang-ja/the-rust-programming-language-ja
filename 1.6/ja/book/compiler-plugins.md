@@ -211,12 +211,16 @@ fn expand_foo(cx: &mut ExtCtxt, sp: Span, args: &[TokenTree])
 `AstBuilder` トレイトの代替として `libsyntax` は[準クォート ](../syntax/ext/quote/index.html)マクロを提供しています。
 ドキュメントがない上に荒削りです。しかしながら実装は改善された普通のプラグインライブラリののとっかかりにはほど良いでしょう。
 
-# Lint plugins
+<!-- # Lint plugins -->
+# 構文チェックプラグイン
 
-Plugins can extend [Rust's lint
-infrastructure](../reference.html#lint-check-attributes) with additional checks for
-code style, safety, etc. Now let's write a plugin [`lint_plugin_test.rs`](https://github.com/rust-lang/rust/blob/master/src/test/auxiliary/lint_plugin_test.rs)
-that warns about any item named `lintme`.
+<!-- Plugins can extend [Rust's lint -->
+<!-- infrastructure](../reference.html#lint-check-attributes) with additional checks for -->
+<!-- code style, safety, etc. Now let's write a plugin [`lint_plugin_test.rs`](https://github.com/rust-lang/rust/blob/master/src/test/auxiliary/lint_plugin_test.rs) -->
+<!-- that warns about any item named `lintme`. -->
+プラグインによって[Rustの構文チェック機構](../reference.html#lint-check-attributes)を拡張してコーディングスタイル、安全性などを検査するようにできます。では[`lint_plugin_test.rs`](https://github.com/rust-lang/rust/blob/master/src/test/auxiliary/lint_plugin_test.rs)プラグインを書いてみましょう。
+`lintme` という名前のアイテムについて警告を出すものです。
+
 
 ```ignore
 #![feature(plugin_registrar)]
@@ -258,7 +262,8 @@ pub fn plugin_registrar(reg: &mut Registry) {
 }
 ```
 
-Then code like
+<!-- Then code like -->
+そしたらこのようなコードは
 
 ```ignore
 #![plugin(lint_plugin_test)]
@@ -266,7 +271,8 @@ Then code like
 fn lintme() { }
 ```
 
-will produce a compiler warning:
+<!-- will produce a compiler warning: -->
+コンパイラの警告を発生させます。
 
 ```txt
 foo.rs:4:1: 4:16 warning: item is named 'lintme', #[warn(test_lint)] on by default
@@ -274,28 +280,37 @@ foo.rs:4 fn lintme() { }
          ^~~~~~~~~~~~~~~
 ```
 
-The components of a lint plugin are:
+<!-- The components of a lint plugin are: -->
+構文チェックプラグインのコンポーネントは
 
-* one or more `declare_lint!` invocations, which define static
-  [`Lint`](../rustc/lint/struct.Lint.html) structs;
+<!-- * one or more `declare_lint!` invocations, which define static -->
+<!--   [`Lint`](../rustc/lint/struct.Lint.html) structs; -->
+* 1回以上の `declare_lint` の実行。それによって[`Lint`](../rustc/lint/struct.Lint.html)構造体が定義されます。
 
-* a struct holding any state needed by the lint pass (here, none);
+<!-- * a struct holding any state needed by the lint pass (here, none); -->
+* 構文チェックパスで必要となる状態を保持する構造体（ここでは何もない）
 
-* a [`LintPass`](../rustc/lint/trait.LintPass.html)
-  implementation defining how to check each syntax element. A single
-  `LintPass` may call `span_lint` for several different `Lint`s, but should
-  register them all through the `get_lints` method.
+<!-- * a [`LintPass`](../rustc/lint/trait.LintPass.html) -->
+<!--   implementation defining how to check each syntax element. A single -->
+<!--   `LintPass` may call `span_lint` for several different `Lint`s, but should -->
+<!--   register them all through the `get_lints` method. -->
+* それぞれの構文要素をどうやってチェックするかを定めた[`LintPass`](../rustc/lint/trait.LintPass.html)の実装。
+  単一の `LintPass` は複数回 `span_lint` をいくつかの異なる `Lint` を呼ぶかもしれませんが、全て `get_lints`を通じて登録すべきです。
 
-Lint passes are syntax traversals, but they run at a late stage of compilation
-where type information is available. `rustc`'s [built-in
-lints](https://github.com/rust-lang/rust/blob/master/src/librustc/lint/builtin.rs)
-mostly use the same infrastructure as lint plugins, and provide examples of how
-to access type information.
+<!-- Lint passes are syntax traversals, but they run at a late stage of compilation -->
+<!-- where type information is available. `rustc`'s [built-in -->
+<!-- lints](https://github.com/rust-lang/rust/blob/master/src/librustc/lint/builtin.rs) -->
+<!-- mostly use the same infrastructure as lint plugins, and provide examples of how -->
+<!-- to access type information. -->
+構文チェックパスは構文巡回ですが、型情報が得られる、遅いステージで走ります。 `rustc` の[組み込み構文チェック](https://github.com/rust-lang/rust/blob/master/src/librustc/lint/builtin.rs)は殆どプラグインと同じ機構を使っており、どうやって型情報にアクセスするかの例になっています。
 
-Lints defined by plugins are controlled by the usual [attributes and compiler
-flags](../reference.html#lint-check-attributes), e.g. `#[allow(test_lint)]` or
-`-A test-lint`. These identifiers are derived from the first argument to
-`declare_lint!`, with appropriate case and punctuation conversion.
+<!-- Lints defined by plugins are controlled by the usual [attributes and compiler -->
+<!-- flags](../reference.html#lint-check-attributes), e.g. `#[allow(test_lint)]` or -->
+<!-- `-A test-lint`. These identifiers are derived from the first argument to -->
+<!-- `declare_lint!`, with appropriate case and punctuation conversion. -->
+プラグインによって定義されたLintは普通の[アトリビュートとコンパイラフラグ](../reference.html#lint-check-attributes)例えば `#[allow(test_lint)]` や `-A test-lint` によってコントロールされます。
+これらの識別子は `declare_lint` の第一引数に由来しており、適切な名前に変換されます。
 
-You can run `rustc -W help foo.rs` to see a list of lints known to `rustc`,
-including those provided by plugins loaded by `foo.rs`.
+<!-- You can run `rustc -W help foo.rs` to see a list of lints known to `rustc`, -->
+<!-- including those provided by plugins loaded by `foo.rs`. -->
+`rustc -W help foo.rs` を走らせることで `rustc` の知っている、及び `foo.rs` 内で定義されたコンパイラ構文チェックをロード出来ます。
