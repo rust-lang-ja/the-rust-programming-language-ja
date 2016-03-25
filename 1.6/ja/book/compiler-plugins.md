@@ -1,30 +1,42 @@
 % コンパイラプラグイン
 <!-- % Compiler Plugins -->
 
-# Introduction
+<!-- # Introduction -->
+# イントロダクション
 
-`rustc` can load compiler plugins, which are user-provided libraries that
-extend the compiler's behavior with new syntax extensions, lint checks, etc.
+<!-- `rustc` can load compiler plugins, which are user-provided libraries that -->
+<!-- extend the compiler's behavior with new syntax extensions, lint checks, etc. -->
+`rustc` はコンパイラプラグイン、ユーザの提供する構文拡張やs構文チェックなどのコンパイラの振舞を拡張するライブラリをロード出来ます。
 
-A plugin is a dynamic library crate with a designated *registrar* function that
-registers extensions with `rustc`. Other crates can load these extensions using
-the crate attribute `#![plugin(...)]`.  See the
-[`rustc_plugin`](../rustc_plugin/index.html) documentation for more about the
-mechanics of defining and loading a plugin.
+<!-- A plugin is a dynamic library crate with a designated *registrar* function that -->
+<!-- registers extensions with `rustc`. Other crates can load these extensions using -->
+<!-- the crate attribute `#![plugin(...)]`.  See the -->
+<!-- [`rustc_plugin`](../rustc_plugin/index.html) documentation for more about the -->
+<!-- mechanics of defining and loading a plugin. -->
+プラグインとは `rustc` に拡張を登録するための、指定された *登録用* 関数を持った動的ライブラリのクレートです。
+他のクレートはこれらのプラグインを `#![plugin(...)]` クレートアトリビュートでロード出来ます。
+プラグインの定義、ロードの仕組みについて詳しくは[`rustc_plugin`](../rustc_plugin/index.html)を参照して下さい。
 
-If present, arguments passed as `#![plugin(foo(... args ...))]` are not
-interpreted by rustc itself.  They are provided to the plugin through the
-`Registry`'s [`args` method](../rustc_plugin/registry/struct.Registry.html#method.args).
+<!-- If present, arguments passed as `#![plugin(foo(... args ...))]` are not -->
+<!-- interpreted by rustc itself.  They are provided to the plugin through the -->
+<!-- `Registry`'s [`args` method](../rustc_plugin/registry/struct.Registry.html#method.args). -->
+もしあるなら、 `#![plugin(foo(... args ...))]` のように渡された引数はrustcによっては解釈されません。
+これらは `Registry` の[`args` メソッド](../rustc_plugin/registry/struct.Registry.html#method.args)を通じてプラグインに渡されます。
 
-In the vast majority of cases, a plugin should *only* be used through
-`#![plugin]` and not through an `extern crate` item.  Linking a plugin would
-pull in all of libsyntax and librustc as dependencies of your crate.  This is
-generally unwanted unless you are building another plugin.  The
-`plugin_as_library` lint checks these guidelines.
+<!-- In the vast majority of cases, a plugin should *only* be used through -->
+<!-- `#![plugin]` and not through an `extern crate` item.  Linking a plugin would -->
+<!-- pull in all of libsyntax and librustc as dependencies of your crate.  This is -->
+<!-- generally unwanted unless you are building another plugin.  The -->
+<!-- `plugin_as_library` lint checks these guidelines. -->
+ほとんどの場合で、プラグインは `#![plugin]` を通じて *のみ* 使われるべきで、 `extern crate` を通じて使われるべきではありません。
+プラグインをリンクするとlibsyntaxとlibrustcの全てをクレートの依存に引き込んでしまいます。
+これは別のプラグインを作っているのでもない限り一般的には望まぬ挙動です。
+`plugin_as_library` チェッカによってこのガイドラインは検査されます。
 
-The usual practice is to put compiler plugins in their own crate, separate from
-any `macro_rules!` macros or ordinary Rust code meant to be used by consumers
-of a library.
+<!-- The usual practice is to put compiler plugins in their own crate, separate from -->
+<!-- any `macro_rules!` macros or ordinary Rust code meant to be used by consumers -->
+<!-- of a library. -->
+普通の慣行ではコンパイラプラグインは自身のクレートに置かれて、 `macro_rules!` マクロやコンシューマが使うライブラリのコードとは分けられます。
 
 # Syntax extensions
 
