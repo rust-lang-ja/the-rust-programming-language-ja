@@ -20,7 +20,7 @@
 <!-- and one for deallocation. A freestanding program that uses the `Box` -->
 <!-- sugar for dynamic allocations via `malloc` and `free`: -->
 例えば、 `Box` ポインタは2つの言語アイテムを必要とします。1つはアロケーションのためもう1つはデアロケーションのため。
-フリースタンディング環境で動くプログラムは `Box` を `malloc` `free` による動的アロケーションの糖衣として使います。
+フリースタンディング環境で動くプログラムは `Box` を `malloc` と `free` による動的アロケーションの糖衣として使います。
 
 ```rust
 #![feature(lang_items, box_syntax, start, libc)]
