@@ -1,11 +1,11 @@
-% Lang items
+% 言語アイテム
 <!-- % Lang items -->
 
 <!-- &gt; **Note**: lang items are often provided by crates in the Rust distribution, -->
 <!-- &gt; and lang items themselves have an unstable interface. It is recommended to use -->
 <!-- &gt; officially distributed crates instead of defining your own lang items. -->
-> **注意** : lang itemは大抵Rustの配布物内のクレートから提供されていますしlang itemのインターフェース自体安定していません。
-> 自身でlang itemを定義するのではなく公式の配布物のクレートを使うことが推奨されています。
+> **注意** : 言語アイテムは大抵Rustの配布物内のクレートから提供されていますし言語アイテムのインターフェース自体安定していません。
+> 自身で言語アイテムを定義するのではなく公式の配布物のクレートを使うことが推奨されています。
 
 <!-- The `rustc` compiler has certain pluggable operations, that is, -->
 <!-- functionality that isn't hard-coded into the language, but is -->
@@ -14,12 +14,12 @@
 <!-- various different values of `...`, i.e. various different 'lang -->
 <!-- items'. -->
 `rustc` コンパイラはあるプラガブルな操作、つまり機能が言語にハードコードされているのではなくライブラリで実装されているものを持っており、特別なマーカによってそれが存在することをコンパイラに伝えます。
-マーカとは `#[lang = "..."]` アトリビュートで、 `...` には様々な値が、つまり様々な「lang items」あります。
+マーカとは `#[lang = "..."]` アトリビュートで、 `...` には様々な値が、つまり様々な「言語アイテム」あります。
 
 <!-- For example, `Box` pointers require two lang items, one for allocation -->
 <!-- and one for deallocation. A freestanding program that uses the `Box` -->
 <!-- sugar for dynamic allocations via `malloc` and `free`: -->
-例えば、 `Box` ポインタは2つのlang itemを必要とします。1つはアロケーションのためもう1つはデアロケーションのため。
+例えば、 `Box` ポインタは2つの言語アイテムを必要とします。1つはアロケーションのためもう1つはデアロケーションのため。
 フリースタンディング環境で動くプログラムは `Box` を `malloc` `free` による動的アロケーションの糖衣として使います。
 
 ```rust
@@ -67,10 +67,10 @@ fn main(argc: isize, argv: *const *const u8) -> isize {
 
 <!-- Note the use of `abort`: the `exchange_malloc` lang item is assumed to -->
 <!-- return a valid pointer, and so needs to do the check internally. -->
-`abort` を使ってることに注意して下さい: `exchange_malloc` lang itemは有効なポインタを返すものとされており、内部でその検査する必要があるのです。
+`abort` を使ってることに注意して下さい: `exchange_malloc` 言語アイテムは有効なポインタを返すものとされており、内部でその検査する必要があるのです。
 
 <!-- Other features provided by lang items include: -->
-lang itemによって提供される機能には以下のようなものがあります。:
+言語アイテムによって提供される機能には以下のようなものがあります。:
 
 <!-- - overloadable operators via traits: the traits corresponding to the -->
 <!--   `==`, `<`, dereferencing (`*`) and `+` (etc.) operators are all -->
@@ -84,15 +84,15 @@ lang itemによって提供される機能には以下のようなものがあ�
 <!--   `std::marker`; lang items `covariant_type`, -->
 <!--   `contravariant_lifetime`, etc. -->
 
-- トレイトによるオーバーロード可能な演算子: `==` 、 `<` 、 参照外し（ `*` ） そして `+` （など）の演算子は全てlang itemでマークされています。
+- トレイトによるオーバーロード可能な演算子: `==` 、 `<` 、 参照外し（ `*` ） そして `+` （など）の演算子は全て言語アイテムでマークされています。
   これら4つはそれぞれ `eq` 、 `ord` 、 `deref` 、 `add` です
-- スタックの巻き戻しと一般の失敗は `eh_personality` 、 `fail` そして `fail_bounds_check` lang itemです。
-- `std::marker` 内のトレイトで様々な型を示すのに使われています。 `send` 、 `sync` そして `copy` lang item。
-- マーカ型と `std::marker` にある変性指示子。 `covariant_type` 、 `contravariant_lifetime` lang itemなどなど。
+- スタックの巻き戻しと一般の失敗は `eh_personality` 、 `fail` そして `fail_bounds_check` 言語アイテムです。
+- `std::marker` 内のトレイトで様々な型を示すのに使われています。 `send` 、 `sync` そして `copy` 言語アイテム。
+- マーカ型と `std::marker` にある変性指示子。 `covariant_type` 、 `contravariant_lifetime` 言語アイテムなどなど。
 
 <!-- Lang items are loaded lazily by the compiler; e.g. if one never uses -->
 <!-- `Box` then there is no need to define functions for `exchange_malloc` -->
 <!-- and `exchange_free`. `rustc` will emit an error when an item is needed -->
 <!-- but not found in the current crate or any that it depends on. -->
-lang itemはコンパイラによって必要に応じてロードされます、例えば、 `Box` を一度も使わないなら `exchange_malloc` と `exchange_free` の関数を定義する必要はありません。
-`rustc` はitemが必要なのに現在のクレートあるいはその依存するクレート内で見付からないときにエラーを出します。
+言語アイテムはコンパイラによって必要に応じてロードされます、例えば、 `Box` を一度も使わないなら `exchange_malloc` と `exchange_free` の関数を定義する必要はありません。
+`rustc` はアイテムが必要なのに現在のクレートあるいはその依存するクレート内で見付からないときにエラーを出します。

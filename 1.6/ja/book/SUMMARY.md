@@ -60,7 +60,7 @@
     * [インラインアセンブリ](inline-assembly.md)
     * [No stdlib](no-stdlib.md)
     * [Intrinsic](intrinsics.md)
-    * [Lang Items](lang-items.md)
+    * [言語アイテム](lang-items.md)
     * [高度なリンキング](advanced-linking.md)
     * [ベンチマークテスト](benchmark-tests.md)
     * [Box構文とパターン](box-syntax-and-patterns.md)
