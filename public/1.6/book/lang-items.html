@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Lang items</title>
+    <title>言語アイテム</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -157,7 +157,7 @@
 </li>
 <li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
 </li>
-<li><a class='active' href='lang-items.html'><b>6.5.</b> Lang Items</a>
+<li><a class='active' href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
 </li>
 <li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
 </li>
@@ -185,23 +185,43 @@
 <div id='page'>
 
 
-    <h1 class="title">Lang items</h1>
-    <blockquote>
-<p><strong>Note</strong>: lang items are often provided by crates in the Rust distribution,
-and lang items themselves have an unstable interface. It is recommended to use
-officially distributed crates instead of defining your own lang items.</p>
+    <h1 class="title">言語アイテム</h1>
+    <!-- % Lang items -->
+
+<!-- &gt; **Note**: lang items are often provided by crates in the Rust distribution, -->
+
+<!-- &gt; and lang items themselves have an unstable interface. It is recommended to use -->
+
+<!-- &gt; officially distributed crates instead of defining your own lang items. -->
+
+<blockquote>
+<p><strong>注意</strong> : 言語アイテムは大抵Rustの配布物内のクレートから提供されていますし言語アイテムのインターフェース自体安定していません。
+自身で言語アイテムを定義するのではなく公式の配布物のクレートを使うことが推奨されています。</p>
 </blockquote>
 
-<p>The <code>rustc</code> compiler has certain pluggable operations, that is,
-functionality that isn&#39;t hard-coded into the language, but is
-implemented in libraries, with a special marker to tell the compiler
-it exists. The marker is the attribute <code>#[lang = &quot;...&quot;]</code> and there are
-various different values of <code>...</code>, i.e. various different &#39;lang
-items&#39;.</p>
+<!-- The `rustc` compiler has certain pluggable operations, that is, -->
 
-<p>For example, <code>Box</code> pointers require two lang items, one for allocation
-and one for deallocation. A freestanding program that uses the <code>Box</code>
-sugar for dynamic allocations via <code>malloc</code> and <code>free</code>:</p>
+<!-- functionality that isn't hard-coded into the language, but is -->
+
+<!-- implemented in libraries, with a special marker to tell the compiler -->
+
+<!-- it exists. The marker is the attribute `#[lang = "..."]` and there are -->
+
+<!-- various different values of `...`, i.e. various different 'lang -->
+
+<!-- items'. -->
+
+<p><code>rustc</code> コンパイラはあるプラガブルな操作、つまり機能が言語にハードコードされているのではなくライブラリで実装されているものを持っており、特別なマーカによってそれが存在することをコンパイラに伝えます。
+マーカとは <code>#[lang = &quot;...&quot;]</code> アトリビュートで、 <code>...</code> には様々な値が、つまり様々な「言語アイテム」あります。</p>
+
+<!-- For example, `Box` pointers require two lang items, one for allocation -->
+
+<!-- and one for deallocation. A freestanding program that uses the `Box` -->
+
+<!-- sugar for dynamic allocations via `malloc` and `free`: -->
+
+<p>例えば、 <code>Box</code> ポインタは2つの言語アイテムを必要とします。1つはアロケーションのためもう1つはデアロケーションのため。
+フリースタンディング環境で動くプログラムは <code>Box</code> を <code>malloc</code> と <code>free</code> による動的アロケーションの糖衣として使います。</p>
 
 <span class='rusttest'>#![feature(lang_items, box_syntax, start, libc)]
 #![no_std]
@@ -282,29 +302,56 @@ fn main(argc: isize, argv: *const *const u8) -&gt; isize {
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;eh_personality&quot;</span>]</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>eh_personality</span>() {}
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;panic_fmt&quot;</span>]</span> <span class='kw'>fn</span> <span class='ident'>panic_fmt</span>() <span class='op'>-&gt;</span> <span class='op'>!</span> { <span class='kw'>loop</span> {} }</pre>
 
-<p>Note the use of <code>abort</code>: the <code>exchange_malloc</code> lang item is assumed to
-return a valid pointer, and so needs to do the check internally.</p>
+<!-- Note the use of `abort`: the `exchange_malloc` lang item is assumed to -->
 
-<p>Other features provided by lang items include:</p>
+<!-- return a valid pointer, and so needs to do the check internally. -->
+
+<p><code>abort</code> を使ってることに注意して下さい: <code>exchange_malloc</code> 言語アイテムは有効なポインタを返すものとされており、内部でその検査する必要があるのです。</p>
+
+<!-- Other features provided by lang items include: -->
+
+<p>言語アイテムによって提供される機能には以下のようなものがあります。:</p>
+
+<!-- - overloadable operators via traits: the traits corresponding to the -->
+
+<!--   `==`, `<`, dereferencing (`*`) and `+` (etc.) operators are all -->
+
+<!--   marked with lang items; those specific four are `eq`, `ord`, -->
+
+<!--   `deref`, and `add` respectively. -->
+
+<!-- - stack unwinding and general failure; the `eh_personality`, `fail` -->
+
+<!--   and `fail_bounds_checks` lang items. -->
+
+<!-- - the traits in `std::marker` used to indicate types of -->
+
+<!--   various kinds; lang items `send`, `sync` and `copy`. -->
+
+<!-- - the marker types and variance indicators found in -->
+
+<!--   `std::marker`; lang items `covariant_type`, -->
+
+<!--   `contravariant_lifetime`, etc. -->
 
 <ul>
-<li>overloadable operators via traits: the traits corresponding to the
-<code>==</code>, <code>&lt;</code>, dereferencing (<code>*</code>) and <code>+</code> (etc.) operators are all
-marked with lang items; those specific four are <code>eq</code>, <code>ord</code>,
-<code>deref</code>, and <code>add</code> respectively.</li>
-<li>stack unwinding and general failure; the <code>eh_personality</code>, <code>fail</code>
-and <code>fail_bounds_checks</code> lang items.</li>
-<li>the traits in <code>std::marker</code> used to indicate types of
-various kinds; lang items <code>send</code>, <code>sync</code> and <code>copy</code>.</li>
-<li>the marker types and variance indicators found in
-<code>std::marker</code>; lang items <code>covariant_type</code>,
-<code>contravariant_lifetime</code>, etc.</li>
+<li>トレイトによるオーバーロード可能な演算子: <code>==</code> 、 <code>&lt;</code> 、 参照外し（ <code>*</code> ） そして <code>+</code> （など）の演算子は全て言語アイテムでマークされています。
+これら4つはそれぞれ <code>eq</code> 、 <code>ord</code> 、 <code>deref</code> 、 <code>add</code> です</li>
+<li>スタックの巻き戻しと一般の失敗は <code>eh_personality</code> 、 <code>fail</code> そして <code>fail_bounds_check</code> 言語アイテムです。</li>
+<li><code>std::marker</code> 内のトレイトで様々な型を示すのに使われています。 <code>send</code> 、 <code>sync</code> そして <code>copy</code> 言語アイテム。</li>
+<li>マーカ型と <code>std::marker</code> にある変性指示子。 <code>covariant_type</code> 、 <code>contravariant_lifetime</code> 言語アイテムなどなど。</li>
 </ul>
 
-<p>Lang items are loaded lazily by the compiler; e.g. if one never uses
-<code>Box</code> then there is no need to define functions for <code>exchange_malloc</code>
-and <code>exchange_free</code>. <code>rustc</code> will emit an error when an item is needed
-but not found in the current crate or any that it depends on.</p>
+<!-- Lang items are loaded lazily by the compiler; e.g. if one never uses -->
+
+<!-- `Box` then there is no need to define functions for `exchange_malloc` -->
+
+<!-- and `exchange_free`. `rustc` will emit an error when an item is needed -->
+
+<!-- but not found in the current crate or any that it depends on. -->
+
+<p>言語アイテムはコンパイラによって必要に応じてロードされます、例えば、 <code>Box</code> を一度も使わないなら <code>exchange_malloc</code> と <code>exchange_free</code> の関数を定義する必要はありません。
+<code>rustc</code> はアイテムが必要なのに現在のクレートあるいはその依存するクレート内で見付からないときにエラーを出します。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
