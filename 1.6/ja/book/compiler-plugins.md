@@ -1,4 +1,5 @@
-% Compiler Plugins
+% コンパイラプラグイン
+<!-- % Compiler Plugins -->
 
 # Introduction
 
