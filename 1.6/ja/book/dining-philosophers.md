@@ -186,7 +186,7 @@ Philosopher {
 <!-- program, that’s not particularly important, as we know we’ll just be using -->
 <!-- short strings anyway. -->
 なぜ引数に直接 `String` を受付けないのかって?いい質問です。仮に `String` をとるとしたら、呼出し元は `&str` 値をもっていますから、
-呼出元でメソッドを呼ぶ必要がでしまいます。この利便性の代償として、 _常に_ コピーが作られてしまいます。
+呼び出し元でメソッドを呼ぶ必要がでてしまいます。この利便性の代償として、 _常に_ コピーが作られてしまいます。
 今回のプログラムでは、短い文字列しか与えないことが分かっているため、これは大して重要な問題ではありません。
 
 <!-- One last thing you’ll notice: we just define a `Philosopher`, and seemingly -->
