@@ -14,7 +14,7 @@ called ‘trait objects’. -->
 <!-- For the rest of this chapter, we’ll need a trait and some implementations.
 Let’s make a simple one, `Foo`. It has one method that is expected to return a
 `String`. -->
-後の本章のために、トレイトとその実装が幾つか必要です。単純に `Foo` としましょう。これは `String` 型の値を返す関数を1つ持っています。
+本章の後のために、トレイトとその実装が幾つか必要です。単純に `Foo` としましょう。これは `String` 型の値を返す関数を1つ持っています。
 
 ```rust
 trait Foo {
@@ -92,7 +92,7 @@ inlined because the callee is known at compile time, and inlining is
 the key to good optimization. Static dispatch is fast, but it comes at
 a tradeoff: ‘code bloat’, due to many copies of the same function
 existing in the binary, one for each type. -->
-これは素晴らしい利点です。呼び出し先はコンパイル時に分かっているため、静的ディスパッチは関数呼び出しをインライン化できます。インライン化は優れた最適化の鍵です。静的ディスパッチは高速ですが、バイナリ的には既にあるはずの同じ関数をそれぞれの型毎に幾つもコピーするため、トレードオフとして「コードの膨張」(code bloat)が発生してしまいます。
+これは素晴らしい利点です。呼び出される関数はコンパイル時に分かっているため、静的ディスパッチは関数呼び出しをインライン化できます。インライン化は優れた最適化の鍵です。静的ディスパッチは高速ですが、バイナリ的には既にあるはずの同じ関数をそれぞれの型毎に幾つもコピーするため、トレードオフとして「コードの膨張」(code bloat)が発生してしまいます。
 
 <!-- Furthermore, compilers aren’t perfect and may “optimize” code to become slower.
 For example, functions inlined too eagerly will bloat the instruction cache
@@ -119,7 +119,7 @@ reason. -->
 objects, like `&Foo` or `Box<Foo>`, are normal values that store a value of
 *any* type that implements the given trait, where the precise type can only be
 known at runtime. -->
-Rustは「トレイトオブジェクト」と呼ばれる機能によって動的ディスパッチを提供しています。トレイトオブジェクトは `&Foo` か `Box<Foo>` の様に記述され、指定されたトレイトを実装する *あらゆる* 型の値を保持する通常の値です。ただし、その正確な型は実行時になって初めて知ることができます。
+Rustは「トレイトオブジェクト」(trait objects)と呼ばれる機能によって動的ディスパッチを提供しています。トレイトオブジェクトは `&Foo` か `Box<Foo>` の様に記述され、指定されたトレイトを実装する *あらゆる* 型の値を保持する通常の値です。ただし、その正確な型は実行時になって初めて判明します。
 
 <!-- A trait object can be obtained from a pointer to a concrete type that
 implements the trait by *casting* it (e.g. `&x as &Foo`) or *coercing* it
@@ -129,16 +129,16 @@ implements the trait by *casting* it (e.g. `&x as &Foo`) or *coercing* it
 <!-- These trait object coercions and casts also work for pointers like `&mut T` to
 `&mut Foo` and `Box<T>` to `Box<Foo>`, but that’s all at the moment. Coercions
 and casts are identical. -->
-これらトレイトオブジェクトの型強制とキャストは `&mut T` を `&mut Foo` へ、 `Box<T>` を `Box<Foo>` へ、というようにどちらもポインタに対する操作ですが、取り敢えず今はこれだけです。型変換とキャストは同一です。
+これらトレイトオブジェクトの型強制とキャストは `&mut T` を `&mut Foo` へ、 `Box<T>` を `Box<Foo>` へ、というようにどちらもポインタに対する操作ですが、今の所はこれだけです。型変換とキャストは同一です。
 
 <!-- This operation can be seen as ‘erasing’ the compiler’s knowledge about the
 specific type of the pointer, and hence trait objects are sometimes referred to
 as ‘type erasure’. -->
-この操作がまるでポインタの具体的な型に関するコンパイラの記憶を「消去している」(erasing)ように見えることから、トレイトオブジェクトは時に「型消去」(type erasure)とも呼ばれます。
+この操作がまるでポインタのある型に関するコンパイラの記憶を「消去している」(erasing)ように見えることから、トレイトオブジェクトは時に「型消去」(type erasure)とも呼ばれます。
 
 <!-- Coming back to the example above, we can use the same trait to perform dynamic
 dispatch with trait objects by casting: -->
-上記の例に戻ってみると、キャストによるトレイトオブジェクトを用いた動的ディスパッチ実現のために、先程と同じFooトレイトを使用できます。
+上記の例に立ち帰ると、キャストによるトレイトオブジェクトを用いた動的ディスパッチの実現にも同じトレイトが使用できます。
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -178,7 +178,7 @@ that implements `Foo`: only one copy is generated, often (but not always)
 resulting in less code bloat. However, this comes at the cost of requiring
 slower virtual function calls, and effectively inhibiting any chance of
 inlining and related optimizations from occurring. -->
-トレイトオブジェクトを受け取った関数が `Foo` を実装した特定の型毎に特殊化されることはありません。関数は1つだけ生成され、多くの場合（とはいえ常にではありませんが）コードの膨張は少なく済みます。しかしながら、これは低速な仮想関数の呼び出しが必要となるため、実質的にインライン化とそれに関連する最適化の機会を阻害してしまいます。
+トレイトオブジェクトを受け取った関数が `Foo` を実装した型ごとに特殊化されることはありません。関数は1つだけ生成され、多くの場合（とはいえ常にではありませんが）コードの膨張は少なく済みます。しかしながら、これは低速な仮想関数の呼び出しが必要となるため、実質的にインライン化とそれに関連する最適化の機会を阻害してしまいます。
 
 <!-- ### Why pointers? -->
 ### 何故ポインタなのか？
@@ -195,11 +195,11 @@ Rustはガーベジコレクタによって管理される多くの言語とは�
 dependent crates may implement `Foo` (any number of bytes at all). There’s no
 way to guarantee that this last point can work if the values are stored without
 a pointer, because those other types can be arbitrarily large. -->
-`Foo` のために、 `String` (24 bytes)か `u8` (1 byte)、及び（全く中身の無い） `Foo` が実装されているであろう依存クレイト内の型のうち、少なくとも何れか1つの値を格納する必要があります。ポインタ無しで値を保存した場合、その直後の動作が正しいかどうかを保証する方法がありません。型によって値のサイズがそれぞれ異なるからです。
+`Foo` のためには、 `String` (24 bytes)か `u8` (1 byte)もしくは `Foo` （とにかくどんなサイズでも）を実装する依存クレイト内の型のうちから少なくとも1つの値を格納する必要があります。ポインタ無しで値を保存した場合、その直後の動作が正しいかどうかを保証する方法がありません。型によって値のサイズが異なるからです。
 
 <!-- Putting the value behind a pointer means the size of the value is not relevant
 when we are tossing a trait object around, only the size of the pointer itself. -->
-トレイトオブジェクトの場合、渡されるのはポインタ自体のサイズのみです。ポインタの参照先に値を配置するということは、変数が値自体のサイズに依存しなくなるということであり、これによって1つの変数に異なる型の値を格納できるようになります。
+ポインタの参照先に値を配置することはトレイトオブジェクトを渡す場合に値自体のサイズが無関係になり、ポインタのサイズのみになることを意味しています。
 
 <!-- ### Representation -->
 ### トレイトオブジェクトの内部表現
@@ -207,17 +207,17 @@ when we are tossing a trait object around, only the size of the pointer itself. 
 <!-- The methods of the trait can be called on a trait object via a special record
 of function pointers traditionally called a ‘vtable’ (created and managed by
 the compiler). -->
-トレイトのメソッドはトレイトオブジェクト内にある伝統的に「vtable」（これはコンパイラによって作成、管理されます）と呼ばれる特別な関数ポインタのレコードを介して呼び出すことができます。
+トレイトのメソッドはトレイトオブジェクト内にある伝統的に「vtable」（これはコンパイラによって作成、管理されます）と呼ばれる特別な関数ポインタのレコードを介して呼び出されます。
 
 <!-- Trait objects are both simple and complicated: their core representation and
 layout is quite straight-forward, but there are some curly error messages and
 surprising behaviors to discover. -->
-トレイトオブジェクトは単純ですが難解でもあります。核となる表現と設計は非常に単純ですが、複雑なエラーメッセージを吐いたり、予期せぬ振る舞いが見つかったりします。
+トレイトオブジェクトは単純ですが難解でもあります。核となる表現と設計は非常に率直ですが、複雑なエラーメッセージを吐いたり、予期せぬ振る舞いが見つかったりします。
 
 <!-- Let’s start simple, with the runtime representation of a trait object. The
 `std::raw` module contains structs with layouts that are the same as the
 complicated built-in types, [including trait objects][stdraw]: -->
-単純な例として、トレイトオブジェクトの実行時の再現から始めましょう。 `std::raw` モジュールは複雑なビルドインの型と同じレイアウトの構造体を格納しており、 [トレイトオブジェクトも含まれています](https://doc.rust-lang.org/std/raw/) 。
+単純な例として、トレイトオブジェクトの実行時の表現から見て行きましょう。 `std::raw` モジュールは複雑なビルドインの型と同じレイアウトの構造体を格納しており、 [トレイトオブジェクトも含まれています](https://doc.rust-lang.org/std/raw/) 。
 
 ```rust
 # mod foo {
@@ -351,7 +351,7 @@ let y = TraitObject {
 
 <!-- Not every trait can be used to make a trait object. For example, vectors implement
 `Clone`, but if we try to make a trait object: -->
-全てのトレイトがトレイトオブジェクトとして使えるわけではありません。例えば、ベクタは `Clone` を実装しますが、トレイトオブジェクトを作ろうとすると、
+全てのトレイトがトレイトオブジェクトとして使えるわけではありません。例えば、ベクタは `Clone` を実装していますが、トレイトオブジェクトを作ろうとすると、
 
 ```ignore
 let v = vec![1, 2, 3];
