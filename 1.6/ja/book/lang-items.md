@@ -1,4 +1,5 @@
 % Lang items
+<!-- % Lang items -->
 
 > **Note**: lang items are often provided by crates in the Rust distribution,
 > and lang items themselves have an unstable interface. It is recommended to use
