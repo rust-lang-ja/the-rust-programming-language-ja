@@ -230,8 +230,7 @@ pub struct TraitObject {
 
 [stdraw]: ../std/raw/struct.TraitObject.html
 
-<!-- That is, a trait object like `&Foo` consists of a ‘data’ pointer and a ‘vtable’ -->
-pointer.
+<!-- That is, a trait object like `&Foo` consists of a ‘data’ pointer and a ‘vtable’ pointer. -->
 つまり、 `&Foo` のようなトレイトオブジェクトは「data」ポインタと「vtable」ポインタから成るわけです。
 
 <!-- The data pointer addresses the data (of some unknown type `T`) that the trait
