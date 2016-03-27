@@ -58,7 +58,7 @@ fn start(_argc: isize, _argv: *const *const u8) -> isize {
 <!-- with `#![no_main]` and then create the appropriate symbol with the -->
 <!-- correct ABI and the correct name, which requires overriding the -->
 <!-- compiler's name mangling too: -->
-コンパイラによって挿入される `main` を上書きするには、まず `#![no_main]` によってコンパイラによる挿入を無効にします。そのうえで、正しいABIとコンパイラの名前マングリングを上書きするための正しい名前を備えた適切なシンボルを作成します。
+コンパイラによって挿入される `main` を上書きするには、まず `#![no_main]` によってコンパイラによる挿入を無効にします。その上で、正しいABIと正しい名前を備えたシンボルを作成します。これにはコンパイラの名前マングリングを上書きする必要もあります。
 
 ```rust
 # #![feature(libc)]
