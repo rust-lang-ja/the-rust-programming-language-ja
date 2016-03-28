@@ -387,7 +387,7 @@ Rustの主要な売りの1つが参照をいかに安全に簡単に使えるか
 
 <!-- If we leave off calling these two methods, our program will compile, but -->
 <!-- we’ll get a warning: -->
-この2つのメソッドを呼び出したままにしておくと、プログラムはコンパイルしますが、警告が出ます。
+この2つのメソッドを呼び出さないままにしておくと、プログラムはコンパイルしますが、警告が出ます。
 
 ```bash
 $ cargo build
@@ -658,7 +658,7 @@ fn main() {
 <!-- details, read the [traits][traits] section. -->
 次に、もう1行 `use` を追加しました。 `use rand::Rng` です。
 すぐに、とあるメソッドを使うのですが、それが動作するには `Rng` がスコープに入っている必要があるのです。
-基本的な考え方はこうです: メソッドは「トレイト」と呼ばれるのもで定義されており、メソッドが動作するにはそのトレイトがスコープにある必要があるのです。
+基本的な考え方はこうです: メソッドは「トレイト」と呼ばれるもので定義されており、メソッドが動作するにはそのトレイトがスコープにある必要があるのです。
 詳しくは[トレイト][traits]セクションを読んで下さい。
 
 [traits]: traits.html
@@ -679,7 +679,7 @@ fn main() {
 <!-- them. It’s inclusive on the lower bound, but exclusive on the upper bound, -->
 <!-- so we need `1` and `101` to get a number ranging from one to a hundred. -->
 `rand::thread_rng()` を使って現在いる[スレッド][concurrency]にローカルな乱数生成器のコピーを取得しています。
-上で `use rand::Rnd` したので生成器は `gen_range()` メソッドを使えます。
+上で `use rand::Rng` したので生成器は `gen_range()` メソッドを使えます。
 このメソッドは2つの引数を取り、それらの間にある数を生成します。
 下限は含みますが、上限は含まないので1から100までの数を生成するには `1` と `101` を渡す必要があります。
 
@@ -804,7 +804,7 @@ enum Foo {
 <!-- With this definition, anything of type `Foo` can be either a -->
 <!-- `Foo::Bar` or a `Foo::Baz`. We use the `::` to indicate the -->
 <!-- namespace for a particular `enum` variant. -->
-この定義だと、 `Foo` のに属するものは `Foo::Bar` あるいは `Foo::Baz` です。
+この定義だと、 `Foo` 型のものは `Foo::Bar` あるいは `Foo::Baz` のいずれかです。
 `::` を使って `enum` のバリアントの名前空間を指示します。
 
 <!-- The [`Ordering`][ordering] `enum` has three possible variants: `Less`, `Equal`, -->
@@ -963,7 +963,7 @@ Rustには[様々なビルトインの数値型][number]がありますが、今
 <!-- such, we’ll do the same thing we did with `read_line()`: use the `expect()` -->
 <!-- method to crash if there’s an error. -->
 `read_line()` と同じように、 `parse()` の呼び出しでもエラーが起き得ます。
-文字列に `A %` が含まれていたらどうなるでしょう?それは数値には変換出来ません。
+文字列に `A👍%` が含まれていたらどうなるでしょう?それは数値には変換出来ません。
 なので、 `read_line()` と同じように `expect()` を使ってエラーがあったらクラッシュするようにします。
 
 <!-- Let’s try our program out! -->

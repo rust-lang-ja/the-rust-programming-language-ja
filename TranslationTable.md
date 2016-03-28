@@ -36,6 +36,7 @@
 | coercion                       | 型強制
 | combinator                     | コンビネータ
 | comma                          | カンマ
+| command line                   | コマンドライン
 | compile-time error             | コンパイル時エラー
 | compiler                       | コンパイラ
 | composable                     | 合成可能
@@ -63,12 +64,16 @@
 | early return                   | 早期リターン
 | empty tuple                    | 空タプル
 | encode                         | エンコード
+| entry point                    | エントリポイント
 | enum                           | 列挙型
 | equality                       | 等値性
 | ergonomic                      | エルゴノミック（人間にとって扱いやすいもの）
 | error                          | エラー
 | error handling                 | エラーハンドリング
+| executable                     | 実行可能形式
+| existentially quantified type  | 存在量型
 | expression statement           | 式文
+| exterior                       | 外側の
 | feature                        | フィーチャ
 | foreign                        | 他言語
 | free-standing function         | フリースタンディングな関数
@@ -76,18 +81,22 @@
 | generics                       | ジェネリクス
 | glob                           | グロブ
 | growable                       | 伸張可能
+| guard                          | ガード
 | handle                         | ハンドル
 | hash                           | ハッシュ
 | identifier                     | 識別子
 | immutable                      | イミュータブル
+| immutability                   | イミュータビリティ
 | implement                      | 実装する
 | initialize                     | 初期化する
 | input lifetime                 | 入力ライフタイム
+| interior                       | 内側の
 | install                        | インストール
 | installer                      | インストーラ
 | interpolate                    | インターポーレートする
 | interpolation                  | インターポーレーション
 | Intrinsics                     | Intrinsic
+| key                            | キー
 | keyword                        | キーワード
 | Lang Items                     | Lang Item
 | leak                           | リーク
@@ -106,6 +115,7 @@
 | mutability                     | ミュータビリティ
 | mutable                        | ミュータブル
 | mutable binding                | ミュータブルな束縛
+| mutual-exclusion               | 相互排他
 | null                           | ヌル
 | offline                        | オフライン
 | opaque                         | オペーク
@@ -116,6 +126,7 @@
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
+| parameter                      | パラメータ
 | parametric polymorphism        | パラメトリック多相
 | parse                          | パース、パースする
 | patch                          | パッチ
@@ -124,6 +135,7 @@
 | platform                       | プラットフォーム
 | pointer                        | ポインタ
 | process                        | プロセス
+| range                          | レンジ
 | raw pointer                    | 生ポインタ
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
@@ -134,6 +146,7 @@
 | return                         | 返す
 | return type                    | リターン型
 | return value                   | 戻り値
+| runtime                        | 実行時
 | safe                           | 安全
 | safety check                   | 安全性検査
 | scope                          | スコープ
@@ -154,6 +167,7 @@
 | sum type                       | 直和型
 | symbol                         | シンボル
 | syntactic sugar                | 糖衣構文
+| syntax tree                    | 構文木
 | system                         | システム
 | tagged union                   | タグ付き共用体
 | term                           | 項
@@ -162,6 +176,7 @@
 | tick                           | クオート
 | trait                          | トレイト
 | tuple                          | タプル
+| token trees                    | トークン木
 | type alias                     | 型エイリアス
 | type family                    | 型族
 | type inference                 | 型推論

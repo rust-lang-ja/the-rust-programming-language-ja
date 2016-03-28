@@ -145,7 +145,7 @@ x = 10;
 <!-- out of the scope of this guide. In general, you can often avoid explicit -->
 <!-- mutation, and so it is preferable in Rust. That said, sometimes, mutation is -->
 <!-- what you need, so it’s not verboten. -->
-可能な時はにミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
+可能な時にはミュータブルを避けた方が良い理由は他にもあるのですがそれはこのガイドの範囲を越えています。
 一般に、明示的な変更は避けられることが多いのでRustでもそうした方が良いのです。
 しかし変更が本当に必要なこともあるという意味で、厳禁という訳ではないのです。
 
@@ -237,7 +237,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 <!-- print. -->
 単に波括弧だけを使った時は、Rustはインターポーレートされる値の型を調べて意味のある方法で表示しようとします。
 フォーマットをさらに詳しく指定したいなら[数多くのオプションが利用出来ます][format]。
-とりあえずのところ、デフォルトに従ましょう。整数の印字はそれほど複雑ではありません。
+とりあえずのところ、デフォルトに従いましょう。整数の印字はそれほど複雑ではありません。
 
 [format]: ../std/fmt/index.html
 

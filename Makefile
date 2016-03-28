@@ -1,17 +1,114 @@
-VERSION=1.6
 LANG=ja
+VERSION=1.6
+VER_HASH=
+SHORT_VER_HASH=
+RUSTBOOK ?= rustbook
+RUSTDOC ?= rustdoc
 
-all: book
+BASE_DIR=$(VERSION)/$(LANG)
+TARGET_DIR=public/$(VERSION)
+
+DOCS := index \
+    complement-lang-faq complement-design-faq complement-project-faq \
+    rustdoc reference grammar
+
+# Legacy guides, preserved for a while to reduce the number of 404s
+DOCS += guide-crates guide-error-handling guide-ffi guide-macros guide \
+    guide-ownership guide-plugins guide-pointers guide-strings guide-tasks \
+    guide-testing tutorial intro
+
+RUSTDOC_DEPS_reference := $(TARGET_DIR)/full-toc.inc
+RUSTDOC_FLAGS_reference := --html-in-header=$(TARGET_DIR)/full-toc.inc
+
+RUSTDOC_HTML_OPTS_NO_CSS = --html-before-content=$(TARGET_DIR)/version_info.html \
+	--html-in-header=$(TARGET_DIR)/favicon.inc \
+	--html-after-content=$(TARGET_DIR)/footer.inc \
+	--markdown-playground-url='https://play.rust-lang.org/'
+
+RUSTDOC_HTML_OPTS = $(RUSTDOC_HTML_OPTS_NO_CSS) --markdown-css rust.css
+
+DOC_TARGETS := book nomicon style
 
 
-book: public/$(VERSION)/book/index.html
-
-public/$(VERSION)/book/index.html: $(wildcard $(VERSION)/$(LANG)/book/*.md)
-	rm -rf public/$(VERSION)/book
-	mkdir -p public/$(VERSION)
-	$(RUSTBOOK) build $(VERSION)/$(LANG)/book public/$(VERSION)/book 
+default: all
 
 publish:
 	git subtree -P public push "git@github.com:rust-lang-ja/the-rust-programming-language-ja.git" gh-pages
 
-.PHONY: publish
+
+
+book: $(TARGET_DIR)/book/index.html
+
+nomicon: $(TARGET_DIR)/nomicon/index.html
+
+style: $(TARGET_DIR)/style/index.html
+
+.PHONY: publish book nomicon style docs all
+
+
+
+$(TARGET_DIR)/book/index.html: $(wildcard $(BASE_DIR)/book/*.md) | $(TARGET_DIR)
+	rm -rf $(TARGET_DIR)/book
+	$(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/book
+
+$(TARGET_DIR)/nomicon/index.html: $(wildcard $(BASE_DIR)/nomicon/*.md) | $(TARGET_DIR)
+	rm -rf $(TARGET_DIR)/nomicon
+	$(RUSTBOOK) build $(BASE_DIR)/nomicon $(TARGET_DIR)/nomicon
+
+$(TARGET_DIR)/style/index.html: $(wildcard $(BASE_DIR)/style/*.md) | $(TARGET_DIR)
+	rm -rf $(TARGET_DIR)/style
+	$(RUSTBOOK) build $(BASE_DIR)/style $(TARGET_DIR)/style
+
+$(TARGET_DIR):
+	mkdir -p $(TARGET_DIR)
+
+
+######################################################################
+# Rust version
+######################################################################
+
+HTML_DEPS += $(TARGET_DIR)/version_info.html
+$(TARGET_DIR)/version_info.html: $(BASE_DIR)/version_info.html.template $(MKFILE_DEPS) \
+                       $(wildcard $(BASE_DIR)/*.*) | $(BASE_DIR)
+	sed -e "s/VERSION/$(VERSION)/; \
+                s/SHORT_HASH/$(SHORT_VER_HASH)/; \
+                s/STAMP/$(VER_HASH)/;" $< >$@
+
+######################################################################
+# Docs from rustdoc
+######################################################################
+
+HTML_DEPS += $(TARGET_DIR)/rust.css
+$(TARGET_DIR)/rust.css: $(BASE_DIR)/rust.css | $(TARGET_DIR)
+	cp -PRp $< $@ 2> /dev/null
+
+HTML_DEPS += $(TARGET_DIR)/favicon.inc
+$(TARGET_DIR)/favicon.inc: $(BASE_DIR)/favicon.inc | $(TARGET_DIR)
+	cp -PRp $< $@ 2> /dev/null
+
+$(TARGET_DIR)/full-toc.inc: $(BASE_DIR)/full-toc.inc | $(TARGET_DIR)/
+	cp -PRp $< $@ 2> /dev/null
+
+HTML_DEPS += $(TARGET_DIR)/footer.inc
+$(TARGET_DIR)/footer.inc: $(BASE_DIR)/footer.inc | $(TARGET_DIR)/
+	cp -PRp $< $@ 2> /dev/null
+
+
+## HTML
+# Generating targets of single markdown files.
+# this is template definition
+define DEF_DOC
+
+# HTML (rustdoc)
+DOC_TARGETS += $$(TARGET_DIR)/$(1).html
+$$(TARGET_DIR)/$(1).html: $$(BASE_DIR)/$(1).md $$(HTML_DEPS) $$(RUSTDOC_DEPS_$(1)) | $$(TARGET_DIR)
+	$$(RUSTDOC) $$(RUSTDOC_HTML_OPTS) $$(RUSTDOC_FLAGS_$(1)) $$< -o $$(TARGET_DIR)
+
+endef
+
+# then, apply template for each $(DOCS)
+$(foreach docname,$(DOCS),$(eval $(call DEF_DOC,$(docname))))
+###
+
+
+all: $(DOC_TARGETS)
