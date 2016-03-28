@@ -167,6 +167,7 @@
 | sum type                       | 直和型
 | symbol                         | シンボル
 | syntactic sugar                | 糖衣構文
+| syntax tree                    | 構文木
 | system                         | システム
 | tagged union                   | タグ付き共用体
 | term                           | 項
@@ -175,6 +176,7 @@
 | tick                           | クオート
 | trait                          | トレイト
 | tuple                          | タプル
+| token trees                    | トークン木
 | type alias                     | 型エイリアス
 | type family                    | 型族
 | type inference                 | 型推論
