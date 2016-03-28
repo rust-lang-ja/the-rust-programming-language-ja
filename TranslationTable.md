@@ -111,6 +111,7 @@
 | match                          | マッチ
 | memory                         | メモリ
 | method                         | メソッド
+| monomorphization               | 単相化
 | move                           | ムーブ
 | mutability                     | ミュータビリティ
 | mutable                        | ミュータブル
