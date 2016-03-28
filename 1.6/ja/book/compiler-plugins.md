@@ -286,7 +286,7 @@ foo.rs:4 fn lintme() { }
 
 <!-- * one or more `declare_lint!` invocations, which define static -->
 <!--   [`Lint`](../rustc/lint/struct.Lint.html) structs; -->
-* 1回以上の `declare_lint` の実行。それによって[`Lint`](../rustc/lint/struct.Lint.html)構造体が定義されます。
+* 1回以上の `declare_lint!` の実行。それによって[`Lint`](../rustc/lint/struct.Lint.html)構造体が定義されます。
 
 <!-- * a struct holding any state needed by the lint pass (here, none); -->
 * 構文チェックパスで必要となる状態を保持する構造体（ここでは何もない）
@@ -303,14 +303,14 @@ foo.rs:4 fn lintme() { }
 <!-- lints](https://github.com/rust-lang/rust/blob/master/src/librustc/lint/builtin.rs) -->
 <!-- mostly use the same infrastructure as lint plugins, and provide examples of how -->
 <!-- to access type information. -->
-構文チェックパスは構文巡回ですが、型情報が得られる、遅いステージで走ります。 `rustc` の[組み込み構文チェック](https://github.com/rust-lang/rust/blob/master/src/librustc/lint/builtin.rs)は殆どプラグインと同じ基盤を使っており、どうやって型情報にアクセスするかの例になっています。
+構文チェックパスは構文巡回ですが、型情報が得られる、コンパイルの終盤で走ります。 `rustc` の[組み込み構文チェック](https://github.com/rust-lang/rust/blob/master/src/librustc/lint/builtin.rs)は殆どプラグインと同じ基盤を使っており、どうやって型情報にアクセスするかの例になっています。
 
 <!-- Lints defined by plugins are controlled by the usual [attributes and compiler -->
 <!-- flags](../reference.html#lint-check-attributes), e.g. `#[allow(test_lint)]` or -->
 <!-- `-A test-lint`. These identifiers are derived from the first argument to -->
 <!-- `declare_lint!`, with appropriate case and punctuation conversion. -->
 プラグインによって定義されたLintは普通の[アトリビュートとコンパイラフラグ](../reference.html#lint-check-attributes)例えば `#[allow(test_lint)]` や `-A test-lint` によってコントロールされます。
-これらの識別子は `declare_lint` の第一引数に由来しており、適切な名前に変換されます。
+これらの識別子は `declare_lint!` の第一引数に由来しており、適切な名前に変換されます。
 
 <!-- You can run `rustc -W help foo.rs` to see a list of lints known to `rustc`, -->
 <!-- including those provided by plugins loaded by `foo.rs`. -->
