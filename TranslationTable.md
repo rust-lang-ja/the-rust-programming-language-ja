@@ -36,6 +36,7 @@
 | coercion                       | 型強制
 | combinator                     | コンビネータ
 | comma                          | カンマ
+| command line                   | コマンドライン
 | compile-time error             | コンパイル時エラー
 | compiler                       | コンパイラ
 | composable                     | 合成可能
@@ -63,11 +64,13 @@
 | early return                   | 早期リターン
 | empty tuple                    | 空タプル
 | encode                         | エンコード
+| entry point                    | エントリポイント
 | enum                           | 列挙型
 | equality                       | 等値性
 | ergonomic                      | エルゴノミック（人間にとって扱いやすいもの）
 | error                          | エラー
 | error handling                 | エラーハンドリング
+| executable                     | 実行可能形式
 | existentially quantified type  | 存在量型
 | expression statement           | 式文
 | exterior                       | 外側の
