@@ -34,6 +34,7 @@
 | channel                        | チャネル
 | closure                        | クロージャ
 | coercion                       | 型強制
+| code bloat                     | コードの膨張
 | combinator                     | コンビネータ
 | comma                          | カンマ
 | command line                   | コマンドライン
@@ -117,6 +118,7 @@
 | mutable binding                | ミュータブルな束縛
 | mutual-exclusion               | 相互排他
 | null                           | ヌル
+| object-safe                    | オブジェクト安全
 | offline                        | オフライン
 | opaque                         | オペーク
 | open source                    | オープンソース
@@ -159,6 +161,7 @@
 | signed                         | 符号付き
 | slice                          | スライス
 | slicing                        | スライシング
+| specialized                    | 特殊化された
 | standard library               | 標準ライブラリ
 | string                         | 文字列
 | string interpolation           | 文字列インターポーレーション
@@ -178,11 +181,12 @@
 | tuple                          | タプル
 | token trees                    | トークン木
 | type alias                     | 型エイリアス
+| type erasure                   | 型消去
 | type family                    | 型族
 | type inference                 | 型推論
 | type parameter                 | 型パラメータ
 | uninstall                      | アンインストール
-| unit  注: `()` の読み           | ユニット
+| unit  注: `()` の読み          | ユニット
 | Universal Function Call Syntax | 共通の関数呼び出し構文
 | unsafe                         | アンセーフ
 | unsigned                       | 符号無し

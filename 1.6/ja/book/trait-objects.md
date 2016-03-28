@@ -99,7 +99,7 @@ For example, functions inlined too eagerly will bloat the instruction cache
 (cache rules everything around us). This is part of the reason that `#[inline]`
 and `#[inline(always)]` should be used carefully, and one reason why using a
 dynamic dispatch is sometimes more efficient. -->
-その上、コンパイラは完璧ではなく、「最適化」したコードが遅くなってしまうこともあります。 例えば、あまりにも熱心にインライン化された関数は命令キャッシュを膨張させてしまいます（コンピュータ内ではキャッシュが全てです）。それが `#[inline]` や `#[inline(always)]` を慎重に使うべきである理由の1つであり、時として動的ディスパッチが静的ディスパッチよりも効率的である1つの理由なのです。
+その上、コンパイラは完璧ではなく、「最適化」したコードが遅くなってしまうこともあります。 例えば、あまりにも熱心にインライン化された関数は命令キャッシュを膨張させてしまいます（地獄の沙汰もキャッシュ次第）。それが `#[inline]` や `#[inline(always)]` を慎重に使うべきである理由の1つであり、時として動的ディスパッチが静的ディスパッチよりも効率的である1つの理由なのです。
 
 <!-- However, the common case is that it is more efficient to use static dispatch,
 and one can always have a thin statically-dispatched wrapper function that does
@@ -119,7 +119,7 @@ reason. -->
 objects, like `&Foo` or `Box<Foo>`, are normal values that store a value of
 *any* type that implements the given trait, where the precise type can only be
 known at runtime. -->
-Rustは「トレイトオブジェクト」(trait objects)と呼ばれる機能によって動的ディスパッチを提供しています。トレイトオブジェクトは `&Foo` か `Box<Foo>` の様に記述され、指定されたトレイトを実装する *あらゆる* 型の値を保持する通常の値です。ただし、その正確な型は実行時になって初めて判明します。
+Rustは「トレイトオブジェクト」と呼ばれる機能によって動的ディスパッチを提供しています。トレイトオブジェクトは `&Foo` か `Box<Foo>` の様に記述され、指定されたトレイトを実装する *あらゆる* 型の値を保持する通常の値です。ただし、その正確な型は実行時になって初めて判明します。
 
 <!-- A trait object can be obtained from a pointer to a concrete type that
 implements the trait by *casting* it (e.g. `&x as &Foo`) or *coercing* it
@@ -372,16 +372,16 @@ let o = &v as &Clone;
 <!-- The error says that `Clone` is not ‘object-safe’. Only traits that are
 object-safe can be made into trait objects. A trait is object-safe if both of
 these are true: -->
-エラーは `Clone` が「object-safe」でないと言っています。トレイトオブジェクトにできるのはobject-safeなトレイトのみです。以下の両方が真であるならばトレイトはobject-safeであるといえます。
+エラーは `Clone` が「オブジェクト安全」(object-safe)でないと言っています。トレイトオブジェクトにできるのはオブジェクト安全なトレイトのみです。以下の両方が真であるならばトレイトはオブジェクト安全であるといえます。
 
 <!-- * the trait does not require that `Self: Sized` -->
 <!-- * all of its methods are object-safe -->
 * トレイトが `Self: Sized` を要求しないこと
-* トレイトのメソッド全てがobject-safeであること
+* トレイトのメソッド全てがオブジェクト安全であること
 
 <!-- So what makes a method object-safe? Each method must require that `Self: Sized`
 or all of the following: -->
-では何がメソッドをobject-safeにするのでしょう？各メソッドは `Self: Sized` を要求するか、以下の全てを満足しなければなりません。
+では何がメソッドをオブジェクト安全にするのでしょう？各メソッドは `Self: Sized` を要求するか、以下の全てを満足しなければなりません。
 
 <!-- * must not have any type parameters -->
 <!-- * must not use `Self` -->
@@ -391,4 +391,4 @@ or all of the following: -->
 <!-- Whew! As we can see, almost all of these rules talk about `Self`. A good intuition
 is “except in special circumstances, if your trait’s method uses `Self`, it is not
 object-safe.” -->
-ひゃー！見ての通り、これらルールのほとんどは `Self` について話しています。「特別な状況を除いて、トレイトのメソッドで `Self` を使うとobject-safeではなくなる」と考えるのが良いでしょう。
+ひゃー！見ての通り、これらルールのほとんどは `Self` について話しています。「特別な状況を除いて、トレイトのメソッドで `Self` を使うとオブジェクト安全ではなくなる」と考えるのが良いでしょう。
