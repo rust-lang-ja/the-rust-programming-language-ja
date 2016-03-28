@@ -186,44 +186,69 @@
 
 
     <h1 class="title">No stdlib</h1>
-    <p>Rust’s standard library provides a lot of useful functionality, but assumes
-support for various features of its host system: threads, networking, heap
-allocation, and others. There are systems that do not have these features,
-however, and Rust can work with those too! To do so, we tell Rust that we
-don’t want to use the standard library via an attribute: <code>#![no_std]</code>.</p>
+    <!-- % No stdlib -->
+
+<!-- Rust’s standard library provides a lot of useful functionality, but assumes -->
+
+<!-- support for various features of its host system: threads, networking, heap -->
+
+<!-- allocation, and others. There are systems that do not have these features, -->
+
+<!-- however, and Rust can work with those too! To do so, we tell Rust that we -->
+
+<!-- don’t want to use the standard library via an attribute: `#![no_std]`. -->
+
+<p>Rustの標準ライブラリはたくさんの有用な機能を提供していますが、スレッド、ネットワーク、ヒープ割り当てなど、さまざまな機能についてホストシステムのサポートがあることを前提としています。しかし、それらの機能を持たないシステムは存在しますし、Rustはそういったシステム上でも動作します。そのためには、 <code>#![no_std]</code> アトリビュートを使って標準ライブラリを使用しないことを示します。</p>
+
+<!-- > Note: This feature is technically stable, but there are some caveats. For -->
+
+<!-- > one, you can build a `#![no_std]` _library_ on stable, but not a _binary_. -->
+
+<!-- > For details on libraries without the standard library, see [the chapter on -->
+
+<!-- > `#![no_std]`](using-rust-without-the-standard-library.html) -->
 
 <blockquote>
-<p>Note: This feature is technically stable, but there are some caveats. For
-one, you can build a <code>#![no_std]</code> <em>library</em> on stable, but not a <em>binary</em>.
-For details on libraries without the standard library, see <a href="using-rust-without-the-standard-library.html">the chapter on
-<code>#![no_std]</code></a></p>
+<p>注記: このフィーチャは技術的には安定していますが、いくつかの注意点があります。例えば、 <code>#![no_std]</code> を含んだ <em>ライブラリ</em> は安定版でビルドできますが、 <em>バイナリ</em> はそうではありません。標準ライブラリを使用しないライブラリについての詳細は <a href="using-rust-without-the-standard-library.html"><code>#![no_std]</code> についてのドキュメント</a> を参照してください。</p>
 </blockquote>
 
-<p>Obviously there&#39;s more to life than just libraries: one can use
-<code>#[no_std]</code> with an executable, controlling the entry point is
-possible in two ways: the <code>#[start]</code> attribute, or overriding the
-default shim for the C <code>main</code> function with your own.</p>
+<!-- Obviously there's more to life than just libraries: one can use -->
 
-<p>The function marked <code>#[start]</code> is passed the command line parameters
-in the same format as C:</p>
+<!-- `#[no_std]` with an executable, controlling the entry point is -->
+
+<!-- possible in two ways: the `#[start]` attribute, or overriding the -->
+
+<!-- default shim for the C `main` function with your own. -->
+
+<p>当然のことですが、ライブラリだけが全てではなく、実行可能形式においても <code>#[no_std]</code> は使用できます。このときエントリポイントを指定する方法には2種類あり、1つは <code>#[start]</code> アトリビュート、もう1つはCの <code>main</code> 関数の上書きです。</p>
+
+<!-- The function marked `#[start]` is passed the command line parameters -->
+
+<!-- in the same format as C: -->
+
+<p><code>#[start]</code> のついた関数へはCと同じフォーマットでコマンドライン引数が渡されます。</p>
 
 <span class='rusttest'>#![feature(libc)]
 #![feature(lang_items)]
 #![feature(start)]
 #![no_std]
 
-// Pull in the system libc library for what crt0.o likely requires
+//// Pull in the system libc library for what crt0.o likely requires
+// crt0.oが必要としていると思われるもののためにシステムのlibcライブラリを参照します。
 extern crate libc;
 
-// Entry point for this program
+//// Entry point for this program
+// このプログラムのエントリポイントです
 #[start]
 fn start(_argc: isize, _argv: *const *const u8) -&gt; isize {
     0
 }
 
-// These functions and traits are used by the compiler, but not
-// for a bare-bones hello world. These are normally
-// provided by libstd.
+//// These functions and traits are used by the compiler, but not
+//// for a bare-bones hello world. These are normally
+//// provided by libstd.
+// これらの関数とトレイトは必要最小限のhello worldのようなプログラムが
+// 使うのではなく、コンパイラが使います。通常これらはlibstdにより提供されます。
 #[lang = &quot;eh_personality&quot;] extern fn eh_personality() {}
 #[lang = &quot;panic_fmt&quot;] fn panic_fmt() -&gt; ! { loop {} }
 #[lang = &quot;eh_unwind_resume&quot;] extern fn rust_eh_unwind_resume() {}
@@ -235,25 +260,29 @@ fn start(_argc: isize, _argv: *const *const u8) -&gt; isize {
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>start</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>no_std</span>]</span>
 
-<span class='comment'>// Pull in the system libc library for what crt0.o likely requires</span>
+<span class='comment'>// crt0.oが必要としていると思われるもののためにシステムのlibcライブラリを参照します。</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
-<span class='comment'>// Entry point for this program</span>
+<span class='comment'>// このプログラムのエントリポイントです</span>
 <span class='attribute'>#[<span class='ident'>start</span>]</span>
 <span class='kw'>fn</span> <span class='ident'>start</span>(<span class='ident'>_argc</span>: <span class='ident'>isize</span>, <span class='ident'>_argv</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>isize</span> {
     <span class='number'>0</span>
 }
 
-<span class='comment'>// These functions and traits are used by the compiler, but not</span>
-<span class='comment'>// for a bare-bones hello world. These are normally</span>
-<span class='comment'>// provided by libstd.</span>
+<span class='comment'>// これらの関数とトレイトは必要最小限のhello worldのようなプログラムが</span>
+<span class='comment'>// 使うのではなく、コンパイラが使います。通常これらはlibstdにより提供されます。</span>
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;eh_personality&quot;</span>]</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>eh_personality</span>() {}
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;panic_fmt&quot;</span>]</span> <span class='kw'>fn</span> <span class='ident'>panic_fmt</span>() <span class='op'>-&gt;</span> <span class='op'>!</span> { <span class='kw'>loop</span> {} }</pre>
 
-<p>To override the compiler-inserted <code>main</code> shim, one has to disable it
-with <code>#![no_main]</code> and then create the appropriate symbol with the
-correct ABI and the correct name, which requires overriding the
-compiler&#39;s name mangling too:</p>
+<!-- To override the compiler-inserted `main` shim, one has to disable it -->
+
+<!-- with `#![no_main]` and then create the appropriate symbol with the -->
+
+<!-- correct ABI and the correct name, which requires overriding the -->
+
+<!-- compiler's name mangling too: -->
+
+<p>コンパイラによって挿入される <code>main</code> を上書きするには、まず <code>#![no_main]</code> によってコンパイラによる挿入を無効にします。その上で、正しいABIと正しい名前を備えたシンボルを作成します。これにはコンパイラの名前マングリングを上書きする必要もあります。</p>
 
 <span class='rusttest'>#![feature(libc)]
 #![feature(lang_items)]
@@ -263,7 +292,9 @@ compiler&#39;s name mangling too:</p>
 
 extern crate libc;
 
-#[no_mangle] // ensure that this symbol is called `main` in the output
+//#[no_mangle] // ensure that this symbol is called `main` in the output
+#[no_mangle] // 出力結果においてこのシンボル名が `main` になることを保証します。
+
 pub extern fn main(argc: i32, argv: *const *const u8) -&gt; i32 {
     0
 }
@@ -282,7 +313,8 @@ pub extern fn main(argc: i32, argv: *const *const u8) -&gt; i32 {
 
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
 
-<span class='attribute'>#[<span class='ident'>no_mangle</span>]</span> <span class='comment'>// ensure that this symbol is called `main` in the output</span>
+<span class='attribute'>#[<span class='ident'>no_mangle</span>]</span> <span class='comment'>// 出力結果においてこのシンボル名が `main` になることを保証します。</span>
+
 <span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>main</span>(<span class='ident'>argc</span>: <span class='ident'>i32</span>, <span class='ident'>argv</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>u8</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='number'>0</span>
 }
@@ -290,17 +322,29 @@ pub extern fn main(argc: i32, argv: *const *const u8) -&gt; i32 {
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;eh_personality&quot;</span>]</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>eh_personality</span>() {}
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;panic_fmt&quot;</span>]</span> <span class='kw'>fn</span> <span class='ident'>panic_fmt</span>() <span class='op'>-&gt;</span> <span class='op'>!</span> { <span class='kw'>loop</span> {} }</pre>
 
-<p>The compiler currently makes a few assumptions about symbols which are available
-in the executable to call. Normally these functions are provided by the standard
-library, but without it you must define your own.</p>
+<!-- The compiler currently makes a few assumptions about symbols which are available -->
 
-<p>The first of these two functions, <code>eh_personality</code>, is used by the
-failure mechanisms of the compiler. This is often mapped to GCC&#39;s
-personality function (see the
-<a href="../std/rt/unwind/index.html">libstd implementation</a> for more
-information), but crates which do not trigger a panic can be assured
-that this function is never called. The second function, <code>panic_fmt</code>, is
-also used by the failure mechanisms of the compiler.</p>
+<!-- in the executable to call. Normally these functions are provided by the standard -->
+
+<!-- library, but without it you must define your own. -->
+
+<p>今のところ、コンパイラは実行可能形式においていくつかのシンボルが呼び出し可能であるという前提を置いています。通常、これらの関数は標準ライブラリが提供しますが、それを使わない場合自分で定義しなければなりません。</p>
+
+<!-- The first of these two functions, `eh_personality`, is used by the -->
+
+<!-- failure mechanisms of the compiler. This is often mapped to GCC's -->
+
+<!-- personality function (see the -->
+
+<!-- [libstd implementation](../std/rt/unwind/index.html) for more -->
+
+<!-- information), but crates which do not trigger a panic can be assured -->
+
+<!-- that this function is never called. The second function, `panic_fmt`, is -->
+
+<!-- also used by the failure mechanisms of the compiler. -->
+
+<p>2つある関数のうち1つ目は <code>eh_personality</code> で、コンパイラの失敗メカニズムに使われます。これはしばしばGCCのpersonality関数に割り当てられますが（詳細は<a href="../std/rt/unwind/index.html">libstd実装</a>を参照してください）、パニックを発生させないクレートではこの関数は呼ばれないことが保証されています。2つ目の関数は <code>panic_fmt</code> で、こちらもコンパイラの失敗メカニズムのために使われます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
