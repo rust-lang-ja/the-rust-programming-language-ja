@@ -41,7 +41,7 @@ impl Foo for String {
 ## 静的ディスパッチ
 
 <!-- We can use this trait to perform static dispatch with trait bounds: -->
-トレイト境界による静的ディスパッチを実現するためにこのトレイトを使うことができます。
+トレイト境界を使ってこのトレイトで静的ディスパッチが出来ます。
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -64,7 +64,7 @@ fn main() {
 Rust will create a special version of `do_something()` for both `u8` and
 `String`, and then replace the call sites with calls to these specialized
 functions. In other words, Rust generates something like this: -->
-Rustはここで静的ディスパッチを実現するため「モノモーフィゼーション」(monomorphization)を用います。これはRustが `u8` と `String` それぞれ専用の `do_something()` を作成し、それら専用の関数を宛がうように呼び出しの部分を書き換えるという意味です。言い換えれば、Rustは以下のようなコードを生成します。
+これはRustが `u8` と `String` それぞれ専用の `do_something()` を作成し、それら特殊化された関数を宛がうように呼び出しの部分を書き換えるという意味です。（訳注: 作成された専用の `do_something()` は「特殊化された関数」(specialized function)と呼ばれます）
 
 ```rust
 # trait Foo { fn method(&self) -> String; }
@@ -257,7 +257,7 @@ struct FooVtable {
 fn call_method_on_u8(x: *const ()) -> String {
 # //     // the compiler guarantees that this function is only called
 # //     // with `x` pointing to a u8
-    // `x` がu8を指しているとき、コンパイラはこの関数だけが呼び出されることを保証します
+    // コンパイラは `x` がu8を指しているときにのみこの関数が呼ばれることを保障します
     let byte: &u8 = unsafe { &*(x as *const u8) };
 
     byte.method()
@@ -280,7 +280,7 @@ static Foo_for_u8_vtable: FooVtable = FooVtable {
 fn call_method_on_String(x: *const ()) -> String {
 # //     // the compiler guarantees that this function is only called
 # //     // with `x` pointing to a String
-    // `x`がStringを指しているとき、コンパイラはこの関数だけが呼ばれることを保証します
+    // コンパイラは `x` がStringを指しているときにのみこの関数が呼ばれることを保障します
     let string: &String = unsafe { &*(x as *const String) };
 
     string.method()
@@ -290,7 +290,7 @@ static Foo_for_String_vtable: FooVtable = FooVtable {
 # //     destructor: /* compiler magic */,
     destructor: /* コンパイラマジック */,
 # //     // values for a 64-bit computer, halve them for 32-bit ones
-    // 64-bitコンピュータの値を、32-bitコンピュータ向けに半分にしておく
+    // この値は64bitコンピュータ向けのものです、32bitコンピュータではこの半分にします
     size: 24,
     align: 8,
 
@@ -312,7 +312,7 @@ made more flexible. -->
 <!-- Suppose we’ve got some values that implement `Foo`. The explicit form of
 construction and use of `Foo` trait objects might look a bit like (ignoring the
 type mismatches: they’re all just pointers anyway): -->
-仮に `Foo` を実装する値を幾つか得たとします。構文による明示的な形式とこれまでに紹介した `Foo` トレイトオブジェクトの用法は少しだけ似ているかもしれません。(とにかく全てポインタにすることで型の不一致を無視しています)
+例えば `Foo` を実装する値を幾つか得たとします。 `Foo` トレイトオブジェクトを作る、あるいは使う時のコードを明示的に書いたものは少しだけ似ているでしょう。（型の違いを無視すればですが。どのみちただのポインタになります）
 
 ```rust,ignore
 let a: String = "foo".to_string();
