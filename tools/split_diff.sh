@@ -1,6 +1,8 @@
 #!/bin/sh
 
 FILE="$1"
+cd "$(dirname "$FILE")"
+FILE="$(basename "$FILE")"
 
 while [ -s "$FILE" ]; do
     new_file="$(head -n 1 "$FILE" | awk  '{print $NF}' | sed 's/^.\(.*\)/.\1/')"
