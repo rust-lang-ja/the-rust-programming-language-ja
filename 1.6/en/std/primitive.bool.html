@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `bool` primitive in crate `std`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, bool">
+
+    <title>std::bool - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../std/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='index.html'>std</a></p><script>window.sidebarCurrent = {name: 'bool', ty: 'primitive', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content primitive">
+<h1 class='fqn'><span class='in-band'>Primitive Type <a class='primitive' href=''>bool</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span></span></h1>
+<div class='docblock'><p>The boolean type.</p>
+</div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.Not.html' title='std::ops::Not'>Not</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.not' class='method'><code>fn <a href='../std/ops/trait.Not.html#method.not' class='fnname'>not</a>(self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/ops/trait.Not.html' title='std::ops::Not'>Not</a> for &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-1' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.Not.html' title='std::ops::Not'>Output</a></code></h4>
+<h4 id='method.not-1' class='method'><code>fn <a href='../std/ops/trait.Not.html#method.not' class='fnname'>not</a>(self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.Not.html' title='std::ops::Not'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>BitAnd</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-2' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.bitand' class='method'><code>fn <a href='../std/ops/trait.BitAnd.html#method.bitand' class='fnname'>bitand</a>(self, rhs: <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>BitAnd</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-3' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>Output</a></code></h4>
+<h4 id='method.bitand-1' class='method'><code>fn <a href='../std/ops/trait.BitAnd.html#method.bitand' class='fnname'>bitand</a>(self, other: <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>BitAnd</a>&lt;&amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-4' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>Output</a></code></h4>
+<h4 id='method.bitand-2' class='method'><code>fn <a href='../std/ops/trait.BitAnd.html#method.bitand' class='fnname'>bitand</a>(self, other: &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>BitAnd</a>&lt;&amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>&gt; for &amp;'b <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-5' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>Output</a></code></h4>
+<h4 id='method.bitand-3' class='method'><code>fn <a href='../std/ops/trait.BitAnd.html#method.bitand' class='fnname'>bitand</a>(self, other: &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitAnd.html' title='std::ops::BitAnd'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>BitOr</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-6' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.bitor' class='method'><code>fn <a href='../std/ops/trait.BitOr.html#method.bitor' class='fnname'>bitor</a>(self, rhs: <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>BitOr</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-7' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>Output</a></code></h4>
+<h4 id='method.bitor-1' class='method'><code>fn <a href='../std/ops/trait.BitOr.html#method.bitor' class='fnname'>bitor</a>(self, other: <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>BitOr</a>&lt;&amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-8' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>Output</a></code></h4>
+<h4 id='method.bitor-2' class='method'><code>fn <a href='../std/ops/trait.BitOr.html#method.bitor' class='fnname'>bitor</a>(self, other: &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>BitOr</a>&lt;&amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>&gt; for &amp;'b <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-9' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>Output</a></code></h4>
+<h4 id='method.bitor-3' class='method'><code>fn <a href='../std/ops/trait.BitOr.html#method.bitor' class='fnname'>bitor</a>(self, other: &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitOr.html' title='std::ops::BitOr'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>BitXor</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-10' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.bitxor' class='method'><code>fn <a href='../std/ops/trait.BitXor.html#method.bitxor' class='fnname'>bitxor</a>(self, other: <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>BitXor</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-11' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>Output</a></code></h4>
+<h4 id='method.bitxor-1' class='method'><code>fn <a href='../std/ops/trait.BitXor.html#method.bitxor' class='fnname'>bitxor</a>(self, other: <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>BitXor</a>&lt;&amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-12' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>Output</a></code></h4>
+<h4 id='method.bitxor-2' class='method'><code>fn <a href='../std/ops/trait.BitXor.html#method.bitxor' class='fnname'>bitxor</a>(self, other: &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>BitXor</a>&lt;&amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>&gt; for &amp;'b <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-13' class='type'><code>type Output = <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>Output</a></code></h4>
+<h4 id='method.bitxor-3' class='method'><code>fn <a href='../std/ops/trait.BitXor.html#method.bitxor' class='fnname'>bitxor</a>(self, other: &amp;'a <a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a>::<a class='trait' href='../std/ops/trait.BitXor.html' title='std::ops::BitXor'>Output</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.BitAndAssign.html' title='std::ops::BitAndAssign'>BitAndAssign</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.bitand_assign' class='method'><code>fn <a href='../std/ops/trait.BitAndAssign.html#method.bitand_assign' class='fnname'>bitand_assign</a>(&amp;mut self, other: <a class='primitive' href='primitive.bool.html'>bool</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.BitOrAssign.html' title='std::ops::BitOrAssign'>BitOrAssign</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.bitor_assign' class='method'><code>fn <a href='../std/ops/trait.BitOrAssign.html#method.bitor_assign' class='fnname'>bitor_assign</a>(&amp;mut self, other: <a class='primitive' href='primitive.bool.html'>bool</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.BitXorAssign.html' title='std::ops::BitXorAssign'>BitXorAssign</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.bitxor_assign' class='method'><code>fn <a href='../std/ops/trait.BitXorAssign.html#method.bitxor_assign' class='fnname'>bitxor_assign</a>(&amp;mut self, other: <a class='primitive' href='primitive.bool.html'>bool</a>)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.Eq.html' title='std::cmp::Eq'>Eq</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.PartialOrd.html' title='std::cmp::PartialOrd'>PartialOrd</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>&gt; for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.partial_cmp' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;<a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a>&gt;</code></h4>
+<h4 id='method.lt' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.le' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.gt' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ge' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.Ord.html' title='std::cmp::Ord'>Ord</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.cmp' class='method'><code>fn <a href='../std/cmp/trait.Ord.html#method.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.bool.html'>bool</a>) -&gt; <a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/clone/trait.Clone.html' title='std::clone::Clone'>Clone</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../std/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../std/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/default/trait.Default.html' title='std::default::Default'>Default</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='../std/default/trait.Default.html#method.default' class='fnname'>default</a>() -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/str/trait.FromStr.html' title='std::str::FromStr'>FromStr</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='assoc_type.Err' class='type'><code>type Err = <a class='struct' href='../std/str/struct.ParseBoolError.html' title='std::str::ParseBoolError'>ParseBoolError</a></code></h4>
+<h4 id='method.from_str' class='method'><code>fn <a href='../std/str/trait.FromStr.html#method.from_str' class='fnname'>from_str</a>(s: &amp;<a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.bool.html'>bool</a>, <a class='struct' href='../std/str/struct.ParseBoolError.html' title='std::str::ParseBoolError'>ParseBoolError</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash' class='fnname'>hash</a>&lt;H&gt;(&amp;self, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/fmt/trait.Debug.html' title='std::fmt::Debug'>Debug</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../std/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/fmt/trait.Display.html' title='std::fmt::Display'>Display</a> for <a class='primitive' href='primitive.bool.html'>bool</a></code></h3><div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='../std/fmt/trait.Display.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "std";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script src="../playpen.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

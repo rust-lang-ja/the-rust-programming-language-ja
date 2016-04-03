@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["OsStr","Slices into OS strings."],["OsString","Owned, mutable OS strings."]]});

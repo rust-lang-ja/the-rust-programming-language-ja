@@ -1,0 +1,1940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `str` primitive in crate `std`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, str">
+
+    <title>std::str - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../std/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='index.html'>std</a></p><script>window.sidebarCurrent = {name: 'str', ty: 'primitive', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content primitive">
+<h1 class='fqn'><span class='in-band'>Primitive Type <a class='primitive' href=''>str</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span></span></h1>
+<div class='docblock'><p>String slices.</p>
+
+<p>The <code>str</code> type, also called a &#39;string slice&#39;, is the most primitive string
+type. It is usually seen in its borrowed form, <code>&amp;str</code>. It is also the type
+of string literals, <code>&amp;&#39;static str</code>.</p>
+
+<p>Strings slices are always valid UTF-8.</p>
+
+<p>This documentation describes a number of methods and trait implementations
+on the <code>str</code> type. For technical reasons, there is additional, separate
+documentation in <a href="str/index.html">the <code>std::str</code> module</a> as well.</p>
+
+<h1 id='examples' class='section-header'><a href='#examples'>Examples</a></h1>
+<p>String literals are string slices:</p>
+<span class='rusttest'>fn main() {
+    let hello = &quot;Hello, world!&quot;;
+    
+    // with an explicit type annotation
+    let hello: &amp;&#39;static str = &quot;Hello, world!&quot;;
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>hello</span> <span class='op'>=</span> <span class='string'>&quot;Hello, world!&quot;</span>;
+
+<span class='comment'>// with an explicit type annotation</span>
+<span class='kw'>let</span> <span class='ident'>hello</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;Hello, world!&quot;</span>;</pre>
+
+<p>They are <code>&#39;static</code> because they&#39;re stored directly in the final binary, and
+so will be valid for the <code>&#39;static</code> duration.</p>
+
+<h1 id='representation' class='section-header'><a href='#representation'>Representation</a></h1>
+<p>A <code>&amp;str</code> is made up of two components: a pointer to some bytes, and a
+length. You can look at these with the <a href="#method.as_ptr"><code>.as_ptr()</code></a> and <a href="#method.len"><code>len()</code></a> methods:</p>
+<span class='rusttest'>fn main() {
+    use std::slice;
+    use std::str;
+    
+    let story = &quot;Once upon a time...&quot;;
+    
+    let ptr = story.as_ptr();
+    let len = story.len();
+    
+    // story has thirteen bytes
+    assert_eq!(19, len);
+    
+    // We can re-build a str out of ptr and len. This is all unsafe becuase
+    // we are responsible for making sure the two components are valid:
+    let s = unsafe {
+        // First, we build a &amp;[u8]...
+        let slice = slice::from_raw_parts(ptr, len);
+    
+        // ... and then convert that slice into a string slice
+        str::from_utf8(slice)
+    };
+    
+    assert_eq!(s, Ok(story));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>slice</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>;
+
+<span class='kw'>let</span> <span class='ident'>story</span> <span class='op'>=</span> <span class='string'>&quot;Once upon a time...&quot;</span>;
+
+<span class='kw'>let</span> <span class='ident'>ptr</span> <span class='op'>=</span> <span class='ident'>story</span>.<span class='ident'>as_ptr</span>();
+<span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='ident'>story</span>.<span class='ident'>len</span>();
+
+<span class='comment'>// story has thirteen bytes</span>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>19</span>, <span class='ident'>len</span>);
+
+<span class='comment'>// We can re-build a str out of ptr and len. This is all unsafe becuase</span>
+<span class='comment'>// we are responsible for making sure the two components are valid:</span>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='kw'>unsafe</span> {
+    <span class='comment'>// First, we build a &amp;[u8]...</span>
+    <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='ident'>slice</span>::<span class='ident'>from_raw_parts</span>(<span class='ident'>ptr</span>, <span class='ident'>len</span>);
+
+    <span class='comment'>// ... and then convert that slice into a string slice</span>
+    <span class='ident'>str</span>::<span class='ident'>from_utf8</span>(<span class='ident'>slice</span>)
+};
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='prelude-val'>Ok</span>(<span class='ident'>story</span>));</pre>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Methods for string slices.</p>
+</div><div class='impl-items'><h4 id='method.len' class='method'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a class='primitive' href='primitive.usize.html'>usize</a></code></h4>
+<div class='docblock'><p>Returns the length of <code>self</code>.</p>
+
+<p>This length is in bytes, not <a href="primitive.char.html"><code>char</code></a>s or graphemes. In other words,
+it may not be what a human considers the length of the string.</p>
+
+<h1 id='examples-1' class='section-header'><a href='#examples-1'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let len = &quot;foo&quot;.len();
+    assert_eq!(3, len);
+    
+    let len = &quot;ƒoo&quot;.len(); // fancy f!
+    assert_eq!(4, len);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='string'>&quot;foo&quot;</span>.<span class='ident'>len</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>3</span>, <span class='ident'>len</span>);
+
+<span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='string'>&quot;ƒoo&quot;</span>.<span class='ident'>len</span>(); <span class='comment'>// fancy f!</span>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>len</span>);</pre>
+</div><h4 id='method.is_empty' class='method'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if this slice has a length of zero bytes.</p>
+
+<h1 id='examples-2' class='section-header'><a href='#examples-2'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;&quot;;
+    assert!(s.is_empty());
+    
+    let s = &quot;not empty&quot;;
+    assert!(!s.is_empty());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;&quot;</span>;
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>is_empty</span>());
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;not empty&quot;</span>;
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>s</span>.<span class='ident'>is_empty</span>());</pre>
+</div><h4 id='method.is_char_boundary' class='method'><code>fn <a href='#method.is_char_boundary' class='fnname'>is_char_boundary</a>(&amp;self, index: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_char</code> <a href="https://github.com/rust-lang/rust/issues/27754">#27754</a>)<p>: it is unclear whether this method pulls its weight with the existence of the char_indices iterator or this method may want to be replaced with checked slicing</p>
+</em></div><div class='docblock'><p>Checks that <code>index</code>-th byte lies at the start and/or end of a
+UTF-8 code point sequence.</p>
+
+<p>The start and end of the string (when <code>index == self.len()</code>) are
+considered to be
+boundaries.</p>
+
+<p>Returns <code>false</code> if <code>index</code> is greater than <code>self.len()</code>.</p>
+
+<h1 id='examples-3' class='section-header'><a href='#examples-3'>Examples</a></h1><span class='rusttest'>#![feature(str_char)]
+
+fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    assert!(s.is_char_boundary(0));
+    // start of `老`
+    assert!(s.is_char_boundary(6));
+    assert!(s.is_char_boundary(s.len()));
+    
+    // second byte of `ö`
+    assert!(!s.is_char_boundary(2));
+    
+    // third byte of `老`
+    assert!(!s.is_char_boundary(8));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>str_char</span>)]</span>
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>is_char_boundary</span>(<span class='number'>0</span>));
+<span class='comment'>// start of `老`</span>
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>is_char_boundary</span>(<span class='number'>6</span>));
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>is_char_boundary</span>(<span class='ident'>s</span>.<span class='ident'>len</span>()));
+
+<span class='comment'>// second byte of `ö`</span>
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>s</span>.<span class='ident'>is_char_boundary</span>(<span class='number'>2</span>));
+
+<span class='comment'>// third byte of `老`</span>
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>s</span>.<span class='ident'>is_char_boundary</span>(<span class='number'>8</span>));</pre>
+</div><h4 id='method.as_bytes' class='method'><code>fn <a href='#method.as_bytes' class='fnname'>as_bytes</a>(&amp;self) -&gt; <a class='primitive' href='primitive.slice.html'>&amp;[</a><a class='primitive' href='primitive.u8.html'>u8</a><a class='primitive' href='primitive.slice.html'>]</a></code></h4>
+<div class='docblock'><p>Converts a string slice to a byte slice.</p>
+
+<h1 id='examples-4' class='section-header'><a href='#examples-4'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let bytes = &quot;bors&quot;.as_bytes();
+    assert_eq!(b&quot;bors&quot;, bytes);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='string'>&quot;bors&quot;</span>.<span class='ident'>as_bytes</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>b&quot;bors&quot;</span>, <span class='ident'>bytes</span>);</pre>
+</div><h4 id='method.as_ptr' class='method'><code>fn <a href='#method.as_ptr' class='fnname'>as_ptr</a>(&amp;self) -&gt; <a class='primitive' href='primitive.pointer.html'>*const <a class='primitive' href='primitive.u8.html'>u8</a></a></code></h4>
+<div class='docblock'><p>Converts a string slice to a raw pointer.</p>
+
+<p>As string slices are a slice of bytes, the raw pointer points to a
+<code>u8</code>. This pointer will be pointing to the first byte of the string
+slice.</p>
+
+<h1 id='examples-5' class='section-header'><a href='#examples-5'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Hello&quot;;
+    let ptr = s.as_ptr();
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Hello&quot;</span>;
+<span class='kw'>let</span> <span class='ident'>ptr</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>as_ptr</span>();</pre>
+</div><h4 id='method.slice_unchecked' class='method'><code>unsafe fn <a href='#method.slice_unchecked' class='fnname'>slice_unchecked</a>(&amp;self, begin: <a class='primitive' href='primitive.usize.html'>usize</a>, end: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<div class='docblock'><p>Creates a string slice from another string slice, bypassing safety
+checks.</p>
+
+<p>This new slice goes from <code>begin</code> to <code>end</code>, including <code>begin</code> but
+excluding <code>end</code>.</p>
+
+<p>To get a mutable string slice instead, see the
+<a href="#method.slice_mut_unchecked"><code>slice_mut_unchecked()</code></a> method.</p>
+
+<h1 id='safety' class='section-header'><a href='#safety'>Safety</a></h1>
+<p>Callers of this function are responsible that three preconditions are
+satisifed:</p>
+
+<ul>
+<li><code>begin</code> must come before <code>end</code>.</li>
+<li><code>begin</code> and <code>end</code> must be bye positions within the string slice.</li>
+<li><code>begin</code> and <code>end</code> must lie on UTF-8 sequence boundaries.</li>
+</ul>
+
+<h1 id='examples-6' class='section-header'><a href='#examples-6'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    
+    unsafe {
+        assert_eq!(&quot;Löwe 老虎 Léopard&quot;, s.slice_unchecked(0, 21));
+    }
+    
+    let s = &quot;Hello, world!&quot;;
+    
+    unsafe {
+        assert_eq!(&quot;world&quot;, s.slice_unchecked(7, 12));
+    }
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+
+<span class='kw'>unsafe</span> {
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>, <span class='ident'>s</span>.<span class='ident'>slice_unchecked</span>(<span class='number'>0</span>, <span class='number'>21</span>));
+}
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Hello, world!&quot;</span>;
+
+<span class='kw'>unsafe</span> {
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;world&quot;</span>, <span class='ident'>s</span>.<span class='ident'>slice_unchecked</span>(<span class='number'>7</span>, <span class='number'>12</span>));
+}</pre>
+</div><h4 id='method.slice_mut_unchecked' class='method'><code>unsafe fn <a href='#method.slice_mut_unchecked' class='fnname'>slice_mut_unchecked</a>(&amp;mut self, begin: <a class='primitive' href='primitive.usize.html'>usize</a>, end: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; &amp;mut <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<div class='docblock'><p>Creates a string slice from another string slice, bypassing safety
+checks.</p>
+
+<p>This new slice goes from <code>begin</code> to <code>end</code>, including <code>begin</code> but
+excluding <code>end</code>.</p>
+
+<p>To get an immutable string slice instead, see the
+<a href="#method.slice_unchecked"><code>slice_unchecked()</code></a> method.</p>
+
+<h1 id='safety-1' class='section-header'><a href='#safety-1'>Safety</a></h1>
+<p>Callers of this function are responsible that three preconditions are
+satisifed:</p>
+
+<ul>
+<li><code>begin</code> must come before <code>end</code>.</li>
+<li><code>begin</code> and <code>end</code> must be bye positions within the string slice.</li>
+<li><code>begin</code> and <code>end</code> must lie on UTF-8 sequence boundaries.</li>
+</ul>
+</div><h4 id='method.char_range_at' class='method'><code>fn <a href='#method.char_range_at' class='fnname'>char_range_at</a>(&amp;self, start: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; <a class='struct' href='../std/str/struct.CharRange.html' title='std::str::CharRange'>CharRange</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_char</code> <a href="https://github.com/rust-lang/rust/issues/27754">#27754</a>)<p>: often replaced by char_indices, this method may be removed in favor of just char_at() or eventually removed altogether</p>
+</em></div><div class='docblock'><p>Given a byte position, returns the next <code>char</code> and its index.</p>
+
+<h1 id='panics' class='section-header'><a href='#panics'>Panics</a></h1>
+<p>If <code>i</code> is greater than or equal to the length of the string.
+If <code>i</code> is not the index of the beginning of a valid UTF-8 sequence.</p>
+
+<h1 id='examples-7' class='section-header'><a href='#examples-7'>Examples</a></h1>
+<p>This example manually iterates through the code points of a string;
+this should normally be
+done by <code>.chars()</code> or <code>.char_indices()</code>.</p>
+<span class='rusttest'>#![feature(str_char)]
+
+fn main() {
+    use std::str::CharRange;
+    
+    let s = &quot;中华Việt Nam&quot;;
+    let mut i = 0;
+    while i &lt; s.len() {
+        let CharRange {ch, next} = s.char_range_at(i);
+        println!(&quot;{}: {}&quot;, i, ch);
+        i = next;
+    }
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>str_char</span>)]</span>
+
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>CharRange</span>;
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;中华Việt Nam&quot;</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
+<span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&lt;</span> <span class='ident'>s</span>.<span class='ident'>len</span>() {
+    <span class='kw'>let</span> <span class='ident'>CharRange</span> {<span class='ident'>ch</span>, <span class='ident'>next</span>} <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>char_range_at</span>(<span class='ident'>i</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}: {}&quot;</span>, <span class='ident'>i</span>, <span class='ident'>ch</span>);
+    <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>next</span>;
+}</pre>
+
+<p>This outputs:</p>
+
+<pre><code class="language-text">0: 中
+3: 华
+6: V
+7: i
+8: e
+9:
+11:
+13: t
+14:
+15: N
+16: a
+17: m
+</code></pre>
+</div><h4 id='method.char_range_at_reverse' class='method'><code>fn <a href='#method.char_range_at_reverse' class='fnname'>char_range_at_reverse</a>(&amp;self, start: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; <a class='struct' href='../std/str/struct.CharRange.html' title='std::str::CharRange'>CharRange</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_char</code> <a href="https://github.com/rust-lang/rust/issues/27754">#27754</a>)<p>: often replaced by char_indices, this method may be removed in favor of just char_at_reverse() or eventually removed altogether</p>
+</em></div><div class='docblock'><p>Given a byte position, returns the previous <code>char</code> and its position.</p>
+
+<p>Note that Unicode has many features, such as combining marks, ligatures,
+and direction marks, that need to be taken into account to correctly reverse a string.</p>
+
+<p>Returns 0 for next index if called on start index 0.</p>
+
+<h1 id='panics-1' class='section-header'><a href='#panics-1'>Panics</a></h1>
+<p>If <code>i</code> is greater than the length of the string.
+If <code>i</code> is not an index following a valid UTF-8 sequence.</p>
+
+<h1 id='examples-8' class='section-header'><a href='#examples-8'>Examples</a></h1>
+<p>This example manually iterates through the code points of a string;
+this should normally be
+done by <code>.chars().rev()</code> or <code>.char_indices()</code>.</p>
+<span class='rusttest'>#![feature(str_char)]
+
+fn main() {
+    use std::str::CharRange;
+    
+    let s = &quot;中华Việt Nam&quot;;
+    let mut i = s.len();
+    while i &gt; 0 {
+        let CharRange {ch, next} = s.char_range_at_reverse(i);
+        println!(&quot;{}: {}&quot;, i, ch);
+        i = next;
+    }
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>str_char</span>)]</span>
+
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>str</span>::<span class='ident'>CharRange</span>;
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;中华Việt Nam&quot;</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>len</span>();
+<span class='kw'>while</span> <span class='ident'>i</span> <span class='op'>&gt;</span> <span class='number'>0</span> {
+    <span class='kw'>let</span> <span class='ident'>CharRange</span> {<span class='ident'>ch</span>, <span class='ident'>next</span>} <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>char_range_at_reverse</span>(<span class='ident'>i</span>);
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}: {}&quot;</span>, <span class='ident'>i</span>, <span class='ident'>ch</span>);
+    <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>next</span>;
+}</pre>
+
+<p>This outputs:</p>
+
+<pre><code class="language-text">18: m
+17: a
+16: N
+15:
+14: t
+13:
+11:
+9: e
+8: i
+7: V
+6: 华
+3: 中
+</code></pre>
+</div><h4 id='method.char_at' class='method'><code>fn <a href='#method.char_at' class='fnname'>char_at</a>(&amp;self, i: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='primitive.char.html'>char</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_char</code> <a href="https://github.com/rust-lang/rust/issues/27754">#27754</a>)<p>: frequently replaced by the chars() iterator, this method may be removed or possibly renamed in the future; it is normally replaced by chars/char_indices iterators or by getting the first char from a subslice</p>
+</em></div><div class='docblock'><p>Given a byte position, returns the <code>char</code> at that position.</p>
+
+<h1 id='panics-2' class='section-header'><a href='#panics-2'>Panics</a></h1>
+<p>If <code>i</code> is greater than or equal to the length of the string.
+If <code>i</code> is not the index of the beginning of a valid UTF-8 sequence.</p>
+
+<h1 id='examples-9' class='section-header'><a href='#examples-9'>Examples</a></h1><span class='rusttest'>#![feature(str_char)]
+
+fn main() {
+    let s = &quot;abπc&quot;;
+    assert_eq!(s.char_at(1), &#39;b&#39;);
+    assert_eq!(s.char_at(2), &#39;π&#39;);
+    assert_eq!(s.char_at(4), &#39;c&#39;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>str_char</span>)]</span>
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;abπc&quot;</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>char_at</span>(<span class='number'>1</span>), <span class='string'>&#39;b&#39;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>char_at</span>(<span class='number'>2</span>), <span class='string'>&#39;π&#39;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>char_at</span>(<span class='number'>4</span>), <span class='string'>&#39;c&#39;</span>);</pre>
+</div><h4 id='method.char_at_reverse' class='method'><code>fn <a href='#method.char_at_reverse' class='fnname'>char_at_reverse</a>(&amp;self, i: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='primitive.char.html'>char</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_char</code> <a href="https://github.com/rust-lang/rust/issues/27754">#27754</a>)<p>: see char_at for more details, but reverse semantics are also somewhat unclear, especially with which cases generate panics</p>
+</em></div><div class='docblock'><p>Given a byte position, returns the <code>char</code> at that position, counting
+from the end.</p>
+
+<h1 id='panics-3' class='section-header'><a href='#panics-3'>Panics</a></h1>
+<p>If <code>i</code> is greater than the length of the string.
+If <code>i</code> is not an index following a valid UTF-8 sequence.</p>
+
+<h1 id='examples-10' class='section-header'><a href='#examples-10'>Examples</a></h1><span class='rusttest'>#![feature(str_char)]
+
+fn main() {
+    let s = &quot;abπc&quot;;
+    assert_eq!(s.char_at_reverse(1), &#39;a&#39;);
+    assert_eq!(s.char_at_reverse(2), &#39;b&#39;);
+    assert_eq!(s.char_at_reverse(3), &#39;π&#39;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>str_char</span>)]</span>
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;abπc&quot;</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>char_at_reverse</span>(<span class='number'>1</span>), <span class='string'>&#39;a&#39;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>char_at_reverse</span>(<span class='number'>2</span>), <span class='string'>&#39;b&#39;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>char_at_reverse</span>(<span class='number'>3</span>), <span class='string'>&#39;π&#39;</span>);</pre>
+</div><h4 id='method.slice_shift_char' class='method'><code>fn <a href='#method.slice_shift_char' class='fnname'>slice_shift_char</a>(&amp;self) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;<a class='primitive' href='primitive.tuple.html'>(<a class='primitive' href='primitive.char.html'>char</a>, &amp;<a class='primitive' href='primitive.str.html'>str</a>)</a>&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_char</code> <a href="https://github.com/rust-lang/rust/issues/27754">#27754</a>)<p>: awaiting conventions about shifting and slices and may not be warranted with the existence of the chars and/or char_indices iterators</p>
+</em></div><div class='docblock'><p>Retrieves the first <code>char</code> from a <code>&amp;str</code> and returns it.</p>
+
+<p>Note that a single Unicode character (grapheme cluster)
+can be composed of multiple <code>char</code>s.</p>
+
+<p>This does not allocate a new string; instead, it returns a slice that
+points one code point beyond the code point that was shifted.</p>
+
+<p><code>None</code> is returned if the slice is empty.</p>
+
+<h1 id='examples-11' class='section-header'><a href='#examples-11'>Examples</a></h1><span class='rusttest'>#![feature(str_char)]
+
+fn main() {
+    let s = &quot;Łódź&quot;; // \u{141}o\u{301}dz\u{301}
+    let (c, s1) = s.slice_shift_char().unwrap();
+    
+    assert_eq!(c, &#39;Ł&#39;);
+    assert_eq!(s1, &quot;ódź&quot;);
+    
+    let (c, s2) = s1.slice_shift_char().unwrap();
+    
+    assert_eq!(c, &#39;o&#39;);
+    assert_eq!(s2, &quot;\u{301}dz\u{301}&quot;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>str_char</span>)]</span>
+
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Łódź&quot;</span>; <span class='comment'>// \u{141}o\u{301}dz\u{301}</span>
+<span class='kw'>let</span> (<span class='ident'>c</span>, <span class='ident'>s1</span>) <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>slice_shift_char</span>().<span class='ident'>unwrap</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&#39;Ł&#39;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s1</span>, <span class='string'>&quot;ódź&quot;</span>);
+
+<span class='kw'>let</span> (<span class='ident'>c</span>, <span class='ident'>s2</span>) <span class='op'>=</span> <span class='ident'>s1</span>.<span class='ident'>slice_shift_char</span>().<span class='ident'>unwrap</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>c</span>, <span class='string'>&#39;o&#39;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s2</span>, <span class='string'>&quot;\u{301}dz\u{301}&quot;</span>);</pre>
+</div><h4 id='method.split_at' class='method'><code>fn <a href='#method.split_at' class='fnname'>split_at</a>(&amp;self, mid: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='primitive.tuple.html'>(&amp;<a class='primitive' href='primitive.str.html'>str</a>, &amp;<a class='primitive' href='primitive.str.html'>str</a>)</a></code></h4>
+<div class='docblock'><p>Divide one string slice into two at an index.</p>
+
+<p>The argument, <code>mid</code>, should be a byte offset from the start of the
+string. It must also be on the boundary of a UTF-8 code point.</p>
+
+<p>The two slices returned go from the start of the string slice to <code>mid</code>,
+and from <code>mid</code> to the end of the string slice.</p>
+
+<p>To get mutable string slices instead, see the <a href="#method.split_at_mut"><code>split_at_mut()</code></a>
+method.</p>
+
+<h1 id='panics-4' class='section-header'><a href='#panics-4'>Panics</a></h1>
+<p>Panics if <code>mid</code> is not on a UTF-8 code point boundary, or if it is
+beyond the last code point of the string slice.</p>
+
+<h1 id='examples-12' class='section-header'><a href='#examples-12'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Per Martin-Löf&quot;;
+    
+    let (first, last) = s.split_at(3);
+    
+    assert_eq!(&quot;Per&quot;, first);
+    assert_eq!(&quot; Martin-Löf&quot;, last);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Per Martin-Löf&quot;</span>;
+
+<span class='kw'>let</span> (<span class='ident'>first</span>, <span class='ident'>last</span>) <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>split_at</span>(<span class='number'>3</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Per&quot;</span>, <span class='ident'>first</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot; Martin-Löf&quot;</span>, <span class='ident'>last</span>);</pre>
+</div><h4 id='method.split_at_mut' class='method'><code>fn <a href='#method.split_at_mut' class='fnname'>split_at_mut</a>(&amp;mut self, mid: <a class='primitive' href='primitive.usize.html'>usize</a>) -&gt; <a class='primitive' href='primitive.tuple.html'>(&amp;mut <a class='primitive' href='primitive.str.html'>str</a>, &amp;mut <a class='primitive' href='primitive.str.html'>str</a>)</a></code></h4>
+<div class='docblock'><p>Divide one mutable string slice into two at an index.</p>
+
+<p>The argument, <code>mid</code>, should be a byte offset from the start of the
+string. It must also be on the boundary of a UTF-8 code point.</p>
+
+<p>The two slices returned go from the start of the string slice to <code>mid</code>,
+and from <code>mid</code> to the end of the string slice.</p>
+
+<p>To get immutable string slices instead, see the <a href="#method.split_at"><code>split_at()</code></a> method.</p>
+
+<h1 id='panics-5' class='section-header'><a href='#panics-5'>Panics</a></h1>
+<p>Panics if <code>mid</code> is not on a UTF-8 code point boundary, or if it is
+beyond the last code point of the string slice.</p>
+
+<h1 id='examples-13' class='section-header'><a href='#examples-13'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Per Martin-Löf&quot;;
+    
+    let (first, last) = s.split_at(3);
+    
+    assert_eq!(&quot;Per&quot;, first);
+    assert_eq!(&quot; Martin-Löf&quot;, last);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Per Martin-Löf&quot;</span>;
+
+<span class='kw'>let</span> (<span class='ident'>first</span>, <span class='ident'>last</span>) <span class='op'>=</span> <span class='ident'>s</span>.<span class='ident'>split_at</span>(<span class='number'>3</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Per&quot;</span>, <span class='ident'>first</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot; Martin-Löf&quot;</span>, <span class='ident'>last</span>);</pre>
+</div><h4 id='method.chars' class='method'><code>fn <a href='#method.chars' class='fnname'>chars</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.Chars.html' title='std::str::Chars'>Chars</a></code></h4>
+<div class='docblock'><p>Returns an iterator over the <code>char</code>s of a string slice.</p>
+
+<p>As a string slice consists of valid UTF-8, we can iterate through a
+string slice by <a href="../primitive.char.html"><code>char</code></a>. This method returns such an iterator.</p>
+
+<p>It&#39;s important to remember that <a href="../primitive.char.html"><code>char</code></a> represents a Unicode Scalar
+Value, and may not match your idea of what a &#39;character&#39; is. Iteration
+over grapheme clusters may be what you actually want.</p>
+
+<h1 id='examples-14' class='section-header'><a href='#examples-14'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let word = &quot;goodbye&quot;;
+    
+    let count = word.chars().count();
+    assert_eq!(7, count);
+    
+    let mut chars = word.chars();
+    
+    assert_eq!(Some(&#39;g&#39;), chars.next());
+    assert_eq!(Some(&#39;o&#39;), chars.next());
+    assert_eq!(Some(&#39;o&#39;), chars.next());
+    assert_eq!(Some(&#39;d&#39;), chars.next());
+    assert_eq!(Some(&#39;b&#39;), chars.next());
+    assert_eq!(Some(&#39;y&#39;), chars.next());
+    assert_eq!(Some(&#39;e&#39;), chars.next());
+    
+    assert_eq!(None, chars.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>word</span> <span class='op'>=</span> <span class='string'>&quot;goodbye&quot;</span>;
+
+<span class='kw'>let</span> <span class='ident'>count</span> <span class='op'>=</span> <span class='ident'>word</span>.<span class='ident'>chars</span>().<span class='ident'>count</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>7</span>, <span class='ident'>count</span>);
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>chars</span> <span class='op'>=</span> <span class='ident'>word</span>.<span class='ident'>chars</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;g&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;o&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;o&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;d&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;b&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;y&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;e&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>chars</span>.<span class='ident'>next</span>());</pre>
+
+<p>Remember, <code>char</code>s may not match your human intuition about characters:</p>
+<span class='rusttest'>fn main() {
+    let y = &quot;y̆&quot;;
+    
+    let mut chars = y.chars();
+    
+    assert_eq!(Some(&#39;y&#39;), chars.next()); // not &#39;y̆&#39;
+    assert_eq!(Some(&#39;\u{0306}&#39;), chars.next());
+    
+    assert_eq!(None, chars.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='string'>&quot;y̆&quot;</span>;
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>chars</span> <span class='op'>=</span> <span class='ident'>y</span>.<span class='ident'>chars</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;y&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>()); <span class='comment'>// not &#39;y̆&#39;</span>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&#39;\u{0306}&#39;</span>), <span class='ident'>chars</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>chars</span>.<span class='ident'>next</span>());</pre>
+</div><h4 id='method.char_indices' class='method'><code>fn <a href='#method.char_indices' class='fnname'>char_indices</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.CharIndices.html' title='std::str::CharIndices'>CharIndices</a></code></h4>
+<div class='docblock'><p>Returns an iterator over the <code>char</code>s of a string slice, and their
+positions.</p>
+
+<p>As a string slice consists of valid UTF-8, we can iterate through a
+string slice by <code>char</code>. This method returns an iterator of both
+these <code>char</code>s, as well as their byte positions.</p>
+
+<p>The iterator yields tuples. The position is first, the <code>char</code> is
+second.</p>
+
+<h1 id='examples-15' class='section-header'><a href='#examples-15'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let word = &quot;goodbye&quot;;
+    
+    let count = word.char_indices().count();
+    assert_eq!(7, count);
+    
+    let mut char_indices = word.char_indices();
+    
+    assert_eq!(Some((0, &#39;g&#39;)), char_indices.next());
+    assert_eq!(Some((1, &#39;o&#39;)), char_indices.next());
+    assert_eq!(Some((2, &#39;o&#39;)), char_indices.next());
+    assert_eq!(Some((3, &#39;d&#39;)), char_indices.next());
+    assert_eq!(Some((4, &#39;b&#39;)), char_indices.next());
+    assert_eq!(Some((5, &#39;y&#39;)), char_indices.next());
+    assert_eq!(Some((6, &#39;e&#39;)), char_indices.next());
+    
+    assert_eq!(None, char_indices.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>word</span> <span class='op'>=</span> <span class='string'>&quot;goodbye&quot;</span>;
+
+<span class='kw'>let</span> <span class='ident'>count</span> <span class='op'>=</span> <span class='ident'>word</span>.<span class='ident'>char_indices</span>().<span class='ident'>count</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>7</span>, <span class='ident'>count</span>);
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>char_indices</span> <span class='op'>=</span> <span class='ident'>word</span>.<span class='ident'>char_indices</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>0</span>, <span class='string'>&#39;g&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>1</span>, <span class='string'>&#39;o&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>2</span>, <span class='string'>&#39;o&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>3</span>, <span class='string'>&#39;d&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>4</span>, <span class='string'>&#39;b&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>5</span>, <span class='string'>&#39;y&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>6</span>, <span class='string'>&#39;e&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>char_indices</span>.<span class='ident'>next</span>());</pre>
+
+<p>Remember, <code>char</code>s may not match your human intuition about characters:</p>
+<span class='rusttest'>fn main() {
+    let y = &quot;y̆&quot;;
+    
+    let mut char_indices = y.char_indices();
+    
+    assert_eq!(Some((0, &#39;y&#39;)), char_indices.next()); // not (0, &#39;y̆&#39;)
+    assert_eq!(Some((1, &#39;\u{0306}&#39;)), char_indices.next());
+    
+    assert_eq!(None, char_indices.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='string'>&quot;y̆&quot;</span>;
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>char_indices</span> <span class='op'>=</span> <span class='ident'>y</span>.<span class='ident'>char_indices</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>0</span>, <span class='string'>&#39;y&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>()); <span class='comment'>// not (0, &#39;y̆&#39;)</span>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>((<span class='number'>1</span>, <span class='string'>&#39;\u{0306}&#39;</span>)), <span class='ident'>char_indices</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>char_indices</span>.<span class='ident'>next</span>());</pre>
+</div><h4 id='method.bytes' class='method'><code>fn <a href='#method.bytes' class='fnname'>bytes</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.Bytes.html' title='std::str::Bytes'>Bytes</a></code></h4>
+<div class='docblock'><p>An iterator over the bytes of a string slice.</p>
+
+<p>As a string slice consists of a sequence of bytes, we can iterate
+through a string slice by byte. This method returns such an iterator.</p>
+
+<h1 id='examples-16' class='section-header'><a href='#examples-16'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let mut bytes = &quot;bors&quot;.bytes();
+    
+    assert_eq!(Some(b&#39;b&#39;), bytes.next());
+    assert_eq!(Some(b&#39;o&#39;), bytes.next());
+    assert_eq!(Some(b&#39;r&#39;), bytes.next());
+    assert_eq!(Some(b&#39;s&#39;), bytes.next());
+    
+    assert_eq!(None, bytes.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>bytes</span> <span class='op'>=</span> <span class='string'>&quot;bors&quot;</span>.<span class='ident'>bytes</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>b&#39;b&#39;</span>), <span class='ident'>bytes</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>b&#39;o&#39;</span>), <span class='ident'>bytes</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>b&#39;r&#39;</span>), <span class='ident'>bytes</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>b&#39;s&#39;</span>), <span class='ident'>bytes</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>bytes</span>.<span class='ident'>next</span>());</pre>
+</div><h4 id='method.split_whitespace' class='method'><code>fn <a href='#method.split_whitespace' class='fnname'>split_whitespace</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.SplitWhitespace.html' title='std::str::SplitWhitespace'>SplitWhitespace</a></code></h4>
+<div class='docblock'><p>Split a string slice by whitespace.</p>
+
+<p>The iterator returned will return string slices that are sub-slices of
+the original string slice, separated by any amount of whitespace.</p>
+
+<p>&#39;Whitespace&#39; is defined according to the terms of the Unicode Derived
+Core Property <code>White_Space</code>.</p>
+
+<h1 id='examples-17' class='section-header'><a href='#examples-17'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let mut iter = &quot;A few words&quot;.split_whitespace();
+    
+    assert_eq!(Some(&quot;A&quot;), iter.next());
+    assert_eq!(Some(&quot;few&quot;), iter.next());
+    assert_eq!(Some(&quot;words&quot;), iter.next());
+    
+    assert_eq!(None, iter.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iter</span> <span class='op'>=</span> <span class='string'>&quot;A few words&quot;</span>.<span class='ident'>split_whitespace</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;A&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;few&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;words&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>iter</span>.<span class='ident'>next</span>());</pre>
+
+<p>All kinds of whitespace are considered:</p>
+<span class='rusttest'>fn main() {
+    let mut iter = &quot; Mary   had\ta\u{2009}little  \n\t lamb&quot;.split_whitespace();
+    assert_eq!(Some(&quot;Mary&quot;), iter.next());
+    assert_eq!(Some(&quot;had&quot;), iter.next());
+    assert_eq!(Some(&quot;a&quot;), iter.next());
+    assert_eq!(Some(&quot;little&quot;), iter.next());
+    assert_eq!(Some(&quot;lamb&quot;), iter.next());
+    
+    assert_eq!(None, iter.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>iter</span> <span class='op'>=</span> <span class='string'>&quot; Mary   had\ta\u{2009}little  \n\t lamb&quot;</span>.<span class='ident'>split_whitespace</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;Mary&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;had&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;a&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;little&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;lamb&quot;</span>), <span class='ident'>iter</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>iter</span>.<span class='ident'>next</span>());</pre>
+</div><h4 id='method.lines' class='method'><code>fn <a href='#method.lines' class='fnname'>lines</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.Lines.html' title='std::str::Lines'>Lines</a></code></h4>
+<div class='docblock'><p>An iterator over the lines of a string, as string slices.</p>
+
+<p>Lines are ended with either a newline (<code>\n</code>) or a carriage return with
+a line feed (<code>\r\n</code>).</p>
+
+<p>The final line ending is optional.</p>
+
+<h1 id='examples-18' class='section-header'><a href='#examples-18'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let text = &quot;foo\r\nbar\n\nbaz\n&quot;;
+    let mut lines = text.lines();
+    
+    assert_eq!(Some(&quot;foo&quot;), lines.next());
+    assert_eq!(Some(&quot;bar&quot;), lines.next());
+    assert_eq!(Some(&quot;&quot;), lines.next());
+    assert_eq!(Some(&quot;baz&quot;), lines.next());
+    
+    assert_eq!(None, lines.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>text</span> <span class='op'>=</span> <span class='string'>&quot;foo\r\nbar\n\nbaz\n&quot;</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>lines</span> <span class='op'>=</span> <span class='ident'>text</span>.<span class='ident'>lines</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;foo&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;bar&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;baz&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>lines</span>.<span class='ident'>next</span>());</pre>
+
+<p>The final line ending isn&#39;t required:</p>
+<span class='rusttest'>fn main() {
+    let text = &quot;foo\nbar\n\r\nbaz&quot;;
+    let mut lines = text.lines();
+    
+    assert_eq!(Some(&quot;foo&quot;), lines.next());
+    assert_eq!(Some(&quot;bar&quot;), lines.next());
+    assert_eq!(Some(&quot;&quot;), lines.next());
+    assert_eq!(Some(&quot;baz&quot;), lines.next());
+    
+    assert_eq!(None, lines.next());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>text</span> <span class='op'>=</span> <span class='string'>&quot;foo\nbar\n\r\nbaz&quot;</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>lines</span> <span class='op'>=</span> <span class='ident'>text</span>.<span class='ident'>lines</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;foo&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;bar&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Some</span>(<span class='string'>&quot;baz&quot;</span>), <span class='ident'>lines</span>.<span class='ident'>next</span>());
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>None</span>, <span class='ident'>lines</span>.<span class='ident'>next</span>());</pre>
+</div><h4 id='method.lines_any' class='method'><code>fn <a href='#method.lines_any' class='fnname'>lines_any</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.LinesAny.html' title='std::str::LinesAny'>LinesAny</a></code></h4>
+<div class='stability'><em class='stab  deprecated'>Deprecated since 1.4.0<p>: use lines() instead now</p>
+</em></div><div class='docblock'><p>An iterator over the lines of a string.</p>
+</div><h4 id='method.utf16_units' class='method'><code>fn <a href='#method.utf16_units' class='fnname'>utf16_units</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.Utf16Units.html' title='std::str::Utf16Units'>Utf16Units</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_utf16</code> <a href="https://github.com/rust-lang/rust/issues/27714">#27714</a>)<p>: this functionality may only be provided by libunicode</p>
+</em></div><div class='docblock'><p>Returns an iterator of <code>u16</code> over the string encoded as UTF-16.</p>
+</div><h4 id='method.contains' class='method'><code>fn <a href='#method.contains' class='fnname'>contains</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a> <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the given <code>&amp;str</code> is a sub-slice of this string slice.</p>
+
+<p>Returns <code>false</code> if it&#39;s not.</p>
+
+<h1 id='examples-19' class='section-header'><a href='#examples-19'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let bananas = &quot;bananas&quot;;
+    
+    assert!(bananas.contains(&quot;nana&quot;));
+    assert!(!bananas.contains(&quot;apples&quot;));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>bananas</span> <span class='op'>=</span> <span class='string'>&quot;bananas&quot;</span>;
+
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>bananas</span>.<span class='ident'>contains</span>(<span class='string'>&quot;nana&quot;</span>));
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>bananas</span>.<span class='ident'>contains</span>(<span class='string'>&quot;apples&quot;</span>));</pre>
+</div><h4 id='method.starts_with' class='method'><code>fn <a href='#method.starts_with' class='fnname'>starts_with</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a> <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the given <code>&amp;str</code> is a prefix of this string slice.</p>
+
+<p>Returns <code>false</code> if it&#39;s not.</p>
+
+<h1 id='examples-20' class='section-header'><a href='#examples-20'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let bananas = &quot;bananas&quot;;
+    
+    assert!(bananas.starts_with(&quot;bana&quot;));
+    assert!(!bananas.starts_with(&quot;nana&quot;));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>bananas</span> <span class='op'>=</span> <span class='string'>&quot;bananas&quot;</span>;
+
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>bananas</span>.<span class='ident'>starts_with</span>(<span class='string'>&quot;bana&quot;</span>));
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>bananas</span>.<span class='ident'>starts_with</span>(<span class='string'>&quot;nana&quot;</span>));</pre>
+</div><h4 id='method.ends_with' class='method'><code>fn <a href='#method.ends_with' class='fnname'>ends_with</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a> <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns <code>true</code> if the given <code>&amp;str</code> is a suffix of this string slice.</p>
+
+<p>Returns <code>false</code> if not.</p>
+
+<h1 id='examples-21' class='section-header'><a href='#examples-21'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let bananas = &quot;bananas&quot;;
+    
+    assert!(bananas.ends_with(&quot;anas&quot;));
+    assert!(!bananas.ends_with(&quot;nana&quot;));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>bananas</span> <span class='op'>=</span> <span class='string'>&quot;bananas&quot;</span>;
+
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>bananas</span>.<span class='ident'>ends_with</span>(<span class='string'>&quot;anas&quot;</span>));
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='op'>!</span><span class='ident'>bananas</span>.<span class='ident'>ends_with</span>(<span class='string'>&quot;nana&quot;</span>));</pre>
+</div><h4 id='method.find' class='method'><code>fn <a href='#method.find' class='fnname'>find</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns the byte index of the first character of this string slice that
+matches the pattern.</p>
+
+<p>Returns <code>None</code> if the pattern doesn&#39;t match.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines if
+a character matches.</p>
+
+<h1 id='examples-22' class='section-header'><a href='#examples-22'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    
+    assert_eq!(s.find(&#39;L&#39;), Some(0));
+    assert_eq!(s.find(&#39;é&#39;), Some(14));
+    assert_eq!(s.find(&quot;Léopard&quot;), Some(13));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>find</span>(<span class='string'>&#39;L&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>0</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>find</span>(<span class='string'>&#39;é&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>14</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>find</span>(<span class='string'>&quot;Léopard&quot;</span>), <span class='prelude-val'>Some</span>(<span class='number'>13</span>));</pre>
+
+<p>More complex patterns with closures:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    
+    assert_eq!(s.find(char::is_whitespace), Some(5));
+    assert_eq!(s.find(char::is_lowercase), Some(1));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>find</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>), <span class='prelude-val'>Some</span>(<span class='number'>5</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>find</span>(<span class='ident'>char</span>::<span class='ident'>is_lowercase</span>), <span class='prelude-val'>Some</span>(<span class='number'>1</span>));</pre>
+
+<p>Not finding the pattern:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    let x: &amp;[_] = &amp;[&#39;1&#39;, &#39;2&#39;];
+    
+    assert_eq!(s.find(x), None);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='kw-2'>&amp;</span>[_] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='string'>&#39;1&#39;</span>, <span class='string'>&#39;2&#39;</span>];
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>find</span>(<span class='ident'>x</span>), <span class='prelude-val'>None</span>);</pre>
+</div><h4 id='method.rfind' class='method'><code>fn <a href='#method.rfind' class='fnname'>rfind</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns the byte index of the last character of this string slice that
+matches the pattern.</p>
+
+<p>Returns <code>None</code> if the pattern doesn&#39;t match.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines if
+a character matches.</p>
+
+<h1 id='examples-23' class='section-header'><a href='#examples-23'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    
+    assert_eq!(s.rfind(&#39;L&#39;), Some(13));
+    assert_eq!(s.rfind(&#39;é&#39;), Some(14));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>rfind</span>(<span class='string'>&#39;L&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>13</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>rfind</span>(<span class='string'>&#39;é&#39;</span>), <span class='prelude-val'>Some</span>(<span class='number'>14</span>));</pre>
+
+<p>More complex patterns with closures:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    
+    assert_eq!(s.rfind(char::is_whitespace), Some(12));
+    assert_eq!(s.rfind(char::is_lowercase), Some(20));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>rfind</span>(<span class='ident'>char</span>::<span class='ident'>is_whitespace</span>), <span class='prelude-val'>Some</span>(<span class='number'>12</span>));
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>rfind</span>(<span class='ident'>char</span>::<span class='ident'>is_lowercase</span>), <span class='prelude-val'>Some</span>(<span class='number'>20</span>));</pre>
+
+<p>Not finding the pattern:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    let x: &amp;[_] = &amp;[&#39;1&#39;, &#39;2&#39;];
+    
+    assert_eq!(s.rfind(x), None);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='kw-2'>&amp;</span>[_] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='string'>&#39;1&#39;</span>, <span class='string'>&#39;2&#39;</span>];
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>.<span class='ident'>rfind</span>(<span class='ident'>x</span>), <span class='prelude-val'>None</span>);</pre>
+</div><h4 id='method.split' class='method'><code>fn <a href='#method.split' class='fnname'>split</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.Split.html' title='std::str::Split'>Split</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over substrings of this string slice, separated by
+characters matched by a pattern.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines the
+split.</p>
+
+<h1 id='iterator-behavior' class='section-header'><a href='#iterator-behavior'>Iterator behavior</a></h1>
+<p>The returned iterator will be a <a href="iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> if the pattern
+allows a reverse search and forward/reverse search yields the same
+elements. This is true for, eg, <a href="primitive.char.html"><code>char</code></a> but not for <code>&amp;str</code>.</p>
+
+<p>If the pattern allows a reverse search but its results might differ
+from a forward search, the <a href="#method.rsplit"><code>rsplit()</code></a> method can be used.</p>
+
+<h1 id='examples-24' class='section-header'><a href='#examples-24'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lamb&quot;.split(&#39; &#39;).collect();
+    assert_eq!(v, [&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;&quot;.split(&#39;X&#39;).collect();
+    assert_eq!(v, [&quot;&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lionXXtigerXleopard&quot;.split(&#39;X&#39;).collect();
+    assert_eq!(v, [&quot;lion&quot;, &quot;&quot;, &quot;tiger&quot;, &quot;leopard&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lion::tiger::leopard&quot;.split(&quot;::&quot;).collect();
+    assert_eq!(v, [&quot;lion&quot;, &quot;tiger&quot;, &quot;leopard&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;abc1def2ghi&quot;.split(char::is_numeric).collect();
+    assert_eq!(v, [&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lionXtigerXleopard&quot;.split(char::is_uppercase).collect();
+    assert_eq!(v, [&quot;lion&quot;, &quot;tiger&quot;, &quot;leopard&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;Mary had a little lamb&quot;</span>.<span class='ident'>split</span>(<span class='string'>&#39; &#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;Mary&quot;</span>, <span class='string'>&quot;had&quot;</span>, <span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;little&quot;</span>, <span class='string'>&quot;lamb&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;&quot;</span>.<span class='ident'>split</span>(<span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lionXXtigerXleopard&quot;</span>.<span class='ident'>split</span>(<span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;lion&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;tiger&quot;</span>, <span class='string'>&quot;leopard&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lion::tiger::leopard&quot;</span>.<span class='ident'>split</span>(<span class='string'>&quot;::&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;lion&quot;</span>, <span class='string'>&quot;tiger&quot;</span>, <span class='string'>&quot;leopard&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abc1def2ghi&quot;</span>.<span class='ident'>split</span>(<span class='ident'>char</span>::<span class='ident'>is_numeric</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;abc&quot;</span>, <span class='string'>&quot;def&quot;</span>, <span class='string'>&quot;ghi&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lionXtigerXleopard&quot;</span>.<span class='ident'>split</span>(<span class='ident'>char</span>::<span class='ident'>is_uppercase</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;lion&quot;</span>, <span class='string'>&quot;tiger&quot;</span>, <span class='string'>&quot;leopard&quot;</span>]);</pre>
+
+<p>A more complex pattern, using a closure:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;abc1defXghi&quot;.split(|c| c == &#39;1&#39; || c == &#39;X&#39;).collect();
+    assert_eq!(v, [&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abc1defXghi&quot;</span>.<span class='ident'>split</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;1&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;abc&quot;</span>, <span class='string'>&quot;def&quot;</span>, <span class='string'>&quot;ghi&quot;</span>]);</pre>
+
+<p>If a string contains multiple contiguous separators, you will end up
+with empty strings in the output:</p>
+<span class='rusttest'>fn main() {
+    let x = &quot;||||a||b|c&quot;.to_string();
+    let d: Vec&lt;_&gt; = x.split(&#39;|&#39;).collect();
+    
+    assert_eq!(d, &amp;[&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;a&quot;, &quot;&quot;, &quot;b&quot;, &quot;c&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&quot;||||a||b|c&quot;</span>.<span class='ident'>to_string</span>();
+<span class='kw'>let</span> <span class='ident'>d</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>split</span>(<span class='string'>&#39;|&#39;</span>).<span class='ident'>collect</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;b&quot;</span>, <span class='string'>&quot;c&quot;</span>]);</pre>
+
+<p>This can lead to possibly surprising behavior when whitespace is used
+as the separator. This code is correct:</p>
+<span class='rusttest'>fn main() {
+    let x = &quot;    a  b c&quot;.to_string();
+    let d: Vec&lt;_&gt; = x.split(&#39; &#39;).collect();
+    
+    assert_eq!(d, &amp;[&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;a&quot;, &quot;&quot;, &quot;b&quot;, &quot;c&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&quot;    a  b c&quot;</span>.<span class='ident'>to_string</span>();
+<span class='kw'>let</span> <span class='ident'>d</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>split</span>(<span class='string'>&#39; &#39;</span>).<span class='ident'>collect</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;b&quot;</span>, <span class='string'>&quot;c&quot;</span>]);</pre>
+
+<p>It does <em>not</em> give you:</p>
+<span class='rusttest'>fn main() {
+    assert_eq!(d, &amp;[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>d</span>, <span class='kw-2'>&amp;</span>[<span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;b&quot;</span>, <span class='string'>&quot;c&quot;</span>]);</pre>
+
+<p>Use <a href="#method.split_whitespace"><code>split_whitespace()</code></a> for this behavior.</p>
+</div><h4 id='method.rsplit' class='method'><code>fn <a href='#method.rsplit' class='fnname'>rsplit</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.RSplit.html' title='std::str::RSplit'>RSplit</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over substrings of the given string slice, separated by
+characters matched by a pattern and yielded in reverse order.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines the
+split.</p>
+
+<h1 id='iterator-behavior-1' class='section-header'><a href='#iterator-behavior-1'>Iterator behavior</a></h1>
+<p>The returned iterator requires that the pattern supports a reverse
+search, and it will be a <a href="iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> if a forward/reverse
+search yields the same elements.</p>
+
+<p>For iterating from the front, the <a href="#method.split"><code>split()</code></a> method can be used.</p>
+
+<h1 id='examples-25' class='section-header'><a href='#examples-25'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lamb&quot;.rsplit(&#39; &#39;).collect();
+    assert_eq!(v, [&quot;lamb&quot;, &quot;little&quot;, &quot;a&quot;, &quot;had&quot;, &quot;Mary&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;&quot;.rsplit(&#39;X&#39;).collect();
+    assert_eq!(v, [&quot;&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lionXXtigerXleopard&quot;.rsplit(&#39;X&#39;).collect();
+    assert_eq!(v, [&quot;leopard&quot;, &quot;tiger&quot;, &quot;&quot;, &quot;lion&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lion::tiger::leopard&quot;.rsplit(&quot;::&quot;).collect();
+    assert_eq!(v, [&quot;leopard&quot;, &quot;tiger&quot;, &quot;lion&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;Mary had a little lamb&quot;</span>.<span class='ident'>rsplit</span>(<span class='string'>&#39; &#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;lamb&quot;</span>, <span class='string'>&quot;little&quot;</span>, <span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;had&quot;</span>, <span class='string'>&quot;Mary&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;&quot;</span>.<span class='ident'>rsplit</span>(<span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lionXXtigerXleopard&quot;</span>.<span class='ident'>rsplit</span>(<span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;leopard&quot;</span>, <span class='string'>&quot;tiger&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;lion&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lion::tiger::leopard&quot;</span>.<span class='ident'>rsplit</span>(<span class='string'>&quot;::&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;leopard&quot;</span>, <span class='string'>&quot;tiger&quot;</span>, <span class='string'>&quot;lion&quot;</span>]);</pre>
+
+<p>A more complex pattern, using a closure:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;abc1defXghi&quot;.rsplit(|c| c == &#39;1&#39; || c == &#39;X&#39;).collect();
+    assert_eq!(v, [&quot;ghi&quot;, &quot;def&quot;, &quot;abc&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abc1defXghi&quot;</span>.<span class='ident'>rsplit</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;1&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;ghi&quot;</span>, <span class='string'>&quot;def&quot;</span>, <span class='string'>&quot;abc&quot;</span>]);</pre>
+</div><h4 id='method.split_terminator' class='method'><code>fn <a href='#method.split_terminator' class='fnname'>split_terminator</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.SplitTerminator.html' title='std::str::SplitTerminator'>SplitTerminator</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over substrings of the given string slice, separated by
+characters matched by a pattern.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines the
+split.</p>
+
+<p>Equivalent to <a href="#method.split"><code>split()</code></a>, except that the trailing substring
+is skipped if empty.</p>
+
+<p>This method can be used for string data that is <em>terminated</em>,
+rather than <em>separated</em> by a pattern.</p>
+
+<h1 id='iterator-behavior-2' class='section-header'><a href='#iterator-behavior-2'>Iterator behavior</a></h1>
+<p>The returned iterator will be a <a href="iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> if the pattern
+allows a reverse search and forward/reverse search yields the same
+elements. This is true for, eg, <a href="primitive.char.html"><code>char</code></a> but not for <code>&amp;str</code>.</p>
+
+<p>If the pattern allows a reverse search but its results might differ
+from a forward search, the <a href="#method.rsplit_terminator"><code>rsplit_terminator()</code></a> method can be used.</p>
+
+<h1 id='examples-26' class='section-header'><a href='#examples-26'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;A.B.&quot;.split_terminator(&#39;.&#39;).collect();
+    assert_eq!(v, [&quot;A&quot;, &quot;B&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;A..B..&quot;.split_terminator(&quot;.&quot;).collect();
+    assert_eq!(v, [&quot;A&quot;, &quot;&quot;, &quot;B&quot;, &quot;&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;A.B.&quot;</span>.<span class='ident'>split_terminator</span>(<span class='string'>&#39;.&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;A&quot;</span>, <span class='string'>&quot;B&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;A..B..&quot;</span>.<span class='ident'>split_terminator</span>(<span class='string'>&quot;.&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;A&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;B&quot;</span>, <span class='string'>&quot;&quot;</span>]);</pre>
+</div><h4 id='method.rsplit_terminator' class='method'><code>fn <a href='#method.rsplit_terminator' class='fnname'>rsplit_terminator</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.RSplitTerminator.html' title='std::str::RSplitTerminator'>RSplitTerminator</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over substrings of <code>self</code>, separated by characters
+matched by a pattern and yielded in reverse order.</p>
+
+<p>The pattern can be a simple <code>&amp;str</code>, <code>char</code>, or a closure that
+determines the split.
+Additional libraries might provide more complex patterns like
+regular expressions.</p>
+
+<p>Equivalent to <code>split</code>, except that the trailing substring is
+skipped if empty.</p>
+
+<p>This method can be used for string data that is <em>terminated</em>,
+rather than <em>separated</em> by a pattern.</p>
+
+<h1 id='iterator-behavior-3' class='section-header'><a href='#iterator-behavior-3'>Iterator behavior</a></h1>
+<p>The returned iterator requires that the pattern supports a
+reverse search, and it will be double ended if a forward/reverse
+search yields the same elements.</p>
+
+<p>For iterating from the front, the <a href="#method.split_terminator"><code>split_terminator()</code></a> method can be
+used.</p>
+
+<h1 id='examples-27' class='section-header'><a href='#examples-27'>Examples</a></h1><span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;A.B.&quot;.rsplit_terminator(&#39;.&#39;).collect();
+    assert_eq!(v, [&quot;B&quot;, &quot;A&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;A..B..&quot;.rsplit_terminator(&quot;.&quot;).collect();
+    assert_eq!(v, [&quot;&quot;, &quot;B&quot;, &quot;&quot;, &quot;A&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;A.B.&quot;</span>.<span class='ident'>rsplit_terminator</span>(<span class='string'>&#39;.&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;B&quot;</span>, <span class='string'>&quot;A&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;A..B..&quot;</span>.<span class='ident'>rsplit_terminator</span>(<span class='string'>&quot;.&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;&quot;</span>, <span class='string'>&quot;B&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;A&quot;</span>]);</pre>
+</div><h4 id='method.splitn' class='method'><code>fn <a href='#method.splitn' class='fnname'>splitn</a>&lt;'a, P&gt;(&amp;'a self, count: <a class='primitive' href='primitive.usize.html'>usize</a>, pat: P) -&gt; <a class='struct' href='../std/str/struct.SplitN.html' title='std::str::SplitN'>SplitN</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over substrings of the given string slice, separated by a
+pattern, restricted to returning at most <code>count</code> items.</p>
+
+<p>The last element returned, if any, will contain the remainder of the
+string slice.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines the
+split.</p>
+
+<h1 id='iterator-behavior-4' class='section-header'><a href='#iterator-behavior-4'>Iterator behavior</a></h1>
+<p>The returned iterator will not be double ended, because it is
+not efficient to support.</p>
+
+<p>If the pattern allows a reverse search, the <a href="#method.rsplitn"><code>rsplitn()</code></a> method can be
+used.</p>
+
+<h1 id='examples-28' class='section-header'><a href='#examples-28'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lambda&quot;.splitn(3, &#39; &#39;).collect();
+    assert_eq!(v, [&quot;Mary&quot;, &quot;had&quot;, &quot;a little lambda&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lionXXtigerXleopard&quot;.splitn(3, &quot;X&quot;).collect();
+    assert_eq!(v, [&quot;lion&quot;, &quot;&quot;, &quot;tigerXleopard&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;abcXdef&quot;.splitn(1, &#39;X&#39;).collect();
+    assert_eq!(v, [&quot;abcXdef&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;&quot;.splitn(1, &#39;X&#39;).collect();
+    assert_eq!(v, [&quot;&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;Mary had a little lambda&quot;</span>.<span class='ident'>splitn</span>(<span class='number'>3</span>, <span class='string'>&#39; &#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;Mary&quot;</span>, <span class='string'>&quot;had&quot;</span>, <span class='string'>&quot;a little lambda&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lionXXtigerXleopard&quot;</span>.<span class='ident'>splitn</span>(<span class='number'>3</span>, <span class='string'>&quot;X&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;lion&quot;</span>, <span class='string'>&quot;&quot;</span>, <span class='string'>&quot;tigerXleopard&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abcXdef&quot;</span>.<span class='ident'>splitn</span>(<span class='number'>1</span>, <span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;abcXdef&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;&quot;</span>.<span class='ident'>splitn</span>(<span class='number'>1</span>, <span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;&quot;</span>]);</pre>
+
+<p>A more complex pattern, using a closure:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;abc1defXghi&quot;.splitn(2, |c| c == &#39;1&#39; || c == &#39;X&#39;).collect();
+    assert_eq!(v, [&quot;abc&quot;, &quot;defXghi&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abc1defXghi&quot;</span>.<span class='ident'>splitn</span>(<span class='number'>2</span>, <span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;1&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;abc&quot;</span>, <span class='string'>&quot;defXghi&quot;</span>]);</pre>
+</div><h4 id='method.rsplitn' class='method'><code>fn <a href='#method.rsplitn' class='fnname'>rsplitn</a>&lt;'a, P&gt;(&amp;'a self, count: <a class='primitive' href='primitive.usize.html'>usize</a>, pat: P) -&gt; <a class='struct' href='../std/str/struct.RSplitN.html' title='std::str::RSplitN'>RSplitN</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over substrings of this string slice, separated by a
+pattern, starting from the end of the string, restricted to returning
+at most <code>count</code> items.</p>
+
+<p>The last element returned, if any, will contain the remainder of the
+string slice.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that
+determines the split.</p>
+
+<h1 id='iterator-behavior-5' class='section-header'><a href='#iterator-behavior-5'>Iterator behavior</a></h1>
+<p>The returned iterator will not be double ended, because it is not
+efficient to support.</p>
+
+<p>For splitting from the front, the <a href="#method.splitn"><code>splitn()</code></a> method can be used.</p>
+
+<h1 id='examples-29' class='section-header'><a href='#examples-29'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lamb&quot;.rsplitn(3, &#39; &#39;).collect();
+    assert_eq!(v, [&quot;lamb&quot;, &quot;little&quot;, &quot;Mary had a&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lionXXtigerXleopard&quot;.rsplitn(3, &#39;X&#39;).collect();
+    assert_eq!(v, [&quot;leopard&quot;, &quot;tiger&quot;, &quot;lionX&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;lion::tiger::leopard&quot;.rsplitn(2, &quot;::&quot;).collect();
+    assert_eq!(v, [&quot;leopard&quot;, &quot;lion::tiger&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;Mary had a little lamb&quot;</span>.<span class='ident'>rsplitn</span>(<span class='number'>3</span>, <span class='string'>&#39; &#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;lamb&quot;</span>, <span class='string'>&quot;little&quot;</span>, <span class='string'>&quot;Mary had a&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lionXXtigerXleopard&quot;</span>.<span class='ident'>rsplitn</span>(<span class='number'>3</span>, <span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;leopard&quot;</span>, <span class='string'>&quot;tiger&quot;</span>, <span class='string'>&quot;lionX&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;lion::tiger::leopard&quot;</span>.<span class='ident'>rsplitn</span>(<span class='number'>2</span>, <span class='string'>&quot;::&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;leopard&quot;</span>, <span class='string'>&quot;lion::tiger&quot;</span>]);</pre>
+
+<p>A more complex pattern, using a closure:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;abc1defXghi&quot;.rsplitn(2, |c| c == &#39;1&#39; || c == &#39;X&#39;).collect();
+    assert_eq!(v, [&quot;ghi&quot;, &quot;abc1def&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abc1defXghi&quot;</span>.<span class='ident'>rsplitn</span>(<span class='number'>2</span>, <span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;1&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;X&#39;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;ghi&quot;</span>, <span class='string'>&quot;abc1def&quot;</span>]);</pre>
+</div><h4 id='method.matches' class='method'><code>fn <a href='#method.matches' class='fnname'>matches</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.Matches.html' title='std::str::Matches'>Matches</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over the matches of a pattern within the given string
+slice.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that
+determines if a character matches.</p>
+
+<h1 id='iterator-behavior-6' class='section-header'><a href='#iterator-behavior-6'>Iterator behavior</a></h1>
+<p>The returned iterator will be a <a href="iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> if the pattern
+allows a reverse search and forward/reverse search yields the same
+elements. This is true for, eg, <a href="primitive.char.html"><code>char</code></a> but not for <code>&amp;str</code>.</p>
+
+<p>If the pattern allows a reverse search but its results might differ
+from a forward search, the <a href="#method.rmatches"><code>rmatches()</code></a> method can be used.</p>
+
+<h1 id='examples-30' class='section-header'><a href='#examples-30'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;abcXXXabcYYYabc&quot;.matches(&quot;abc&quot;).collect();
+    assert_eq!(v, [&quot;abc&quot;, &quot;abc&quot;, &quot;abc&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;1abc2abc3&quot;.matches(char::is_numeric).collect();
+    assert_eq!(v, [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abcXXXabcYYYabc&quot;</span>.<span class='ident'>matches</span>(<span class='string'>&quot;abc&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;abc&quot;</span>, <span class='string'>&quot;abc&quot;</span>, <span class='string'>&quot;abc&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;1abc2abc3&quot;</span>.<span class='ident'>matches</span>(<span class='ident'>char</span>::<span class='ident'>is_numeric</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;1&quot;</span>, <span class='string'>&quot;2&quot;</span>, <span class='string'>&quot;3&quot;</span>]);</pre>
+</div><h4 id='method.rmatches' class='method'><code>fn <a href='#method.rmatches' class='fnname'>rmatches</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.RMatches.html' title='std::str::RMatches'>RMatches</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over the matches of a pattern within this string slice,
+yielded in reverse order.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines if
+a character matches.</p>
+
+<h1 id='iterator-behavior-7' class='section-header'><a href='#iterator-behavior-7'>Iterator behavior</a></h1>
+<p>The returned iterator requires that the pattern supports a reverse
+search, and it will be a <a href="iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> if a forward/reverse
+search yields the same elements.</p>
+
+<p>For iterating from the front, the [<code>matches()</code>] method can be used.</p>
+
+<h1 id='examples-31' class='section-header'><a href='#examples-31'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;&amp;str&gt; = &quot;abcXXXabcYYYabc&quot;.rmatches(&quot;abc&quot;).collect();
+    assert_eq!(v, [&quot;abc&quot;, &quot;abc&quot;, &quot;abc&quot;]);
+    
+    let v: Vec&lt;&amp;str&gt; = &quot;1abc2abc3&quot;.rmatches(char::is_numeric).collect();
+    assert_eq!(v, [&quot;3&quot;, &quot;2&quot;, &quot;1&quot;]);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abcXXXabcYYYabc&quot;</span>.<span class='ident'>rmatches</span>(<span class='string'>&quot;abc&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;abc&quot;</span>, <span class='string'>&quot;abc&quot;</span>, <span class='string'>&quot;abc&quot;</span>]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>str</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;1abc2abc3&quot;</span>.<span class='ident'>rmatches</span>(<span class='ident'>char</span>::<span class='ident'>is_numeric</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [<span class='string'>&quot;3&quot;</span>, <span class='string'>&quot;2&quot;</span>, <span class='string'>&quot;1&quot;</span>]);</pre>
+</div><h4 id='method.match_indices' class='method'><code>fn <a href='#method.match_indices' class='fnname'>match_indices</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.MatchIndices.html' title='std::str::MatchIndices'>MatchIndices</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over the disjoint matches of a pattern within this string
+slice as well as the index that the match starts at.</p>
+
+<p>For matches of <code>pat</code> within <code>self</code> that overlap, only the indices
+corresponding to the first match are returned.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines
+if a character matches.</p>
+
+<h1 id='iterator-behavior-8' class='section-header'><a href='#iterator-behavior-8'>Iterator behavior</a></h1>
+<p>The returned iterator will be a <a href="iter/trait.DoubleEndedIterator.html"><code>DoubleEndedIterator</code></a> if the pattern
+allows a reverse search and forward/reverse search yields the same
+elements. This is true for, eg, <a href="primitive.char.html"><code>char</code></a> but not for <code>&amp;str</code>.</p>
+
+<p>If the pattern allows a reverse search but its results might differ
+from a forward search, the <a href="#method.rmatch_indices"><code>rmatch_indices()</code></a> method can be used.</p>
+
+<h1 id='examples-32' class='section-header'><a href='#examples-32'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;_&gt; = &quot;abcXXXabcYYYabc&quot;.match_indices(&quot;abc&quot;).collect();
+    assert_eq!(v, [(0, &quot;abc&quot;), (6, &quot;abc&quot;), (12, &quot;abc&quot;)]);
+    
+    let v: Vec&lt;_&gt; = &quot;1abcabc2&quot;.match_indices(&quot;abc&quot;).collect();
+    assert_eq!(v, [(1, &quot;abc&quot;), (4, &quot;abc&quot;)]);
+    
+    let v: Vec&lt;_&gt; = &quot;ababa&quot;.match_indices(&quot;aba&quot;).collect();
+    assert_eq!(v, [(0, &quot;aba&quot;)]); // only the first `aba`
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abcXXXabcYYYabc&quot;</span>.<span class='ident'>match_indices</span>(<span class='string'>&quot;abc&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [(<span class='number'>0</span>, <span class='string'>&quot;abc&quot;</span>), (<span class='number'>6</span>, <span class='string'>&quot;abc&quot;</span>), (<span class='number'>12</span>, <span class='string'>&quot;abc&quot;</span>)]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;1abcabc2&quot;</span>.<span class='ident'>match_indices</span>(<span class='string'>&quot;abc&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [(<span class='number'>1</span>, <span class='string'>&quot;abc&quot;</span>), (<span class='number'>4</span>, <span class='string'>&quot;abc&quot;</span>)]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;ababa&quot;</span>.<span class='ident'>match_indices</span>(<span class='string'>&quot;aba&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [(<span class='number'>0</span>, <span class='string'>&quot;aba&quot;</span>)]); <span class='comment'>// only the first `aba`</span></pre>
+</div><h4 id='method.rmatch_indices' class='method'><code>fn <a href='#method.rmatch_indices' class='fnname'>rmatch_indices</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; <a class='struct' href='../std/str/struct.RMatchIndices.html' title='std::str::RMatchIndices'>RMatchIndices</a>&lt;'a, P&gt; <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>An iterator over the disjoint matches of a pattern within <code>self</code>,
+yielded in reverse order along with the index of the match.</p>
+
+<p>For matches of <code>pat</code> within <code>self</code> that overlap, only the indices
+corresponding to the last match are returned.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines if a
+character matches.</p>
+
+<h1 id='iterator-behavior-9' class='section-header'><a href='#iterator-behavior-9'>Iterator behavior</a></h1>
+<p>The returned iterator requires that the pattern supports a reverse
+search, and it will be a <code>[DoubleEndedIterator]</code> if a forward/reverse
+search yields the same elements.</p>
+
+<p>For iterating from the front, the <a href="#method.match_indices"><code>match_indices()</code></a> method can be used.</p>
+
+<h1 id='examples-33' class='section-header'><a href='#examples-33'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let v: Vec&lt;_&gt; = &quot;abcXXXabcYYYabc&quot;.rmatch_indices(&quot;abc&quot;).collect();
+    assert_eq!(v, [(12, &quot;abc&quot;), (6, &quot;abc&quot;), (0, &quot;abc&quot;)]);
+    
+    let v: Vec&lt;_&gt; = &quot;1abcabc2&quot;.rmatch_indices(&quot;abc&quot;).collect();
+    assert_eq!(v, [(4, &quot;abc&quot;), (1, &quot;abc&quot;)]);
+    
+    let v: Vec&lt;_&gt; = &quot;ababa&quot;.rmatch_indices(&quot;aba&quot;).collect();
+    assert_eq!(v, [(2, &quot;aba&quot;)]); // only the last `aba`
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;abcXXXabcYYYabc&quot;</span>.<span class='ident'>rmatch_indices</span>(<span class='string'>&quot;abc&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [(<span class='number'>12</span>, <span class='string'>&quot;abc&quot;</span>), (<span class='number'>6</span>, <span class='string'>&quot;abc&quot;</span>), (<span class='number'>0</span>, <span class='string'>&quot;abc&quot;</span>)]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;1abcabc2&quot;</span>.<span class='ident'>rmatch_indices</span>(<span class='string'>&quot;abc&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [(<span class='number'>4</span>, <span class='string'>&quot;abc&quot;</span>), (<span class='number'>1</span>, <span class='string'>&quot;abc&quot;</span>)]);
+
+<span class='kw'>let</span> <span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span>_<span class='op'>&gt;</span> <span class='op'>=</span> <span class='string'>&quot;ababa&quot;</span>.<span class='ident'>rmatch_indices</span>(<span class='string'>&quot;aba&quot;</span>).<span class='ident'>collect</span>();
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>v</span>, [(<span class='number'>2</span>, <span class='string'>&quot;aba&quot;</span>)]); <span class='comment'>// only the last `aba`</span></pre>
+</div><h4 id='method.trim' class='method'><code>fn <a href='#method.trim' class='fnname'>trim</a>(&amp;self) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<div class='docblock'><p>Returns a string slice with leading and trailing whitespace removed.</p>
+
+<p>&#39;Whitespace&#39; is defined according to the terms of the Unicode Derived
+Core Property <code>White_Space</code>.</p>
+
+<h1 id='examples-34' class='section-header'><a href='#examples-34'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot; Hello\tworld\t&quot;;
+    
+    assert_eq!(&quot;Hello\tworld&quot;, s.trim());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot; Hello\tworld\t&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Hello\tworld&quot;</span>, <span class='ident'>s</span>.<span class='ident'>trim</span>());</pre>
+</div><h4 id='method.trim_left' class='method'><code>fn <a href='#method.trim_left' class='fnname'>trim_left</a>(&amp;self) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<div class='docblock'><p>Returns a string slice with leading whitespace removed.</p>
+
+<p>&#39;Whitespace&#39; is defined according to the terms of the Unicode Derived
+Core Property <code>White_Space</code>.</p>
+
+<h1 id='examples-35' class='section-header'><a href='#examples-35'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot; Hello\tworld\t&quot;;
+    
+    assert_eq!(&quot;Hello\tworld\t&quot;, s.trim_left());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot; Hello\tworld\t&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;Hello\tworld\t&quot;</span>, <span class='ident'>s</span>.<span class='ident'>trim_left</span>());</pre>
+</div><h4 id='method.trim_right' class='method'><code>fn <a href='#method.trim_right' class='fnname'>trim_right</a>(&amp;self) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<div class='docblock'><p>Returns a string slice with trailing whitespace removed.</p>
+
+<p>&#39;Whitespace&#39; is defined according to the terms of the Unicode Derived
+Core Property <code>White_Space</code>.</p>
+
+<h1 id='examples-36' class='section-header'><a href='#examples-36'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot; Hello\tworld\t&quot;;
+    
+    assert_eq!(&quot; Hello\tworld&quot;, s.trim_right());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot; Hello\tworld\t&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot; Hello\tworld&quot;</span>, <span class='ident'>s</span>.<span class='ident'>trim_right</span>());</pre>
+</div><h4 id='method.trim_matches' class='method'><code>fn <a href='#method.trim_matches' class='fnname'>trim_matches</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; &amp;'a <a class='primitive' href='primitive.str.html'>str</a> <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.DoubleEndedSearcher.html' title='std::str::pattern::DoubleEndedSearcher'>DoubleEndedSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns a string slice with all prefixes and suffixes that match a
+pattern repeatedly removed.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primtive.char.html"><code>char</code></a>, or a closure that determines
+if a character matches.</p>
+
+<h1 id='examples-37' class='section-header'><a href='#examples-37'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    assert_eq!(&quot;11foo1bar11&quot;.trim_matches(&#39;1&#39;), &quot;foo1bar&quot;);
+    assert_eq!(&quot;123foo1bar123&quot;.trim_matches(char::is_numeric), &quot;foo1bar&quot;);
+    
+    let x: &amp;[_] = &amp;[&#39;1&#39;, &#39;2&#39;];
+    assert_eq!(&quot;12foo1bar12&quot;.trim_matches(x), &quot;foo1bar&quot;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;11foo1bar11&quot;</span>.<span class='ident'>trim_matches</span>(<span class='string'>&#39;1&#39;</span>), <span class='string'>&quot;foo1bar&quot;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;123foo1bar123&quot;</span>.<span class='ident'>trim_matches</span>(<span class='ident'>char</span>::<span class='ident'>is_numeric</span>), <span class='string'>&quot;foo1bar&quot;</span>);
+
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='kw-2'>&amp;</span>[_] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='string'>&#39;1&#39;</span>, <span class='string'>&#39;2&#39;</span>];
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;12foo1bar12&quot;</span>.<span class='ident'>trim_matches</span>(<span class='ident'>x</span>), <span class='string'>&quot;foo1bar&quot;</span>);</pre>
+
+<p>A more complex pattern, using a closure:</p>
+<span class='rusttest'>fn main() {
+    assert_eq!(&quot;1foo1barXX&quot;.trim_matches(|c| c == &#39;1&#39; || c == &#39;X&#39;), &quot;foo1bar&quot;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;1foo1barXX&quot;</span>.<span class='ident'>trim_matches</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;1&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;X&#39;</span>), <span class='string'>&quot;foo1bar&quot;</span>);</pre>
+</div><h4 id='method.trim_left_matches' class='method'><code>fn <a href='#method.trim_left_matches' class='fnname'>trim_left_matches</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; &amp;'a <a class='primitive' href='primitive.str.html'>str</a> <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns a string slice with all prefixes that match a pattern
+repeatedly removed.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that determines if
+a character matches.</p>
+
+<h1 id='examples-38' class='section-header'><a href='#examples-38'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    assert_eq!(&quot;11foo1bar11&quot;.trim_left_matches(&#39;1&#39;), &quot;foo1bar11&quot;);
+    assert_eq!(&quot;123foo1bar123&quot;.trim_left_matches(char::is_numeric), &quot;foo1bar123&quot;);
+    
+    let x: &amp;[_] = &amp;[&#39;1&#39;, &#39;2&#39;];
+    assert_eq!(&quot;12foo1bar12&quot;.trim_left_matches(x), &quot;foo1bar12&quot;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;11foo1bar11&quot;</span>.<span class='ident'>trim_left_matches</span>(<span class='string'>&#39;1&#39;</span>), <span class='string'>&quot;foo1bar11&quot;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;123foo1bar123&quot;</span>.<span class='ident'>trim_left_matches</span>(<span class='ident'>char</span>::<span class='ident'>is_numeric</span>), <span class='string'>&quot;foo1bar123&quot;</span>);
+
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='kw-2'>&amp;</span>[_] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='string'>&#39;1&#39;</span>, <span class='string'>&#39;2&#39;</span>];
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;12foo1bar12&quot;</span>.<span class='ident'>trim_left_matches</span>(<span class='ident'>x</span>), <span class='string'>&quot;foo1bar12&quot;</span>);</pre>
+</div><h4 id='method.trim_right_matches' class='method'><code>fn <a href='#method.trim_right_matches' class='fnname'>trim_right_matches</a>&lt;'a, P&gt;(&amp;'a self, pat: P) -&gt; &amp;'a <a class='primitive' href='primitive.str.html'>str</a> <span class='where'>where P: <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt;, P::<a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Searcher</a>: <a class='trait' href='../std/str/pattern/trait.ReverseSearcher.html' title='std::str::pattern::ReverseSearcher'>ReverseSearcher</a>&lt;'a&gt;</span></code></h4>
+<div class='docblock'><p>Returns a string slice with all suffixes that match a pattern
+repeatedly removed.</p>
+
+<p>The pattern can be a <code>&amp;str</code>, <a href="primitive.char.html"><code>char</code></a>, or a closure that
+determines if a character matches.</p>
+
+<h1 id='examples-39' class='section-header'><a href='#examples-39'>Examples</a></h1>
+<p>Simple patterns:</p>
+<span class='rusttest'>fn main() {
+    assert_eq!(&quot;11foo1bar11&quot;.trim_right_matches(&#39;1&#39;), &quot;11foo1bar&quot;);
+    assert_eq!(&quot;123foo1bar123&quot;.trim_right_matches(char::is_numeric), &quot;123foo1bar&quot;);
+    
+    let x: &amp;[_] = &amp;[&#39;1&#39;, &#39;2&#39;];
+    assert_eq!(&quot;12foo1bar12&quot;.trim_right_matches(x), &quot;12foo1bar&quot;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;11foo1bar11&quot;</span>.<span class='ident'>trim_right_matches</span>(<span class='string'>&#39;1&#39;</span>), <span class='string'>&quot;11foo1bar&quot;</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;123foo1bar123&quot;</span>.<span class='ident'>trim_right_matches</span>(<span class='ident'>char</span>::<span class='ident'>is_numeric</span>), <span class='string'>&quot;123foo1bar&quot;</span>);
+
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='kw-2'>&amp;</span>[_] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='string'>&#39;1&#39;</span>, <span class='string'>&#39;2&#39;</span>];
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;12foo1bar12&quot;</span>.<span class='ident'>trim_right_matches</span>(<span class='ident'>x</span>), <span class='string'>&quot;12foo1bar&quot;</span>);</pre>
+
+<p>A more complex pattern, using a closure:</p>
+<span class='rusttest'>fn main() {
+    assert_eq!(&quot;1fooX&quot;.trim_left_matches(|c| c == &#39;1&#39; || c == &#39;X&#39;), &quot;fooX&quot;);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;1fooX&quot;</span>.<span class='ident'>trim_left_matches</span>(<span class='op'>|</span><span class='ident'>c</span><span class='op'>|</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;1&#39;</span> <span class='op'>||</span> <span class='ident'>c</span> <span class='op'>==</span> <span class='string'>&#39;X&#39;</span>), <span class='string'>&quot;fooX&quot;</span>);</pre>
+</div><h4 id='method.parse' class='method'><code>fn <a href='#method.parse' class='fnname'>parse</a>&lt;F&gt;(&amp;self) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;F, F::<a class='trait' href='../std/str/trait.FromStr.html' title='std::str::FromStr'>Err</a>&gt; <span class='where'>where F: <a class='trait' href='../std/str/trait.FromStr.html' title='std::str::FromStr'>FromStr</a></span></code></h4>
+<div class='docblock'><p>Parses this string slice into another type.</p>
+
+<p>Because <code>parse()</code> is so general, it can cause problems with type
+inference. As such, <code>parse()</code> is one of the few times you&#39;ll see
+the syntax affectionately known as the &#39;turbofish&#39;: <code>::&lt;&gt;</code>. This
+helps the inference algorithm understand specifically which type
+you&#39;re trying to parse into.</p>
+
+<p><code>parse()</code> can parse any type that implements the <a href="trait.FromStr.html"><code>FromStr</code></a> trait.</p>
+
+<h1 id='failure' class='section-header'><a href='#failure'>Failure</a></h1>
+<p>Will return <code>Err</code> if it&#39;s not possible to parse this string slice into
+the desired type.</p>
+
+<h1 id='example' class='section-header'><a href='#example'>Example</a></h1>
+<p>Basic usage</p>
+<span class='rusttest'>fn main() {
+    let four: u32 = &quot;4&quot;.parse().unwrap();
+    
+    assert_eq!(4, four);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>four</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='string'>&quot;4&quot;</span>.<span class='ident'>parse</span>().<span class='ident'>unwrap</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>four</span>);</pre>
+
+<p>Using the &#39;turbofish&#39; instead of annotationg <code>four</code>:</p>
+<span class='rusttest'>fn main() {
+    let four = &quot;4&quot;.parse::&lt;u32&gt;();
+    
+    assert_eq!(Ok(4), four);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>four</span> <span class='op'>=</span> <span class='string'>&quot;4&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='prelude-val'>Ok</span>(<span class='number'>4</span>), <span class='ident'>four</span>);</pre>
+
+<p>Failing to parse:</p>
+<span class='rusttest'>fn main() {
+    let nope = &quot;j&quot;.parse::&lt;u32&gt;();
+    
+    assert!(nope.is_err());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>nope</span> <span class='op'>=</span> <span class='string'>&quot;j&quot;</span>.<span class='ident'>parse</span>::<span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>();
+
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>nope</span>.<span class='ident'>is_err</span>());</pre>
+</div><h4 id='method.replace' class='method'><code>fn <a href='#method.replace' class='fnname'>replace</a>(&amp;self, from: &amp;<a class='primitive' href='primitive.str.html'>str</a>, to: &amp;<a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<div class='docblock'><p>Replaces all occurrences of one string with another.</p>
+
+<p><code>replace</code> creates a new <a href="string/struct.String.html"><code>String</code></a>, and copies the data from this string slice into it.
+While doing so, it attempts to find a sub-<code>&amp;str</code>. If it finds it, it replaces it with
+the replacement string slice.</p>
+
+<h1 id='examples-40' class='section-header'><a href='#examples-40'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;this is old&quot;;
+    
+    assert_eq!(&quot;this is new&quot;, s.replace(&quot;old&quot;, &quot;new&quot;));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;this is old&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;this is new&quot;</span>, <span class='ident'>s</span>.<span class='ident'>replace</span>(<span class='string'>&quot;old&quot;</span>, <span class='string'>&quot;new&quot;</span>));</pre>
+
+<p>When a <code>&amp;str</code> isn&#39;t found:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;this is old&quot;;
+    assert_eq!(s, s.replace(&quot;cookie monster&quot;, &quot;little lamb&quot;));
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;this is old&quot;</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>s</span>, <span class='ident'>s</span>.<span class='ident'>replace</span>(<span class='string'>&quot;cookie monster&quot;</span>, <span class='string'>&quot;little lamb&quot;</span>));</pre>
+</div><h4 id='method.to_lowercase' class='method'><code>fn <a href='#method.to_lowercase' class='fnname'>to_lowercase</a>(&amp;self) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<div class='docblock'><p>Returns the lowercase equivalent of this string slice, as a new <code>String</code>.</p>
+
+<p>&#39;Lowercase&#39; is defined according to the terms of the Unicode Derived Core Property
+<code>Lowercase</code>.</p>
+
+<h1 id='examples-41' class='section-header'><a href='#examples-41'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;HELLO&quot;;
+    
+    assert_eq!(&quot;hello&quot;, s.to_lowercase());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;HELLO&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;hello&quot;</span>, <span class='ident'>s</span>.<span class='ident'>to_lowercase</span>());</pre>
+
+<p>A tricky example, with sigma:</p>
+<span class='rusttest'>fn main() {
+    let sigma = &quot;Σ&quot;;
+    
+    assert_eq!(&quot;σ&quot;, sigma.to_lowercase());
+    
+    // but at the end of a word, it&#39;s ς, not σ:
+    let odysseus = &quot;ὈΔΥΣΣΕΎΣ&quot;;
+    
+    assert_eq!(&quot;ὀδυσσεύς&quot;, odysseus.to_lowercase());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>sigma</span> <span class='op'>=</span> <span class='string'>&quot;Σ&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;σ&quot;</span>, <span class='ident'>sigma</span>.<span class='ident'>to_lowercase</span>());
+
+<span class='comment'>// but at the end of a word, it&#39;s ς, not σ:</span>
+<span class='kw'>let</span> <span class='ident'>odysseus</span> <span class='op'>=</span> <span class='string'>&quot;ὈΔΥΣΣΕΎΣ&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;ὀδυσσεύς&quot;</span>, <span class='ident'>odysseus</span>.<span class='ident'>to_lowercase</span>());</pre>
+
+<p>Languages without case are not changed:</p>
+<span class='rusttest'>fn main() {
+    let new_year = &quot;农历新年&quot;;
+    
+    assert_eq!(new_year, new_year.to_lowercase());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>new_year</span> <span class='op'>=</span> <span class='string'>&quot;农历新年&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>new_year</span>, <span class='ident'>new_year</span>.<span class='ident'>to_lowercase</span>());</pre>
+</div><h4 id='method.to_uppercase' class='method'><code>fn <a href='#method.to_uppercase' class='fnname'>to_uppercase</a>(&amp;self) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<div class='docblock'><p>Returns the uppercase equivalent of this string slice, as a new <code>String</code>.</p>
+
+<p>&#39;Uppercase&#39; is defined according to the terms of the Unicode Derived Core Property
+<code>Uppercase</code>.</p>
+
+<h1 id='examples-42' class='section-header'><a href='#examples-42'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let s = &quot;hello&quot;;
+    
+    assert_eq!(&quot;HELLO&quot;, s.to_uppercase());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;hello&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='string'>&quot;HELLO&quot;</span>, <span class='ident'>s</span>.<span class='ident'>to_uppercase</span>());</pre>
+
+<p>Scripts without case are not changed:</p>
+<span class='rusttest'>fn main() {
+    let new_year = &quot;农历新年&quot;;
+    
+    assert_eq!(new_year, new_year.to_uppercase());
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>new_year</span> <span class='op'>=</span> <span class='string'>&quot;农历新年&quot;</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>new_year</span>, <span class='ident'>new_year</span>.<span class='ident'>to_uppercase</span>());</pre>
+</div><h4 id='method.escape_default' class='method'><code>fn <a href='#method.escape_default' class='fnname'>escape_default</a>(&amp;self) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_escape</code> <a href="https://github.com/rust-lang/rust/issues/27791">#27791</a>)<p>: return type may change to be an iterator</p>
+</em></div><div class='docblock'><p>Escapes each char in <code>s</code> with <code>char::escape_default</code>.</p>
+</div><h4 id='method.escape_unicode' class='method'><code>fn <a href='#method.escape_unicode' class='fnname'>escape_unicode</a>(&amp;self) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>str_escape</code> <a href="https://github.com/rust-lang/rust/issues/27791">#27791</a>)<p>: return type may change to be an iterator</p>
+</em></div><div class='docblock'><p>Escapes each char in <code>s</code> with <code>char::escape_unicode</code>.</p>
+</div><h4 id='method.into_string' class='method'><code>fn <a href='#method.into_string' class='fnname'>into_string</a>(self: <a class='struct' href='../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;<a class='primitive' href='primitive.str.html'>str</a>&gt;) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<div class='docblock'><p>Converts a <code>Box&lt;str&gt;</code> into a <code>String</code> without copying or allocating.</p>
+
+<h1 id='examples-43' class='section-header'><a href='#examples-43'>Examples</a></h1>
+<p>Basic usage:</p>
+<span class='rusttest'>fn main() {
+    let string = String::from(&quot;birthday gift&quot;);
+    let boxed_str = string.clone().into_boxed_str();
+    
+    assert_eq!(boxed_str.into_string(), string);
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>string</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;birthday gift&quot;</span>);
+<span class='kw'>let</span> <span class='ident'>boxed_str</span> <span class='op'>=</span> <span class='ident'>string</span>.<span class='ident'>clone</span>().<span class='ident'>into_boxed_str</span>();
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='ident'>boxed_str</span>.<span class='ident'>into_string</span>(), <span class='ident'>string</span>);</pre>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl <a class='trait' href='../std/convert/trait.AsRef.html' title='std::convert::AsRef'>AsRef</a>&lt;<a class='primitive' href='primitive.str.html'>str</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.as_ref' class='method'><code>fn <a href='../std/convert/trait.AsRef.html#method.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/raw/trait.Repr.html' title='std::raw::Repr'>Repr</a>&lt;<a class='struct' href='../std/raw/struct.Slice.html' title='std::raw::Slice'>Slice</a>&lt;<a class='primitive' href='primitive.u8.html'>u8</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.repr' class='method'><code>fn <a href='../std/raw/trait.Repr.html#method.repr' class='fnname'>repr</a>(&amp;self) -&gt; T</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/str/pattern/trait.Pattern.html' title='std::str::pattern::Pattern'>Pattern</a>&lt;'a&gt; for &amp;'b <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Non-allocating substring search.</p>
+
+<p>Will handle the pattern <code>&quot;&quot;</code> as returning empty matches at each character
+boundary.</p>
+</div><div class='impl-items'><h4 id='assoc_type.Searcher' class='type'><code>type Searcher = <a class='struct' href='../std/str/pattern/struct.StrSearcher.html' title='std::str::pattern::StrSearcher'>StrSearcher</a>&lt;'a, 'b&gt;</code></h4>
+<h4 id='method.into_searcher' class='method'><code>fn <a href='../std/str/pattern/trait.Pattern.html#method.into_searcher' class='fnname'>into_searcher</a>(self, haystack: &amp;'a <a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='struct' href='../std/str/pattern/struct.StrSearcher.html' title='std::str::pattern::StrSearcher'>StrSearcher</a>&lt;'a, 'b&gt;</code></h4>
+<h4 id='method.is_prefix_of' class='method'><code>fn <a href='../std/str/pattern/trait.Pattern.html#method.is_prefix_of' class='fnname'>is_prefix_of</a>(self, haystack: &amp;'a <a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.is_suffix_of' class='method'><code>fn <a href='../std/str/pattern/trait.Pattern.html#method.is_suffix_of' class='fnname'>is_suffix_of</a>(self, haystack: &amp;'a <a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.is_contained_in' class='method'><code>fn <a href='../std/str/pattern/trait.Pattern.html#method.is_contained_in' class='fnname'>is_contained_in</a>(self, haystack: &amp;'a <a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.Ord.html' title='std::cmp::Ord'>Ord</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.cmp' class='method'><code>fn <a href='../std/cmp/trait.Ord.html#method.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='primitive' href='primitive.str.html'>str</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.Eq.html' title='std::cmp::Eq'>Eq</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.PartialOrd.html' title='std::cmp::PartialOrd'>PartialOrd</a>&lt;<a class='primitive' href='primitive.str.html'>str</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.partial_cmp' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;<a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a>&gt;</code></h4>
+<h4 id='method.lt' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.le' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.gt' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ge' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.Index.html' title='std::ops::Index'>Index</a>&lt;<a class='struct' href='../std/ops/struct.Range.html' title='std::ops::Range'>Range</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Returns a slice of the given string from the byte range
+[<code>begin</code>..<code>end</code>).</p>
+
+<p>This operation is <code>O(1)</code>.</p>
+
+<p>Panics when <code>begin</code> and <code>end</code> do not point to valid characters
+or point beyond the last character of the string.</p>
+
+<h1 id='examples-44' class='section-header'><a href='#examples-44'>Examples</a></h1><span class='rusttest'>fn main() {
+    let s = &quot;Löwe 老虎 Léopard&quot;;
+    assert_eq!(&amp;s[0 .. 1], &quot;L&quot;);
+    
+    assert_eq!(&amp;s[1 .. 9], &quot;öwe 老&quot;);
+    
+    // these will panic:
+    // byte 2 lies within `ö`:
+    // &amp;s[2 ..3];
+    
+    // byte 8 lies within `老`
+    // &amp;s[1 .. 8];
+    
+    // byte 100 is outside the string
+    // &amp;s[3 .. 100];
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>s</span> <span class='op'>=</span> <span class='string'>&quot;Löwe 老虎 Léopard&quot;</span>;
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>[<span class='number'>0</span> .. <span class='number'>1</span>], <span class='string'>&quot;L&quot;</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='kw-2'>&amp;</span><span class='ident'>s</span>[<span class='number'>1</span> .. <span class='number'>9</span>], <span class='string'>&quot;öwe 老&quot;</span>);
+
+<span class='comment'>// these will panic:</span>
+<span class='comment'>// byte 2 lies within `ö`:</span>
+<span class='comment'>// &amp;s[2 ..3];</span>
+
+<span class='comment'>// byte 8 lies within `老`</span>
+<span class='comment'>// &amp;s[1 .. 8];</span>
+
+<span class='comment'>// byte 100 is outside the string</span>
+<span class='comment'>// &amp;s[3 .. 100];</span></pre>
+</div><div class='impl-items'><h4 id='assoc_type.Output' class='type'><code>type Output = <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<h4 id='method.index' class='method'><code>fn <a href='../std/ops/trait.Index.html#method.index' class='fnname'>index</a>(&amp;self, index: <a class='struct' href='../std/ops/struct.Range.html' title='std::ops::Range'>Range</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.IndexMut.html' title='std::ops::IndexMut'>IndexMut</a>&lt;<a class='struct' href='../std/ops/struct.Range.html' title='std::ops::Range'>Range</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Returns a mutable slice of the given string from the byte range
+[<code>begin</code>..<code>end</code>).</p>
+</div><div class='impl-items'><h4 id='method.index_mut' class='method'><code>fn <a href='../std/ops/trait.IndexMut.html#method.index_mut' class='fnname'>index_mut</a>(&amp;mut self, index: <a class='struct' href='../std/ops/struct.Range.html' title='std::ops::Range'>Range</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;) -&gt; &amp;mut <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.Index.html' title='std::ops::Index'>Index</a>&lt;<a class='struct' href='../std/ops/struct.RangeTo.html' title='std::ops::RangeTo'>RangeTo</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Returns a slice of the string from the beginning to byte
+<code>end</code>.</p>
+
+<p>Equivalent to <code>self[0 .. end]</code>.</p>
+
+<p>Panics when <code>end</code> does not point to a valid character, or is
+out of bounds.</p>
+</div><div class='impl-items'><h4 id='assoc_type.Output-1' class='type'><code>type Output = <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<h4 id='method.index-1' class='method'><code>fn <a href='../std/ops/trait.Index.html#method.index' class='fnname'>index</a>(&amp;self, index: <a class='struct' href='../std/ops/struct.RangeTo.html' title='std::ops::RangeTo'>RangeTo</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.IndexMut.html' title='std::ops::IndexMut'>IndexMut</a>&lt;<a class='struct' href='../std/ops/struct.RangeTo.html' title='std::ops::RangeTo'>RangeTo</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Returns a mutable slice of the string from the beginning to byte
+<code>end</code>.</p>
+</div><div class='impl-items'><h4 id='method.index_mut-1' class='method'><code>fn <a href='../std/ops/trait.IndexMut.html#method.index_mut' class='fnname'>index_mut</a>(&amp;mut self, index: <a class='struct' href='../std/ops/struct.RangeTo.html' title='std::ops::RangeTo'>RangeTo</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;) -&gt; &amp;mut <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.Index.html' title='std::ops::Index'>Index</a>&lt;<a class='struct' href='../std/ops/struct.RangeFrom.html' title='std::ops::RangeFrom'>RangeFrom</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Returns a slice of the string from <code>begin</code> to its end.</p>
+
+<p>Equivalent to <code>self[begin .. self.len()]</code>.</p>
+
+<p>Panics when <code>begin</code> does not point to a valid character, or is
+out of bounds.</p>
+</div><div class='impl-items'><h4 id='assoc_type.Output-2' class='type'><code>type Output = <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<h4 id='method.index-2' class='method'><code>fn <a href='../std/ops/trait.Index.html#method.index' class='fnname'>index</a>(&amp;self, index: <a class='struct' href='../std/ops/struct.RangeFrom.html' title='std::ops::RangeFrom'>RangeFrom</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.IndexMut.html' title='std::ops::IndexMut'>IndexMut</a>&lt;<a class='struct' href='../std/ops/struct.RangeFrom.html' title='std::ops::RangeFrom'>RangeFrom</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='docblock'><p>Returns a slice of the string from <code>begin</code> to its end.</p>
+</div><div class='impl-items'><h4 id='method.index_mut-2' class='method'><code>fn <a href='../std/ops/trait.IndexMut.html#method.index_mut' class='fnname'>index_mut</a>(&amp;mut self, index: <a class='struct' href='../std/ops/struct.RangeFrom.html' title='std::ops::RangeFrom'>RangeFrom</a>&lt;<a class='primitive' href='primitive.usize.html'>usize</a>&gt;) -&gt; &amp;mut <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.Index.html' title='std::ops::Index'>Index</a>&lt;<a class='struct' href='../std/ops/struct.RangeFull.html' title='std::ops::RangeFull'>RangeFull</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='assoc_type.Output-3' class='type'><code>type Output = <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<h4 id='method.index-3' class='method'><code>fn <a href='../std/ops/trait.Index.html#method.index' class='fnname'>index</a>(&amp;self, _index: <a class='struct' href='../std/ops/struct.RangeFull.html' title='std::ops::RangeFull'>RangeFull</a>) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ops/trait.IndexMut.html' title='std::ops::IndexMut'>IndexMut</a>&lt;<a class='struct' href='../std/ops/struct.RangeFull.html' title='std::ops::RangeFull'>RangeFull</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.index_mut-3' class='method'><code>fn <a href='../std/ops/trait.IndexMut.html#method.index_mut' class='fnname'>index_mut</a>(&amp;mut self, _index: <a class='struct' href='../std/ops/struct.RangeFull.html' title='std::ops::RangeFull'>RangeFull</a>) -&gt; &amp;mut <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/convert/trait.AsRef.html' title='std::convert::AsRef'>AsRef</a>&lt;<a class='primitive' href='primitive.slice.html'>[<a class='primitive' href='primitive.u8.html'>u8</a>]</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.as_ref-1' class='method'><code>fn <a href='../std/convert/trait.AsRef.html#method.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; <a class='primitive' href='primitive.slice.html'>&amp;[</a><a class='primitive' href='primitive.u8.html'>u8</a><a class='primitive' href='primitive.slice.html'>]</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/default/trait.Default.html' title='std::default::Default'>Default</a> for &amp;'a <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.default' class='method'><code>fn <a href='../std/default/trait.Default.html#method.default' class='fnname'>default</a>() -&gt; &amp;'a <a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash' class='fnname'>hash</a>&lt;H&gt;(&amp;self, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/fmt/trait.Debug.html' title='std::fmt::Debug'>Debug</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../std/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/fmt/trait.Display.html' title='std::fmt::Display'>Display</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='../std/fmt/trait.Display.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/borrow/trait.ToOwned.html' title='std::borrow::ToOwned'>ToOwned</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='assoc_type.Owned' class='type'><code>type Owned = <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<h4 id='method.to_owned' class='method'><code>fn <a href='../std/borrow/trait.ToOwned.html#method.to_owned' class='fnname'>to_owned</a>(&amp;self) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.eq-1' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne-1' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;<a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a>&gt; for &amp;'a <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.eq-2' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne-2' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;<a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='enum' href='../std/borrow/enum.Cow.html' title='std::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt;&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.eq-3' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='enum' href='../std/borrow/enum.Cow.html' title='std::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt;) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne-3' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;<a class='enum' href='../std/borrow/enum.Cow.html' title='std::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt;) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, 'b&gt; <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='enum' href='../std/borrow/enum.Cow.html' title='std::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt;&gt; for &amp;'b <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.eq-4' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='enum' href='../std/borrow/enum.Cow.html' title='std::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt;) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne-4' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;<a class='enum' href='../std/borrow/enum.Cow.html' title='std::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt;) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;'a&gt; <a class='trait' href='../std/borrow/trait.IntoCow.html' title='std::borrow::IntoCow'>IntoCow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt; for &amp;'a <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.into_cow' class='method'><code>fn <a href='../std/borrow/trait.IntoCow.html#method.into_cow' class='fnname'>into_cow</a>(self) -&gt; <a class='enum' href='../std/borrow/enum.Cow.html' title='std::borrow::Cow'>Cow</a>&lt;'a, <a class='primitive' href='primitive.str.html'>str</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../rustc_unicode/u_str/trait.UnicodeStr.html' title='rustc_unicode::u_str::UnicodeStr'>UnicodeStr</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.split_whitespace-1' class='method'><code>fn <a href='../rustc_unicode/u_str/trait.UnicodeStr.html#method.split_whitespace' class='fnname'>split_whitespace</a>(&amp;self) -&gt; <a class='struct' href='../std/str/struct.SplitWhitespace.html' title='std::str::SplitWhitespace'>SplitWhitespace</a></code></h4>
+<h4 id='method.is_whitespace' class='method'><code>fn <a href='../rustc_unicode/u_str/trait.UnicodeStr.html#method.is_whitespace' class='fnname'>is_whitespace</a>(&amp;self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.is_alphanumeric' class='method'><code>fn <a href='../rustc_unicode/u_str/trait.UnicodeStr.html#method.is_alphanumeric' class='fnname'>is_alphanumeric</a>(&amp;self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.trim-1' class='method'><code>fn <a href='../rustc_unicode/u_str/trait.UnicodeStr.html#method.trim' class='fnname'>trim</a>(&amp;self) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<h4 id='method.trim_left-1' class='method'><code>fn <a href='../rustc_unicode/u_str/trait.UnicodeStr.html#method.trim_left' class='fnname'>trim_left</a>(&amp;self) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+<h4 id='method.trim_right-1' class='method'><code>fn <a href='../rustc_unicode/u_str/trait.UnicodeStr.html#method.trim_right' class='fnname'>trim_right</a>(&amp;self) -&gt; &amp;<a class='primitive' href='primitive.str.html'>str</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/ascii/trait.AsciiExt.html' title='std::ascii::AsciiExt'>AsciiExt</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='assoc_type.Owned-1' class='type'><code>type Owned = <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<h4 id='method.is_ascii' class='method'><code>fn <a href='../std/ascii/trait.AsciiExt.html#method.is_ascii' class='fnname'>is_ascii</a>(&amp;self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.to_ascii_uppercase' class='method'><code>fn <a href='../std/ascii/trait.AsciiExt.html#method.to_ascii_uppercase' class='fnname'>to_ascii_uppercase</a>(&amp;self) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<h4 id='method.to_ascii_lowercase' class='method'><code>fn <a href='../std/ascii/trait.AsciiExt.html#method.to_ascii_lowercase' class='fnname'>to_ascii_lowercase</a>(&amp;self) -&gt; <a class='struct' href='../std/string/struct.String.html' title='std::string::String'>String</a></code></h4>
+<h4 id='method.eq_ignore_ascii_case' class='method'><code>fn <a href='../std/ascii/trait.AsciiExt.html#method.eq_ignore_ascii_case' class='fnname'>eq_ignore_ascii_case</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.str.html'>str</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.make_ascii_uppercase' class='method'><code>fn <a href='../std/ascii/trait.AsciiExt.html#method.make_ascii_uppercase' class='fnname'>make_ascii_uppercase</a>(&amp;mut self)</code></h4>
+<h4 id='method.make_ascii_lowercase' class='method'><code>fn <a href='../std/ascii/trait.AsciiExt.html#method.make_ascii_lowercase' class='fnname'>make_ascii_lowercase</a>(&amp;mut self)</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='struct' href='../std/ffi/struct.OsString.html' title='std::ffi::OsString'>OsString</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.eq-5' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../std/ffi/struct.OsString.html' title='std::ffi::OsString'>OsString</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne-5' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='struct' href='../std/ffi/struct.OsStr.html' title='std::ffi::OsStr'>OsStr</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.eq-6' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='struct' href='../std/ffi/struct.OsStr.html' title='std::ffi::OsStr'>OsStr</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne-6' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/convert/trait.AsRef.html' title='std::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='../std/ffi/struct.OsStr.html' title='std::ffi::OsStr'>OsStr</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.as_ref-2' class='method'><code>fn <a href='../std/convert/trait.AsRef.html#method.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; &amp;<a class='struct' href='../std/ffi/struct.OsStr.html' title='std::ffi::OsStr'>OsStr</a></code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/net/trait.ToSocketAddrs.html' title='std::net::ToSocketAddrs'>ToSocketAddrs</a> for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='assoc_type.Iter' class='type'><code>type Iter = <a class='struct' href='../std/vec/struct.IntoIter.html' title='std::vec::IntoIter'>IntoIter</a>&lt;<a class='enum' href='../std/net/enum.SocketAddr.html' title='std::net::SocketAddr'>SocketAddr</a>&gt;</code></h4>
+<h4 id='method.to_socket_addrs' class='method'><code>fn <a href='../std/net/trait.ToSocketAddrs.html#method.to_socket_addrs' class='fnname'>to_socket_addrs</a>(&amp;self) -&gt; <a class='type' href='../std/io/type.Result.html' title='std::io::Result'>Result</a>&lt;<a class='struct' href='../std/vec/struct.IntoIter.html' title='std::vec::IntoIter'>IntoIter</a>&lt;<a class='enum' href='../std/net/enum.SocketAddr.html' title='std::net::SocketAddr'>SocketAddr</a>&gt;&gt;</code></h4>
+</div><h3 class='impl'><code>impl <a class='trait' href='../std/convert/trait.AsRef.html' title='std::convert::AsRef'>AsRef</a>&lt;<a class='struct' href='../std/path/struct.Path.html' title='std::path::Path'>Path</a>&gt; for <a class='primitive' href='primitive.str.html'>str</a></code></h3><div class='impl-items'><h4 id='method.as_ref-3' class='method'><code>fn <a href='../std/convert/trait.AsRef.html#method.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; &amp;<a class='struct' href='../std/path/struct.Path.html' title='std::path::Path'>Path</a></code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "std";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script src="../playpen.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>

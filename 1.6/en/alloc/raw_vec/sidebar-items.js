@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["RawVec","A low-level utility for more ergonomically allocating, reallocating, and deallocating a a buffer of memory on the heap without having to worry about all the corner cases involved. This type is excellent for building your own data structures like Vec and VecDeque. In particular:"]]});

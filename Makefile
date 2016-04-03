@@ -27,6 +27,9 @@ RUSTDOC_HTML_OPTS_NO_CSS = --html-before-content=$(TARGET_DIR)/version_info.html
 
 RUSTDOC_HTML_OPTS = $(RUSTDOC_HTML_OPTS_NO_CSS) --markdown-css rust.css
 
+STATIC_DIRS := alloc collections core extra implementors libc rustc_unicode std
+STATIC_FILES := jquery.js main.css main.js search-index.js
+
 DOC_TARGETS := book nomicon style
 
 
@@ -109,6 +112,27 @@ endef
 # then, apply template for each $(DOCS)
 $(foreach docname,$(DOCS),$(eval $(call DEF_DOC,$(docname))))
 ###
+
+## Copy already renderd docs
+define DEF_COPY_DIR
+
+DOC_TARGETS += $$(TARGET_DIR)/$(1)/
+$$(TARGET_DIR)/$(1)/:
+	cp -R $(BASE_DIR)/$(1) $(TARGET_DIR)/$(1)
+
+endef
+$(foreach dirname,$(STATIC_DIRS),$(eval $(call DEF_COPY_DIR,$(dirname))))
+
+## Copy static files
+define DEF_COPY_FILE
+
+DOC_TARGETS += $$(TARGET_DIR)/$(1)
+$$(TARGET_DIR)/$(1):
+	cp $(VERSION)/static/$(1) $(TARGET_DIR)/$(1)
+
+
+endef
+$(foreach filename,$(STATIC_FILES),$(eval $(call DEF_COPY_FILE,$(filename))))
 
 
 all: $(DOC_TARGETS)
