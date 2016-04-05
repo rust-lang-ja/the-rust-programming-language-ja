@@ -27,7 +27,7 @@ RUSTDOC_HTML_OPTS_NO_CSS = --html-before-content=$(TARGET_DIR)/version_info.html
 
 RUSTDOC_HTML_OPTS = $(RUSTDOC_HTML_OPTS_NO_CSS) --markdown-css rust.css
 
-STATIC_DIRS := alloc collections core extra implementors libc rustc_unicode std
+STATIC_DIRS := alloc collections core implementors libc rustc_unicode std
 STATIC_FILES := jquery.js main.css main.js search-index.js
 
 DOC_TARGETS := book nomicon style
