@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `pointer` primitive in crate `std`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, pointer">
+
+    <title>std::pointer - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../std/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='index.html'>std</a></p><script>window.sidebarCurrent = {name: 'pointer', ty: 'primitive', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content primitive">
+<h1 class='fqn'><span class='in-band'>Primitive Type <a class='primitive' href=''>pointer</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span></span></h1>
+<div class='docblock'><p>Raw, unsafe pointers, <code>*const T</code>, and <code>*mut T</code>.</p>
+
+<p>Working with raw pointers in Rust is uncommon,
+typically limited to a few patterns.</p>
+
+<p>Use the <code>null</code> function to create null pointers, and the <code>is_null</code> method
+of the <code>*const T</code> type  to check for null. The <code>*const T</code> type also defines
+the <code>offset</code> method, for pointer math.</p>
+
+<h1 id='common-ways-to-create-raw-pointers' class='section-header'><a href='#common-ways-to-create-raw-pointers'>Common ways to create raw pointers</a></h1>
+<h2 id='1-coerce-a-reference-t-or-mutable-reference-mut-t' class='section-header'><a href='#1-coerce-a-reference-t-or-mutable-reference-mut-t'>1. Coerce a reference (<code>&amp;T</code>) or mutable reference (<code>&amp;mut T</code>).</a></h2><span class='rusttest'>fn main() {
+    let my_num: i32 = 10;
+    let my_num_ptr: *const i32 = &amp;my_num;
+    let mut my_speed: i32 = 88;
+    let my_speed_ptr: *mut i32 = &amp;mut my_speed;
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>my_num</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>10</span>;
+<span class='kw'>let</span> <span class='ident'>my_num_ptr</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>my_num</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>my_speed</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>88</span>;
+<span class='kw'>let</span> <span class='ident'>my_speed_ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>my_speed</span>;</pre>
+
+<p>To get a pointer to a boxed value, dereference the box:</p>
+<span class='rusttest'>fn main() {
+    let my_num: Box&lt;i32&gt; = Box::new(10);
+    let my_num_ptr: *const i32 = &amp;*my_num;
+    let mut my_speed: Box&lt;i32&gt; = Box::new(88);
+    let my_speed_ptr: *mut i32 = &amp;mut *my_speed;
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>my_num</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>10</span>);
+<span class='kw'>let</span> <span class='ident'>my_num_ptr</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='ident'>my_num</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>my_speed</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>88</span>);
+<span class='kw'>let</span> <span class='ident'>my_speed_ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='ident'>my_speed</span>;</pre>
+
+<p>This does not take ownership of the original allocation
+and requires no resource management later,
+but you must not use the pointer after its lifetime.</p>
+
+<h2 id='2-consume-a-box-boxt' class='section-header'><a href='#2-consume-a-box-boxt'>2. Consume a box (<code>Box&lt;T&gt;</code>).</a></h2>
+<p>The <code>into_raw</code> function consumes a box and returns
+the raw pointer. It doesn&#39;t destroy <code>T</code> or deallocate any memory.</p>
+<span class='rusttest'>fn main() {
+    let my_speed: Box&lt;i32&gt; = Box::new(88);
+    let my_speed: *mut i32 = Box::into_raw(my_speed);
+    
+    // By taking ownership of the original `Box&lt;T&gt;` though
+    // we are obligated to put it together later to be destroyed.
+    unsafe {
+        drop(Box::from_raw(my_speed));
+    }
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>my_speed</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>88</span>);
+<span class='kw'>let</span> <span class='ident'>my_speed</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>into_raw</span>(<span class='ident'>my_speed</span>);
+
+<span class='comment'>// By taking ownership of the original `Box&lt;T&gt;` though</span>
+<span class='comment'>// we are obligated to put it together later to be destroyed.</span>
+<span class='kw'>unsafe</span> {
+    <span class='ident'>drop</span>(<span class='ident'>Box</span>::<span class='ident'>from_raw</span>(<span class='ident'>my_speed</span>));
+}</pre>
+
+<p>Note that here the call to <code>drop</code> is for clarity - it indicates
+that we are done with the given value and it should be destroyed.</p>
+
+<h2 id='3-get-it-from-c' class='section-header'><a href='#3-get-it-from-c'>3. Get it from C.</a></h2><span class='rusttest'>#![feature(libc)]
+extern crate libc;
+
+use std::mem;
+
+fn main() {
+    unsafe {
+        let my_num: *mut i32 = libc::malloc(mem::size_of::&lt;i32&gt;() as libc::size_t) as *mut i32;
+        if my_num.is_null() {
+            panic!(&quot;failed to allocate memory&quot;);
+        }
+        libc::free(my_num as *mut libc::c_void);
+    }
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>libc</span>;
+
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>unsafe</span> {
+        <span class='kw'>let</span> <span class='ident'>my_num</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>libc</span>::<span class='ident'>malloc</span>(<span class='ident'>mem</span>::<span class='ident'>size_of</span>::<span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>() <span class='kw'>as</span> <span class='ident'>libc</span>::<span class='ident'>size_t</span>) <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>i32</span>;
+        <span class='kw'>if</span> <span class='ident'>my_num</span>.<span class='ident'>is_null</span>() {
+            <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;failed to allocate memory&quot;</span>);
+        }
+        <span class='ident'>libc</span>::<span class='ident'>free</span>(<span class='ident'>my_num</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>);
+    }
+}</pre>
+
+<p>Usually you wouldn&#39;t literally use <code>malloc</code> and <code>free</code> from Rust,
+but C APIs hand out a lot of pointers generally, so are a common source
+of raw pointers in Rust.</p>
+
+<p><em><a href="ptr/index.html">See also the <code>std::ptr</code> module</a>.</em></p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.is_null' class='method'><code>fn <a href='#method.is_null' class='fnname'>is_null</a>(self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if the pointer is null.</p>
+</div><h4 id='method.as_ref' class='method'><code>unsafe fn <a href='#method.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;'a T&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>ptr_as_ref</code> <a href="https://github.com/rust-lang/rust/issues/27780">#27780</a>)<p>: Option is not clearly the right return type, and we may want to tie the return lifetime to a borrow of the raw pointer</p>
+</em></div><div class='docblock'><p>Returns <code>None</code> if the pointer is null, or else returns a reference to
+the value wrapped in <code>Some</code>.</p>
+
+<h1 id='safety' class='section-header'><a href='#safety'>Safety</a></h1>
+<p>While this method and its mutable counterpart are useful for
+null-safety, it is important to note that this is still an unsafe
+operation because the returned value could be pointing to invalid
+memory.</p>
+</div><h4 id='method.offset' class='method'><code>unsafe fn <a href='#method.offset' class='fnname'>offset</a>(self, count: <a class='primitive' href='primitive.isize.html'>isize</a>) -&gt; <a class='primitive' href='primitive.pointer.html'>*const T</a></code></h4>
+<div class='docblock'><p>Calculates the offset from a pointer. <code>count</code> is in units of T; e.g. a
+<code>count</code> of 3 represents a pointer offset of <code>3 * sizeof::&lt;T&gt;()</code> bytes.</p>
+
+<h1 id='safety-1' class='section-header'><a href='#safety-1'>Safety</a></h1>
+<p>Both the starting and resulting pointer must be either in bounds or one
+byte past the end of an allocated object. If either pointer is out of
+bounds or arithmetic overflow occurs then
+any further use of the returned value will result in undefined behavior.</p>
+</div></div><h3 class='impl'><code>impl&lt;T&gt; <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.is_null-1' class='method'><code>fn <a href='#method.is_null' class='fnname'>is_null</a>(self) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if the pointer is null.</p>
+</div><h4 id='method.as_ref-1' class='method'><code>unsafe fn <a href='#method.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;'a T&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>ptr_as_ref</code> <a href="https://github.com/rust-lang/rust/issues/27780">#27780</a>)<p>: Option is not clearly the right return type, and we may want to tie the return lifetime to a borrow of the raw pointer</p>
+</em></div><div class='docblock'><p>Returns <code>None</code> if the pointer is null, or else returns a reference to
+the value wrapped in <code>Some</code>.</p>
+
+<h1 id='safety-2' class='section-header'><a href='#safety-2'>Safety</a></h1>
+<p>While this method and its mutable counterpart are useful for
+null-safety, it is important to note that this is still an unsafe
+operation because the returned value could be pointing to invalid
+memory.</p>
+</div><h4 id='method.offset-1' class='method'><code>unsafe fn <a href='#method.offset' class='fnname'>offset</a>(self, count: <a class='primitive' href='primitive.isize.html'>isize</a>) -&gt; <a class='primitive' href='primitive.pointer.html'>*mut T</a></code></h4>
+<div class='docblock'><p>Calculates the offset from a pointer. <code>count</code> is in units of T; e.g. a
+<code>count</code> of 3 represents a pointer offset of <code>3 * sizeof::&lt;T&gt;()</code> bytes.</p>
+
+<h1 id='safety-3' class='section-header'><a href='#safety-3'>Safety</a></h1>
+<p>The offset must be in-bounds of the object, or one-byte-past-the-end.
+Otherwise <code>offset</code> invokes Undefined Behavior, regardless of whether
+the pointer is used.</p>
+</div><h4 id='method.as_mut' class='method'><code>unsafe fn <a href='#method.as_mut' class='fnname'>as_mut</a>(&amp;self) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;'a mut T&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>ptr_as_ref</code> <a href="https://github.com/rust-lang/rust/issues/27780">#27780</a>)<p>: return value does not necessarily convey all possible information</p>
+</em></div><div class='docblock'><p>Returns <code>None</code> if the pointer is null, or else returns a mutable
+reference to the value wrapped in <code>Some</code>.</p>
+
+<h1 id='safety-4' class='section-header'><a href='#safety-4'>Safety</a></h1>
+<p>As with <code>as_ref</code>, this is unsafe because it cannot verify the validity
+of the returned pointer.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../core/nonzero/trait.Zeroable.html' title='core::nonzero::Zeroable'>Zeroable</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../core/nonzero/trait.Zeroable.html' title='core::nonzero::Zeroable'>Zeroable</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='primitive' href='primitive.pointer.html'>*const T</a>&gt; for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*const T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.Eq.html' title='std::cmp::Eq'>Eq</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.PartialEq.html' title='std::cmp::PartialEq'>PartialEq</a>&lt;<a class='primitive' href='primitive.pointer.html'>*mut T</a>&gt; for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.eq-1' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*mut T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ne-1' class='method'><code>fn <a href='../std/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, other: &amp;Rhs) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.Eq.html' title='std::cmp::Eq'>Eq</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/clone/trait.Clone.html' title='std::clone::Clone'>Clone</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../std/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='primitive' href='primitive.pointer.html'>*const T</a></code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../std/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/clone/trait.Clone.html' title='std::clone::Clone'>Clone</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.clone-1' class='method'><code>fn <a href='../std/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='primitive' href='primitive.pointer.html'>*mut T</a></code></h4>
+<h4 id='method.clone_from-1' class='method'><code>fn <a href='../std/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.Ord.html' title='std::cmp::Ord'>Ord</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.cmp' class='method'><code>fn <a href='../std/cmp/trait.Ord.html#method.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*const T</a>) -&gt; <a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.PartialOrd.html' title='std::cmp::PartialOrd'>PartialOrd</a>&lt;<a class='primitive' href='primitive.pointer.html'>*const T</a>&gt; for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.partial_cmp' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*const T</a>) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;<a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a>&gt;</code></h4>
+<h4 id='method.lt' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*const T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.le' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*const T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.gt' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*const T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ge' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*const T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.Ord.html' title='std::cmp::Ord'>Ord</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.cmp-1' class='method'><code>fn <a href='../std/cmp/trait.Ord.html#method.cmp' class='fnname'>cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*mut T</a>) -&gt; <a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/cmp/trait.PartialOrd.html' title='std::cmp::PartialOrd'>PartialOrd</a>&lt;<a class='primitive' href='primitive.pointer.html'>*mut T</a>&gt; for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'><h4 id='method.partial_cmp-1' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*mut T</a>) -&gt; <a class='enum' href='../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;<a class='enum' href='../std/cmp/enum.Ordering.html' title='std::cmp::Ordering'>Ordering</a>&gt;</code></h4>
+<h4 id='method.lt-1' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*mut T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.le-1' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*mut T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.gt-1' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*mut T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+<h4 id='method.ge-1' class='method'><code>fn <a href='../std/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, other: &amp;<a class='primitive' href='primitive.pointer.html'>*mut T</a>) -&gt; <a class='primitive' href='primitive.bool.html'>bool</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../std/marker/trait.Sync.html' title='std::marker::Sync'>Sync</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; !<a class='trait' href='../std/marker/trait.Sync.html' title='std::marker::Sync'>Sync</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T, U&gt; <a class='trait' href='../std/ops/trait.CoerceUnsized.html' title='std::ops::CoerceUnsized'>CoerceUnsized</a>&lt;<a class='primitive' href='primitive.pointer.html'>*mut U</a>&gt; for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: <a class='trait' href='../std/marker/trait.Unsize.html' title='std::marker::Unsize'>Unsize</a>&lt;U&gt; + ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a>, U: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T, U&gt; <a class='trait' href='../std/ops/trait.CoerceUnsized.html' title='std::ops::CoerceUnsized'>CoerceUnsized</a>&lt;<a class='primitive' href='primitive.pointer.html'>*const U</a>&gt; for <a class='primitive' href='primitive.pointer.html'>*mut T</a> <span class='where'>where T: <a class='trait' href='../std/marker/trait.Unsize.html' title='std::marker::Unsize'>Unsize</a>&lt;U&gt; + ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a>, U: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T, U&gt; <a class='trait' href='../std/ops/trait.CoerceUnsized.html' title='std::ops::CoerceUnsized'>CoerceUnsized</a>&lt;<a class='primitive' href='primitive.pointer.html'>*const U</a>&gt; for <a class='primitive' href='primitive.pointer.html'>*const T</a> <span class='where'>where U: ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a>, T: <a class='trait' href='../std/marker/trait.Unsize.html' title='std::marker::Unsize'>Unsize</a>&lt;U&gt; + ?<a class='trait' href='../std/marker/trait.Sized.html' title='std::marker::Sized'>Sized</a></span></code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a></code></h3><div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash' class='fnname'>hash</a>&lt;H&gt;(&amp;self, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/hash/trait.Hash.html' title='std::hash::Hash'>Hash</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a></code></h3><div class='impl-items'><h4 id='method.hash-1' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash' class='fnname'>hash</a>&lt;H&gt;(&amp;self, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+<h4 id='method.hash_slice-1' class='method'><code>fn <a href='../std/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: <a class='primitive' href='primitive.slice.html'>&amp;[Self]</a>, state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../std/hash/trait.Hasher.html' title='std::hash::Hasher'>Hasher</a></span></code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/fmt/trait.Pointer.html' title='std::fmt::Pointer'>Pointer</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a></code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../std/fmt/trait.Pointer.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/fmt/trait.Pointer.html' title='std::fmt::Pointer'>Pointer</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a></code></h3><div class='impl-items'><h4 id='method.fmt-1' class='method'><code>fn <a href='../std/fmt/trait.Pointer.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/fmt/trait.Debug.html' title='std::fmt::Debug'>Debug</a> for <a class='primitive' href='primitive.pointer.html'>*const T</a></code></h3><div class='impl-items'><h4 id='method.fmt-2' class='method'><code>fn <a href='../std/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;T&gt; <a class='trait' href='../std/fmt/trait.Debug.html' title='std::fmt::Debug'>Debug</a> for <a class='primitive' href='primitive.pointer.html'>*mut T</a></code></h3><div class='impl-items'><h4 id='method.fmt-3' class='method'><code>fn <a href='../std/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, f: &amp;mut <a class='struct' href='../std/fmt/struct.Formatter.html' title='std::fmt::Formatter'>Formatter</a>) -&gt; <a class='enum' href='../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='primitive' href='primitive.tuple.html'>()</a>, <a class='struct' href='../std/fmt/struct.Error.html' title='std::fmt::Error'>Error</a>&gt;</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../";
+        window.currentCrate = "std";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../jquery.js"></script>
+    <script src="../main.js"></script>
+    <script src="../playpen.js"></script>
+    <script defer src="../search-index.js"></script>
+</body>
+</html>
