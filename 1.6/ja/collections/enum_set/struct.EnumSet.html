@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `EnumSet` struct in crate `collections`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, EnumSet">
+
+    <title>collections::enum_set::EnumSet - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../collections/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../index.html'>collections</a>::<wbr><a href='index.html'>enum_set</a></p><script>window.sidebarCurrent = {name: 'EnumSet', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>collections</a>::<wbr><a href='index.html'>enum_set</a>::<wbr><a class='struct' href=''>EnumSet</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-2412' class='srclink' href='../../src/collections/enum_set.rs.html#36-41' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct EnumSet&lt;E&gt; {
+    // some fields omitted
+}</pre><div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>A specialized set implementation to use enum types.</p>
+
+<p>It is a logic error for an item to be modified in such a way that the
+transformation of the item to or from a <code>usize</code>, as determined by the
+<code>CLike</code> trait, changes while the item is in the set. This is normally only
+possible through <code>Cell</code>, <code>RefCell</code>, global state, I/O, or unsafe code.</p>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a>&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.new' class='method'><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns an empty <code>EnumSet</code>.</p>
+</div><h4 id='method.len' class='method'><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; usize</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns the number of elements in the given <code>EnumSet</code>.</p>
+</div><h4 id='method.is_empty' class='method'><code>fn <a href='#method.is_empty' class='fnname'>is_empty</a>(&amp;self) -&gt; bool</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns true if the <code>EnumSet</code> is empty.</p>
+</div><h4 id='method.clear' class='method'><code>fn <a href='#method.clear' class='fnname'>clear</a>(&amp;mut self)</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><h4 id='method.is_disjoint' class='method'><code>fn <a href='#method.is_disjoint' class='fnname'>is_disjoint</a>(&amp;self, other: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns <code>false</code> if the <code>EnumSet</code> contains any enum of the given <code>EnumSet</code>.</p>
+</div><h4 id='method.is_superset' class='method'><code>fn <a href='#method.is_superset' class='fnname'>is_superset</a>(&amp;self, other: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns <code>true</code> if a given <code>EnumSet</code> is included in this <code>EnumSet</code>.</p>
+</div><h4 id='method.is_subset' class='method'><code>fn <a href='#method.is_subset' class='fnname'>is_subset</a>(&amp;self, other: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns <code>true</code> if this <code>EnumSet</code> is included in the given <code>EnumSet</code>.</p>
+</div><h4 id='method.union' class='method'><code>fn <a href='#method.union' class='fnname'>union</a>(&amp;self, e: <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns the union of both <code>EnumSets</code>.</p>
+</div><h4 id='method.intersection' class='method'><code>fn <a href='#method.intersection' class='fnname'>intersection</a>(&amp;self, e: <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns the intersection of both <code>EnumSets</code>.</p>
+</div><h4 id='method.insert' class='method'><code>fn <a href='#method.insert' class='fnname'>insert</a>(&amp;mut self, e: E) -&gt; bool</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Adds an enum to the <code>EnumSet</code>, and returns <code>true</code> if it wasn&#39;t there before</p>
+</div><h4 id='method.remove' class='method'><code>fn <a href='#method.remove' class='fnname'>remove</a>(&amp;mut self, e: &amp;E) -&gt; bool</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Removes an enum from the EnumSet</p>
+</div><h4 id='method.contains' class='method'><code>fn <a href='#method.contains' class='fnname'>contains</a>(&amp;self, e: &amp;E) -&gt; bool</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns <code>true</code> if an <code>EnumSet</code> contains a given enum.</p>
+</div><h4 id='method.iter' class='method'><code>fn <a href='#method.iter' class='fnname'>iter</a>(&amp;self) -&gt; <a class='struct' href='../../collections/enum_set/struct.Iter.html' title='collections::enum_set::Iter'>Iter</a>&lt;E&gt;</code></h4>
+<div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Returns an iterator over an <code>EnumSet</code>.</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><code>impl&lt;E&gt; <a class='trait' href='../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;E&gt; <a class='trait' href='../../core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.clone' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<h4 id='method.clone_from' class='method'><code>fn <a href='../../core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a> + <a class='trait' href='../../collections/fmt/trait.Debug.html' title='collections::fmt::Debug'>Debug</a>&gt; <a class='trait' href='../../collections/fmt/trait.Debug.html' title='collections::fmt::Debug'>Debug</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.fmt' class='method'><code>fn <a href='../../collections/fmt/trait.Debug.html#method.fmt' class='fnname'>fmt</a>(&amp;self, fmt: &amp;mut <a class='struct' href='../../collections/fmt/struct.Formatter.html' title='collections::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='../../collections/fmt/type.Result.html' title='collections::fmt::Result'>Result</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a>&gt; <a class='trait' href='../../core/ops/trait.Sub.html' title='core::ops::Sub'>Sub</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Output' class='type'><code>type Output = <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<h4 id='method.sub' class='method'><code>fn <a href='../../core/ops/trait.Sub.html#method.sub' class='fnname'>sub</a>(self, e: <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a>&gt; <a class='trait' href='../../core/ops/trait.BitOr.html' title='core::ops::BitOr'>BitOr</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Output-1' class='type'><code>type Output = <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<h4 id='method.bitor' class='method'><code>fn <a href='../../core/ops/trait.BitOr.html#method.bitor' class='fnname'>bitor</a>(self, e: <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a>&gt; <a class='trait' href='../../core/ops/trait.BitAnd.html' title='core::ops::BitAnd'>BitAnd</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Output-2' class='type'><code>type Output = <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<h4 id='method.bitand' class='method'><code>fn <a href='../../core/ops/trait.BitAnd.html#method.bitand' class='fnname'>bitand</a>(self, e: <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a>&gt; <a class='trait' href='../../core/ops/trait.BitXor.html' title='core::ops::BitXor'>BitXor</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='assoc_type.Output-3' class='type'><code>type Output = <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+<h4 id='method.bitxor' class='method'><code>fn <a href='../../core/ops/trait.BitXor.html#method.bitxor' class='fnname'>bitxor</a>(self, e: <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a>&gt; <a class='trait' href='../../core/iter/trait.FromIterator.html' title='core::iter::FromIterator'>FromIterator</a>&lt;E&gt; for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.from_iter' class='method'><code>fn <a href='../../core/iter/trait.FromIterator.html#method.from_iter' class='fnname'>from_iter</a>&lt;I: <a class='trait' href='../../core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=E&gt;&gt;(iter: I) -&gt; <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, E&gt; <a class='trait' href='../../core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a> for &amp;'a <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt; <span class='where'>where E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a></span></code></h3><div class='impl-items'><h4 id='assoc_type.Item' class='type'><code>type Item = E</code></h4>
+<h4 id='assoc_type.IntoIter' class='type'><code>type IntoIter = <a class='struct' href='../../collections/enum_set/struct.Iter.html' title='collections::enum_set::Iter'>Iter</a>&lt;E&gt;</code></h4>
+<h4 id='method.into_iter' class='method'><code>fn <a href='../../core/iter/trait.IntoIterator.html#method.into_iter' class='fnname'>into_iter</a>(self) -&gt; <a class='struct' href='../../collections/enum_set/struct.Iter.html' title='collections::enum_set::Iter'>Iter</a>&lt;E&gt;</code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a>&gt; <a class='trait' href='../../core/iter/trait.Extend.html' title='core::iter::Extend'>Extend</a>&lt;E&gt; for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.extend' class='method'><code>fn <a href='../../core/iter/trait.Extend.html#method.extend' class='fnname'>extend</a>&lt;I: <a class='trait' href='../../core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=E&gt;&gt;(&amp;mut self, iter: I)</code></h4>
+</div><h3 class='impl'><code>impl&lt;'a, E: 'a + <a class='trait' href='../../collections/enum_set/trait.CLike.html' title='collections::enum_set::CLike'>CLike</a> + <a class='trait' href='../../core/marker/trait.Copy.html' title='core::marker::Copy'>Copy</a>&gt; <a class='trait' href='../../core/iter/trait.Extend.html' title='core::iter::Extend'>Extend</a>&lt;&amp;'a E&gt; for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.extend-1' class='method'><code>fn <a href='../../core/iter/trait.Extend.html#method.extend' class='fnname'>extend</a>&lt;I: <a class='trait' href='../../core/iter/trait.IntoIterator.html' title='core::iter::IntoIterator'>IntoIterator</a>&lt;Item=&amp;'a E&gt;&gt;(&amp;mut self, iter: I)</code></h4>
+</div><h3 id='derived_implementations'>Derived Implementations </h3><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a>&gt; <a class='trait' href='../../core/hash/trait.Hash.html' title='core::hash::Hash'>Hash</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.hash' class='method'><code>fn <a href='../../core/hash/trait.Hash.html#method.hash' class='fnname'>hash</a>&lt;__H: <a class='trait' href='../../core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a>&gt;(&amp;self, __arg_0: &amp;mut __H)</code></h4>
+<h4 id='method.hash_slice' class='method'><code>fn <a href='../../core/hash/trait.Hash.html#method.hash_slice' class='fnname'>hash_slice</a>&lt;H&gt;(data: &amp;[Self], state: &amp;mut H) <span class='where'>where H: <a class='trait' href='../../core/hash/trait.Hasher.html' title='core::hash::Hasher'>Hasher</a></span></code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../core/cmp/trait.Ord.html' title='core::cmp::Ord'>Ord</a>&gt; <a class='trait' href='../../core/cmp/trait.Ord.html' title='core::cmp::Ord'>Ord</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.cmp' class='method'><code>fn <a href='../../core/cmp/trait.Ord.html#method.cmp' class='fnname'>cmp</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='enum' href='../../core/cmp/enum.Ordering.html' title='core::cmp::Ordering'>Ordering</a></code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a>&gt; <a class='trait' href='../../core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.partial_cmp' class='method'><code>fn <a href='../../core/cmp/trait.PartialOrd.html#method.partial_cmp' class='fnname'>partial_cmp</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; <a class='enum' href='../../core/option/enum.Option.html' title='core::option::Option'>Option</a>&lt;<a class='enum' href='../../core/cmp/enum.Ordering.html' title='core::cmp::Ordering'>Ordering</a>&gt;</code></h4>
+<h4 id='method.lt' class='method'><code>fn <a href='../../core/cmp/trait.PartialOrd.html#method.lt' class='fnname'>lt</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+<h4 id='method.le' class='method'><code>fn <a href='../../core/cmp/trait.PartialOrd.html#method.le' class='fnname'>le</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+<h4 id='method.gt' class='method'><code>fn <a href='../../core/cmp/trait.PartialOrd.html#method.gt' class='fnname'>gt</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+<h4 id='method.ge' class='method'><code>fn <a href='../../core/cmp/trait.PartialOrd.html#method.ge' class='fnname'>ge</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+</div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a>&gt; <a class='trait' href='../../core/cmp/trait.Eq.html' title='core::cmp::Eq'>Eq</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'></div><h3 class='impl'><code>impl&lt;E: <a class='trait' href='../../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a>&gt; <a class='trait' href='../../core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;</code></h3><div class='impl-items'><h4 id='method.eq' class='method'><code>fn <a href='../../core/cmp/trait.PartialEq.html#method.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+<h4 id='method.ne' class='method'><code>fn <a href='../../core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../collections/enum_set/struct.EnumSet.html' title='collections::enum_set::EnumSet'>EnumSet</a>&lt;E&gt;) -&gt; bool</code></h4>
+</div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "collections";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script src="../../playpen.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
