@@ -1,4 +1,5 @@
-% Crates and Modules
+% クレートとモジュール
+<!-- % Crates and Modules -->
 
 When a project starts getting large, it’s considered good software
 engineering practice to split it up into a bunch of smaller pieces, and then
