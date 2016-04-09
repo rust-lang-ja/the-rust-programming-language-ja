@@ -1,28 +1,33 @@
 % クレートとモジュール
 <!-- % Crates and Modules -->
 
-When a project starts getting large, it’s considered good software
+<!-- When a project starts getting large, it’s considered good software
 engineering practice to split it up into a bunch of smaller pieces, and then
 fit them together. It’s also important to have a well-defined interface, so
 that some of your functionality is private, and some is public. To facilitate
-these kinds of things, Rust has a module system.
+these kinds of things, Rust has a module system. -->
+プロジェクトが大きくなり始めた際に、コードを幾つかのまとまりに分割しそれらでプロジェクトを組み立てるのはソフトウェア工学における優れた慣例だと考えられています。機能の一部をプライベートとし、かつ幾つかをパブリックとできるように、はっきりと定義されたインターフェースも重要となります。こういった事柄を容易にするため、Rustはモジュールシステムを有しています。
 
-# Basic terminology: Crates and Modules
+<!-- # Basic terminology: Crates and Modules -->
+# 基本的な専門用語: クレートとモジュール
 
-Rust has two distinct terms that relate to the module system: ‘crate’ and
+<!-- Rust has two distinct terms that relate to the module system: ‘crate’ and
 ‘module’. A crate is synonymous with a ‘library’ or ‘package’ in other
 languages. Hence “Cargo” as the name of Rust’s package management tool: you
 ship your crates to others with Cargo. Crates can produce an executable or a
-library, depending on the project.
+library, depending on the project. -->
+Rustはモジュールシステムに関連して、「クレート」(crate)と「モジュール」(module)という2つの用語を明確に分けています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。(訳注: crateとは枠箱のことであり、cargoは船荷を指します)Cargoを使ってあなたのクレートを船で出荷し他のユーザに公開するわけです。クレートは実行ファイルかライブラリをプロジェクトに応じて作成できます。
 
-Each crate has an implicit *root module* that contains the code for that crate.
+<!-- Each crate has an implicit *root module* that contains the code for that crate.
 You can then define a tree of sub-modules under that root module. Modules allow
-you to partition your code within the crate itself.
+you to partition your code within the crate itself. -->
+各クレートは自身のコードが入っている *ルートモジュール* (root module)を暗黙的に持っています。この時ルートモジュール下にはサブモジュールの木が定義できます。モジュールによりクレート内でコードを分割できます。
 
-As an example, let’s make a *phrases* crate, which will give us various phrases
+<!-- As an example, let’s make a *phrases* crate, which will give us various phrases
 in different languages. To keep things simple, we’ll stick to ‘greetings’ and
 ‘farewells’ as two kinds of phrases, and use English and Japanese (日本語) as
-two languages for those phrases to be in. We’ll use this module layout:
+two languages for those phrases to be in. We’ll use this module layout: -->
+例として、 *phrases* クレートを作ってみます。これには異なる言語で幾つかのフレーズを入れます。問題の単純さを保つために、2種類のフレーズとして「greetings」と「farewells」に固定し、これらフレーズを表すための2つの言語として英語と日本語を使うことにします。
 
 ```text
                                     +-----------+
@@ -44,19 +49,22 @@ two languages for those phrases to be in. We’ll use this module layout:
                                     +-----------+
 ```
 
-In this example, `phrases` is the name of our crate. All of the rest are
+<!-- In this example, `phrases` is the name of our crate. All of the rest are
 modules.  You can see that they form a tree, branching out from the crate
-*root*, which is the root of the tree: `phrases` itself.
+*root*, which is the root of the tree: `phrases` itself. -->
+この例において、 `phrases` はクレートの名前です。それ以外の全てはモジュールです。それらが木の形をしており、クレートの *根* から枝分かれしていることが分かります。そして木の根は `phrases` それ自身です。
 
-Now that we have a plan, let’s define these modules in code. To start,
-generate a new crate with Cargo:
+<!-- Now that we have a plan, let’s define these modules in code. To start,
+generate a new crate with Cargo: -->
+ここまでで計画は立ちましたから、これらモジュールをコードで定義しましょう。始めるために、Cargoで新しいクレートを生成します。
 
 ```bash
 $ cargo new phrases
 $ cd phrases
 ```
 
-If you remember, this generates a simple project for us:
+<!-- If you remember, this generates a simple project for us: -->
+このコマンドを覚えていれば、Cargoがシンプルなプロジェクトを生成してくれます。
 
 ```bash
 $ tree .
@@ -68,10 +76,12 @@ $ tree .
 1 directory, 2 files
 ```
 
-`src/lib.rs` is our crate root, corresponding to the `phrases` in our diagram
-above.
+<!-- `src/lib.rs` is our crate root, corresponding to the `phrases` in our diagram
+above. -->
+`src/lib.rs` はクレートの根であり、先程の図における `phrases` に相当します。
 
-# Defining Modules
+<!-- # Defining Modules -->
+# モジュールを定義する
 
 To define each of our modules, we use the `mod` keyword. Let’s make our
 `src/lib.rs` look like this:
