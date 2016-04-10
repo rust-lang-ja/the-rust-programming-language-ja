@@ -16,7 +16,7 @@ these kinds of things, Rust has a module system. -->
 languages. Hence “Cargo” as the name of Rust’s package management tool: you
 ship your crates to others with Cargo. Crates can produce an executable or a
 library, depending on the project. -->
-Rustはモジュールシステムに関連して、「クレート」(crate)と「モジュール」(module)という2つの用語を明確に分けています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。(訳注: crateとは枠箱のことであり、cargoは船荷を指します)Cargoを使ってあなたのクレートを船で出荷し他のユーザに公開するわけです。クレートは実行ファイルかライブラリをプロジェクトに応じて作成できます。
+Rustはモジュールシステムに関連して、「クレート」(crate)と「モジュール」(module)という2つの用語を明確に分けています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってあなたのクレートを船で出荷し他のユーザに公開するわけです。クレートは実行ファイルかライブラリをプロジェクトに応じて作成できます。
 
 <!-- Each crate has an implicit *root module* that contains the code for that crate.
 You can then define a tree of sub-modules under that root module. Modules allow
@@ -136,32 +136,39 @@ crate from another crate, let’s break it up into multiple files. -->
 <!-- # Multiple file crates -->
 # 複数のファイルによるクレート
 
-If each crate were just one file, these files would get very large. It’s often
+<!-- If each crate were just one file, these files would get very large. It’s often
 easier to split up crates into multiple files, and Rust supports this in two
-ways.
+ways. -->
+各クレートがただ1つのファイルからなるのであれば、これらファイルは非常に大きくなってしまうでしょう。クレートを複数のファイルに分けた方が楽になるため、Rustは2つの方法でこれをサポートしています。
 
-Instead of declaring a module like this:
+<!-- Instead of declaring a module like this: -->
+以下のようなモジュールを宣言する代わりに、
 
 ```rust,ignore
 mod english {
-    // contents of our module go here
+# //    // contents of our module go here
+    // モジュールの内容はここに
 }
 ```
 
-We can instead declare our module like this:
+<!-- We can instead declare our module like this: -->
+このようなモジュールが宣言できます。
 
 ```rust,ignore
 mod english;
 ```
 
-If we do that, Rust will expect to find either a `english.rs` file, or a
-`english/mod.rs` file with the contents of our module.
+<!-- If we do that, Rust will expect to find either a `english.rs` file, or a
+`english/mod.rs` file with the contents of our module. -->
+こうすれば、Rustは `english.rs` ファイルか、 `english/mod.rs` ファイルのどちらかにモジュールの内容があるだろうと予期します。
 
-Note that in these files, you don’t need to re-declare the module: that’s
-already been done with the initial `mod` declaration.
+<!-- Note that in these files, you don’t need to re-declare the module: that’s
+already been done with the initial `mod` declaration. -->
+それらのファイルの中でモジュールの再宣言を行う必要がないことに気をつけて下さい。先の `mod` 宣言にてそれは済んでいます。
 
-Using these two techniques, we can break up our crate into two directories and
-seven files:
+<!-- Using these two techniques, we can break up our crate into two directories and
+seven files: -->
+これら2つのテクニックを用いて、クレートを2つのディレクトリと7つのファイルに分解できます。
 
 ```bash
 $ tree .
@@ -187,34 +194,39 @@ $ tree .
         └── native
 ```
 
-`src/lib.rs` is our crate root, and looks like this:
+<!-- `src/lib.rs` is our crate root, and looks like this: -->
+`src/lib.rs` はクレートの根で、以下のようになっています。
 
 ```rust,ignore
 mod english;
 mod japanese;
 ```
 
-These two declarations tell Rust to look for either `src/english.rs` and
+<!-- These two declarations tell Rust to look for either `src/english.rs` and
 `src/japanese.rs`, or `src/english/mod.rs` and `src/japanese/mod.rs`, depending
 on our preference. In this case, because our modules have sub-modules, we’ve
 chosen the second. Both `src/english/mod.rs` and `src/japanese/mod.rs` look
-like this:
+like this: -->
+これら2つの宣言はRustへ書き手の好みに合わせて `src/english.rs` と `src/japanese.rs` 、または `src/english/mod.rs` と `src/japanese/mod.rs` のどちらかを見よと伝えています。今回の場合、サブモジュールがあるため、私たちは後者を選択しました。 `src/english/mod.rs` と `src/japanese/mod.rs` は両方とも以下のようになっています。
 
 ```rust,ignore
 mod greetings;
 mod farewells;
 ```
 
-Again, these declarations tell Rust to look for either
+<!-- Again, these declarations tell Rust to look for either
 `src/english/greetings.rs` and `src/japanese/greetings.rs` or
 `src/english/farewells/mod.rs` and `src/japanese/farewells/mod.rs`. Because
 these sub-modules don’t have their own sub-modules, we’ve chosen to make them
-`src/english/greetings.rs` and `src/japanese/farewells.rs`. Whew!
+`src/english/greetings.rs` and `src/japanese/farewells.rs`. Whew! -->
+繰り返すと、これら宣言はRustへ `src/english/greetings.rs` と `src/japanese/greetings.rs` 、または `src/english/farewells/mod.rs` と `src/japanese/farewells/mod.rs` のどちらかを見よと伝えています。これらサブモジュールは自身配下のサブモジュールを持たないため、私たちは `src/english/greetings.rs` と `src/japanese/farewells.rs` を選びました。ヒュー！
 
-The contents of `src/english/greetings.rs` and `src/japanese/farewells.rs` are
-both empty at the moment. Let’s add some functions.
+<!-- The contents of `src/english/greetings.rs` and `src/japanese/farewells.rs` are
+both empty at the moment. Let’s add some functions. -->
+`src/english/greetings.rs` と `src/japanese/farewells.rs` の中身は現在両方とも空です。幾つか関数を追加しましょう。
 
-Put this in `src/english/greetings.rs`:
+<!-- Put this in `src/english/greetings.rs`: -->
+`src/english/greetings.rs` に以下を入力します。
 
 ```rust
 fn hello() -> String {
@@ -222,7 +234,8 @@ fn hello() -> String {
 }
 ```
 
-Put this in `src/english/farewells.rs`:
+<!-- Put this in `src/english/farewells.rs`: -->
+`src/english/farewells.rs` には以下を入力します。
 
 ```rust
 fn goodbye() -> String {
@@ -230,7 +243,8 @@ fn goodbye() -> String {
 }
 ```
 
-Put this in `src/japanese/greetings.rs`:
+<!-- Put this in `src/japanese/greetings.rs`: -->
+`src/japanese/greetings.rs` には以下を入力します。
 
 ```rust
 fn hello() -> String {
@@ -238,11 +252,13 @@ fn hello() -> String {
 }
 ```
 
-Of course, you can copy and paste this from this web page, or just type
+<!-- Of course, you can copy and paste this from this web page, or just type
 something else. It’s not important that you actually put ‘konnichiwa’ to learn
-about the module system.
+about the module system. -->
+勿論、このwebページからコピー&ペーストしたり、単に他の何かをタイプしても構いません。あなたが実際にモジュールシステムについて学ぶために「konnichiwa」と入力するのは重要なことではありません。
 
-Put this in `src/japanese/farewells.rs`:
+<!-- Put this in `src/japanese/farewells.rs`: -->
+`src/japanese/farewells.rs` には以下を入力します。
 
 ```rust
 fn goodbye() -> String {
@@ -250,12 +266,15 @@ fn goodbye() -> String {
 }
 ```
 
-(This is ‘Sayōnara’, if you’re curious.)
+<!-- (This is ‘Sayōnara’, if you’re curious.) -->
+（英語だと「Sayōnara」と表記するようです、御参考まで。）
 
-Now that we have some functionality in our crate, let’s try to use it from
-another crate.
+<!-- Now that we have some functionality in our crate, let’s try to use it from
+another crate. -->
+ここまででクレートは幾つかの機能を得ました、それでは他のクレートから使ってみましょう。
 
-# Importing External Crates
+<!-- # Importing External Crates -->
+# 外部クレートのインポート
 
 We have a library crate. Let’s make an executable crate that imports and uses
 our library.
