@@ -83,8 +83,9 @@ above. -->
 <!-- # Defining Modules -->
 # モジュールを定義する
 
-To define each of our modules, we use the `mod` keyword. Let’s make our
-`src/lib.rs` look like this:
+<!-- To define each of our modules, we use the `mod` keyword. Let’s make our
+`src/lib.rs` look like this: -->
+それぞれのモジュールを定義するために、 `mod` キーワードを使います。 `src/lib.rs` を以下のようにします。
 
 ```rust
 mod english {
@@ -104,21 +105,23 @@ mod japanese {
 }
 ```
 
-After the `mod` keyword, you give the name of the module. Module names follow
+<!-- After the `mod` keyword, you give the name of the module. Module names follow
 the conventions for other Rust identifiers: `lower_snake_case`. The contents of
-each module are within curly braces (`{}`).
+each module are within curly braces (`{}`). -->
+`mod` キーワードの後、モジュールの名前を与えます。モジュール名は他のRustの識別子の慣例に従います。つまり `lower_snake_case` です。各モジュールの内容は波括弧( `{}` )の中に定義します。
 
-Within a given `mod`, you can declare sub-`mod`s. We can refer to sub-modules
+<!-- Within a given `mod`, you can declare sub-`mod`s. We can refer to sub-modules
 with double-colon (`::`) notation: our four nested modules are
 `english::greetings`, `english::farewells`, `japanese::greetings`, and
 `japanese::farewells`. Because these sub-modules are namespaced under their
 parent module, the names don’t conflict: `english::greetings` and
 `japanese::greetings` are distinct, even though their names are both
-`greetings`.
+`greetings`. -->
+与えられた `mod` 内で、サブ `mod` を定義することができます。サブモジュールは2重コロン( `::` )記法で参照できます。先程定義した4つのネストされたモジュールは `english::greetings` 、 `english::farewells` 、 `japanese::greetings` 、そして `japanese::farewells` です。これらサブモジュールは親モジュール配下の名前空間であるため、名前は衝突しません。つまり `english::greetings` と `japanese::greetings` は例え両名が `greetings` であったとしても、明確に区別されます。
 
-Because this crate does not have a `main()` function, and is called `lib.rs`,
-Cargo will build this crate as a library:
-
+<!-- Because this crate does not have a `main()` function, and is called `lib.rs`,
+Cargo will build this crate as a library: -->
+このクレートは `main()` 関数を持たず、 `lib.rs` と名付けられているため、Cargoはこのクレートをライブラリとしてビルドします。
 ```bash
 $ cargo build
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -126,10 +129,12 @@ $ ls target/debug
 build  deps  examples  libphrases-a7448e02a0468eaa.rlib  native
 ```
 
-`libphrases-hash.rlib` is the compiled crate. Before we see how to use this
-crate from another crate, let’s break it up into multiple files.
+<!-- `libphrases-hash.rlib` is the compiled crate. Before we see how to use this
+crate from another crate, let’s break it up into multiple files. -->
+`libphrases-hash.rlib` はコンパイルされたクレートです。このクレートを他のクレートから使う方法を見る前に、複数のファイルに分割してみましょう。
 
-# Multiple file crates
+<!-- # Multiple file crates -->
+# 複数のファイルによるクレート
 
 If each crate were just one file, these files would get very large. It’s often
 easier to split up crates into multiple files, and Rust supports this in two
