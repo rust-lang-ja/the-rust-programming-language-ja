@@ -1,4 +1,5 @@
-% Syntax Index
+% 構文の索引
+<!-- % Syntax Index -->
 
 ## Keywords
 
