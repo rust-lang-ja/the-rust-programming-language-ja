@@ -1,42 +1,77 @@
 % 構文の索引
 <!-- % Syntax Index -->
 
-## Keywords
+<!-- ## Keywords -->
+## キーワード
 
-* `as`: primitive casting.  See [Casting Between Types (`as`)].
-* `break`: break out of loop.  See [Loops (Ending Iteration Early)].
-* `const`: constant items and constant raw pointers.  See [`const` and `static`], [Raw Pointers].
-* `continue`: continue to next loop iteration.  See [Loops (Ending Iteration Early)].
-* `crate`: external crate linkage.  See [Crates and Modules (Importing External Crates)].
-* `else`: fallback for `if` and `if let` constructs.  See [`if`], [`if let`].
-* `enum`: defining enumeration.  See [Enums].
-* `extern`: external crate, function, and variable linkage.  See [Crates and Modules (Importing External Crates)], [Foreign Function Interface].
-* `false`: boolean false literal.  See [Primitive Types (Booleans)].
-* `fn`: function definition and function pointer types.  See [Functions].
-* `for`: iterator loop, part of trait `impl` syntax, and higher-ranked lifetime syntax.  See [Loops (`for`)], [Method Syntax].
-* `if`: conditional branching.  See [`if`], [`if let`].
-* `impl`: inherent and trait implementation blocks.  See [Method Syntax].
-* `in`: part of `for` loop syntax.  See [Loops (`for`)].
-* `let`: variable binding.  See [Variable Bindings].
-* `loop`: unconditional, infinite loop.  See [Loops (`loop`)].
-* `match`: pattern matching.  See [Match].
-* `mod`: module declaration.  See [Crates and Modules (Defining Modules)].
-* `move`: part of closure syntax.  See [Closures (`move` closures)].
-* `mut`: denotes mutability in pointer types and pattern bindings.  See [Mutability].
-* `pub`: denotes public visibility in `struct` fields, `impl` blocks, and modules.  See [Crates and Modules (Exporting a Public Interface)].
-* `ref`: by-reference binding.  See [Patterns (`ref` and `ref mut`)].
-* `return`: return from function.  See [Functions (Early Returns)].
-* `Self`: implementor type alias.  See [Traits].
-* `self`: method subject.  See [Method Syntax (Method Calls)].
-* `static`: global variable.  See [`const` and `static` (`static`)].
-* `struct`: structure definition.  See [Structs].
-* `trait`: trait definition.  See [Traits].
-* `true`: boolean true literal.  See [Primitive Types (Booleans)].
-* `type`: type alias, and associated type definition.  See [`type` Aliases], [Associated Types].
-* `unsafe`: denotes unsafe code, functions, traits, and implementations.  See [Unsafe].
-* `use`: import symbols into scope.  See [Crates and Modules (Importing Modules with `use`)].
-* `where`: type constraint clauses.  See [Traits (`where` clause)].
-* `while`: conditional loop.  See [Loops (`while`)].
+<!-- * `as`: primitive casting.  See [Casting Between Types (`as`)]. -->
+<!-- * `break`: break out of loop.  See [Loops (Ending Iteration Early)]. -->
+<!-- * `const`: constant items and constant raw pointers.  See [`const` and `static`], [Raw Pointers]. -->
+<!-- * `continue`: continue to next loop iteration.  See [Loops (Ending Iteration Early)]. -->
+<!-- * `crate`: external crate linkage.  See [Crates and Modules (Importing External Crates)]. -->
+<!-- * `else`: fallback for `if` and `if let` constructs.  See [`if`], [`if let`]. -->
+<!-- * `enum`: defining enumeration.  See [Enums]. -->
+<!-- * `extern`: external crate, function, and variable linkage.  See [Crates and Modules (Importing External Crates)], [Foreign Function Interface]. -->
+<!-- * `false`: boolean false literal.  See [Primitive Types (Booleans)]. -->
+<!-- * `fn`: function definition and function pointer types.  See [Functions]. -->
+<!-- * `for`: iterator loop, part of trait `impl` syntax, and higher-ranked lifetime syntax.  See [Loops (`for`)], [Method Syntax]. -->
+<!-- * `if`: conditional branching.  See [`if`], [`if let`]. -->
+<!-- * `impl`: inherent and trait implementation blocks.  See [Method Syntax]. -->
+<!-- * `in`: part of `for` loop syntax.  See [Loops (`for`)]. -->
+<!-- * `let`: variable binding.  See [Variable Bindings]. -->
+<!-- * `loop`: unconditional, infinite loop.  See [Loops (`loop`)]. -->
+<!-- * `match`: pattern matching.  See [Match]. -->
+<!-- * `mod`: module declaration.  See [Crates and Modules (Defining Modules)]. -->
+<!-- * `move`: part of closure syntax.  See [Closures (`move` closures)]. -->
+<!-- * `mut`: denotes mutability in pointer types and pattern bindings.  See [Mutability]. -->
+<!-- * `pub`: denotes public visibility in `struct` fields, `impl` blocks, and modules.  See [Crates and Modules (Exporting a Public Interface)]. -->
+<!-- * `ref`: by-reference binding.  See [Patterns (`ref` and `ref mut`)]. -->
+<!-- * `return`: return from function.  See [Functions (Early Returns)]. -->
+<!-- * `Self`: implementor type alias.  See [Traits]. -->
+<!-- * `self`: method subject.  See [Method Syntax (Method Calls)]. -->
+<!-- * `static`: global variable.  See [`const` and `static` (`static`)]. -->
+<!-- * `struct`: structure definition.  See [Structs]. -->
+<!-- * `trait`: trait definition.  See [Traits]. -->
+<!-- * `true`: boolean true literal.  See [Primitive Types (Booleans)]. -->
+<!-- * `type`: type alias, and associated type definition.  See [`type` Aliases], [Associated Types]. -->
+<!-- * `unsafe`: denotes unsafe code, functions, traits, and implementations.  See [Unsafe]. -->
+<!-- * `use`: import symbols into scope.  See [Crates and Modules (Importing Modules with `use`)]. -->
+<!-- * `where`: type constraint clauses.  See [Traits (`where` clause)]. -->
+<!-- * `while`: conditional loop.  See [Loops (`while`)]. -->
+* `as`: プリミティブのキャスト。 [型間のキャスト (`as`)] 参照。
+* `break`: ループからの脱却。[ループ （反復の早期終了）] 参照。
+* `const`: 定数および定数ポインタ。 [`const` と `static`] 、 [生ポインタ] 参照。
+* `continue`: 次の反復への継続。 [ループ （反復の早期終了）] 参照。
+* `crate`: 外部クレートのリンク。 [クレートとモジュール （外部クレートのインポート）] 参照
+* `else`: `if` と `if let` が形成するフォールバック。 [`if`] 、 [`if let`] 参照。
+* `enum`: 列挙型の定義。 [列挙型] 参照。
+* `extern`: 外部クレート、関数、変数のリンク。  [クレートとモジュール （外部クレートのインポート）]、 [FFI] 参照。
+* `false`: ブーリアン型の偽値のリテラル。 [プリミティブ型 （ブーリアン型）] 参照。
+* `fn`: 関数定義及び関数ポインタ型。 [関数] 参照。
+* `for`: イテレータループ、 `impl`  構文の一部、 あるいは 高階ライフタイム構文。  [ループ (`for`)], [メソッド構文] 参照。
+* `if`: 条件分岐  [`if`] 、 [`if let`] 参照。
+* `impl`: 継承及びトレイト実装のブロック。 [メソッド構文参照]。
+* `in`: `for` ループ構文の一部。 [ループ (`for`)] 参照。
+* `let`: 変数束縛。 [変数束縛] 参照。
+* `loop`: 条件無しの無限ループ。 [ループ (`loop`)] 参照。
+* `match`: パターンマッチ。 [マッチ] 参照。
+* `mod`: モジュール宣言。   [クレートとモジュール（モジュールの定義）] 参照。
+* `move`: クロージャ構文の一部。 [クロージャ (`move` クロージャ)] 参照。
+* `mut`: ポインタ型とパターン束縛におけるミュータビリティを表す。 [ミュータビリティ] 参照。
+* `pub`: `struct` のフィールド、 `impl` ブロック、 モジュールにおいて可視性を表す。 [クレートとモジュール（公開インターフェースをエクスポートする）] 参照。
+* `ref`: 参照束縛。 [パターン (`ref` と `ref mut`)] 参照。
+* `return`: 関数からのリターン。 [関数（早期リターン）] 参照。
+* `Self`: 実装者の型のエイリアス。 [トレイト] 参照。
+* `self`: メソッドの主語。 [メソッド構文（メソッド呼び出し）] 参照。
+* `static`: グローバル変数。 [`const` ト `static` (`static`)] 参照。
+* `struct`: 構造体定義。 [構造体] 参照。
+* `trait`: トレイト定義。 [トレイト] 参照。
+* `true`: ブーリアン型の真値のリテラル。 [プリミティブ型（ブーリアン型）] 参照。
+* `type`: 型エイリアス、または関連型定義。 [`type` エイリアス] 、 [関連型] 参照。
+* `unsafe`: アンセーフなコード、関数、トレイト、そして実装を表す。 [アンセーフ] 参照。
+* `use`: スコープにシンボルをインポートする。 [クレートとモジュール (`use` を使ってモジュールをインポートする)] 参照。
+* `where`: 型制約節。 [トレイト (`where` 節)] 参照。
+* `while`: 条件付きループ。 [ループ (`while`)] 参照。
 
 ## Operators and Symbols
 
