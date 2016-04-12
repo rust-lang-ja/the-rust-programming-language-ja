@@ -16,7 +16,7 @@ these kinds of things, Rust has a module system. -->
 languages. Hence “Cargo” as the name of Rust’s package management tool: you
 ship your crates to others with Cargo. Crates can produce an executable or a
 library, depending on the project. -->
-Rustはモジュールシステムに関連して、「クレート」(crate)と「モジュール」(module)という2つの用語を明確に分けています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってあなたのクレートを船で出荷し他のユーザに公開するわけです。クレートは実行ファイルかライブラリをプロジェクトに応じて作成できます。
+Rustはモジュールシステムに関連して、「クレート」(crate)と「モジュール」(module)という2つの用語を明確に分けています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってあなたのクレートを船で出荷し他のユーザに公開するわけです。クレートは実行形式かライブラリをプロジェクトに応じて作成できます。
 
 <!-- Each crate has an implicit *root module* that contains the code for that crate.
 You can then define a tree of sub-modules under that root module. Modules allow
@@ -78,7 +78,7 @@ $ tree .
 
 <!-- `src/lib.rs` is our crate root, corresponding to the `phrases` in our diagram
 above. -->
-`src/lib.rs` はクレートの根であり、先程の図における `phrases` に相当します。
+`src/lib.rs` はクレートのルートであり、先程の図における `phrases` に相当します。
 
 <!-- # Defining Modules -->
 # モジュールを定義する
@@ -195,7 +195,7 @@ $ tree .
 ```
 
 <!-- `src/lib.rs` is our crate root, and looks like this: -->
-`src/lib.rs` はクレートの根で、以下のようになっています。
+`src/lib.rs` はクレートのルートで、以下のようになっています。
 
 ```rust,ignore
 mod english;
@@ -276,10 +276,12 @@ another crate. -->
 <!-- # Importing External Crates -->
 # 外部クレートのインポート
 
-We have a library crate. Let’s make an executable crate that imports and uses
-our library.
+<!-- We have a library crate. Let’s make an executable crate that imports and uses
+our library. -->
+前節でライブラリクレートができました。インポートしこのライブラリを用いた実行形式クレートを作成しましょう。
 
-Make a `src/main.rs` and put this in it (it won’t quite compile yet):
+<!-- Make a `src/main.rs` and put this in it (it won’t quite compile yet): -->
+`src/main.rs` を作成し配置します。（これはまだ全くコンパイルされていません）
 
 ```rust,ignore
 extern crate phrases;
@@ -293,24 +295,28 @@ fn main() {
 }
 ```
 
-The `extern crate` declaration tells Rust that we need to compile and link to
+<!-- The `extern crate` declaration tells Rust that we need to compile and link to
 the `phrases` crate. We can then use `phrases`’ modules in this one. As we
 mentioned earlier, you can use double colons to refer to sub-modules and the
-functions inside of them.
+functions inside of them. -->
+`extern crate` 宣言はRustにコンパイルして `phrases` クレートをリンクせよと伝えます。するとこのクレート内で `phrases` モジュールが使えます。早期に言及していたように、2重コロンでサブモジュールとその中の関数を参照できます。
 
-(Note: when importing a crate that has dashes in its name "like-this", which is
+<!-- (Note: when importing a crate that has dashes in its name "like-this", which is
 not a valid Rust identifier, it will be converted by changing the dashes to
-underscores, so you would write `extern crate like_this;`.)
+underscores, so you would write `extern crate like_this;`.) -->
+（注意: Rustの識別子として適切でない「like-this」のような、名前の中にダッシュが入ったクレートをインポートする場合、ダッシュがアンダースコアへ変換されるため `extern crate like_this;` と記述します。）
 
-Also, Cargo assumes that `src/main.rs` is the crate root of a binary crate,
+<!-- Also, Cargo assumes that `src/main.rs` is the crate root of a binary crate,
 rather than a library crate. Our package now has two crates: `src/lib.rs` and
 `src/main.rs`. This pattern is quite common for executable crates: most
 functionality is in a library crate, and the executable crate uses that
 library. This way, other programs can also use the library crate, and it’s also
-a nice separation of concerns.
+a nice separation of concerns. -->
+また、Cargoは `src/main.rs` がライブラリクレートではなくバイナリクレートのルートであることを仮定します。パッケージは今2つのクレートを持っています。 `src/lib.rs` と `src/main.rs` です。ほとんどの機能をライブラリクレート内に置き、実行形式クレートから使用するのは、実行形式クレートとしては非常にありふれたパターンです。この方法で、他のプログラムもライブラリクレートを使うことできますし、素敵な関心の分離(separation of concerns)でもあります。
 
-This doesn’t quite work yet, though. We get four errors that look similar to
-this:
+<!-- This doesn’t quite work yet, though. We get four errors that look similar to
+this: -->
+けれどこのままでは動作しません。これに似た4つのエラーが発生します。
 
 ```bash
 $ cargo build
@@ -326,10 +332,12 @@ note: in expansion of format_args!
 phrases/src/main.rs:4:5: 4:76 note: expansion site
 ```
 
-By default, everything is private in Rust. Let’s talk about this in some more
-depth.
+<!-- By default, everything is private in Rust. Let’s talk about this in some more
+depth. -->
+デフォルトでは、Rustにおける全てはプライベートです。それではこれに関してより詳しく説明しましょう。
 
-# Exporting a Public Interface
+<!-- # Exporting a Public Interface -->
+# パブリックなインターフェースのエクスポート
 
 Rust allows you to precisely control which aspects of your interface are
 public, and so private is the default. To make things public, you use the `pub`
