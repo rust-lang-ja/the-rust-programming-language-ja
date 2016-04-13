@@ -503,7 +503,7 @@ use phrases::english::farewells;
 use phrases::english::{greetings, farewells};
 ```
 
-## Re-exporting with `pub use`
+<!-- ## Re-exporting with `pub use` -->
 ## `pub use` による再エクスポート
 
 You don’t just use `use` to shorten identifiers. You can also use it inside of your crate
