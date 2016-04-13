@@ -117,7 +117,7 @@ with double-colon (`::`) notation: our four nested modules are
 parent module, the names don’t conflict: `english::greetings` and
 `japanese::greetings` are distinct, even though their names are both
 `greetings`. -->
-与えられた `mod` 内で、サブ `mod` を定義することができます。サブモジュールは2重コロン( `::` )記法で参照できます。先程定義した4つのネストされたモジュールは `english::greetings` 、 `english::farewells` 、 `japanese::greetings` 、そして `japanese::farewells` です。これらサブモジュールは親モジュール配下の名前空間であるため、名前は衝突しません。つまり `english::greetings` と `japanese::greetings` は例え両名が `greetings` であったとしても、明確に区別されます。
+与えられた `mod` 内で、サブ `mod` を定義することができます。サブモジュールは2重コロン( `::` )記法で参照できます。先程定義した4つのネストされたモジュールは `english::greetings` 、 `english::farewells` 、 `japanese::greetings` 、そして `japanese::farewells` です。これらサブモジュールは親モジュール配下の名前空間であるため、名前は競合しません。つまり `english::greetings` と `japanese::greetings` は例え両名が `greetings` であったとしても、明確に区別されます。
 
 <!-- Because this crate does not have a `main()` function, and is called `lib.rs`,
 Cargo will build this crate as a library: -->
@@ -422,8 +422,9 @@ refer to them with shorter names. Let’s talk about `use`. -->
 <!-- # Importing Modules with `use` -->
 # `use` でモジュールをインポートする
 
-Rust has a `use` keyword, which allows us to import names into our local scope.
-Let’s change our `src/main.rs` to look like this:
+<!-- Rust has a `use` keyword, which allows us to import names into our local scope.
+Let’s change our `src/main.rs` to look like this: -->
+Rustには `use` キーワードがあり、ローカルスコープの中に名前をインポートできます。 `src/main.rs` を以下のように変えてみましょう。
 
 ```rust,ignore
 extern crate phrases;
@@ -437,10 +438,11 @@ fn main() {
 }
 ```
 
-The two `use` lines import each module into the local scope, so we can refer to
+<!-- The two `use` lines import each module into the local scope, so we can refer to
 the functions by a much shorter name. By convention, when importing functions, it’s
 considered best practice to import the module, rather than the function directly. In
-other words, you _can_ do this:
+other words, you _can_ do this: -->
+2つの `use` の行はローカルスコープの中に各モジュールをインポートしているため、とても短い名前で関数を参照できます。慣習では、関数をインポートするとき、関数を直接するよりもモジュール単位でするのがベストプラクティスだと考えられています。言い換えれば、こうすることも _できる_ わけです。
 
 ```rust,ignore
 extern crate phrases;
@@ -454,11 +456,12 @@ fn main() {
 }
 ```
 
-But it is not idiomatic. This is significantly more likely to introduce a
+<!-- But it is not idiomatic. This is significantly more likely to introduce a
 naming conflict. In our short program, it’s not a big deal, but as it grows, it
 becomes a problem. If we have conflicting names, Rust will give a compilation
 error. For example, if we made the `japanese` functions public, and tried to do
-this:
+this: -->
+しかしこれは慣用的ではありません。これは名前の競合を引き起こす可能性が非常に高いのです。この短いプログラムだと大したことではありませんが、大きくなるにつれ問題になります。名前が競合すると、Rustはコンパイルエラーになります。例えば、 `japanese` 関数をパブリックにして、以下を試してみます。
 
 ```rust,ignore
 extern crate phrases;
@@ -472,7 +475,8 @@ fn main() {
 }
 ```
 
-Rust will give us a compile-time error:
+<!-- Rust will give us a compile-time error: -->
+Rustはコンパイル時エラーになります。
 
 ```text
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -483,21 +487,24 @@ error: aborting due to previous error
 Could not compile `phrases`.
 ```
 
-If we’re importing multiple names from the same module, we don’t have to type it out
-twice. Instead of this:
+<!-- If we’re importing multiple names from the same module, we don’t have to type it out
+twice. Instead of this: -->
+同じモジュールから複数の名前をインポートする場合、二度同じ文字を打つ必要はありません。以下の代わりに、
 
 ```rust,ignore
 use phrases::english::greetings;
 use phrases::english::farewells;
 ```
 
-We can use this shortcut:
+<!-- We can use this shortcut: -->
+このショートカットが使えます。
 
 ```rust,ignore
 use phrases::english::{greetings, farewells};
 ```
 
 ## Re-exporting with `pub use`
+## `pub use` による再エクスポート
 
 You don’t just use `use` to shorten identifiers. You can also use it inside of your crate
 to re-export a function inside another module. This allows you to present an external
