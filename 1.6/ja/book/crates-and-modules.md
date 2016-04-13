@@ -299,7 +299,7 @@ fn main() {
 the `phrases` crate. We can then use `phrases`’ modules in this one. As we
 mentioned earlier, you can use double colons to refer to sub-modules and the
 functions inside of them. -->
-`extern crate` 宣言はRustにコンパイルして `phrases` クレートをリンクせよと伝えます。するとこのクレート内で `phrases` モジュールが使えます。早期に言及していたように、2重コロンでサブモジュールとその中の関数を参照できます。
+`extern crate` 宣言はRustにコンパイルして `phrases` クレートをリンクせよと伝えます。するとこのクレート内で `phrases` モジュールが使えます。先に述べていたように、2重コロンでサブモジュールとその中の関数を参照できます。
 
 <!-- (Note: when importing a crate that has dashes in its name "like-this", which is
 not a valid Rust identifier, it will be converted by changing the dashes to
@@ -312,7 +312,7 @@ rather than a library crate. Our package now has two crates: `src/lib.rs` and
 functionality is in a library crate, and the executable crate uses that
 library. This way, other programs can also use the library crate, and it’s also
 a nice separation of concerns. -->
-また、Cargoは `src/main.rs` がライブラリクレートではなくバイナリクレートのルートであることを仮定します。パッケージは今2つのクレートを持っています。 `src/lib.rs` と `src/main.rs` です。ほとんどの機能をライブラリクレート内に置き、実行形式クレートから使用するのは、実行形式クレートとしては非常にありふれたパターンです。この方法で、他のプログラムもライブラリクレートを使うことできますし、素敵な関心の分離(separation of concerns)でもあります。
+また、Cargoは `src/main.rs` がライブラリクレートではなくバイナリクレートのルートであることを仮定します。パッケージは今2つのクレートを持っています。 `src/lib.rs` と `src/main.rs` です。ほとんどの機能をライブラリクレート内に置き、実行形式クレートから使用するのは、実行形式クレートとしては非常にありふれたパターンです。この方法で、他のプログラムがライブラリクレートを使うこともできますし、素敵な関心の分離(separation of concerns)でもあります。
 
 <!-- This doesn’t quite work yet, though. We get four errors that look similar to
 this: -->
@@ -339,10 +339,11 @@ depth. -->
 <!-- # Exporting a Public Interface -->
 # パブリックなインターフェースのエクスポート
 
-Rust allows you to precisely control which aspects of your interface are
+<!-- Rust allows you to precisely control which aspects of your interface are
 public, and so private is the default. To make things public, you use the `pub`
 keyword. Let’s focus on the `english` module first, so let’s reduce our `src/main.rs`
-to just this:
+to just this: -->
+Rustはインターフェースのパブリックである部分をきちんと管理することができます。そのためプライベートがデフォルトです。パブリックにするためには、 `pub` キーワードを使います。まずは `english` モジュールに焦点を当てたいので、 `src/main.rs` をこれだけに減らしましょう。
 
 ```rust,ignore
 extern crate phrases;
@@ -353,14 +354,16 @@ fn main() {
 }
 ```
 
-In our `src/lib.rs`, let’s add `pub` to the `english` module declaration:
+<!-- In our `src/lib.rs`, let’s add `pub` to the `english` module declaration: -->
+`src/lib.rs` 内にて、 `english` モジュールの宣言に `pub` を加えましょう。
 
 ```rust,ignore
 pub mod english;
 mod japanese;
 ```
 
-And in our `src/english/mod.rs`, let’s make both `pub`:
+<!-- And in our `src/english/mod.rs`, let’s make both `pub`: -->
+また `src/english/mod.rs` にて、両方とも `pub` にしましょう。
 
 ```rust,ignore
 pub mod greetings;
@@ -368,6 +371,7 @@ pub mod farewells;
 ```
 
 In our `src/english/greetings.rs`, let’s add `pub` to our `fn` declaration:
+`src/english/greetings.rs` にて、 `fn` の宣言に `pub` を加えましょう。
 
 ```rust,ignore
 pub fn hello() -> String {
@@ -376,6 +380,7 @@ pub fn hello() -> String {
 ```
 
 And also in `src/english/farewells.rs`:
+また `src/english/farewells.rs` にもです。
 
 ```rust,ignore
 pub fn goodbye() -> String {
@@ -383,8 +388,9 @@ pub fn goodbye() -> String {
 }
 ```
 
-Now, our crate compiles, albeit with warnings about not using the `japanese`
-functions:
+<!-- Now, our crate compiles, albeit with warnings about not using the `japanese`
+functions: -->
+これで、クレートはコンパイルできますが、 `japanese` 関数が使われていないという旨の警告が発生します。
 
 ```bash
 $ cargo run
@@ -402,16 +408,19 @@ Hello in English: Hello!
 Goodbye in English: Goodbye.
 ```
 
-`pub` also applies to `struct`s and their member fields. In keeping with Rust’s
+<!-- `pub` also applies to `struct`s and their member fields. In keeping with Rust’s
 tendency toward safety, simply making a `struct` public won't automatically
-make its members public: you must mark the fields individually with `pub`.
+make its members public: you must mark the fields individually with `pub`. -->
+`pub` は `struct` や そのメンバーのフィールドにも適用されます。Rustの安全性に関する傾向に合わせ、単に `struct` をパブリックにしても、そのメンバーまでは自動的にパブリックになりません。個々のフィールドに `pub` を付けなければならないのです。
 
-Now that our functions are public, we can use them. Great! However, typing out
+<!-- Now that our functions are public, we can use them. Great! However, typing out
 `phrases::english::greetings::hello()` is very long and repetitive. Rust has
 another keyword for importing names into the current scope, so that you can
-refer to them with shorter names. Let’s talk about `use`.
+refer to them with shorter names. Let’s talk about `use`. -->
+現在使える関数はパブリックです。素晴らしい！しかしながら、 `phrases::english::greetings::hello()` を打つのは非常に長くて退屈ですね。Rustには現在のスコープに名前をインポートするもう1つのキーワードがあり、それによってより短い名前で参照できます。それでは `use` について説明しましょう。
 
-# Importing Modules with `use`
+<!-- # Importing Modules with `use` -->
+# `use` でモジュールをインポートする
 
 Rust has a `use` keyword, which allows us to import names into our local scope.
 Let’s change our `src/main.rs` to look like this:
