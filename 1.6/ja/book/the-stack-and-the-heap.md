@@ -250,7 +250,7 @@ fn main() {
 <!--
 Okay, first, we call `main()`:
 -->
-いいですね、まず、 `main()` を呼び出します:
+いいですか、まず、 `main()` を呼び出します:
 
 | Address | Name | Value |
 |---------|------|-------|
@@ -315,14 +315,23 @@ add to the top, you take away from the top.
 ついに、やりとげました。コツをつかみましたか? 皿を積み重ねるようなものです。
 つまり、一番上に追加し、一番上から取るんです。
 
-# The Heap
+# ヒープ
+<!--# The Heap-->
 
+<!--
 Now, this works pretty well, but not everything can work like this. Sometimes,
 you need to pass some memory between different functions, or keep it alive for
 longer than a single function’s execution. For this, we can use the heap.
+-->
+さて、このやり方は結構うまくいくのですが、すべてがこのようにいくわけではありません。
+ときには、メモリを異なる関数間でやりとりしたり、1回の関数実行より長く保持する必要があります。
+そのためには、ヒープを使います。
 
+<!--
 In Rust, you can allocate memory on the heap with the [`Box<T>` type][box].
 Here’s an example:
+-->
+Rustでは、[`Box<T>` 型][box]を使うことで、メモリをヒープ上にアロケートできます。
 
 ```rust
 fn main() {
@@ -333,19 +342,31 @@ fn main() {
 
 [box]: ../std/boxed/index.html
 
+<!--
 Here’s what happens in memory when `main()` is called:
+-->
+`main()` が呼び出されたとき、メモリは次のようになります:
 
 | Address | Name | Value  |
 |---------|------|--------|
 | 1       | y    | 42     |
 | 0       | x    | ?????? |
 
+<!--
 We allocate space for two variables on the stack. `y` is `42`, as it always has
 been, but what about `x`? Well, `x` is a `Box<i32>`, and boxes allocate memory
 on the heap. The actual value of the box is a structure which has a pointer to
 ‘the heap’. When we start executing the function, and `Box::new()` is called,
 it allocates some memory for the heap, and puts `5` there. The memory now looks
 like this:
+-->
+2つの変数のために、スタック上に領域がアロケートされます。
+通常通り、 `y` は `42` になりますが、 `x` はどうなるのでしょうか?
+`x` は `Box<i32>` 型で、ボックスはヒープ上のメモリをアロケートします。
+このボックスの実際の値は、「ヒープ」へのポインタを持ったストラクチャです。
+関数の実行が開始され、 `Box::new()` が呼び出されると、ヒープ上のメモリがいくらかアロケートされ、そこに `5` が置かれます。
+すると、メモリはこんな感じになります:
+
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -354,15 +375,22 @@ like this:
 | 1                    | y    | 42                     |
 | 0                    | x    | → (2<sup>30</sup>) - 1 |
 
+<!--
 We have (2<sup>30</sup>) - 1 addresses in our hypothetical computer with 1GB of RAM. And since
 our stack grows from zero, the easiest place to allocate memory is from the
 other end. So our first value is at the highest place in memory. And the value
 of the struct at `x` has a [raw pointer][rawpointer] to the place we’ve
 allocated on the heap, so the value of `x` is (2<sup>30</sup>) - 1, the memory
 location we’ve asked for.
+-->
+今考えている1GBのRAMを備えた仮想のコンピュータには (2<sup>30</sup>) - 1 のアドレスがあります。
+また、スタックはゼロから伸びていますから、メモリをアロケートするのに一番都合が良い場所は、もう一方の端からです。
+ですから、最初の値はメモリのうち番号が一番大きい場所に置かれます。
+そして、 `x` にある構造体はヒープ上にアロケートした場所への[生ポインタ][rawpointer]を持っているので、 `x` の値は、今求めた (2<sup>30</sup>) - 1 です。
 
 [rawpointer]: raw-pointers.html
 
+<!--
 We haven’t really talked too much about what it actually means to allocate and
 deallocate memory in these contexts. Getting into very deep detail is out of
 the scope of this tutorial, but what’s important to point out here is that
@@ -370,6 +398,11 @@ the heap isn’t just a stack that grows from the opposite end. We’ll have an
 example of this later in the book, but because the heap can be allocated and
 freed in any order, it can end up with ‘holes’. Here’s a diagram of the memory
 layout of a program which has been running for a while now:
+-->
+ここまでの話では、メモリをアロケート・デアロケートするということのこの文脈における意味を過剰に語ることはありませんでした。
+詳細を深く掘り下げるのはこのチュートリアルの目的範囲外なのですが、ここで重要なこととして指摘したいのは、ヒープは単にメモリの反対側から伸びるスタックなのではないということです。
+後ほど例を見ていきますが、ヒープはアロケート・解放をどの順番にしてもよく、その結果「穴」のある状態になります。
+次の図は、とあるプログラムをしばらく実行していたときのメモリレイアウトです。
 
 
 | Address              | Name | Value                  |
@@ -384,15 +417,22 @@ layout of a program which has been running for a while now:
 | 1                    | y    | 42                     |
 | 0                    | x    | → (2<sup>30</sup>) - 1 |
 
+<!--
 In this case, we’ve allocated four things on the heap, but deallocated two of
 them. There’s a gap between (2<sup>30</sup>) - 1 and (2<sup>30</sup>) - 4 which isn’t
 currently being used. The specific details of how and why this happens depends
 on what kind of strategy you use to manage the heap. Different programs can use
 different ‘memory allocators’, which are libraries that manage this for you.
 Rust programs use [jemalloc][jemalloc] for this purpose.
+-->
+この場合では、4つのものをヒープにアロケートしていますが、2つはすでにデアロケートされています。
+アドレス (2<sup>30</sup>) - 1 と (2<sup>30</sup>) - 4 の間には、現在使われていない隙間があります。このような隙間がなぜ、どのように起きるかの詳細は、どのようなヒープ管理戦略を使っているかによります。
+異なるブログラムには異なる「メモリアロケータ」というメモリを管理するライブラリを使うことができます。
+Rustのプログラムはこの用途に[jemalloc][jemalloc]を使います。
 
 [jemalloc]: http://www.canonware.com/jemalloc/
 
+<!--
 Anyway, back to our example. Since this memory is on the heap, it can stay
 alive longer than the function which allocates the box. In this case, however,
 it doesn’t.[^moving] When the function is over, we need to free the stack frame
@@ -400,6 +440,14 @@ for `main()`. `Box<T>`, though, has a trick up its sleeve: [Drop][drop]. The
 implementation of `Drop` for `Box` deallocates the memory that was allocated
 when it was created. Great! So when `x` goes away, it first frees the memory
 allocated on the heap:
+-->
+ともかく、私たちのプログラムの例に戻ります。
+この（訳注: `x` のポインタが指す）メモリはヒープ上にあるので、ボックスをアロケートした関数よりも長い間メモリ上に留まることができます。
+しかし、この例ではそうではありません。[^moving]
+関数が終了したとき、 `main()` のためのスタックフレームを解放する必要があります。
+しかし、`Box<T>`には隠れた仕掛け、[Drop][drop]があります。
+`Drop`トレイトの`Box`への実装は、ボックスが作られたときにアロケートされたメモリをデアロケートします。すばらしい！
+なので `x` が解放されるときには先にヒープ上にアロケートされたメモリを解放します。
 
 | Address | Name | Value  |
 |---------|------|--------|
@@ -412,7 +460,10 @@ allocated on the heap:
            be covered later.
 
 
+<!--
 And then the stack frame goes away, freeing all of our memory.
+-->
+その後スタックフレームが無くなることで、全てのメモリが開放されます。
 
 # Arguments and borrowing
 
