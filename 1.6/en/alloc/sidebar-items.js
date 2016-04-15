@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["oom","Common out-of-memory routine"]],"mod":[["arc","Threadsafe reference-counted boxes (the `Arc<T>` type)."],["boxed","A pointer type for heap allocation."],["heap",""],["raw_vec",""],["rc","Thread-local reference-counted boxes (the `Rc<T>` type)."]]});

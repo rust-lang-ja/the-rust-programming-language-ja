@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="Source to the Rust file `src/libstd/sys/unix/backtrace/mod.rs`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang">
+
+    <title>mod.rs.html -- source</title>
+
+    <link rel="stylesheet" type="text/css" href="../../../../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../../../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../../../../std/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content source"><pre class="line-numbers"><span id="1"> 1</span>
+<span id="2"> 2</span>
+<span id="3"> 3</span>
+<span id="4"> 4</span>
+<span id="5"> 5</span>
+<span id="6"> 6</span>
+<span id="7"> 7</span>
+<span id="8"> 8</span>
+<span id="9"> 9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+</pre><pre class='rust '>
+<span class='comment'>// Copyright 2015 The Rust Project Developers. See the COPYRIGHT</span>
+<span class='comment'>// file at the top-level directory of this distribution and at</span>
+<span class='comment'>// http://rust-lang.org/COPYRIGHT.</span>
+<span class='comment'>//</span>
+<span class='comment'>// Licensed under the Apache License, Version 2.0 &lt;LICENSE-APACHE or</span>
+<span class='comment'>// http://www.apache.org/licenses/LICENSE-2.0&gt; or the MIT license</span>
+<span class='comment'>// &lt;LICENSE-MIT or http://opensource.org/licenses/MIT&gt;, at your</span>
+<span class='comment'>// option. This file may not be copied, modified, or distributed</span>
+<span class='comment'>// except according to those terms.</span>
+
+<span class='doccomment'>/// Backtrace support built on libgcc with some extra OS-specific support</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Some methods of getting a backtrace:</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * The backtrace() functions on unix. It turns out this doesn&#39;t work very</span>
+<span class='doccomment'>///   well for green threads on OSX, and the address to symbol portion of it</span>
+<span class='doccomment'>///   suffers problems that are described below.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * Using libunwind. This is more difficult than it sounds because libunwind</span>
+<span class='doccomment'>///   isn&#39;t installed everywhere by default. It&#39;s also a bit of a hefty library,</span>
+<span class='doccomment'>///   so possibly not the best option. When testing, libunwind was excellent at</span>
+<span class='doccomment'>///   getting both accurate backtraces and accurate symbols across platforms.</span>
+<span class='doccomment'>///   This route was not chosen in favor of the next option, however.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * We&#39;re already using libgcc_s for exceptions in rust (triggering thread</span>
+<span class='doccomment'>///   unwinding and running destructors on the stack), and it turns out that it</span>
+<span class='doccomment'>///   conveniently comes with a function that also gives us a backtrace. All of</span>
+<span class='doccomment'>///   these functions look like _Unwind_*, but it&#39;s not quite the full</span>
+<span class='doccomment'>///   repertoire of the libunwind API. Due to it already being in use, this was</span>
+<span class='doccomment'>///   the chosen route of getting a backtrace.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// After choosing libgcc_s for backtraces, the sad part is that it will only</span>
+<span class='doccomment'>/// give us a stack trace of instruction pointers. Thankfully these instruction</span>
+<span class='doccomment'>/// pointers are accurate (they work for green and native threads), but it&#39;s</span>
+<span class='doccomment'>/// then up to us again to figure out how to translate these addresses to</span>
+<span class='doccomment'>/// symbols. As with before, we have a few options. Before, that, a little bit</span>
+<span class='doccomment'>/// of an interlude about symbols. This is my very limited knowledge about</span>
+<span class='doccomment'>/// symbol tables, and this information is likely slightly wrong, but the</span>
+<span class='doccomment'>/// general idea should be correct.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// When talking about symbols, it&#39;s helpful to know a few things about where</span>
+<span class='doccomment'>/// symbols are located. Some symbols are located in the dynamic symbol table</span>
+<span class='doccomment'>/// of the executable which in theory means that they&#39;re available for dynamic</span>
+<span class='doccomment'>/// linking and lookup. Other symbols end up only in the local symbol table of</span>
+<span class='doccomment'>/// the file. This loosely corresponds to pub and priv functions in Rust.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// Armed with this knowledge, we know that our solution for address to symbol</span>
+<span class='doccomment'>/// translation will need to consult both the local and dynamic symbol tables.</span>
+<span class='doccomment'>/// With that in mind, here&#39;s our options of translating an address to</span>
+<span class='doccomment'>/// a symbol.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * Use dladdr(). The original backtrace()-based idea actually uses dladdr()</span>
+<span class='doccomment'>///   behind the scenes to translate, and this is why backtrace() was not used.</span>
+<span class='doccomment'>///   Conveniently, this method works fantastically on OSX. It appears dladdr()</span>
+<span class='doccomment'>///   uses magic to consult the local symbol table, or we&#39;re putting everything</span>
+<span class='doccomment'>///   in the dynamic symbol table anyway. Regardless, for OSX, this is the</span>
+<span class='doccomment'>///   method used for translation. It&#39;s provided by the system and easy to do.o</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>///   Sadly, all other systems have a dladdr() implementation that does not</span>
+<span class='doccomment'>///   consult the local symbol table. This means that most functions are blank</span>
+<span class='doccomment'>///   because they don&#39;t have symbols. This means that we need another solution.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * Use unw_get_proc_name(). This is part of the libunwind api (not the</span>
+<span class='doccomment'>///   libgcc_s version of the libunwind api), but involves taking a dependency</span>
+<span class='doccomment'>///   to libunwind. We may pursue this route in the future if we bundle</span>
+<span class='doccomment'>///   libunwind, but libunwind was unwieldy enough that it was not chosen at</span>
+<span class='doccomment'>///   this time to provide this functionality.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * Shell out to a utility like `readelf`. Crazy though it may sound, it&#39;s a</span>
+<span class='doccomment'>///   semi-reasonable solution. The stdlib already knows how to spawn processes,</span>
+<span class='doccomment'>///   so in theory it could invoke readelf, parse the output, and consult the</span>
+<span class='doccomment'>///   local/dynamic symbol tables from there. This ended up not getting chosen</span>
+<span class='doccomment'>///   due to the craziness of the idea plus the advent of the next option.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * Use `libbacktrace`. It turns out that this is a small library bundled in</span>
+<span class='doccomment'>///   the gcc repository which provides backtrace and symbol translation</span>
+<span class='doccomment'>///   functionality. All we really need from it is the backtrace functionality,</span>
+<span class='doccomment'>///   and we only really need this on everything that&#39;s not OSX, so this is the</span>
+<span class='doccomment'>///   chosen route for now.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// In summary, the current situation uses libgcc_s to get a trace of stack</span>
+<span class='doccomment'>/// pointers, and we use dladdr() or libbacktrace to translate these addresses</span>
+<span class='doccomment'>/// to symbols. This is a bit of a hokey implementation as-is, but it works for</span>
+<span class='doccomment'>/// all unix platforms we support right now, so it at least gets the job done.</span>
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>tracing</span>::<span class='ident'>write</span>;
+
+<span class='comment'>// tracing impls:</span>
+<span class='kw'>mod</span> <span class='ident'>tracing</span>;
+<span class='comment'>// symbol resolvers:</span>
+<span class='kw'>mod</span> <span class='ident'>printing</span>;
+</pre>
+</section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../../../../";
+        window.currentCrate = "std";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../../../../../jquery.js"></script>
+    <script src="../../../../../main.js"></script>
+    <script src="../../../../../playpen.js"></script>
+    <script defer src="../../../../../search-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `CLike` trait in crate `collections`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, CLike">
+
+    <title>collections::enum_set::CLike - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../collections/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../index.html'>collections</a>::<wbr><a href='index.html'>enum_set</a></p><script>window.sidebarCurrent = {name: 'CLike', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>collections</a>::<wbr><a href='index.html'>enum_set</a>::<wbr><a class='trait' href=''>CLike</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-2507' class='srclink' href='../../src/collections/enum_set.rs.html#77-82' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait CLike {
+    fn <a href='#tymethod.to_usize' class='fnname'>to_usize</a>(&amp;self) -&gt; usize;
+    fn <a href='#tymethod.from_usize' class='fnname'>from_usize</a>(usize) -&gt; Self;
+}</pre><div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>An interface for casting C-like enum to usize and back.
+A typically implementation is as below.</p>
+<span class='rusttest'>fn main() {
+    #[repr(usize)]
+    enum Foo {
+        A, B, C
+    }
+    
+    impl CLike for Foo {
+        fn to_usize(&amp;self) -&gt; usize {
+            *self as usize
+        }
+    
+        fn from_usize(v: usize) -&gt; Foo {
+            unsafe { mem::transmute(v) }
+        }
+    }
+    
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#[<span class='ident'>repr</span>(<span class='ident'>usize</span>)]</span>
+<span class='kw'>enum</span> <span class='ident'>Foo</span> {
+    <span class='ident'>A</span>, <span class='ident'>B</span>, <span class='ident'>C</span>
+}
+
+<span class='kw'>impl</span> <span class='ident'>CLike</span> <span class='kw'>for</span> <span class='ident'>Foo</span> {
+    <span class='kw'>fn</span> <span class='ident'>to_usize</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> {
+        <span class='op'>*</span><span class='self'>self</span> <span class='kw'>as</span> <span class='ident'>usize</span>
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>from_usize</span>(<span class='ident'>v</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='ident'>Foo</span> {
+        <span class='kw'>unsafe</span> { <span class='ident'>mem</span>::<span class='ident'>transmute</span>(<span class='ident'>v</span>) }
+    }
+}</pre>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.to_usize' class='method stab unstable'><code>fn <a href='#tymethod.to_usize' class='fnname'>to_usize</a>(&amp;self) -&gt; usize</code></h3><div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Converts a C-like enum to a <code>usize</code>.</p>
+</div><h3 id='tymethod.from_usize' class='method stab unstable'><code>fn <a href='#tymethod.from_usize' class='fnname'>from_usize</a>(usize) -&gt; Self</code></h3><div class='stability'><em class='stab unstable'>Unstable (<code>enumset</code> <a href="https://github.com/rust-lang/rust/issues/0">#0</a>)<p>: matches collection reform specification, waiting for dust to settle</p>
+</em></div><div class='docblock'><p>Converts a <code>usize</code> to a C-like enum.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    </ul><script type="text/javascript" async
+                              src="../../implementors/collections/enum_set/trait.CLike.js">
+                      </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "collections";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script src="../../playpen.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

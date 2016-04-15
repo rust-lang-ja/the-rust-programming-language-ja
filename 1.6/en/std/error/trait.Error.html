@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Error` trait in crate `std`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Error">
+
+    <title>std::error::Error - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+
+    <link rel="shortcut icon" href="https://doc.rust-lang.org/favicon.ico">
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        <a href='../../std/index.html'><img src='https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png' alt='' width='100'></a>
+        <p class='location'><a href='../index.html'>std</a>::<wbr><a href='index.html'>error</a></p><script>window.sidebarCurrent = {name: 'Error', ty: 'trait', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content trait">
+<h1 class='fqn'><span class='in-band'>Trait <a href='../index.html'>std</a>::<wbr><a href='index.html'>error</a>::<wbr><a class='trait' href=''>Error</a></span><span class='out-of-band'><span id='render-detail'>
+            <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                [<span class='inner'>&#x2212;</span>]
+            </a>
+        </span><a id='src-41' class='srclink' href='../../src/std/error.rs.html#65-86' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Error: <a class='trait' href='../../std/fmt/trait.Debug.html' title='std::fmt::Debug'>Debug</a> + <a class='trait' href='../../std/fmt/trait.Display.html' title='std::fmt::Display'>Display</a> + <a class='trait' href='../../std/marker/trait.Reflect.html' title='std::marker::Reflect'>Reflect</a> {
+    fn <a href='#tymethod.description' class='fnname'>description</a>(&amp;self) -&gt; &amp;<a class='primitive' href='../primitive.str.html'>str</a>;
+
+    fn <a href='#method.cause' class='fnname'>cause</a>(&amp;self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;<a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a>&gt; { ... }
+}</pre><div class='docblock'><p>Base functionality for all errors in Rust.</p>
+</div>
+            <h2 id='required-methods'>Required Methods</h2>
+            <div class='methods'>
+        <h3 id='tymethod.description' class='method stab '><code>fn <a href='#tymethod.description' class='fnname'>description</a>(&amp;self) -&gt; &amp;<a class='primitive' href='../primitive.str.html'>str</a></code></h3><div class='docblock'><p>A short description of the error.</p>
+
+<p>The description should not contain newlines or sentence-ending
+punctuation, to facilitate embedding in larger user-facing
+strings.</p>
+</div></div>
+            <h2 id='provided-methods'>Provided Methods</h2>
+            <div class='methods'>
+        <h3 id='method.cause' class='method stab '><code>fn <a href='#method.cause' class='fnname'>cause</a>(&amp;self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;<a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a>&gt;</code></h3><div class='docblock'><p>The lower-level cause of this error, if any.</p>
+</div></div><h2 id='methods'>Methods</h2><h3 class='impl'><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static</code></h3><div class='impl-items'><h4 id='method.is' class='method'><code>fn <a href='#method.is' class='fnname'>is</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;self) -&gt; <a class='primitive' href='../primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Returns true if the boxed type is the same as <code>T</code></p>
+</div><h4 id='method.downcast_ref' class='method'><code>fn <a href='#method.downcast_ref' class='fnname'>downcast_ref</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;T&gt;</code></h4>
+<div class='docblock'><p>Returns some reference to the boxed value if it is of type <code>T</code>, or
+<code>None</code> if it isn&#39;t.</p>
+</div><h4 id='method.downcast_mut' class='method'><code>fn <a href='#method.downcast_mut' class='fnname'>downcast_mut</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;mut self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;mut T&gt;</code></h4>
+<div class='docblock'><p>Returns some mutable reference to the boxed value if it is of type <code>T</code>, or
+<code>None</code> if it isn&#39;t.</p>
+</div></div><h3 class='impl'><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static + <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a></code></h3><div class='impl-items'><h4 id='method.is-1' class='method'><code>fn <a href='#method.is' class='fnname'>is</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;self) -&gt; <a class='primitive' href='../primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Forwards to the method defined on the type <code>Any</code>.</p>
+</div><h4 id='method.downcast_ref-1' class='method'><code>fn <a href='#method.downcast_ref' class='fnname'>downcast_ref</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;T&gt;</code></h4>
+<div class='docblock'><p>Forwards to the method defined on the type <code>Any</code>.</p>
+</div><h4 id='method.downcast_mut-1' class='method'><code>fn <a href='#method.downcast_mut' class='fnname'>downcast_mut</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;mut self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;mut T&gt;</code></h4>
+<div class='docblock'><p>Forwards to the method defined on the type <code>Any</code>.</p>
+</div></div><h3 class='impl'><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static + <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> + <a class='trait' href='../../std/marker/trait.Sync.html' title='std::marker::Sync'>Sync</a></code></h3><div class='impl-items'><h4 id='method.is-2' class='method'><code>fn <a href='#method.is' class='fnname'>is</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;self) -&gt; <a class='primitive' href='../primitive.bool.html'>bool</a></code></h4>
+<div class='docblock'><p>Forwards to the method defined on the type <code>Any</code>.</p>
+</div><h4 id='method.downcast_ref-2' class='method'><code>fn <a href='#method.downcast_ref' class='fnname'>downcast_ref</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;T&gt;</code></h4>
+<div class='docblock'><p>Forwards to the method defined on the type <code>Any</code>.</p>
+</div><h4 id='method.downcast_mut-2' class='method'><code>fn <a href='#method.downcast_mut' class='fnname'>downcast_mut</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(&amp;mut self) -&gt; <a class='enum' href='../../std/option/enum.Option.html' title='std::option::Option'>Option</a>&lt;&amp;mut T&gt;</code></h4>
+<div class='docblock'><p>Forwards to the method defined on the type <code>Any</code>.</p>
+</div></div><h3 class='impl'><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a></code></h3><div class='impl-items'><h4 id='method.downcast' class='method'><code>fn <a href='#method.downcast' class='fnname'>downcast</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(self: <a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;Self&gt;) -&gt; <a class='enum' href='../../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;T&gt;, <a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;<a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a>&gt;&gt;</code></h4>
+<div class='docblock'><p>Attempt to downcast the box to a concrete type.</p>
+</div></div><h3 class='impl'><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a></code></h3><div class='impl-items'><h4 id='method.downcast-1' class='method'><code>fn <a href='#method.downcast' class='fnname'>downcast</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(self: <a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;Self&gt;) -&gt; <a class='enum' href='../../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;T&gt;, <a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;<a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a>&gt;&gt;</code></h4>
+<div class='docblock'><p>Attempt to downcast the box to a concrete type.</p>
+</div></div><h3 class='impl'><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> + <a class='trait' href='../../std/marker/trait.Sync.html' title='std::marker::Sync'>Sync</a></code></h3><div class='impl-items'><h4 id='method.downcast-2' class='method'><code>fn <a href='#method.downcast' class='fnname'>downcast</a>&lt;T: <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> + 'static&gt;(self: <a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;Self&gt;) -&gt; <a class='enum' href='../../std/result/enum.Result.html' title='std::result::Result'>Result</a>&lt;<a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;T&gt;, <a class='struct' href='../../std/boxed/struct.Box.html' title='std::boxed::Box'>Box</a>&lt;Self&gt;&gt;</code></h4>
+<div class='docblock'><p>Attempt to downcast the box to a concrete type.</p>
+</div></div>
+        <h2 id='implementors'>Implementors</h2>
+        <ul class='item-list' id='implementors-list'>
+    <li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/str/struct.ParseBoolError.html' title='std::str::ParseBoolError'>ParseBoolError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/str/struct.Utf8Error.html' title='std::str::Utf8Error'>Utf8Error</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/num/struct.ParseIntError.html' title='std::num::ParseIntError'>ParseIntError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/num/struct.ParseFloatError.html' title='std::num::ParseFloatError'>ParseFloatError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/string/struct.FromUtf8Error.html' title='std::string::FromUtf8Error'>FromUtf8Error</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/string/struct.FromUtf16Error.html' title='std::string::FromUtf16Error'>FromUtf16Error</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../../std/env/enum.VarError.html' title='std::env::VarError'>VarError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/env/struct.JoinPathsError.html' title='std::env::JoinPathsError'>JoinPathsError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/ffi/struct.NulError.html' title='std::ffi::NulError'>NulError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/ffi/struct.IntoStringError.html' title='std::ffi::IntoStringError'>IntoStringError</a></code></li>
+<li><code>impl&lt;W: <a class='trait' href='../../std/marker/trait.Reflect.html' title='std::marker::Reflect'>Reflect</a> + <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> + <a class='trait' href='../../std/fmt/trait.Debug.html' title='std::fmt::Debug'>Debug</a>&gt; <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/io/struct.IntoInnerError.html' title='std::io::IntoInnerError'>IntoInnerError</a>&lt;W&gt;</code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/io/struct.Error.html' title='std::io::Error'>Error</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../../std/io/enum.CharsError.html' title='std::io::CharsError'>CharsError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/net/struct.AddrParseError.html' title='std::net::AddrParseError'>AddrParseError</a></code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> + <a class='trait' href='../../std/marker/trait.Reflect.html' title='std::marker::Reflect'>Reflect</a>&gt; <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/sync/mpsc/struct.SendError.html' title='std::sync::mpsc::SendError'>SendError</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> + <a class='trait' href='../../std/marker/trait.Reflect.html' title='std::marker::Reflect'>Reflect</a>&gt; <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../../std/sync/mpsc/enum.TrySendError.html' title='std::sync::mpsc::TrySendError'>TrySendError</a>&lt;T&gt;</code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/sync/mpsc/struct.RecvError.html' title='std::sync::mpsc::RecvError'>RecvError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../../std/sync/mpsc/enum.TryRecvError.html' title='std::sync::mpsc::TryRecvError'>TryRecvError</a></code></li>
+<li><code>impl <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/time/struct.SystemTimeError.html' title='std::time::SystemTimeError'>SystemTimeError</a></code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> + <a class='trait' href='../../std/marker/trait.Reflect.html' title='std::marker::Reflect'>Reflect</a>&gt; <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='struct' href='../../std/sync/struct.PoisonError.html' title='std::sync::PoisonError'>PoisonError</a>&lt;T&gt;</code></li>
+<li><code>impl&lt;T: <a class='trait' href='../../std/marker/trait.Send.html' title='std::marker::Send'>Send</a> + <a class='trait' href='../../std/marker/trait.Reflect.html' title='std::marker::Reflect'>Reflect</a>&gt; <a class='trait' href='../../std/error/trait.Error.html' title='std::error::Error'>Error</a> for <a class='enum' href='../../std/sync/enum.TryLockError.html' title='std::sync::TryLockError'>TryLockError</a>&lt;T&gt;</code></li>
+</ul><script type="text/javascript" async
+                              src="../../implementors/std/error/trait.Error.js">
+                      </script></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "std";
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script src="../../playpen.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
