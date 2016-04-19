@@ -30,6 +30,7 @@
 | block                          | ブロック
 | borrowing                      | 借用
 | bounds                         | 境界
+| boxed                          | ボックス化された
 | bug                            | バグ
 | capture                        | キャプチャ
 | case analysis                  | 場合分け
@@ -76,7 +77,9 @@
 | exterior                       | 外側の
 | feature                        | フィーチャ
 | foreign                        | 他言語
+| free                           | 解放する
 | free-standing function         | フリースタンディングな関数
+| garbage collector              | ガベージコレクタ
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | glob                           | グロブ
@@ -136,6 +139,7 @@
 | raw pointer                    | 生ポインタ
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
+| reference                      | 参照
 | reference count                | 参照カウント
 | regression                     | リグレッション
 | release                        | リリース
