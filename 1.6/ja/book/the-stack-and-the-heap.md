@@ -384,9 +384,9 @@ allocated on the heap, so the value of `x` is (2<sup>30</sup>) - 1, the memory
 location we’ve asked for.
 -->
 今考えている1GBのRAMを備えた仮想のコンピュータには (2<sup>30</sup>) - 1 のアドレスがあります。
-また、スタックはゼロから伸びていますから、メモリをアロケートするのに一番都合が良い場所は、もう一方の端からです。
+また、スタックはゼロから伸びていますから、メモリをアロケートするのに一番楽なのは、反対側の端の場所です。
 ですから、最初の値はメモリのうち番号が一番大きい場所に置かれます。
-そして、 `x` にある構造体はヒープ上にアロケートした場所への[生ポインタ][rawpointer]を持っているので、 `x` の値は、今求めた (2<sup>30</sup>) - 1 です。
+そして、 `x` にある構造体はヒープ上にアロケートした場所への[生ポインタ][rawpointer]を持っているので、 `x` の値は、今求めた位置 (2<sup>30</sup>) - 1 です。
 
 [rawpointer]: raw-pointers.html
 
@@ -446,7 +446,7 @@ allocated on the heap:
 しかし、この例ではそうではありません。[^moving]
 関数が終了したとき、 `main()` のためのスタックフレームを解放する必要があります。
 しかし、`Box<T>`には隠れた仕掛け、[Drop][drop]があります。
-`Drop`トレイトの`Box`への実装は、ボックスが作られたときにアロケートされたメモリをデアロケートします。すばらしい！
+`Drop`トレイトの`Box`への実装は、ボックスが作られたときにアロケートされたメモリをデアロケートします。すばらしい!
 なので `x` が解放されるときには先にヒープ上にアロケートされたメモリを解放します。
 
 | Address | Name | Value  |
@@ -463,12 +463,17 @@ allocated on the heap:
 <!--
 And then the stack frame goes away, freeing all of our memory.
 -->
-その後スタックフレームが無くなることで、全てのメモリが開放されます。
+その後スタックフレームが無くなることで、全てのメモリが解放されます。
 
-# Arguments and borrowing
+# 引数と借用
+<!--# Arguments and borrowing-->
 
+<!--
 We’ve got some basic examples with the stack and the heap going, but what about
 function arguments and borrowing? Here’s a small Rust program:
+-->
+ここまででスタックとヒープの基本的な例をいくつか学び進めましたが、関数の引数と借用についてはどうでしょうか?
+ここに小さなRustプログラムがあります:
 
 ```rust
 fn foo(i: &i32) {
@@ -483,17 +488,26 @@ fn main() {
 }
 ```
 
+<!--
 When we enter `main()`, memory looks like this:
+-->
+処理が `main()` に入ると、メモリはこんな感じになります:
 
 | Address | Name | Value  |
 |---------|------|--------|
 | 1       | y    | → 0    |
 | 0       | x    | 5      |
 
+<!--
 `x` is a plain old `5`, and `y` is a reference to `x`. So its value is the
 memory location that `x` lives at, which in this case is `0`.
+-->
+`x` は普通の `5` で、 `y` は `x` への参照です。そのため、 `y` の値は `x` のメモリ上の位置で、今回は `0` です。
 
+<!--
 What about when we call `foo()`, passing `y` as an argument?
+-->
+引数として `y` を渡している関数 `foo()` の呼び出しはどうなるのでしょうか?
 
 | Address | Name | Value  |
 |---------|------|--------|
@@ -502,18 +516,33 @@ What about when we call `foo()`, passing `y` as an argument?
 | 1       | y    | → 0    |
 | 0       | x    | 5      |
 
+<!--
 Stack frames aren’t just for local bindings, they’re for arguments too. So in
 this case, we need to have both `i`, our argument, and `z`, our local variable
 binding. `i` is a copy of the argument, `y`. Since `y`’s value is `0`, so is
 `i`’s.
+-->
+スタックフレームは単にローカルな束縛のために使われるだけでなく、引数のためにも使われます。
+なので、この例では、引数の `i` とローカル変数の束縛 `z` の両方が必要です。
+`i` は引数 `y` のコピーです。
+`y` の値は `0` ですから、 `i` の値も `0` になります。
 
+<!--
 This is one reason why borrowing a variable doesn’t deallocate any memory: the
 value of a reference is just a pointer to a memory location. If we got rid of
 the underlying memory, things wouldn’t work very well.
+-->
+これは、変数を借用してもどのメモリもデアロケートされることがないことのひとつの理由になっています。
+つまり、参照の値はメモリ上の位置を示す単なるポインタです。
+もしポインタが指しているメモリを取り去ってしまうと、ことが立ちゆかなくなってしまうでしょう。
 
-# A complex example
+# 複雑な例
+<!--# A complex example-->
 
+<!--
 Okay, let’s go through this complex program step-by-step:
+-->
+それでは、次の複雑な例をステップ・バイ・ステップでやっていきましょう:
 
 ```rust
 fn foo(x: &i32) {
@@ -545,7 +574,10 @@ fn main() {
 }
 ```
 
+<!--
 First, we call `main()`:
+-->
+まず、`main()`を呼び出します:
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -555,10 +587,16 @@ First, we call `main()`:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 We allocate memory for `j`, `i`, and `h`. `i` is on the heap, and so has a
 value pointing there.
+-->
+`j`, `i`, `h` のためのメモリをアロケートします。`i` （訳注: 正しくは `i` が束縛されるボックスが確保する領域）はヒープ上にあるので、 `i` はそこを指す値を持っています。
 
+<!--
 Next, at the end of `main()`, `foo()` gets called:
+-->
+つぎに、 `main()` の最後で、 `foo()` が呼び出されます:
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -571,11 +609,19 @@ Next, at the end of `main()`, `foo()` gets called:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 Space gets allocated for `x`, `y`, and `z`. The argument `x` has the same value
 as `j`, since that’s what we passed it in. It’s a pointer to the `0` address,
 since `j` points at `h`.
+-->
+`x`, `y`, `z`のための空間が確保されます。
+引数 `x` は、渡された `j` と同じ値を持ちます。
+`j` は `h` を指しているので、値は `0` アドレスを指すポインタです。
 
+<!--
 Next, `foo()` calls `baz()`, passing `z`:
+-->
+つぎに、 `foo()` は `baz()` を呼び出し、 `z` を渡します:
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -590,8 +636,12 @@ Next, `foo()` calls `baz()`, passing `z`:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 We’ve allocated memory for `f` and `g`. `baz()` is very short, so when it’s
 over, we get rid of its stack frame:
+-->
+`f` と `g` のためにメモリを確保しました。 
+`baz()` はとても短いので、 `baz()` の実行が終わったときに、そのスタックフレームを取り除きます。
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -604,7 +654,10 @@ over, we get rid of its stack frame:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 Next, `foo()` calls `bar()` with `x` and `z`:
+-->
+次に、 `foo()` は `bar()` を `x` と `z` を引数にして呼び出します:
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -623,11 +676,19 @@ Next, `foo()` calls `bar()` with `x` and `z`:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 We end up allocating another value on the heap, and so we have to subtract one
 from (2<sup>30</sup>) - 1. It’s easier to just write that than `1,073,741,822`. In any
 case, we set up the variables as usual.
+-->
+その結果、ヒープに値をもうひとつアロケートすることになるので、(2<sup>30</sup>) - 1から1を引かなくてはなりません。
+そうすることは、単に `1,073,741,822` と書くよりは簡単です。
+いずれにせよ、いつものように変数を準備します。
 
+<!--
 At the end of `bar()`, it calls `baz()`:
+-->
+`bar()` の最後で、 `baz()` を呼び出します:
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -648,10 +709,16 @@ At the end of `bar()`, it calls `baz()`:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 With this, we’re at our deepest point! Whew! Congrats for following along this
 far.
+-->
+こうして、一番深い所までやってきました! ふう! ここまで長い過程をたどってきて、お疲れ様でした。<!--日本語の場合、こういう場面では「おめでとう」じゃなくて「お疲れ様」と言うと思う-->
 
+<!--
 After `baz()` is over, we get rid of `f` and `g`:
+-->
+`baz()` が終わったあとは、 `f` と `g` を取り除きます:
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -670,8 +737,12 @@ After `baz()` is over, we get rid of `f` and `g`:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 Next, we return from `bar()`. `d` in this case is a `Box<T>`, so it also frees
 what it points to: (2<sup>30</sup>) - 2.
+-->
+次に、 `bar()` から戻ります。
+ここで `d` は `Box<T>` 型なので、 `d` が指している (2<sup>30</sup>) - 2 も一緒に解放されます。
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -684,7 +755,10 @@ what it points to: (2<sup>30</sup>) - 2.
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 And after that, `foo()` returns:
+-->
+その後、 `foo()` から戻ります:
 
 | Address              | Name | Value                  |
 |----------------------|------|------------------------|
@@ -694,46 +768,79 @@ And after that, `foo()` returns:
 | 1                    | i    | → (2<sup>30</sup>) - 1 |
 | 0                    | h    | 3                      |
 
+<!--
 And then, finally, `main()`, which cleans the rest up. When `i` is `Drop`ped,
 it will clean up the last of the heap too.
+-->
+そして最後に `main()` から戻るところで、残っているものを除去します。
+`i` が `Drop` されるとき、ヒープの最後の残りも除去されます。
 
-# What do other languages do?
+# 他の言語では何をしているのか?
+<!--# What do other languages do?-->
 
+<!--
 Most languages with a garbage collector heap-allocate by default. This means
 that every value is boxed. There are a number of reasons why this is done, but
 they’re out of scope for this tutorial. There are some possible optimizations
 that don’t make it true 100% of the time, too. Rather than relying on the stack
 and `Drop` to clean up memory, the garbage collector deals with the heap
 instead.
+-->
+ガベージコレクタを備えた多くの言語はデフォルトでヒープアロケートします。
+つまり、すべての値がボックス化されています。
+そうなっている理由がいくつかあるのですが、それはこのチュートリアルの範囲外です。
+また、そのことが100%真であると言えなくなるような最適化もいくつか行われることがあります。
+メモリの解放のためにスタックと `Drop` を頼りにするかわりに、ガベージコレクタがヒープを取り扱います。
 
-# Which to use?
+# どちらを使えばいいのか?
+<!--# Which to use?-->
 
+<!--
 So if the stack is faster and easier to manage, why do we need the heap? A big
 reason is that Stack-allocation alone means you only have LIFO semantics for
 reclaiming storage. Heap-allocation is strictly more general, allowing storage
 to be taken from and returned to the pool in arbitrary order, but at a
 complexity cost.
+-->
+スタックのほうが速くて管理しやすいというのであれば、なぜヒープが要るのでしょうか?
+大きな理由のひとつは、スタックアロケーションだけしかないということはストレージの再利用にLIFOセマンティクスをとるしかないということだからです。
+ヒープアロケーションは厳密により普遍的で、ストレージを任意の順番でプールから取得したり、プールに返却することが許されているのですが、よりコストがかさみます。
 
+<!--
 Generally, you should prefer stack allocation, and so, Rust stack-allocates by
 default. The LIFO model of the stack is simpler, at a fundamental level. This
 has two big impacts: runtime efficiency and semantic impact.
+-->
+一般的にはスタックアロケーションを選ぶべきで、そのためRustはデフォルトでスタックアロケートします。
+スタックのLIFOモデルはより単純で、基本的なレベルに置かれています。
+このことは、実行時の効率性と意味論に大きな影響を与えています。
 
-## Runtime Efficiency
+## 実行時の効率性
+<!--## Runtime Efficiency-->
 
+<!--
 Managing the memory for the stack is trivial: The machine just
 increments or decrements a single value, the so-called “stack pointer”.
 Managing memory for the heap is non-trivial: heap-allocated memory is freed at
 arbitrary points, and each block of heap-allocated memory can be of arbitrary
 size, the memory manager must generally work much harder to identify memory for
 reuse.
+-->
+スタックのメモリを管理するのは些細なことです: 機械は「スタックポインタ」と呼ばれる単一の値を増減するだけです。
+ヒープのメモリを管理するのは些細なことではありません: ヒープアロケートされたメモリは任意の時点で解放され、またヒープアロケートされたそれぞれのブロックは任意のサイズになりうるので、一般的にメモリマネージャは再利用するメモリを特定するためにより多く働きます。
 
+<!--
 If you’d like to dive into this topic in greater detail, [this paper][wilson]
 is a great introduction.
+-->
+この事柄についてより詳しいことを知りたいのであれば、[こちらの論文][wilson]がよいイントロダクションになっています。
 
 [wilson]: http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.143.4688
 
-## Semantic impact
+## 意味論への影響
+<!--## Semantic impact-->
 
+<!--
 Stack-allocation impacts the Rust language itself, and thus the developer’s
 mental model. The LIFO semantics is what drives how the Rust language handles
 automatic memory management. Even the deallocation of a uniquely-owned
@@ -743,9 +850,17 @@ LIFO-semantics means that in general the compiler cannot automatically infer at
 compile-time where memory should be freed; it has to rely on dynamic protocols,
 potentially from outside the language itself, to drive deallocation (reference
 counting, as used by `Rc<T>` and `Arc<T>`, is one example of this).
+-->
+スタックアロケーションはRustの言語自体へ影響を与えており、したがって開発者のメンタルモデルにも影響しています。
+Rust言語がどのように自動メモリ管理を取り扱うかは、LIFOセマンティクスに従っています。
+ヒープアロケートされユニークに所有されたボックスのデアロケーションさえも、スタックベースのLIFOセマンティクスに従っていることは、この章を通して論じてきたとおりです。
+非LIFOセマンティクスの柔軟性（すなわち表現能力）は一般的に、いつメモリが解放されるべきなのかをコンパイラがコンパイル時に自動的に推論できなくなることを意味するので、デアロケーションを制御するために、ときに言語自体の外部に由来するかもしれない、動的なプロトコルに頼らなければなりません。（`Rc<T>` や `Arc<T>` が使っている参照カウントはその一例です。）
 
+<!--
 When taken to the extreme, the increased expressive power of heap allocation
 comes at the cost of either significant runtime support (e.g. in the form of a
 garbage collector) or significant programmer effort (in the form of explicit
 memory management calls that require verification not provided by the Rust
 compiler).
+-->
+突き詰めれば、ヒープアロケーションによって増大した表現能力は（例えばガベージコレクタという形の）著しい実行時サポートか、（Rustコンパイラが提供していないような検証を必要とする明示的なメモリ管理呼び出しという形の）著しいプログラマの努力のいずれかのコストを引き起こすのです。
