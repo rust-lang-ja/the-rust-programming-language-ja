@@ -35,12 +35,12 @@ this particular abstraction.
 These two terms are about memory management. The stack and the heap are
 abstractions that help you determine when to allocate and deallocate memory.
 -->
-これら2つの用語はメモリ管理についてのものです。スタックとヒープは、いつメモリがアロケート・デアロケートするのかを決定するのを助ける抽象化です。
+これら2つの用語はメモリ管理についてのものです。スタックとヒープは、いつメモリをアロケート・デアロケートするのかを決定するのを助ける抽象化です。
 
 <!--
 Here’s a high-level comparison:
 -->
-比較の概要です:
+大まかに比較してみましょう:
 
 <!--
 The stack is very fast, and is where memory is allocated in Rust by default.
@@ -401,7 +401,7 @@ layout of a program which has been running for a while now:
 -->
 ここまでの話では、メモリをアロケート・デアロケートするということのこの文脈における意味を過剰に語ることはありませんでした。
 詳細を深く掘り下げるのはこのチュートリアルの目的範囲外なのですが、ここで重要なこととして指摘したいのは、ヒープは単にメモリの反対側から伸びるスタックなのではないということです。
-後ほど例を見ていきますが、ヒープはアロケート・解放をどの順番にしてもよく、その結果「穴」のある状態になります。
+後ほど例を見ていきますが、ヒープはアロケート・デアロケートをどの順番にしてもよく、その結果「穴」のある状態になります。
 次の図は、とあるプログラムをしばらく実行していたときのメモリレイアウトです。
 
 
@@ -442,7 +442,7 @@ when it was created. Great! So when `x` goes away, it first frees the memory
 allocated on the heap:
 -->
 ともかく、私たちのプログラムの例に戻ります。
-この（訳注: `x` のポインタが指す）メモリはヒープ上にあるので、ボックスをアロケートした関数よりも長い間メモリ上に留まることができます。
+この（訳注: `x` のポインタが指す）メモリはヒープ上にあるので、ボックスをアロケートした関数よりも長い間生存しつづけることができます。
 しかし、この例ではそうではありません。[^moving]
 関数が終了したとき、 `main()` のためのスタックフレームを解放する必要があります。
 しかし、`Box<T>`には隠れた仕掛け、[Drop][drop]があります。
@@ -455,10 +455,14 @@ allocated on the heap:
 | 0       | x    | ?????? |
 
 [drop]: drop.html
+<!--
 [^moving]: We can make the memory live longer by transferring ownership,
            sometimes called ‘moving out of the box’. More complex examples will
            be covered later.
-
+-->
+[^moving]: （「変数からのムーブアウト」とも呼ばれることもある）所有権の移動によって、メモリをより長い間生存させられます。
+           <!-- 訳注: 元の表現は「ボックスからのムーブアウト」だが、誤りなので修正した。 -->
+           より複雑な例は後ほど解説します。
 
 <!--
 And then the stack frame goes away, freeing all of our memory.
@@ -591,7 +595,7 @@ First, we call `main()`:
 We allocate memory for `j`, `i`, and `h`. `i` is on the heap, and so has a
 value pointing there.
 -->
-`j`, `i`, `h` のためのメモリをアロケートします。`i` （訳注: 正しくは `i` が束縛されるボックスが確保する領域）はヒープ上にあるので、 `i` はそこを指す値を持っています。
+`j`, `i`, `h` のためのメモリをアロケートします。`i` <!-- 訳注: 誤り修正のための追記ここから -->が束縛されるボックスが確保する領域<!-- 追記ここまで -->はヒープ上にあるので、 `i` はそこを指す値を持っています。
 
 <!--
 Next, at the end of `main()`, `foo()` gets called:
