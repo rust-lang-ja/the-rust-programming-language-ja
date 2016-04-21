@@ -148,9 +148,7 @@ number comes from 2<sup>30</sup>, the number of bytes in a gigabyte. [^gigabyte]
 たとえば、もしあなたのコンピュータに1ギガバイトのRAMがのっていれば、アドレスは`0`から`1,073,741,823`になります。
 この数値は、1ギガバイトのバイト数である2<sup>30</sup>から来ています。[^gigabyte]
 
-<!--
-[^gigabyte]: ‘Gigabyte’ can mean two things: 10^9, or 2^30. The SI standard resolved this by stating that ‘gigabyte’ is 10^9, and ‘gibibyte’ is 2^30. However, very few people use this terminology, and rely on context to differentiate. We follow in that tradition here.
--->
+<!-- [^gigabyte]: ‘Gigabyte’ can mean two things: 10^9, or 2^30. The SI standard resolved this by stating that ‘gigabyte’ is 10^9, and ‘gibibyte’ is 2^30. However, very few people use this terminology, and rely on context to differentiate. We follow in that tradition here. -->
 [^gigabyte]: 「ギガバイト」が指すものには、 10<sup>9</sup> と 2<sup>30</sup> の2つがありえます。国際単位系 SI では「ギガバイト」は 10<sup>9</sup> を、「ギビバイト」は 2<sup>30</sup> を指すと決めることで、この問題を解決しています。しかしながら、このような用語法を使う人はとても少なく、文脈で両者を区別しています。ここでは、その慣習に則っています。
 
 <!--
@@ -455,13 +453,12 @@ allocated on the heap:
 | 0       | x    | ?????? |
 
 [drop]: drop.html
-<!--
-[^moving]: We can make the memory live longer by transferring ownership,
-           sometimes called ‘moving out of the box’. More complex examples will
-           be covered later.
--->
+
+<!-- [^moving]: We can make the memory live longer by transferring ownership, -->
+<!--            sometimes called ‘moving out of the box’. More complex examples will -->
+<!--            be covered later. -->
+<!-- 訳注: 元の表現は「ボックスからのムーブアウト」だが、誤りなので修正した。 -->
 [^moving]: （「変数からのムーブアウト」とも呼ばれることもある）所有権の移動によって、メモリをより長い間生存させられます。
-           <!-- 訳注: 元の表現は「ボックスからのムーブアウト」だが、誤りなので修正した。 -->
            より複雑な例は後ほど解説します。
 
 <!--
@@ -595,7 +592,9 @@ First, we call `main()`:
 We allocate memory for `j`, `i`, and `h`. `i` is on the heap, and so has a
 value pointing there.
 -->
-`j`, `i`, `h` のためのメモリをアロケートします。`i` <!-- 訳注: 誤り修正のための追記ここから -->が束縛されるボックスが確保する領域<!-- 追記ここまで -->はヒープ上にあるので、 `i` はそこを指す値を持っています。
+<!-- 訳注: 原文の「`i` はヒープ上にあるので」は誤りなので、「..が束縛されるボックスが確保する領域..」を追記した。 -->
+`j`, `i`, `h` のためのメモリをアロケートします。
+`i` が束縛されるボックスが確保する領域はヒープ上にあるので、 `i` はそこを指す値を持っています。
 
 <!--
 Next, at the end of `main()`, `foo()` gets called:
@@ -644,7 +643,7 @@ Next, `foo()` calls `baz()`, passing `z`:
 We’ve allocated memory for `f` and `g`. `baz()` is very short, so when it’s
 over, we get rid of its stack frame:
 -->
-`f` と `g` のためにメモリを確保しました。 
+`f` と `g` のためにメモリを確保しました。
 `baz()` はとても短いので、 `baz()` の実行が終わったときに、そのスタックフレームを取り除きます。
 
 | Address              | Name | Value                  |
@@ -717,7 +716,7 @@ At the end of `bar()`, it calls `baz()`:
 With this, we’re at our deepest point! Whew! Congrats for following along this
 far.
 -->
-こうして、一番深い所までやってきました! ふう! ここまで長い過程をたどってきて、お疲れ様でした。<!--日本語の場合、こういう場面では「おめでとう」じゃなくて「お疲れ様」と言うと思う-->
+こうして、一番深い所までやってきました! ふう! ここまで長い過程をたどってきて、お疲れ様でした。
 
 <!--
 After `baz()` is over, we get rid of `f` and `g`:
