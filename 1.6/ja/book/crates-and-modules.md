@@ -506,11 +506,13 @@ use phrases::english::{greetings, farewells};
 <!-- ## Re-exporting with `pub use` -->
 ## `pub use` による再エクスポート
 
-You don’t just use `use` to shorten identifiers. You can also use it inside of your crate
+<!-- You don’t just use `use` to shorten identifiers. You can also use it inside of your crate
 to re-export a function inside another module. This allows you to present an external
-interface that may not directly map to your internal code organization.
+interface that may not directly map to your internal code organization. -->
+`use` は識別子を短くするためだけに用いるのではありません。他のモジュール内の関数を再エクスポートするためにクレートの中で使うこともできます。これにより内部のコード構成に直接対応しない外部インターフェースを提供できます。
 
-Let’s look at an example. Modify your `src/main.rs` to read like this:
+<!-- Let’s look at an example. Modify your `src/main.rs` to read like this: -->
+例を見てみましょう。 `src/main.rs` を以下のように変更します。
 
 ```rust,ignore
 extern crate phrases;
@@ -527,14 +529,16 @@ fn main() {
 }
 ```
 
-Then, modify your `src/lib.rs` to make the `japanese` mod public:
+<!-- Then, modify your `src/lib.rs` to make the `japanese` mod public: -->
+そして、 `src/lib.rs` の `japanese` モジュールをパブリックに変更します。
 
 ```rust,ignore
 pub mod english;
 pub mod japanese;
 ```
 
-Next, make the two functions public, first in `src/japanese/greetings.rs`:
+<!-- Next, make the two functions public, first in `src/japanese/greetings.rs`: -->
+続いて、2つの関数をパブリックにします。始めに `src/japanese/greetings.rs` を、
 
 ```rust,ignore
 pub fn hello() -> String {
@@ -542,7 +546,8 @@ pub fn hello() -> String {
 }
 ```
 
-And then in `src/japanese/farewells.rs`:
+<!-- And then in `src/japanese/farewells.rs`: -->
+そして `src/japanese/farewells.rs` を、
 
 ```rust,ignore
 pub fn goodbye() -> String {
@@ -550,7 +555,8 @@ pub fn goodbye() -> String {
 }
 ```
 
-Finally, modify your `src/japanese/mod.rs` to read like this:
+<!-- Finally, modify your `src/japanese/mod.rs` to read like this: -->
+最後に、 `src/japanese/mod.rs` を以下のように変更します。
 
 ```rust,ignore
 pub use self::greetings::hello;
@@ -560,31 +566,36 @@ mod greetings;
 mod farewells;
 ```
 
-The `pub use` declaration brings the function into scope at this part of our
+<!-- The `pub use` declaration brings the function into scope at this part of our
 module hierarchy. Because we’ve `pub use`d this inside of our `japanese`
 module, we now have a `phrases::japanese::hello()` function and a
 `phrases::japanese::goodbye()` function, even though the code for them lives in
 `phrases::japanese::greetings::hello()` and
 `phrases::japanese::farewells::goodbye()`. Our internal organization doesn’t
-define our external interface.
+define our external interface. -->
+`pub use` 宣言は関数をモジュール階層のここのスコープへ持ち込みます。`japanese` モジュールの中で `pub use` したため、 `phrases::japanese::greetings::hello()` と `phrases::japanese::farewells::goodbye()` にコードがあるのにも関わらず、 `phrases::japanese::hello()` 関数と `phrases::japanese::goodbye()` 関数が使えるようになります。内部の構成は外部向けのインターフェースを特徴付けるものではありません。
 
-Here we have a `pub use` for each function we want to bring into the
+<!-- Here we have a `pub use` for each function we want to bring into the
 `japanese` scope. We could alternatively use the wildcard syntax to include
-everything from `greetings` into the current scope: `pub use self::greetings::*`.
+everything from `greetings` into the current scope: `pub use self::greetings::*`. -->
+ここまでで `japanese` スコープの中に持ち込みたい各関数のために `pub use` を得ました。現在のスコープ内の `greetings` から全てをインクルードする代わりに、 `pub use self::greetings::*` とすることでワイルドカード構文が使えます。
 
-What about the `self`? Well, by default, `use` declarations are absolute paths,
+<!-- What about the `self`? Well, by default, `use` declarations are absolute paths,
 starting from your crate root. `self` makes that path relative to your current
 place in the hierarchy instead. There’s one more special form of `use`: you can
 `use super::` to reach one level up the tree from your current location. Some
 people like to think of `self` as `.` and `super` as `..`, from many shells’
-display for the current directory and the parent directory.
+display for the current directory and the parent directory. -->
+`self` とはなんでしょう? ええっと、デフォルトでは、 `use` 宣言はクレートのルートから始まる絶対パスです。 `self` は代わりに階層の現在位置からの相対パスにします。 `use` にはもう1つ特別な形式があり、現在の位置から1つ上にアクセスするのに `use super::` が使えます。多くのシェルにおけるカレントディレクトリと親ディレクトリの表示になぞらえ、 `.` が `self` で、 `..` が `super` であるという考え方を好む人もそれなりにいます。
 
-Outside of `use`, paths are relative: `foo::bar()` refers to a function inside
+<!-- Outside of `use`, paths are relative: `foo::bar()` refers to a function inside
 of `foo` relative to where we are. If that’s prefixed with `::`, as in
 `::foo::bar()`, it refers to a different `foo`, an absolute path from your
-crate root.
+crate root. -->
+`use` でなければ、パスは相対です。`foo::bar()` は私達のいる所から相対的に `foo` の内側の関数を参照します。 `::foo::bar()` のように `::` から始まるのであれば、クレートのルートからの絶対パスで、先程とは異なる `foo` を参照します。
 
-This will build and run:
+<!-- This will build and run: -->
+これはビルドして実行できます。
 
 ```bash
 $ cargo run
@@ -596,10 +607,12 @@ Hello in Japanese: こんにちは
 Goodbye in Japanese: さようなら
 ```
 
-## Complex imports
+<!-- ## Complex imports -->
+## 複合的なインポート
 
-Rust offers several advanced options that can add compactness and
-convenience to your `extern crate` and `use` statements. Here is an example:
+<!-- Rust offers several advanced options that can add compactness and
+convenience to your `extern crate` and `use` statements. Here is an example: -->
+Rustは `extern crate` ないし `use` 文に簡潔さと利便性を付加できる上級者向けオプションを幾つか提供しています。
 
 ```rust,ignore
 extern crate phrases as sayings;
@@ -617,24 +630,28 @@ fn main() {
 }
 ```
 
-What's going on here?
+<!-- What's going on here? -->
+何が起きているでしょう?
 
-First, both `extern crate` and `use` allow renaming the thing that is being
+<!-- First, both `extern crate` and `use` allow renaming the thing that is being
 imported. So the crate is still called "phrases", but here we will refer
 to it as "sayings". Similarly, the first `use` statement pulls in the
 `japanese::greetings` module from the crate, but makes it available as
 `ja_greetings` as opposed to simply `greetings`. This can help to avoid
-ambiguity when importing similarly-named items from different places.
+ambiguity when importing similarly-named items from different places. -->
+第一に、インポートされているものを `extern crate` と `use` 双方でリネームしています。そのため 「phrases」という名前のクレートであっても、ここでは「sayings」として参照することになります。同様に、始めの `use` 文はクレートから `japanese::greetings` を引き出していますが、単純な `greetings` ではなく `ja_greetings` で利用できるようにしています。これは異なる場所から同じ名前のアイテムをインポートする際、曖昧さを回避するのに役立ちます。
 
-The second `use` statement uses a star glob to bring in _all_ symbols from the
+<!-- The second `use` statement uses a star glob to bring in _all_ symbols from the
 `sayings::japanese::farewells` module. As you can see we can later refer to
 the Japanese `goodbye` function with no module qualifiers. This kind of glob
-should be used sparingly.
+should be used sparingly. -->
+第二の `use` 文では `sayings::japanese::farewells` モジュールから _全ての_ シンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の `goodbye` 関数を参照できています。なお、この種のグロブは慎重に使うべきです。
 
-The third `use` statement bears more explanation. It's using "brace expansion"
+<!-- The third `use` statement bears more explanation. It's using "brace expansion"
 globbing to compress three `use` statements into one (this sort of syntax
 may be familiar if you've written Linux shell scripts before). The
-uncompressed form of this statement would be:
+uncompressed form of this statement would be: -->
+第三の `use` 文はより詳細な説明を要します。これは3つの `use` 文を1つに圧縮するグロブ「中括弧展開」を使用しています（以前にLinuxのシェルスクリプトを書いたことがあるなら、この種の構文は慣れていることでしょう）。この文を展開した形式は以下のようになります。
 
 ```rust,ignore
 use sayings::english;
@@ -642,6 +659,7 @@ use sayings::english::greetings as en_greetings;
 use sayings::english::farewells as en_farewells;
 ```
 
-As you can see, the curly brackets compress `use` statements for several items
+<!-- As you can see, the curly brackets compress `use` statements for several items
 under the same path, and in this context `self` just refers back to that path.
-Note: The curly brackets cannot be nested or mixed with star globbing.
+Note: The curly brackets cannot be nested or mixed with star globbing. -->
+ご覧の通り、波括弧は同一パス下にある幾つかのアイテムに対する `use` 文を圧縮します。また、この文脈における `self` はパスの1つ手前を参照するだけです。（訳注: `sayings::english::{self}` の `self` が指す1つ手前は `sayings::english` ）注意: 波括弧はネストできず、スターグロブと混ぜるとこともできません。
