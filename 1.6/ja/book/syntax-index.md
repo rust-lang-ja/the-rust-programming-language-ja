@@ -185,89 +185,136 @@
 * `||` (`expr || expr`): 論理和。
 * `_`: 「無視」するパターン束縛。 [パターン（束縛の無視）]。
 
-## Other Syntax
+<!-- ## Other Syntax -->
+## 他の構文
 
 <!-- Various bits of standalone stuff. -->
 
-* `'ident`: named lifetime or loop label.  See [Lifetimes], [Loops (Loops Labels)].
-* `…u8`, `…i32`, `…f64`, `…usize`, …: numeric literal of specific type.
-* `"…"`: string literal.  See [Strings].
-* `r"…"`, `r#"…"#`, `r##"…"##`, …: raw string literal, escape characters are not processed. See [Reference (Raw String Literals)].
-* `b"…"`: byte string literal, constructs a `[u8]` instead of a string. See [Reference (Byte String Literals)].
-* `br"…"`, `br#"…"#`, `br##"…"##`, …: raw byte string literal, combination of raw and byte string literal. See [Reference (Raw Byte String Literals)].
-* `'…'`: character literal.  See [Primitive Types (`char`)].
-* `b'…'`: ASCII byte literal.
-* `|…| expr`: closure.  See [Closures].
+<!-- * `'ident`: named lifetime or loop label.  See [Lifetimes], [Loops (Loops Labels)]. -->
+<!-- * `…u8`, `…i32`, `…f64`, `…usize`, …: numeric literal of specific type. -->
+<!-- * `"…"`: string literal.  See [Strings]. -->
+<!-- * `r"…"`, `r#"…"#`, `r##"…"##`, …: raw string literal, escape characters are not processed. See [Reference (Raw String Literals)]. -->
+<!-- * `b"…"`: byte string literal, constructs a `[u8]` instead of a string. See [Reference (Byte String Literals)]. -->
+<!-- * `br"…"`, `br#"…"#`, `br##"…"##`, …: raw byte string literal, combination of raw and byte string literal. See [Reference (Raw Byte String Literals)]. -->
+<!-- * `'…'`: character literal.  See [Primitive Types (`char`)]. -->
+<!-- * `b'…'`: ASCII byte literal. -->
+<!-- * `|…| expr`: closure.  See [Closures]. -->
+* `'ident`: 名前付きライフタイムまたはループラベル。 [ライフタイム] 、 [ループ （ループラベル）] 参照。
+* `…u8`, `…i32`, `…f64`, `…usize`, …: その型の数値リテラル。
+* `"…"`: 文字列リテラル。 [文字列] 参照。
+* `r"…"`, `r#"…"#`, `r##"…"##`, …: 生文字列リテラル、 エスケープ文字は処理されない。 See [Reference (Raw String Literals)].
+* `b"…"`: バイト列リテラル、文字列ではなく `[u8]` を作る。 See [Reference (Byte String Literals)].
+* `br"…"`, `br#"…"#`, `br##"…"##`, …: 生バイト列リテラル。生文字列とバイト列リテラルの組み合わせ。 See [Reference (Raw Byte String Literals)].
+* `'…'`: 文字リテラル。 See [Primitive Types (`char`)].
+* `b'…'`: ASCIIバイトリテラル。
+* `|…| expr`: クロージャ。 [クロージャ] 参照。
 
 <!-- Path-related syntax -->
 
-* `ident::ident`: path.  See [Crates and Modules (Defining Modules)].
-* `::path`: path relative to the crate root (*i.e.* an explicitly absolute path).  See [Crates and Modules (Re-exporting with `pub use`)].
-* `self::path`: path relative to the current module (*i.e.* an explicitly relative path).  See [Crates and Modules (Re-exporting with `pub use`)].
-* `super::path`: path relative to the parent of the current module.  See [Crates and Modules (Re-exporting with `pub use`)].
-* `type::ident`: associated constants, functions, and types.  See [Associated Types].
-* `<type>::…`: associated item for a type which cannot be directly named (*e.g.* `<&T>::…`, `<[T]>::…`, *etc.*).  See [Associated Types].
+<!-- * `ident::ident`: path.  See [Crates and Modules (Defining Modules)]. -->
+<!-- * `::path`: path relative to the crate root (*i.e.* an explicitly absolute path).  See [Crates and Modules (Re-exporting with `pub use`)]. -->
+<!-- * `self::path`: path relative to the current module (*i.e.* an explicitly relative path).  See [Crates and Modules (Re-exporting with `pub use`)]. -->
+<!-- * `super::path`: path relative to the parent of the current module.  See [Crates and Modules (Re-exporting with `pub use`)]. -->
+<!-- * `type::ident`: associated constants, functions, and types.  See [Associated Types]. -->
+<!-- * `<type>::…`: associated item for a type which cannot be directly named (*e.g.* `<&T>::…`, `<[T]>::…`, *etc.*).  See [Associated Types]. -->
+* `ident::ident`: パス。[クレートとモジュール （モジュールの定義）] 参照。
+* `::path`: クレートのルートからの相対パス（*つまり* 明示的な絶対パス）。 [クレートとモジュール（`pub use` を使った再エクスポート）] 参照。
+* `self::path`: 現在のモジュールからの相対パス（*つまり* 明示的な相対パス）。 [クレートとモジュール（`pub use` を使った再エクスポート）] 参照。
+* `super::path`: 現在のモジュールの親からの相対パス。 [クレートとモジュール（`pub use` を使った再エクスポート）] 参照。
+* `type::ident`: 関連定数、関数、型。 [関連型] 参照。
+* `<type>::…`: 直接名前付けられない型の関連アイテム（*例えば* `<&T>::…` 、 `<[T]>::…` 、 *など*）。 [関連型] 参照。
 
 <!-- Generics -->
 
-* `path<…>` (*e.g.* `Vec<u8>`): specifies parameters to generic type *in a type*.  See [Generics].
-* `path::<…>`, `method::<…>` (*e.g.* `"42".parse::<i32>()`): specifies parameters to generic type, function, or method *in an expression*.
-* `fn ident<…> …`: define generic function.  See [Generics].
-* `struct ident<…> …`: define generic structure.  See [Generics].
-* `enum ident<…> …`: define generic enumeration.  See [Generics].
-* `impl<…> …`: define generic implementation.
-* `for<…> type`: higher-ranked lifetime bounds.
-* `type<ident=type>` (*e.g.* `Iterator<Item=T>`): a generic type where one or more associated types have specific assignments.  See [Associated Types].
+<!-- * `path<…>` (*e.g.* `Vec<u8>`): specifies parameters to generic type *in a type*.  See [Generics]. -->
+<!-- * `path::<…>`, `method::<…>` (*e.g.* `"42".parse::<i32>()`): specifies parameters to generic type, function, or method *in an expression*. -->
+<!-- * `fn ident<…> …`: define generic function.  See [Generics]. -->
+<!-- * `struct ident<…> …`: define generic structure.  See [Generics]. -->
+<!-- * `enum ident<…> …`: define generic enumeration.  See [Generics]. -->
+<!-- * `impl<…> …`: define generic implementation. -->
+<!-- * `for<…> type`: higher-ranked lifetime bounds. -->
+<!-- * `type<ident=type>` (*e.g.* `Iterator<Item=T>`): a generic type where one or more associated types have specific assignments.  See [Associated Types]. -->
+* `path<…>` (*例えば* `Vec<u8>`): *型での* ジェネリック型のパラメータの指定。 [ジェネリクス] 。
+* `path::<…>`, `method::<…>` (*例えば* `"42".parse::<i32>()`): *式での* ジェネリック型あるいは関数、メソッドの型の指定。
+* `fn ident<…> …`: ジェネリック関数を定義。 [ジェネリクス] 参照。
+* `struct ident<…> …`: ジェネリック構造体を定義。 [ジェネリクス] 参照。
+* `enum ident<…> …`: ジェネリック列挙型を定義。 [ジェネリクス] 参照。
+* `impl<…> …`: ジェネリック実装を定義。
+* `for<…> type`: 高階ライフタイム境界。
+* `type<ident=type>` (*例えば* `Iterator<Item=T>`): 1つ以上の関連型について指定のあるジェネリック型。 [関連型] 参照。
 
 <!-- Constraints -->
 
-* `T: U`: generic parameter `T` constrained to types that implement `U`.  See [Traits].
-* `T: 'a`: generic type `T` must outlive lifetime `'a`.
-* `'b: 'a`: generic lifetime `'b` must outlive lifetime `'a`.
-* `T: ?Sized`: allow generic type parameter to be a dynamically-sized type.  See [Unsized Types (`?Sized`)].
-* `'a + trait`, `trait + trait`: compound type constraint.  See [Traits (Multiple Trait Bounds)].
+<!-- * `T: U`: generic parameter `T` constrained to types that implement `U`.  See [Traits]. -->
+<!-- * `T: 'a`: generic type `T` must outlive lifetime `'a`. -->
+<!-- * `'b: 'a`: generic lifetime `'b` must outlive lifetime `'a`. -->
+<!-- * `T: ?Sized`: allow generic type parameter to be a dynamically-sized type.  See [Unsized Types (`?Sized`)]. -->
+<!-- * `'a + trait`, `trait + trait`: compound type constraint.  See [Traits (Multiple Trait Bounds)]. -->
+* `T: U`: `U` を実装する型に制約されたジェネリックパラメータ `T` 。 [トレイト] 参照。
+* `T: 'a`: ジェネリック型 `T` はライフタイム `'a` より長生きしなければならない。
+* `'b: 'a`: ジェネリックライフタイム `'b` はライフタイム `'a` より長生きしなければならない。
+* `T: ?Sized`: ジェネリック型パラメータが動的サイズ型になること許可する。 [サイズ不定型 (`?Sized`)] 参照。
+* `'a + trait`, `trait + trait`: 合成型制約。 [トレイト （複数トレイト境界）] 参照。
 
 <!-- Macros and attributes -->
 
-* `#[meta]`: outer attribute.  See [Attributes].
-* `#![meta]`: inner attribute.  See [Attributes].
-* `$ident`: macro substitution.  See [Macros].
-* `$ident:kind`: macro capture.  See [Macros].
-* `$(…)…`: macro repetition.  See [Macros].
+<!-- * `#[meta]`: outer attribute.  See [Attributes]. -->
+<!-- * `#![meta]`: inner attribute.  See [Attributes]. -->
+<!-- * `$ident`: macro substitution.  See [Macros]. -->
+<!-- * `$ident:kind`: macro capture.  See [Macros]. -->
+<!-- * `$(…)…`: macro repetition.  See [Macros]. -->
+* `#[meta]`: 外側のアトリビュート。  [アトリビュート] 参照。
+* `#![meta]`: 内側のアトリビュート。 [アトリビュート] 参照。
+* `$ident`: マクロでの置換。 [マクロ] 参照。
+* `$ident:kind`: マクロでの捕捉。 [マクロ] 参照。
+* `$(…)…`: マクロでの繰り返し。 [マクロ] 参照。
 
 <!-- Comments -->
 
-* `//`: line comment.  See [Comments].
-* `//!`: inner line doc comment.  See [Comments].
-* `///`: outer line doc comment.  See [Comments].
-* `/*…*/`: block comment.  See [Comments].
-* `/*!…*/`: inner block doc comment.  See [Comments].
-* `/**…*/`: outer block doc comment.  See [Comments].
+<!-- * `//`: line comment.  See [Comments]. -->
+<!-- * `//!`: inner line doc comment.  See [Comments]. -->
+<!-- * `///`: outer line doc comment.  See [Comments]. -->
+<!-- * `/*…*/`: block comment.  See [Comments]. -->
+<!-- * `/*!…*/`: inner block doc comment.  See [Comments]. -->
+<!-- * `/**…*/`: outer block doc comment.  See [Comments]. -->
+* `//`: ラインコメント。 [コメント] 参照。
+* `//!`: 内側の行ドキュメントコメント。 [コメント] 参照。
+* `///`: 外側の行ドキュメントコメント [コメント] 参照。
+* `/*…*/`: ブロックコメント。 [コメント] 参照。
+* `/*!…*/`: 内側のブロックドキュメントコメント。 [コメント] 参照。
+* `/**…*/`: 外側のブロックドキュメントコメント。 [コメント] 参照。
 
 <!-- Various things involving parens and tuples -->
 
-* `()`: empty tuple (*a.k.a.* unit), both literal and type.
-* `(expr)`: parenthesized expression.
-* `(expr,)`: single-element tuple expression.  See [Primitive Types (Tuples)].
-* `(type,)`: single-element tuple type.  See [Primitive Types (Tuples)].
-* `(expr, …)`: tuple expression.  See [Primitive Types (Tuples)].
-* `(type, …)`: tuple type.  See [Primitive Types (Tuples)].
-* `expr(expr, …)`: function call expression.  Also used to initialize tuple `struct`s and tuple `enum` variants.  See [Functions].
-* `ident!(…)`, `ident!{…}`, `ident![…]`: macro invocation.  See [Macros].
-* `expr.0`, `expr.1`, …: tuple indexing.  See [Primitive Types (Tuple Indexing)].
+* `()`: 空タプル(*あるいは* ユニット)の、リテラルと型両方。
+* `(expr)`: 括弧付きの式。
+* `(expr,)`: 1要素タプルの式。 [プリミティブ型（タプル）] 参照。
+* `(type,)`: 1要素タプルの型。 [プリミティブ型（タプル）] 参照。
+* `(expr, …)`: タプル式。 [プリミティブ型（タプル）] 参照。
+* `(type, …)`: タプル型。 [プリミティブ型（タプル）] 参照。
+* `expr(expr, …)`: 関数呼び出し式。また、 タプル `struct` 、 タプル `enum` を初期化するのにも使われる。 [関数] 参照。
+* `ident!(…)`, `ident!{…}`, `ident![…]`: マクロの起動。 [マクロ] 参照。
+* `expr.0`, `expr.1`, …: タプルのインデックス。 [プリミティブ型（タプルのインデックス）] 参照。
 
 <!-- Bracey things -->
 
-* `{…}`: block expression.
-* `Type {…}`: `struct` literal.  See [Structs].
+<!-- * `{…}`: block expression. -->
+<!-- * `Type {…}`: `struct` literal.  See [Structs]. -->
+* `{…}`: ブロック式。
+* `Type {…}`: `struct` リテラル。 [構造体] 参照。
 
 <!-- Brackety things -->
 
-* `[…]`: array literal.  See [Primitive Types (Arrays)].
-* `[expr; len]`: array literal containing `len` copies of `expr`.  See [Primitive Types (Arrays)].
-* `[type; len]`: array type containing `len` instances of `type`.  See [Primitive Types (Arrays)].
-* `expr[expr]`: collection indexing.  Overloadable (`Index`, `IndexMut`).
-* `expr[..]`, `expr[a..]`, `expr[..b]`, `expr[a..b]`: collection indexing pretending to be collection slicing, using `Range`, `RangeFrom`, `RangeTo`, `RangeFull` as the "index".
+<!-- * `[…]`: array literal.  See [Primitive Types (Arrays)]. -->
+<!-- * `[expr; len]`: array literal containing `len` copies of `expr`.  See [Primitive Types (Arrays)]. -->
+<!-- * `[type; len]`: array type containing `len` instances of `type`.  See [Primitive Types (Arrays)]. -->
+<!-- * `expr[expr]`: collection indexing.  Overloadable (`Index`, `IndexMut`). -->
+<!-- * `expr[..]`, `expr[a..]`, `expr[..b]`, `expr[a..b]`: collection indexing pretending to be collection slicing, using `Range`, `RangeFrom`, `RangeTo`, `RangeFull` as the "index". -->
+* `[…]`: 配列リテラル。 [プリミティブ型（配列）] 参照。
+* `[expr; len]`: `len` 個の `expr` を要素に持つ配列リテラル。 [プリミティブ型（配列）] 参照。
+* `[type; len]`: `len` 個の`type` のインスタンスを要素に持つ配列型。 [プリミティブ型（配列）] 参照。
+* `expr[expr]`: コレクションのインデックス。 オーバーロード可能(`Index`, `IndexMut`)。
+* `expr[..]`, `expr[a..]`, `expr[..b]`, `expr[a..b]`: コレクションのスライスのようなコレクションのインデックス。 `Range`, `RangeFrom`, `RangeTo`, `RangeFull` を「インデックス」として使う。
 
 [`const` and `static` (`static`)]: const-and-static.html#static
 [`const` and `static`]: const-and-static.html
