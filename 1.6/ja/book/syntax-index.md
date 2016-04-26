@@ -286,13 +286,22 @@
 
 <!-- Various things involving parens and tuples -->
 
+<!-- * `()`: empty tuple (*a.k.a.* unit), both literal and type. -->
+<!-- * `(expr)`: parenthesized expression. -->
+<!-- * `(expr,)`: single-element tuple expression.  See [Primitive Types (Tuples)]. -->
+<!-- * `(type,)`: single-element tuple type.  See [Primitive Types (Tuples)]. -->
+<!-- * `(expr, …)`: tuple expression.  See [Primitive Types (Tuples)]. -->
+<!-- * `(type, …)`: tuple type.  See [Primitive Types (Tuples)]. -->
+<!-- * `expr(expr, …)`: function call expression.  Also used to initialize tuple `struct`s and tuple `enum` variants.  See [Functions]. -->
+<!-- * `ident!(…)`, `ident!{…}`, `ident![…]`: macro invocation.  See [Macros]. -->
+<!-- * `expr.0`, `expr.1`, …: tuple indexing.  See [Primitive Types (Tuple Indexing)]. -->
 * `()`: 空タプル(*あるいは* ユニット)の、リテラルと型両方。
 * `(expr)`: 括弧付きの式。
 * `(expr,)`: 1要素タプルの式。 [プリミティブ型 (タプル)] 参照。
 * `(type,)`: 1要素タプルの型。 [プリミティブ型 (タプル)] 参照。
 * `(expr, …)`: タプル式。 [プリミティブ型 (タプル)] 参照。
 * `(type, …)`: タプル型。 [プリミティブ型 (タプル)] 参照。
-* `expr(expr, …)`: 関数呼び出し式。また、 タプル `struct` 、 タプル `enum` を初期化するのにも使われる。 [関数] 参照。
+* `expr(expr, …)`: 関数呼び出し式。また、 タプル `struct` 、 タプル `enum` のヴァリアントを初期化するのにも使われる。 [関数] 参照。
 * `ident!(…)`, `ident!{…}`, `ident![…]`: マクロの起動。 [マクロ] 参照。
 * `expr.0`, `expr.1`, …: タプルのインデックス。 [プリミティブ型 (タプルのインデックス)] 参照。
 
