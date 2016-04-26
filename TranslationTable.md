@@ -29,6 +29,7 @@
 | borrowing                      | 借用
 | bounds                         | 境界
 | bug                            | バグ
+| byte string                    | バイト列
 | capture                        | キャプチャ
 | case analysis                  | 場合分け
 | channel                        | チャネル
@@ -140,6 +141,7 @@
 | process                        | プロセス
 | range                          | レンジ
 | raw pointer                    | 生ポインタ
+| raw string literal             | 生文字列リテラル
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
 | reference count                | 参照カウント

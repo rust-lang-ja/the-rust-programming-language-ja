@@ -39,34 +39,34 @@
 <!-- * `where`: type constraint clauses.  See [Traits (`where` clause)]. -->
 <!-- * `while`: conditional loop.  See [Loops (`while`)]. -->
 * `as`: プリミティブのキャスト。 [型間のキャスト (`as`)] 参照。
-* `break`: ループからの脱却。[ループ （反復の早期終了）] 参照。
+* `break`: ループからの脱却。[ループ (反復の早期終了)] 参照。
 * `const`: 定数および定数ポインタ。 [`const` と `static`] 、 [生ポインタ] 参照。
-* `continue`: 次の反復への継続。 [ループ （反復の早期終了）] 参照。
-* `crate`: 外部クレートのリンク。 [クレートとモジュール （外部クレートのインポート）] 参照
+* `continue`: 次の反復への継続。 [ループ (反復の早期終了)] 参照。
+* `crate`: 外部クレートのリンク。 [クレートとモジュール (外部クレートのインポート)] 参照
 * `else`: `if` と `if let` が形成するフォールバック。 [`if`] 、 [`if let`] 参照。
 * `enum`: 列挙型の定義。 [列挙型] 参照。
-* `extern`: 外部クレート、関数、変数のリンク。  [クレートとモジュール （外部クレートのインポート）]、 [FFI] 参照。
-* `false`: ブーリアン型の偽値のリテラル。 [プリミティブ型 （ブーリアン型）] 参照。
+* `extern`: 外部クレート、関数、変数のリンク。  [クレートとモジュール (外部クレートのインポート)]、 [FFI] 参照。
+* `false`: ブーリアン型の偽値のリテラル。 [プリミティブ型 (ブーリアン型)] 参照。
 * `fn`: 関数定義及び関数ポインタ型。 [関数] 参照。
 * `for`: イテレータループ、 `impl`  構文の一部、 あるいは 高階ライフタイム構文。  [ループ (`for`)], [メソッド構文] 参照。
 * `if`: 条件分岐  [`if`] 、 [`if let`] 参照。
-* `impl`: 継承及びトレイト実装のブロック。 [メソッド構文参照]。
+* `impl`: 継承及びトレイト実装のブロック。 [メソッド構文] 参照。
 * `in`: `for` ループ構文の一部。 [ループ (`for`)] 参照。
 * `let`: 変数束縛。 [変数束縛] 参照。
 * `loop`: 条件無しの無限ループ。 [ループ (`loop`)] 参照。
 * `match`: パターンマッチ。 [マッチ] 参照。
-* `mod`: モジュール宣言。   [クレートとモジュール（モジュールの定義）] 参照。
+* `mod`: モジュール宣言。   [クレートとモジュール (モジュールの定義)] 参照。
 * `move`: クロージャ構文の一部。 [クロージャ (`move` クロージャ)] 参照。
 * `mut`: ポインタ型とパターン束縛におけるミュータビリティを表す。 [ミュータビリティ] 参照。
-* `pub`: `struct` のフィールド、 `impl` ブロック、 モジュールにおいて可視性を表す。 [クレートとモジュール（公開インターフェースをエクスポートする）] 参照。
+* `pub`: `struct` のフィールド、 `impl` ブロック、 モジュールにおいて可視性を表す。 [クレートとモジュール (公開インターフェースをエクスポートする)] 参照。
 * `ref`: 参照束縛。 [パターン (`ref` と `ref mut`)] 参照。
-* `return`: 関数からのリターン。 [関数（早期リターン）] 参照。
+* `return`: 関数からのリターン。 [関数 (早期リターン)] 参照。
 * `Self`: 実装者の型のエイリアス。 [トレイト] 参照。
-* `self`: メソッドの主語。 [メソッド構文（メソッド呼び出し）] 参照。
-* `static`: グローバル変数。 [`const` ト `static` (`static`)] 参照。
+* `self`: メソッドの主語。 [メソッド構文 (メソッド呼び出し)] 参照。
+* `static`: グローバル変数。 [`const` と `static` (`static`)] 参照。
 * `struct`: 構造体定義。 [構造体] 参照。
 * `trait`: トレイト定義。 [トレイト] 参照。
-* `true`: ブーリアン型の真値のリテラル。 [プリミティブ型（ブーリアン型）] 参照。
+* `true`: ブーリアン型の真値のリテラル。 [プリミティブ型 (ブーリアン型)] 参照。
 * `type`: 型エイリアス、または関連型定義。 [`type` エイリアス] 、 [関連型] 参照。
 * `unsafe`: アンセーフなコード、関数、トレイト、そして実装を表す。 [アンセーフ] 参照。
 * `use`: スコープにシンボルをインポートする。 [クレートとモジュール (`use` を使ってモジュールをインポートする)] 参照。
@@ -144,9 +144,9 @@
 * `*` (`*const type`, `*mut type`): 生ポインタ。 [生ポインタ]参照。
 * `*=` (`var *= expr`): 算術乗算をして代入。
 * `+` (`expr + expr`): 算術加算。オーバーロード可能 (`Add`)。
-* `+` (`trait + trait`, `'a + trait`): 合成型制約。 [トレイト（複数のトレイト境界）]参照。
+* `+` (`trait + trait`, `'a + trait`): 合成型制約。 [トレイト (複数のトレイト境界)]参照。
 * `+=` (`var += expr`): 算術加算をして代入。
-* `,`: 引数または要素の区切り。  [アトリビュート]、 [関数], [構造体], [ジェネリクス], [マッチ], [クロージャ], [クレートとモジュール(`use`を使ってモジュールをインポートする)] 参照。
+* `,`: 引数または要素の区切り。  [アトリビュート]、 [関数], [構造体], [ジェネリクス], [マッチ], [クロージャ], [クレートとモジュール (`use` を使ってモジュールをインポートする)] 参照。
 * `-` (`expr - expr`): 算術減算。オーバーロード可能 (`Sub`)。
 * `-` (`- expr`): 算術負。オーバーロード可能 (`Neg`)。
 * `-=` (`var -= expr`): 算術減算をして代入。
@@ -154,16 +154,16 @@
 * `-> !` (`fn(…) -> !`, `|…| -> !`): ダイバージング関数またはクロージャ。[ダイバージング関数]参照。
 * `.` (`expr.ident`): メンバへのアクセス。 [構造体]、 [メソッド構文]参照。
 * `..` (`..`, `expr..`, `..expr`, `expr..expr`): 右に開な区間のリテラル。
-* `..` (`..expr`): 構造体リテラルのアップデーオ構文。[構造体（アップデート構文）]参照。
-* `..` (`variant(x, ..)`, `struct_type { x, .. }`): 「〜と残り」のパターン束縛。 [パターン(束縛の無視)] 参照。
-* `...` (`expr ... expr`): 閉区間リテラル。 [パターン（レンジ）] 参照。
+* `..` (`..expr`): 構造体リテラルのアップデーオ構文。[構造体 (アップデート構文)]参照。
+* `..` (`variant(x, ..)`, `struct_type { x, .. }`): 「〜と残り」のパターン束縛。 [パターン (束縛の無視)] 参照。
+* `...` (`expr ... expr`): 閉区間リテラル。 [パターン (レンジ)] 参照。
 * `/` (`expr / expr`): 算術除算。オーバーロード可能 (`Div`)。
 * `/=` (`var /= expr`): 算術除算と代入。
 * `:` (`pat: type`, `ident: type`): 制約。[変数束縛] 、 [関数] 、 [構造体] 、 [トレイト] 参照。
 * `:` (`ident: expr`): 構造体のフィールドの初期化。 [構造体] 参照。
-* `:` (`'a: loop {…}`): ループラベル。 [ループ（ループラベル）] 参照。
+* `:` (`'a: loop {…}`): ループラベル。 [ループ (ループラベル)] 参照。
 * `;`: 文またはアイテムの区切り。
-* `;` (`[…; len]`): 固定長配列構文の一部。 [プリミティブ型（配列）] 参照。
+* `;` (`[…; len]`): 固定長配列構文の一部。 [プリミティブ型 (配列)] 参照。
 * `<<` (`expr << expr`): 左シフト。オーバーロード可能 (`Shl`)。
 * `<<=` (`var <<= expr`): 左シブトして代入。
 * `<` (`expr < expr`): 「より小さい」の比較。オーバーロード可能 (`Cmp`, `PartialCmp`)。
@@ -175,15 +175,15 @@
 * `>=` (`var >= expr`): 「以上」の比較。オーバーロード可能 (`Cmp`, `PartialCmp`)。
 * `>>` (`expr >> expr`): 右シフト。オーバーロード可能 (`Shr`)。
 * `>>=` (`var >>= expr`): 右シフトして代入。
-* `@` (`ident @ pat`): パターン束縛。 [パターン（束縛）] 参照。
+* `@` (`ident @ pat`): パターン束縛。 [パターン (束縛)] 参照。
 * `^` (`expr ^ expr`): ビット毎の排他的論理和。オーバーロード可能 (`BitXor`)。
 * `^=` (`var ^= expr`): ビット毎の排他的論理和をして代入。
 * `|` (`expr | expr`): ビット毎の論理和。 オーバーロード可能 (`BitOr`)。
-* `|` (`pat | pat`): パターンの「または」。 [パターン（複式パターン）] 参照
+* `|` (`pat | pat`): パターンの「または」。 [パターン (複式パターン)] 参照
 * `|` (`|…| expr`): クロージャ。[クロージャ] 参照。
 * `|=` (`var |= expr`): ビット毎の論理和をして代入。
 * `||` (`expr || expr`): 論理和。
-* `_`: 「無視」するパターン束縛。 [パターン（束縛の無視）]。
+* `_`: 「無視」するパターン束縛。 [パターン (束縛の無視)]。
 
 <!-- ## Other Syntax -->
 ## 他の構文
@@ -199,13 +199,13 @@
 <!-- * `'…'`: character literal.  See [Primitive Types (`char`)]. -->
 <!-- * `b'…'`: ASCII byte literal. -->
 <!-- * `|…| expr`: closure.  See [Closures]. -->
-* `'ident`: 名前付きライフタイムまたはループラベル。 [ライフタイム] 、 [ループ （ループラベル）] 参照。
+* `'ident`: 名前付きライフタイムまたはループラベル。 [ライフタイム] 、 [ループ (ループラベル)] 参照。
 * `…u8`, `…i32`, `…f64`, `…usize`, …: その型の数値リテラル。
 * `"…"`: 文字列リテラル。 [文字列] 参照。
-* `r"…"`, `r#"…"#`, `r##"…"##`, …: 生文字列リテラル、 エスケープ文字は処理されない。 See [Reference (Raw String Literals)].
-* `b"…"`: バイト列リテラル、文字列ではなく `[u8]` を作る。 See [Reference (Byte String Literals)].
-* `br"…"`, `br#"…"#`, `br##"…"##`, …: 生バイト列リテラル。生文字列とバイト列リテラルの組み合わせ。 See [Reference (Raw Byte String Literals)].
-* `'…'`: 文字リテラル。 See [Primitive Types (`char`)].
+* `r"…"`, `r#"…"#`, `r##"…"##`, …: 生文字列リテラル、 エスケープ文字は処理されない。 [リファレンス (生文字列リテラル)] 参照。
+* `b"…"`: バイト列リテラル、文字列ではなく `[u8]` を作る。 [リファレンス (バイト列リテラル)] 参照。
+* `br"…"`, `br#"…"#`, `br##"…"##`, …: 生バイト列リテラル。生文字列とバイト列リテラルの組み合わせ。 [リファレンス (生バイト列リテラル)] 参照
+* `'…'`: 文字リテラル。 [プリミティブ型 (`char`)] 参照。
 * `b'…'`: ASCIIバイトリテラル。
 * `|…| expr`: クロージャ。 [クロージャ] 参照。
 
@@ -217,12 +217,12 @@
 <!-- * `super::path`: path relative to the parent of the current module.  See [Crates and Modules (Re-exporting with `pub use`)]. -->
 <!-- * `type::ident`: associated constants, functions, and types.  See [Associated Types]. -->
 <!-- * `<type>::…`: associated item for a type which cannot be directly named (*e.g.* `<&T>::…`, `<[T]>::…`, *etc.*).  See [Associated Types]. -->
-* `ident::ident`: パス。[クレートとモジュール （モジュールの定義）] 参照。
-* `::path`: クレートのルートからの相対パス（*つまり* 明示的な絶対パス）。 [クレートとモジュール（`pub use` を使った再エクスポート）] 参照。
-* `self::path`: 現在のモジュールからの相対パス（*つまり* 明示的な相対パス）。 [クレートとモジュール（`pub use` を使った再エクスポート）] 参照。
-* `super::path`: 現在のモジュールの親からの相対パス。 [クレートとモジュール（`pub use` を使った再エクスポート）] 参照。
+* `ident::ident`: パス。[クレートとモジュール (モジュールの定義)] 参照。
+* `::path`: クレートのルートからの相対パス (*つまり* 明示的な絶対パス)。 [クレートとモジュール (`pub use` を使った再エクスポート)] 参照。
+* `self::path`: 現在のモジュールからの相対パス (*つまり* 明示的な相対パス)。 [クレートとモジュール (`pub use` を使った再エクスポート)] 参照。
+* `super::path`: 現在のモジュールの親からの相対パス。 [クレートとモジュール (`pub use` を使った再エクスポート)] 参照。
 * `type::ident`: 関連定数、関数、型。 [関連型] 参照。
-* `<type>::…`: 直接名前付けられない型の関連アイテム（*例えば* `<&T>::…` 、 `<[T]>::…` 、 *など*）。 [関連型] 参照。
+* `<type>::…`: 直接名前付けられない型の関連アイテム (*例えば* `<&T>::…` 、 `<[T]>::…` 、 *など*)。 [関連型] 参照。
 
 <!-- Generics -->
 
@@ -254,7 +254,7 @@
 * `T: 'a`: ジェネリック型 `T` はライフタイム `'a` より長生きしなければならない。
 * `'b: 'a`: ジェネリックライフタイム `'b` はライフタイム `'a` より長生きしなければならない。
 * `T: ?Sized`: ジェネリック型パラメータが動的サイズ型になること許可する。 [サイズ不定型 (`?Sized`)] 参照。
-* `'a + trait`, `trait + trait`: 合成型制約。 [トレイト （複数トレイト境界）] 参照。
+* `'a + trait`, `trait + trait`: 合成型制約。 [トレイト (複数のトレイト境界)] 参照。
 
 <!-- Macros and attributes -->
 
@@ -288,13 +288,13 @@
 
 * `()`: 空タプル(*あるいは* ユニット)の、リテラルと型両方。
 * `(expr)`: 括弧付きの式。
-* `(expr,)`: 1要素タプルの式。 [プリミティブ型（タプル）] 参照。
-* `(type,)`: 1要素タプルの型。 [プリミティブ型（タプル）] 参照。
-* `(expr, …)`: タプル式。 [プリミティブ型（タプル）] 参照。
-* `(type, …)`: タプル型。 [プリミティブ型（タプル）] 参照。
+* `(expr,)`: 1要素タプルの式。 [プリミティブ型 (タプル)] 参照。
+* `(type,)`: 1要素タプルの型。 [プリミティブ型 (タプル)] 参照。
+* `(expr, …)`: タプル式。 [プリミティブ型 (タプル)] 参照。
+* `(type, …)`: タプル型。 [プリミティブ型 (タプル)] 参照。
 * `expr(expr, …)`: 関数呼び出し式。また、 タプル `struct` 、 タプル `enum` を初期化するのにも使われる。 [関数] 参照。
 * `ident!(…)`, `ident!{…}`, `ident![…]`: マクロの起動。 [マクロ] 参照。
-* `expr.0`, `expr.1`, …: タプルのインデックス。 [プリミティブ型（タプルのインデックス）] 参照。
+* `expr.0`, `expr.1`, …: タプルのインデックス。 [プリミティブ型 (タプルのインデックス)] 参照。
 
 <!-- Bracey things -->
 
@@ -310,67 +310,67 @@
 <!-- * `[type; len]`: array type containing `len` instances of `type`.  See [Primitive Types (Arrays)]. -->
 <!-- * `expr[expr]`: collection indexing.  Overloadable (`Index`, `IndexMut`). -->
 <!-- * `expr[..]`, `expr[a..]`, `expr[..b]`, `expr[a..b]`: collection indexing pretending to be collection slicing, using `Range`, `RangeFrom`, `RangeTo`, `RangeFull` as the "index". -->
-* `[…]`: 配列リテラル。 [プリミティブ型（配列）] 参照。
-* `[expr; len]`: `len` 個の `expr` を要素に持つ配列リテラル。 [プリミティブ型（配列）] 参照。
-* `[type; len]`: `len` 個の`type` のインスタンスを要素に持つ配列型。 [プリミティブ型（配列）] 参照。
+* `[…]`: 配列リテラル。 [プリミティブ型 (配列)] 参照。
+* `[expr; len]`: `len` 個の `expr` を要素に持つ配列リテラル。 [プリミティブ型 (配列)] 参照。
+* `[type; len]`: `len` 個の`type` のインスタンスを要素に持つ配列型。 [プリミティブ型 (配列)] 参照。
 * `expr[expr]`: コレクションのインデックス。 オーバーロード可能(`Index`, `IndexMut`)。
 * `expr[..]`, `expr[a..]`, `expr[..b]`, `expr[a..b]`: コレクションのスライスのようなコレクションのインデックス。 `Range`, `RangeFrom`, `RangeTo`, `RangeFull` を「インデックス」として使う。
 
-[`const` and `static` (`static`)]: const-and-static.html#static
-[`const` and `static`]: const-and-static.html
+[`const` と `static` (`static`)]: const-and-static.html#static
+[`const` と `static`]: const-and-static.html
 [`if let`]: if-let.html
 [`if`]: if.html
-[`type` Aliases]: type-aliases.html
-[Associated Types]: associated-types.html
-[Attributes]: attributes.html
-[Casting Between Types (`as`)]: casting-between-types.html#as
-[Closures (`move` closures)]: closures.html#move-closures
-[Closures]: closures.html
-[Comments]: comments.html
-[Crates and Modules (Defining Modules)]: crates-and-modules.html#defining-modules
-[Crates and Modules (Exporting a Public Interface)]: crates-and-modules.html#exporting-a-public-interface
-[Crates and Modules (Importing External Crates)]: crates-and-modules.html#importing-external-crates
-[Crates and Modules (Importing Modules with `use`)]: crates-and-modules.html#importing-modules-with-use
-[Crates and Modules (Re-exporting with `pub use`)]: crates-and-modules.html#re-exporting-with-pub-use
-[Diverging Functions]: functions.html#diverging-functions
-[Enums]: enums.html
-[Foreign Function Interface]: ffi.html
-[Functions (Early Returns)]: functions.html#early-returns
-[Functions]: functions.html
-[Generics]: generics.html
-[Lifetimes]: lifetimes.html
-[Loops (`for`)]: loops.html#for
-[Loops (`loop`)]: loops.html#loop
-[Loops (`while`)]: loops.html#while
-[Loops (Ending Iteration Early)]: loops.html#ending-iteration-early
-[Loops (Loops Labels)]: loops.html#loop-labels
-[Macros]: macros.html
-[Match]: match.html
-[Method Syntax (Method Calls)]: method-syntax.html#method-calls
-[Method Syntax]: method-syntax.html
-[Mutability]: mutability.html
-[Operators and Overloading]: operators-and-overloading.html
-[Patterns (`ref` and `ref mut`)]: patterns.html#ref-and-ref-mut
-[Patterns (Bindings)]: patterns.html#bindings
-[Patterns (Ignoring bindings)]: patterns.html#ignoring-bindings
-[Patterns (Multiple patterns)]: patterns.html#multiple-patterns
-[Patterns (Ranges)]: patterns.html#ranges
-[Primitive Types (`char`)]: primitive-types.html#char
-[Primitive Types (Arrays)]: primitive-types.html#arrays
-[Primitive Types (Booleans)]: primitive-types.html#booleans
-[Primitive Types (Tuple Indexing)]: primitive-types.html#tuple-indexing
-[Primitive Types (Tuples)]: primitive-types.html#tuples
-[Raw Pointers]: raw-pointers.html
-[Reference (Byte String Literals)]: ../reference.html#byte-string-literals
-[Reference (Raw Byte String Literals)]: ../reference.html#raw-byte-string-literals
-[Reference (Raw String Literals)]: ../reference.html#raw-string-literals
-[References and Borrowing]: references-and-borrowing.html
-[Strings]: strings.html
-[Structs (Update syntax)]: structs.html#update-syntax
-[Structs]: structs.html
-[Traits (`where` clause)]: traits.html#where-clause
-[Traits (Multiple Trait Bounds)]: traits.html#multiple-trait-bounds
-[Traits]: traits.html
-[Unsafe]: unsafe.html
-[Unsized Types (`?Sized`)]: unsized-types.html#?sized
-[Variable Bindings]: variable-bindings.html
+[`type` エイリアス]: type-aliases.html
+[関連型]: associated-types.html
+[アトリビュート]: attributes.html
+[型間のキャスト (`as`)]: casting-between-types.html#as
+[クロージャ (`move` クロージャ)]: closures.html#move-クロージャ
+[クロージャ]: closures.html
+[コメント]: comments.html
+[クレートとモジュール (モジュールの定義)]: crates-and-modules.html#defining-modules
+[クレートとモジュール (公開インターフェースをエクスポートする)]: crates-and-modules.html#exporting-a-public-interface
+[クレートとモジュール (外部クレートのインポート)]: crates-and-modules.html#importing-external-crates
+[クレートとモジュール (`use` を使ってモジュールをインポートする)]: crates-and-modules.html#importing-modules-with-use
+[クレートとモジュール (`pub use` を使った再エクスポート)]: crates-and-modules.html#re-exporting-with-pub-use
+[ダイバージング関数]: functions.html#diverging-functions
+[列挙型]: enums.html
+[FFI]: ffi.html
+[関数 (早期リターン)]: functions.html#早期リターン
+[関数]: functions.html
+[ジェネリクス]: generics.html
+[ライフタイム]: lifetimes.html
+[ループ (`for`)]: loops.html#for
+[ループ (`loop`)]: loops.html#loop
+[ループ (`while`)]: loops.html#while
+[ループ (反復の早期終了)]: loops.html#反復の早期終了
+[ループ (ループラベル)]: loops.html#ループラベル
+[マクロ]: macros.html
+[マッチ]: match.html
+[メソッド構文 (メソッド呼び出し)]: method-syntax.html#メソッド呼び出し
+[メソッド構文]: method-syntax.html
+[ミュータビリティ]: mutability.html
+[演算子とオーバーロド]: operators-and-overloading.html
+[パターン (`ref` と `ref mut`)]: patterns.html#ref-と-ref-mut
+[パターン (束縛)]: patterns.html#束縛
+[パターン (束縛の無視)]: patterns.html#束縛の無視
+[パターン (複式パターン)]: patterns.html#複式パターン
+[パターン (レンジ)]: patterns.html#レンジ
+[プリミティブ型 (`char`)]: primitive-types.html#char
+[プリミティブ型 (配列)]: primitive-types.html#配列
+[プリミティブ型 (ブーリアン型)]: primitive-types.html#ブーリアン型
+[プリミティブ型 (タプルのインデックス)]: primitive-types.html#タプルのインデックス
+[プリミティブ型 (タプル)]: primitive-types.html#タプル
+[生ポインタ]: raw-pointers.html
+[リファレンス (バイト列リテラル)]: ../reference.html#byte-string-literals
+[リファレンス (生バイト列リテラル)]: ../reference.html#raw-byte-string-literals
+[リファレンス (生文字列リテラル)]: ../reference.html#raw-string-literals
+[参照と借用]: references-and-borrowing.html
+[文字列]: strings.html
+[構造体 (アップデート構文)]: structs.html#アップデート構文
+[構造体]: structs.html
+[トレイト (`where` 節)]: traits.html#where-節
+[トレイト (複数のトレイト境界)]: traits.html#複数のトレイト境界
+[トレイト]: traits.html
+[アンセーフ]: unsafe.html
+[サイズ不定型 (`?Sized`)]: unsized-types.html#?sized
+[変数束縛]: variable-bindings.html
