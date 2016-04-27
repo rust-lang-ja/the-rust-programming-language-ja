@@ -45,7 +45,7 @@
 * `crate`: 外部クレートのリンク。 [クレートとモジュール (外部クレートのインポート)] 参照
 * `else`: `if` と `if let` が形成するフォールバック。 [`if`] 、 [`if let`] 参照。
 * `enum`: 列挙型の定義。 [列挙型] 参照。
-* `extern`: 外部クレート、関数、変数のリンク。  [クレートとモジュール (外部クレートのインポート)]、 [FFI] 参照。
+* `extern`: 外部クレート、関数、変数のリンク。  [クレートとモジュール (外部クレートのインポート)]、 [他言語関数インターフェイス] 参照。
 * `false`: ブーリアン型の偽値のリテラル。 [プリミティブ型 (ブーリアン型)] 参照。
 * `fn`: 関数定義及び関数ポインタ型。 [関数] 参照。
 * `for`: イテレータループ、 トレイト `impl`  構文の一部、 あるいは 高階ライフタイム構文。  [ループ (`for`)] 、 [メソッド構文] 参照。
@@ -68,7 +68,7 @@
 * `trait`: トレイト定義。 [トレイト] 参照。
 * `true`: ブーリアン型の真値のリテラル。 [プリミティブ型 (ブーリアン型)] 参照。
 * `type`: 型エイリアス、または関連型定義。 [`type` エイリアス] 、 [関連型] 参照。
-* `unsafe`: アンセーフなコード、関数、トレイト、そして実装を表す。 [アンセーフ] 参照。
+* `unsafe`: アンセーフなコード、関数、トレイト、そして実装を表す。 [Unsafe] 参照。
 * `use`: スコープにシンボルをインポートする。 [クレートとモジュール (`use` を使ってモジュールをインポートする)] 参照。
 * `where`: 型制約節。 [トレイト (`where` 節)] 参照。
 * `while`: 条件付きループ。 [ループ (`while`)] 参照。
@@ -341,9 +341,9 @@
 [クレートとモジュール (外部クレートのインポート)]: crates-and-modules.html#importing-external-crates
 [クレートとモジュール (`use` を使ってモジュールをインポートする)]: crates-and-modules.html#importing-modules-with-use
 [クレートとモジュール (`pub use` を使った再エクスポート)]: crates-and-modules.html#re-exporting-with-pub-use
-[ダイバージング関数]: functions.html#diverging-functions
+[ダイバージング関数]: functions.html#ダイバージング関数
 [列挙型]: enums.html
-[FFI]: ffi.html
+[他言語関数インターフェイス]: ffi.html
 [関数 (早期リターン)]: functions.html#早期リターン
 [関数]: functions.html
 [ジェネリクス]: generics.html
@@ -380,6 +380,6 @@
 [トレイト (`where` 節)]: traits.html#where-節
 [トレイト (複数のトレイト境界)]: traits.html#複数のトレイト境界
 [トレイト]: traits.html
-[アンセーフ]: unsafe.html
-[サイズ不定型 (`?Sized`)]: unsized-types.html#?sized
+[Unsafe]: unsafe.html
+[サイズ不定型 (`?Sized`)]: unsized-types.html#sized
 [変数束縛]: variable-bindings.html
