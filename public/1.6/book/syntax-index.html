@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Syntax Index</title>
+    <title>構文の索引</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -137,7 +137,7 @@
 </li>
 <li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
 </li>
-<li><a  href='ffi.html'><b>5.9.</b> FFI</a>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
 </li>
 <li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
 </li>
@@ -185,203 +185,496 @@
 <div id='page'>
 
 
-    <h1 class="title">Syntax Index</h1>
-    
-<h2 id='keywords' class='section-header'><a href='#keywords'>Keywords</a></h2>
+    <h1 class="title">構文の索引</h1>
+    <!-- % Syntax Index -->
+
+<!-- ## Keywords -->
+
+<h2 id='キーワード' class='section-header'><a href='#キーワード'>キーワード</a></h2>
+<!-- * `as`: primitive casting.  See [Casting Between Types (`as`)]. -->
+
+<!-- * `break`: break out of loop.  See [Loops (Ending Iteration Early)]. -->
+
+<!-- * `const`: constant items and constant raw pointers.  See [`const` and `static`], [Raw Pointers]. -->
+
+<!-- * `continue`: continue to next loop iteration.  See [Loops (Ending Iteration Early)]. -->
+
+<!-- * `crate`: external crate linkage.  See [Crates and Modules (Importing External Crates)]. -->
+
+<!-- * `else`: fallback for `if` and `if let` constructs.  See [`if`], [`if let`]. -->
+
+<!-- * `enum`: defining enumeration.  See [Enums]. -->
+
+<!-- * `extern`: external crate, function, and variable linkage.  See [Crates and Modules (Importing External Crates)], [Foreign Function Interface]. -->
+
+<!-- * `false`: boolean false literal.  See [Primitive Types (Booleans)]. -->
+
+<!-- * `fn`: function definition and function pointer types.  See [Functions]. -->
+
+<!-- * `for`: iterator loop, part of trait `impl` syntax, and higher-ranked lifetime syntax.  See [Loops (`for`)], [Method Syntax]. -->
+
+<!-- * `if`: conditional branching.  See [`if`], [`if let`]. -->
+
+<!-- * `impl`: inherent and trait implementation blocks.  See [Method Syntax]. -->
+
+<!-- * `in`: part of `for` loop syntax.  See [Loops (`for`)]. -->
+
+<!-- * `let`: variable binding.  See [Variable Bindings]. -->
+
+<!-- * `loop`: unconditional, infinite loop.  See [Loops (`loop`)]. -->
+
+<!-- * `match`: pattern matching.  See [Match]. -->
+
+<!-- * `mod`: module declaration.  See [Crates and Modules (Defining Modules)]. -->
+
+<!-- * `move`: part of closure syntax.  See [Closures (`move` closures)]. -->
+
+<!-- * `mut`: denotes mutability in pointer types and pattern bindings.  See [Mutability]. -->
+
+<!-- * `pub`: denotes public visibility in `struct` fields, `impl` blocks, and modules.  See [Crates and Modules (Exporting a Public Interface)]. -->
+
+<!-- * `ref`: by-reference binding.  See [Patterns (`ref` and `ref mut`)]. -->
+
+<!-- * `return`: return from function.  See [Functions (Early Returns)]. -->
+
+<!-- * `Self`: implementor type alias.  See [Traits]. -->
+
+<!-- * `self`: method subject.  See [Method Syntax (Method Calls)]. -->
+
+<!-- * `static`: global variable.  See [`const` and `static` (`static`)]. -->
+
+<!-- * `struct`: structure definition.  See [Structs]. -->
+
+<!-- * `trait`: trait definition.  See [Traits]. -->
+
+<!-- * `true`: boolean true literal.  See [Primitive Types (Booleans)]. -->
+
+<!-- * `type`: type alias, and associated type definition.  See [`type` Aliases], [Associated Types]. -->
+
+<!-- * `unsafe`: denotes unsafe code, functions, traits, and implementations.  See [Unsafe]. -->
+
+<!-- * `use`: import symbols into scope.  See [Crates and Modules (Importing Modules with `use`)]. -->
+
+<!-- * `where`: type constraint clauses.  See [Traits (`where` clause)]. -->
+
+<!-- * `while`: conditional loop.  See [Loops (`while`)]. -->
+
 <ul>
-<li><code>as</code>: primitive casting.  See <a href="casting-between-types.html#as">Casting Between Types (<code>as</code>)</a>.</li>
-<li><code>break</code>: break out of loop.  See <a href="loops.html#ending-iteration-early">Loops (Ending Iteration Early)</a>.</li>
-<li><code>const</code>: constant items and constant raw pointers.  See <a href="const-and-static.html"><code>const</code> and <code>static</code></a>, <a href="raw-pointers.html">Raw Pointers</a>.</li>
-<li><code>continue</code>: continue to next loop iteration.  See <a href="loops.html#ending-iteration-early">Loops (Ending Iteration Early)</a>.</li>
-<li><code>crate</code>: external crate linkage.  See <a href="crates-and-modules.html#importing-external-crates">Crates and Modules (Importing External Crates)</a>.</li>
-<li><code>else</code>: fallback for <code>if</code> and <code>if let</code> constructs.  See <a href="if.html"><code>if</code></a>, <a href="if-let.html"><code>if let</code></a>.</li>
-<li><code>enum</code>: defining enumeration.  See <a href="enums.html">Enums</a>.</li>
-<li><code>extern</code>: external crate, function, and variable linkage.  See <a href="crates-and-modules.html#importing-external-crates">Crates and Modules (Importing External Crates)</a>, <a href="ffi.html">Foreign Function Interface</a>.</li>
-<li><code>false</code>: boolean false literal.  See <a href="primitive-types.html#booleans">Primitive Types (Booleans)</a>.</li>
-<li><code>fn</code>: function definition and function pointer types.  See <a href="functions.html">Functions</a>.</li>
-<li><code>for</code>: iterator loop, part of trait <code>impl</code> syntax, and higher-ranked lifetime syntax.  See <a href="loops.html#for">Loops (<code>for</code>)</a>, <a href="method-syntax.html">Method Syntax</a>.</li>
-<li><code>if</code>: conditional branching.  See <a href="if.html"><code>if</code></a>, <a href="if-let.html"><code>if let</code></a>.</li>
-<li><code>impl</code>: inherent and trait implementation blocks.  See <a href="method-syntax.html">Method Syntax</a>.</li>
-<li><code>in</code>: part of <code>for</code> loop syntax.  See <a href="loops.html#for">Loops (<code>for</code>)</a>.</li>
-<li><code>let</code>: variable binding.  See <a href="variable-bindings.html">Variable Bindings</a>.</li>
-<li><code>loop</code>: unconditional, infinite loop.  See <a href="loops.html#loop">Loops (<code>loop</code>)</a>.</li>
-<li><code>match</code>: pattern matching.  See <a href="match.html">Match</a>.</li>
-<li><code>mod</code>: module declaration.  See <a href="crates-and-modules.html#defining-modules">Crates and Modules (Defining Modules)</a>.</li>
-<li><code>move</code>: part of closure syntax.  See <a href="closures.html#move-closures">Closures (<code>move</code> closures)</a>.</li>
-<li><code>mut</code>: denotes mutability in pointer types and pattern bindings.  See <a href="mutability.html">Mutability</a>.</li>
-<li><code>pub</code>: denotes public visibility in <code>struct</code> fields, <code>impl</code> blocks, and modules.  See <a href="crates-and-modules.html#exporting-a-public-interface">Crates and Modules (Exporting a Public Interface)</a>.</li>
-<li><code>ref</code>: by-reference binding.  See <a href="patterns.html#ref-and-ref-mut">Patterns (<code>ref</code> and <code>ref mut</code>)</a>.</li>
-<li><code>return</code>: return from function.  See <a href="functions.html#early-returns">Functions (Early Returns)</a>.</li>
-<li><code>Self</code>: implementor type alias.  See <a href="traits.html">Traits</a>.</li>
-<li><code>self</code>: method subject.  See <a href="method-syntax.html#method-calls">Method Syntax (Method Calls)</a>.</li>
-<li><code>static</code>: global variable.  See <a href="const-and-static.html#static"><code>const</code> and <code>static</code> (<code>static</code>)</a>.</li>
-<li><code>struct</code>: structure definition.  See <a href="structs.html">Structs</a>.</li>
-<li><code>trait</code>: trait definition.  See <a href="traits.html">Traits</a>.</li>
-<li><code>true</code>: boolean true literal.  See <a href="primitive-types.html#booleans">Primitive Types (Booleans)</a>.</li>
-<li><code>type</code>: type alias, and associated type definition.  See <a href="type-aliases.html"><code>type</code> Aliases</a>, <a href="associated-types.html">Associated Types</a>.</li>
-<li><code>unsafe</code>: denotes unsafe code, functions, traits, and implementations.  See <a href="unsafe.html">Unsafe</a>.</li>
-<li><code>use</code>: import symbols into scope.  See <a href="crates-and-modules.html#importing-modules-with-use">Crates and Modules (Importing Modules with <code>use</code>)</a>.</li>
-<li><code>where</code>: type constraint clauses.  See <a href="traits.html#where-clause">Traits (<code>where</code> clause)</a>.</li>
-<li><code>while</code>: conditional loop.  See <a href="loops.html#while">Loops (<code>while</code>)</a>.</li>
+<li><code>as</code>: プリミティブのキャスト。 <a href="casting-between-types.html#as">型間のキャスト (<code>as</code>)</a> 参照。</li>
+<li><code>break</code>: ループからの脱却。<a href="loops.html#%E5%8F%8D%E5%BE%A9%E3%81%AE%E6%97%A9%E6%9C%9F%E7%B5%82%E4%BA%86">ループ (反復の早期終了)</a> 参照。</li>
+<li><code>const</code>: 定数および定数ポインタ。 <a href="const-and-static.html"><code>const</code> と <code>static</code></a> 、 <a href="raw-pointers.html">生ポインタ</a> 参照。</li>
+<li><code>continue</code>: 次の反復への継続。 <a href="loops.html#%E5%8F%8D%E5%BE%A9%E3%81%AE%E6%97%A9%E6%9C%9F%E7%B5%82%E4%BA%86">ループ (反復の早期終了)</a> 参照。</li>
+<li><code>crate</code>: 外部クレートのリンク。 <a href="crates-and-modules.html#importing-external-crates">クレートとモジュール (外部クレートのインポート)</a> 参照</li>
+<li><code>else</code>: <code>if</code> と <code>if let</code> が形成するフォールバック。 <a href="if.html"><code>if</code></a> 、 <a href="if-let.html"><code>if let</code></a> 参照。</li>
+<li><code>enum</code>: 列挙型の定義。 <a href="enums.html">列挙型</a> 参照。</li>
+<li><code>extern</code>: 外部クレート、関数、変数のリンク。  <a href="crates-and-modules.html#importing-external-crates">クレートとモジュール (外部クレートのインポート)</a>、 <a href="ffi.html">他言語関数インターフェイス</a> 参照。</li>
+<li><code>false</code>: ブーリアン型の偽値のリテラル。 <a href="primitive-types.html#%E3%83%96%E3%83%BC%E3%83%AA%E3%82%A2%E3%83%B3%E5%9E%8B">プリミティブ型 (ブーリアン型)</a> 参照。</li>
+<li><code>fn</code>: 関数定義及び関数ポインタ型。 <a href="functions.html">関数</a> 参照。</li>
+<li><code>for</code>: イテレータループ、 トレイト <code>impl</code>  構文の一部、 あるいは 高階ライフタイム構文。  <a href="loops.html#for">ループ (<code>for</code>)</a> 、 <a href="method-syntax.html">メソッド構文</a> 参照。</li>
+<li><code>if</code>: 条件分岐  <a href="if.html"><code>if</code></a> 、 <a href="if-let.html"><code>if let</code></a> 参照。</li>
+<li><code>impl</code>: 継承及びトレイト実装のブロック。 <a href="method-syntax.html">メソッド構文</a> 参照。</li>
+<li><code>in</code>: <code>for</code> ループ構文の一部。 <a href="loops.html#for">ループ (<code>for</code>)</a> 参照。</li>
+<li><code>let</code>: 変数束縛。 <a href="variable-bindings.html">変数束縛</a> 参照。</li>
+<li><code>loop</code>: 条件無しの無限ループ。 <a href="loops.html#loop">ループ (<code>loop</code>)</a> 参照。</li>
+<li><code>match</code>: パターンマッチ。 <a href="match.html">マッチ</a> 参照。</li>
+<li><code>mod</code>: モジュール宣言。   <a href="crates-and-modules.html#defining-modules">クレートとモジュール (モジュールの定義)</a> 参照。</li>
+<li><code>move</code>: クロージャ構文の一部。 <a href="closures.html#move-%E3%82%AF%E3%83%AD%E3%83%BC%E3%82%B8%E3%83%A3">クロージャ (<code>move</code> クロージャ)</a> 参照。</li>
+<li><code>mut</code>: ポインタ型とパターン束縛におけるミュータビリティを表す。 <a href="mutability.html">ミュータビリティ</a> 参照。</li>
+<li><code>pub</code>: <code>struct</code> のフィールド、 <code>impl</code> ブロック、 モジュールにおいて可視性を表す。 <a href="crates-and-modules.html#exporting-a-public-interface">クレートとモジュール (公開インターフェースをエクスポートする)</a> 参照。</li>
+<li><code>ref</code>: 参照束縛。 <a href="patterns.html#ref-%E3%81%A8-ref-mut">パターン (<code>ref</code> と <code>ref mut</code>)</a> 参照。</li>
+<li><code>return</code>: 関数からのリターン。 <a href="functions.html#%E6%97%A9%E6%9C%9F%E3%83%AA%E3%82%BF%E3%83%BC%E3%83%B3">関数 (早期リターン)</a> 参照。</li>
+<li><code>Self</code>: 実装者の型のエイリアス。 <a href="traits.html">トレイト</a> 参照。</li>
+<li><code>self</code>: メソッドの主語。 <a href="method-syntax.html#%E3%83%A1%E3%82%BD%E3%83%83%E3%83%89%E5%91%BC%E3%81%B3%E5%87%BA%E3%81%97">メソッド構文 (メソッド呼び出し)</a> 参照。</li>
+<li><code>static</code>: グローバル変数。 <a href="const-and-static.html#static"><code>const</code> と <code>static</code> (<code>static</code>)</a> 参照。</li>
+<li><code>struct</code>: 構造体定義。 <a href="structs.html">構造体</a> 参照。</li>
+<li><code>trait</code>: トレイト定義。 <a href="traits.html">トレイト</a> 参照。</li>
+<li><code>true</code>: ブーリアン型の真値のリテラル。 <a href="primitive-types.html#%E3%83%96%E3%83%BC%E3%83%AA%E3%82%A2%E3%83%B3%E5%9E%8B">プリミティブ型 (ブーリアン型)</a> 参照。</li>
+<li><code>type</code>: 型エイリアス、または関連型定義。 <a href="type-aliases.html"><code>type</code> エイリアス</a> 、 <a href="associated-types.html">関連型</a> 参照。</li>
+<li><code>unsafe</code>: アンセーフなコード、関数、トレイト、そして実装を表す。 <a href="unsafe.html">Unsafe</a> 参照。</li>
+<li><code>use</code>: スコープにシンボルをインポートする。 <a href="crates-and-modules.html#importing-modules-with-use">クレートとモジュール (<code>use</code> を使ってモジュールをインポートする)</a> 参照。</li>
+<li><code>where</code>: 型制約節。 <a href="traits.html#where-%E7%AF%80">トレイト (<code>where</code> 節)</a> 参照。</li>
+<li><code>while</code>: 条件付きループ。 <a href="loops.html#while">ループ (<code>while</code>)</a> 参照。</li>
 </ul>
 
-<h2 id='operators-and-symbols' class='section-header'><a href='#operators-and-symbols'>Operators and Symbols</a></h2>
+<!-- ## Operators and Symbols -->
+
+<h2 id='演算子とシンボル' class='section-header'><a href='#演算子とシンボル'>演算子とシンボル</a></h2>
+<!-- * `!` (`ident!(…)`, `ident!{…}`, `ident![…]`): denotes macro expansion.  See [Macros]. -->
+
+<!-- * `!` (`!expr`): bitwise or logical complement.  Overloadable (`Not`). -->
+
+<!-- * `%` (`expr % expr`): arithmetic remainder.  Overloadable (`Rem`). -->
+
+<!-- * `%=` (`var %= expr`): arithmetic remainder & assignment. -->
+
+<!-- * `&` (`expr & expr`): bitwise and.  Overloadable (`BitAnd`). -->
+
+<!-- * `&` (`&expr`): borrow.  See [References and Borrowing]. -->
+
+<!-- * `&` (`&type`, `&mut type`, `&'a type`, `&'a mut type`): borrowed pointer type.  See [References and Borrowing]. -->
+
+<!-- * `&=` (`var &= expr`): bitwise and & assignment. -->
+
+<!-- * `&&` (`expr && expr`): logical and. -->
+
+<!-- * `*` (`expr * expr`): arithmetic multiplication.  Overloadable (`Mul`). -->
+
+<!-- * `*` (`*expr`): dereference. -->
+
+<!-- * `*` (`*const type`, `*mut type`): raw pointer.  See [Raw Pointers]. -->
+
+<!-- * `*=` (`var *= expr`): arithmetic multiplication & assignment. -->
+
+<!-- * `+` (`expr + expr`): arithmetic addition.  Overloadable (`Add`). -->
+
+<!-- * `+` (`trait + trait`, `'a + trait`): compound type constraint.  See [Traits (Multiple Trait Bounds)]. -->
+
+<!-- * `+=` (`var += expr`): arithmetic addition & assignment. -->
+
+<!-- * `,`: argument and element separator.  See [Attributes], [Functions], [Structs], [Generics], [Match], [Closures], [Crates and Modules (Importing Modules with `use`)]. -->
+
+<!-- * `-` (`expr - expr`): arithmetic subtraction.  Overloadable (`Sub`). -->
+
+<!-- * `-` (`- expr`): arithmetic negation.  Overloadable (`Neg`). -->
+
+<!-- * `-=` (`var -= expr`): arithmetic subtraction & assignment. -->
+
+<!-- * `->` (`fn(…) -> type`, `|…| -> type`): function and closure return type.  See [Functions], [Closures]. -->
+
+<!-- * `-> !` (`fn(…) -> !`, `|…| -> !`): diverging function or closure. See [Diverging Functions]. -->
+
+<!-- * `.` (`expr.ident`): member access.  See [Structs], [Method Syntax]. -->
+
+<!-- * `..` (`..`, `expr..`, `..expr`, `expr..expr`): right-exclusive range literal. -->
+
+<!-- * `..` (`..expr`): struct literal update syntax.  See [Structs (Update syntax)]. -->
+
+<!-- * `..` (`variant(x, ..)`, `struct_type { x, .. }`): "and the rest" pattern binding.  See [Patterns (Ignoring bindings)]. -->
+
+<!-- * `...` (`expr ... expr`): inclusive range pattern.  See [Patterns (Ranges)]. -->
+
+<!-- * `/` (`expr / expr`): arithmetic division.  Overloadable (`Div`). -->
+
+<!-- * `/=` (`var /= expr`): arithmetic division & assignment. -->
+
+<!-- * `:` (`pat: type`, `ident: type`): constraints.  See [Variable Bindings], [Functions], [Structs], [Traits]. -->
+
+<!-- * `:` (`ident: expr`): struct field initializer.  See [Structs]. -->
+
+<!-- * `:` (`'a: loop {…}`): loop label.  See [Loops (Loops Labels)]. -->
+
+<!-- * `;`: statement and item terminator. -->
+
+<!-- * `;` (`[…; len]`): part of fixed-size array syntax.  See [Primitive Types (Arrays)]. -->
+
+<!-- * `<<` (`expr << expr`): left-shift.  Overloadable (`Shl`). -->
+
+<!-- * `<<=` (`var <<= expr`): left-shift & assignment. -->
+
+<!-- * `<` (`expr < expr`): less-than comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+
+<!-- * `<=` (`var <= expr`): less-than or equal-to comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+
+<!-- * `=` (`var = expr`, `ident = type`): assignment/equivalence.  See [Variable Bindings], [`type` Aliases], generic parameter defaults. -->
+
+<!-- * `==` (`var == expr`): comparison.  Overloadable (`Eq`, `PartialEq`). -->
+
+<!-- * `=>` (`pat => expr`): part of match arm syntax.  See [Match]. -->
+
+<!-- * `>` (`expr > expr`): greater-than comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+
+<!-- * `>=` (`var >= expr`): greater-than or equal-to comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+
+<!-- * `>>` (`expr >> expr`): right-shift.  Overloadable (`Shr`). -->
+
+<!-- * `>>=` (`var >>= expr`): right-shift & assignment. -->
+
+<!-- * `@` (`ident @ pat`): pattern binding.  See [Patterns (Bindings)]. -->
+
+<!-- * `^` (`expr ^ expr`): bitwise exclusive or.  Overloadable (`BitXor`). -->
+
+<!-- * `^=` (`var ^= expr`): bitwise exclusive or & assignment. -->
+
+<!-- * `|` (`expr | expr`): bitwise or.  Overloadable (`BitOr`). -->
+
+<!-- * `|` (`pat | pat`): pattern alternatives.  See [Patterns (Multiple patterns)]. -->
+
+<!-- * `|` (`|…| expr`): closures.  See [Closures]. -->
+
+<!-- * `|=` (`var |= expr`): bitwise or & assignment. -->
+
+<!-- * `||` (`expr || expr`): logical or. -->
+
+<!-- * `_`: "ignored" pattern binding.  See [Patterns (Ignoring bindings)]. -->
+
 <ul>
-<li><code>!</code> (<code>ident!(…)</code>, <code>ident!{…}</code>, <code>ident![…]</code>): denotes macro expansion.  See <a href="macros.html">Macros</a>.</li>
-<li><code>!</code> (<code>!expr</code>): bitwise or logical complement.  Overloadable (<code>Not</code>).</li>
-<li><code>%</code> (<code>expr % expr</code>): arithmetic remainder.  Overloadable (<code>Rem</code>).</li>
-<li><code>%=</code> (<code>var %= expr</code>): arithmetic remainder &amp; assignment.</li>
-<li><code>&amp;</code> (<code>expr &amp; expr</code>): bitwise and.  Overloadable (<code>BitAnd</code>).</li>
-<li><code>&amp;</code> (<code>&amp;expr</code>): borrow.  See <a href="references-and-borrowing.html">References and Borrowing</a>.</li>
-<li><code>&amp;</code> (<code>&amp;type</code>, <code>&amp;mut type</code>, <code>&amp;&#39;a type</code>, <code>&amp;&#39;a mut type</code>): borrowed pointer type.  See <a href="references-and-borrowing.html">References and Borrowing</a>.</li>
-<li><code>&amp;=</code> (<code>var &amp;= expr</code>): bitwise and &amp; assignment.</li>
-<li><code>&amp;&amp;</code> (<code>expr &amp;&amp; expr</code>): logical and.</li>
-<li><code>*</code> (<code>expr * expr</code>): arithmetic multiplication.  Overloadable (<code>Mul</code>).</li>
-<li><code>*</code> (<code>*expr</code>): dereference.</li>
-<li><code>*</code> (<code>*const type</code>, <code>*mut type</code>): raw pointer.  See <a href="raw-pointers.html">Raw Pointers</a>.</li>
-<li><code>*=</code> (<code>var *= expr</code>): arithmetic multiplication &amp; assignment.</li>
-<li><code>+</code> (<code>expr + expr</code>): arithmetic addition.  Overloadable (<code>Add</code>).</li>
-<li><code>+</code> (<code>trait + trait</code>, <code>&#39;a + trait</code>): compound type constraint.  See <a href="traits.html#multiple-trait-bounds">Traits (Multiple Trait Bounds)</a>.</li>
-<li><code>+=</code> (<code>var += expr</code>): arithmetic addition &amp; assignment.</li>
-<li><code>,</code>: argument and element separator.  See <a href="attributes.html">Attributes</a>, <a href="functions.html">Functions</a>, <a href="structs.html">Structs</a>, <a href="generics.html">Generics</a>, <a href="match.html">Match</a>, <a href="closures.html">Closures</a>, <a href="crates-and-modules.html#importing-modules-with-use">Crates and Modules (Importing Modules with <code>use</code>)</a>.</li>
-<li><code>-</code> (<code>expr - expr</code>): arithmetic subtraction.  Overloadable (<code>Sub</code>).</li>
-<li><code>-</code> (<code>- expr</code>): arithmetic negation.  Overloadable (<code>Neg</code>).</li>
-<li><code>-=</code> (<code>var -= expr</code>): arithmetic subtraction &amp; assignment.</li>
-<li><code>-&gt;</code> (<code>fn(…) -&gt; type</code>, <code>|…| -&gt; type</code>): function and closure return type.  See <a href="functions.html">Functions</a>, <a href="closures.html">Closures</a>.</li>
-<li><code>-&gt; !</code> (<code>fn(…) -&gt; !</code>, <code>|…| -&gt; !</code>): diverging function or closure. See <a href="functions.html#diverging-functions">Diverging Functions</a>.</li>
-<li><code>.</code> (<code>expr.ident</code>): member access.  See <a href="structs.html">Structs</a>, <a href="method-syntax.html">Method Syntax</a>.</li>
-<li><code>..</code> (<code>..</code>, <code>expr..</code>, <code>..expr</code>, <code>expr..expr</code>): right-exclusive range literal.</li>
-<li><code>..</code> (<code>..expr</code>): struct literal update syntax.  See <a href="structs.html#update-syntax">Structs (Update syntax)</a>.</li>
-<li><code>..</code> (<code>variant(x, ..)</code>, <code>struct_type { x, .. }</code>): &quot;and the rest&quot; pattern binding.  See <a href="patterns.html#ignoring-bindings">Patterns (Ignoring bindings)</a>.</li>
-<li><code>...</code> (<code>expr ... expr</code>): inclusive range pattern.  See <a href="patterns.html#ranges">Patterns (Ranges)</a>.</li>
-<li><code>/</code> (<code>expr / expr</code>): arithmetic division.  Overloadable (<code>Div</code>).</li>
-<li><code>/=</code> (<code>var /= expr</code>): arithmetic division &amp; assignment.</li>
-<li><code>:</code> (<code>pat: type</code>, <code>ident: type</code>): constraints.  See <a href="variable-bindings.html">Variable Bindings</a>, <a href="functions.html">Functions</a>, <a href="structs.html">Structs</a>, <a href="traits.html">Traits</a>.</li>
-<li><code>:</code> (<code>ident: expr</code>): struct field initializer.  See <a href="structs.html">Structs</a>.</li>
-<li><code>:</code> (<code>&#39;a: loop {…}</code>): loop label.  See <a href="loops.html#loop-labels">Loops (Loops Labels)</a>.</li>
-<li><code>;</code>: statement and item terminator.</li>
-<li><code>;</code> (<code>[…; len]</code>): part of fixed-size array syntax.  See <a href="primitive-types.html#arrays">Primitive Types (Arrays)</a>.</li>
-<li><code>&lt;&lt;</code> (<code>expr &lt;&lt; expr</code>): left-shift.  Overloadable (<code>Shl</code>).</li>
-<li><code>&lt;&lt;=</code> (<code>var &lt;&lt;= expr</code>): left-shift &amp; assignment.</li>
-<li><code>&lt;</code> (<code>expr &lt; expr</code>): less-than comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
-<li><code>&lt;=</code> (<code>var &lt;= expr</code>): less-than or equal-to comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
-<li><code>=</code> (<code>var = expr</code>, <code>ident = type</code>): assignment/equivalence.  See <a href="variable-bindings.html">Variable Bindings</a>, <a href="type-aliases.html"><code>type</code> Aliases</a>, generic parameter defaults.</li>
-<li><code>==</code> (<code>var == expr</code>): comparison.  Overloadable (<code>Eq</code>, <code>PartialEq</code>).</li>
-<li><code>=&gt;</code> (<code>pat =&gt; expr</code>): part of match arm syntax.  See <a href="match.html">Match</a>.</li>
-<li><code>&gt;</code> (<code>expr &gt; expr</code>): greater-than comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
-<li><code>&gt;=</code> (<code>var &gt;= expr</code>): greater-than or equal-to comparison.  Overloadable (<code>Cmp</code>, <code>PartialCmp</code>).</li>
-<li><code>&gt;&gt;</code> (<code>expr &gt;&gt; expr</code>): right-shift.  Overloadable (<code>Shr</code>).</li>
-<li><code>&gt;&gt;=</code> (<code>var &gt;&gt;= expr</code>): right-shift &amp; assignment.</li>
-<li><code>@</code> (<code>ident @ pat</code>): pattern binding.  See <a href="patterns.html#bindings">Patterns (Bindings)</a>.</li>
-<li><code>^</code> (<code>expr ^ expr</code>): bitwise exclusive or.  Overloadable (<code>BitXor</code>).</li>
-<li><code>^=</code> (<code>var ^= expr</code>): bitwise exclusive or &amp; assignment.</li>
-<li><code>|</code> (<code>expr | expr</code>): bitwise or.  Overloadable (<code>BitOr</code>).</li>
-<li><code>|</code> (<code>pat | pat</code>): pattern alternatives.  See <a href="patterns.html#multiple-patterns">Patterns (Multiple patterns)</a>.</li>
-<li><code>|</code> (<code>|…| expr</code>): closures.  See <a href="closures.html">Closures</a>.</li>
-<li><code>|=</code> (<code>var |= expr</code>): bitwise or &amp; assignment.</li>
-<li><code>||</code> (<code>expr || expr</code>): logical or.</li>
-<li><code>_</code>: &quot;ignored&quot; pattern binding.  See <a href="patterns.html#ignoring-bindings">Patterns (Ignoring bindings)</a>.</li>
+<li><code>!</code> (<code>ident!(…)</code>, <code>ident!{…}</code>, <code>ident![…]</code>): マクロ展開を表す。 <a href="macros.html">マクロ</a>参照</li>
+<li><code>!</code> (<code>!expr</code>): ビット毎、あるいは論理の補数。 オーバロード可能 (<code>Not</code>)。</li>
+<li><code>%</code> (<code>expr % expr</code>): 算術剰余算。オーバーロード可能 (<code>Rem</code>)。</li>
+<li><code>%=</code> (<code>var %= expr</code>): 算術剰余算をして代入。</li>
+<li><code>&amp;</code> (<code>expr &amp; expr</code>):ビット毎の論理積。 オーバーロード可能 (<code>BitAnd</code>)。</li>
+<li><code>&amp;</code> (<code>&amp;expr</code>): 借用。 <a href="references-and-borrowing.html">参照と借用</a> 参照</li>
+<li><code>&amp;</code> (<code>&amp;type</code>, <code>&amp;mut type</code>, <code>&amp;&#39;a type</code>, <code>&amp;&#39;a mut type</code>): 借用されたポインタの型。 <a href="references-and-borrowing.html">参照と借用</a>参照。</li>
+<li><code>&amp;=</code> (<code>var &amp;= expr</code>): ビット毎の論理積をして代入。</li>
+<li><code>&amp;&amp;</code> (<code>expr &amp;&amp; expr</code>): 論理積。</li>
+<li><code>*</code> (<code>expr * expr</code>): 算術乗算。 オーバーロード可能 (<code>Mul</code>)。</li>
+<li><code>*</code> (<code>*expr</code>): 参照外し。</li>
+<li><code>*</code> (<code>*const type</code>, <code>*mut type</code>): 生ポインタ。 <a href="raw-pointers.html">生ポインタ</a>参照。</li>
+<li><code>*=</code> (<code>var *= expr</code>): 算術乗算をして代入。</li>
+<li><code>+</code> (<code>expr + expr</code>): 算術加算。オーバーロード可能 (<code>Add</code>)。</li>
+<li><code>+</code> (<code>trait + trait</code>, <code>&#39;a + trait</code>): 合成型制約。 <a href="traits.html#%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%88%E3%83%AC%E3%82%A4%E3%83%88%E5%A2%83%E7%95%8C">トレイト (複数のトレイト境界)</a>参照。</li>
+<li><code>+=</code> (<code>var += expr</code>): 算術加算をして代入。</li>
+<li><code>,</code>: 引数または要素の区切り。  <a href="attributes.html">アトリビュート</a>、 <a href="functions.html">関数</a> 、 <a href="structs.html">構造体</a> 、 <a href="generics.html">ジェネリクス</a> 、 <a href="match.html">マッチ</a> 、 <a href="closures.html">クロージャ</a> 、 <a href="crates-and-modules.html#importing-modules-with-use">クレートとモジュール (<code>use</code> を使ってモジュールをインポートする)</a> 参照。</li>
+<li><code>-</code> (<code>expr - expr</code>): 算術減算。オーバーロード可能 (<code>Sub</code>)。</li>
+<li><code>-</code> (<code>- expr</code>): 算術負。オーバーロード可能 (<code>Neg</code>)。</li>
+<li><code>-=</code> (<code>var -= expr</code>): 算術減算をして代入。</li>
+<li><code>-&gt;</code> (<code>fn(…) -&gt; type</code>, <code>|…| -&gt; type</code>): 関数とクロージャの返り型。 <a href="functions.html">関数</a>、<a href="closures.html">クロージャ</a>参照。</li>
+<li><code>-&gt; !</code> (<code>fn(…) -&gt; !</code>, <code>|…| -&gt; !</code>): ダイバージング関数またはクロージャ。<a href="functions.html#%E3%83%80%E3%82%A4%E3%83%90%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E9%96%A2%E6%95%B0">ダイバージング関数</a>参照。</li>
+<li><code>.</code> (<code>expr.ident</code>): メンバへのアクセス。 <a href="structs.html">構造体</a>、 <a href="method-syntax.html">メソッド構文</a>参照。</li>
+<li><code>..</code> (<code>..</code>, <code>expr..</code>, <code>..expr</code>, <code>expr..expr</code>): 右に開な区間のリテラル。</li>
+<li><code>..</code> (<code>..expr</code>): 構造体リテラルのアップデート構文。<a href="structs.html#%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E6%A7%8B%E6%96%87">構造体 (アップデート構文)</a>参照。</li>
+<li><code>..</code> (<code>variant(x, ..)</code>, <code>struct_type { x, .. }</code>): 「〜と残り」のパターン束縛。 <a href="patterns.html#%E6%9D%9F%E7%B8%9B%E3%81%AE%E7%84%A1%E8%A6%96">パターン (束縛の無視)</a> 参照。</li>
+<li><code>...</code> (<code>expr ... expr</code>): 閉区間リテラル。 <a href="patterns.html#%E3%83%AC%E3%83%B3%E3%82%B8">パターン (レンジ)</a> 参照。</li>
+<li><code>/</code> (<code>expr / expr</code>): 算術除算。オーバーロード可能 (<code>Div</code>)。</li>
+<li><code>/=</code> (<code>var /= expr</code>): 算術除算と代入。</li>
+<li><code>:</code> (<code>pat: type</code>, <code>ident: type</code>): 制約。<a href="variable-bindings.html">変数束縛</a> 、 <a href="functions.html">関数</a> 、 <a href="structs.html">構造体</a> 、 <a href="traits.html">トレイト</a> 参照。</li>
+<li><code>:</code> (<code>ident: expr</code>): 構造体のフィールドの初期化。 <a href="structs.html">構造体</a> 参照。</li>
+<li><code>:</code> (<code>&#39;a: loop {…}</code>): ループラベル。 <a href="loops.html#%E3%83%AB%E3%83%BC%E3%83%97%E3%83%A9%E3%83%99%E3%83%AB">ループ (ループラベル)</a> 参照。</li>
+<li><code>;</code>: 文またはアイテムの区切り。</li>
+<li><code>;</code> (<code>[…; len]</code>): 固定長配列構文の一部。 <a href="primitive-types.html#%E9%85%8D%E5%88%97">プリミティブ型 (配列)</a> 参照。</li>
+<li><code>&lt;&lt;</code> (<code>expr &lt;&lt; expr</code>): 左シフト。オーバーロード可能 (<code>Shl</code>)。</li>
+<li><code>&lt;&lt;=</code> (<code>var &lt;&lt;= expr</code>): 左シフトして代入。</li>
+<li><code>&lt;</code> (<code>expr &lt; expr</code>): 「より小さい」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
+<li><code>&lt;=</code> (<code>var &lt;= expr</code>): 「以下」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
+<li><code>=</code> (<code>var = expr</code>, <code>ident = type</code>): 代入/等価比較。 <a href="variable-bindings.html">変数束縛</a> 、 <a href="type-aliases.html"><code>type</code> エイリアス</a>、 ジェネリックパラメータのデフォルトを参照。</li>
+<li><code>==</code> (<code>var == expr</code>): 比較。オーバーロード可能 (<code>Eq</code>, <code>PartialEq</code>)。</li>
+<li><code>=&gt;</code> (<code>pat =&gt; expr</code>): マッチの腕の構文の一部。 <a href="match.html">マッチ</a> 参照。</li>
+<li><code>&gt;</code> (<code>expr &gt; expr</code>): 「より大きい」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
+<li><code>&gt;=</code> (<code>var &gt;= expr</code>): 「以上」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
+<li><code>&gt;&gt;</code> (<code>expr &gt;&gt; expr</code>): 右シフト。オーバーロード可能 (<code>Shr</code>)。</li>
+<li><code>&gt;&gt;=</code> (<code>var &gt;&gt;= expr</code>): 右シフトして代入。</li>
+<li><code>@</code> (<code>ident @ pat</code>): パターン束縛。 <a href="patterns.html#%E6%9D%9F%E7%B8%9B">パターン (束縛)</a> 参照。</li>
+<li><code>^</code> (<code>expr ^ expr</code>): ビット毎の排他的論理和。オーバーロード可能 (<code>BitXor</code>)。</li>
+<li><code>^=</code> (<code>var ^= expr</code>): ビット毎の排他的論理和をして代入。</li>
+<li><code>|</code> (<code>expr | expr</code>): ビット毎の論理和。 オーバーロード可能 (<code>BitOr</code>)。</li>
+<li><code>|</code> (<code>pat | pat</code>): パターンの「または」。 <a href="patterns.html#%E8%A4%87%E5%BC%8F%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">パターン (複式パターン)</a> 参照</li>
+<li><code>|</code> (<code>|…| expr</code>): クロージャ。<a href="closures.html">クロージャ</a> 参照。</li>
+<li><code>|=</code> (<code>var |= expr</code>): ビット毎の論理和をして代入。</li>
+<li><code>||</code> (<code>expr || expr</code>): 論理和。</li>
+<li><code>_</code>: 「無視」するパターン束縛。 <a href="patterns.html#%E6%9D%9F%E7%B8%9B%E3%81%AE%E7%84%A1%E8%A6%96">パターン (束縛の無視)</a>。</li>
 </ul>
 
-<h2 id='other-syntax' class='section-header'><a href='#other-syntax'>Other Syntax</a></h2>
+<!-- ## Other Syntax -->
+
+<h2 id='他の構文' class='section-header'><a href='#他の構文'>他の構文</a></h2>
 <!-- Various bits of standalone stuff. -->
 
+<!-- * `'ident`: named lifetime or loop label.  See [Lifetimes], [Loops (Loops Labels)]. -->
+
+<!-- * `…u8`, `…i32`, `…f64`, `…usize`, …: numeric literal of specific type. -->
+
+<!-- * `"…"`: string literal.  See [Strings]. -->
+
+<!-- * `r"…"`, `r#"…"#`, `r##"…"##`, …: raw string literal, escape characters are not processed. See [Reference (Raw String Literals)]. -->
+
+<!-- * `b"…"`: byte string literal, constructs a `[u8]` instead of a string. See [Reference (Byte String Literals)]. -->
+
+<!-- * `br"…"`, `br#"…"#`, `br##"…"##`, …: raw byte string literal, combination of raw and byte string literal. See [Reference (Raw Byte String Literals)]. -->
+
+<!-- * `'…'`: character literal.  See [Primitive Types (`char`)]. -->
+
+<!-- * `b'…'`: ASCII byte literal. -->
+
+<!-- * `|…| expr`: closure.  See [Closures]. -->
+
 <ul>
-<li><code>&#39;ident</code>: named lifetime or loop label.  See <a href="lifetimes.html">Lifetimes</a>, <a href="loops.html#loop-labels">Loops (Loops Labels)</a>.</li>
-<li><code>…u8</code>, <code>…i32</code>, <code>…f64</code>, <code>…usize</code>, …: numeric literal of specific type.</li>
-<li><code>&quot;…&quot;</code>: string literal.  See <a href="strings.html">Strings</a>.</li>
-<li><code>r&quot;…&quot;</code>, <code>r#&quot;…&quot;#</code>, <code>r##&quot;…&quot;##</code>, …: raw string literal, escape characters are not processed. See <a href="../reference.html#raw-string-literals">Reference (Raw String Literals)</a>.</li>
-<li><code>b&quot;…&quot;</code>: byte string literal, constructs a <code>[u8]</code> instead of a string. See <a href="../reference.html#byte-string-literals">Reference (Byte String Literals)</a>.</li>
-<li><code>br&quot;…&quot;</code>, <code>br#&quot;…&quot;#</code>, <code>br##&quot;…&quot;##</code>, …: raw byte string literal, combination of raw and byte string literal. See <a href="../reference.html#raw-byte-string-literals">Reference (Raw Byte String Literals)</a>.</li>
-<li><code>&#39;…&#39;</code>: character literal.  See <a href="primitive-types.html#char">Primitive Types (<code>char</code>)</a>.</li>
-<li><code>b&#39;…&#39;</code>: ASCII byte literal.</li>
-<li><code>|…| expr</code>: closure.  See <a href="closures.html">Closures</a>.</li>
+<li><code>&#39;ident</code>: 名前付きライフタイムまたはループラベル。 <a href="lifetimes.html">ライフタイム</a> 、 <a href="loops.html#%E3%83%AB%E3%83%BC%E3%83%97%E3%83%A9%E3%83%99%E3%83%AB">ループ (ループラベル)</a> 参照。</li>
+<li><code>…u8</code>, <code>…i32</code>, <code>…f64</code>, <code>…usize</code>, …: その型の数値リテラル。</li>
+<li><code>&quot;…&quot;</code>: 文字列リテラル。 <a href="strings.html">文字列</a> 参照。</li>
+<li><code>r&quot;…&quot;</code>, <code>r#&quot;…&quot;#</code>, <code>r##&quot;…&quot;##</code>, …: 生文字列リテラル、 エスケープ文字は処理されない。 <a href="../reference.html#raw-string-literals">リファレンス (生文字列リテラル)</a> 参照。</li>
+<li><code>b&quot;…&quot;</code>: バイト列リテラル、文字列ではなく <code>[u8]</code> を作る。 <a href="../reference.html#byte-string-literals">リファレンス (バイト列リテラル)</a> 参照。</li>
+<li><code>br&quot;…&quot;</code>, <code>br#&quot;…&quot;#</code>, <code>br##&quot;…&quot;##</code>, …: 生バイト列リテラル。生文字列とバイト列リテラルの組み合わせ。 <a href="../reference.html#raw-byte-string-literals">リファレンス (生バイト列リテラル)</a> 参照</li>
+<li><code>&#39;…&#39;</code>: 文字リテラル。 <a href="primitive-types.html#char">プリミティブ型 (<code>char</code>)</a> 参照。</li>
+<li><code>b&#39;…&#39;</code>: ASCIIバイトリテラル。</li>
+<li><code>|…| expr</code>: クロージャ。 <a href="closures.html">クロージャ</a> 参照。</li>
 </ul>
 
 <!-- Path-related syntax -->
 
+<!-- * `ident::ident`: path.  See [Crates and Modules (Defining Modules)]. -->
+
+<!-- * `::path`: path relative to the crate root (*i.e.* an explicitly absolute path).  See [Crates and Modules (Re-exporting with `pub use`)]. -->
+
+<!-- * `self::path`: path relative to the current module (*i.e.* an explicitly relative path).  See [Crates and Modules (Re-exporting with `pub use`)]. -->
+
+<!-- * `super::path`: path relative to the parent of the current module.  See [Crates and Modules (Re-exporting with `pub use`)]. -->
+
+<!-- * `type::ident`: associated constants, functions, and types.  See [Associated Types]. -->
+
+<!-- * `<type>::…`: associated item for a type which cannot be directly named (*e.g.* `<&T>::…`, `<[T]>::…`, *etc.*).  See [Associated Types]. -->
+
 <ul>
-<li><code>ident::ident</code>: path.  See <a href="crates-and-modules.html#defining-modules">Crates and Modules (Defining Modules)</a>.</li>
-<li><code>::path</code>: path relative to the crate root (<em>i.e.</em> an explicitly absolute path).  See <a href="crates-and-modules.html#re-exporting-with-pub-use">Crates and Modules (Re-exporting with <code>pub use</code>)</a>.</li>
-<li><code>self::path</code>: path relative to the current module (<em>i.e.</em> an explicitly relative path).  See <a href="crates-and-modules.html#re-exporting-with-pub-use">Crates and Modules (Re-exporting with <code>pub use</code>)</a>.</li>
-<li><code>super::path</code>: path relative to the parent of the current module.  See <a href="crates-and-modules.html#re-exporting-with-pub-use">Crates and Modules (Re-exporting with <code>pub use</code>)</a>.</li>
-<li><code>type::ident</code>: associated constants, functions, and types.  See <a href="associated-types.html">Associated Types</a>.</li>
-<li><code>&lt;type&gt;::…</code>: associated item for a type which cannot be directly named (<em>e.g.</em> <code>&lt;&amp;T&gt;::…</code>, <code>&lt;[T]&gt;::…</code>, <em>etc.</em>).  See <a href="associated-types.html">Associated Types</a>.</li>
+<li><code>ident::ident</code>: パス。<a href="crates-and-modules.html#defining-modules">クレートとモジュール (モジュールの定義)</a> 参照。</li>
+<li><code>::path</code>: クレートのルートからの相対パス (<em>つまり</em> 明示的な絶対パス)。 <a href="crates-and-modules.html#re-exporting-with-pub-use">クレートとモジュール (<code>pub use</code> を使った再エクスポート)</a> 参照。</li>
+<li><code>self::path</code>: 現在のモジュールからの相対パス (<em>つまり</em> 明示的な相対パス)。 <a href="crates-and-modules.html#re-exporting-with-pub-use">クレートとモジュール (<code>pub use</code> を使った再エクスポート)</a> 参照。</li>
+<li><code>super::path</code>: 現在のモジュールの親からの相対パス。 <a href="crates-and-modules.html#re-exporting-with-pub-use">クレートとモジュール (<code>pub use</code> を使った再エクスポート)</a> 参照。</li>
+<li><code>type::ident</code>: 関連定数、関数、型。 <a href="associated-types.html">関連型</a> 参照。</li>
+<li><code>&lt;type&gt;::…</code>: 直接名前付けられない型の関連アイテム (<em>例えば</em> <code>&lt;&amp;T&gt;::…</code> 、 <code>&lt;[T]&gt;::…</code> 、 <em>など</em>)。 <a href="associated-types.html">関連型</a> 参照。</li>
 </ul>
 
 <!-- Generics -->
 
+<!-- * `path<…>` (*e.g.* `Vec<u8>`): specifies parameters to generic type *in a type*.  See [Generics]. -->
+
+<!-- * `path::<…>`, `method::<…>` (*e.g.* `"42".parse::<i32>()`): specifies parameters to generic type, function, or method *in an expression*. -->
+
+<!-- * `fn ident<…> …`: define generic function.  See [Generics]. -->
+
+<!-- * `struct ident<…> …`: define generic structure.  See [Generics]. -->
+
+<!-- * `enum ident<…> …`: define generic enumeration.  See [Generics]. -->
+
+<!-- * `impl<…> …`: define generic implementation. -->
+
+<!-- * `for<…> type`: higher-ranked lifetime bounds. -->
+
+<!-- * `type<ident=type>` (*e.g.* `Iterator<Item=T>`): a generic type where one or more associated types have specific assignments.  See [Associated Types]. -->
+
 <ul>
-<li><code>path&lt;…&gt;</code> (<em>e.g.</em> <code>Vec&lt;u8&gt;</code>): specifies parameters to generic type <em>in a type</em>.  See <a href="generics.html">Generics</a>.</li>
-<li><code>path::&lt;…&gt;</code>, <code>method::&lt;…&gt;</code> (<em>e.g.</em> <code>&quot;42&quot;.parse::&lt;i32&gt;()</code>): specifies parameters to generic type, function, or method <em>in an expression</em>.</li>
-<li><code>fn ident&lt;…&gt; …</code>: define generic function.  See <a href="generics.html">Generics</a>.</li>
-<li><code>struct ident&lt;…&gt; …</code>: define generic structure.  See <a href="generics.html">Generics</a>.</li>
-<li><code>enum ident&lt;…&gt; …</code>: define generic enumeration.  See <a href="generics.html">Generics</a>.</li>
-<li><code>impl&lt;…&gt; …</code>: define generic implementation.</li>
-<li><code>for&lt;…&gt; type</code>: higher-ranked lifetime bounds.</li>
-<li><code>type&lt;ident=type&gt;</code> (<em>e.g.</em> <code>Iterator&lt;Item=T&gt;</code>): a generic type where one or more associated types have specific assignments.  See <a href="associated-types.html">Associated Types</a>.</li>
+<li><code>path&lt;…&gt;</code> (<em>例えば</em> <code>Vec&lt;u8&gt;</code>): <em>型での</em> ジェネリック型のパラメータの指定。 <a href="generics.html">ジェネリクス</a> 。</li>
+<li><code>path::&lt;…&gt;</code>, <code>method::&lt;…&gt;</code> (<em>例えば</em> <code>&quot;42&quot;.parse::&lt;i32&gt;()</code>): <em>式での</em> ジェネリック型あるいは関数、メソッドの型の指定。</li>
+<li><code>fn ident&lt;…&gt; …</code>: ジェネリック関数を定義。 <a href="generics.html">ジェネリクス</a> 参照。</li>
+<li><code>struct ident&lt;…&gt; …</code>: ジェネリック構造体を定義。 <a href="generics.html">ジェネリクス</a> 参照。</li>
+<li><code>enum ident&lt;…&gt; …</code>: ジェネリック列挙型を定義。 <a href="generics.html">ジェネリクス</a> 参照。</li>
+<li><code>impl&lt;…&gt; …</code>: ジェネリック実装を定義。</li>
+<li><code>for&lt;…&gt; type</code>: 高階ライフタイム境界。</li>
+<li><code>type&lt;ident=type&gt;</code> (<em>例えば</em> <code>Iterator&lt;Item=T&gt;</code>): 1つ以上の関連型について指定のあるジェネリック型。 <a href="associated-types.html">関連型</a> 参照。</li>
 </ul>
 
 <!-- Constraints -->
 
+<!-- * `T: U`: generic parameter `T` constrained to types that implement `U`.  See [Traits]. -->
+
+<!-- * `T: 'a`: generic type `T` must outlive lifetime `'a`. -->
+
+<!-- * `'b: 'a`: generic lifetime `'b` must outlive lifetime `'a`. -->
+
+<!-- * `T: ?Sized`: allow generic type parameter to be a dynamically-sized type.  See [Unsized Types (`?Sized`)]. -->
+
+<!-- * `'a + trait`, `trait + trait`: compound type constraint.  See [Traits (Multiple Trait Bounds)]. -->
+
 <ul>
-<li><code>T: U</code>: generic parameter <code>T</code> constrained to types that implement <code>U</code>.  See <a href="traits.html">Traits</a>.</li>
-<li><code>T: &#39;a</code>: generic type <code>T</code> must outlive lifetime <code>&#39;a</code>.</li>
-<li><code>&#39;b: &#39;a</code>: generic lifetime <code>&#39;b</code> must outlive lifetime <code>&#39;a</code>.</li>
-<li><code>T: ?Sized</code>: allow generic type parameter to be a dynamically-sized type.  See <a href="unsized-types.html#?sized">Unsized Types (<code>?Sized</code>)</a>.</li>
-<li><code>&#39;a + trait</code>, <code>trait + trait</code>: compound type constraint.  See <a href="traits.html#multiple-trait-bounds">Traits (Multiple Trait Bounds)</a>.</li>
+<li><code>T: U</code>: <code>U</code> を実装する型に制約されたジェネリックパラメータ <code>T</code> 。 <a href="traits.html">トレイト</a> 参照。</li>
+<li><code>T: &#39;a</code>: ジェネリック型 <code>T</code> はライフタイム <code>&#39;a</code> より長生きしなければならない。</li>
+<li><code>&#39;b: &#39;a</code>: ジェネリックライフタイム <code>&#39;b</code> はライフタイム <code>&#39;a</code> より長生きしなければならない。</li>
+<li><code>T: ?Sized</code>: ジェネリック型パラメータが動的サイズ型になること許可する。 <a href="unsized-types.html#sized">サイズ不定型 (<code>?Sized</code>)</a> 参照。</li>
+<li><code>&#39;a + trait</code>, <code>trait + trait</code>: 合成型制約。 <a href="traits.html#%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%88%E3%83%AC%E3%82%A4%E3%83%88%E5%A2%83%E7%95%8C">トレイト (複数のトレイト境界)</a> 参照。</li>
 </ul>
 
 <!-- Macros and attributes -->
 
+<!-- * `#[meta]`: outer attribute.  See [Attributes]. -->
+
+<!-- * `#![meta]`: inner attribute.  See [Attributes]. -->
+
+<!-- * `$ident`: macro substitution.  See [Macros]. -->
+
+<!-- * `$ident:kind`: macro capture.  See [Macros]. -->
+
+<!-- * `$(…)…`: macro repetition.  See [Macros]. -->
+
 <ul>
-<li><code>#[meta]</code>: outer attribute.  See <a href="attributes.html">Attributes</a>.</li>
-<li><code>#![meta]</code>: inner attribute.  See <a href="attributes.html">Attributes</a>.</li>
-<li><code>$ident</code>: macro substitution.  See <a href="macros.html">Macros</a>.</li>
-<li><code>$ident:kind</code>: macro capture.  See <a href="macros.html">Macros</a>.</li>
-<li><code>$(…)…</code>: macro repetition.  See <a href="macros.html">Macros</a>.</li>
+<li><code>#[meta]</code>: 外側のアトリビュート。  <a href="attributes.html">アトリビュート</a> 参照。</li>
+<li><code>#![meta]</code>: 内側のアトリビュート。 <a href="attributes.html">アトリビュート</a> 参照。</li>
+<li><code>$ident</code>: マクロでの置換。 <a href="macros.html">マクロ</a> 参照。</li>
+<li><code>$ident:kind</code>: マクロでの捕捉。 <a href="macros.html">マクロ</a> 参照。</li>
+<li><code>$(…)…</code>: マクロでの繰り返し。 <a href="macros.html">マクロ</a> 参照。</li>
 </ul>
 
 <!-- Comments -->
 
+<!-- * `//`: line comment.  See [Comments]. -->
+
+<!-- * `//!`: inner line doc comment.  See [Comments]. -->
+
+<!-- * `///`: outer line doc comment.  See [Comments]. -->
+
+<!-- * `/*…*/`: block comment.  See [Comments]. -->
+
+<!-- * `/*!…*/`: inner block doc comment.  See [Comments]. -->
+
+<!-- * `/**…*/`: outer block doc comment.  See [Comments]. -->
+
 <ul>
-<li><code>//</code>: line comment.  See <a href="comments.html">Comments</a>.</li>
-<li><code>//!</code>: inner line doc comment.  See <a href="comments.html">Comments</a>.</li>
-<li><code>///</code>: outer line doc comment.  See <a href="comments.html">Comments</a>.</li>
-<li><code>/*…*/</code>: block comment.  See <a href="comments.html">Comments</a>.</li>
-<li><code>/*!…*/</code>: inner block doc comment.  See <a href="comments.html">Comments</a>.</li>
-<li><code>/**…*/</code>: outer block doc comment.  See <a href="comments.html">Comments</a>.</li>
+<li><code>//</code>: ラインコメント。 <a href="comments.html">コメント</a> 参照。</li>
+<li><code>//!</code>: 内側の行ドキュメントコメント。 <a href="comments.html">コメント</a> 参照。</li>
+<li><code>///</code>: 外側の行ドキュメントコメント <a href="comments.html">コメント</a> 参照。</li>
+<li><code>/*…*/</code>: ブロックコメント。 <a href="comments.html">コメント</a> 参照。</li>
+<li><code>/*!…*/</code>: 内側のブロックドキュメントコメント。 <a href="comments.html">コメント</a> 参照。</li>
+<li><code>/**…*/</code>: 外側のブロックドキュメントコメント。 <a href="comments.html">コメント</a> 参照。</li>
 </ul>
 
 <!-- Various things involving parens and tuples -->
 
+<!-- * `()`: empty tuple (*a.k.a.* unit), both literal and type. -->
+
+<!-- * `(expr)`: parenthesized expression. -->
+
+<!-- * `(expr,)`: single-element tuple expression.  See [Primitive Types (Tuples)]. -->
+
+<!-- * `(type,)`: single-element tuple type.  See [Primitive Types (Tuples)]. -->
+
+<!-- * `(expr, …)`: tuple expression.  See [Primitive Types (Tuples)]. -->
+
+<!-- * `(type, …)`: tuple type.  See [Primitive Types (Tuples)]. -->
+
+<!-- * `expr(expr, …)`: function call expression.  Also used to initialize tuple `struct`s and tuple `enum` variants.  See [Functions]. -->
+
+<!-- * `ident!(…)`, `ident!{…}`, `ident![…]`: macro invocation.  See [Macros]. -->
+
+<!-- * `expr.0`, `expr.1`, …: tuple indexing.  See [Primitive Types (Tuple Indexing)]. -->
+
 <ul>
-<li><code>()</code>: empty tuple (<em>a.k.a.</em> unit), both literal and type.</li>
-<li><code>(expr)</code>: parenthesized expression.</li>
-<li><code>(expr,)</code>: single-element tuple expression.  See <a href="primitive-types.html#tuples">Primitive Types (Tuples)</a>.</li>
-<li><code>(type,)</code>: single-element tuple type.  See <a href="primitive-types.html#tuples">Primitive Types (Tuples)</a>.</li>
-<li><code>(expr, …)</code>: tuple expression.  See <a href="primitive-types.html#tuples">Primitive Types (Tuples)</a>.</li>
-<li><code>(type, …)</code>: tuple type.  See <a href="primitive-types.html#tuples">Primitive Types (Tuples)</a>.</li>
-<li><code>expr(expr, …)</code>: function call expression.  Also used to initialize tuple <code>struct</code>s and tuple <code>enum</code> variants.  See <a href="functions.html">Functions</a>.</li>
-<li><code>ident!(…)</code>, <code>ident!{…}</code>, <code>ident![…]</code>: macro invocation.  See <a href="macros.html">Macros</a>.</li>
-<li><code>expr.0</code>, <code>expr.1</code>, …: tuple indexing.  See <a href="primitive-types.html#tuple-indexing">Primitive Types (Tuple Indexing)</a>.</li>
+<li><code>()</code>: 空タプル(<em>あるいは</em> ユニット)の、リテラルと型両方。</li>
+<li><code>(expr)</code>: 括弧付きの式。</li>
+<li><code>(expr,)</code>: 1要素タプルの式。 <a href="primitive-types.html#%E3%82%BF%E3%83%97%E3%83%AB">プリミティブ型 (タプル)</a> 参照。</li>
+<li><code>(type,)</code>: 1要素タプルの型。 <a href="primitive-types.html#%E3%82%BF%E3%83%97%E3%83%AB">プリミティブ型 (タプル)</a> 参照。</li>
+<li><code>(expr, …)</code>: タプル式。 <a href="primitive-types.html#%E3%82%BF%E3%83%97%E3%83%AB">プリミティブ型 (タプル)</a> 参照。</li>
+<li><code>(type, …)</code>: タプル型。 <a href="primitive-types.html#%E3%82%BF%E3%83%97%E3%83%AB">プリミティブ型 (タプル)</a> 参照。</li>
+<li><code>expr(expr, …)</code>: 関数呼び出し式。また、 タプル <code>struct</code> 、 タプル <code>enum</code> のヴァリアントを初期化するのにも使われる。 <a href="functions.html">関数</a> 参照。</li>
+<li><code>ident!(…)</code>, <code>ident!{…}</code>, <code>ident![…]</code>: マクロの起動。 <a href="macros.html">マクロ</a> 参照。</li>
+<li><code>expr.0</code>, <code>expr.1</code>, …: タプルのインデックス。 <a href="primitive-types.html#%E3%82%BF%E3%83%97%E3%83%AB%E3%81%AE%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9">プリミティブ型 (タプルのインデックス)</a> 参照。</li>
 </ul>
 
 <!-- Bracey things -->
 
+<!-- * `{…}`: block expression. -->
+
+<!-- * `Type {…}`: `struct` literal.  See [Structs]. -->
+
 <ul>
-<li><code>{…}</code>: block expression.</li>
-<li><code>Type {…}</code>: <code>struct</code> literal.  See <a href="structs.html">Structs</a>.</li>
+<li><code>{…}</code>: ブロック式。</li>
+<li><code>Type {…}</code>: <code>struct</code> リテラル。 <a href="structs.html">構造体</a> 参照。</li>
 </ul>
 
 <!-- Brackety things -->
 
+<!-- * `[…]`: array literal.  See [Primitive Types (Arrays)]. -->
+
+<!-- * `[expr; len]`: array literal containing `len` copies of `expr`.  See [Primitive Types (Arrays)]. -->
+
+<!-- * `[type; len]`: array type containing `len` instances of `type`.  See [Primitive Types (Arrays)]. -->
+
+<!-- * `expr[expr]`: collection indexing.  Overloadable (`Index`, `IndexMut`). -->
+
+<!-- * `expr[..]`, `expr[a..]`, `expr[..b]`, `expr[a..b]`: collection indexing pretending to be collection slicing, using `Range`, `RangeFrom`, `RangeTo`, `RangeFull` as the "index". -->
+
 <ul>
-<li><code>[…]</code>: array literal.  See <a href="primitive-types.html#arrays">Primitive Types (Arrays)</a>.</li>
-<li><code>[expr; len]</code>: array literal containing <code>len</code> copies of <code>expr</code>.  See <a href="primitive-types.html#arrays">Primitive Types (Arrays)</a>.</li>
-<li><code>[type; len]</code>: array type containing <code>len</code> instances of <code>type</code>.  See <a href="primitive-types.html#arrays">Primitive Types (Arrays)</a>.</li>
-<li><code>expr[expr]</code>: collection indexing.  Overloadable (<code>Index</code>, <code>IndexMut</code>).</li>
-<li><code>expr[..]</code>, <code>expr[a..]</code>, <code>expr[..b]</code>, <code>expr[a..b]</code>: collection indexing pretending to be collection slicing, using <code>Range</code>, <code>RangeFrom</code>, <code>RangeTo</code>, <code>RangeFull</code> as the &quot;index&quot;.</li>
+<li><code>[…]</code>: 配列リテラル。 <a href="primitive-types.html#%E9%85%8D%E5%88%97">プリミティブ型 (配列)</a> 参照。</li>
+<li><code>[expr; len]</code>: <code>len</code> 個の <code>expr</code> を要素に持つ配列リテラル。 <a href="primitive-types.html#%E9%85%8D%E5%88%97">プリミティブ型 (配列)</a> 参照。</li>
+<li><code>[type; len]</code>: <code>len</code> 個の<code>type</code> のインスタンスを要素に持つ配列型。 <a href="primitive-types.html#%E9%85%8D%E5%88%97">プリミティブ型 (配列)</a> 参照。</li>
+<li><code>expr[expr]</code>: コレクションのインデックス。 オーバーロード可能(<code>Index</code>, <code>IndexMut</code>)。</li>
+<li><code>expr[..]</code>, <code>expr[a..]</code>, <code>expr[..b]</code>, <code>expr[a..b]</code>: コレクションのスライスのようなコレクションのインデックス。 <code>Range</code> 、 <code>RangeFrom</code> 、 <code>RangeTo</code> 、 <code>RangeFull</code> を「インデックス」として使う。</li>
 </ul>
 
     <script type="text/javascript">
