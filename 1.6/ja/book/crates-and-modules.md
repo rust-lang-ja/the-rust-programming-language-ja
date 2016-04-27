@@ -6,7 +6,7 @@ engineering practice to split it up into a bunch of smaller pieces, and then
 fit them together. It’s also important to have a well-defined interface, so
 that some of your functionality is private, and some is public. To facilitate
 these kinds of things, Rust has a module system. -->
-プロジェクトが大きくなり始めた際に、コードを幾つかのまとまりに分割しそれらでプロジェクトを組み立てるのはソフトウェア工学における優れた慣例だと考えられています。機能の一部をプライベートとし、かつ幾つかをパブリックとできるように、はっきりと定義されたインターフェースも重要となります。こういった事柄を容易にするため、Rustはモジュールシステムを有しています。
+プロジェクトが大きくなり始めた際に、コードを小さなまとまりに分割しそれらでプロジェクトを組み立てるのはソフトウェア工学における優れた慣例だと考えられています。幾つかの機能をプライベートとし、また幾つかをパブリックとできるように、はっきりと定義されたインターフェースも重要となります。こういった事柄を容易にするため、Rustはモジュールシステムを有しています。
 
 <!-- # Basic terminology: Crates and Modules -->
 # 基本的な専門用語: クレートとモジュール
@@ -16,18 +16,18 @@ these kinds of things, Rust has a module system. -->
 languages. Hence “Cargo” as the name of Rust’s package management tool: you
 ship your crates to others with Cargo. Crates can produce an executable or a
 library, depending on the project. -->
-Rustはモジュールシステムに関連して、「クレート」(crate)と「モジュール」(module)という2つの用語を明確に分けています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってあなたのクレートを船で出荷し他のユーザに公開するわけです。クレートは実行形式かライブラリをプロジェクトに応じて作成できます。
+Rustはモジュールシステムに関連して「クレート」(crate)と「モジュール」(module)という2つの用語を明確に区別しています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってクレートを出荷し他のユーザに公開するわけです。クレートは実行形式かライブラリをプロジェクトに応じて作成できます。
 
 <!-- Each crate has an implicit *root module* that contains the code for that crate.
 You can then define a tree of sub-modules under that root module. Modules allow
 you to partition your code within the crate itself. -->
-各クレートは自身のコードが入っている *ルートモジュール* (root module)を暗黙的に持っています。この時ルートモジュール下にはサブモジュールの木が定義できます。モジュールによりクレート内でコードを分割できます。
+各クレートは自身のコードが入っている *ルートモジュール* (root module)を暗黙的に持っています。そしてルートモジュール下にはサブモジュールの木が定義できます。モジュールによりクレート内でコードを分割できます。
 
 <!-- As an example, let’s make a *phrases* crate, which will give us various phrases
 in different languages. To keep things simple, we’ll stick to ‘greetings’ and
 ‘farewells’ as two kinds of phrases, and use English and Japanese (日本語) as
 two languages for those phrases to be in. We’ll use this module layout: -->
-例として、 *phrases* クレートを作ってみます。これには異なる言語で幾つかのフレーズを入れます。問題の単純さを保つために、2種類のフレーズとして「greetings」と「farewells」に固定し、これらフレーズを表すための2つの言語として英語と日本語を使うことにします。
+例として、 *phrases* クレートを作ってみます。これに異なる言語で幾つかのフレーズを入れます。問題の単純さを保つために、2種類のフレーズ「greetings」と「farewells」のみとし、これらフレーズを表すための2つの言語として英語と日本語を使うことにします。モジュールのレイアウトは以下のようになります。
 
 ```text
                                     +-----------+
@@ -52,7 +52,7 @@ two languages for those phrases to be in. We’ll use this module layout: -->
 <!-- In this example, `phrases` is the name of our crate. All of the rest are
 modules.  You can see that they form a tree, branching out from the crate
 *root*, which is the root of the tree: `phrases` itself. -->
-この例において、 `phrases` はクレートの名前です。それ以外の全てはモジュールです。それらが木の形をしており、クレートの *根* から枝分かれしていることが分かります。そして木の根は `phrases` それ自身です。
+この例において、 `phrases` がクレートの名前で、それ以外の全てはモジュールです。それらが木の形をしており、クレートの *ルート* から枝分かれしていることが分かります。そして木のルートは `phrases` それ自身です。
 
 <!-- Now that we have a plan, let’s define these modules in code. To start,
 generate a new crate with Cargo: -->
@@ -64,7 +64,7 @@ $ cd phrases
 ```
 
 <!-- If you remember, this generates a simple project for us: -->
-このコマンドを覚えていれば、Cargoがシンプルなプロジェクトを生成してくれます。
+これを覚えておけば、Cargoが単純なプロジェクトを生成してくれます。
 
 ```bash
 $ tree .
@@ -85,7 +85,7 @@ above. -->
 
 <!-- To define each of our modules, we use the `mod` keyword. Let’s make our
 `src/lib.rs` look like this: -->
-それぞれのモジュールを定義するために、 `mod` キーワードを使います。 `src/lib.rs` を以下のようにします。
+それぞれのモジュールを定義するために、 `mod` キーワードを使います。 `src/lib.rs` を以下のようにしましょう。
 
 ```rust
 mod english {
@@ -108,7 +108,7 @@ mod japanese {
 <!-- After the `mod` keyword, you give the name of the module. Module names follow
 the conventions for other Rust identifiers: `lower_snake_case`. The contents of
 each module are within curly braces (`{}`). -->
-`mod` キーワードの後、モジュールの名前を与えます。モジュール名は他のRustの識別子の慣例に従います。つまり `lower_snake_case` です。各モジュールの内容は波括弧( `{}` )の中に定義します。
+`mod` キーワードの後、モジュールの名前を与えます。モジュール名はRustの他の識別子の慣例に従います。つまり `lower_snake_case` です。各モジュールの内容は波括弧( `{}` )の中に書きます。
 
 <!-- Within a given `mod`, you can declare sub-`mod`s. We can refer to sub-modules
 with double-colon (`::`) notation: our four nested modules are
@@ -117,11 +117,12 @@ with double-colon (`::`) notation: our four nested modules are
 parent module, the names don’t conflict: `english::greetings` and
 `japanese::greetings` are distinct, even though their names are both
 `greetings`. -->
-与えられた `mod` 内で、サブ `mod` を定義することができます。サブモジュールは2重コロン( `::` )記法で参照できます。先程定義した4つのネストされたモジュールは `english::greetings` 、 `english::farewells` 、 `japanese::greetings` 、そして `japanese::farewells` です。これらサブモジュールは親モジュール配下の名前空間であるため、名前は競合しません。つまり `english::greetings` と `japanese::greetings` は例え両名が `greetings` であったとしても、明確に区別されます。
+与えられた `mod` 内で、サブ `mod` を定義することができます。サブモジュールは2重コロン( `::` )記法で参照できます。ネストされた4つのモジュールは `english::greetings` 、 `english::farewells` 、 `japanese::greetings` 、そして `japanese::farewells` です。これらサブモジュールは親モジュール配下の名前空間になるため、名前は競合しません。つまり `english::greetings` と `japanese::greetings` は例え両名が `greetings` であったとしても、明確に区別されます。
 
 <!-- Because this crate does not have a `main()` function, and is called `lib.rs`,
 Cargo will build this crate as a library: -->
 このクレートは `main()` 関数を持たず、 `lib.rs` と名付けられているため、Cargoはこのクレートをライブラリとしてビルドします。
+
 ```bash
 $ cargo build
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -152,7 +153,7 @@ mod english {
 ```
 
 <!-- We can instead declare our module like this: -->
-このようなモジュールが宣言できます。
+以下のようなモジュールが宣言できます。
 
 ```rust,ignore
 mod english;
@@ -160,7 +161,7 @@ mod english;
 
 <!-- If we do that, Rust will expect to find either a `english.rs` file, or a
 `english/mod.rs` file with the contents of our module. -->
-こうすれば、Rustは `english.rs` ファイルか、 `english/mod.rs` ファイルのどちらかにモジュールの内容があるだろうと予期します。
+こうすると、Rustは `english.rs` ファイルか、 `english/mod.rs` ファイルのどちらかにモジュールの内容があるだろうと予想します。
 
 <!-- Note that in these files, you don’t need to re-declare the module: that’s
 already been done with the initial `mod` declaration. -->
@@ -207,7 +208,7 @@ mod japanese;
 on our preference. In this case, because our modules have sub-modules, we’ve
 chosen the second. Both `src/english/mod.rs` and `src/japanese/mod.rs` look
 like this: -->
-これら2つの宣言はRustへ書き手の好みに合わせて `src/english.rs` と `src/japanese.rs` 、または `src/english/mod.rs` と `src/japanese/mod.rs` のどちらかを見よと伝えています。今回の場合、サブモジュールがあるため、私たちは後者を選択しました。 `src/english/mod.rs` と `src/japanese/mod.rs` は両方とも以下のようになっています。
+これら2つの宣言はRustへ書き手の好みに合わせて `src/english.rs` と `src/japanese.rs` 、または `src/english/mod.rs` と `src/japanese/mod.rs` のどちらかを見よと伝えています。今回の場合、サブモジュールがあるため私たちは後者を選択しました。 `src/english/mod.rs` と `src/japanese/mod.rs` は両方とも以下のようになっています。
 
 ```rust,ignore
 mod greetings;
@@ -235,7 +236,7 @@ fn hello() -> String {
 ```
 
 <!-- Put this in `src/english/farewells.rs`: -->
-`src/english/farewells.rs` には以下を入力します。
+`src/english/farewells.rs` に以下を入力します。
 
 ```rust
 fn goodbye() -> String {
@@ -244,7 +245,7 @@ fn goodbye() -> String {
 ```
 
 <!-- Put this in `src/japanese/greetings.rs`: -->
-`src/japanese/greetings.rs` には以下を入力します。
+`src/japanese/greetings.rs` に以下を入力します。
 
 ```rust
 fn hello() -> String {
@@ -255,10 +256,10 @@ fn hello() -> String {
 <!-- Of course, you can copy and paste this from this web page, or just type
 something else. It’s not important that you actually put ‘konnichiwa’ to learn
 about the module system. -->
-勿論、このwebページからコピー&ペーストしたり、単に他の何かをタイプしても構いません。あなたが実際にモジュールシステムについて学ぶために「konnichiwa」と入力するのは重要なことではありません。
+勿論、このwebページからコピー&ペーストしたり、他の何かをタイプしても構いません。実際、モジュールシステムについて学ぶために「konnichiwa」と入力しても問題ありません。
 
 <!-- Put this in `src/japanese/farewells.rs`: -->
-`src/japanese/farewells.rs` には以下を入力します。
+`src/japanese/farewells.rs` に以下を入力します。
 
 ```rust
 fn goodbye() -> String {
@@ -271,7 +272,7 @@ fn goodbye() -> String {
 
 <!-- Now that we have some functionality in our crate, let’s try to use it from
 another crate. -->
-ここまででクレートは幾つかの機能を得ました、それでは他のクレートから使ってみましょう。
+ここまででクレートに幾つかの機能が実装されました、それでは他のクレートから使ってみましょう。
 
 <!-- # Importing External Crates -->
 # 外部クレートのインポート
@@ -296,7 +297,7 @@ fn main() {
 ```
 
 <!-- The `extern crate` declaration tells Rust that we need to compile and link to
-the `phrases` crate. We can then use `phrases`’ modules in this one. As we
+the `phrases` crate. We can then use `phrases` modules in this one. As we
 mentioned earlier, you can use double colons to refer to sub-modules and the
 functions inside of them. -->
 `extern crate` 宣言はRustにコンパイルして `phrases` クレートをリンクせよと伝えます。するとこのクレート内で `phrases` モジュールが使えます。先に述べていたように、2重コロンでサブモジュールとその中の関数を参照できます。
@@ -312,11 +313,11 @@ rather than a library crate. Our package now has two crates: `src/lib.rs` and
 functionality is in a library crate, and the executable crate uses that
 library. This way, other programs can also use the library crate, and it’s also
 a nice separation of concerns. -->
-また、Cargoは `src/main.rs` がライブラリクレートではなくバイナリクレートのルートであることを仮定します。パッケージは今2つのクレートを持っています。 `src/lib.rs` と `src/main.rs` です。ほとんどの機能をライブラリクレート内に置き、実行形式クレートから使用するのは、実行形式クレートとしては非常にありふれたパターンです。この方法で、他のプログラムがライブラリクレートを使うこともできますし、素敵な関心の分離(separation of concerns)でもあります。
+また、Cargoは `src/main.rs` がライブラリクレートではなくバイナリクレートのルートだと仮定します。パッケージには今2つのクレートがあります。 `src/lib.rs` と `src/main.rs` です。ほとんどの機能をライブラリクレート内に置き、実行形式クレートから利用するのがよくあるパターンです。この方法なら他のプログラムがライブラリクレートを使うこともできますし、素敵な関心の分離(separation of concerns)にもなります。
 
 <!-- This doesn’t quite work yet, though. We get four errors that look similar to
 this: -->
-けれどこのままでは動作しません。これに似た4つのエラーが発生します。
+けれどこのままではまだ動作しません。以下に似た4つのエラーが発生します。
 
 ```bash
 $ cargo build
@@ -334,7 +335,7 @@ phrases/src/main.rs:4:5: 4:76 note: expansion site
 
 <!-- By default, everything is private in Rust. Let’s talk about this in some more
 depth. -->
-デフォルトでは、Rustにおける全てはプライベートです。それではこれに関してより詳しく説明しましょう。
+デフォルトでは、Rustにおける全てがプライベートです。それではもっと詳しく説明しましょう。
 
 <!-- # Exporting a Public Interface -->
 # パブリックなインターフェースのエクスポート
@@ -343,7 +344,7 @@ depth. -->
 public, and so private is the default. To make things public, you use the `pub`
 keyword. Let’s focus on the `english` module first, so let’s reduce our `src/main.rs`
 to just this: -->
-Rustはインターフェースのパブリックである部分をきちんと管理することができます。そのためプライベートがデフォルトです。パブリックにするためには、 `pub` キーワードを使います。まずは `english` モジュールに焦点を当てたいので、 `src/main.rs` をこれだけに減らしましょう。
+Rustはインターフェースのパブリックである部分をきっちりと管理します。そのためプライベートがデフォルトです。パブリックにするためには `pub` キーワードを使います。まずは `english` モジュールに焦点を当てたいので、 `src/main.rs` をこれだけに減らしましょう。
 
 ```rust,ignore
 extern crate phrases;
@@ -390,7 +391,7 @@ pub fn goodbye() -> String {
 
 <!-- Now, our crate compiles, albeit with warnings about not using the `japanese`
 functions: -->
-これで、クレートはコンパイルできますが、 `japanese` 関数が使われていないという旨の警告が発生します。
+これでクレートはコンパイルできますが、 `japanese` 関数が使われていないという旨の警告が発生します。
 
 ```bash
 $ cargo run
@@ -411,13 +412,13 @@ Goodbye in English: Goodbye.
 <!-- `pub` also applies to `struct`s and their member fields. In keeping with Rust’s
 tendency toward safety, simply making a `struct` public won't automatically
 make its members public: you must mark the fields individually with `pub`. -->
-`pub` は `struct` や そのメンバーのフィールドにも適用されます。Rustの安全性に関する傾向に合わせ、単に `struct` をパブリックにしても、そのメンバーまでは自動的にパブリックになりません。個々のフィールドに `pub` を付けなければならないのです。
+`pub` は `struct` や そのメンバのフィールドにも使えます。Rustの安全性に対する傾向に合わせ、単に `struct` をパブリックにしてもそのメンバまでは自動的にパブリックになりません。個々のフィールドに `pub` を付ける必要があります。
 
 <!-- Now that our functions are public, we can use them. Great! However, typing out
 `phrases::english::greetings::hello()` is very long and repetitive. Rust has
 another keyword for importing names into the current scope, so that you can
 refer to them with shorter names. Let’s talk about `use`. -->
-現在使える関数はパブリックです。素晴らしい！しかしながら、 `phrases::english::greetings::hello()` を打つのは非常に長くて退屈ですね。Rustには現在のスコープに名前をインポートするもう1つのキーワードがあり、それによってより短い名前で参照できます。それでは `use` について説明しましょう。
+関数がパブリックになり、呼び出せるようになりました。素晴らしい！けれども `phrases::english::greetings::hello()` を打つのは非常に長くて退屈ですね。Rustにはもう1つ、現在のスコープに名前をインポートするキーワードがあるので、それを使えば短い名前で参照できます。では `use` について説明しましょう。
 
 <!-- # Importing Modules with `use` -->
 # `use` でモジュールをインポートする
@@ -442,7 +443,7 @@ fn main() {
 the functions by a much shorter name. By convention, when importing functions, it’s
 considered best practice to import the module, rather than the function directly. In
 other words, you _can_ do this: -->
-2つの `use` の行はローカルスコープの中に各モジュールをインポートしているため、とても短い名前で関数を参照できます。慣習では、関数をインポートするとき、関数を直接するよりもモジュール単位でするのがベストプラクティスだと考えられています。言い換えれば、こうすることも _できる_ わけです。
+2つの `use` の行はローカルスコープの中に各モジュールをインポートしているため、とても短い名前で関数を参照できます。慣習では関数をインポートする場合、関数を直接インポートするよりもモジュール単位でするのがベストプラクティスだと考えられています。言い換えれば、こうすることも _できる_ わけです。
 
 ```rust,ignore
 extern crate phrases;
@@ -461,7 +462,7 @@ naming conflict. In our short program, it’s not a big deal, but as it grows, i
 becomes a problem. If we have conflicting names, Rust will give a compilation
 error. For example, if we made the `japanese` functions public, and tried to do
 this: -->
-しかしこれは慣用的ではありません。これは名前の競合を引き起こす可能性が非常に高いのです。この短いプログラムだと大したことではありませんが、大きくなるにつれ問題になります。名前が競合すると、Rustはコンパイルエラーになります。例えば、 `japanese` 関数をパブリックにして、以下を試してみます。
+しかしこれは慣用的ではありません。名前の競合を引き起こす可能性が非常に高まるからです。この短いプログラムだと大したことではありませんが、長くなるにつれ問題になります。名前が競合するとコンパイルエラーになります。例えば、 `japanese` 関数をパブリックにして、以下を試してみます。
 
 ```rust,ignore
 extern crate phrases;
@@ -476,7 +477,7 @@ fn main() {
 ```
 
 <!-- Rust will give us a compile-time error: -->
-Rustはコンパイル時エラーになります。
+Rustはコンパイル時にエラーを起こします。
 
 ```text
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -509,7 +510,7 @@ use phrases::english::{greetings, farewells};
 <!-- You don’t just use `use` to shorten identifiers. You can also use it inside of your crate
 to re-export a function inside another module. This allows you to present an external
 interface that may not directly map to your internal code organization. -->
-`use` は識別子を短くするためだけに用いるのではありません。他のモジュール内の関数を再エクスポートするためにクレートの中で使うこともできます。これにより内部のコード構成に直接対応しない外部インターフェースを提供できます。
+`use` は識別子を短くするためだけに用いるのではありません。他のモジュール内の関数を再エクスポートするためにクレートの中で使うこともできます。これを使って内部のコード構成そのままではない外部向けインターフェースを提供できます。
 
 <!-- Let’s look at an example. Modify your `src/main.rs` to read like this: -->
 例を見てみましょう。 `src/main.rs` を以下のように変更します。
@@ -573,12 +574,12 @@ module, we now have a `phrases::japanese::hello()` function and a
 `phrases::japanese::greetings::hello()` and
 `phrases::japanese::farewells::goodbye()`. Our internal organization doesn’t
 define our external interface. -->
-`pub use` 宣言は関数をモジュール階層のここのスコープへ持ち込みます。`japanese` モジュールの中で `pub use` したため、 `phrases::japanese::greetings::hello()` と `phrases::japanese::farewells::goodbye()` にコードがあるのにも関わらず、 `phrases::japanese::hello()` 関数と `phrases::japanese::goodbye()` 関数が使えるようになります。内部の構成は外部向けのインターフェースを特徴付けるものではありません。
+`pub use` 宣言は関数をモジュール階層 `phrases::japanese` のスコープへ持ち込みます。`japanese` モジュールの中で `pub use` したため、 `phrases::japanese::greetings::hello()` と `phrases::japanese::farewells::goodbye()` にコードがあるのにも関わらず、 `phrases::japanese::hello()` 関数と `phrases::japanese::goodbye()` 関数が使えるようになります。内部の構成で外部向けのインターフェースが決まるわけではありません。
 
 <!-- Here we have a `pub use` for each function we want to bring into the
 `japanese` scope. We could alternatively use the wildcard syntax to include
 everything from `greetings` into the current scope: `pub use self::greetings::*`. -->
-ここまでで `japanese` スコープの中に持ち込みたい各関数のために `pub use` を得ました。現在のスコープ内の `greetings` から全てをインクルードする代わりに、 `pub use self::greetings::*` とすることでワイルドカード構文が使えます。
+ここで `japanese` スコープの中に持ち込みたい各関数のための `pub use` を得ました。 `greetings` から現在のスコープへ全てをインクルードする代わりに、 `pub use self::greetings::*` とすることでワイルドカード構文が使えます。
 
 <!-- What about the `self`? Well, by default, `use` declarations are absolute paths,
 starting from your crate root. `self` makes that path relative to your current
@@ -586,13 +587,13 @@ place in the hierarchy instead. There’s one more special form of `use`: you ca
 `use super::` to reach one level up the tree from your current location. Some
 people like to think of `self` as `.` and `super` as `..`, from many shells’
 display for the current directory and the parent directory. -->
-`self` とはなんでしょう? ええっと、デフォルトでは、 `use` 宣言はクレートのルートから始まる絶対パスです。 `self` は代わりに階層の現在位置からの相対パスにします。 `use` にはもう1つ特別な形式があり、現在の位置から1つ上にアクセスするのに `use super::` が使えます。多くのシェルにおけるカレントディレクトリと親ディレクトリの表示になぞらえ、 `.` が `self` で、 `..` が `super` であるという考え方を好む人もそれなりにいます。
+`self` とはなんでしょう? ええっと、デフォルトでは、 `use` 宣言はクレートのルートから始まる絶対パスです。 `self` は代わりに現在位置からの相対パスにします。 `use` にはもう1つ特別な形式があり、現在位置から1つ上へのアクセスに `use super::` が使えます。多くのシェルにおけるカレントディレクトリと親ディレクトリの表示になぞらえ、 `.` が `self` で、 `..` が `super` であるという考え方を好む人もそれなりにいます。
 
 <!-- Outside of `use`, paths are relative: `foo::bar()` refers to a function inside
 of `foo` relative to where we are. If that’s prefixed with `::`, as in
 `::foo::bar()`, it refers to a different `foo`, an absolute path from your
 crate root. -->
-`use` でなければ、パスは相対です。`foo::bar()` は私達のいる所から相対的に `foo` の内側の関数を参照します。 `::foo::bar()` のように `::` から始まるのであれば、クレートのルートからの絶対パスで、先程とは異なる `foo` を参照します。
+`use` でなければ、パスは相対です。`foo::bar()` は私達のいる場所から相対的に `foo` の内側の関数を参照します。 `::foo::bar()` のように `::` から始まるのであれば、クレートのルートからの絶対パスで、先程とは異なる `foo` を参照します。
 
 <!-- This will build and run: -->
 これはビルドして実行できます。
@@ -612,7 +613,7 @@ Goodbye in Japanese: さようなら
 
 <!-- Rust offers several advanced options that can add compactness and
 convenience to your `extern crate` and `use` statements. Here is an example: -->
-Rustは `extern crate` ないし `use` 文に簡潔さと利便性を付加できる上級者向けオプションを幾つか提供しています。
+`extern crate` 及び `use` 文に対し、Rustは簡潔さと利便性を付加できる上級者向けオプションを幾つか提供しています。以下が例になります。
 
 ```rust,ignore
 extern crate phrases as sayings;
@@ -645,13 +646,13 @@ ambiguity when importing similarly-named items from different places. -->
 `sayings::japanese::farewells` module. As you can see we can later refer to
 the Japanese `goodbye` function with no module qualifiers. This kind of glob
 should be used sparingly. -->
-第二の `use` 文では `sayings::japanese::farewells` モジュールから _全ての_ シンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の `goodbye` 関数を参照できています。なお、この種のグロブは慎重に使うべきです。
+第二の `use` 文では `sayings::japanese::farewells` モジュールから _全ての_ シンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の `goodbye` 関数を参照できています。なお、この類のグロブは慎重に使うべきです。
 
 <!-- The third `use` statement bears more explanation. It's using "brace expansion"
 globbing to compress three `use` statements into one (this sort of syntax
 may be familiar if you've written Linux shell scripts before). The
 uncompressed form of this statement would be: -->
-第三の `use` 文はより詳細な説明を要します。これは3つの `use` 文を1つに圧縮するグロブ「中括弧展開」を使用しています（以前にLinuxのシェルスクリプトを書いたことがあるなら、この種の構文は慣れていることでしょう）。この文を展開した形式は以下のようになります。
+第三の `use` 文はもっと詳細な説明が必要です。これは3つの `use` 文を1つに圧縮するグロブ「中括弧展開」を用いています（以前にLinuxのシェルスクリプトを書いたことがあるなら、この類の構文は慣れていることでしょう）。この文を展開した形式は以下のようになります。
 
 ```rust,ignore
 use sayings::english;
@@ -662,4 +663,4 @@ use sayings::english::farewells as en_farewells;
 <!-- As you can see, the curly brackets compress `use` statements for several items
 under the same path, and in this context `self` just refers back to that path.
 Note: The curly brackets cannot be nested or mixed with star globbing. -->
-ご覧の通り、波括弧は同一パス下にある幾つかのアイテムに対する `use` 文を圧縮します。また、この文脈における `self` はパスの1つ手前を参照するだけです。（訳注: `sayings::english::{self}` の `self` が指す1つ手前は `sayings::english` ）注意: 波括弧はネストできず、スターグロブと混ぜるとこともできません。
+ご覧の通り、波括弧は同一パス下にある幾つかのアイテムに対する `use` 文を圧縮します。また、この文脈における `self` はパスの1つ手前を参照するだけです。（訳注: `sayings::english::{self}` の `self` が指す1つ手前は `sayings::english` です）注意: 波括弧はネストできず、スターグロブと混ぜるとこともできません。
