@@ -16,7 +16,7 @@ these kinds of things, Rust has a module system. -->
 languages. Hence “Cargo” as the name of Rust’s package management tool: you
 ship your crates to others with Cargo. Crates can produce an executable or a
 library, depending on the project. -->
-Rustはモジュールシステムに関連して「クレート」(crate)と「モジュール」(module)という2つの用語を明確に区別しています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってクレートを出荷し他のユーザに公開するわけです。クレートは実行形式かライブラリをプロジェクトに応じて作成できます。
+Rustはモジュールシステムに関連する「クレート」(crate)と「モジュール」(module)という2つの用語を明確に区別しています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってクレートを出荷し他のユーザに公開するわけです。クレートは実行形式かライブラリをプロジェクトに応じて作成できます。
 
 <!-- Each crate has an implicit *root module* that contains the code for that crate.
 You can then define a tree of sub-modules under that root module. Modules allow
@@ -64,7 +64,7 @@ $ cd phrases
 ```
 
 <!-- If you remember, this generates a simple project for us: -->
-これを覚えておけば、Cargoが単純なプロジェクトを生成してくれます。
+これを覚えておけばCargoが単純なプロジェクトを生成してくれます。
 
 ```bash
 $ tree .
