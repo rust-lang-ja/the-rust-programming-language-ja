@@ -9,7 +9,7 @@ these kinds of things, Rust has a module system. -->
 プロジェクトが大きくなり始めた際に、コードを小さなまとまりに分割しそれらでプロジェクトを組み立てるのはソフトウェア工学における優れた慣例だと考えられています。幾つかの機能をプライベートとし、また幾つかをパブリックとできるように、はっきりと定義されたインターフェースも重要となります。こういった事柄を容易にするため、Rustはモジュールシステムを有しています。
 
 <!-- # Basic terminology: Crates and Modules -->
-# 基本的な専門用語: クレートとモジュール
+# 基本的な用語: クレートとモジュール
 
 <!-- Rust has two distinct terms that relate to the module system: ‘crate’ and
 ‘module’. A crate is synonymous with a ‘library’ or ‘package’ in other
@@ -64,7 +64,7 @@ $ cd phrases
 ```
 
 <!-- If you remember, this generates a simple project for us: -->
-これを覚えておけばCargoが単純なプロジェクトを生成してくれます。
+聡明な読者ならご記憶かと思いますがCargoが単純なプロジェクトを生成してくれます。
 
 ```bash
 $ tree .
@@ -256,7 +256,7 @@ fn hello() -> String {
 <!-- Of course, you can copy and paste this from this web page, or just type
 something else. It’s not important that you actually put ‘konnichiwa’ to learn
 about the module system. -->
-勿論、このwebページからコピー&ペーストしたり、他の何かをタイプしても構いません。実際、モジュールシステムについて学ぶために「konnichiwa」と入力しても問題ありません。
+勿論、このwebページからコピー&ペーストしたり、他の何かをタイプしても構いません。モジュールシステムを学ぶのに「konnichiwa」と入力するのは重要なことではありません。
 
 <!-- Put this in `src/japanese/farewells.rs`: -->
 `src/japanese/farewells.rs` に以下を入力します。
@@ -282,7 +282,7 @@ our library. -->
 前節でライブラリクレートができました。インポートしこのライブラリを用いた実行形式クレートを作成しましょう。
 
 <!-- Make a `src/main.rs` and put this in it (it won’t quite compile yet): -->
-`src/main.rs` を作成し配置します。（これはまだ全くコンパイルされていません）
+`src/main.rs` を作成し配置します。（このコンパイルはまだ通りません）
 
 ```rust,ignore
 extern crate phrases;
@@ -579,7 +579,7 @@ define our external interface. -->
 <!-- Here we have a `pub use` for each function we want to bring into the
 `japanese` scope. We could alternatively use the wildcard syntax to include
 everything from `greetings` into the current scope: `pub use self::greetings::*`. -->
-ここで `japanese` スコープの中に持ち込みたい各関数のための `pub use` を得ました。 `greetings` から現在のスコープへ全てをインクルードする代わりに、 `pub use self::greetings::*` とすることでワイルドカード構文が使えます。
+`pub use` によって各関数を `japanese` スコープの中に持ち込めるようになりました。 `greetings` から現在のスコープへ全てをインクルードする代わりに、 `pub use self::greetings::*` とすることでワイルドカード構文が使えます。
 
 <!-- What about the `self`? Well, by default, `use` declarations are absolute paths,
 starting from your crate root. `self` makes that path relative to your current
@@ -652,7 +652,7 @@ should be used sparingly. -->
 globbing to compress three `use` statements into one (this sort of syntax
 may be familiar if you've written Linux shell scripts before). The
 uncompressed form of this statement would be: -->
-第三の `use` 文はもっと詳細な説明が必要です。これは3つの `use` 文を1つに圧縮するグロブ「中括弧展開」を用いています（以前にLinuxのシェルスクリプトを書いたことがあるなら、この類の構文は慣れていることでしょう）。この文を展開した形式は以下のようになります。
+第三の `use` 文はもっと詳しい説明が必要です。これは3つの `use` 文を1つに圧縮するグロブ「中括弧展開」を用いています（以前にLinuxのシェルスクリプトを書いたことがあるなら、この類の構文は慣れていることでしょう）。この文を展開した形式は以下のようになります。
 
 ```rust,ignore
 use sayings::english;
