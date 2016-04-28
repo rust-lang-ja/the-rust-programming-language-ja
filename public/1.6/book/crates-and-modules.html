@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <title>Crates and Modules</title>
+    <title>クレートとモジュール</title>
 
     <link rel="stylesheet" type="text/css" href="rustbook.css">
 
@@ -185,28 +185,40 @@
 <div id='page'>
 
 
-    <h1 class="title">Crates and Modules</h1>
-    <p>When a project starts getting large, it’s considered good software
+    <h1 class="title">クレートとモジュール</h1>
+    <!-- % Crates and Modules -->
+
+<!-- When a project starts getting large, it’s considered good software
 engineering practice to split it up into a bunch of smaller pieces, and then
 fit them together. It’s also important to have a well-defined interface, so
 that some of your functionality is private, and some is public. To facilitate
-these kinds of things, Rust has a module system.</p>
+these kinds of things, Rust has a module system. -->
 
-<h1 id='basic-terminology-crates-and-modules' class='section-header'><a href='#basic-terminology-crates-and-modules'>Basic terminology: Crates and Modules</a></h1>
-<p>Rust has two distinct terms that relate to the module system: ‘crate’ and
+<p>プロジェクトが大きくなり始めた際に、コードを小さなまとまりに分割しそれらでプロジェクトを組み立てるのはソフトウェア工学における優れた慣例だと考えられています。幾つかの機能をプライベートとし、また幾つかをパブリックとできるように、はっきりと定義されたインターフェースも重要となります。こういった事柄を容易にするため、Rustはモジュールシステムを有しています。</p>
+
+<!-- # Basic terminology: Crates and Modules -->
+
+<h1 id='基本的な用語-クレートとモジュール' class='section-header'><a href='#基本的な用語-クレートとモジュール'>基本的な用語: クレートとモジュール</a></h1>
+<!-- Rust has two distinct terms that relate to the module system: ‘crate’ and
 ‘module’. A crate is synonymous with a ‘library’ or ‘package’ in other
 languages. Hence “Cargo” as the name of Rust’s package management tool: you
 ship your crates to others with Cargo. Crates can produce an executable or a
-library, depending on the project.</p>
+library, depending on the project. -->
 
-<p>Each crate has an implicit <em>root module</em> that contains the code for that crate.
+<p>Rustはモジュールシステムに関連する「クレート」(crate)と「モジュール」(module)という2つの用語を明確に区別しています。クレートは他の言語における「ライブラリ」や「パッケージ」と同じ意味です。このことからRustのパッケージマネジメントツールの名前を「Cargo」としています。（訳注: crateとは枠箱のことであり、cargoは船荷を指します）Cargoを使ってクレートを出荷し他のユーザに公開するわけです。クレートは実行形式かライブラリをプロジェクトに応じて作成できます。</p>
+
+<!-- Each crate has an implicit *root module* that contains the code for that crate.
 You can then define a tree of sub-modules under that root module. Modules allow
-you to partition your code within the crate itself.</p>
+you to partition your code within the crate itself. -->
 
-<p>As an example, let’s make a <em>phrases</em> crate, which will give us various phrases
+<p>各クレートは自身のコードが入っている <em>ルートモジュール</em> (root module)を暗黙的に持っています。そしてルートモジュール下にはサブモジュールの木が定義できます。モジュールによりクレート内でコードを分割できます。</p>
+
+<!-- As an example, let’s make a *phrases* crate, which will give us various phrases
 in different languages. To keep things simple, we’ll stick to ‘greetings’ and
 ‘farewells’ as two kinds of phrases, and use English and Japanese (日本語) as
-two languages for those phrases to be in. We’ll use this module layout:</p>
+two languages for those phrases to be in. We’ll use this module layout: -->
+
+<p>例として、 <em>phrases</em> クレートを作ってみます。これに異なる言語で幾つかのフレーズを入れます。問題の単純さを保つために、2種類のフレーズ「greetings」と「farewells」のみとし、これらフレーズを表すための2つの言語として英語と日本語を使うことにします。モジュールのレイアウトは以下のようになります。</p>
 
 <pre><code class="language-text">                                    +-----------+
                                 +---| greetings |
@@ -227,18 +239,24 @@ two languages for those phrases to be in. We’ll use this module layout:</p>
                                     +-----------+
 </code></pre>
 
-<p>In this example, <code>phrases</code> is the name of our crate. All of the rest are
+<!-- In this example, `phrases` is the name of our crate. All of the rest are
 modules.  You can see that they form a tree, branching out from the crate
-<em>root</em>, which is the root of the tree: <code>phrases</code> itself.</p>
+*root*, which is the root of the tree: `phrases` itself. -->
 
-<p>Now that we have a plan, let’s define these modules in code. To start,
-generate a new crate with Cargo:</p>
+<p>この例において、 <code>phrases</code> がクレートの名前で、それ以外の全てはモジュールです。それらが木の形をしており、クレートの <em>ルート</em> から枝分かれしていることが分かります。そして木のルートは <code>phrases</code> それ自身です。</p>
+
+<!-- Now that we have a plan, let’s define these modules in code. To start,
+generate a new crate with Cargo: -->
+
+<p>ここまでで計画は立ちましたから、これらモジュールをコードで定義しましょう。始めるために、Cargoで新しいクレートを生成します。</p>
 
 <pre><code class="language-bash">$ cargo new phrases
 $ cd phrases
 </code></pre>
 
-<p>If you remember, this generates a simple project for us:</p>
+<!-- If you remember, this generates a simple project for us: -->
+
+<p>聡明な読者ならご記憶かと思いますがCargoが単純なプロジェクトを生成してくれます。</p>
 
 <pre><code class="language-bash">$ tree .
 .
@@ -249,12 +267,18 @@ $ cd phrases
 1 directory, 2 files
 </code></pre>
 
-<p><code>src/lib.rs</code> is our crate root, corresponding to the <code>phrases</code> in our diagram
-above.</p>
+<!-- `src/lib.rs` is our crate root, corresponding to the `phrases` in our diagram
+above. -->
 
-<h1 id='defining-modules' class='section-header'><a href='#defining-modules'>Defining Modules</a></h1>
-<p>To define each of our modules, we use the <code>mod</code> keyword. Let’s make our
-<code>src/lib.rs</code> look like this:</p>
+<p><code>src/lib.rs</code> はクレートのルートであり、先程の図における <code>phrases</code> に相当します。</p>
+
+<!-- # Defining Modules -->
+
+<h1 id='モジュールを定義する' class='section-header'><a href='#モジュールを定義する'>モジュールを定義する</a></h1>
+<!-- To define each of our modules, we use the `mod` keyword. Let’s make our
+`src/lib.rs` look like this: -->
+
+<p>それぞれのモジュールを定義するために、 <code>mod</code> キーワードを使います。 <code>src/lib.rs</code> を以下のようにしましょう。</p>
 
 <span class='rusttest'>fn main() {
     mod english {
@@ -289,20 +313,26 @@ above.</p>
     }
 }</pre>
 
-<p>After the <code>mod</code> keyword, you give the name of the module. Module names follow
-the conventions for other Rust identifiers: <code>lower_snake_case</code>. The contents of
-each module are within curly braces (<code>{}</code>).</p>
+<!-- After the `mod` keyword, you give the name of the module. Module names follow
+the conventions for other Rust identifiers: `lower_snake_case`. The contents of
+each module are within curly braces (`{}`). -->
 
-<p>Within a given <code>mod</code>, you can declare sub-<code>mod</code>s. We can refer to sub-modules
-with double-colon (<code>::</code>) notation: our four nested modules are
-<code>english::greetings</code>, <code>english::farewells</code>, <code>japanese::greetings</code>, and
-<code>japanese::farewells</code>. Because these sub-modules are namespaced under their
-parent module, the names don’t conflict: <code>english::greetings</code> and
-<code>japanese::greetings</code> are distinct, even though their names are both
-<code>greetings</code>.</p>
+<p><code>mod</code> キーワードの後、モジュールの名前を与えます。モジュール名はRustの他の識別子の慣例に従います。つまり <code>lower_snake_case</code> です。各モジュールの内容は波括弧( <code>{}</code> )の中に書きます。</p>
 
-<p>Because this crate does not have a <code>main()</code> function, and is called <code>lib.rs</code>,
-Cargo will build this crate as a library:</p>
+<!-- Within a given `mod`, you can declare sub-`mod`s. We can refer to sub-modules
+with double-colon (`::`) notation: our four nested modules are
+`english::greetings`, `english::farewells`, `japanese::greetings`, and
+`japanese::farewells`. Because these sub-modules are namespaced under their
+parent module, the names don’t conflict: `english::greetings` and
+`japanese::greetings` are distinct, even though their names are both
+`greetings`. -->
+
+<p>与えられた <code>mod</code> 内で、サブ <code>mod</code> を定義することができます。サブモジュールは2重コロン( <code>::</code> )記法で参照できます。ネストされた4つのモジュールは <code>english::greetings</code> 、 <code>english::farewells</code> 、 <code>japanese::greetings</code> 、そして <code>japanese::farewells</code> です。これらサブモジュールは親モジュール配下の名前空間になるため、名前は競合しません。つまり <code>english::greetings</code> と <code>japanese::greetings</code> は例え両名が <code>greetings</code> であったとしても、明確に区別されます。</p>
+
+<!-- Because this crate does not have a `main()` function, and is called `lib.rs`,
+Cargo will build this crate as a library: -->
+
+<p>このクレートは <code>main()</code> 関数を持たず、 <code>lib.rs</code> と名付けられているため、Cargoはこのクレートをライブラリとしてビルドします。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -310,40 +340,57 @@ $ ls target/debug
 build  deps  examples  libphrases-a7448e02a0468eaa.rlib  native
 </code></pre>
 
-<p><code>libphrases-hash.rlib</code> is the compiled crate. Before we see how to use this
-crate from another crate, let’s break it up into multiple files.</p>
+<!-- `libphrases-hash.rlib` is the compiled crate. Before we see how to use this
+crate from another crate, let’s break it up into multiple files. -->
 
-<h1 id='multiple-file-crates' class='section-header'><a href='#multiple-file-crates'>Multiple file crates</a></h1>
-<p>If each crate were just one file, these files would get very large. It’s often
+<p><code>libphrases-hash.rlib</code> はコンパイルされたクレートです。このクレートを他のクレートから使う方法を見る前に、複数のファイルに分割してみましょう。</p>
+
+<!-- # Multiple file crates -->
+
+<h1 id='複数のファイルによるクレート' class='section-header'><a href='#複数のファイルによるクレート'>複数のファイルによるクレート</a></h1>
+<!-- If each crate were just one file, these files would get very large. It’s often
 easier to split up crates into multiple files, and Rust supports this in two
-ways.</p>
+ways. -->
 
-<p>Instead of declaring a module like this:</p>
+<p>各クレートがただ1つのファイルからなるのであれば、これらファイルは非常に大きくなってしまうでしょう。クレートを複数のファイルに分けた方が楽になるため、Rustは2つの方法でこれをサポートしています。</p>
+
+<!-- Instead of declaring a module like this: -->
+
+<p>以下のようなモジュールを宣言する代わりに、</p>
 
 <span class='rusttest'>fn main() {
     mod english {
-        // contents of our module go here
+    //    // contents of our module go here
+        // モジュールの内容はここに
     }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>english</span> {
-    <span class='comment'>// contents of our module go here</span>
+    <span class='comment'>// モジュールの内容はここに</span>
 }</pre>
 
-<p>We can instead declare our module like this:</p>
+<!-- We can instead declare our module like this: -->
+
+<p>以下のようなモジュールが宣言できます。</p>
 
 <span class='rusttest'>fn main() {
     mod english;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>english</span>;</pre>
 
-<p>If we do that, Rust will expect to find either a <code>english.rs</code> file, or a
-<code>english/mod.rs</code> file with the contents of our module.</p>
+<!-- If we do that, Rust will expect to find either a `english.rs` file, or a
+`english/mod.rs` file with the contents of our module. -->
 
-<p>Note that in these files, you don’t need to re-declare the module: that’s
-already been done with the initial <code>mod</code> declaration.</p>
+<p>こうすると、Rustは <code>english.rs</code> ファイルか、 <code>english/mod.rs</code> ファイルのどちらかにモジュールの内容があるだろうと予想します。</p>
 
-<p>Using these two techniques, we can break up our crate into two directories and
-seven files:</p>
+<!-- Note that in these files, you don’t need to re-declare the module: that’s
+already been done with the initial `mod` declaration. -->
+
+<p>それらのファイルの中でモジュールの再宣言を行う必要がないことに気をつけて下さい。先の <code>mod</code> 宣言にてそれは済んでいます。</p>
+
+<!-- Using these two techniques, we can break up our crate into two directories and
+seven files: -->
+
+<p>これら2つのテクニックを用いて、クレートを2つのディレクトリと7つのファイルに分解できます。</p>
 
 <pre><code class="language-bash">$ tree .
 .
@@ -368,7 +415,9 @@ seven files:</p>
         └── native
 </code></pre>
 
-<p><code>src/lib.rs</code> is our crate root, and looks like this:</p>
+<!-- `src/lib.rs` is our crate root, and looks like this: -->
+
+<p><code>src/lib.rs</code> はクレートのルートで、以下のようになっています。</p>
 
 <span class='rusttest'>fn main() {
     mod english;
@@ -377,11 +426,13 @@ seven files:</p>
 <span class='kw'>mod</span> <span class='ident'>english</span>;
 <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
 
-<p>These two declarations tell Rust to look for either <code>src/english.rs</code> and
-<code>src/japanese.rs</code>, or <code>src/english/mod.rs</code> and <code>src/japanese/mod.rs</code>, depending
+<!-- These two declarations tell Rust to look for either `src/english.rs` and
+`src/japanese.rs`, or `src/english/mod.rs` and `src/japanese/mod.rs`, depending
 on our preference. In this case, because our modules have sub-modules, we’ve
-chosen the second. Both <code>src/english/mod.rs</code> and <code>src/japanese/mod.rs</code> look
-like this:</p>
+chosen the second. Both `src/english/mod.rs` and `src/japanese/mod.rs` look
+like this: -->
+
+<p>これら2つの宣言はRustへ書き手の好みに合わせて <code>src/english.rs</code> と <code>src/japanese.rs</code> 、または <code>src/english/mod.rs</code> と <code>src/japanese/mod.rs</code> のどちらかを見よと伝えています。今回の場合、サブモジュールがあるため私たちは後者を選択しました。 <code>src/english/mod.rs</code> と <code>src/japanese/mod.rs</code> は両方とも以下のようになっています。</p>
 
 <span class='rusttest'>fn main() {
     mod greetings;
@@ -390,16 +441,22 @@ like this:</p>
 <span class='kw'>mod</span> <span class='ident'>greetings</span>;
 <span class='kw'>mod</span> <span class='ident'>farewells</span>;</pre>
 
-<p>Again, these declarations tell Rust to look for either
-<code>src/english/greetings.rs</code> and <code>src/japanese/greetings.rs</code> or
-<code>src/english/farewells/mod.rs</code> and <code>src/japanese/farewells/mod.rs</code>. Because
+<!-- Again, these declarations tell Rust to look for either
+`src/english/greetings.rs` and `src/japanese/greetings.rs` or
+`src/english/farewells/mod.rs` and `src/japanese/farewells/mod.rs`. Because
 these sub-modules don’t have their own sub-modules, we’ve chosen to make them
-<code>src/english/greetings.rs</code> and <code>src/japanese/farewells.rs</code>. Whew!</p>
+`src/english/greetings.rs` and `src/japanese/farewells.rs`. Whew! -->
 
-<p>The contents of <code>src/english/greetings.rs</code> and <code>src/japanese/farewells.rs</code> are
-both empty at the moment. Let’s add some functions.</p>
+<p>繰り返すと、これら宣言はRustへ <code>src/english/greetings.rs</code> と <code>src/japanese/greetings.rs</code> 、または <code>src/english/farewells/mod.rs</code> と <code>src/japanese/farewells/mod.rs</code> のどちらかを見よと伝えています。これらサブモジュールは自身配下のサブモジュールを持たないため、私たちは <code>src/english/greetings.rs</code> と <code>src/japanese/farewells.rs</code> を選びました。ヒュー！</p>
 
-<p>Put this in <code>src/english/greetings.rs</code>:</p>
+<!-- The contents of `src/english/greetings.rs` and `src/japanese/farewells.rs` are
+both empty at the moment. Let’s add some functions. -->
+
+<p><code>src/english/greetings.rs</code> と <code>src/japanese/farewells.rs</code> の中身は現在両方とも空です。幾つか関数を追加しましょう。</p>
+
+<!-- Put this in `src/english/greetings.rs`: -->
+
+<p><code>src/english/greetings.rs</code> に以下を入力します。</p>
 
 <span class='rusttest'>fn main() {
     fn hello() -&gt; String {
@@ -410,7 +467,9 @@ both empty at the moment. Let’s add some functions.</p>
     <span class='string'>&quot;Hello!&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>Put this in <code>src/english/farewells.rs</code>:</p>
+<!-- Put this in `src/english/farewells.rs`: -->
+
+<p><code>src/english/farewells.rs</code> に以下を入力します。</p>
 
 <span class='rusttest'>fn main() {
     fn goodbye() -&gt; String {
@@ -421,7 +480,9 @@ both empty at the moment. Let’s add some functions.</p>
     <span class='string'>&quot;Goodbye.&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>Put this in <code>src/japanese/greetings.rs</code>:</p>
+<!-- Put this in `src/japanese/greetings.rs`: -->
+
+<p><code>src/japanese/greetings.rs</code> に以下を入力します。</p>
 
 <span class='rusttest'>fn main() {
     fn hello() -&gt; String {
@@ -432,11 +493,15 @@ both empty at the moment. Let’s add some functions.</p>
     <span class='string'>&quot;こんにちは&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>Of course, you can copy and paste this from this web page, or just type
+<!-- Of course, you can copy and paste this from this web page, or just type
 something else. It’s not important that you actually put ‘konnichiwa’ to learn
-about the module system.</p>
+about the module system. -->
 
-<p>Put this in <code>src/japanese/farewells.rs</code>:</p>
+<p>勿論、このwebページからコピー&amp;ペーストしたり、他の何かをタイプしても構いません。モジュールシステムを学ぶのに「konnichiwa」と入力するのは重要なことではありません。</p>
+
+<!-- Put this in `src/japanese/farewells.rs`: -->
+
+<p><code>src/japanese/farewells.rs</code> に以下を入力します。</p>
 
 <span class='rusttest'>fn main() {
     fn goodbye() -&gt; String {
@@ -447,16 +512,26 @@ about the module system.</p>
     <span class='string'>&quot;さようなら&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>(This is ‘Sayōnara’, if you’re curious.)</p>
+<!-- (This is ‘Sayōnara’, if you’re curious.) -->
 
-<p>Now that we have some functionality in our crate, let’s try to use it from
-another crate.</p>
+<p>（英語だと「Sayōnara」と表記するようです、御参考まで。）</p>
 
-<h1 id='importing-external-crates' class='section-header'><a href='#importing-external-crates'>Importing External Crates</a></h1>
-<p>We have a library crate. Let’s make an executable crate that imports and uses
-our library.</p>
+<!-- Now that we have some functionality in our crate, let’s try to use it from
+another crate. -->
 
-<p>Make a <code>src/main.rs</code> and put this in it (it won’t quite compile yet):</p>
+<p>ここまででクレートに幾つかの機能が実装されました、それでは他のクレートから使ってみましょう。</p>
+
+<!-- # Importing External Crates -->
+
+<h1 id='外部クレートのインポート' class='section-header'><a href='#外部クレートのインポート'>外部クレートのインポート</a></h1>
+<!-- We have a library crate. Let’s make an executable crate that imports and uses
+our library. -->
+
+<p>前節でライブラリクレートができました。インポートしこのライブラリを用いた実行形式クレートを作成しましょう。</p>
+
+<!-- Make a `src/main.rs` and put this in it (it won’t quite compile yet): -->
+
+<p><code>src/main.rs</code> を作成し配置します。（このコンパイルはまだ通りません）</p>
 
 <span class='rusttest'>extern crate phrases;
 
@@ -478,24 +553,32 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Goodbye in Japanese: {}&quot;</span>, <span class='ident'>phrases</span>::<span class='ident'>japanese</span>::<span class='ident'>farewells</span>::<span class='ident'>goodbye</span>());
 }</pre>
 
-<p>The <code>extern crate</code> declaration tells Rust that we need to compile and link to
-the <code>phrases</code> crate. We can then use <code>phrases</code>’ modules in this one. As we
+<!-- The `extern crate` declaration tells Rust that we need to compile and link to
+the `phrases` crate. We can then use `phrases` modules in this one. As we
 mentioned earlier, you can use double colons to refer to sub-modules and the
-functions inside of them.</p>
+functions inside of them. -->
 
-<p>(Note: when importing a crate that has dashes in its name &quot;like-this&quot;, which is
+<p><code>extern crate</code> 宣言はRustにコンパイルして <code>phrases</code> クレートをリンクせよと伝えます。するとこのクレート内で <code>phrases</code> モジュールが使えます。先に述べていたように、2重コロンでサブモジュールとその中の関数を参照できます。</p>
+
+<!-- (Note: when importing a crate that has dashes in its name "like-this", which is
 not a valid Rust identifier, it will be converted by changing the dashes to
-underscores, so you would write <code>extern crate like_this;</code>.)</p>
+underscores, so you would write `extern crate like_this;`.) -->
 
-<p>Also, Cargo assumes that <code>src/main.rs</code> is the crate root of a binary crate,
-rather than a library crate. Our package now has two crates: <code>src/lib.rs</code> and
-<code>src/main.rs</code>. This pattern is quite common for executable crates: most
+<p>（注意: Rustの識別子として適切でない「like-this」のような、名前の中にダッシュが入ったクレートをインポートする場合、ダッシュがアンダースコアへ変換されるため <code>extern crate like_this;</code> と記述します。）</p>
+
+<!-- Also, Cargo assumes that `src/main.rs` is the crate root of a binary crate,
+rather than a library crate. Our package now has two crates: `src/lib.rs` and
+`src/main.rs`. This pattern is quite common for executable crates: most
 functionality is in a library crate, and the executable crate uses that
 library. This way, other programs can also use the library crate, and it’s also
-a nice separation of concerns.</p>
+a nice separation of concerns. -->
 
-<p>This doesn’t quite work yet, though. We get four errors that look similar to
-this:</p>
+<p>また、Cargoは <code>src/main.rs</code> がライブラリクレートではなくバイナリクレートのルートだと仮定します。パッケージには今2つのクレートがあります。 <code>src/lib.rs</code> と <code>src/main.rs</code> です。ほとんどの機能をライブラリクレート内に置き、実行形式クレートから利用するのがよくあるパターンです。この方法なら他のプログラムがライブラリクレートを使うこともできますし、素敵な関心の分離(separation of concerns)にもなります。</p>
+
+<!-- This doesn’t quite work yet, though. We get four errors that look similar to
+this: -->
+
+<p>けれどこのままではまだ動作しません。以下に似た4つのエラーが発生します。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -510,14 +593,20 @@ note: in expansion of format_args!
 phrases/src/main.rs:4:5: 4:76 note: expansion site
 </code></pre>
 
-<p>By default, everything is private in Rust. Let’s talk about this in some more
-depth.</p>
+<!-- By default, everything is private in Rust. Let’s talk about this in some more
+depth. -->
 
-<h1 id='exporting-a-public-interface' class='section-header'><a href='#exporting-a-public-interface'>Exporting a Public Interface</a></h1>
-<p>Rust allows you to precisely control which aspects of your interface are
-public, and so private is the default. To make things public, you use the <code>pub</code>
-keyword. Let’s focus on the <code>english</code> module first, so let’s reduce our <code>src/main.rs</code>
-to just this:</p>
+<p>デフォルトでは、Rustにおける全てがプライベートです。それではもっと詳しく説明しましょう。</p>
+
+<!-- # Exporting a Public Interface -->
+
+<h1 id='パブリックなインターフェースのエクスポート' class='section-header'><a href='#パブリックなインターフェースのエクスポート'>パブリックなインターフェースのエクスポート</a></h1>
+<!-- Rust allows you to precisely control which aspects of your interface are
+public, and so private is the default. To make things public, you use the `pub`
+keyword. Let’s focus on the `english` module first, so let’s reduce our `src/main.rs`
+to just this: -->
+
+<p>Rustはインターフェースのパブリックである部分をきっちりと管理します。そのためプライベートがデフォルトです。パブリックにするためには <code>pub</code> キーワードを使います。まずは <code>english</code> モジュールに焦点を当てたいので、 <code>src/main.rs</code> をこれだけに減らしましょう。</p>
 
 <span class='rusttest'>extern crate phrases;
 
@@ -533,7 +622,9 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Goodbye in English: {}&quot;</span>, <span class='ident'>phrases</span>::<span class='ident'>english</span>::<span class='ident'>farewells</span>::<span class='ident'>goodbye</span>());
 }</pre>
 
-<p>In our <code>src/lib.rs</code>, let’s add <code>pub</code> to the <code>english</code> module declaration:</p>
+<!-- In our `src/lib.rs`, let’s add `pub` to the `english` module declaration: -->
+
+<p><code>src/lib.rs</code> 内にて、 <code>english</code> モジュールの宣言に <code>pub</code> を加えましょう。</p>
 
 <span class='rusttest'>fn main() {
     pub mod english;
@@ -542,7 +633,9 @@ fn main() {
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>english</span>;
 <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
 
-<p>And in our <code>src/english/mod.rs</code>, let’s make both <code>pub</code>:</p>
+<!-- And in our `src/english/mod.rs`, let’s make both `pub`: -->
+
+<p>また <code>src/english/mod.rs</code> にて、両方とも <code>pub</code> にしましょう。</p>
 
 <span class='rusttest'>fn main() {
     pub mod greetings;
@@ -551,7 +644,8 @@ fn main() {
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>greetings</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>farewells</span>;</pre>
 
-<p>In our <code>src/english/greetings.rs</code>, let’s add <code>pub</code> to our <code>fn</code> declaration:</p>
+<p>In our <code>src/english/greetings.rs</code>, let’s add <code>pub</code> to our <code>fn</code> declaration:
+<code>src/english/greetings.rs</code> にて、 <code>fn</code> の宣言に <code>pub</code> を加えましょう。</p>
 
 <span class='rusttest'>fn main() {
     pub fn hello() -&gt; String {
@@ -562,7 +656,8 @@ fn main() {
     <span class='string'>&quot;Hello!&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>And also in <code>src/english/farewells.rs</code>:</p>
+<p>And also in <code>src/english/farewells.rs</code>:
+また <code>src/english/farewells.rs</code> にもです。</p>
 
 <span class='rusttest'>fn main() {
     pub fn goodbye() -&gt; String {
@@ -573,8 +668,10 @@ fn main() {
     <span class='string'>&quot;Goodbye.&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>Now, our crate compiles, albeit with warnings about not using the <code>japanese</code>
-functions:</p>
+<!-- Now, our crate compiles, albeit with warnings about not using the `japanese`
+functions: -->
+
+<p>これでクレートはコンパイルできますが、 <code>japanese</code> 関数が使われていないという旨の警告が発生します。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -591,18 +688,26 @@ Hello in English: Hello!
 Goodbye in English: Goodbye.
 </code></pre>
 
-<p><code>pub</code> also applies to <code>struct</code>s and their member fields. In keeping with Rust’s
-tendency toward safety, simply making a <code>struct</code> public won&#39;t automatically
-make its members public: you must mark the fields individually with <code>pub</code>.</p>
+<!-- `pub` also applies to `struct`s and their member fields. In keeping with Rust’s
+tendency toward safety, simply making a `struct` public won't automatically
+make its members public: you must mark the fields individually with `pub`. -->
 
-<p>Now that our functions are public, we can use them. Great! However, typing out
-<code>phrases::english::greetings::hello()</code> is very long and repetitive. Rust has
+<p><code>pub</code> は <code>struct</code> や そのメンバのフィールドにも使えます。Rustの安全性に対する傾向に合わせ、単に <code>struct</code> をパブリックにしてもそのメンバまでは自動的にパブリックになりません。個々のフィールドに <code>pub</code> を付ける必要があります。</p>
+
+<!-- Now that our functions are public, we can use them. Great! However, typing out
+`phrases::english::greetings::hello()` is very long and repetitive. Rust has
 another keyword for importing names into the current scope, so that you can
-refer to them with shorter names. Let’s talk about <code>use</code>.</p>
+refer to them with shorter names. Let’s talk about `use`. -->
 
-<h1 id='importing-modules-with-use' class='section-header'><a href='#importing-modules-with-use'>Importing Modules with <code>use</code></a></h1>
-<p>Rust has a <code>use</code> keyword, which allows us to import names into our local scope.
-Let’s change our <code>src/main.rs</code> to look like this:</p>
+<p>関数がパブリックになり、呼び出せるようになりました。素晴らしい！けれども <code>phrases::english::greetings::hello()</code> を打つのは非常に長くて退屈ですね。Rustにはもう1つ、現在のスコープに名前をインポートするキーワードがあるので、それを使えば短い名前で参照できます。では <code>use</code> について説明しましょう。</p>
+
+<!-- # Importing Modules with `use` -->
+
+<h1 id='use-でモジュールをインポートする' class='section-header'><a href='#use-でモジュールをインポートする'><code>use</code> でモジュールをインポートする</a></h1>
+<!-- Rust has a `use` keyword, which allows us to import names into our local scope.
+Let’s change our `src/main.rs` to look like this: -->
+
+<p>Rustには <code>use</code> キーワードがあり、ローカルスコープの中に名前をインポートできます。 <code>src/main.rs</code> を以下のように変えてみましょう。</p>
 
 <span class='rusttest'>extern crate phrases;
 
@@ -624,10 +729,12 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Goodbye in English: {}&quot;</span>, <span class='ident'>farewells</span>::<span class='ident'>goodbye</span>());
 }</pre>
 
-<p>The two <code>use</code> lines import each module into the local scope, so we can refer to
+<!-- The two `use` lines import each module into the local scope, so we can refer to
 the functions by a much shorter name. By convention, when importing functions, it’s
 considered best practice to import the module, rather than the function directly. In
-other words, you <em>can</em> do this:</p>
+other words, you _can_ do this: -->
+
+<p>2つの <code>use</code> の行はローカルスコープの中に各モジュールをインポートしているため、とても短い名前で関数を参照できます。慣習では関数をインポートする場合、関数を直接インポートするよりもモジュール単位でするのがベストプラクティスだと考えられています。言い換えれば、こうすることも <em>できる</em> わけです。</p>
 
 <span class='rusttest'>extern crate phrases;
 
@@ -649,11 +756,13 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Goodbye in English: {}&quot;</span>, <span class='ident'>goodbye</span>());
 }</pre>
 
-<p>But it is not idiomatic. This is significantly more likely to introduce a
+<!-- But it is not idiomatic. This is significantly more likely to introduce a
 naming conflict. In our short program, it’s not a big deal, but as it grows, it
 becomes a problem. If we have conflicting names, Rust will give a compilation
-error. For example, if we made the <code>japanese</code> functions public, and tried to do
-this:</p>
+error. For example, if we made the `japanese` functions public, and tried to do
+this: -->
+
+<p>しかしこれは慣用的ではありません。名前の競合を引き起こす可能性が非常に高まるからです。この短いプログラムだと大したことではありませんが、長くなるにつれ問題になります。名前が競合するとコンパイルエラーになります。例えば、 <code>japanese</code> 関数をパブリックにして、以下を試してみます。</p>
 
 <span class='rusttest'>extern crate phrases;
 
@@ -675,7 +784,9 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hello in Japanese: {}&quot;</span>, <span class='ident'>hello</span>());
 }</pre>
 
-<p>Rust will give us a compile-time error:</p>
+<!-- Rust will give us a compile-time error: -->
+
+<p>Rustはコンパイル時にエラーを起こします。</p>
 
 <pre><code class="language-text">   Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
 src/main.rs:4:5: 4:40 error: a value named `hello` has already been imported in this module [E0252]
@@ -685,8 +796,10 @@ error: aborting due to previous error
 Could not compile `phrases`.
 </code></pre>
 
-<p>If we’re importing multiple names from the same module, we don’t have to type it out
-twice. Instead of this:</p>
+<!-- If we’re importing multiple names from the same module, we don’t have to type it out
+twice. Instead of this: -->
+
+<p>同じモジュールから複数の名前をインポートする場合、二度同じ文字を打つ必要はありません。以下の代わりに、</p>
 
 <span class='rusttest'>fn main() {
     use phrases::english::greetings;
@@ -695,19 +808,27 @@ twice. Instead of this:</p>
 <span class='kw'>use</span> <span class='ident'>phrases</span>::<span class='ident'>english</span>::<span class='ident'>greetings</span>;
 <span class='kw'>use</span> <span class='ident'>phrases</span>::<span class='ident'>english</span>::<span class='ident'>farewells</span>;</pre>
 
-<p>We can use this shortcut:</p>
+<!-- We can use this shortcut: -->
+
+<p>このショートカットが使えます。</p>
 
 <span class='rusttest'>fn main() {
     use phrases::english::{greetings, farewells};
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>phrases</span>::<span class='ident'>english</span>::{<span class='ident'>greetings</span>, <span class='ident'>farewells</span>};</pre>
 
-<h2 id='re-exporting-with-pub-use' class='section-header'><a href='#re-exporting-with-pub-use'>Re-exporting with <code>pub use</code></a></h2>
-<p>You don’t just use <code>use</code> to shorten identifiers. You can also use it inside of your crate
-to re-export a function inside another module. This allows you to present an external
-interface that may not directly map to your internal code organization.</p>
+<!-- ## Re-exporting with `pub use` -->
 
-<p>Let’s look at an example. Modify your <code>src/main.rs</code> to read like this:</p>
+<h2 id='pub-use-による再エクスポート' class='section-header'><a href='#pub-use-による再エクスポート'><code>pub use</code> による再エクスポート</a></h2>
+<!-- You don’t just use `use` to shorten identifiers. You can also use it inside of your crate
+to re-export a function inside another module. This allows you to present an external
+interface that may not directly map to your internal code organization. -->
+
+<p><code>use</code> は識別子を短くするためだけに用いるのではありません。他のモジュール内の関数を再エクスポートするためにクレートの中で使うこともできます。これを使って内部のコード構成そのままではない外部向けインターフェースを提供できます。</p>
+
+<!-- Let’s look at an example. Modify your `src/main.rs` to read like this: -->
+
+<p>例を見てみましょう。 <code>src/main.rs</code> を以下のように変更します。</p>
 
 <span class='rusttest'>extern crate phrases;
 
@@ -735,7 +856,9 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Goodbye in Japanese: {}&quot;</span>, <span class='ident'>japanese</span>::<span class='ident'>goodbye</span>());
 }</pre>
 
-<p>Then, modify your <code>src/lib.rs</code> to make the <code>japanese</code> mod public:</p>
+<!-- Then, modify your `src/lib.rs` to make the `japanese` mod public: -->
+
+<p>そして、 <code>src/lib.rs</code> の <code>japanese</code> モジュールをパブリックに変更します。</p>
 
 <span class='rusttest'>fn main() {
     pub mod english;
@@ -744,7 +867,9 @@ fn main() {
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>english</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
 
-<p>Next, make the two functions public, first in <code>src/japanese/greetings.rs</code>:</p>
+<!-- Next, make the two functions public, first in `src/japanese/greetings.rs`: -->
+
+<p>続いて、2つの関数をパブリックにします。始めに <code>src/japanese/greetings.rs</code> を、</p>
 
 <span class='rusttest'>fn main() {
     pub fn hello() -&gt; String {
@@ -755,7 +880,9 @@ fn main() {
     <span class='string'>&quot;こんにちは&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>And then in <code>src/japanese/farewells.rs</code>:</p>
+<!-- And then in `src/japanese/farewells.rs`: -->
+
+<p>そして <code>src/japanese/farewells.rs</code> を、</p>
 
 <span class='rusttest'>fn main() {
     pub fn goodbye() -&gt; String {
@@ -766,7 +893,9 @@ fn main() {
     <span class='string'>&quot;さようなら&quot;</span>.<span class='ident'>to_string</span>()
 }</pre>
 
-<p>Finally, modify your <code>src/japanese/mod.rs</code> to read like this:</p>
+<!-- Finally, modify your `src/japanese/mod.rs` to read like this: -->
+
+<p>最後に、 <code>src/japanese/mod.rs</code> を以下のように変更します。</p>
 
 <span class='rusttest'>fn main() {
     pub use self::greetings::hello;
@@ -781,31 +910,41 @@ fn main() {
 <span class='kw'>mod</span> <span class='ident'>greetings</span>;
 <span class='kw'>mod</span> <span class='ident'>farewells</span>;</pre>
 
-<p>The <code>pub use</code> declaration brings the function into scope at this part of our
-module hierarchy. Because we’ve <code>pub use</code>d this inside of our <code>japanese</code>
-module, we now have a <code>phrases::japanese::hello()</code> function and a
-<code>phrases::japanese::goodbye()</code> function, even though the code for them lives in
-<code>phrases::japanese::greetings::hello()</code> and
-<code>phrases::japanese::farewells::goodbye()</code>. Our internal organization doesn’t
-define our external interface.</p>
+<!-- The `pub use` declaration brings the function into scope at this part of our
+module hierarchy. Because we’ve `pub use`d this inside of our `japanese`
+module, we now have a `phrases::japanese::hello()` function and a
+`phrases::japanese::goodbye()` function, even though the code for them lives in
+`phrases::japanese::greetings::hello()` and
+`phrases::japanese::farewells::goodbye()`. Our internal organization doesn’t
+define our external interface. -->
 
-<p>Here we have a <code>pub use</code> for each function we want to bring into the
-<code>japanese</code> scope. We could alternatively use the wildcard syntax to include
-everything from <code>greetings</code> into the current scope: <code>pub use self::greetings::*</code>.</p>
+<p><code>pub use</code> 宣言は関数をモジュール階層 <code>phrases::japanese</code> のスコープへ持ち込みます。<code>japanese</code> モジュールの中で <code>pub use</code> したため、 <code>phrases::japanese::greetings::hello()</code> と <code>phrases::japanese::farewells::goodbye()</code> にコードがあるのにも関わらず、 <code>phrases::japanese::hello()</code> 関数と <code>phrases::japanese::goodbye()</code> 関数が使えるようになります。内部の構成で外部向けのインターフェースが決まるわけではありません。</p>
 
-<p>What about the <code>self</code>? Well, by default, <code>use</code> declarations are absolute paths,
-starting from your crate root. <code>self</code> makes that path relative to your current
-place in the hierarchy instead. There’s one more special form of <code>use</code>: you can
-<code>use super::</code> to reach one level up the tree from your current location. Some
-people like to think of <code>self</code> as <code>.</code> and <code>super</code> as <code>..</code>, from many shells’
-display for the current directory and the parent directory.</p>
+<!-- Here we have a `pub use` for each function we want to bring into the
+`japanese` scope. We could alternatively use the wildcard syntax to include
+everything from `greetings` into the current scope: `pub use self::greetings::*`. -->
 
-<p>Outside of <code>use</code>, paths are relative: <code>foo::bar()</code> refers to a function inside
-of <code>foo</code> relative to where we are. If that’s prefixed with <code>::</code>, as in
-<code>::foo::bar()</code>, it refers to a different <code>foo</code>, an absolute path from your
-crate root.</p>
+<p><code>pub use</code> によって各関数を <code>japanese</code> スコープの中に持ち込めるようになりました。 <code>greetings</code> から現在のスコープへ全てをインクルードする代わりに、 <code>pub use self::greetings::*</code> とすることでワイルドカード構文が使えます。</p>
 
-<p>This will build and run:</p>
+<!-- What about the `self`? Well, by default, `use` declarations are absolute paths,
+starting from your crate root. `self` makes that path relative to your current
+place in the hierarchy instead. There’s one more special form of `use`: you can
+`use super::` to reach one level up the tree from your current location. Some
+people like to think of `self` as `.` and `super` as `..`, from many shells’
+display for the current directory and the parent directory. -->
+
+<p><code>self</code> とはなんでしょう? ええっと、デフォルトでは、 <code>use</code> 宣言はクレートのルートから始まる絶対パスです。 <code>self</code> は代わりに現在位置からの相対パスにします。 <code>use</code> にはもう1つ特別な形式があり、現在位置から1つ上へのアクセスに <code>use super::</code> が使えます。多くのシェルにおけるカレントディレクトリと親ディレクトリの表示になぞらえ、 <code>.</code> が <code>self</code> で、 <code>..</code> が <code>super</code> であるという考え方を好む人もそれなりにいます。</p>
+
+<!-- Outside of `use`, paths are relative: `foo::bar()` refers to a function inside
+of `foo` relative to where we are. If that’s prefixed with `::`, as in
+`::foo::bar()`, it refers to a different `foo`, an absolute path from your
+crate root. -->
+
+<p><code>use</code> でなければ、パスは相対です。<code>foo::bar()</code> は私達のいる場所から相対的に <code>foo</code> の内側の関数を参照します。 <code>::foo::bar()</code> のように <code>::</code> から始まるのであれば、クレートのルートからの絶対パスで、先程とは異なる <code>foo</code> を参照します。</p>
+
+<!-- This will build and run: -->
+
+<p>これはビルドして実行できます。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling phrases v0.0.1 (file:///home/you/projects/phrases)
@@ -816,9 +955,13 @@ Hello in Japanese: こんにちは
 Goodbye in Japanese: さようなら
 </code></pre>
 
-<h2 id='complex-imports' class='section-header'><a href='#complex-imports'>Complex imports</a></h2>
-<p>Rust offers several advanced options that can add compactness and
-convenience to your <code>extern crate</code> and <code>use</code> statements. Here is an example:</p>
+<!-- ## Complex imports -->
+
+<h2 id='複合的なインポート' class='section-header'><a href='#複合的なインポート'>複合的なインポート</a></h2>
+<!-- Rust offers several advanced options that can add compactness and
+convenience to your `extern crate` and `use` statements. Here is an example: -->
+
+<p><code>extern crate</code> 及び <code>use</code> 文に対し、Rustは簡潔さと利便性を付加できる上級者向けオプションを幾つか提供しています。以下が例になります。</p>
 
 <span class='rusttest'>extern crate phrases as sayings;
 
@@ -848,24 +991,32 @@ fn main() {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;And in Japanese: {}&quot;</span>, <span class='ident'>goodbye</span>());
 }</pre>
 
-<p>What&#39;s going on here?</p>
+<!-- What's going on here? -->
 
-<p>First, both <code>extern crate</code> and <code>use</code> allow renaming the thing that is being
-imported. So the crate is still called &quot;phrases&quot;, but here we will refer
-to it as &quot;sayings&quot;. Similarly, the first <code>use</code> statement pulls in the
-<code>japanese::greetings</code> module from the crate, but makes it available as
-<code>ja_greetings</code> as opposed to simply <code>greetings</code>. This can help to avoid
-ambiguity when importing similarly-named items from different places.</p>
+<p>何が起きているでしょう?</p>
 
-<p>The second <code>use</code> statement uses a star glob to bring in <em>all</em> symbols from the
-<code>sayings::japanese::farewells</code> module. As you can see we can later refer to
-the Japanese <code>goodbye</code> function with no module qualifiers. This kind of glob
-should be used sparingly.</p>
+<!-- First, both `extern crate` and `use` allow renaming the thing that is being
+imported. So the crate is still called "phrases", but here we will refer
+to it as "sayings". Similarly, the first `use` statement pulls in the
+`japanese::greetings` module from the crate, but makes it available as
+`ja_greetings` as opposed to simply `greetings`. This can help to avoid
+ambiguity when importing similarly-named items from different places. -->
 
-<p>The third <code>use</code> statement bears more explanation. It&#39;s using &quot;brace expansion&quot;
-globbing to compress three <code>use</code> statements into one (this sort of syntax
-may be familiar if you&#39;ve written Linux shell scripts before). The
-uncompressed form of this statement would be:</p>
+<p>第一に、インポートされているものを <code>extern crate</code> と <code>use</code> 双方でリネームしています。そのため 「phrases」という名前のクレートであっても、ここでは「sayings」として参照することになります。同様に、始めの <code>use</code> 文はクレートから <code>japanese::greetings</code> を引き出していますが、単純な <code>greetings</code> ではなく <code>ja_greetings</code> で利用できるようにしています。これは異なる場所から同じ名前のアイテムをインポートする際、曖昧さを回避するのに役立ちます。</p>
+
+<!-- The second `use` statement uses a star glob to bring in _all_ symbols from the
+`sayings::japanese::farewells` module. As you can see we can later refer to
+the Japanese `goodbye` function with no module qualifiers. This kind of glob
+should be used sparingly. -->
+
+<p>第二の <code>use</code> 文では <code>sayings::japanese::farewells</code> モジュールから <em>全ての</em> シンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の <code>goodbye</code> 関数を参照できています。なお、この類のグロブは慎重に使うべきです。</p>
+
+<!-- The third `use` statement bears more explanation. It's using "brace expansion"
+globbing to compress three `use` statements into one (this sort of syntax
+may be familiar if you've written Linux shell scripts before). The
+uncompressed form of this statement would be: -->
+
+<p>第三の <code>use</code> 文はもっと詳しい説明が必要です。これは3つの <code>use</code> 文を1つに圧縮するグロブ「中括弧展開」を用いています（以前にLinuxのシェルスクリプトを書いたことがあるなら、この類の構文は慣れていることでしょう）。この文を展開した形式は以下のようになります。</p>
 
 <span class='rusttest'>fn main() {
     use sayings::english;
@@ -876,9 +1027,11 @@ uncompressed form of this statement would be:</p>
 <span class='kw'>use</span> <span class='ident'>sayings</span>::<span class='ident'>english</span>::<span class='ident'>greetings</span> <span class='kw'>as</span> <span class='ident'>en_greetings</span>;
 <span class='kw'>use</span> <span class='ident'>sayings</span>::<span class='ident'>english</span>::<span class='ident'>farewells</span> <span class='kw'>as</span> <span class='ident'>en_farewells</span>;</pre>
 
-<p>As you can see, the curly brackets compress <code>use</code> statements for several items
-under the same path, and in this context <code>self</code> just refers back to that path.
-Note: The curly brackets cannot be nested or mixed with star globbing.</p>
+<!-- As you can see, the curly brackets compress `use` statements for several items
+under the same path, and in this context `self` just refers back to that path.
+Note: The curly brackets cannot be nested or mixed with star globbing. -->
+
+<p>ご覧の通り、波括弧は同一パス下にある幾つかのアイテムに対する <code>use</code> 文を圧縮します。また、この文脈における <code>self</code> はパスの1つ手前を参照するだけです。（訳注: <code>sayings::english::{self}</code> の <code>self</code> が指す1つ手前は <code>sayings::english</code> です）注意: 波括弧はネストできず、スターグロブと混ぜるとこともできません。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
