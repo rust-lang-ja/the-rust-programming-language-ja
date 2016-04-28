@@ -14,6 +14,8 @@
 | (lockの) acquire               | 獲得
 | aggregate type                 | 合成型
 | alignment                      | アラインメント
+| allocate                       | アロケートする
+| allocation                     | アロケーション
 | allocator                      | アロケータ
 | antipattern                    | アンチパターン
 | application                    | アプリケーション
@@ -28,7 +30,9 @@
 | block                          | ブロック
 | borrowing                      | 借用
 | bounds                         | 境界
+| boxed                          | ボックス化された
 | bug                            | バグ
+| byte string                    | バイト列
 | capture                        | キャプチャ
 | case analysis                  | 場合分け
 | channel                        | チャネル
@@ -50,6 +54,7 @@
 | dangling                       | ダングリング
 | data race                      | データ競合
 | deadlock                       | デッドロック
+| deallocate                     | デアロケートする
 | declaration statement          | 宣言文
 | dereferencing                  | 参照外し
 | destructor                     | デストラクタ
@@ -77,7 +82,9 @@
 | exterior                       | 外側の
 | feature                        | フィーチャ
 | foreign                        | 他言語
+| free                           | 解放する
 | free-standing function         | フリースタンディングな関数
+| garbage collector              | ガベージコレクタ
 | generic parameter              | ジェネリックパラメータ
 | generics                       | ジェネリクス
 | glob                           | グロブ
@@ -140,8 +147,10 @@
 | process                        | プロセス
 | range                          | レンジ
 | raw pointer                    | 生ポインタ
+| raw string literal             | 生文字列リテラル
 | re-assignment                  | 再代入
 | rebind                         | 再束縛
+| reference                      | 参照
 | reference count                | 参照カウント
 | regression                     | リグレッション
 | release                        | リリース

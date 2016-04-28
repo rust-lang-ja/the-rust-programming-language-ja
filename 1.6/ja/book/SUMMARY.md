@@ -51,7 +51,7 @@
     * [並行性](concurrency.md)
     * [エラーハンドリング](error-handling.md)
     * [保証を選ぶ](choosing-your-guarantees.md)
-    * [FFI](ffi.md)
+    * [他言語関数インターフェース](ffi.md)
     * [BorrowとAsRef](borrow-and-asref.md)
     * [リリースチャネル](release-channels.md)
     * [標準ライブラリ無しでRustを使う](using-rust-without-the-standard-library.md)
