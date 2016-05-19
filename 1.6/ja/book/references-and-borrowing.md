@@ -247,7 +247,7 @@ fn main() {
 ## スコープの考え方
 
 <!-- Here’s the code: -->
-これがコードです。
+このコードについて考えていきます。
 
 ```rust,ignore
 let mut x = 5;
