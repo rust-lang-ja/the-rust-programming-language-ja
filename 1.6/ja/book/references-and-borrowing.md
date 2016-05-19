@@ -272,7 +272,7 @@ error: cannot borrow `x` as immutable because it is also borrowed as mutable
 <!-- hints at how to think about this problem: -->
 なぜなら、これはルールに違反しているからです。つまり、 `x` を指示する `&mut T` を持つので、 `&T` を作ることは許されないのです。
 どちらか1つです。
-メモはこの問題についての考え方のヒントを示します。
+note の部分はこの問題についての考え方のヒントを示します。
 
 ```text
 note: previous borrow ends here
