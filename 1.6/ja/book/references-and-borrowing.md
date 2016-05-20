@@ -333,7 +333,7 @@ println!("{}", x);  // <- ここでxを借用しようとする
 <!-- immutable one. But scope is the key to seeing how long a borrow lasts for. -->
 問題ありません。
 ミュータブルな借用はイミュータブルな借用を作る前にスコープから外れます。
-しかしスコープは借用がどれくらい存続するのかを考えるためのキーです。
+しかしスコープは借用がどれくらい存続するのか理解するための鍵となります。
 
 <!-- ## Issues borrowing prevents -->
 ## 借用が回避する問題
