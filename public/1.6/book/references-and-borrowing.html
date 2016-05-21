@@ -543,7 +543,7 @@ fn main() {
 <h2 id='スコープの考え方' class='section-header'><a href='#スコープの考え方'>スコープの考え方</a></h2>
 <!-- Here’s the code: -->
 
-<p>これがコードです。</p>
+<p>このコードについて考えていきます。</p>
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
@@ -577,7 +577,7 @@ fn main() {
 
 <p>なぜなら、これはルールに違反しているからです。つまり、 <code>x</code> を指示する <code>&amp;mut T</code> を持つので、 <code>&amp;T</code> を作ることは許されないのです。
 どちらか1つです。
-メモはこの問題についての考え方のヒントを示します。</p>
+note の部分はこの問題についての考え方のヒントを示します。</p>
 
 <pre><code class="language-text">note: previous borrow ends here
 fn main() {
@@ -661,7 +661,7 @@ Rustでは借用はその有効なスコープと結び付けられます。
 
 <p>問題ありません。
 ミュータブルな借用はイミュータブルな借用を作る前にスコープから外れます。
-しかしスコープは借用がどれくらい存続するのかを考えるためのキーです。</p>
+しかしスコープは借用がどれくらい存続するのか理解するための鍵となります。</p>
 
 <!-- ## Issues borrowing prevents -->
 
