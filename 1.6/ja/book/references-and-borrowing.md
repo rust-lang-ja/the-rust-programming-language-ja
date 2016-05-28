@@ -247,7 +247,7 @@ fn main() {
 ## スコープの考え方
 
 <!-- Here’s the code: -->
-これがコードです。
+このコードについて考えていきます。
 
 ```rust,ignore
 let mut x = 5;
@@ -272,7 +272,7 @@ error: cannot borrow `x` as immutable because it is also borrowed as mutable
 <!-- hints at how to think about this problem: -->
 なぜなら、これはルールに違反しているからです。つまり、 `x` を指示する `&mut T` を持つので、 `&T` を作ることは許されないのです。
 どちらか1つです。
-メモはこの問題についての考え方のヒントを示します。
+note の部分はこの問題についての考え方のヒントを示します。
 
 ```text
 note: previous borrow ends here
@@ -333,7 +333,7 @@ println!("{}", x);  // <- ここでxを借用しようとする
 <!-- immutable one. But scope is the key to seeing how long a borrow lasts for. -->
 問題ありません。
 ミュータブルな借用はイミュータブルな借用を作る前にスコープから外れます。
-しかしスコープは借用がどれくらい存続するのかを考えるためのキーです。
+しかしスコープは借用がどれくらい存続するのか理解するための鍵となります。
 
 <!-- ## Issues borrowing prevents -->
 ## 借用が回避する問題

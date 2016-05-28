@@ -371,7 +371,7 @@ pub mod greetings;
 pub mod farewells;
 ```
 
-In our `src/english/greetings.rs`, let’s add `pub` to our `fn` declaration:
+<!-- In our `src/english/greetings.rs`, let’s add `pub` to our `fn` declaration: -->
 `src/english/greetings.rs` にて、 `fn` の宣言に `pub` を加えましょう。
 
 ```rust,ignore
@@ -380,7 +380,7 @@ pub fn hello() -> String {
 }
 ```
 
-And also in `src/english/farewells.rs`:
+<!-- And also in `src/english/farewells.rs`: -->
 また `src/english/farewells.rs` にもです。
 
 ```rust,ignore

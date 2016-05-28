@@ -8,7 +8,7 @@
 ## loop
 
 <!-- The infinite `loop` is the simplest form of loop available in Rust. Using the keyword `loop`, Rust provides a way to loop indefinitely until some terminating statement is reached. Rust's infinite `loop`s look like this: -->
-Rustで使えるループなかで最もシンプルな形式が、無限 `loop` です。Rustのキーワード `loop` によって、
+Rustで使えるループのなかで最もシンプルな形式が、無限 `loop` です。Rustのキーワード `loop` によって、
 何らかの終了状態に到達するまでずっとループし続ける手段を提供します。Rustの無限 `loop` はこのように:
 
 ```rust,ignore
