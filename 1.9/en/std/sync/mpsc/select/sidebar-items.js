@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Handle","A handle to a receiver which is currently a member of a `Select` set of receivers.  This handle is used to keep the receiver in the set as well as interact with the underlying receiver."],["Select","The \"receiver set\" of the select interface. This structure is used to manage a set of receivers which are being selected over."]]});
