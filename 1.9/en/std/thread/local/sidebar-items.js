@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["LocalKeyState","Indicator of the state of a thread local storage key."]],"struct":[["LocalKey","A thread local storage key which owns its contents."],["__KeyInner",""]]});

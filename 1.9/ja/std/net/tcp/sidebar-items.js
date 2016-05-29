@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Incoming","An infinite iterator over the connections from a `TcpListener`."],["TcpListener","A structure representing a socket server."],["TcpStream","A structure which represents a TCP stream between a local socket and a remote socket."]]});

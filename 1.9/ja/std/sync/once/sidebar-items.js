@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["ONCE_INIT","Initialization value for static `Once` values."]],"struct":[["Once","A synchronization primitive which can be used to run a one-time global initialization. Useful for one-time initialization for FFI or related functionality. This type can only be constructed with the `ONCE_INIT` value."]]});
