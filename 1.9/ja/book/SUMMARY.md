@@ -1,10 +1,7 @@
 # 概要
 
 * [はじめる](getting-started.md)
-* [Rustを学ぶ](learn-rust.md)
-    * [数当てゲーム](guessing-game.md)
-    * [食事する哲学者](dining-philosophers.md)
-    * [他言語と共存する](rust-inside-other-languages.md)
+* [チュートリアル：数当てゲーム](guessing-game.md)
 * [シンタックスとセマンティクス](syntax-and-semantics.md)
     * [変数束縛](variable-bindings.md)
     * [関数](functions.md)
@@ -12,6 +9,7 @@
     * [コメント](comments.md)
     * [if](if.md)
     * [ループ](loops.md)
+    * [ベクタ](vectors.md)
     * [所有権](ownership.md)
     * [参照と借用](references-and-borrowing.md)
     * [ライフタイム](lifetimes.md)
@@ -21,7 +19,6 @@
     * [マッチ](match.md)
     * [パターン](patterns.md)
     * [メソッド構文](method-syntax.md)
-    * [ベクタ](vectors.md)
     * [文字列](strings.md)
     * [ジェネリクス](generics.md)
     * [トレイト](traits.md)
