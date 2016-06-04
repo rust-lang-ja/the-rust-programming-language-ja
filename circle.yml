@@ -1,0 +1,43 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  environment:
+    RUST_NIGHTLY_RELEASE_DATE: "2016-06-01"
+    RUST_HOME: $HOME/rust/nightly-$RUST_NIGHTLY_RELEASE_DATE
+    RUSTBOOK_GIT_URL: https://github.com/tatsuya6502/rustbook.git
+    RUSTBOOK_GIT_BRANCH: rust-1.11.0-nightly
+    PATH: $RUST_HOME/bin:$PATH
+    LD_LIBRARY_PATH: $RUST_HOME/lib
+
+dependencies:
+  post:
+    - sudo apt-get update
+    - sudo apt-get install curl file gcc git make openssh-client
+    - mkdir -p $HOME/rust
+    - ./tools/circleci/setup-rust.sh $RUST_HOME $RUST_NIGHTLY_RELEASE_DATE
+    - rustc --version --verbose
+    - cargo --version --verbose
+    - cargo install --root $RUST_HOME --git $RUSTBOOK_GIT_URL --branch $RUSTBOOK_GIT_BRANCH || true
+    - rustbook help
+  cache_directories:
+    - "~/rust"
+    - "~/.cargo"
+
+test:
+  override:
+    - make VERSION=1.9
+    - make VERSION=1.6
+
+  post:
+    - mkdir $CIRCLE_ARTIFACTS/1.9
+    - mv public/1.9/index.html $CIRCLE_ARTIFACTS/1.9
+    - mv public/1.9/book $CIRCLE_ARTIFACTS/1.9
+    - mv public/1.9/*.inc public/1.9/*.css public/1.9/*.js $CIRCLE_ARTIFACTS/1.9
+    - tar cJf public-1.9.txz public/1.9
+    - mv public-1.9.txz $CIRCLE_ARTIFACTS
+    - mkdir $CIRCLE_ARTIFACTS/1.6
+    - mv public/1.6/index.html $CIRCLE_ARTIFACTS/1.6
+    - mv public/1.6/book $CIRCLE_ARTIFACTS/1.6
+    - mv public/1.6/*.inc public/1.6/*.css public/1.6/*.js $CIRCLE_ARTIFACTS/1.6
+    - tar cJf public-1.6.txz public/1.6
+    - mv public-1.6.txz $CIRCLE_ARTIFACTS
