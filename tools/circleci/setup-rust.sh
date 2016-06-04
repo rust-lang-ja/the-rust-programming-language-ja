@@ -12,5 +12,5 @@ if [ -d $RUST_HOME ]; then
 else
   echo "Installing Rust version $VERSION to $RUST_HOME using rustup.sh"
   curl -sSf https://static.rust-lang.org/rustup.sh | \
-      sh -s -- --prefix=$RUST_HOME --channel=nightly --$RUST_NIGHTLY_RELEASE_DATE --disable-sudo
+      sh -s -- --prefix=$RUST_HOME --channel=nightly --date=$RUST_NIGHTLY_RELEASE_DATE --disable-sudo
 fi
