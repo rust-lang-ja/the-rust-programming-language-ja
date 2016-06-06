@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Common traits</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='../../README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='../../style/README.html'><b>2.</b> Style</a>
+<ul class='section'>
+<li><a  href='../../style/whitespace.html'><b>2.1.</b> Whitespace</a>
+</li>
+<li><a  href='../../style/comments.html'><b>2.2.</b> Comments</a>
+</li>
+<li><a  href='../../style/braces.html'><b>2.3.</b> Braces, semicolons, commas</a>
+</li>
+<li><a  href='../../style/naming/README.html'><b>2.4.</b> Naming</a>
+<ul class='section'>
+<li><a  href='../../style/naming/ownership.html'><b>2.4.1.</b> Ownership variants</a>
+</li>
+<li><a  href='../../style/naming/containers.html'><b>2.4.2.</b> Containers/wrappers</a>
+</li>
+<li><a  href='../../style/naming/conversions.html'><b>2.4.3.</b> Conversions</a>
+</li>
+<li><a  href='../../style/naming/iterators.html'><b>2.4.4.</b> Iterators</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../style/imports.html'><b>2.5.</b> Imports</a>
+</li>
+<li><a  href='../../style/organization.html'><b>2.6.</b> Organization</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/README.html'><b>3.</b> Guidelines by Rust feature</a>
+<ul class='section'>
+<li><a  href='../../features/let.html'><b>3.1.</b> Let binding</a>
+</li>
+<li><a  href='../../features/match.html'><b>3.2.</b> Pattern matching</a>
+</li>
+<li><a  href='../../features/loops.html'><b>3.3.</b> Loops</a>
+</li>
+<li><a  href='../../features/functions-and-methods/README.html'><b>3.4.</b> Functions and methods</a>
+<ul class='section'>
+<li><a  href='../../features/functions-and-methods/input.html'><b>3.4.1.</b> Input</a>
+</li>
+<li><a  href='../../features/functions-and-methods/output.html'><b>3.4.2.</b> Output</a>
+</li>
+<li><a  href='../../features/functions-and-methods/convenience.html'><b>3.4.3.</b> For convenience</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/types/README.html'><b>3.5.</b> Types</a>
+<ul class='section'>
+<li><a  href='../../features/types/conversions.html'><b>3.5.1.</b> Conversions</a>
+</li>
+<li><a  href='../../features/types/newtype.html'><b>3.5.2.</b> The newtype pattern</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/traits/README.html'><b>3.6.</b> Traits</a>
+<ul class='section'>
+<li><a  href='../../features/traits/generics.html'><b>3.6.1.</b> For generics</a>
+</li>
+<li><a  href='../../features/traits/objects.html'><b>3.6.2.</b> For objects</a>
+</li>
+<li><a  href='../../features/traits/overloading.html'><b>3.6.3.</b> For overloading</a>
+</li>
+<li><a  href='../../features/traits/extensions.html'><b>3.6.4.</b> For extensions</a>
+</li>
+<li><a  href='../../features/traits/reuse.html'><b>3.6.5.</b> For reuse</a>
+</li>
+<li><a class='active' href='../../features/traits/common.html'><b>3.6.6.</b> Common traits</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/modules.html'><b>3.7.</b> Modules</a>
+</li>
+<li><a  href='../../features/crates.html'><b>3.8.</b> Crates</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../ownership/README.html'><b>4.</b> Ownership and resources</a>
+<ul class='section'>
+<li><a  href='../../ownership/constructors.html'><b>4.1.</b> Constructors</a>
+</li>
+<li><a  href='../../ownership/builders.html'><b>4.2.</b> Builders</a>
+</li>
+<li><a  href='../../ownership/destructors.html'><b>4.3.</b> Destructors</a>
+</li>
+<li><a  href='../../ownership/raii.html'><b>4.4.</b> RAII</a>
+</li>
+<li><a  href='../../ownership/cell-smart.html'><b>4.5.</b> Cells and smart pointers</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../errors/README.html'><b>5.</b> Errors</a>
+<ul class='section'>
+<li><a  href='../../errors/signaling.html'><b>5.1.</b> Signaling</a>
+</li>
+<li><a  href='../../errors/handling.html'><b>5.2.</b> Handling</a>
+</li>
+<li><a  href='../../errors/propagation.html'><b>5.3.</b> Propagation</a>
+</li>
+<li><a  href='../../errors/ergonomics.html'><b>5.4.</b> Ergonomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../safety/README.html'><b>6.</b> Safety and guarantees</a>
+<ul class='section'>
+<li><a  href='../../safety/unsafe.html'><b>6.1.</b> Using unsafe</a>
+</li>
+<li><a  href='../../safety/lib-guarantees.html'><b>6.2.</b> Library guarantees</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../testing/README.html'><b>7.</b> Testing</a>
+<ul class='section'>
+<li><a  href='../../testing/unit.html'><b>7.1.</b> Unit testing</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../platform.html'><b>8.</b> FFI, platform-specific code</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Common traits</h1>
+    
+<h3 id='eagerly-implement-common-traits-fixme-needs-rfc' class='section-header'><a href='#eagerly-implement-common-traits-fixme-needs-rfc'>Eagerly implement common traits. [FIXME: needs RFC]</a></h3>
+<p>Rust&#39;s trait system does not allow <em>orphans</em>: roughly, every <code>impl</code> must live
+either in the crate that defines the trait or the implementing
+type. Consequently, crates that define new types should eagerly implement all
+applicable, common traits.</p>
+
+<p>To see why, consider the following situation:</p>
+
+<ul>
+<li>Crate <code>std</code> defines trait <code>Debug</code>.</li>
+<li>Crate <code>url</code> defines type <code>Url</code>, without implementing <code>Debug</code>.</li>
+<li>Crate <code>webapp</code> imports from both <code>std</code> and <code>url</code>,</li>
+</ul>
+
+<p>There is no way for <code>webapp</code> to add <code>Debug</code> to <code>url</code>, since it defines neither.
+(Note: the newtype pattern can provide an efficient, but inconvenient
+workaround; see <a href="../types/newtype.html">newtype for views</a>)</p>
+
+<p>The most important common traits to implement from <code>std</code> are:</p>
+
+<span class='rusttest'>fn main() {
+    Clone, Debug, Hash, Eq
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>Clone</span>, <span class='ident'>Debug</span>, <span class='ident'>Hash</span>, <span class='ident'>Eq</span></pre>
+
+<h4 id='when-safe-derive-or-otherwise-implement-send-and-share-fixme' class='section-header'><a href='#when-safe-derive-or-otherwise-implement-send-and-share-fixme'>When safe, derive or otherwise implement <code>Send</code> and <code>Share</code>. [FIXME]</a></h4>
+<blockquote>
+<p><strong>[FIXME]</strong>. This guideline is in flux while the &quot;opt-in&quot; nature of
+built-in traits is being decided. See <a href="https://github.com/rust-lang/rfcs/pull/127">https://github.com/rust-lang/rfcs/pull/127</a></p>
+</blockquote>
+
+<h3 id='prefer-to-derive-rather-than-implement-fixme-needs-rfc' class='section-header'><a href='#prefer-to-derive-rather-than-implement-fixme-needs-rfc'>Prefer to derive, rather than implement. [FIXME: needs RFC]</a></h3>
+<p>Deriving saves implementation effort, makes correctness trivial, and
+automatically adapts to upstream changes.</p>
+
+<h3 id='do-not-overload-operators-in-surprising-ways-fixme-needs-rfc' class='section-header'><a href='#do-not-overload-operators-in-surprising-ways-fixme-needs-rfc'>Do not overload operators in surprising ways. [FIXME: needs RFC]</a></h3>
+<p>Operators with built in syntax (<code>*</code>, <code>|</code>, and so on) can be provided for a type
+by implementing the traits in <code>core::ops</code>. These operators come with strong
+expectations: implement <code>Mul</code> only for an operation that bears some resemblance
+to multiplication (and shares the expected properties, e.g. associativity), and
+so on for the other traits.</p>
+
+<h3 id='the-drop-trait' class='section-header'><a href='#the-drop-trait'>The <code>Drop</code> trait</a></h3>
+<p>The <code>Drop</code> trait is treated specially by the compiler as a way of
+associating destructors with types. See
+<a href="../../ownership/destructors.html">the section on destructors</a> for
+guidance.</p>
+
+<h3 id='the-derefderefmut-traits' class='section-header'><a href='#the-derefderefmut-traits'>The <code>Deref</code>/<code>DerefMut</code> traits</a></h3>
+<h4 id='use-derefderefmut-only-for-smart-pointers-fixme-needs-rfc' class='section-header'><a href='#use-derefderefmut-only-for-smart-pointers-fixme-needs-rfc'>Use <code>Deref</code>/<code>DerefMut</code> only for smart pointers. [FIXME: needs RFC]</a></h4>
+<p>The <code>Deref</code> traits are used implicitly by the compiler in many circumstances,
+and interact with method resolution. The relevant rules are designed
+specifically to accommodate smart pointers, and so the traits should be used
+only for that purpose.</p>
+
+<h4 id='do-not-fail-within-a-derefderefmut-implementation-fixme-needs-rfc' class='section-header'><a href='#do-not-fail-within-a-derefderefmut-implementation-fixme-needs-rfc'>Do not fail within a <code>Deref</code>/<code>DerefMut</code> implementation. [FIXME: needs RFC]</a></h4>
+<p>Because the <code>Deref</code> traits are invoked implicitly by the compiler in sometimes
+subtle ways, failure during dereferencing can be extremely confusing. If a
+dereference might not succeed, target the <code>Deref</code> trait as a <code>Result</code> or
+<code>Option</code> type instead.</p>
+
+<h4 id='avoid-inherent-methods-when-implementing-derefderefmut-fixme-needs-rfc' class='section-header'><a href='#avoid-inherent-methods-when-implementing-derefderefmut-fixme-needs-rfc'>Avoid inherent methods when implementing <code>Deref</code>/<code>DerefMut</code> [FIXME: needs RFC]</a></h4>
+<p>The rules around method resolution and <code>Deref</code> are in flux, but inherent methods
+on a type implementing <code>Deref</code> are likely to shadow any methods of the referent
+with the same name.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

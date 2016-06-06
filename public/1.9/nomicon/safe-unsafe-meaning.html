@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>How Safe and Unsafe Interact</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='meet-safe-and-unsafe.html'><b>2.</b> Meet Safe and Unsafe</a>
+<ul class='section'>
+<li><a class='active' href='safe-unsafe-meaning.html'><b>2.1.</b> How Safe and Unsafe Interact</a>
+</li>
+<li><a  href='working-with-unsafe.html'><b>2.2.</b> Working with Unsafe</a>
+</li>
+</ul>
+</li>
+<li><a  href='data.html'><b>3.</b> Data Layout</a>
+<ul class='section'>
+<li><a  href='repr-rust.html'><b>3.1.</b> repr(Rust)</a>
+</li>
+<li><a  href='exotic-sizes.html'><b>3.2.</b> Exotically Sized Types</a>
+</li>
+<li><a  href='other-reprs.html'><b>3.3.</b> Other reprs</a>
+</li>
+</ul>
+</li>
+<li><a  href='ownership.html'><b>4.</b> Ownership</a>
+<ul class='section'>
+<li><a  href='references.html'><b>4.1.</b> References</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.2.</b> Lifetimes</a>
+</li>
+<li><a  href='lifetime-mismatch.html'><b>4.3.</b> Limits of Lifetimes</a>
+</li>
+<li><a  href='lifetime-elision.html'><b>4.4.</b> Lifetime Elision</a>
+</li>
+<li><a  href='unbounded-lifetimes.html'><b>4.5.</b> Unbounded Lifetimes</a>
+</li>
+<li><a  href='hrtb.html'><b>4.6.</b> Higher-Rank Trait Bounds</a>
+</li>
+<li><a  href='subtyping.html'><b>4.7.</b> Subtyping and Variance</a>
+</li>
+<li><a  href='dropck.html'><b>4.8.</b> Drop Check</a>
+</li>
+<li><a  href='phantom-data.html'><b>4.9.</b> PhantomData</a>
+</li>
+<li><a  href='borrow-splitting.html'><b>4.10.</b> Splitting Borrows</a>
+</li>
+</ul>
+</li>
+<li><a  href='conversions.html'><b>5.</b> Type Conversions</a>
+<ul class='section'>
+<li><a  href='coercions.html'><b>5.1.</b> Coercions</a>
+</li>
+<li><a  href='dot-operator.html'><b>5.2.</b> The Dot Operator</a>
+</li>
+<li><a  href='casts.html'><b>5.3.</b> Casts</a>
+</li>
+<li><a  href='transmutes.html'><b>5.4.</b> Transmutes</a>
+</li>
+</ul>
+</li>
+<li><a  href='uninitialized.html'><b>6.</b> Uninitialized Memory</a>
+<ul class='section'>
+<li><a  href='checked-uninit.html'><b>6.1.</b> Checked</a>
+</li>
+<li><a  href='drop-flags.html'><b>6.2.</b> Drop Flags</a>
+</li>
+<li><a  href='unchecked-uninit.html'><b>6.3.</b> Unchecked</a>
+</li>
+</ul>
+</li>
+<li><a  href='obrm.html'><b>7.</b> Ownership Based Resource Management</a>
+<ul class='section'>
+<li><a  href='constructors.html'><b>7.1.</b> Constructors</a>
+</li>
+<li><a  href='destructors.html'><b>7.2.</b> Destructors</a>
+</li>
+<li><a  href='leaking.html'><b>7.3.</b> Leaking</a>
+</li>
+</ul>
+</li>
+<li><a  href='unwinding.html'><b>8.</b> Unwinding</a>
+<ul class='section'>
+<li><a  href='exception-safety.html'><b>8.1.</b> Exception Safety</a>
+</li>
+<li><a  href='poisoning.html'><b>8.2.</b> Poisoning</a>
+</li>
+</ul>
+</li>
+<li><a  href='concurrency.html'><b>9.</b> Concurrency</a>
+<ul class='section'>
+<li><a  href='races.html'><b>9.1.</b> Races</a>
+</li>
+<li><a  href='send-and-sync.html'><b>9.2.</b> Send and Sync</a>
+</li>
+<li><a  href='atomics.html'><b>9.3.</b> Atomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='vec.html'><b>10.</b> Implementing Vec</a>
+<ul class='section'>
+<li><a  href='vec-layout.html'><b>10.1.</b> Layout</a>
+</li>
+<li><a  href='vec-alloc.html'><b>10.2.</b> Allocating</a>
+</li>
+<li><a  href='vec-push-pop.html'><b>10.3.</b> Push and Pop</a>
+</li>
+<li><a  href='vec-dealloc.html'><b>10.4.</b> Deallocating</a>
+</li>
+<li><a  href='vec-deref.html'><b>10.5.</b> Deref</a>
+</li>
+<li><a  href='vec-insert-remove.html'><b>10.6.</b> Insert and Remove</a>
+</li>
+<li><a  href='vec-into-iter.html'><b>10.7.</b> IntoIter</a>
+</li>
+<li><a  href='vec-raw.html'><b>10.8.</b> RawVec</a>
+</li>
+<li><a  href='vec-drain.html'><b>10.9.</b> Drain</a>
+</li>
+<li><a  href='vec-zsts.html'><b>10.10.</b> Handling Zero-Sized Types</a>
+</li>
+<li><a  href='vec-final.html'><b>10.11.</b> Final Code</a>
+</li>
+</ul>
+</li>
+<li><a  href='arc-and-mutex.html'><b>11.</b> Implementing Arc and Mutex</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">How Safe and Unsafe Interact</h1>
+    <p>So what&#39;s the relationship between Safe and Unsafe Rust? How do they interact?</p>
+
+<p>Rust models the separation between Safe and Unsafe Rust with the <code>unsafe</code>
+keyword, which can be thought as a sort of <em>foreign function interface</em> (FFI)
+between Safe and Unsafe Rust. This is the magic behind why we can say Safe Rust
+is a safe language: all the scary unsafe bits are relegated exclusively to FFI
+<em>just like every other safe language</em>.</p>
+
+<p>However because one language is a subset of the other, the two can be cleanly
+intermixed as long as the boundary between Safe and Unsafe Rust is denoted with
+the <code>unsafe</code> keyword. No need to write headers, initialize runtimes, or any of
+that other FFI boiler-plate.</p>
+
+<p>There are several places <code>unsafe</code> can appear in Rust today, which can largely be
+grouped into two categories:</p>
+
+<ul>
+<li><p>There are unchecked contracts here. To declare you understand this, I require
+you to write <code>unsafe</code> elsewhere:</p>
+
+<ul>
+<li>On functions, <code>unsafe</code> is declaring the function to be unsafe to call.
+Users of the function must check the documentation to determine what this
+means, and then have to write <code>unsafe</code> somewhere to identify that they&#39;re
+aware of the danger.</li>
+<li>On trait declarations, <code>unsafe</code> is declaring that <em>implementing</em> the trait
+is an unsafe operation, as it has contracts that other unsafe code is free
+to trust blindly. (More on this below.)</li>
+</ul></li>
+<li><p>I am declaring that I have, to the best of my knowledge, adhered to the
+unchecked contracts:</p>
+
+<ul>
+<li>On trait implementations, <code>unsafe</code> is declaring that the contract of the
+<code>unsafe</code> trait has been upheld.</li>
+<li>On blocks, <code>unsafe</code> is declaring any unsafety from an unsafe
+operation within to be handled, and therefore the parent function is safe.</li>
+</ul></li>
+</ul>
+
+<p>There is also <code>#[unsafe_no_drop_flag]</code>, which is a special case that exists for
+historical reasons and is in the process of being phased out. See the section on
+<a href="drop-flags.html">drop flags</a> for details.</p>
+
+<p>Some examples of unsafe functions:</p>
+
+<ul>
+<li><code>slice::get_unchecked</code> will perform unchecked indexing, allowing memory
+safety to be freely violated.</li>
+<li>every raw pointer to sized type has intrinsic <code>offset</code> method that invokes
+Undefined Behavior if it is not &quot;in bounds&quot; as defined by LLVM.</li>
+<li><code>mem::transmute</code> reinterprets some value as having the given type,
+bypassing type safety in arbitrary ways. (see <a href="conversions.html">conversions</a> for details)</li>
+<li>All FFI functions are <code>unsafe</code> because they can do arbitrary things.
+C being an obvious culprit, but generally any language can do something
+that Rust isn&#39;t happy about.</li>
+</ul>
+
+<p>As of Rust 1.0 there are exactly two unsafe traits:</p>
+
+<ul>
+<li><code>Send</code> is a marker trait (it has no actual API) that promises implementors
+are safe to send (move) to another thread.</li>
+<li><code>Sync</code> is a marker trait that promises that threads can safely share
+implementors through a shared reference.</li>
+</ul>
+
+<p>The need for unsafe traits boils down to the fundamental property of safe code:</p>
+
+<p><strong>No matter how completely awful Safe code is, it can&#39;t cause Undefined
+Behavior.</strong></p>
+
+<p>This means that Unsafe Rust, <strong>the royal vanguard of Undefined Behavior</strong>, has to be
+<em>super paranoid</em> about generic safe code. To be clear, Unsafe Rust is totally free to trust
+specific safe code. Anything else would degenerate into infinite spirals of
+paranoid despair. In particular it&#39;s generally regarded as ok to trust the standard library
+to be correct. <code>std</code> is effectively an extension of the language, and you
+really just have to trust the language. If <code>std</code> fails to uphold the
+guarantees it declares, then it&#39;s basically a language bug.</p>
+
+<p>That said, it would be best to minimize <em>needlessly</em> relying on properties of
+concrete safe code. Bugs happen! Of course, I must reinforce that this is only
+a concern for Unsafe code. Safe code can blindly trust anyone and everyone
+as far as basic memory-safety is concerned.</p>
+
+<p>On the other hand, safe traits are free to declare arbitrary contracts, but because
+implementing them is safe, unsafe code can&#39;t trust those contracts to actually
+be upheld. This is different from the concrete case because <em>anyone</em> can
+randomly implement the interface. There is something fundamentally different
+about trusting a particular piece of code to be correct, and trusting <em>all the
+code that will ever be written</em> to be correct.</p>
+
+<p>For instance Rust has <code>PartialOrd</code> and <code>Ord</code> traits to try to differentiate
+between types which can &quot;just&quot; be compared, and those that actually implement a
+total ordering. Pretty much every API that wants to work with data that can be
+compared wants Ord data. For instance, a sorted map like BTreeMap
+<em>doesn&#39;t even make sense</em> for partially ordered types. If you claim to implement
+Ord for a type, but don&#39;t actually provide a proper total ordering, BTreeMap will
+get <em>really confused</em> and start making a total mess of itself. Data that is
+inserted may be impossible to find!</p>
+
+<p>But that&#39;s okay. BTreeMap is safe, so it guarantees that even if you give it a
+completely garbage Ord implementation, it will still do something <em>safe</em>. You
+won&#39;t start reading uninitialized or unallocated memory. In fact, BTreeMap
+manages to not actually lose any of your data. When the map is dropped, all the
+destructors will be successfully called! Hooray!</p>
+
+<p>However BTreeMap is implemented using a modest spoonful of Unsafe Rust (most collections
+are). That means that it&#39;s not necessarily <em>trivially true</em> that a bad Ord
+implementation will make BTreeMap behave safely. BTreeMap must be sure not to rely
+on Ord <em>where safety is at stake</em>. Ord is provided by safe code, and safety is not
+safe code&#39;s responsibility to uphold.</p>
+
+<p>But wouldn&#39;t it be grand if there was some way for Unsafe to trust some trait
+contracts <em>somewhere</em>? This is the problem that unsafe traits tackle: by marking
+<em>the trait itself</em> as unsafe to implement, unsafe code can trust the implementation
+to uphold the trait&#39;s contract. Although the trait implementation may be
+incorrect in arbitrary other ways.</p>
+
+<p>For instance, given a hypothetical UnsafeOrd trait, this is technically a valid
+implementation:</p>
+
+<span class='rusttest'>fn main() {
+    use std::cmp::Ordering;
+struct MyType;
+unsafe trait UnsafeOrd { fn cmp(&amp;self, other: &amp;Self) -&gt; Ordering; }
+unsafe impl UnsafeOrd for MyType {
+    fn cmp(&amp;self, other: &amp;Self) -&gt; Ordering {
+        Ordering::Equal
+    }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>UnsafeOrd</span> <span class='kw'>for</span> <span class='ident'>MyType</span> {
+    <span class='kw'>fn</span> <span class='ident'>cmp</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='self'>Self</span>) <span class='op'>-&gt;</span> <span class='ident'>Ordering</span> {
+        <span class='ident'>Ordering</span>::<span class='ident'>Equal</span>
+    }
+}</pre>
+
+<p>But it&#39;s probably not the implementation you want.</p>
+
+<p>Rust has traditionally avoided making traits unsafe because it makes Unsafe
+pervasive, which is not desirable. The reason Send and Sync are unsafe is because thread
+safety is a <em>fundamental property</em> that unsafe code cannot possibly hope to defend
+against in the same way it would defend against a bad Ord implementation. The
+only way to possibly defend against thread-unsafety would be to <em>not use
+threading at all</em>. Making every load and store atomic isn&#39;t even sufficient,
+because it&#39;s possible for complex invariants to exist between disjoint locations
+in memory. For instance, the pointer and capacity of a Vec must be in sync.</p>
+
+<p>Even concurrent paradigms that are traditionally regarded as Totally Safe like
+message passing implicitly rely on some notion of thread safety -- are you
+really message-passing if you pass a pointer? Send and Sync therefore require
+some fundamental level of trust that Safe code can&#39;t provide, so they must be
+unsafe to implement. To help obviate the pervasive unsafety that this would
+introduce, Send (resp. Sync) is automatically derived for all types composed only
+of Send (resp. Sync) values. 99% of types are Send and Sync, and 99% of those
+never actually say it (the remaining 1% is overwhelmingly synchronization
+primitives).</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

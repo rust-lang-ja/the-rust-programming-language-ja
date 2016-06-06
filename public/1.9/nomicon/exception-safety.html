@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Exception Safety</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='meet-safe-and-unsafe.html'><b>2.</b> Meet Safe and Unsafe</a>
+<ul class='section'>
+<li><a  href='safe-unsafe-meaning.html'><b>2.1.</b> How Safe and Unsafe Interact</a>
+</li>
+<li><a  href='working-with-unsafe.html'><b>2.2.</b> Working with Unsafe</a>
+</li>
+</ul>
+</li>
+<li><a  href='data.html'><b>3.</b> Data Layout</a>
+<ul class='section'>
+<li><a  href='repr-rust.html'><b>3.1.</b> repr(Rust)</a>
+</li>
+<li><a  href='exotic-sizes.html'><b>3.2.</b> Exotically Sized Types</a>
+</li>
+<li><a  href='other-reprs.html'><b>3.3.</b> Other reprs</a>
+</li>
+</ul>
+</li>
+<li><a  href='ownership.html'><b>4.</b> Ownership</a>
+<ul class='section'>
+<li><a  href='references.html'><b>4.1.</b> References</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.2.</b> Lifetimes</a>
+</li>
+<li><a  href='lifetime-mismatch.html'><b>4.3.</b> Limits of Lifetimes</a>
+</li>
+<li><a  href='lifetime-elision.html'><b>4.4.</b> Lifetime Elision</a>
+</li>
+<li><a  href='unbounded-lifetimes.html'><b>4.5.</b> Unbounded Lifetimes</a>
+</li>
+<li><a  href='hrtb.html'><b>4.6.</b> Higher-Rank Trait Bounds</a>
+</li>
+<li><a  href='subtyping.html'><b>4.7.</b> Subtyping and Variance</a>
+</li>
+<li><a  href='dropck.html'><b>4.8.</b> Drop Check</a>
+</li>
+<li><a  href='phantom-data.html'><b>4.9.</b> PhantomData</a>
+</li>
+<li><a  href='borrow-splitting.html'><b>4.10.</b> Splitting Borrows</a>
+</li>
+</ul>
+</li>
+<li><a  href='conversions.html'><b>5.</b> Type Conversions</a>
+<ul class='section'>
+<li><a  href='coercions.html'><b>5.1.</b> Coercions</a>
+</li>
+<li><a  href='dot-operator.html'><b>5.2.</b> The Dot Operator</a>
+</li>
+<li><a  href='casts.html'><b>5.3.</b> Casts</a>
+</li>
+<li><a  href='transmutes.html'><b>5.4.</b> Transmutes</a>
+</li>
+</ul>
+</li>
+<li><a  href='uninitialized.html'><b>6.</b> Uninitialized Memory</a>
+<ul class='section'>
+<li><a  href='checked-uninit.html'><b>6.1.</b> Checked</a>
+</li>
+<li><a  href='drop-flags.html'><b>6.2.</b> Drop Flags</a>
+</li>
+<li><a  href='unchecked-uninit.html'><b>6.3.</b> Unchecked</a>
+</li>
+</ul>
+</li>
+<li><a  href='obrm.html'><b>7.</b> Ownership Based Resource Management</a>
+<ul class='section'>
+<li><a  href='constructors.html'><b>7.1.</b> Constructors</a>
+</li>
+<li><a  href='destructors.html'><b>7.2.</b> Destructors</a>
+</li>
+<li><a  href='leaking.html'><b>7.3.</b> Leaking</a>
+</li>
+</ul>
+</li>
+<li><a  href='unwinding.html'><b>8.</b> Unwinding</a>
+<ul class='section'>
+<li><a class='active' href='exception-safety.html'><b>8.1.</b> Exception Safety</a>
+</li>
+<li><a  href='poisoning.html'><b>8.2.</b> Poisoning</a>
+</li>
+</ul>
+</li>
+<li><a  href='concurrency.html'><b>9.</b> Concurrency</a>
+<ul class='section'>
+<li><a  href='races.html'><b>9.1.</b> Races</a>
+</li>
+<li><a  href='send-and-sync.html'><b>9.2.</b> Send and Sync</a>
+</li>
+<li><a  href='atomics.html'><b>9.3.</b> Atomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='vec.html'><b>10.</b> Implementing Vec</a>
+<ul class='section'>
+<li><a  href='vec-layout.html'><b>10.1.</b> Layout</a>
+</li>
+<li><a  href='vec-alloc.html'><b>10.2.</b> Allocating</a>
+</li>
+<li><a  href='vec-push-pop.html'><b>10.3.</b> Push and Pop</a>
+</li>
+<li><a  href='vec-dealloc.html'><b>10.4.</b> Deallocating</a>
+</li>
+<li><a  href='vec-deref.html'><b>10.5.</b> Deref</a>
+</li>
+<li><a  href='vec-insert-remove.html'><b>10.6.</b> Insert and Remove</a>
+</li>
+<li><a  href='vec-into-iter.html'><b>10.7.</b> IntoIter</a>
+</li>
+<li><a  href='vec-raw.html'><b>10.8.</b> RawVec</a>
+</li>
+<li><a  href='vec-drain.html'><b>10.9.</b> Drain</a>
+</li>
+<li><a  href='vec-zsts.html'><b>10.10.</b> Handling Zero-Sized Types</a>
+</li>
+<li><a  href='vec-final.html'><b>10.11.</b> Final Code</a>
+</li>
+</ul>
+</li>
+<li><a  href='arc-and-mutex.html'><b>11.</b> Implementing Arc and Mutex</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Exception Safety</h1>
+    <p>Although programs should use unwinding sparingly, there&#39;s a lot of code that
+<em>can</em> panic. If you unwrap a None, index out of bounds, or divide by 0, your
+program will panic. On debug builds, every arithmetic operation can panic
+if it overflows. Unless you are very careful and tightly control what code runs,
+pretty much everything can unwind, and you need to be ready for it.</p>
+
+<p>Being ready for unwinding is often referred to as <em>exception safety</em>
+in the broader programming world. In Rust, there are two levels of exception
+safety that one may concern themselves with:</p>
+
+<ul>
+<li><p>In unsafe code, we <em>must</em> be exception safe to the point of not violating
+memory safety. We&#39;ll call this <em>minimal</em> exception safety.</p></li>
+<li><p>In safe code, it is <em>good</em> to be exception safe to the point of your program
+doing the right thing. We&#39;ll call this <em>maximal</em> exception safety.</p></li>
+</ul>
+
+<p>As is the case in many places in Rust, Unsafe code must be ready to deal with
+bad Safe code when it comes to unwinding. Code that transiently creates
+unsound states must be careful that a panic does not cause that state to be
+used. Generally this means ensuring that only non-panicking code is run while
+these states exist, or making a guard that cleans up the state in the case of
+a panic. This does not necessarily mean that the state a panic witnesses is a
+fully coherent state. We need only guarantee that it&#39;s a <em>safe</em> state.</p>
+
+<p>Most Unsafe code is leaf-like, and therefore fairly easy to make exception-safe.
+It controls all the code that runs, and most of that code can&#39;t panic. However
+it is not uncommon for Unsafe code to work with arrays of temporarily
+uninitialized data while repeatedly invoking caller-provided code. Such code
+needs to be careful and consider exception safety.</p>
+
+<h2 id='vecpush_all' class='section-header'><a href='#vecpush_all'>Vec::push_all</a></h2>
+<p><code>Vec::push_all</code> is a temporary hack to get extending a Vec by a slice reliably
+efficient without specialization. Here&#39;s a simple implementation:</p>
+
+<span class='rusttest'>fn main() {
+    impl&lt;T: Clone&gt; Vec&lt;T&gt; {
+    fn push_all(&amp;mut self, to_push: &amp;[T]) {
+        self.reserve(to_push.len());
+        unsafe {
+            // can&#39;t overflow because we just reserved this
+            self.set_len(self.len() + to_push.len());
+
+            for (i, x) in to_push.iter().enumerate() {
+                self.ptr().offset(i as isize).write(x.clone());
+            }
+        }
+    }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Clone</span><span class='op'>&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>push_all</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>to_push</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>]) {
+        <span class='self'>self</span>.<span class='ident'>reserve</span>(<span class='ident'>to_push</span>.<span class='ident'>len</span>());
+        <span class='kw'>unsafe</span> {
+            <span class='comment'>// can&#39;t overflow because we just reserved this</span>
+            <span class='self'>self</span>.<span class='ident'>set_len</span>(<span class='self'>self</span>.<span class='ident'>len</span>() <span class='op'>+</span> <span class='ident'>to_push</span>.<span class='ident'>len</span>());
+
+            <span class='kw'>for</span> (<span class='ident'>i</span>, <span class='ident'>x</span>) <span class='kw'>in</span> <span class='ident'>to_push</span>.<span class='ident'>iter</span>().<span class='ident'>enumerate</span>() {
+                <span class='self'>self</span>.<span class='ident'>ptr</span>().<span class='ident'>offset</span>(<span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>isize</span>).<span class='ident'>write</span>(<span class='ident'>x</span>.<span class='ident'>clone</span>());
+            }
+        }
+    }
+}</pre>
+
+<p>We bypass <code>push</code> in order to avoid redundant capacity and <code>len</code> checks on the
+Vec that we definitely know has capacity. The logic is totally correct, except
+there&#39;s a subtle problem with our code: it&#39;s not exception-safe! <code>set_len</code>,
+<code>offset</code>, and <code>write</code> are all fine; <code>clone</code> is the panic bomb we over-looked.</p>
+
+<p>Clone is completely out of our control, and is totally free to panic. If it
+does, our function will exit early with the length of the Vec set too large. If
+the Vec is looked at or dropped, uninitialized memory will be read!</p>
+
+<p>The fix in this case is fairly simple. If we want to guarantee that the values
+we <em>did</em> clone are dropped, we can set the <code>len</code> every loop iteration. If we
+just want to guarantee that uninitialized memory can&#39;t be observed, we can set
+the <code>len</code> after the loop.</p>
+
+<h2 id='binaryheapsift_up' class='section-header'><a href='#binaryheapsift_up'>BinaryHeap::sift_up</a></h2>
+<p>Bubbling an element up a heap is a bit more complicated than extending a Vec.
+The pseudocode is as follows:</p>
+
+<pre><code class="language-text">bubble_up(heap, index):
+    while index != 0 &amp;&amp; heap[index] &lt; heap[parent(index)]:
+        heap.swap(index, parent(index))
+        index = parent(index)
+
+</code></pre>
+
+<p>A literal transcription of this code to Rust is totally fine, but has an annoying
+performance characteristic: the <code>self</code> element is swapped over and over again
+uselessly. We would rather have the following:</p>
+
+<pre><code class="language-text">bubble_up(heap, index):
+    let elem = heap[index]
+    while index != 0 &amp;&amp; element &lt; heap[parent(index)]:
+        heap[index] = heap[parent(index)]
+        index = parent(index)
+    heap[index] = elem
+</code></pre>
+
+<p>This code ensures that each element is copied as little as possible (it is in
+fact necessary that elem be copied twice in general). However it now exposes
+some exception safety trouble! At all times, there exists two copies of one
+value. If we panic in this function something will be double-dropped.
+Unfortunately, we also don&#39;t have full control of the code: that comparison is
+user-defined!</p>
+
+<p>Unlike Vec, the fix isn&#39;t as easy here. One option is to break the user-defined
+code and the unsafe code into two separate phases:</p>
+
+<pre><code class="language-text">bubble_up(heap, index):
+    let end_index = index;
+    while end_index != 0 &amp;&amp; heap[end_index] &lt; heap[parent(end_index)]:
+        end_index = parent(end_index)
+
+    let elem = heap[index]
+    while index != end_index:
+        heap[index] = heap[parent(index)]
+        index = parent(index)
+    heap[index] = elem
+</code></pre>
+
+<p>If the user-defined code blows up, that&#39;s no problem anymore, because we haven&#39;t
+actually touched the state of the heap yet. Once we do start messing with the
+heap, we&#39;re working with only data and functions that we trust, so there&#39;s no
+concern of panics.</p>
+
+<p>Perhaps you&#39;re not happy with this design. Surely it&#39;s cheating! And we have
+to do the complex heap traversal <em>twice</em>! Alright, let&#39;s bite the bullet. Let&#39;s
+intermix untrusted and unsafe code <em>for reals</em>.</p>
+
+<p>If Rust had <code>try</code> and <code>finally</code> like in Java, we could do the following:</p>
+
+<pre><code class="language-text">bubble_up(heap, index):
+    let elem = heap[index]
+    try:
+        while index != 0 &amp;&amp; element &lt; heap[parent(index)]:
+            heap[index] = heap[parent(index)]
+            index = parent(index)
+    finally:
+        heap[index] = elem
+</code></pre>
+
+<p>The basic idea is simple: if the comparison panics, we just toss the loose
+element in the logically uninitialized index and bail out. Anyone who observes
+the heap will see a potentially <em>inconsistent</em> heap, but at least it won&#39;t
+cause any double-drops! If the algorithm terminates normally, then this
+operation happens to coincide precisely with the how we finish up regardless.</p>
+
+<p>Sadly, Rust has no such construct, so we&#39;re going to need to roll our own! The
+way to do this is to store the algorithm&#39;s state in a separate struct with a
+destructor for the &quot;finally&quot; logic. Whether we panic or not, that destructor
+will run and clean up after us.</p>
+
+<span class='rusttest'>fn main() {
+    struct Hole&lt;&#39;a, T: &#39;a&gt; {
+    data: &amp;&#39;a mut [T],
+    /// `elt` is always `Some` from new until drop.
+    elt: Option&lt;T&gt;,
+    pos: usize,
+}
+
+impl&lt;&#39;a, T&gt; Hole&lt;&#39;a, T&gt; {
+    fn new(data: &amp;&#39;a mut [T], pos: usize) -&gt; Self {
+        unsafe {
+            let elt = ptr::read(&amp;data[pos]);
+            Hole {
+                data: data,
+                elt: Some(elt),
+                pos: pos,
+            }
+        }
+    }
+
+    fn pos(&amp;self) -&gt; usize { self.pos }
+
+    fn removed(&amp;self) -&gt; &amp;T { self.elt.as_ref().unwrap() }
+
+    unsafe fn get(&amp;self, index: usize) -&gt; &amp;T { &amp;self.data[index] }
+
+    unsafe fn move_to(&amp;mut self, index: usize) {
+        let index_ptr: *const _ = &amp;self.data[index];
+        let hole_ptr = &amp;mut self.data[self.pos];
+        ptr::copy_nonoverlapping(index_ptr, hole_ptr, 1);
+        self.pos = index;
+    }
+}
+
+impl&lt;&#39;a, T&gt; Drop for Hole&lt;&#39;a, T&gt; {
+    fn drop(&amp;mut self) {
+        // fill the hole again
+        unsafe {
+            let pos = self.pos;
+            ptr::write(&amp;mut self.data[pos], self.elt.take().unwrap());
+        }
+    }
+}
+
+impl&lt;T: Ord&gt; BinaryHeap&lt;T&gt; {
+    fn sift_up(&amp;mut self, pos: usize) {
+        unsafe {
+            // Take out the value at `pos` and create a hole.
+            let mut hole = Hole::new(&amp;mut self.data, pos);
+
+            while hole.pos() != 0 {
+                let parent = parent(hole.pos());
+                if hole.removed() &lt;= hole.get(parent) { break }
+                hole.move_to(parent);
+            }
+            // Hole will be unconditionally filled here; panic or not!
+        }
+    }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Hole</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
+    <span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> [<span class='ident'>T</span>],
+    <span class='doccomment'>/// `elt` is always `Some` from new until drop.</span>
+    <span class='ident'>elt</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>,
+    <span class='ident'>pos</span>: <span class='ident'>usize</span>,
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Hole</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>data</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> [<span class='ident'>T</span>], <span class='ident'>pos</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>elt</span> <span class='op'>=</span> <span class='ident'>ptr</span>::<span class='ident'>read</span>(<span class='kw-2'>&amp;</span><span class='ident'>data</span>[<span class='ident'>pos</span>]);
+            <span class='ident'>Hole</span> {
+                <span class='ident'>data</span>: <span class='ident'>data</span>,
+                <span class='ident'>elt</span>: <span class='prelude-val'>Some</span>(<span class='ident'>elt</span>),
+                <span class='ident'>pos</span>: <span class='ident'>pos</span>,
+            }
+        }
+    }
+
+    <span class='kw'>fn</span> <span class='ident'>pos</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> { <span class='self'>self</span>.<span class='ident'>pos</span> }
+
+    <span class='kw'>fn</span> <span class='ident'>removed</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>T</span> { <span class='self'>self</span>.<span class='ident'>elt</span>.<span class='ident'>as_ref</span>().<span class='ident'>unwrap</span>() }
+
+    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>T</span> { <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>data</span>[<span class='ident'>index</span>] }
+
+    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>move_to</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>index</span>: <span class='ident'>usize</span>) {
+        <span class='kw'>let</span> <span class='ident'>index_ptr</span>: <span class='op'>*</span><span class='kw'>const</span> _ <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='self'>self</span>.<span class='ident'>data</span>[<span class='ident'>index</span>];
+        <span class='kw'>let</span> <span class='ident'>hole_ptr</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>data</span>[<span class='self'>self</span>.<span class='ident'>pos</span>];
+        <span class='ident'>ptr</span>::<span class='ident'>copy_nonoverlapping</span>(<span class='ident'>index_ptr</span>, <span class='ident'>hole_ptr</span>, <span class='number'>1</span>);
+        <span class='self'>self</span>.<span class='ident'>pos</span> <span class='op'>=</span> <span class='ident'>index</span>;
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>Hole</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='comment'>// fill the hole again</span>
+        <span class='kw'>unsafe</span> {
+            <span class='kw'>let</span> <span class='ident'>pos</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>pos</span>;
+            <span class='ident'>ptr</span>::<span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>data</span>[<span class='ident'>pos</span>], <span class='self'>self</span>.<span class='ident'>elt</span>.<span class='ident'>take</span>().<span class='ident'>unwrap</span>());
+        }
+    }
+}
+
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Ord</span><span class='op'>&gt;</span> <span class='ident'>BinaryHeap</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>sift_up</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>pos</span>: <span class='ident'>usize</span>) {
+        <span class='kw'>unsafe</span> {
+            <span class='comment'>// Take out the value at `pos` and create a hole.</span>
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>hole</span> <span class='op'>=</span> <span class='ident'>Hole</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>data</span>, <span class='ident'>pos</span>);
+
+            <span class='kw'>while</span> <span class='ident'>hole</span>.<span class='ident'>pos</span>() <span class='op'>!=</span> <span class='number'>0</span> {
+                <span class='kw'>let</span> <span class='ident'>parent</span> <span class='op'>=</span> <span class='ident'>parent</span>(<span class='ident'>hole</span>.<span class='ident'>pos</span>());
+                <span class='kw'>if</span> <span class='ident'>hole</span>.<span class='ident'>removed</span>() <span class='op'>&lt;=</span> <span class='ident'>hole</span>.<span class='ident'>get</span>(<span class='ident'>parent</span>) { <span class='kw'>break</span> }
+                <span class='ident'>hole</span>.<span class='ident'>move_to</span>(<span class='ident'>parent</span>);
+            }
+            <span class='comment'>// Hole will be unconditionally filled here; panic or not!</span>
+        }
+    }
+}</pre>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

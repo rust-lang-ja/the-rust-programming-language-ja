@@ -67,14 +67,14 @@ discriminant, compacting variants of nested enums, reordering fields to remove
 padding, etc. <code>enum</code>s which carry no data (&quot;C-like&quot;) are eligible to have a
 defined representation. Such <code>enum</code>s are easily distinguished in that they are
 simply a list of names that carry no data:</p>
+
 <span class='rusttest'>fn main() {
     enum CLike {
-        A,
-        B = 32,
-        C = 34,
-        D
-    }
-    
+    A,
+    B = 32,
+    C = 34,
+    D
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>CLike</span> {
     <span class='ident'>A</span>,
@@ -133,12 +133,12 @@ non-exhaustive match would be to panic the thread if nothing is matched, though
 it could fall through if the type of the <code>match</code> expression is <code>()</code>. This sort
 of hidden cost and special casing is against the language&#39;s philosophy. It&#39;s
 easy to ignore all unspecified cases by using the <code>_</code> wildcard:</p>
+
 <span class='rusttest'>fn main() {
     match val.do_something() {
-        Cat(a) =&gt; { /* ... */ }
-        _      =&gt; { /* ... */ }
-    }
-    
+    Cat(a) =&gt; { /* ... */ }
+    _      =&gt; { /* ... */ }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>match</span> <span class='ident'>val</span>.<span class='ident'>do_something</span>() {
     <span class='ident'>Cat</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> { <span class='comment'>/* ... */</span> }

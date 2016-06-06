@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Comments [FIXME: needs RFC]</title>
+
+    <link rel="stylesheet" type="text/css" href="../rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='../README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='../style/README.html'><b>2.</b> Style</a>
+<ul class='section'>
+<li><a  href='../style/whitespace.html'><b>2.1.</b> Whitespace</a>
+</li>
+<li><a class='active' href='../style/comments.html'><b>2.2.</b> Comments</a>
+</li>
+<li><a  href='../style/braces.html'><b>2.3.</b> Braces, semicolons, commas</a>
+</li>
+<li><a  href='../style/naming/README.html'><b>2.4.</b> Naming</a>
+<ul class='section'>
+<li><a  href='../style/naming/ownership.html'><b>2.4.1.</b> Ownership variants</a>
+</li>
+<li><a  href='../style/naming/containers.html'><b>2.4.2.</b> Containers/wrappers</a>
+</li>
+<li><a  href='../style/naming/conversions.html'><b>2.4.3.</b> Conversions</a>
+</li>
+<li><a  href='../style/naming/iterators.html'><b>2.4.4.</b> Iterators</a>
+</li>
+</ul>
+</li>
+<li><a  href='../style/imports.html'><b>2.5.</b> Imports</a>
+</li>
+<li><a  href='../style/organization.html'><b>2.6.</b> Organization</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/README.html'><b>3.</b> Guidelines by Rust feature</a>
+<ul class='section'>
+<li><a  href='../features/let.html'><b>3.1.</b> Let binding</a>
+</li>
+<li><a  href='../features/match.html'><b>3.2.</b> Pattern matching</a>
+</li>
+<li><a  href='../features/loops.html'><b>3.3.</b> Loops</a>
+</li>
+<li><a  href='../features/functions-and-methods/README.html'><b>3.4.</b> Functions and methods</a>
+<ul class='section'>
+<li><a  href='../features/functions-and-methods/input.html'><b>3.4.1.</b> Input</a>
+</li>
+<li><a  href='../features/functions-and-methods/output.html'><b>3.4.2.</b> Output</a>
+</li>
+<li><a  href='../features/functions-and-methods/convenience.html'><b>3.4.3.</b> For convenience</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/types/README.html'><b>3.5.</b> Types</a>
+<ul class='section'>
+<li><a  href='../features/types/conversions.html'><b>3.5.1.</b> Conversions</a>
+</li>
+<li><a  href='../features/types/newtype.html'><b>3.5.2.</b> The newtype pattern</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/traits/README.html'><b>3.6.</b> Traits</a>
+<ul class='section'>
+<li><a  href='../features/traits/generics.html'><b>3.6.1.</b> For generics</a>
+</li>
+<li><a  href='../features/traits/objects.html'><b>3.6.2.</b> For objects</a>
+</li>
+<li><a  href='../features/traits/overloading.html'><b>3.6.3.</b> For overloading</a>
+</li>
+<li><a  href='../features/traits/extensions.html'><b>3.6.4.</b> For extensions</a>
+</li>
+<li><a  href='../features/traits/reuse.html'><b>3.6.5.</b> For reuse</a>
+</li>
+<li><a  href='../features/traits/common.html'><b>3.6.6.</b> Common traits</a>
+</li>
+</ul>
+</li>
+<li><a  href='../features/modules.html'><b>3.7.</b> Modules</a>
+</li>
+<li><a  href='../features/crates.html'><b>3.8.</b> Crates</a>
+</li>
+</ul>
+</li>
+<li><a  href='../ownership/README.html'><b>4.</b> Ownership and resources</a>
+<ul class='section'>
+<li><a  href='../ownership/constructors.html'><b>4.1.</b> Constructors</a>
+</li>
+<li><a  href='../ownership/builders.html'><b>4.2.</b> Builders</a>
+</li>
+<li><a  href='../ownership/destructors.html'><b>4.3.</b> Destructors</a>
+</li>
+<li><a  href='../ownership/raii.html'><b>4.4.</b> RAII</a>
+</li>
+<li><a  href='../ownership/cell-smart.html'><b>4.5.</b> Cells and smart pointers</a>
+</li>
+</ul>
+</li>
+<li><a  href='../errors/README.html'><b>5.</b> Errors</a>
+<ul class='section'>
+<li><a  href='../errors/signaling.html'><b>5.1.</b> Signaling</a>
+</li>
+<li><a  href='../errors/handling.html'><b>5.2.</b> Handling</a>
+</li>
+<li><a  href='../errors/propagation.html'><b>5.3.</b> Propagation</a>
+</li>
+<li><a  href='../errors/ergonomics.html'><b>5.4.</b> Ergonomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='../safety/README.html'><b>6.</b> Safety and guarantees</a>
+<ul class='section'>
+<li><a  href='../safety/unsafe.html'><b>6.1.</b> Using unsafe</a>
+</li>
+<li><a  href='../safety/lib-guarantees.html'><b>6.2.</b> Library guarantees</a>
+</li>
+</ul>
+</li>
+<li><a  href='../testing/README.html'><b>7.</b> Testing</a>
+<ul class='section'>
+<li><a  href='../testing/unit.html'><b>7.1.</b> Unit testing</a>
+</li>
+</ul>
+</li>
+<li><a  href='../platform.html'><b>8.</b> FFI, platform-specific code</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Comments [FIXME: needs RFC]</h1>
+    
+<h3 id='avoid-block-comments' class='section-header'><a href='#avoid-block-comments'>Avoid block comments.</a></h3>
+<p>Use line comments:</p>
+
+<span class='rusttest'>fn main() {
+    // Wait for the main thread to return, and set the process error code
+// appropriately.
+}</span><pre class='rust rust-example-rendered'>
+<span class='comment'>// Wait for the main thread to return, and set the process error code</span>
+<span class='comment'>// appropriately.</span></pre>
+
+<p>Instead of:</p>
+
+<span class='rusttest'>fn main() {
+    /*
+ * Wait for the main thread to return, and set the process error code
+ * appropriately.
+ */
+}</span><pre class='rust rust-example-rendered'>
+<span class='comment'>/*
+ * Wait for the main thread to return, and set the process error code
+ * appropriately.
+ */</span></pre>
+
+<h2 id='doc-comments' class='section-header'><a href='#doc-comments'>Doc comments</a></h2>
+<p>Doc comments are prefixed by three slashes (<code>///</code>) and indicate
+documentation that you would like to be included in Rustdoc&#39;s output.
+They support
+<a href="https://en.wikipedia.org/wiki/Markdown">Markdown syntax</a>
+and are the main way of documenting your public APIs.</p>
+
+<p>The supported markdown syntax includes all of the extensions listed in the
+<a href="https://help.github.com/articles/github-flavored-markdown">GitHub Flavored Markdown</a> documentation,
+plus superscripts.</p>
+
+<h3 id='summary-line' class='section-header'><a href='#summary-line'>Summary line</a></h3>
+<p>The first line in any doc comment should be a single-line short sentence
+providing a summary of the code. This line is used as a short summary
+description throughout Rustdoc&#39;s output, so it&#39;s a good idea to keep it
+short.</p>
+
+<h3 id='sentence-structure' class='section-header'><a href='#sentence-structure'>Sentence structure</a></h3>
+<p>All doc comments, including the summary line, should begin with a
+capital letter and end with a period, question mark, or exclamation
+point. Prefer full sentences to fragments.</p>
+
+<p>The summary line should be written in
+<a href="http://en.wikipedia.org/wiki/English_verbs#Third_person_singular_present">third person singular present indicative form</a>.
+Basically, this means write &quot;Returns&quot; instead of &quot;Return&quot;.</p>
+
+<p>For example:</p>
+
+<span class='rusttest'>fn main() {
+    /// Sets up a default runtime configuration, given compiler-supplied arguments.
+///
+/// This function will block until the entire pool of M:N schedulers has
+/// exited. This function also requires a local thread to be available.
+///
+/// # Arguments
+///
+/// * `argc` &amp; `argv` - The argument vector. On Unix this information is used
+///                     by `os::args`.
+/// * `main` - The initial procedure to run inside of the M:N scheduling pool.
+///            Once this procedure exits, the scheduling pool will begin to shut
+///            down. The entire pool (and this function) will only return once
+///            all child threads have finished executing.
+///
+/// # Return value
+///
+/// The return value is used as the process return code. 0 on success, 101 on
+/// error.
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// Sets up a default runtime configuration, given compiler-supplied arguments.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// This function will block until the entire pool of M:N schedulers has</span>
+<span class='doccomment'>/// exited. This function also requires a local thread to be available.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Arguments</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// * `argc` &amp; `argv` - The argument vector. On Unix this information is used</span>
+<span class='doccomment'>///                     by `os::args`.</span>
+<span class='doccomment'>/// * `main` - The initial procedure to run inside of the M:N scheduling pool.</span>
+<span class='doccomment'>///            Once this procedure exits, the scheduling pool will begin to shut</span>
+<span class='doccomment'>///            down. The entire pool (and this function) will only return once</span>
+<span class='doccomment'>///            all child threads have finished executing.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Return value</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// The return value is used as the process return code. 0 on success, 101 on</span>
+<span class='doccomment'>/// error.</span></pre>
+
+<h3 id='code-snippets' class='section-header'><a href='#code-snippets'>Code snippets</a></h3>
+<blockquote>
+<p><strong>[FIXME]</strong></p>
+</blockquote>
+
+<h3 id='avoid-inner-doc-comments' class='section-header'><a href='#avoid-inner-doc-comments'>Avoid inner doc comments.</a></h3>
+<p>Use inner doc comments <em>only</em> to document crates and file-level modules:</p>
+
+<span class='rusttest'>fn main() {
+    //! The core library.
+//!
+//! The core library is a something something...
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>//! The core library.</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! The core library is a something something...</span></pre>
+
+<h3 id='explain-context' class='section-header'><a href='#explain-context'>Explain context.</a></h3>
+<p>Rust doesn&#39;t have special constructors, only functions that return new
+instances.  These aren&#39;t visible in the automatically generated documentation
+for a type, so you should specifically link to them:</p>
+
+<span class='rusttest'>fn main() {
+    /// An iterator that yields `None` forever after the underlying iterator
+/// yields `None` once.
+///
+/// These can be created through
+/// [`iter.fuse()`](trait.Iterator.html#method.fuse).
+pub struct Fuse&lt;I&gt; {
+    // ...
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// An iterator that yields `None` forever after the underlying iterator</span>
+<span class='doccomment'>/// yields `None` once.</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// These can be created through</span>
+<span class='doccomment'>/// [`iter.fuse()`](trait.Iterator.html#method.fuse).</span>
+<span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Fuse</span><span class='op'>&lt;</span><span class='ident'>I</span><span class='op'>&gt;</span> {
+    <span class='comment'>// ...</span>
+}</pre>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

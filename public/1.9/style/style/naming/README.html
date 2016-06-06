@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Naming conventions</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='../../README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='../../style/README.html'><b>2.</b> Style</a>
+<ul class='section'>
+<li><a  href='../../style/whitespace.html'><b>2.1.</b> Whitespace</a>
+</li>
+<li><a  href='../../style/comments.html'><b>2.2.</b> Comments</a>
+</li>
+<li><a  href='../../style/braces.html'><b>2.3.</b> Braces, semicolons, commas</a>
+</li>
+<li><a class='active' href='../../style/naming/README.html'><b>2.4.</b> Naming</a>
+<ul class='section'>
+<li><a  href='../../style/naming/ownership.html'><b>2.4.1.</b> Ownership variants</a>
+</li>
+<li><a  href='../../style/naming/containers.html'><b>2.4.2.</b> Containers/wrappers</a>
+</li>
+<li><a  href='../../style/naming/conversions.html'><b>2.4.3.</b> Conversions</a>
+</li>
+<li><a  href='../../style/naming/iterators.html'><b>2.4.4.</b> Iterators</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../style/imports.html'><b>2.5.</b> Imports</a>
+</li>
+<li><a  href='../../style/organization.html'><b>2.6.</b> Organization</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/README.html'><b>3.</b> Guidelines by Rust feature</a>
+<ul class='section'>
+<li><a  href='../../features/let.html'><b>3.1.</b> Let binding</a>
+</li>
+<li><a  href='../../features/match.html'><b>3.2.</b> Pattern matching</a>
+</li>
+<li><a  href='../../features/loops.html'><b>3.3.</b> Loops</a>
+</li>
+<li><a  href='../../features/functions-and-methods/README.html'><b>3.4.</b> Functions and methods</a>
+<ul class='section'>
+<li><a  href='../../features/functions-and-methods/input.html'><b>3.4.1.</b> Input</a>
+</li>
+<li><a  href='../../features/functions-and-methods/output.html'><b>3.4.2.</b> Output</a>
+</li>
+<li><a  href='../../features/functions-and-methods/convenience.html'><b>3.4.3.</b> For convenience</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/types/README.html'><b>3.5.</b> Types</a>
+<ul class='section'>
+<li><a  href='../../features/types/conversions.html'><b>3.5.1.</b> Conversions</a>
+</li>
+<li><a  href='../../features/types/newtype.html'><b>3.5.2.</b> The newtype pattern</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/traits/README.html'><b>3.6.</b> Traits</a>
+<ul class='section'>
+<li><a  href='../../features/traits/generics.html'><b>3.6.1.</b> For generics</a>
+</li>
+<li><a  href='../../features/traits/objects.html'><b>3.6.2.</b> For objects</a>
+</li>
+<li><a  href='../../features/traits/overloading.html'><b>3.6.3.</b> For overloading</a>
+</li>
+<li><a  href='../../features/traits/extensions.html'><b>3.6.4.</b> For extensions</a>
+</li>
+<li><a  href='../../features/traits/reuse.html'><b>3.6.5.</b> For reuse</a>
+</li>
+<li><a  href='../../features/traits/common.html'><b>3.6.6.</b> Common traits</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../features/modules.html'><b>3.7.</b> Modules</a>
+</li>
+<li><a  href='../../features/crates.html'><b>3.8.</b> Crates</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../ownership/README.html'><b>4.</b> Ownership and resources</a>
+<ul class='section'>
+<li><a  href='../../ownership/constructors.html'><b>4.1.</b> Constructors</a>
+</li>
+<li><a  href='../../ownership/builders.html'><b>4.2.</b> Builders</a>
+</li>
+<li><a  href='../../ownership/destructors.html'><b>4.3.</b> Destructors</a>
+</li>
+<li><a  href='../../ownership/raii.html'><b>4.4.</b> RAII</a>
+</li>
+<li><a  href='../../ownership/cell-smart.html'><b>4.5.</b> Cells and smart pointers</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../errors/README.html'><b>5.</b> Errors</a>
+<ul class='section'>
+<li><a  href='../../errors/signaling.html'><b>5.1.</b> Signaling</a>
+</li>
+<li><a  href='../../errors/handling.html'><b>5.2.</b> Handling</a>
+</li>
+<li><a  href='../../errors/propagation.html'><b>5.3.</b> Propagation</a>
+</li>
+<li><a  href='../../errors/ergonomics.html'><b>5.4.</b> Ergonomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../safety/README.html'><b>6.</b> Safety and guarantees</a>
+<ul class='section'>
+<li><a  href='../../safety/unsafe.html'><b>6.1.</b> Using unsafe</a>
+</li>
+<li><a  href='../../safety/lib-guarantees.html'><b>6.2.</b> Library guarantees</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../testing/README.html'><b>7.</b> Testing</a>
+<ul class='section'>
+<li><a  href='../../testing/unit.html'><b>7.1.</b> Unit testing</a>
+</li>
+</ul>
+</li>
+<li><a  href='../../platform.html'><b>8.</b> FFI, platform-specific code</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Naming conventions</h1>
+    
+<h3 id='general-conventions-rfc-430' class='section-header'><a href='#general-conventions-rfc-430'>General conventions [RFC #430]</a></h3>
+<blockquote>
+<p>The guidelines below were approved by <a href="https://github.com/rust-lang/rfcs/pull/430">RFC #430</a>.</p>
+</blockquote>
+
+<p>In general, Rust tends to use <code>CamelCase</code> for &quot;type-level&quot; constructs
+(types and traits) and <code>snake_case</code> for &quot;value-level&quot; constructs. More
+precisely:</p>
+
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Convention</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>Crates</td>
+<td><code>snake_case</code> (but prefer single word)</td>
+</tr>
+<tr>
+<td>Modules</td>
+<td><code>snake_case</code></td>
+</tr>
+<tr>
+<td>Types</td>
+<td><code>CamelCase</code></td>
+</tr>
+<tr>
+<td>Traits</td>
+<td><code>CamelCase</code></td>
+</tr>
+<tr>
+<td>Enum variants</td>
+<td><code>CamelCase</code></td>
+</tr>
+<tr>
+<td>Functions</td>
+<td><code>snake_case</code></td>
+</tr>
+<tr>
+<td>Methods</td>
+<td><code>snake_case</code></td>
+</tr>
+<tr>
+<td>General constructors</td>
+<td><code>new</code> or <code>with_more_details</code></td>
+</tr>
+<tr>
+<td>Conversion constructors</td>
+<td><code>from_some_other_type</code></td>
+</tr>
+<tr>
+<td>Local variables</td>
+<td><code>snake_case</code></td>
+</tr>
+<tr>
+<td>Static variables</td>
+<td><code>SCREAMING_SNAKE_CASE</code></td>
+</tr>
+<tr>
+<td>Constant variables</td>
+<td><code>SCREAMING_SNAKE_CASE</code></td>
+</tr>
+<tr>
+<td>Type parameters</td>
+<td>concise <code>CamelCase</code>, usually single uppercase letter: <code>T</code></td>
+</tr>
+<tr>
+<td>Lifetimes</td>
+<td>short, lowercase: <code>&#39;a</code></td>
+</tr>
+</tbody>
+</table>
+
+<p><p>
+In <code>CamelCase</code>, acronyms count as one word: use <code>Uuid</code> rather than
+<code>UUID</code>.  In <code>snake_case</code>, acronyms are lower-cased: <code>is_xid_start</code>.</p>
+
+<p>In <code>snake_case</code> or <code>SCREAMING_SNAKE_CASE</code>, a &quot;word&quot; should never
+consist of a single letter unless it is the last &quot;word&quot;. So, we have
+<code>btree_map</code> rather than <code>b_tree_map</code>, but <code>PI_2</code> rather than <code>PI2</code>.</p>
+
+<h3 id='referring-to-types-in-functionmethod-names-rfc-344' class='section-header'><a href='#referring-to-types-in-functionmethod-names-rfc-344'>Referring to types in function/method names [RFC 344]</a></h3>
+<blockquote>
+<p>The guidelines below were approved by <a href="https://github.com/rust-lang/rfcs/pull/344">RFC #344</a>.</p>
+</blockquote>
+
+<p>Function names often involve type names, the most common example being conversions
+like <code>as_slice</code>. If the type has a purely textual name (ignoring parameters), it
+is straightforward to convert between type conventions and function conventions:</p>
+
+<table>
+<thead>
+<tr>
+<th>Type name</th>
+<th>Text in methods</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>String</code></td>
+<td><code>string</code></td>
+</tr>
+<tr>
+<td><code>Vec&lt;T&gt;</code></td>
+<td><code>vec</code></td>
+</tr>
+<tr>
+<td><code>YourType</code></td>
+<td><code>your_type</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>Types that involve notation follow the convention below. There is some
+overlap on these rules; apply the most specific applicable rule:</p>
+
+<table>
+<thead>
+<tr>
+<th>Type name</th>
+<th>Text in methods</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>&amp;str</code></td>
+<td><code>str</code></td>
+</tr>
+<tr>
+<td><code>&amp;[T]</code></td>
+<td><code>slice</code></td>
+</tr>
+<tr>
+<td><code>&amp;mut [T]</code></td>
+<td><code>mut_slice</code></td>
+</tr>
+<tr>
+<td><code>&amp;[u8]</code></td>
+<td><code>bytes</code></td>
+</tr>
+<tr>
+<td><code>&amp;T</code></td>
+<td><code>ref</code></td>
+</tr>
+<tr>
+<td><code>&amp;mut T</code></td>
+<td><code>mut</code></td>
+</tr>
+<tr>
+<td><code>*const T</code></td>
+<td><code>ptr</code></td>
+</tr>
+<tr>
+<td><code>*mut T</code></td>
+<td><code>mut_ptr</code></td>
+</tr>
+</tbody>
+</table>
+
+<h3 id='avoid-redundant-prefixes-rfc-356' class='section-header'><a href='#avoid-redundant-prefixes-rfc-356'>Avoid redundant prefixes [RFC 356]</a></h3>
+<blockquote>
+<p>The guidelines below were approved by <a href="https://github.com/rust-lang/rfcs/pull/356">RFC #356</a>.</p>
+</blockquote>
+
+<p>Names of items within a module should not be prefixed with that module&#39;s name:</p>
+
+<p>Prefer</p>
+
+<span class='rusttest'>fn main() {
+    mod foo {
+    pub struct Error { ... }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>mod</span> <span class='ident'>foo</span> {
+    <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>Error</span> { ... }
+}</pre>
+
+<p>over</p>
+
+<span class='rusttest'>fn main() {
+    mod foo {
+    pub struct FooError { ... }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>mod</span> <span class='ident'>foo</span> {
+    <span class='kw'>pub</span> <span class='kw'>struct</span> <span class='ident'>FooError</span> { ... }
+}</pre>
+
+<p>This convention avoids stuttering (like <code>io::IoError</code>). Library clients can
+rename on import to avoid clashes.</p>
+
+<h3 id='gettersetter-methods-rfc-344' class='section-header'><a href='#gettersetter-methods-rfc-344'>Getter/setter methods [RFC 344]</a></h3>
+<blockquote>
+<p>The guidelines below were approved by <a href="https://github.com/rust-lang/rfcs/pull/344">RFC #344</a>.</p>
+</blockquote>
+
+<p>Some data structures do not wish to provide direct access to their fields, but
+instead offer &quot;getter&quot; and &quot;setter&quot; methods for manipulating the field state
+(often providing checking or other functionality).</p>
+
+<p>The convention for a field <code>foo: T</code> is:</p>
+
+<ul>
+<li>A method <code>foo(&amp;self) -&gt; &amp;T</code> for getting the current value of the field.</li>
+<li>A method <code>set_foo(&amp;self, val: T)</code> for setting the field. (The <code>val</code> argument
+here may take <code>&amp;T</code> or some other type, depending on the context.)</li>
+</ul>
+
+<p>Note that this convention is about getters/setters on ordinary data types, <em>not</em>
+on <a href="../ownership/builders.html">builder objects</a>.</p>
+
+<h3 id='escape-hatches-fixme' class='section-header'><a href='#escape-hatches-fixme'>Escape hatches [FIXME]</a></h3>
+<blockquote>
+<p><strong>[FIXME]</strong> Should we standardize a convention for functions that may break API
+guarantees? e.g. <code>ToCStr::to_c_str_unchecked</code></p>
+</blockquote>
+
+<h3 id='predicates' class='section-header'><a href='#predicates'>Predicates</a></h3>
+<ul>
+<li>Simple boolean predicates should be prefixed with <code>is_</code> or another
+short question word, e.g., <code>is_empty</code>.</li>
+<li>Common exceptions: <code>lt</code>, <code>gt</code>, and other established predicate names.</li>
+</ul>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

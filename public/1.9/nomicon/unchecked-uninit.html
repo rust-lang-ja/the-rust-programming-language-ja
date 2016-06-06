@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Unchecked Uninitialized Memory</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='meet-safe-and-unsafe.html'><b>2.</b> Meet Safe and Unsafe</a>
+<ul class='section'>
+<li><a  href='safe-unsafe-meaning.html'><b>2.1.</b> How Safe and Unsafe Interact</a>
+</li>
+<li><a  href='working-with-unsafe.html'><b>2.2.</b> Working with Unsafe</a>
+</li>
+</ul>
+</li>
+<li><a  href='data.html'><b>3.</b> Data Layout</a>
+<ul class='section'>
+<li><a  href='repr-rust.html'><b>3.1.</b> repr(Rust)</a>
+</li>
+<li><a  href='exotic-sizes.html'><b>3.2.</b> Exotically Sized Types</a>
+</li>
+<li><a  href='other-reprs.html'><b>3.3.</b> Other reprs</a>
+</li>
+</ul>
+</li>
+<li><a  href='ownership.html'><b>4.</b> Ownership</a>
+<ul class='section'>
+<li><a  href='references.html'><b>4.1.</b> References</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.2.</b> Lifetimes</a>
+</li>
+<li><a  href='lifetime-mismatch.html'><b>4.3.</b> Limits of Lifetimes</a>
+</li>
+<li><a  href='lifetime-elision.html'><b>4.4.</b> Lifetime Elision</a>
+</li>
+<li><a  href='unbounded-lifetimes.html'><b>4.5.</b> Unbounded Lifetimes</a>
+</li>
+<li><a  href='hrtb.html'><b>4.6.</b> Higher-Rank Trait Bounds</a>
+</li>
+<li><a  href='subtyping.html'><b>4.7.</b> Subtyping and Variance</a>
+</li>
+<li><a  href='dropck.html'><b>4.8.</b> Drop Check</a>
+</li>
+<li><a  href='phantom-data.html'><b>4.9.</b> PhantomData</a>
+</li>
+<li><a  href='borrow-splitting.html'><b>4.10.</b> Splitting Borrows</a>
+</li>
+</ul>
+</li>
+<li><a  href='conversions.html'><b>5.</b> Type Conversions</a>
+<ul class='section'>
+<li><a  href='coercions.html'><b>5.1.</b> Coercions</a>
+</li>
+<li><a  href='dot-operator.html'><b>5.2.</b> The Dot Operator</a>
+</li>
+<li><a  href='casts.html'><b>5.3.</b> Casts</a>
+</li>
+<li><a  href='transmutes.html'><b>5.4.</b> Transmutes</a>
+</li>
+</ul>
+</li>
+<li><a  href='uninitialized.html'><b>6.</b> Uninitialized Memory</a>
+<ul class='section'>
+<li><a  href='checked-uninit.html'><b>6.1.</b> Checked</a>
+</li>
+<li><a  href='drop-flags.html'><b>6.2.</b> Drop Flags</a>
+</li>
+<li><a class='active' href='unchecked-uninit.html'><b>6.3.</b> Unchecked</a>
+</li>
+</ul>
+</li>
+<li><a  href='obrm.html'><b>7.</b> Ownership Based Resource Management</a>
+<ul class='section'>
+<li><a  href='constructors.html'><b>7.1.</b> Constructors</a>
+</li>
+<li><a  href='destructors.html'><b>7.2.</b> Destructors</a>
+</li>
+<li><a  href='leaking.html'><b>7.3.</b> Leaking</a>
+</li>
+</ul>
+</li>
+<li><a  href='unwinding.html'><b>8.</b> Unwinding</a>
+<ul class='section'>
+<li><a  href='exception-safety.html'><b>8.1.</b> Exception Safety</a>
+</li>
+<li><a  href='poisoning.html'><b>8.2.</b> Poisoning</a>
+</li>
+</ul>
+</li>
+<li><a  href='concurrency.html'><b>9.</b> Concurrency</a>
+<ul class='section'>
+<li><a  href='races.html'><b>9.1.</b> Races</a>
+</li>
+<li><a  href='send-and-sync.html'><b>9.2.</b> Send and Sync</a>
+</li>
+<li><a  href='atomics.html'><b>9.3.</b> Atomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='vec.html'><b>10.</b> Implementing Vec</a>
+<ul class='section'>
+<li><a  href='vec-layout.html'><b>10.1.</b> Layout</a>
+</li>
+<li><a  href='vec-alloc.html'><b>10.2.</b> Allocating</a>
+</li>
+<li><a  href='vec-push-pop.html'><b>10.3.</b> Push and Pop</a>
+</li>
+<li><a  href='vec-dealloc.html'><b>10.4.</b> Deallocating</a>
+</li>
+<li><a  href='vec-deref.html'><b>10.5.</b> Deref</a>
+</li>
+<li><a  href='vec-insert-remove.html'><b>10.6.</b> Insert and Remove</a>
+</li>
+<li><a  href='vec-into-iter.html'><b>10.7.</b> IntoIter</a>
+</li>
+<li><a  href='vec-raw.html'><b>10.8.</b> RawVec</a>
+</li>
+<li><a  href='vec-drain.html'><b>10.9.</b> Drain</a>
+</li>
+<li><a  href='vec-zsts.html'><b>10.10.</b> Handling Zero-Sized Types</a>
+</li>
+<li><a  href='vec-final.html'><b>10.11.</b> Final Code</a>
+</li>
+</ul>
+</li>
+<li><a  href='arc-and-mutex.html'><b>11.</b> Implementing Arc and Mutex</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Unchecked Uninitialized Memory</h1>
+    <p>One interesting exception to this rule is working with arrays. Safe Rust doesn&#39;t
+permit you to partially initialize an array. When you initialize an array, you
+can either set every value to the same thing with <code>let x = [val; N]</code>, or you can
+specify each member individually with <code>let x = [val1, val2, val3]</code>.
+Unfortunately this is pretty rigid, especially if you need to initialize your
+array in a more incremental or dynamic way.</p>
+
+<p>Unsafe Rust gives us a powerful tool to handle this problem:
+<code>mem::uninitialized</code>. This function pretends to return a value when really
+it does nothing at all. Using it, we can convince Rust that we have initialized
+a variable, allowing us to do trickier things with conditional and incremental
+initialization.</p>
+
+<p>Unfortunately, this opens us up to all kinds of problems. Assignment has a
+different meaning to Rust based on whether it believes that a variable is
+initialized or not. If it&#39;s believed uninitialized, then Rust will semantically
+just memcopy the bits over the uninitialized ones, and do nothing else. However
+if Rust believes a value to be initialized, it will try to <code>Drop</code> the old value!
+Since we&#39;ve tricked Rust into believing that the value is initialized, we can no
+longer safely use normal assignment.</p>
+
+<p>This is also a problem if you&#39;re working with a raw system allocator, which
+returns a pointer to uninitialized memory.</p>
+
+<p>To handle this, we must use the <code>ptr</code> module. In particular, it provides
+three functions that allow us to assign bytes to a location in memory without
+dropping the old value: <code>write</code>, <code>copy</code>, and <code>copy_nonoverlapping</code>.</p>
+
+<ul>
+<li><code>ptr::write(ptr, val)</code> takes a <code>val</code> and moves it into the address pointed
+to by <code>ptr</code>.</li>
+<li><code>ptr::copy(src, dest, count)</code> copies the bits that <code>count</code> T&#39;s would occupy
+from src to dest. (this is equivalent to memmove -- note that the argument
+order is reversed!)</li>
+<li><code>ptr::copy_nonoverlapping(src, dest, count)</code> does what <code>copy</code> does, but a
+little faster on the assumption that the two ranges of memory don&#39;t overlap.
+(this is equivalent to memcpy -- note that the argument order is reversed!)</li>
+</ul>
+
+<p>It should go without saying that these functions, if misused, will cause serious
+havoc or just straight up Undefined Behavior. The only things that these
+functions <em>themselves</em> require is that the locations you want to read and write
+are allocated. However the ways writing arbitrary bits to arbitrary
+locations of memory can break things are basically uncountable!</p>
+
+<p>Putting this all together, we get the following:</p>
+
+<span class='rusttest'>fn main() {
+    use std::mem;
+use std::ptr;
+
+// size of the array is hard-coded but easy to change. This means we can&#39;t
+// use [a, b, c] syntax to initialize the array, though!
+const SIZE: usize = 10;
+
+let mut x: [Box&lt;u32&gt;; SIZE];
+
+unsafe {
+    // convince Rust that x is Totally Initialized
+    x = mem::uninitialized();
+    for i in 0..SIZE {
+        // very carefully overwrite each index without reading it
+        // NOTE: exception safety is not a concern; Box can&#39;t panic
+        ptr::write(&amp;mut x[i], Box::new(i as u32));
+    }
+}
+
+println!(&quot;{:?}&quot;, x);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;
+
+<span class='comment'>// size of the array is hard-coded but easy to change. This means we can&#39;t</span>
+<span class='comment'>// use [a, b, c] syntax to initialize the array, though!</span>
+<span class='kw'>const</span> <span class='ident'>SIZE</span>: <span class='ident'>usize</span> <span class='op'>=</span> <span class='number'>10</span>;
+
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span>: [<span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span>; <span class='ident'>SIZE</span>];
+
+<span class='kw'>unsafe</span> {
+    <span class='comment'>// convince Rust that x is Totally Initialized</span>
+    <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>uninitialized</span>();
+    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='ident'>SIZE</span> {
+        <span class='comment'>// very carefully overwrite each index without reading it</span>
+        <span class='comment'>// NOTE: exception safety is not a concern; Box can&#39;t panic</span>
+        <span class='ident'>ptr</span>::<span class='ident'>write</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>[<span class='ident'>i</span>], <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>i</span> <span class='kw'>as</span> <span class='ident'>u32</span>));
+    }
+}
+
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>x</span>);</pre>
+
+<p>It&#39;s worth noting that you don&#39;t need to worry about <code>ptr::write</code>-style
+shenanigans with types which don&#39;t implement <code>Drop</code> or contain <code>Drop</code> types,
+because Rust knows not to try to drop them. Similarly you should be able to
+assign to fields of partially initialized structs directly if those fields don&#39;t
+contain any <code>Drop</code> types.</p>
+
+<p>However when working with uninitialized memory you need to be ever-vigilant for
+Rust trying to drop values you make like this before they&#39;re fully initialized.
+Every control path through that variable&#39;s scope must initialize the value
+before it ends, if it has a destructor.
+<em><a href="unwinding.html">This includes code panicking</a></em>.</p>
+
+<p>And that&#39;s about it for working with uninitialized memory! Basically nothing
+anywhere expects to be handed uninitialized memory, so if you&#39;re going to pass
+it around at all, be sure to be <em>really</em> careful.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

@@ -101,7 +101,7 @@
 <li><a href="#static-items">6.1.8 Static items</a><ul>
 <li><a href="#mutable-statics">6.1.8.1 Mutable statics</a><ul></ul></li></ul></li>
 <li><a href="#traits">6.1.9 Traits</a><ul></ul></li>
-<li><a href="#implementations-1">6.1.10 Implementations</a><ul></ul></li>
+<li><a href="#implementations">6.1.10 Implementations</a><ul></ul></li>
 <li><a href="#external-blocks">6.1.11 External blocks</a><ul></ul></li></ul></li>
 <li><a href="#visibility-and-privacy">6.2 Visibility and Privacy</a><ul>
 <li><a href="#re-exporting-and-visibility">6.2.1 Re-exporting and Visibility</a><ul></ul></li></ul></li>
@@ -539,13 +539,13 @@ themselves (i.e. no translation), but as a special exception, when a <code>U+005
 character (<code>\</code>) occurs immediately before the newline, the <code>U+005C</code> character,
 the newline, and all whitespace at the beginning of the next line are ignored.
 Thus <code>a</code> and <code>b</code> are equal:</p>
+
 <span class='rusttest'>fn main() {
     let a = &quot;foobar&quot;;
-    let b = &quot;foo\
-             bar&quot;;
-    
-    assert_eq!(a,b);
-    
+let b = &quot;foo\
+         bar&quot;;
+
+assert_eq!(a,b);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='string'>&quot;foobar&quot;</span>;
 <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='string'>&quot;foo\
@@ -586,16 +586,16 @@ many <code>U+0023</code> (<code>#</code>) characters as were used to start the r
 <code>U+005C</code> (<code>\</code>) do not have any special meaning.</p>
 
 <p>Examples for string literals:</p>
+
 <span class='rusttest'>fn main() {
     &quot;foo&quot;; r&quot;foo&quot;;                     // foo
-    &quot;\&quot;foo\&quot;&quot;; r#&quot;&quot;foo&quot;&quot;#;             // &quot;foo&quot;
-    
-    &quot;foo #\&quot;# bar&quot;;
-    r##&quot;foo #&quot;# bar&quot;##;                // foo #&quot;# bar
-    
-    &quot;\x52&quot;; &quot;R&quot;; r&quot;R&quot;;                 // R
-    &quot;\\x52&quot;; r&quot;\x52&quot;;                  // \x52
-    
+&quot;\&quot;foo\&quot;&quot;; r#&quot;&quot;foo&quot;&quot;#;             // &quot;foo&quot;
+
+&quot;foo #\&quot;# bar&quot;;
+r##&quot;foo #&quot;# bar&quot;##;                // foo #&quot;# bar
+
+&quot;\x52&quot;; &quot;R&quot;; r&quot;R&quot;;                 // R
+&quot;\\x52&quot;; r&quot;\x52&quot;;                  // \x52
 }</span><pre class='rust rust-example-rendered'>
 <span class='string'>&quot;foo&quot;</span>; <span class='string'>r&quot;foo&quot;</span>;                     <span class='comment'>// foo</span>
 <span class='string'>&quot;\&quot;foo\&quot;&quot;</span>; <span class='string'>r#&quot;&quot;foo&quot;&quot;#</span>;             <span class='comment'>// &quot;foo&quot;</span>
@@ -654,16 +654,16 @@ many <code>U+0023</code> (<code>#</code>) characters as were used to start the r
 <code>U+005C</code> (<code>\</code>) do not have any special meaning.</p>
 
 <p>Examples for byte string literals:</p>
+
 <span class='rusttest'>fn main() {
     b&quot;foo&quot;; br&quot;foo&quot;;                     // foo
-    b&quot;\&quot;foo\&quot;&quot;; br#&quot;&quot;foo&quot;&quot;#;             // &quot;foo&quot;
-    
-    b&quot;foo #\&quot;# bar&quot;;
-    br##&quot;foo #&quot;# bar&quot;##;                 // foo #&quot;# bar
-    
-    b&quot;\x52&quot;; b&quot;R&quot;; br&quot;R&quot;;                // R
-    b&quot;\\x52&quot;; br&quot;\x52&quot;;                  // \x52
-    
+b&quot;\&quot;foo\&quot;&quot;; br#&quot;&quot;foo&quot;&quot;#;             // &quot;foo&quot;
+
+b&quot;foo #\&quot;# bar&quot;;
+br##&quot;foo #&quot;# bar&quot;##;                 // foo #&quot;# bar
+
+b&quot;\x52&quot;; b&quot;R&quot;; br&quot;R&quot;;                // R
+b&quot;\\x52&quot;; br&quot;\x52&quot;;                  // \x52
 }</span><pre class='rust rust-example-rendered'>
 <span class='string'>b&quot;foo&quot;</span>; <span class='string'>br&quot;foo&quot;</span>;                     <span class='comment'>// foo</span>
 <span class='string'>b&quot;\&quot;foo\&quot;&quot;</span>; <span class='string'>br#&quot;&quot;foo&quot;&quot;#</span>;             <span class='comment'>// &quot;foo&quot;</span>
@@ -710,15 +710,15 @@ static type error.</p></li>
 </ul>
 
 <p>Examples of integer literals of various forms:</p>
+
 <span class='rusttest'>fn main() {
     123i32;                            // type i32
-    123u32;                            // type u32
-    123_u32;                           // type u32
-    0xff_u8;                           // type u8
-    0o70_i16;                          // type i16
-    0b1111_1111_1001_0000_i32;         // type i32
-    0usize;                            // type usize
-    
+123u32;                            // type u32
+123_u32;                           // type u32
+0xff_u8;                           // type u8
+0o70_i16;                          // type i16
+0b1111_1111_1001_0000_i32;         // type i32
+0usize;                            // type usize
 }</span><pre class='rust rust-example-rendered'>
 <span class='number'>123i32</span>;                            <span class='comment'>// type i32</span>
 <span class='number'>123u32</span>;                            <span class='comment'>// type u32</span>
@@ -756,13 +756,13 @@ static type error.</p></li>
 </ul>
 
 <p>Examples of floating-point literals of various forms:</p>
+
 <span class='rusttest'>fn main() {
     123.0f64;        // type f64
-    0.1f64;          // type f64
-    0.1f32;          // type f32
-    12E+99_f64;      // type f64
-    let x: f64 = 2.; // type f64
-    
+0.1f64;          // type f64
+0.1f32;          // type f32
+12E+99_f64;      // type f64
+let x: f64 = 2.; // type f64
 }</span><pre class='rust rust-example-rendered'>
 <span class='number'>123.0f64</span>;        <span class='comment'>// type f64</span>
 <span class='number'>0.1f64</span>;          <span class='comment'>// type f64</span>
@@ -799,10 +799,10 @@ is only meaningful within a given crate. There is no global namespace across
 crates; an item&#39;s canonical path merely identifies it within the crate.</p>
 
 <p>Two examples of simple paths consisting of only identifier components:</p>
+
 <span class='rusttest'>fn main() {
     x;
-    x::y::z;
-    
+x::y::z;
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>x</span>;
 <span class='ident'>x</span>::<span class='ident'>y</span>::<span class='ident'>z</span>;</pre>
@@ -815,14 +815,14 @@ relational expression involving the less-than symbol (<code>&lt;</code>). In typ
 expression context, the final namespace qualifier is omitted.</p>
 
 <p>Two examples of paths with type arguments:</p>
+
 <span class='rusttest'>fn main() {
     struct HashMap&lt;K, V&gt;(K,V);
-    fn f() {
-    fn id&lt;T&gt;(t: T) -&gt; T { t }
-    type T = HashMap&lt;i32,String&gt;; // Type arguments used in a type expression
-    let x  = id::&lt;i32&gt;(10);       // Type arguments used in a call expression
-    }
-    
+fn f() {
+fn id&lt;T&gt;(t: T) -&gt; T { t }
+type T = HashMap&lt;i32,String&gt;; // Type arguments used in a type expression
+let x  = id::&lt;i32&gt;(10);       // Type arguments used in a call expression
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>type</span> <span class='ident'>T</span> <span class='op'>=</span> <span class='ident'>HashMap</span><span class='op'>&lt;</span><span class='ident'>i32</span>,<span class='ident'>String</span><span class='op'>&gt;</span>; <span class='comment'>// Type arguments used in a type expression</span>
 <span class='kw'>let</span> <span class='ident'>x</span>  <span class='op'>=</span> <span class='ident'>id</span>::<span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>(<span class='number'>10</span>);       <span class='comment'>// Type arguments used in a call expression</span></pre>
@@ -835,6 +835,7 @@ how it is resolved:</p>
 components of the path start being resolved from the crate root. Each
 identifier in the path must resolve to an item.</li>
 </ul>
+
 <span class='rusttest'>mod a {
     pub fn foo() {}
 }
@@ -858,6 +859,7 @@ fn main() {}
 <li>Paths starting with the keyword <code>super</code> begin resolution relative to the
 parent module. Each further identifier must resolve to an item.</li>
 </ul>
+
 <span class='rusttest'>mod a {
     pub fn foo() {}
 }
@@ -873,7 +875,7 @@ fn main() {}
 }
 <span class='kw'>mod</span> <span class='ident'>b</span> {
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>foo</span>() {
-        <span class='ident'>super</span>::<span class='ident'>a</span>::<span class='ident'>foo</span>(); <span class='comment'>// call a&#39;s foo function</span>
+        <span class='kw'>super</span>::<span class='ident'>a</span>::<span class='ident'>foo</span>(); <span class='comment'>// call a&#39;s foo function</span>
     }
 }</pre>
 
@@ -881,6 +883,7 @@ fn main() {}
 <li>Paths starting with the keyword <code>self</code> begin resolution relative to the
 current module. Each further identifier must resolve to an item.</li>
 </ul>
+
 <span class='rusttest'>fn foo() {}
 fn bar() {
     self::foo();
@@ -894,6 +897,7 @@ fn main() {}
 
 <p>Additionally keyword <code>super</code> may be repeated several times after the first
 <code>super</code> or <code>self</code> to refer to ancestor modules.</p>
+
 <span class='rusttest'>mod a {
     fn foo() {}
 
@@ -914,8 +918,8 @@ fn main() {}
     <span class='kw'>mod</span> <span class='ident'>b</span> {
         <span class='kw'>mod</span> <span class='ident'>c</span> {
             <span class='kw'>fn</span> <span class='ident'>foo</span>() {
-                <span class='ident'>super</span>::<span class='ident'>super</span>::<span class='ident'>foo</span>(); <span class='comment'>// call a&#39;s foo function</span>
-                <span class='self'>self</span>::<span class='ident'>super</span>::<span class='ident'>super</span>::<span class='ident'>foo</span>(); <span class='comment'>// call a&#39;s foo function</span>
+                <span class='kw'>super</span>::<span class='kw'>super</span>::<span class='ident'>foo</span>(); <span class='comment'>// call a&#39;s foo function</span>
+                <span class='self'>self</span>::<span class='kw'>super</span>::<span class='kw'>super</span>::<span class='ident'>foo</span>(); <span class='comment'>// call a&#39;s foo function</span>
             }
         }
     }
@@ -1056,17 +1060,17 @@ may optionally begin with any number of <a href="#items-and-attributes">attribut
 that apply to the containing module, most of which influence the behavior of
 the compiler. The anonymous crate module can have additional attributes that
 apply to the crate as a whole.</p>
+
 <span class='rusttest'>fn main() {
     // Specify the crate name.
-    #![crate_name = &quot;projx&quot;]
-    
-    // Specify the type of output artifact.
-    #![crate_type = &quot;lib&quot;]
-    
-    // Turn on a warning.
-    // This can be done in any module, not just the anonymous crate module.
-    #![warn(non_camel_case_types)]
-    
+#![crate_name = &quot;projx&quot;]
+
+// Specify the type of output artifact.
+#![crate_type = &quot;lib&quot;]
+
+// Turn on a warning.
+// This can be done in any module, not just the anonymous crate module.
+#![warn(non_camel_case_types)]
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Specify the crate name.</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_name</span> <span class='op'>=</span> <span class='string'>&quot;projx&quot;</span>]</span>
@@ -1142,23 +1146,23 @@ keyword <code>mod</code>. A module item introduces a new, named module into the 
 modules making up a crate. Modules can nest arbitrarily.</p>
 
 <p>An example of a module:</p>
+
 <span class='rusttest'>fn main() {
     mod math {
-        type Complex = (f64, f64);
-        fn sin(f: f64) -&gt; f64 {
-            /* ... */
-    panic!();
-        }
-        fn cos(f: f64) -&gt; f64 {
-            /* ... */
-    panic!();
-        }
-        fn tan(f: f64) -&gt; f64 {
-            /* ... */
-    panic!();
-        }
+    type Complex = (f64, f64);
+    fn sin(f: f64) -&gt; f64 {
+        /* ... */
+panic!();
     }
-    
+    fn cos(f: f64) -&gt; f64 {
+        /* ... */
+panic!();
+    }
+    fn tan(f: f64) -&gt; f64 {
+        /* ... */
+panic!();
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>math</span> {
     <span class='kw'>type</span> <span class='ident'>Complex</span> <span class='op'>=</span> (<span class='ident'>f64</span>, <span class='ident'>f64</span>);
@@ -1182,16 +1186,16 @@ in scope, or vice versa.</p>
 same name as the module, plus the <code>.rs</code> extension. When a nested submodule is
 loaded from an external file, it is loaded from a subdirectory path that
 mirrors the module hierarchy.</p>
+
 <span class='rusttest'>fn main() {
     // Load the `vec` module from `vec.rs`
-    mod vec;
-    
-    mod thread {
-        // Load the `local_data` module from `thread/local_data.rs`
-        // or `thread/local_data/mod.rs`.
-        mod local_data;
-    }
-    
+mod vec;
+
+mod thread {
+    // Load the `local_data` module from `thread/local_data.rs`
+    // or `thread/local_data/mod.rs`.
+    mod local_data;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Load the `vec` module from `vec.rs`</span>
 <span class='kw'>mod</span> <span class='ident'>vec</span>;
@@ -1204,14 +1208,14 @@ mirrors the module hierarchy.</p>
 
 <p>The directories and files used for loading external file modules can be
 influenced with the <code>path</code> attribute.</p>
+
 <span class='rusttest'>fn main() {
     #[path = &quot;thread_files&quot;]
-    mod thread {
-        // Load the `local_data` module from `thread_files/tls.rs`
-        #[path = &quot;tls.rs&quot;]
-        mod local_data;
-    }
-    
+mod thread {
+    // Load the `local_data` module from `thread_files/tls.rs`
+    #[path = &quot;tls.rs&quot;]
+    mod local_data;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>path</span> <span class='op'>=</span> <span class='string'>&quot;thread_files&quot;</span>]</span>
 <span class='kw'>mod</span> <span class='ident'>thread</span> {
@@ -1234,13 +1238,13 @@ compiled. If no <code>crateid</code> is provided, a default <code>name</code> at
 equal to the <code>ident</code> given in the <code>extern_crate_decl</code>.</p>
 
 <p>Three examples of <code>extern crate</code> declarations:</p>
+
 <span class='rusttest'>fn main() {
     extern crate pcre;
-    
-    extern crate std; // equivalent to: extern crate std as std;
-    
-    extern crate std as ruststd; // linking to &#39;std&#39; under another name
-    
+
+extern crate std; // equivalent to: extern crate std as std;
+
+extern crate std as ruststd; // linking to &#39;std&#39; under another name
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>pcre</span>;
 
@@ -1274,6 +1278,7 @@ and their immediate parent module, using the <code>self</code> keyword, such as
 </ul>
 
 <p>An example of <code>use</code> declarations:</p>
+
 <span class='rusttest'>use std::option::Option::{Some, None};
 use std::collections::hash_map::{self, HashMap};
 
@@ -1317,6 +1322,7 @@ inside a different module. If a sequence of such redirections form a cycle or
 cannot be resolved unambiguously, they represent a compile-time error.</p>
 
 <p>An example of re-exporting:</p>
+
 <span class='rusttest'>fn main() { }
 mod quux {
     pub use quux::foo::{bar, baz};
@@ -1349,6 +1355,7 @@ parent modules respectively. All rules regarding accessing declared modules in
 declarations.</p>
 
 <p>An example of what will and will not work for <code>use</code> items:</p>
+
 <span class='rusttest'>#![allow(unused_imports)]
 use foo::baz::foobaz;    // good: foo is at the root of the crate
 
@@ -1393,7 +1400,7 @@ fn main() {}
     }
 
     <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>baz</span> {
-        <span class='kw'>use</span> <span class='ident'>super</span>::<span class='ident'>bar</span>::<span class='ident'>foobar</span>; <span class='comment'>// good: super refers to module &#39;foo&#39;</span>
+        <span class='kw'>use</span> <span class='kw'>super</span>::<span class='ident'>bar</span>::<span class='ident'>foobar</span>; <span class='comment'>// good: super refers to module &#39;foo&#39;</span>
         <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>foobaz</span>() { }
     }
 }
@@ -1420,11 +1427,11 @@ value-producing expression in its final-expression position, that expression is
 interpreted as an implicit <code>return</code> expression applied to the final-expression.</p>
 
 <p>An example of a function:</p>
+
 <span class='rusttest'>fn main() {
     fn add(x: i32, y: i32) -&gt; i32 {
-        x + y
-    }
-    
+    x + y
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>add</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>, <span class='ident'>y</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>
@@ -1432,9 +1439,9 @@ interpreted as an implicit <code>return</code> expression applied to the final-e
 
 <p>As with <code>let</code> bindings, function arguments are irrefutable patterns, so any
 pattern that is valid in a let binding is also valid as an argument.</p>
+
 <span class='rusttest'>fn main() {
     fn first((value, _): (i32, i32)) -&gt; i32 { value }
-    
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>first</span>((<span class='ident'>value</span>, _): (<span class='ident'>i32</span>, <span class='ident'>i32</span>)) <span class='op'>-&gt;</span> <span class='ident'>i32</span> { <span class='ident'>value</span> }</pre>
 
@@ -1442,11 +1449,11 @@ pattern that is valid in a let binding is also valid as an argument.</p>
 <p>A <em>generic function</em> allows one or more <em>parameterized types</em> to appear in its
 signature. Each type parameter must be explicitly declared, in an
 angle-bracket-enclosed, comma-separated list following the function name.</p>
+
 <span class='rusttest'>fn main() {
     // foo is generic over A and B
-    
-    fn foo&lt;A, B&gt;(x: A, y: B) {
-    
+
+fn foo&lt;A, B&gt;(x: A, y: B) {
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// foo is generic over A and B</span>
 
@@ -1456,24 +1463,24 @@ angle-bracket-enclosed, comma-separated list following the function name.</p>
 used as a type name. <a href="#traits">Trait</a> bounds can be specified for type parameters
 to allow methods with that trait to be called on values of that type. This is
 specified using the <code>where</code> syntax:</p>
+
 <span class='rusttest'>fn main() {
     fn foo&lt;T&gt;(x: T) where T: Debug {
-    
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>) <span class='kw'>where</span> <span class='ident'>T</span>: <span class='ident'>Debug</span> {</pre>
 
 <p>When a generic function is referenced, its type is instantiated based on the
 context of the reference. For example, calling the <code>foo</code> function here:</p>
+
 <span class='rusttest'>fn main() {
     use std::fmt::Debug;
-    
-    fn foo&lt;T&gt;(x: &amp;[T]) where T: Debug {
-        // details elided
-    ()
-    }
-    
-    foo(&amp;[1, 2]);
-    
+
+fn foo&lt;T&gt;(x: &amp;[T]) where T: Debug {
+    // details elided
+()
+}
+
+foo(&amp;[1, 2]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>::<span class='ident'>Debug</span>;
 
@@ -1493,12 +1500,12 @@ there is not sufficient context to determine the type parameters. For example,
 <h4 id='diverging-functions' class='section-header'><a href='#diverging-functions'>6.1.3.2 Diverging functions</a></h4>
 <p>A special kind of function can be declared with a <code>!</code> character where the
 output type would normally be. For example:</p>
+
 <span class='rusttest'>fn main() {
     fn my_err(s: &amp;str) -&gt; ! {
-        println!(&quot;{}&quot;, s);
-        panic!();
-    }
-    
+    println!(&quot;{}&quot;, s);
+    panic!();
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>my_err</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='op'>!</span> {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>s</span>);
@@ -1515,18 +1522,18 @@ previously, the typechecker checks that every control path in a function ends
 with a <a href="#return-expressions"><code>return</code></a> or diverging expression. So, if <code>my_err</code>
 were declared without the <code>!</code> annotation, the following code would not
 typecheck:</p>
+
 <span class='rusttest'>fn main() {
     fn my_err(s: &amp;str) -&gt; ! { panic!() }
-    
-    fn f(i: i32) -&gt; i32 {
-        if i == 42 {
-            return 42;
-        }
-        else {
-            my_err(&quot;Bad number!&quot;);
-        }
+
+fn f(i: i32) -&gt; i32 {
+    if i == 42 {
+        return 42;
     }
-    
+    else {
+        my_err(&quot;Bad number!&quot;);
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>fn</span> <span class='ident'>f</span>(<span class='ident'>i</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
@@ -1553,13 +1560,13 @@ external blocks allow Rust code to call foreign code, extern functions with
 bodies defined in Rust code <em>can be called by foreign code</em>. They are defined
 in the same way as any other Rust function, except that they have the <code>extern</code>
 modifier.</p>
+
 <span class='rusttest'>fn main() {
     // Declares an extern fn, the ABI defaults to &quot;C&quot;
-    extern fn new_i32() -&gt; i32 { 0 }
-    
-    // Declares an extern fn with &quot;stdcall&quot; ABI
-    extern &quot;stdcall&quot; fn new_i32_stdcall() -&gt; i32 { 0 }
-    
+extern fn new_i32() -&gt; i32 { 0 }
+
+// Declares an extern fn with &quot;stdcall&quot; ABI
+extern &quot;stdcall&quot; fn new_i32_stdcall() -&gt; i32 { 0 }
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Declares an extern fn, the ABI defaults to &quot;C&quot;</span>
 <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>new_i32</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> { <span class='number'>0</span> }
@@ -1569,10 +1576,10 @@ modifier.</p>
 
 <p>Unlike normal functions, extern fns have type <code>extern &quot;ABI&quot; fn()</code>. This is the
 same type as the functions declared in an extern block.</p>
+
 <span class='rusttest'>fn main() {
     extern fn new_i32() -&gt; i32 { 0 }
-    let fptr: extern &quot;C&quot; fn() -&gt; i32 = new_i32;
-    
+let fptr: extern &quot;C&quot; fn() -&gt; i32 = new_i32;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>fptr</span>: <span class='kw'>extern</span> <span class='string'>&quot;C&quot;</span> <span class='kw'>fn</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>new_i32</span>;</pre>
 
@@ -1587,10 +1594,10 @@ several different type constraints.</p>
 
 <p>For example, the following defines the type <code>Point</code> as a synonym for the type
 <code>(u8, u8)</code>, the type of pairs of unsigned 8 bit integers:</p>
+
 <span class='rusttest'>fn main() {
     type Point = (u8, u8);
-    let p: Point = (41, 68);
-    
+let p: Point = (41, 68);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>type</span> <span class='ident'>Point</span> <span class='op'>=</span> (<span class='ident'>u8</span>, <span class='ident'>u8</span>);
 <span class='kw'>let</span> <span class='ident'>p</span>: <span class='ident'>Point</span> <span class='op'>=</span> (<span class='number'>41</span>, <span class='number'>68</span>);</pre>
@@ -1600,11 +1607,11 @@ several different type constraints.</p>
 keyword <code>struct</code>.</p>
 
 <p>An example of a <code>struct</code> item and its use:</p>
+
 <span class='rusttest'>fn main() {
     struct Point {x: i32, y: i32}
-    let p = Point {x: 10, y: 11};
-    let px: i32 = p.x;
-    
+let p = Point {x: 10, y: 11};
+let px: i32 = p.x;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {<span class='ident'>x</span>: <span class='ident'>i32</span>, <span class='ident'>y</span>: <span class='ident'>i32</span>}
 <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>Point</span> {<span class='ident'>x</span>: <span class='number'>10</span>, <span class='ident'>y</span>: <span class='number'>11</span>};
@@ -1612,11 +1619,11 @@ keyword <code>struct</code>.</p>
 
 <p>A <em>tuple struct</em> is a nominal <a href="#tuple-types">tuple type</a>, also defined with
 the keyword <code>struct</code>. For example:</p>
+
 <span class='rusttest'>fn main() {
     struct Point(i32, i32);
-    let p = Point(10, 11);
-    let px: i32 = match p { Point(x, _) =&gt; x };
-    
+let p = Point(10, 11);
+let px: i32 = match p { Point(x, _) =&gt; x };
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>);
 <span class='kw'>let</span> <span class='ident'>p</span> <span class='op'>=</span> <span class='ident'>Point</span>(<span class='number'>10</span>, <span class='number'>11</span>);
@@ -1625,22 +1632,22 @@ the keyword <code>struct</code>. For example:</p>
 <p>A <em>unit-like struct</em> is a struct without any fields, defined by leaving off
 the list of fields entirely. Such a struct implicitly defines a constant of
 its type with the same name. For example:</p>
+
 <span class='rusttest'>#![feature(braced_empty_structs)]
 fn main() {
     struct Cookie;
-    let c = [Cookie, Cookie {}, Cookie, Cookie {}];
-    
+let c = [Cookie, Cookie {}, Cookie, Cookie {}];
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Cookie</span>;
 <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> [<span class='ident'>Cookie</span>, <span class='ident'>Cookie</span> {}, <span class='ident'>Cookie</span>, <span class='ident'>Cookie</span> {}];</pre>
 
 <p>is equivalent to</p>
+
 <span class='rusttest'>#![feature(braced_empty_structs)]
 fn main() {
     struct Cookie {}
-    const Cookie: Cookie = Cookie {};
-    let c = [Cookie, Cookie {}, Cookie, Cookie {}];
-    
+const Cookie: Cookie = Cookie {};
+let c = [Cookie, Cookie {}, Cookie, Cookie {}];
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Cookie</span> {}
 <span class='kw'>const</span> <span class='ident'>Cookie</span>: <span class='ident'>Cookie</span> <span class='op'>=</span> <span class='ident'>Cookie</span> {};
@@ -1657,15 +1664,15 @@ to create or pattern-match values of the corresponding enumerated type.</p>
 <p>Enumerations are declared with the keyword <code>enum</code>.</p>
 
 <p>An example of an <code>enum</code> item and its use:</p>
+
 <span class='rusttest'>fn main() {
     enum Animal {
-        Dog,
-        Cat,
-    }
-    
-    let mut a: Animal = Animal::Dog;
-    a = Animal::Cat;
-    
+    Dog,
+    Cat,
+}
+
+let mut a: Animal = Animal::Dog;
+a = Animal::Cat;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Animal</span> {
     <span class='ident'>Dog</span>,
@@ -1676,15 +1683,15 @@ to create or pattern-match values of the corresponding enumerated type.</p>
 <span class='ident'>a</span> <span class='op'>=</span> <span class='ident'>Animal</span>::<span class='ident'>Cat</span>;</pre>
 
 <p>Enumeration constructors can have either named or unnamed fields:</p>
+
 <span class='rusttest'>fn main() {
     enum Animal {
-        Dog (String, f64),
-        Cat { name: String, weight: f64 }
-    }
-    
-    let mut a: Animal = Animal::Dog(&quot;Cocoa&quot;.to_string(), 37.2);
-    a = Animal::Cat { name: &quot;Spotty&quot;.to_string(), weight: 2.7 };
-    
+    Dog (String, f64),
+    Cat { name: String, weight: f64 }
+}
+
+let mut a: Animal = Animal::Dog(&quot;Cocoa&quot;.to_string(), 37.2);
+a = Animal::Cat { name: &quot;Spotty&quot;.to_string(), weight: 2.7 };
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Animal</span> {
     <span class='ident'>Dog</span> (<span class='ident'>String</span>, <span class='ident'>f64</span>),
@@ -1698,11 +1705,11 @@ to create or pattern-match values of the corresponding enumerated type.</p>
 whereas <code>Dog</code> is simply called an enum variant.</p>
 
 <p>Enums have a discriminant. You can assign them explicitly:</p>
+
 <span class='rusttest'>fn main() {
     enum Foo {
-        Bar = 123,
-    }
-    
+    Bar = 123,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Foo</span> {
     <span class='ident'>Bar</span> <span class='op'>=</span> <span class='number'>123</span>,
@@ -1712,10 +1719,10 @@ whereas <code>Dog</code> is simply called an enum variant.</p>
 variant, in order.</p>
 
 <p>You can cast an enum to get this value:</p>
+
 <span class='rusttest'>fn main() {
     enum Foo { Bar = 123 }
-    let x = Foo::Bar as u32; // x is now 123u32
-    
+let x = Foo::Bar as u32; // x is now 123u32
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Foo</span>::<span class='ident'>Bar</span> <span class='kw'>as</span> <span class='ident'>u32</span>; <span class='comment'>// x is now 123u32</span></pre>
 
@@ -1738,23 +1745,23 @@ be stable.</p>
 <p>Constants must be explicitly typed. The type may be <code>bool</code>, <code>char</code>, a number, or
 a type derived from those primitive types. The derived types are references with
 the <code>static</code> lifetime, fixed-size arrays, tuples, enum variants, and structs.</p>
+
 <span class='rusttest'>fn main() {
     const BIT1: u32 = 1 &lt;&lt; 0;
-    const BIT2: u32 = 1 &lt;&lt; 1;
-    
-    const BITS: [u32; 2] = [BIT1, BIT2];
-    const STRING: &amp;&#39;static str = &quot;bitstring&quot;;
-    
-    struct BitsNStrings&lt;&#39;a&gt; {
-        mybits: [u32; 2],
-        mystring: &amp;&#39;a str
-    }
-    
-    const BITS_N_STRINGS: BitsNStrings&lt;&#39;static&gt; = BitsNStrings {
-        mybits: BITS,
-        mystring: STRING
-    };
-    
+const BIT2: u32 = 1 &lt;&lt; 1;
+
+const BITS: [u32; 2] = [BIT1, BIT2];
+const STRING: &amp;&#39;static str = &quot;bitstring&quot;;
+
+struct BitsNStrings&lt;&#39;a&gt; {
+    mybits: [u32; 2],
+    mystring: &amp;&#39;a str
+}
+
+const BITS_N_STRINGS: BitsNStrings&lt;&#39;static&gt; = BitsNStrings {
+    mybits: BITS,
+    mystring: STRING
+};
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>const</span> <span class='ident'>BIT1</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>1</span> <span class='op'>&lt;&lt;</span> <span class='number'>0</span>;
 <span class='kw'>const</span> <span class='ident'>BIT2</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>1</span> <span class='op'>&lt;&lt;</span> <span class='number'>1</span>;
@@ -1805,26 +1812,26 @@ running in the same process.</p>
 
 <p>Mutable statics are still very useful, however. They can be used with C
 libraries and can also be bound from C libraries (in an <code>extern</code> block).</p>
+
 <span class='rusttest'>fn main() {
     fn atomic_add(_: &amp;mut u32, _: u32) -&gt; u32 { 2 }
-    
-    static mut LEVELS: u32 = 0;
-    
-    // This violates the idea of no shared state, and this doesn&#39;t internally
-    // protect against races, so this function is `unsafe`
-    unsafe fn bump_levels_unsafe1() -&gt; u32 {
-        let ret = LEVELS;
-        LEVELS += 1;
-        return ret;
-    }
-    
-    // Assuming that we have an atomic_add function which returns the old value,
-    // this function is &quot;safe&quot; but the meaning of the return value may not be what
-    // callers expect, so it&#39;s still marked as `unsafe`
-    unsafe fn bump_levels_unsafe2() -&gt; u32 {
-        return atomic_add(&amp;mut LEVELS, 1);
-    }
-    
+
+static mut LEVELS: u32 = 0;
+
+// This violates the idea of no shared state, and this doesn&#39;t internally
+// protect against races, so this function is `unsafe`
+unsafe fn bump_levels_unsafe1() -&gt; u32 {
+    let ret = LEVELS;
+    LEVELS += 1;
+    return ret;
+}
+
+// Assuming that we have an atomic_add function which returns the old value,
+// this function is &quot;safe&quot; but the meaning of the return value may not be what
+// callers expect, so it&#39;s still marked as `unsafe`
+unsafe fn bump_levels_unsafe2() -&gt; u32 {
+    return atomic_add(&amp;mut LEVELS, 1);
+}
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>static</span> <span class='kw-2'>mut</span> <span class='ident'>LEVELS</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='number'>0</span>;
@@ -1875,14 +1882,14 @@ vtable when the trait is used as a <a href="#trait-objects">trait object</a>.</p
 <a href="#implementations">implementations</a>.</p>
 
 <p>Consider the following trait:</p>
+
 <span class='rusttest'>fn main() {
     type Surface = i32;
-    type BoundingBox = i32;
-    trait Shape {
-        fn draw(&amp;self, Surface);
-        fn bounding_box(&amp;self) -&gt; BoundingBox;
-    }
-    
+type BoundingBox = i32;
+trait Shape {
+    fn draw(&amp;self, Surface);
+    fn bounding_box(&amp;self) -&gt; BoundingBox;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Shape</span> {
     <span class='kw'>fn</span> <span class='ident'>draw</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>Surface</span>);
@@ -1895,12 +1902,12 @@ vtable when the trait is used as a <a href="#trait-objects">trait object</a>.</p
 <a href="#method-call-expressions">syntax</a>.</p>
 
 <p>Traits can include default implementations of methods, as in:</p>
+
 <span class='rusttest'>fn main() {
     trait Foo {
-        fn bar(&amp;self);
-        fn baz(&amp;self) { println!(&quot;We called baz.&quot;); }
-    }
-    
+    fn bar(&amp;self);
+    fn baz(&amp;self) { println!(&quot;We called baz.&quot;); }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Foo</span> {
     <span class='kw'>fn</span> <span class='ident'>bar</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>);
@@ -1914,13 +1921,13 @@ to override a method that has a default implementation.</p>
 <p>Type parameters can be specified for a trait to make it generic. These appear
 after the trait name, using the same syntax used in <a href="#generic-functions">generic
 functions</a>.</p>
+
 <span class='rusttest'>fn main() {
     trait Seq&lt;T&gt; {
-        fn len(&amp;self) -&gt; u32;
-        fn elt_at(&amp;self, n: u32) -&gt; T;
-        fn iter&lt;F&gt;(&amp;self, F) where F: Fn(T);
-    }
-    
+    fn len(&amp;self) -&gt; u32;
+    fn elt_at(&amp;self, n: u32) -&gt; T;
+    fn iter&lt;F&gt;(&amp;self, F) where F: Fn(T);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>len</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>u32</span>;
@@ -1931,35 +1938,35 @@ functions</a>.</p>
 <p>It is also possible to define associated types for a trait. Consider the
 following example of a <code>Container</code> trait. Notice how the type is available
 for use in the method signatures:</p>
+
 <span class='rusttest'>fn main() {
     trait Container {
-        type E;
-        fn empty() -&gt; Self;
-        fn insert(&amp;mut self, Self::E);
-    }
-    
+    type E;
+    fn empty() -&gt; Self;
+    fn insert(&amp;mut self, Self::E);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Container</span> {
     <span class='kw'>type</span> <span class='ident'>E</span>;
-    <span class='kw'>fn</span> <span class='ident'>empty</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>insert</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>Self</span>::<span class='ident'>E</span>);
+    <span class='kw'>fn</span> <span class='ident'>empty</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>insert</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='self'>Self</span>::<span class='ident'>E</span>);
 }</pre>
 
 <p>In order for a type to implement this trait, it must not only provide
 implementations for every method, but it must specify the type <code>E</code>. Here&#39;s
 an implementation of <code>Container</code> for the standard library type <code>Vec</code>:</p>
+
 <span class='rusttest'>fn main() {
     trait Container {
-        type E;
-        fn empty() -&gt; Self;
-        fn insert(&amp;mut self, Self::E);
-    }
-    impl&lt;T&gt; Container for Vec&lt;T&gt; {
-        type E = T;
-        fn empty() -&gt; Vec&lt;T&gt; { Vec::new() }
-        fn insert(&amp;mut self, x: T) { self.push(x); }
-    }
-    
+    type E;
+    fn empty() -&gt; Self;
+    fn insert(&amp;mut self, Self::E);
+}
+impl&lt;T&gt; Container for Vec&lt;T&gt; {
+    type E = T;
+    fn empty() -&gt; Vec&lt;T&gt; { Vec::new() }
+    fn insert(&amp;mut self, x: T) { self.push(x); }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Container</span> <span class='kw'>for</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>E</span> <span class='op'>=</span> <span class='ident'>T</span>;
@@ -1977,14 +1984,14 @@ called on values that have the parameter&#39;s type.</li>
 </ul>
 
 <p>For example:</p>
+
 <span class='rusttest'>fn main() {
     type Surface = i32;
-    trait Shape { fn draw(&amp;self, Surface); }
-    fn draw_twice&lt;T: Shape&gt;(surface: Surface, sh: T) {
-        sh.draw(surface);
-        sh.draw(surface);
-    }
-    
+trait Shape { fn draw(&amp;self, Surface); }
+fn draw_twice&lt;T: Shape&gt;(surface: Surface, sh: T) {
+    sh.draw(surface);
+    sh.draw(surface);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>draw_twice</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Shape</span><span class='op'>&gt;</span>(<span class='ident'>surface</span>: <span class='ident'>Surface</span>, <span class='ident'>sh</span>: <span class='ident'>T</span>) {
     <span class='ident'>sh</span>.<span class='ident'>draw</span>(<span class='ident'>surface</span>);
@@ -1998,12 +2005,12 @@ pointer of some specific type to a pointer of trait type. For example,
 for <code>Box&lt;T&gt;</code>). This coercion can either be implicit or
 <a href="#type-cast-expressions">explicit</a>. Here is an example of an explicit
 coercion:</p>
+
 <span class='rusttest'>fn main() {
     trait Shape { }
-    impl Shape for i32 { }
-    let mycircle = 0i32;
-    let myshape: Box&lt;Shape&gt; = Box::new(mycircle) as Box&lt;Shape&gt;;
-    
+impl Shape for i32 { }
+let mycircle = 0i32;
+let myshape: Box&lt;Shape&gt; = Box::new(mycircle) as Box&lt;Shape&gt;;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Shape</span> { }
 <span class='kw'>impl</span> <span class='ident'>Shape</span> <span class='kw'>for</span> <span class='ident'>i32</span> { }
@@ -2021,18 +2028,18 @@ This means that they can only be called with function call syntax (<code>f(x)</c
 not method call syntax (<code>obj.f()</code>). The way to refer to the name of a static
 method is to qualify it with the trait name, treating the trait name like a
 module. For example:</p>
+
 <span class='rusttest'>fn main() {
     trait Num {
-        fn from_i32(n: i32) -&gt; Self;
-    }
-    impl Num for f64 {
-        fn from_i32(n: i32) -&gt; f64 { n as f64 }
-    }
-    let x: f64 = Num::from_i32(42);
-    
+    fn from_i32(n: i32) -&gt; Self;
+}
+impl Num for f64 {
+    fn from_i32(n: i32) -&gt; f64 { n as f64 }
+}
+let x: f64 = Num::from_i32(42);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Num</span> {
-    <span class='kw'>fn</span> <span class='ident'>from_i32</span>(<span class='ident'>n</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>from_i32</span>(<span class='ident'>n</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
 }
 <span class='kw'>impl</span> <span class='ident'>Num</span> <span class='kw'>for</span> <span class='ident'>f64</span> {
     <span class='kw'>fn</span> <span class='ident'>from_i32</span>(<span class='ident'>n</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span> { <span class='ident'>n</span> <span class='kw'>as</span> <span class='ident'>f64</span> }
@@ -2040,10 +2047,10 @@ module. For example:</p>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>f64</span> <span class='op'>=</span> <span class='ident'>Num</span>::<span class='ident'>from_i32</span>(<span class='number'>42</span>);</pre>
 
 <p>Traits may inherit from other traits. Consider the following example:</p>
+
 <span class='rusttest'>fn main() {
     trait Shape { fn area(&amp;self) -&gt; f64; }
-    trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
-    
+trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Shape</span> { <span class='kw'>fn</span> <span class='ident'>area</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span>; }
 <span class='kw'>trait</span> <span class='ident'>Circle</span> : <span class='ident'>Shape</span> { <span class='kw'>fn</span> <span class='ident'>radius</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span>; }</pre>
@@ -2054,27 +2061,27 @@ have an implementation for <code>Shape</code>. Multiple supertraits are separate
 given type <code>T</code>, methods can refer to <code>Shape</code> methods, since the typechecker
 checks that any type with an implementation of <code>Circle</code> also has an
 implementation of <code>Shape</code>:</p>
+
 <span class='rusttest'>fn main() {
     struct Foo;
-    
-    trait Shape { fn area(&amp;self) -&gt; f64; }
-    trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
-    impl Shape for Foo {
-        fn area(&amp;self) -&gt; f64 {
-            0.0
-        }
+
+trait Shape { fn area(&amp;self) -&gt; f64; }
+trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
+impl Shape for Foo {
+    fn area(&amp;self) -&gt; f64 {
+        0.0
     }
-    impl Circle for Foo {
-        fn radius(&amp;self) -&gt; f64 {
-            println!(&quot;calling area: {}&quot;, self.area());
-    
-            0.0
-        }
+}
+impl Circle for Foo {
+    fn radius(&amp;self) -&gt; f64 {
+        println!(&quot;calling area: {}&quot;, self.area());
+
+        0.0
     }
-    
-    let c = Foo;
-    c.radius();
-    
+}
+
+let c = Foo;
+c.radius();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span>;
 
@@ -2099,14 +2106,14 @@ implementation of <code>Shape</code>:</p>
 <p>In type-parameterized functions, methods of the supertrait may be called on
 values of subtrait-bound type parameters. Referring to the previous example of
 <code>trait Circle : Shape</code>:</p>
+
 <span class='rusttest'>fn main() {
     trait Shape { fn area(&amp;self) -&gt; f64; }
-    trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
-    fn radius_times_area&lt;T: Circle&gt;(c: T) -&gt; f64 {
-        // `c` is both a Circle and a Shape
-        c.radius() * c.area()
-    }
-    
+trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
+fn radius_times_area&lt;T: Circle&gt;(c: T) -&gt; f64 {
+    // `c` is both a Circle and a Shape
+    c.radius() * c.area()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>radius_times_area</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>Circle</span><span class='op'>&gt;</span>(<span class='ident'>c</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>f64</span> {
     <span class='comment'>// `c` is both a Circle and a Shape</span>
@@ -2114,55 +2121,55 @@ values of subtrait-bound type parameters. Referring to the previous example of
 }</pre>
 
 <p>Likewise, supertrait methods may also be called on trait objects.</p>
+
 <span class='rusttest'>fn main() {
     trait Shape { fn area(&amp;self) -&gt; f64; }
-    trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
-    impl Shape for i32 { fn area(&amp;self) -&gt; f64 { 0.0 } }
-    impl Circle for i32 { fn radius(&amp;self) -&gt; f64 { 0.0 } }
-    let mycircle = 0i32;
-    let mycircle = Box::new(mycircle) as Box&lt;Circle&gt;;
-    let nonsense = mycircle.radius() * mycircle.area();
-    
+trait Circle : Shape { fn radius(&amp;self) -&gt; f64; }
+impl Shape for i32 { fn area(&amp;self) -&gt; f64 { 0.0 } }
+impl Circle for i32 { fn radius(&amp;self) -&gt; f64 { 0.0 } }
+let mycircle = 0i32;
+let mycircle = Box::new(mycircle) as Box&lt;Circle&gt;;
+let nonsense = mycircle.radius() * mycircle.area();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>mycircle</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='ident'>mycircle</span>) <span class='kw'>as</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Circle</span><span class='op'>&gt;</span>;
 <span class='kw'>let</span> <span class='ident'>nonsense</span> <span class='op'>=</span> <span class='ident'>mycircle</span>.<span class='ident'>radius</span>() <span class='op'>*</span> <span class='ident'>mycircle</span>.<span class='ident'>area</span>();</pre>
 
-<h3 id='implementations-1' class='section-header'><a href='#implementations-1'>6.1.10 Implementations</a></h3>
+<h3 id='implementations' class='section-header'><a href='#implementations'>6.1.10 Implementations</a></h3>
 <p>An <em>implementation</em> is an item that implements a <a href="#traits">trait</a> for a
 specific type.</p>
 
 <p>Implementations are defined with the keyword <code>impl</code>.</p>
+
 <span class='rusttest'>fn main() {
     #[derive(Copy, Clone)]
-    struct Point {x: f64, y: f64};
-    type Surface = i32;
-    struct BoundingBox {x: f64, y: f64, width: f64, height: f64};
-    trait Shape { fn draw(&amp;self, Surface); fn bounding_box(&amp;self) -&gt; BoundingBox; }
-    fn do_draw_circle(s: Surface, c: Circle) { }
-    struct Circle {
-        radius: f64,
-        center: Point,
-    }
-    
-    impl Copy for Circle {}
-    
-    impl Clone for Circle {
-        fn clone(&amp;self) -&gt; Circle { *self }
-    }
-    
-    impl Shape for Circle {
-        fn draw(&amp;self, s: Surface) { do_draw_circle(s, *self); }
-        fn bounding_box(&amp;self) -&gt; BoundingBox {
-            let r = self.radius;
-            BoundingBox {
-                x: self.center.x - r,
-                y: self.center.y - r,
-                width: 2.0 * r,
-                height: 2.0 * r,
-            }
+struct Point {x: f64, y: f64};
+type Surface = i32;
+struct BoundingBox {x: f64, y: f64, width: f64, height: f64};
+trait Shape { fn draw(&amp;self, Surface); fn bounding_box(&amp;self) -&gt; BoundingBox; }
+fn do_draw_circle(s: Surface, c: Circle) { }
+struct Circle {
+    radius: f64,
+    center: Point,
+}
+
+impl Copy for Circle {}
+
+impl Clone for Circle {
+    fn clone(&amp;self) -&gt; Circle { *self }
+}
+
+impl Shape for Circle {
+    fn draw(&amp;self, s: Surface) { do_draw_circle(s, *self); }
+    fn bounding_box(&amp;self) -&gt; BoundingBox {
+        let r = self.radius;
+        BoundingBox {
+            x: self.center.x - r,
+            y: self.center.y - r,
+            width: 2.0 * r,
+            height: 2.0 * r,
         }
     }
-    
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Circle</span> {
     <span class='ident'>radius</span>: <span class='ident'>f64</span>,
@@ -2194,18 +2201,18 @@ of the type that the implementation targets. In such an implementation, the
 trait type and <code>for</code> after <code>impl</code> are omitted. Such implementations are limited
 to nominal types (enums, structs, trait objects), and the implementation must
 appear in the same crate as the <code>self</code> type:</p>
+
 <span class='rusttest'>fn main() {
     struct Point {x: i32, y: i32}
-    
-    impl Point {
-        fn log(&amp;self) {
-            println!(&quot;Point is at ({}, {})&quot;, self.x, self.y);
-        }
+
+impl Point {
+    fn log(&amp;self) {
+        println!(&quot;Point is at ({}, {})&quot;, self.x, self.y);
     }
-    
-    let my_point = Point {x: 10, y:11};
-    my_point.log();
-    
+}
+
+let my_point = Point {x: 10, y:11};
+my_point.log();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {<span class='ident'>x</span>: <span class='ident'>i32</span>, <span class='ident'>y</span>: <span class='ident'>i32</span>}
 
@@ -2224,15 +2231,15 @@ trait must be implemented, with matching types and type parameter counts.</p>
 <p>An implementation can take type parameters, which can be different from the
 type parameters taken by the trait it implements. Implementation parameters
 are written after the <code>impl</code> keyword.</p>
+
 <span class='rusttest'>fn main() {
     trait Seq&lt;T&gt; { fn dummy(&amp;self, _: T) { } }
-    impl&lt;T&gt; Seq&lt;T&gt; for Vec&lt;T&gt; {
-        /* ... */
-    }
-    impl Seq&lt;bool&gt; for u32 {
-        /* Treat the integer as a sequence of bits */
-    }
-    
+impl&lt;T&gt; Seq&lt;T&gt; for Vec&lt;T&gt; {
+    /* ... */
+}
+impl Seq&lt;bool&gt; for u32 {
+    /* Treat the integer as a sequence of bits */
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Seq</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='comment'>/* ... */</span>
@@ -2259,10 +2266,10 @@ the Rust ABI and the foreign ABI.</p>
 <p>By default external blocks assume that the library they are calling uses the
 standard C &quot;cdecl&quot; ABI. Other ABIs may be specified using an <code>abi</code> string, as
 shown here:</p>
+
 <span class='rusttest'>fn main() {
     // Interface to the Windows API
-    extern &quot;stdcall&quot; { }
-    
+extern &quot;stdcall&quot; { }
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Interface to the Windows API</span>
 <span class='kw'>extern</span> <span class='string'>&quot;stdcall&quot;</span> { }</pre>
@@ -2270,10 +2277,10 @@ shown here:</p>
 <p>The <code>link</code> attribute allows the name of the library to be specified. When
 specified the compiler will attempt to link against the native library of the
 specified name.</p>
+
 <span class='rusttest'>fn main() {
     #[link(name = &quot;crypto&quot;)]
-    extern { }
-    
+extern { }
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>link</span>(<span class='ident'>name</span> <span class='op'>=</span> <span class='string'>&quot;crypto&quot;</span>)]</span>
 <span class='kw'>extern</span> { }</pre>
@@ -2303,6 +2310,7 @@ and weren&#39;t allowed to.&quot;</p>
 <p>By default, everything in Rust is <em>private</em>, with one exception. Enum variants
 in a <code>pub</code> enum are also public by default. When an item is declared as <code>pub</code>,
 it can be thought of as being accessible to the outside world. For example:</p>
+
 <span class='rusttest'>fn main() {}
 // Declare a private struct
 struct Foo;
@@ -2376,6 +2384,7 @@ scope.</p>
 
 <p>Here&#39;s an example of a program which exemplifies the three cases outlined
 above:</p>
+
 <span class='rusttest'>// This module is private, meaning that no external crate can access this
 // module. Because it is private at the root of this current crate, however, any
 // module in the crate may access any publicly visible item in this module.
@@ -2465,7 +2474,7 @@ fn main() {}
             <span class='comment'>// Because this module is a descendant of `submodule`, it&#39;s allowed</span>
             <span class='comment'>// to access private items inside of `submodule` without a privacy</span>
             <span class='comment'>// violation.</span>
-            <span class='ident'>super</span>::<span class='ident'>my_implementation</span>();
+            <span class='kw'>super</span>::<span class='ident'>my_implementation</span>();
         }
     }
 }
@@ -2480,6 +2489,7 @@ expressions, types, etc.</p>
 this is a public directive, this allows the item to be used in the current
 module through the rules above. It essentially allows public access into the
 re-exported item. For example, this program is valid:</p>
+
 <span class='rusttest'>pub use self::implementation::api;
 
 mod implementation {
@@ -2525,26 +2535,26 @@ attribute is declared within. Attributes that do not have a bang after the hash
 apply to the item that follows the attribute.</p>
 
 <p>An example of attributes:</p>
+
 <span class='rusttest'>fn main() {
     // General metadata applied to the enclosing module or crate.
-    #![crate_type = &quot;lib&quot;]
-    
-    // A function marked as a unit test
-    #[test]
-    fn test_foo() {
-        /* ... */
-    }
-    
-    // A conditionally-compiled module
-    #[cfg(target_os=&quot;linux&quot;)]
-    mod bar {
-        /* ... */
-    }
-    
-    // A lint attribute used to suppress a warning/error
-    #[allow(non_camel_case_types)]
-    type int8_t = i8;
-    
+#![crate_type = &quot;lib&quot;]
+
+// A function marked as a unit test
+#[test]
+fn test_foo() {
+    /* ... */
+}
+
+// A conditionally-compiled module
+#[cfg(target_os=&quot;linux&quot;)]
+mod bar {
+    /* ... */
+}
+
+// A lint attribute used to suppress a warning/error
+#[allow(non_camel_case_types)]
+type int8_t = i8;
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// General metadata applied to the enclosing module or crate.</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span> <span class='op'>=</span> <span class='string'>&quot;lib&quot;</span>]</span>
@@ -2744,32 +2754,32 @@ release builds.</p>
 (<code>#[cfg(foo)]</code>), and the other that contains a string that can be checked
 against (<code>#[cfg(bar = &quot;baz&quot;)]</code>). Currently, only compiler-defined configuration
 options can have the latter form.</p>
+
 <span class='rusttest'>fn main() {
     // The function is only included in the build when compiling for OSX
-    #[cfg(target_os = &quot;macos&quot;)]
-    fn macos_only() {
-      // ...
-    }
-    
-    // This function is only included when either foo or bar is defined
-    #[cfg(any(foo, bar))]
-    fn needs_foo_or_bar() {
-      // ...
-    }
-    
-    // This function is only included when compiling for a unixish OS with a 32-bit
-    // architecture
-    #[cfg(all(unix, target_pointer_width = &quot;32&quot;))]
-    fn on_32bit_unix() {
-      // ...
-    }
-    
-    // This function is only included when foo is not defined
-    #[cfg(not(foo))]
-    fn needs_not_foo() {
-      // ...
-    }
-    
+#[cfg(target_os = &quot;macos&quot;)]
+fn macos_only() {
+  // ...
+}
+
+// This function is only included when either foo or bar is defined
+#[cfg(any(foo, bar))]
+fn needs_foo_or_bar() {
+  // ...
+}
+
+// This function is only included when compiling for a unixish OS with a 32-bit
+// architecture
+#[cfg(all(unix, target_pointer_width = &quot;32&quot;))]
+fn on_32bit_unix() {
+  // ...
+}
+
+// This function is only included when foo is not defined
+#[cfg(not(foo))]
+fn needs_not_foo() {
+  // ...
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// The function is only included in the build when compiling for OSX</span>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span>
@@ -2833,9 +2843,9 @@ simply <code>&quot;unknown&quot;</code>.</li>
 </ul>
 
 <p>You can also set another attribute based on a <code>cfg</code> variable with <code>cfg_attr</code>:</p>
+
 <span class='rusttest'>fn main() {
     #[cfg_attr(a, b)]
-    
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>a</span>, <span class='ident'>b</span>)]</span></pre>
 
@@ -2860,21 +2870,21 @@ level afterwards,</li>
 <p>The lint checks supported by the compiler can be found via <code>rustc -W help</code>,
 along with their default settings.  <a href="book/compiler-plugins.html#lint-plugins">Compiler
 plugins</a> can provide additional lint checks.</p>
+
 <span class='rusttest'>fn main() {
     mod m1 {
-        // Missing documentation is ignored here
-        #[allow(missing_docs)]
-        pub fn undocumented_one() -&gt; i32 { 1 }
-    
-        // Missing documentation signals a warning here
-        #[warn(missing_docs)]
-        pub fn undocumented_too() -&gt; i32 { 2 }
-    
-        // Missing documentation signals an error here
-        #[deny(missing_docs)]
-        pub fn undocumented_end() -&gt; i32 { 3 }
-    }
-    
+    // Missing documentation is ignored here
+    #[allow(missing_docs)]
+    pub fn undocumented_one() -&gt; i32 { 1 }
+
+    // Missing documentation signals a warning here
+    #[warn(missing_docs)]
+    pub fn undocumented_too() -&gt; i32 { 2 }
+
+    // Missing documentation signals an error here
+    #[deny(missing_docs)]
+    pub fn undocumented_end() -&gt; i32 { 3 }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>m1</span> {
     <span class='comment'>// Missing documentation is ignored here</span>
@@ -2892,24 +2902,24 @@ plugins</a> can provide additional lint checks.</p>
 
 <p>This example shows how one can use <code>allow</code> and <code>warn</code> to toggle a particular
 check on and off:</p>
+
 <span class='rusttest'>fn main() {
     #[warn(missing_docs)]
-    mod m2{
-        #[allow(missing_docs)]
-        mod nested {
-            // Missing documentation is ignored here
-            pub fn undocumented_one() -&gt; i32 { 1 }
-    
-            // Missing documentation signals a warning here,
-            // despite the allow above.
-            #[warn(missing_docs)]
-            pub fn undocumented_two() -&gt; i32 { 2 }
-        }
-    
-        // Missing documentation signals a warning here
-        pub fn undocumented_too() -&gt; i32 { 3 }
+mod m2{
+    #[allow(missing_docs)]
+    mod nested {
+        // Missing documentation is ignored here
+        pub fn undocumented_one() -&gt; i32 { 1 }
+
+        // Missing documentation signals a warning here,
+        // despite the allow above.
+        #[warn(missing_docs)]
+        pub fn undocumented_two() -&gt; i32 { 2 }
     }
-    
+
+    // Missing documentation signals a warning here
+    pub fn undocumented_too() -&gt; i32 { 3 }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>m2</span>{
@@ -2930,15 +2940,15 @@ check on and off:</p>
 
 <p>This example shows how one can use <code>forbid</code> to disallow uses of <code>allow</code> for
 that lint check:</p>
+
 <span class='rusttest'>fn main() {
     #[forbid(missing_docs)]
-    mod m3 {
-        // Attempting to toggle warning signals an error here
-        #[allow(missing_docs)]
-        /// Returns 2.
-        pub fn undocumented_too() -&gt; i32 { 2 }
-    }
-    
+mod m3 {
+    // Attempting to toggle warning signals an error here
+    #[allow(missing_docs)]
+    /// Returns 2.
+    pub fn undocumented_too() -&gt; i32 { 2 }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>forbid</span>(<span class='ident'>missing_docs</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>m3</span> {
@@ -2954,12 +2964,12 @@ implemented directly in C or assembly language. The definitions of these
 operations have to be easy for the compiler to find. The <code>lang</code> attribute
 makes it possible to declare these operations. For example, the <code>str</code> module
 in the Rust standard library defines the string equality function:</p>
+
 <span class='rusttest'>fn main() {
     #[lang = &quot;str_eq&quot;]
-    pub fn eq_slice(a: &amp;str, b: &amp;str) -&gt; bool {
-        // details elided
-    }
-    
+pub fn eq_slice(a: &amp;str, b: &amp;str) -&gt; bool {
+    // details elided
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;str_eq&quot;</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>eq_slice</span>(<span class='ident'>a</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>, <span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -2998,13 +3008,13 @@ into the crate metadata to allow cross-crate inlining.</p>
 for data structures. For example, the following will create an <code>impl</code> for the
 <code>PartialEq</code> and <code>Clone</code> traits for <code>Foo</code>, the type parameter <code>T</code> will be given
 the <code>PartialEq</code> or <code>Clone</code> constraints for the appropriate <code>impl</code>:</p>
+
 <span class='rusttest'>fn main() {
     #[derive(PartialEq, Clone)]
-    struct Foo&lt;T&gt; {
-        a: i32,
-        b: T
-    }
-    
+struct Foo&lt;T&gt; {
+    a: i32,
+    b: T
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>PartialEq</span>, <span class='ident'>Clone</span>)]</span>
 <span class='kw'>struct</span> <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
@@ -3013,18 +3023,18 @@ the <code>PartialEq</code> or <code>Clone</code> constraints for the appropriate
 }</pre>
 
 <p>The generated <code>impl</code> for <code>PartialEq</code> is equivalent to</p>
+
 <span class='rusttest'>fn main() {
     struct Foo&lt;T&gt; { a: i32, b: T }
-    impl&lt;T: PartialEq&gt; PartialEq for Foo&lt;T&gt; {
-        fn eq(&amp;self, other: &amp;Foo&lt;T&gt;) -&gt; bool {
-            self.a == other.a &amp;&amp; self.b == other.b
-        }
-    
-        fn ne(&amp;self, other: &amp;Foo&lt;T&gt;) -&gt; bool {
-            self.a != other.a || self.b != other.b
-        }
+impl&lt;T: PartialEq&gt; PartialEq for Foo&lt;T&gt; {
+    fn eq(&amp;self, other: &amp;Foo&lt;T&gt;) -&gt; bool {
+        self.a == other.a &amp;&amp; self.b == other.b
     }
-    
+
+    fn ne(&amp;self, other: &amp;Foo&lt;T&gt;) -&gt; bool {
+        self.a != other.a || self.b != other.b
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>PartialEq</span><span class='op'>&gt;</span> <span class='ident'>PartialEq</span> <span class='kw'>for</span> <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>eq</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>other</span>: <span class='kw-2'>&amp;</span><span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
@@ -3043,9 +3053,9 @@ quality&quot; or &quot;almost production ready&quot;, but may not be stable enou
 considered a full-fledged language feature.</p>
 
 <p>For this reason, Rust recognizes a special crate-level attribute of the form:</p>
+
 <span class='rusttest'>#![feature(feature1, feature2, feature3)]
 fn main() {
-    
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>feature1</span>, <span class='ident'>feature2</span>, <span class='ident'>feature3</span>)]</span></pre>
 
@@ -3353,10 +3363,10 @@ parentheses. They are used to create <a href="#tuple-types">tuple-typed</a> valu
 
 <p>You can disambiguate a single-element tuple from a value in parentheses with a
 comma:</p>
+
 <span class='rusttest'>fn main() {
     (0,); // single-element tuple
-    (0); // zero in parentheses
-    
+(0); // zero in parentheses
 }</span><pre class='rust rust-example-rendered'>
 (<span class='number'>0</span>,); <span class='comment'>// single-element tuple</span>
 (<span class='number'>0</span>); <span class='comment'>// zero in parentheses</span></pre>
@@ -3380,16 +3390,16 @@ item.</p>
 <a href="#structs">struct item</a>.</p>
 
 <p>The following are examples of struct expressions:</p>
+
 <span class='rusttest'>fn main() {
     struct Point { x: f64, y: f64 }
-    struct TuplePoint(f64, f64);
-    mod game { pub struct User&lt;&#39;a&gt; { pub name: &amp;&#39;a str, pub age: u32, pub score: usize } }
-    struct Cookie; fn some_fn&lt;T&gt;(t: T) {}
-    Point {x: 10.0, y: 20.0};
-    TuplePoint(10.0, 20.0);
-    let u = game::User {name: &quot;Joe&quot;, age: 35, score: 100_000};
-    some_fn::&lt;Cookie&gt;(Cookie);
-    
+struct TuplePoint(f64, f64);
+mod game { pub struct User&lt;&#39;a&gt; { pub name: &amp;&#39;a str, pub age: u32, pub score: usize } }
+struct Cookie; fn some_fn&lt;T&gt;(t: T) {}
+Point {x: 10.0, y: 20.0};
+TuplePoint(10.0, 20.0);
+let u = game::User {name: &quot;Joe&quot;, age: 35, score: 100_000};
+some_fn::&lt;Cookie&gt;(Cookie);
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>Point</span> {<span class='ident'>x</span>: <span class='number'>10.0</span>, <span class='ident'>y</span>: <span class='number'>20.0</span>};
 <span class='ident'>TuplePoint</span>(<span class='number'>10.0</span>, <span class='number'>20.0</span>);
@@ -3407,11 +3417,11 @@ The entire expression denotes the result of constructing a new struct (with
 the same type as the base expression) with the given values for the fields that
 were explicitly specified and the values in the base expression for all other
 fields.</p>
+
 <span class='rusttest'>fn main() {
     struct Point3d { x: i32, y: i32, z: i32 }
-    let base = Point3d {x: 1, y: 2, z: 3};
-    Point3d {y: 0, z: 10, .. base};
-    
+let base = Point3d {x: 1, y: 2, z: 3};
+Point3d {y: 0, z: 10, .. base};
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>base</span> <span class='op'>=</span> <span class='ident'>Point3d</span> {<span class='ident'>x</span>: <span class='number'>1</span>, <span class='ident'>y</span>: <span class='number'>2</span>, <span class='ident'>z</span>: <span class='number'>3</span>};
 <span class='ident'>Point3d</span> {<span class='ident'>y</span>: <span class='number'>0</span>, <span class='ident'>z</span>: <span class='number'>10</span>, .. <span class='ident'>base</span>};</pre>
@@ -3424,18 +3434,18 @@ the block itself.</p>
 
 <p>A block will execute each statement sequentially, and then execute the
 expression (if given). If the block ends in a statement, its value is <code>()</code>:</p>
+
 <span class='rusttest'>fn main() {
     let x: () = { println!(&quot;Hello.&quot;); };
-    
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: () <span class='op'>=</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hello.&quot;</span>); };</pre>
 
 <p>If it ends in an expression, its value and type are that of the expression:</p>
+
 <span class='rusttest'>fn main() {
     let x: i32 = { println!(&quot;Hello.&quot;); 5 };
-    
-    assert_eq!(5, x);
-    
+
+assert_eq!(5, x);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hello.&quot;</span>); <span class='number'>5</span> };
 
@@ -3453,11 +3463,11 @@ the left-hand-side expression is an indirect <a href="#trait-objects">trait obje
 identifier, when not immediately followed by a parenthesized expression-list
 (the latter is a <a href="#method-call-expressions">method call expression</a>). A field
 expression denotes a field of a <a href="#struct-types">struct</a>.</p>
+
 <span class='rusttest'>fn main() {
     mystruct.myfield;
-    foo().x;
-    (Struct {a: 10, b: 20}).a;
-    
+foo().x;
+(Struct {a: 10, b: 20}).a;
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>mystruct</span>.<span class='ident'>myfield</span>;
 <span class='ident'>foo</span>().<span class='ident'>x</span>;
@@ -3479,12 +3489,12 @@ or more comma-separated expressions of uniform type in square brackets.</p>
 <p>In the <code>[expr &#39;;&#39; expr]</code> form, the expression after the <code>&#39;;&#39;</code> must be a
 constant expression that can be evaluated at compile time, such as a
 <a href="#literals">literal</a> or a <a href="#static-items">static item</a>.</p>
+
 <span class='rusttest'>fn main() {
     [1, 2, 3, 4];
-    [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;];
-    [0; 128];              // array with 128 zeros
-    [0u8, 0u8, 0u8, 0u8];
-    
+[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;];
+[0; 128];              // array with 128 zeros
+[0u8, 0u8, 0u8, 0u8];
 }</span><pre class='rust rust-example-rendered'>
 [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
 [<span class='string'>&quot;a&quot;</span>, <span class='string'>&quot;b&quot;</span>, <span class='string'>&quot;c&quot;</span>, <span class='string'>&quot;d&quot;</span>];
@@ -3519,12 +3529,12 @@ autoderefs to more.</p>
 
 <h3 id='range-expressions' class='section-header'><a href='#range-expressions'>7.2.10 Range expressions</a></h3>
 <p>The <code>..</code> operator will construct an object of one of the <code>std::ops::Range</code> variants.</p>
+
 <span class='rusttest'>fn main() {
     1..2;   // std::ops::Range
-    3..;    // std::ops::RangeFrom
-    ..4;    // std::ops::RangeTo
-    ..;     // std::ops::RangeFull
-    
+3..;    // std::ops::RangeFrom
+..4;    // std::ops::RangeTo
+..;     // std::ops::RangeFull
 }</span><pre class='rust rust-example-rendered'>
 <span class='number'>1</span>..<span class='number'>2</span>;   <span class='comment'>// std::ops::Range</span>
 <span class='number'>3</span>..;    <span class='comment'>// std::ops::RangeFrom</span>
@@ -3532,12 +3542,12 @@ autoderefs to more.</p>
 ..;     <span class='comment'>// std::ops::RangeFull</span></pre>
 
 <p>The following expressions are equivalent.</p>
+
 <span class='rusttest'>fn main() {
     let x = std::ops::Range {start: 0, end: 10};
-    let y = 0..10;
-    
-    assert_eq!(x, y);
-    
+let y = 0..10;
+
+assert_eq!(x, y);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Range</span> {<span class='ident'>start</span>: <span class='number'>0</span>, <span class='ident'>end</span>: <span class='number'>10</span>};
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>0</span>..<span class='number'>10</span>;
@@ -3674,16 +3684,16 @@ Calls the <code>ge</code> method on the <code>std::cmp::PartialOrd</code> trait.
 on the right-hand side.</p>
 
 <p>An example of an <code>as</code> expression:</p>
+
 <span class='rusttest'>fn main() {
     fn sum(values: &amp;[f64]) -&gt; f64 { 0.0 }
-    fn len(values: &amp;[f64]) -&gt; i32 { 0 }
-    
-    fn average(values: &amp;[f64]) -&gt; f64 {
-        let sum: f64 = sum(values);
-        let size: f64 = len(values) as f64;
-        sum / size
-    }
-    
+fn len(values: &amp;[f64]) -&gt; i32 { 0 }
+
+fn average(values: &amp;[f64]) -&gt; f64 {
+    let sum: f64 = sum(values);
+    let size: f64 = len(values) as f64;
+    sum / size
+}
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>fn</span> <span class='ident'>average</span>(<span class='ident'>values</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>f64</span>]) <span class='op'>-&gt;</span> <span class='ident'>f64</span> {
@@ -3707,11 +3717,11 @@ sign (<code>=</code>) and an <a href="#lvalues-rvalues-and-temporaries">rvalue</
 <p>Evaluating an assignment expression <a href="#moved-and-copied-types">either copies or
 moves</a> its right-hand operand to its left-hand
 operand.</p>
+
 <span class='rusttest'>fn main() {
     let mut x = 0;
-    let y = 0;
-    x = y;
-    
+let y = 0;
+x = y;
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>y</span>;</pre>
 
@@ -3749,9 +3759,9 @@ expression. Parentheses can be used to explicitly specify evaluation order
 within an expression.</p>
 
 <p>An example of a parenthesized expression:</p>
+
 <span class='rusttest'>fn main() {
     let x: i32 = (2 + 3) * 4;
-    
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> (<span class='number'>2</span> <span class='op'>+</span> <span class='number'>3</span>) <span class='op'>*</span> <span class='number'>4</span>;</pre>
 
@@ -3761,12 +3771,12 @@ and an optional location to move the function&#39;s output into. If the function
 eventually returns, then the expression completes.</p>
 
 <p>Some examples of call expressions:</p>
+
 <span class='rusttest'>fn main() {
     fn add(x: i32, y: i32) -&gt; i32 { 0 }
-    
-    let x: i32 = add(1i32, 2i32);
-    let pi: Result&lt;f32, _&gt; = &quot;3.14&quot;.parse();
-    
+
+let x: i32 = add(1i32, 2i32);
+let pi: Result&lt;f32, _&gt; = &quot;3.14&quot;.parse();
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>add</span>(<span class='number'>1i32</span>, <span class='number'>2i32</span>);
@@ -3799,15 +3809,15 @@ expression&#39;s captured environment.</p>
 
 <p>In this example, we define a function <code>ten_times</code> that takes a higher-order
 function argument, and we then call it with a lambda expression as an argument:</p>
+
 <span class='rusttest'>fn main() {
     fn ten_times&lt;F&gt;(f: F) where F: Fn(i32) {
-        for index in 0..10 {
-            f(index);
-        }
+    for index in 0..10 {
+        f(index);
     }
-    
-    ten_times(|j| println!(&quot;hello, {}&quot;, j));
-    
+}
+
+ten_times(|j| println!(&quot;hello, {}&quot;, j));
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>ten_times</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>f</span>: <span class='ident'>F</span>) <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>Fn</span>(<span class='ident'>i32</span>) {
     <span class='kw'>for</span> <span class='ident'>index</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
@@ -3853,14 +3863,14 @@ executes and control returns to the loop conditional expression. If the loop
 conditional expression evaluates to <code>false</code>, the <code>while</code> expression completes.</p>
 
 <p>An example:</p>
+
 <span class='rusttest'>fn main() {
     let mut i = 0;
-    
-    while i &lt; 10 {
-        println!(&quot;hello&quot;);
-        i = i + 1;
-    }
-    
+
+while i &lt; 10 {
+    println!(&quot;hello&quot;);
+    i = i + 1;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>0</span>;
 
@@ -3879,19 +3889,19 @@ loops</a>, <a href="#break-expressions">break expressions</a>, and
 by an implementation of <code>std::iter::IntoIterator</code>.</p>
 
 <p>An example of a <code>for</code> loop over the contents of an array:</p>
+
 <span class='rusttest'>fn main() {
     type Foo = i32;
-    fn bar(f: &amp;Foo) { }
-    let a = 0;
-    let b = 0;
-    let c = 0;
-    
-    let v: &amp;[Foo] = &amp;[a, b, c];
-    
-    for e in v {
-        bar(e);
-    }
-    
+fn bar(f: &amp;Foo) { }
+let a = 0;
+let b = 0;
+let c = 0;
+
+let v: &amp;[Foo] = &amp;[a, b, c];
+
+for e in v {
+    bar(e);
+}
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>let</span> <span class='ident'>v</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>Foo</span>] <span class='op'>=</span> <span class='kw-2'>&amp;</span>[<span class='ident'>a</span>, <span class='ident'>b</span>, <span class='ident'>c</span>];
@@ -3901,12 +3911,12 @@ by an implementation of <code>std::iter::IntoIterator</code>.</p>
 }</pre>
 
 <p>An example of a for loop over a series of integers:</p>
+
 <span class='rusttest'>fn main() {
     fn bar(b:usize) { }
-    for i in 0..256 {
-        bar(i);
-    }
-    
+for i in 0..256 {
+    bar(i);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>256</span> {
     <span class='ident'>bar</span>(<span class='ident'>i</span>);
@@ -3955,18 +3965,18 @@ matches inherits the lifetime of the lvalue, rather than being restricted to
 the inside of the match.</p>
 
 <p>An example of a <code>match</code> expression:</p>
+
 <span class='rusttest'>fn main() {
     let x = 1;
-    
-    match x {
-        1 =&gt; println!(&quot;one&quot;),
-        2 =&gt; println!(&quot;two&quot;),
-        3 =&gt; println!(&quot;three&quot;),
-        4 =&gt; println!(&quot;four&quot;),
-        5 =&gt; println!(&quot;five&quot;),
-        _ =&gt; println!(&quot;something else&quot;),
-    }
-    
+
+match x {
+    1 =&gt; println!(&quot;one&quot;),
+    2 =&gt; println!(&quot;two&quot;),
+    3 =&gt; println!(&quot;three&quot;),
+    4 =&gt; println!(&quot;four&quot;),
+    5 =&gt; println!(&quot;five&quot;),
+    _ =&gt; println!(&quot;something else&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
 
@@ -3985,32 +3995,32 @@ bind to a reference by using the <code>ref</code> keyword, or to a mutable refer
 <code>ref mut</code>.</p>
 
 <p>Subpatterns can also be bound to variables by the use of the syntax <code>variable @ subpattern</code>. For example:</p>
+
 <span class='rusttest'>fn main() {
     let x = 1;
-    
-    match x {
-        e @ 1 ... 5 =&gt; println!(&quot;got a range element {}&quot;, e),
-        _ =&gt; println!(&quot;anything&quot;),
-    }
-    
+
+match x {
+    e @ 1 ... 5 =&gt; println!(&quot;got a range element {}&quot;, e),
+    _ =&gt; println!(&quot;anything&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
 
 <span class='kw'>match</span> <span class='ident'>x</span> {
-    <span class='ident'>e</span> <span class='kw-2'>@</span> <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
+    <span class='ident'>e</span> @ <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
     _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
 }</pre>
 
 <p>Patterns can also dereference pointers by using the <code>&amp;</code>, <code>&amp;mut</code> and <code>box</code>
 symbols, as appropriate. For example, these two matches on <code>x: &amp;i32</code> are
 equivalent:</p>
+
 <span class='rusttest'>fn main() {
     let x = &amp;3;
-    let y = match *x { 0 =&gt; &quot;zero&quot;, _ =&gt; &quot;some&quot; };
-    let z = match x { &amp;0 =&gt; &quot;zero&quot;, _ =&gt; &quot;some&quot; };
-    
-    assert_eq!(y, z);
-    
+let y = match *x { 0 =&gt; &quot;zero&quot;, _ =&gt; &quot;some&quot; };
+let z = match x { &amp;0 =&gt; &quot;zero&quot;, _ =&gt; &quot;some&quot; };
+
+assert_eq!(y, z);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='op'>*</span><span class='ident'>x</span> { <span class='number'>0</span> <span class='op'>=&gt;</span> <span class='string'>&quot;zero&quot;</span>, _ <span class='op'>=&gt;</span> <span class='string'>&quot;some&quot;</span> };
 <span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>x</span> { <span class='kw-2'>&amp;</span><span class='number'>0</span> <span class='op'>=&gt;</span> <span class='string'>&quot;zero&quot;</span>, _ <span class='op'>=&gt;</span> <span class='string'>&quot;some&quot;</span> };
@@ -4019,15 +4029,15 @@ equivalent:</p>
 
 <p>Multiple match patterns may be joined with the <code>|</code> operator. A range of values
 may be specified with <code>...</code>. For example:</p>
+
 <span class='rusttest'>fn main() {
     let x = 2;
-    
-    let message = match x {
-        0 | 1  =&gt; &quot;not many&quot;,
-        2 ... 9 =&gt; &quot;a few&quot;,
-        _      =&gt; &quot;lots&quot;
-    };
-    
+
+let message = match x {
+    0 | 1  =&gt; &quot;not many&quot;,
+    2 ... 9 =&gt; &quot;a few&quot;,
+    _      =&gt; &quot;lots&quot;
+};
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>x</span> {
@@ -4044,17 +4054,17 @@ be a sub-range of another range pattern inside the same <code>match</code>.</p>
 criteria for matching a case. Pattern guards appear after the pattern and
 consist of a bool-typed expression following the <code>if</code> keyword. A pattern guard
 may refer to the variables bound within the pattern they follow.</p>
+
 <span class='rusttest'>fn main() {
     let maybe_digit = Some(0);
-    fn process_digit(i: i32) { }
-    fn process_other(i: i32) { }
-    
-    let message = match maybe_digit {
-        Some(x) if x &lt; 10 =&gt; process_digit(x),
-        Some(x) =&gt; process_other(x),
-        None =&gt; panic!()
-    };
-    
+fn process_digit(i: i32) { }
+fn process_other(i: i32) { }
+
+let message = match maybe_digit {
+    Some(x) if x &lt; 10 =&gt; process_digit(x),
+    Some(x) =&gt; process_other(x),
+    None =&gt; panic!()
+};
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>let</span> <span class='ident'>message</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>maybe_digit</span> {
@@ -4069,19 +4079,19 @@ place of a condition expression it expects a <code>let</code> statement with a r
 pattern. If the value of the expression on the right hand side of the <code>let</code>
 statement matches the pattern, the corresponding block will execute, otherwise
 flow proceeds to the first <code>else</code> block that follows.</p>
+
 <span class='rusttest'>fn main() {
     let dish = (&quot;Ham&quot;, &quot;Eggs&quot;);
-    
-    // this body will be skipped because the pattern is refuted
-    if let (&quot;Bacon&quot;, b) = dish {
-        println!(&quot;Bacon is served with {}&quot;, b);
-    }
-    
-    // this body will execute
-    if let (&quot;Ham&quot;, b) = dish {
-        println!(&quot;Ham is served with {}&quot;, b);
-    }
-    
+
+// this body will be skipped because the pattern is refuted
+if let (&quot;Bacon&quot;, b) = dish {
+    println!(&quot;Bacon is served with {}&quot;, b);
+}
+
+// this body will execute
+if let (&quot;Ham&quot;, b) = dish {
+    println!(&quot;Ham is served with {}&quot;, b);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>dish</span> <span class='op'>=</span> (<span class='string'>&quot;Ham&quot;</span>, <span class='string'>&quot;Eggs&quot;</span>);
 
@@ -4109,14 +4119,14 @@ current function call, destroys the current function activation frame, and
 transfers control to the caller frame.</p>
 
 <p>An example of a <code>return</code> expression:</p>
+
 <span class='rusttest'>fn main() {
     fn max(a: i32, b: i32) -&gt; i32 {
-        if a &gt; b {
-            return a;
-        }
-        return b;
+    if a &gt; b {
+        return a;
     }
-    
+    return b;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>max</span>(<span class='ident'>a</span>: <span class='ident'>i32</span>, <span class='ident'>b</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='kw'>if</span> <span class='ident'>a</span> <span class='op'>&gt;</span> <span class='ident'>b</span> {
@@ -4193,16 +4203,16 @@ pattern-matching or by using <code>N</code> directly as a field to access the
 <code>N</code>th element.</p>
 
 <p>An example of a tuple type and its use:</p>
+
 <span class='rusttest'>fn main() {
     type Pair&lt;&#39;a&gt; = (i32, &amp;&#39;a str);
-    let p: Pair&lt;&#39;static&gt; = (10, &quot;ten&quot;);
-    let (a, b) = p;
-    
-    assert_eq!(a, 10);
-    assert_eq!(b, &quot;ten&quot;);
-    assert_eq!(p.0, 10);
-    assert_eq!(p.1, &quot;ten&quot;);
-    
+let p: Pair&lt;&#39;static&gt; = (10, &quot;ten&quot;);
+let (a, b) = p;
+
+assert_eq!(a, 10);
+assert_eq!(b, &quot;ten&quot;);
+assert_eq!(p.0, 10);
+assert_eq!(p.1, &quot;ten&quot;);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>type</span> <span class='ident'>Pair</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> <span class='op'>=</span> (<span class='ident'>i32</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>);
 <span class='kw'>let</span> <span class='ident'>p</span>: <span class='ident'>Pair</span><span class='op'>&lt;</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> <span class='op'>=</span> (<span class='number'>10</span>, <span class='string'>&quot;ten&quot;</span>);
@@ -4231,16 +4241,16 @@ heap.</p>
 to, it borrows it.</p>
 
 <p>Examples:</p>
+
 <span class='rusttest'>fn main() {
     // A stack-allocated array
-    let array: [i32; 3] = [1, 2, 3];
-    
-    // A heap-allocated array
-    let vector: Vec&lt;i32&gt; = vec![1, 2, 3];
-    
-    // A slice into an array
-    let slice: &amp;[i32] = &amp;vector[..];
-    
+let array: [i32; 3] = [1, 2, 3];
+
+// A heap-allocated array
+let vector: Vec&lt;i32&gt; = vec![1, 2, 3];
+
+// A slice into an array
+let slice: &amp;[i32] = &amp;vector[..];
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// A stack-allocated array</span>
 <span class='kw'>let</span> <span class='ident'>array</span>: [<span class='ident'>i32</span>; <span class='number'>3</span>] <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
@@ -4318,14 +4328,14 @@ or crate boundaries (in order to simplify the module system and type checker).</
 </ul>
 
 <p>An example of a <em>recursive</em> type and its use:</p>
+
 <span class='rusttest'>fn main() {
     enum List&lt;T&gt; {
-        Nil,
-        Cons(T, Box&lt;List&lt;T&gt;&gt;)
-    }
-    
-    let a: List&lt;i32&gt; = List::Cons(7, Box::new(List::Cons(13, Box::new(List::Nil))));
-    
+    Nil,
+    Cons(T, Box&lt;List&lt;T&gt;&gt;)
+}
+
+let a: List&lt;i32&gt; = List::Cons(7, Box::new(List::Cons(13, Box::new(List::Nil))));
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>List</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>Nil</span>,
@@ -4370,17 +4380,17 @@ consists of a possibly-empty set of function-type modifiers (such as <code>unsaf
 or <code>extern</code>), a sequence of input types and an output type.</p>
 
 <p>An example of a <code>fn</code> type:</p>
+
 <span class='rusttest'>fn main() {
     fn add(x: i32, y: i32) -&gt; i32 {
-        return x + y;
-    }
-    
-    let mut x = add(5,7);
-    
-    type Binop = fn(i32, i32) -&gt; i32;
-    let bo: Binop = add;
-    x = bo(5,7);
-    
+    return x + y;
+}
+
+let mut x = add(5,7);
+
+type Binop = fn(i32, i32) -&gt; i32;
+let bo: Binop = add;
+x = bo(5,7);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>add</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>, <span class='ident'>y</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='kw'>return</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>;
@@ -4396,10 +4406,10 @@ or <code>extern</code>), a sequence of input types and an output type.</p>
 <p>Internal to the compiler, there are also function types that are specific to a particular
 function item. In the following snippet, for example, the internal types of the functions
 <code>foo</code> and <code>bar</code> are different, despite the fact that they have the same signature:</p>
+
 <span class='rusttest'>fn main() {
     fn foo() { }
-    fn bar() { }
-    
+fn bar() { }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>() { }
 <span class='kw'>fn</span> <span class='ident'>bar</span>() { }</pre>
@@ -4457,6 +4467,7 @@ represented as a pair of pointers: the vtable pointer for the <code>T</code>
 implementation of <code>R</code>, and the pointer value of <code>E</code>.</p>
 
 <p>An example of a trait object:</p>
+
 <span class='rusttest'>trait Printable {
     fn stringify(&amp;self) -&gt; String;
 }
@@ -4495,17 +4506,17 @@ type signature of <code>print</code>, and the cast expression in <code>main</cod
 <h3 id='type-parameters-1' class='section-header'><a href='#type-parameters-1'>8.1.12 Type parameters</a></h3>
 <p>Within the body of an item that has type parameter declarations, the names of
 its type parameters are types:</p>
+
 <span class='rusttest'>fn main() {
     fn to_vec&lt;A: Clone&gt;(xs: &amp;[A]) -&gt; Vec&lt;A&gt; {
-        if xs.is_empty() {
-            return vec![];
-        }
-        let first: A = xs[0].clone();
-        let mut rest: Vec&lt;A&gt; = to_vec(&amp;xs[1..]);
-        rest.insert(0, first);
-        rest
+    if xs.is_empty() {
+        return vec![];
     }
-    
+    let first: A = xs[0].clone();
+    let mut rest: Vec&lt;A&gt; = to_vec(&amp;xs[1..]);
+    rest.insert(0, first);
+    rest
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>to_vec</span><span class='op'>&lt;</span><span class='ident'>A</span>: <span class='ident'>Clone</span><span class='op'>&gt;</span>(<span class='ident'>xs</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>A</span>]) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>A</span><span class='op'>&gt;</span> {
     <span class='kw'>if</span> <span class='ident'>xs</span>.<span class='ident'>is_empty</span>() {
@@ -4524,17 +4535,17 @@ has type <code>Vec&lt;A&gt;</code>, a vector with element type <code>A</code>.</
 <p>The special type <code>Self</code> has a meaning within traits and impls. In a trait definition, it refers
 to an implicit type parameter representing the &quot;implementing&quot; type. In an impl,
 it is an alias for the implementing type. For example, in:</p>
+
 <span class='rusttest'>fn main() {
     trait Printable {
-        fn make_string(&amp;self) -&gt; String;
+    fn make_string(&amp;self) -&gt; String;
+}
+
+impl Printable for String {
+    fn make_string(&amp;self) -&gt; String {
+        (*self).clone()
     }
-    
-    impl Printable for String {
-        fn make_string(&amp;self) -&gt; String {
-            (*self).clone()
-        }
-    }
-    
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Printable</span> {
     <span class='kw'>fn</span> <span class='ident'>make_string</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span>;
@@ -4559,12 +4570,12 @@ would be due to type equality.</p>
 
 <p>Consider the following example: string literals always have <code>&#39;static</code>
 lifetime. Nevertheless, we can assign <code>s</code> to <code>t</code>:</p>
+
 <span class='rusttest'>fn main() {
     fn bar&lt;&#39;a&gt;() {
-        let s: &amp;&#39;static str = &quot;hi&quot;;
-        let t: &amp;&#39;a str = s;
-    }
-    
+    let s: &amp;&#39;static str = &quot;hi&quot;;
+    let t: &amp;&#39;a str = s;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>bar</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>() {
     <span class='kw'>let</span> <span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span> <span class='op'>=</span> <span class='string'>&quot;hi&quot;</span>;
@@ -4587,9 +4598,9 @@ sites are:</p>
 <li><p><code>let</code> statements where an explicit type is given.</p>
 
 <p>For example, <code>128</code> is coerced to have type <code>i8</code> in the following:</p>
+
 <span class='rusttest'>fn main() {
     let _: i8 = 128;
-    
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> _: <span class='ident'>i8</span> <span class='op'>=</span> <span class='number'>128</span>;</pre></li>
 <li><p><code>static</code> and <code>const</code> statements (similar to <code>let</code> statements).</p></li>
@@ -4599,6 +4610,7 @@ sites are:</p>
 the type of the formal parameter.</p>
 
 <p>For example, <code>128</code> is coerced to have type <code>i8</code> in the following:</p>
+
 <span class='rusttest'>fn bar(_: i8) { }
 
 fn main() {
@@ -4613,6 +4625,7 @@ fn main() {
 <li><p>Instantiations of struct or variant fields</p>
 
 <p>For example, <code>128</code> is coerced to have type <code>i8</code> in the following:</p>
+
 <span class='rusttest'>struct Foo { x: i8 }
 
 fn main() {
@@ -4628,11 +4641,11 @@ fn main() {
 semicolon-terminated or any expression in a <code>return</code> statement</p>
 
 <p>For example, <code>128</code> is coerced to have type <code>i8</code> in the following:</p>
+
 <span class='rusttest'>fn main() {
     fn foo() -&gt; i8 {
-      128
-    }
-    
+  128
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>() <span class='op'>-&gt;</span> <span class='ident'>i8</span> {
   <span class='number'>128</span>
@@ -4674,6 +4687,7 @@ the block has a known type.</p></li>
 <li><p><code>&amp;T</code> to <code>*const T</code></p></li>
 <li><p><code>&amp;mut T</code> to <code>*mut T</code></p></li>
 <li><p><code>&amp;T</code> to <code>&amp;U</code> if <code>T</code> implements <code>Deref&lt;Target = U&gt;</code>. For example:</p>
+
 <span class='rusttest'>use std::ops::Deref;
 
 struct CharContainer {
@@ -4797,16 +4811,16 @@ variable <code>y</code>).</p>
 
 <p>Methods that take either <code>self</code> or <code>Box&lt;Self&gt;</code> can optionally place them in a
 mutable variable by prefixing them with <code>mut</code> (similar to regular arguments):</p>
+
 <span class='rusttest'>fn main() {
     trait Changer {
-        fn change(mut self) -&gt; Self;
-        fn modify(mut self: Box&lt;Self&gt;) -&gt; Box&lt;Self&gt;;
-    }
-    
+    fn change(mut self) -&gt; Self;
+    fn modify(mut self: Box&lt;Self&gt;) -&gt; Box&lt;Self&gt;;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Changer</span> {
-    <span class='kw'>fn</span> <span class='ident'>change</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span>;
-    <span class='kw'>fn</span> <span class='ident'>modify</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='kw'>Self</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>change</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>;
+    <span class='kw'>fn</span> <span class='ident'>modify</span>(<span class='kw-2'>mut</span> <span class='self'>self</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='self'>Self</span><span class='op'>&gt;</span>;
 }</pre>
 
 <p>Local variables are not initialized when allocated; the entire frame worth of

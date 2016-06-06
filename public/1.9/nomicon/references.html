@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>References</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='meet-safe-and-unsafe.html'><b>2.</b> Meet Safe and Unsafe</a>
+<ul class='section'>
+<li><a  href='safe-unsafe-meaning.html'><b>2.1.</b> How Safe and Unsafe Interact</a>
+</li>
+<li><a  href='working-with-unsafe.html'><b>2.2.</b> Working with Unsafe</a>
+</li>
+</ul>
+</li>
+<li><a  href='data.html'><b>3.</b> Data Layout</a>
+<ul class='section'>
+<li><a  href='repr-rust.html'><b>3.1.</b> repr(Rust)</a>
+</li>
+<li><a  href='exotic-sizes.html'><b>3.2.</b> Exotically Sized Types</a>
+</li>
+<li><a  href='other-reprs.html'><b>3.3.</b> Other reprs</a>
+</li>
+</ul>
+</li>
+<li><a  href='ownership.html'><b>4.</b> Ownership</a>
+<ul class='section'>
+<li><a class='active' href='references.html'><b>4.1.</b> References</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.2.</b> Lifetimes</a>
+</li>
+<li><a  href='lifetime-mismatch.html'><b>4.3.</b> Limits of Lifetimes</a>
+</li>
+<li><a  href='lifetime-elision.html'><b>4.4.</b> Lifetime Elision</a>
+</li>
+<li><a  href='unbounded-lifetimes.html'><b>4.5.</b> Unbounded Lifetimes</a>
+</li>
+<li><a  href='hrtb.html'><b>4.6.</b> Higher-Rank Trait Bounds</a>
+</li>
+<li><a  href='subtyping.html'><b>4.7.</b> Subtyping and Variance</a>
+</li>
+<li><a  href='dropck.html'><b>4.8.</b> Drop Check</a>
+</li>
+<li><a  href='phantom-data.html'><b>4.9.</b> PhantomData</a>
+</li>
+<li><a  href='borrow-splitting.html'><b>4.10.</b> Splitting Borrows</a>
+</li>
+</ul>
+</li>
+<li><a  href='conversions.html'><b>5.</b> Type Conversions</a>
+<ul class='section'>
+<li><a  href='coercions.html'><b>5.1.</b> Coercions</a>
+</li>
+<li><a  href='dot-operator.html'><b>5.2.</b> The Dot Operator</a>
+</li>
+<li><a  href='casts.html'><b>5.3.</b> Casts</a>
+</li>
+<li><a  href='transmutes.html'><b>5.4.</b> Transmutes</a>
+</li>
+</ul>
+</li>
+<li><a  href='uninitialized.html'><b>6.</b> Uninitialized Memory</a>
+<ul class='section'>
+<li><a  href='checked-uninit.html'><b>6.1.</b> Checked</a>
+</li>
+<li><a  href='drop-flags.html'><b>6.2.</b> Drop Flags</a>
+</li>
+<li><a  href='unchecked-uninit.html'><b>6.3.</b> Unchecked</a>
+</li>
+</ul>
+</li>
+<li><a  href='obrm.html'><b>7.</b> Ownership Based Resource Management</a>
+<ul class='section'>
+<li><a  href='constructors.html'><b>7.1.</b> Constructors</a>
+</li>
+<li><a  href='destructors.html'><b>7.2.</b> Destructors</a>
+</li>
+<li><a  href='leaking.html'><b>7.3.</b> Leaking</a>
+</li>
+</ul>
+</li>
+<li><a  href='unwinding.html'><b>8.</b> Unwinding</a>
+<ul class='section'>
+<li><a  href='exception-safety.html'><b>8.1.</b> Exception Safety</a>
+</li>
+<li><a  href='poisoning.html'><b>8.2.</b> Poisoning</a>
+</li>
+</ul>
+</li>
+<li><a  href='concurrency.html'><b>9.</b> Concurrency</a>
+<ul class='section'>
+<li><a  href='races.html'><b>9.1.</b> Races</a>
+</li>
+<li><a  href='send-and-sync.html'><b>9.2.</b> Send and Sync</a>
+</li>
+<li><a  href='atomics.html'><b>9.3.</b> Atomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='vec.html'><b>10.</b> Implementing Vec</a>
+<ul class='section'>
+<li><a  href='vec-layout.html'><b>10.1.</b> Layout</a>
+</li>
+<li><a  href='vec-alloc.html'><b>10.2.</b> Allocating</a>
+</li>
+<li><a  href='vec-push-pop.html'><b>10.3.</b> Push and Pop</a>
+</li>
+<li><a  href='vec-dealloc.html'><b>10.4.</b> Deallocating</a>
+</li>
+<li><a  href='vec-deref.html'><b>10.5.</b> Deref</a>
+</li>
+<li><a  href='vec-insert-remove.html'><b>10.6.</b> Insert and Remove</a>
+</li>
+<li><a  href='vec-into-iter.html'><b>10.7.</b> IntoIter</a>
+</li>
+<li><a  href='vec-raw.html'><b>10.8.</b> RawVec</a>
+</li>
+<li><a  href='vec-drain.html'><b>10.9.</b> Drain</a>
+</li>
+<li><a  href='vec-zsts.html'><b>10.10.</b> Handling Zero-Sized Types</a>
+</li>
+<li><a  href='vec-final.html'><b>10.11.</b> Final Code</a>
+</li>
+</ul>
+</li>
+<li><a  href='arc-and-mutex.html'><b>11.</b> Implementing Arc and Mutex</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">References</h1>
+    <p>This section gives a high-level view of the memory model that <em>all</em> Rust
+programs must satisfy to be correct. Safe code is statically verified
+to obey this model by the borrow checker. Unsafe code may go above
+and beyond the borrow checker while still satisfying this model. The borrow
+checker may also be extended to allow more programs to compile, as long as
+this more fundamental model is satisfied.</p>
+
+<p>There are two kinds of reference:</p>
+
+<ul>
+<li>Shared reference: <code>&amp;</code></li>
+<li>Mutable reference: <code>&amp;mut</code></li>
+</ul>
+
+<p>Which obey the following rules:</p>
+
+<ul>
+<li>A reference cannot outlive its referent</li>
+<li>A mutable reference cannot be aliased</li>
+</ul>
+
+<p>That&#39;s it. That&#39;s the whole model. Of course, we should probably define
+what <em>aliased</em> means. To define aliasing, we must define the notion of
+<em>paths</em> and <em>liveness</em>.</p>
+
+<p><strong>NOTE: The model that follows is generally agreed to be dubious and have
+issues. It&#39;s ok-ish as an intuitive model, but fails to capture the desired
+semantics. We leave this here to be able to use notions introduced here in later
+sections. This will be significantly changed in the future. TODO: do that.</strong></p>
+
+<h1 id='paths' class='section-header'><a href='#paths'>Paths</a></h1>
+<p>If all Rust had were values (no pointers), then every value would be uniquely
+owned by a variable or composite structure. From this we naturally derive a
+<em>tree</em> of ownership. The stack itself is the root of the tree, with every
+variable as its direct children. Each variable&#39;s direct children would be their
+fields (if any), and so on.</p>
+
+<p>From this view, every value in Rust has a unique <em>path</em> in the tree of
+ownership. Of particular interest are <em>ancestors</em> and <em>descendants</em>: if <code>x</code> owns
+<code>y</code>, then <code>x</code> is an ancestor of <code>y</code>, and <code>y</code> is a descendant of <code>x</code>. Note
+that this is an inclusive relationship: <code>x</code> is a descendant and ancestor of
+itself.</p>
+
+<p>We can then define references as simply <em>names</em> for paths. When you create a
+reference, you&#39;re declaring that an ownership path exists to this address
+of memory.</p>
+
+<p>Tragically, plenty of data doesn&#39;t reside on the stack, and we must also
+accommodate this. Globals and thread-locals are simple enough to model as
+residing at the bottom of the stack (though we must be careful with mutable
+globals). Data on the heap poses a different problem.</p>
+
+<p>If all Rust had on the heap was data uniquely owned by a pointer on the stack,
+then we could just treat such a pointer as a struct that owns the value on the
+heap. Box, Vec, String, and HashMap, are examples of types which uniquely
+own data on the heap.</p>
+
+<p>Unfortunately, data on the heap is not <em>always</em> uniquely owned. Rc for instance
+introduces a notion of <em>shared</em> ownership. Shared ownership of a value means
+there is no unique path to it. A value with no unique path limits what we can do
+with it.</p>
+
+<p>In general, only shared references can be created to non-unique paths. However
+mechanisms which ensure mutual exclusion may establish One True Owner
+temporarily, establishing a unique path to that value (and therefore all
+its children). If this is done, the value may be mutated. In particular, a
+mutable reference can be taken.</p>
+
+<p>The most common way to establish such a path is through <em>interior mutability</em>,
+in contrast to the <em>inherited mutability</em> that everything in Rust normally uses.
+Cell, RefCell, Mutex, and RWLock are all examples of interior mutability types.
+These types provide exclusive access through runtime restrictions.</p>
+
+<p>An interesting case of this effect is Rc itself: if an Rc has refcount 1,
+then it is safe to mutate or even move its internals. Note however that the
+refcount itself uses interior mutability.</p>
+
+<p>In order to correctly communicate to the type system that a variable or field of
+a struct can have interior mutability, it must be wrapped in an UnsafeCell. This
+does not in itself make it safe to perform interior mutability operations on
+that value. You still must yourself ensure that mutual exclusion is upheld.</p>
+
+<h1 id='liveness' class='section-header'><a href='#liveness'>Liveness</a></h1>
+<p>Note: Liveness is not the same thing as a <em>lifetime</em>, which will be explained
+in detail in the next section of this chapter.</p>
+
+<p>Roughly, a reference is <em>live</em> at some point in a program if it can be
+dereferenced. Shared references are always live unless they are literally
+unreachable (for instance, they reside in freed or leaked memory). Mutable
+references can be reachable but <em>not</em> live through the process of <em>reborrowing</em>.</p>
+
+<p>A mutable reference can be reborrowed to either a shared or mutable reference to
+one of its descendants. A reborrowed reference will only be live again once all
+reborrows derived from it expire. For instance, a mutable reference can be
+reborrowed to point to a field of its referent:</p>
+
+<span class='rusttest'>fn main() {
+    let x = &amp;mut (1, 2);
+{
+    // reborrow x to a subfield
+    let y = &amp;mut x.0;
+    // y is now live, but x isn&#39;t
+    *y = 3;
+}
+// y goes out of scope, so x is live again
+*x = (5, 7);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> (<span class='number'>1</span>, <span class='number'>2</span>);
+{
+    <span class='comment'>// reborrow x to a subfield</span>
+    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>.<span class='number'>0</span>;
+    <span class='comment'>// y is now live, but x isn&#39;t</span>
+    <span class='op'>*</span><span class='ident'>y</span> <span class='op'>=</span> <span class='number'>3</span>;
+}
+<span class='comment'>// y goes out of scope, so x is live again</span>
+<span class='op'>*</span><span class='ident'>x</span> <span class='op'>=</span> (<span class='number'>5</span>, <span class='number'>7</span>);</pre>
+
+<p>It is also possible to reborrow into <em>multiple</em> mutable references, as long as
+they are <em>disjoint</em>: no reference is an ancestor of another. Rust
+explicitly enables this to be done with disjoint struct fields, because
+disjointness can be statically proven:</p>
+
+<span class='rusttest'>fn main() {
+    let x = &amp;mut (1, 2);
+{
+    // reborrow x to two disjoint subfields
+    let y = &amp;mut x.0;
+    let z = &amp;mut x.1;
+
+    // y and z are now live, but x isn&#39;t
+    *y = 3;
+    *z = 4;
+}
+// y and z go out of scope, so x is live again
+*x = (5, 7);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> (<span class='number'>1</span>, <span class='number'>2</span>);
+{
+    <span class='comment'>// reborrow x to two disjoint subfields</span>
+    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>.<span class='number'>0</span>;
+    <span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>.<span class='number'>1</span>;
+
+    <span class='comment'>// y and z are now live, but x isn&#39;t</span>
+    <span class='op'>*</span><span class='ident'>y</span> <span class='op'>=</span> <span class='number'>3</span>;
+    <span class='op'>*</span><span class='ident'>z</span> <span class='op'>=</span> <span class='number'>4</span>;
+}
+<span class='comment'>// y and z go out of scope, so x is live again</span>
+<span class='op'>*</span><span class='ident'>x</span> <span class='op'>=</span> (<span class='number'>5</span>, <span class='number'>7</span>);</pre>
+
+<p>However it&#39;s often the case that Rust isn&#39;t sufficiently smart to prove that
+multiple borrows are disjoint. <em>This does not mean it is fundamentally illegal
+to make such a borrow</em>, just that Rust isn&#39;t as smart as you want.</p>
+
+<p>To simplify things, we can model variables as a fake type of reference: <em>owned</em>
+references. Owned references have much the same semantics as mutable references:
+they can be re-borrowed in a mutable or shared manner, which makes them no
+longer live. Live owned references have the unique property that they can be
+moved out of (though mutable references <em>can</em> be swapped out of). This power is
+only given to <em>live</em> owned references because moving its referent would of
+course invalidate all outstanding references prematurely.</p>
+
+<p>As a local lint against inappropriate mutation, only variables that are marked
+as <code>mut</code> can be borrowed mutably.</p>
+
+<p>It is interesting to note that Box behaves exactly like an owned reference. It
+can be moved out of, and Rust understands it sufficiently to reason about its
+paths like a normal variable.</p>
+
+<h1 id='aliasing' class='section-header'><a href='#aliasing'>Aliasing</a></h1>
+<p>With liveness and paths defined, we can now properly define <em>aliasing</em>:</p>
+
+<p><strong>A mutable reference is aliased if there exists another live reference to one
+of its ancestors or descendants.</strong></p>
+
+<p>(If you prefer, you may also say the two live references alias <em>each other</em>.
+This has no semantic consequences, but is probably a more useful notion when
+verifying the soundness of a construct.)</p>
+
+<p>That&#39;s it. Super simple right? Except for the fact that it took us two pages to
+define all of the terms in that definition. You know: Super. Simple.</p>
+
+<p>Actually it&#39;s a bit more complicated than that. In addition to references, Rust
+has <em>raw pointers</em>: <code>*const T</code> and <code>*mut T</code>. Raw pointers have no inherent
+ownership or aliasing semantics. As a result, Rust makes absolutely no effort to
+track that they are used correctly, and they are wildly unsafe.</p>
+
+<p><strong>It is an open question to what degree raw pointers have alias semantics.
+However it is important for these definitions to be sound that the existence of
+a raw pointer does not imply some kind of live path.</strong></p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>
