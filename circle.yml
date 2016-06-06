@@ -1,3 +1,8 @@
+general:
+  branches:
+    ignore:
+      - gh-pages
+
 machine:
   timezone:
     Asia/Tokyo
@@ -14,9 +19,11 @@ dependencies:
     - sudo apt-get update
     - sudo apt-get install curl file gcc git make openssh-client
     - mkdir -p $HOME/rust
+    # Install rustc and cargo, or use cached ones.
     - ./tools/circleci/setup-rust.sh $RUST_HOME $RUST_NIGHTLY_RELEASE_DATE
     - rustc --version --verbose
     - cargo --version --verbose
+    # Install rustbook, or use cached one.
     - cargo install --root $RUST_HOME --git $RUSTBOOK_GIT_URL --branch $RUSTBOOK_GIT_BRANCH || true
     - rustbook help
   cache_directories:
@@ -29,15 +36,29 @@ test:
     - make VERSION=1.6
 
   post:
+    # Save 1.9 contents as an artifact
     - mkdir $CIRCLE_ARTIFACTS/1.9
-    - mv public/1.9/index.html $CIRCLE_ARTIFACTS/1.9
-    - mv public/1.9/book $CIRCLE_ARTIFACTS/1.9
-    - mv public/1.9/*.inc public/1.9/*.css public/1.9/*.js $CIRCLE_ARTIFACTS/1.9
+    - cp -p public/1.9/index.html $CIRCLE_ARTIFACTS/1.9
+    - cp -rp public/1.9/book $CIRCLE_ARTIFACTS/1.9
+    - cp -rp public/1.9/*.inc public/1.9/*.css public/1.9/*.js $CIRCLE_ARTIFACTS/1.9
     - tar cJf public-1.9.txz public/1.9
     - mv public-1.9.txz $CIRCLE_ARTIFACTS
+    # Save 1.6 contents as an artifact
     - mkdir $CIRCLE_ARTIFACTS/1.6
-    - mv public/1.6/index.html $CIRCLE_ARTIFACTS/1.6
-    - mv public/1.6/book $CIRCLE_ARTIFACTS/1.6
-    - mv public/1.6/*.inc public/1.6/*.css public/1.6/*.js $CIRCLE_ARTIFACTS/1.6
+    - cp -p public/1.6/index.html $CIRCLE_ARTIFACTS/1.6
+    - cp -rp public/1.6/book $CIRCLE_ARTIFACTS/1.6
+    - cp -rp public/1.6/*.inc public/1.6/*.css public/1.6/*.js $CIRCLE_ARTIFACTS/1.6
     - tar cJf public-1.6.txz public/1.6
     - mv public-1.6.txz $CIRCLE_ARTIFACTS
+
+deployment:
+  publish:
+    branch: master
+    commands:
+      - git config user.name "Tatsuya Kawano (CircleCI)"
+      - git config user.email "tatsuya@hibaridb.org"
+      - ./tools/circleci/push-to-master.sh
+      # Do not publish 1.9 to gh-pages until all (or most of) the contents
+      # are updated from 1.6.
+      - rm -rf public/1.9
+      - ./tools/circleci/publish-to-gh-pages.sh
