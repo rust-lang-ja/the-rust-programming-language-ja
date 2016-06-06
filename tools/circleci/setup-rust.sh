@@ -1,7 +1,16 @@
 #!/bin/sh
 
 set -e
-set -u
+
+if [ "x$2" == "x" ]; then
+    cat 1>&2 <<EOF
+
+Error: Missing parameter(s).
+
+Usage: $0 <Rust home dir> <Rust nightly release date>
+EOF
+    exit 1
+fi
 
 RUST_HOME=$1
 RUST_NIGHTLY_RELEASE_DATE=$2
