@@ -18,7 +18,7 @@ REVISION=$(git rev-parse --short HEAD)
 # Recreate the worktree for gh-pages
 rm -rf ./gh-pages || true
 git worktree prune || true
-git branch -D gh-pages || true
+git branch -D gh-pages 2> /dev/null || true
 mkdir -p ./gh-pages
 git branch gh-pages origin/gh-pages
 git worktree add ./gh-pages gh-pages
