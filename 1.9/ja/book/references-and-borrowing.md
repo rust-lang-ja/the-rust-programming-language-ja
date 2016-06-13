@@ -410,7 +410,7 @@ Rustはこれが真であることを保証するために、参照のスコー�
 
 <!-- If Rust didn’t check this property, we could accidentally use a reference -->
 <!-- which was invalid. For example: -->
-もしRustがこの所有物をチェックしなければ、無効な参照をうっかり使ってしまうかもしれません。
+もしRustがこの性質をチェックしなければ、無効な参照をうっかり使ってしまうかもしれません。
 例えばこうです。
 
 ```rust,ignore

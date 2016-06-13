@@ -67,7 +67,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- [Variable bindings][bindings] have a property in Rust: they ‘have ownership’ -->
 <!-- of what they’re bound to. This means that when a binding goes out of scope, -->
 <!-- Rust will free the bound resources. For example: -->
-Rustでは [変数束縛][bindings] は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
+Rustの [変数束縛][bindings] は、束縛されているものの「所有権を持つ」という特性を持ちます。
 これは束縛がスコープから外れるとき、Rustは束縛されているリソースを解放するだろうということを意味します。
 例えばこうです。
 
