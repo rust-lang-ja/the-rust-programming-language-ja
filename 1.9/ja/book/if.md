@@ -78,7 +78,7 @@ let y = if x == 5 {
 ```
 
 <!-- Which we can (and probably should) write like this: -->
-また、次のように、書くのがほとんどの場合良いでしょう:
+また、次のように書くのがほとんどの場合良いでしょう:
 
 ```rust
 let x = 5;
@@ -91,4 +91,3 @@ let y = if x == 5 { 10 } else { 15 }; // y: i32
 <!-- `else` always results in `()` as the value. -->
 これが出来るのは `if` が式だからです。その式の値は、選択された条件の最後の式の値です。
 `else` のない `if` では、その値は常に `()` になります。
-
