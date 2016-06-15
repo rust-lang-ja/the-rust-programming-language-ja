@@ -32,8 +32,8 @@ dependencies:
 
 test:
   override:
-    - make VERSION=1.9
-    - make VERSION=1.6
+    - make clean all VERSION=1.9
+    - make clean all VERSION=1.6
 
   post:
     # Save 1.9 contents as an artifact
