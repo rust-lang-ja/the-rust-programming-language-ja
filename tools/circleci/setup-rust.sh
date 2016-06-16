@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "x$2" == "x" ]; then
+if [ "x$2" = "x" ]; then
     cat 1>&2 <<EOF
 
 Error: Missing parameter(s).

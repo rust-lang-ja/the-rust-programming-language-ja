@@ -28,7 +28,11 @@ RUSTDOC_HTML_OPTS_NO_CSS = --html-before-content=$(TARGET_DIR)/version_info.html
 RUSTDOC_HTML_OPTS = $(RUSTDOC_HTML_OPTS_NO_CSS) --markdown-css rust.css
 
 STATIC_DIRS := alloc collections core implementors libc rustc_unicode std
-STATIC_FILES := jquery.js main.css main.js search-index.js
+STATIC_FILES := jquery.js main.css main.js playpen.js search-index.js rustdoc.css \
+	LICENSE-APACHE LICENSE-MIT \
+	FiraSans-Medium.woff FiraSans-Regular.woff Heuristica-Italic.woff \
+	SourceCodePro-Regular.woff SourceCodePro-Semibold.woff \
+	SourceSerifPro-Bold.woff SourceSerifPro-Regular.woff
 
 DOC_TARGETS := book nomicon style
 
@@ -46,23 +50,31 @@ nomicon: $(TARGET_DIR)/nomicon/index.html
 
 style: $(TARGET_DIR)/style/index.html
 
-.PHONY: publish book nomicon style docs all
+.PHONY: publish book nomicon style docs clean all
 
 
 
 $(TARGET_DIR)/book/index.html: $(wildcard $(BASE_DIR)/book/*.md) | $(TARGET_DIR)
+	@echo ""
+	@echo "== rustbook: Generating HTML from $(BASE_DIR)/book/*.md"
 	rm -rf $(TARGET_DIR)/book
 	$(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/book
 
 $(TARGET_DIR)/nomicon/index.html: $(wildcard $(BASE_DIR)/nomicon/*.md) | $(TARGET_DIR)
+	@echo ""
+	@echo "== rustbook: Generating HTML from $(BASE_DIR)/nomicon/*.md"
 	rm -rf $(TARGET_DIR)/nomicon
 	$(RUSTBOOK) build $(BASE_DIR)/nomicon $(TARGET_DIR)/nomicon
 
 $(TARGET_DIR)/style/index.html: $(wildcard $(BASE_DIR)/style/*.md) | $(TARGET_DIR)
+	@echo ""
+	@echo "== rustbook: Generating HTML from $(BASE_DIR)/style/*.md"
 	rm -rf $(TARGET_DIR)/style
 	$(RUSTBOOK) build $(BASE_DIR)/style $(TARGET_DIR)/style
 
 $(TARGET_DIR):
+	@echo ""
+	@echo "== Creating $(TARGET_DIR)"
 	mkdir -p $(TARGET_DIR)
 
 
@@ -73,9 +85,12 @@ $(TARGET_DIR):
 HTML_DEPS += $(TARGET_DIR)/version_info.html
 $(TARGET_DIR)/version_info.html: $(BASE_DIR)/version_info.html.template $(MKFILE_DEPS) \
                        $(wildcard $(BASE_DIR)/*.*) | $(BASE_DIR)
+	@echo ""
+	@echo "== Setting Rust version to $@"
 	sed -e "s/VERSION/$(VERSION)/; \
                 s/SHORT_HASH/$(SHORT_VER_HASH)/; \
                 s/STAMP/$(VER_HASH)/;" $< >$@
+	@echo ""
 
 ######################################################################
 # Docs from rustdoc
@@ -105,6 +120,8 @@ define DEF_DOC
 # HTML (rustdoc)
 DOC_TARGETS += $$(TARGET_DIR)/$(1).html
 $$(TARGET_DIR)/$(1).html: $$(BASE_DIR)/$(1).md $$(HTML_DEPS) $$(RUSTDOC_DEPS_$(1)) | $$(TARGET_DIR)
+	@echo ""
+	@echo "== rustdoc: Generating HTML from $$<"
 	$$(RUSTDOC) $$(RUSTDOC_HTML_OPTS) $$(RUSTDOC_FLAGS_$(1)) $$< -o $$(TARGET_DIR)
 
 endef
@@ -134,5 +151,10 @@ $$(TARGET_DIR)/$(1):
 endef
 $(foreach filename,$(STATIC_FILES),$(eval $(call DEF_COPY_FILE,$(filename))))
 
+
+# Do not forget to specify the VERSION to clean. e.g `make clean VERSION=1.6`
+clean:
+	@rm -rf $(TARGET_DIR)
+	@echo "== Removed $(TARGET_DIR)"
 
 all: $(DOC_TARGETS)
