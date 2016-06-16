@@ -174,6 +174,7 @@ boundaries.</p>
 
 <p>Given a function, any output lifetimes that don&#39;t derive from inputs are
 unbounded. For instance:</p>
+
 <span class='rusttest'>fn main() {
     fn get_str&lt;&#39;a&gt;() -&gt; &amp;&#39;a str;
 }</span><pre class='rust rust-example-rendered'>

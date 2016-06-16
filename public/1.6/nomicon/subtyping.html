@@ -231,6 +231,7 @@ longer lived things where shorted lived things are expected.</p>
 
 <p>However this logic doesn&#39;t apply to <code>&amp;mut</code>. To see why <code>&amp;mut</code> should
 be invariant over T, consider the following code:</p>
+
 <span class='rusttest'>fn overwrite&lt;T: Copy&gt;(input: &amp;mut T, new: &amp;mut T) {
     *input = *new;
 }
@@ -292,11 +293,12 @@ expected.</p>
 
 <p>However what should happen when passing <em>by-value</em> is less obvious. It turns out
 that, yes, you can use subtyping when passing by-value. That is, this works:</p>
+
 <span class='rusttest'>fn main() {
     fn get_box&lt;&#39;a&gt;(str: &amp;&#39;a str) -&gt; Box&lt;&amp;&#39;a str&gt; {
-        // string literals are `&amp;&#39;static str`s
-        Box::new(&quot;hello&quot;)
-    }
+    // string literals are `&amp;&#39;static str`s
+    Box::new(&quot;hello&quot;)
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>get_box</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>str</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span><span class='op'>&gt;</span> {
     <span class='comment'>// string literals are `&amp;&#39;static str`s</span>
@@ -315,9 +317,10 @@ cells must be invariant to avoid lifetime smuggling.</p>
 <p><code>Fn</code> is the most subtle case because it has mixed variance. To see why
 <code>Fn(T) -&gt; U</code> should be invariant over T, consider the following function
 signature:</p>
+
 <span class='rusttest'>fn main() {
     // &#39;a is derived from some parent scope
-    fn foo(&amp;&#39;a str) -&gt; usize;
+fn foo(&amp;&#39;a str) -&gt; usize;
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// &#39;a is derived from some parent scope</span>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span>;</pre>
@@ -325,6 +328,7 @@ signature:</p>
 <p>This signature claims that it can handle any <code>&amp;str</code> that lives at least as
 long as <code>&#39;a</code>. Now if this signature was variant over <code>&amp;&#39;a str</code>, that
 would mean</p>
+
 <span class='rusttest'>fn main() {
     fn foo(&amp;&#39;static str) -&gt; usize;
 }</span><pre class='rust rust-example-rendered'>
@@ -338,15 +342,17 @@ over their arguments.</p>
 
 <p>To see why <code>Fn(T) -&gt; U</code> should be variant over U, consider the following
 function signature:</p>
+
 <span class='rusttest'>fn main() {
     // &#39;a is derived from some parent scope
-    fn foo(usize) -&gt; &amp;&#39;a str;
+fn foo(usize) -&gt; &amp;&#39;a str;
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// &#39;a is derived from some parent scope</span>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>usize</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>;</pre>
 
 <p>This signature claims that it will return something that outlives <code>&#39;a</code>. It is
 therefore completely reasonable to provide</p>
+
 <span class='rusttest'>fn main() {
     fn foo(usize) -&gt; &amp;&#39;static str;
 }</span><pre class='rust rust-example-rendered'>
@@ -369,20 +375,21 @@ in multiple fields.</p>
 <li>If all uses of A are variant, then Foo is variant over A</li>
 <li>Otherwise, Foo is invariant over A</li>
 </ul>
+
 <span class='rusttest'>fn main() {
     use std::cell::Cell;
-    
-    struct Foo&lt;&#39;a, &#39;b, A: &#39;a, B: &#39;b, C, D, E, F, G, H&gt; {
-        a: &amp;&#39;a A,     // variant over &#39;a and A
-        b: &amp;&#39;b mut B, // invariant over &#39;b and B
-        c: *const C,  // variant over C
-        d: *mut D,    // invariant over D
-        e: Vec&lt;E&gt;,    // variant over E
-        f: Cell&lt;F&gt;,   // invariant over F
-        g: G,         // variant over G
-        h1: H,        // would also be variant over H except...
-        h2: Cell&lt;H&gt;,  // invariant over H, because invariance wins
-    }
+
+struct Foo&lt;&#39;a, &#39;b, A: &#39;a, B: &#39;b, C, D, E, F, G, H&gt; {
+    a: &amp;&#39;a A,     // variant over &#39;a and A
+    b: &amp;&#39;b mut B, // invariant over &#39;b and B
+    c: *const C,  // variant over C
+    d: *mut D,    // invariant over D
+    e: Vec&lt;E&gt;,    // variant over E
+    f: Cell&lt;F&gt;,   // invariant over F
+    g: G,         // variant over G
+    h1: H,        // would also be variant over H except...
+    h2: Cell&lt;H&gt;,  // invariant over H, because invariance wins
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 

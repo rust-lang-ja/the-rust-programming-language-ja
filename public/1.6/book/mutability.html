@@ -199,8 +199,8 @@
 
 <span class='rusttest'>fn main() {
     let x = 5;
-    // x = 6; // error!
-    x = 6; // エラー!
+// x = 6; // error!
+x = 6; // エラー!
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>6</span>; <span class='comment'>// エラー!</span></pre>
@@ -211,9 +211,9 @@
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    
-    // x = 6; // no problem!
-    x = 6; // 問題なし!
+
+// x = 6; // no problem!
+x = 6; // 問題なし!
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -236,7 +236,7 @@
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    let y = &amp;mut x;
+let y = &amp;mut x;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;</pre>
@@ -256,7 +256,7 @@
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    let mut y = &amp;mut x;
+let mut y = &amp;mut x;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;</pre>
@@ -276,9 +276,9 @@
 
 <span class='rusttest'>fn main() {
     let (mut x, y) = (5, 6);
-    
-    fn foo(mut x: i32) {
-    }
+
+fn foo(mut x: i32) {
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> (<span class='kw-2'>mut</span> <span class='ident'>x</span>, <span class='ident'>y</span>) <span class='op'>=</span> (<span class='number'>5</span>, <span class='number'>6</span>);
 
@@ -298,9 +298,9 @@
 
 <span class='rusttest'>fn main() {
     use std::sync::Arc;
-    
-    let x = Arc::new(5);
-    let y = x.clone();
+
+let x = Arc::new(5);
+let y = x.clone();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
 
@@ -368,10 +368,10 @@
 
 <span class='rusttest'>fn main() {
     use std::cell::RefCell;
-    
-    let x = RefCell::new(42);
-    
-    let y = x.borrow_mut();
+
+let x = RefCell::new(42);
+
+let y = x.borrow_mut();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
 
@@ -388,12 +388,12 @@
 
 <span class='rusttest'>fn main() {
     use std::cell::RefCell;
-    
-    let x = RefCell::new(42);
-    
-    let y = x.borrow_mut();
-    let z = x.borrow_mut();
-    (y, z);
+
+let x = RefCell::new(42);
+
+let y = x.borrow_mut();
+let z = x.borrow_mut();
+(y, z);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
 
@@ -429,10 +429,10 @@ Rustの借用ルールを実行時に強制し、違反したときには <code>
 
 <span class='rusttest'>fn main() {
     struct Point {
-        x: i32,
-    // mut y: i32, // nope
-        mut y: i32, // ダメ
-    }
+    x: i32,
+// mut y: i32, // nope
+    mut y: i32, // ダメ
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
@@ -445,18 +445,18 @@ Rustの借用ルールを実行時に強制し、違反したときには <code>
 
 <span class='rusttest'>fn main() {
     struct Point {
-        x: i32,
-        y: i32,
-    }
-    
-    let mut a = Point { x: 5, y: 6 };
-    
-    a.x = 10;
-    
-    let b = Point { x: 5, y: 6};
-    
-    // b.x = 10; // error: cannot assign to immutable field `b.x`
-    b.x = 10; // エラー: イミュータブルなフィールド `b.x` へ代入できない
+    x: i32,
+    y: i32,
+}
+
+let mut a = Point { x: 5, y: 6 };
+
+a.x = 10;
+
+let b = Point { x: 5, y: 6};
+
+// b.x = 10; // error: cannot assign to immutable field `b.x`
+b.x = 10; // エラー: イミュータブルなフィールド `b.x` へ代入できない
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
@@ -477,17 +477,17 @@ Rustの借用ルールを実行時に強制し、違反したときには <code>
 
 <span class='rusttest'>fn main() {
     use std::cell::Cell;
-    
-    struct Point {
-        x: i32,
-        y: Cell&lt;i32&gt;,
-    }
-    
-    let point = Point { x: 5, y: Cell::new(6) };
-    
-    point.y.set(7);
-    
-    println!(&quot;y: {:?}&quot;, point.y);
+
+struct Point {
+    x: i32,
+    y: Cell&lt;i32&gt;,
+}
+
+let point = Point { x: 5, y: Cell::new(6) };
+
+point.y.set(7);
+
+println!(&quot;y: {:?}&quot;, point.y);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
 

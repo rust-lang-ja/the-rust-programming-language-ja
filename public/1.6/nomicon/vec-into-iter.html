@@ -198,13 +198,14 @@ onto the Vec&#39;s allocation information in order to free it once IntoIter is
 dropped.</p>
 
 <p>So we&#39;re going to use the following struct:</p>
+
 <span class='rusttest'>fn main() {
     struct IntoIter&lt;T&gt; {
-        buf: Unique&lt;T&gt;,
-        cap: usize,
-        start: *const T,
-        end: *const T,
-    }
+    buf: Unique&lt;T&gt;,
+    cap: usize,
+    start: *const T,
+    end: *const T,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>IntoIter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>buf</span>: <span class='ident'>Unique</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>,
@@ -214,32 +215,33 @@ dropped.</p>
 }</pre>
 
 <p>And this is what we end up with for initialization:</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; Vec&lt;T&gt; {
-        fn into_iter(self) -&gt; IntoIter&lt;T&gt; {
-            // Can&#39;t destructure Vec since it&#39;s Drop
-            let ptr = self.ptr;
-            let cap = self.cap;
-            let len = self.len;
-    
-            // Make sure not to drop Vec since that will free the buffer
-            mem::forget(self);
-    
-            unsafe {
-                IntoIter {
-                    buf: ptr,
-                    cap: cap,
-                    start: *ptr,
-                    end: if cap == 0 {
-                        // can&#39;t offset off this pointer, it&#39;s not allocated!
-                        *ptr
-                    } else {
-                        ptr.offset(len as isize)
-                    }
+    fn into_iter(self) -&gt; IntoIter&lt;T&gt; {
+        // Can&#39;t destructure Vec since it&#39;s Drop
+        let ptr = self.ptr;
+        let cap = self.cap;
+        let len = self.len;
+
+        // Make sure not to drop Vec since that will free the buffer
+        mem::forget(self);
+
+        unsafe {
+            IntoIter {
+                buf: ptr,
+                cap: cap,
+                start: *ptr,
+                end: if cap == 0 {
+                    // can&#39;t offset off this pointer, it&#39;s not allocated!
+                    *ptr
+                } else {
+                    ptr.offset(len as isize)
                 }
             }
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>into_iter</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>IntoIter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
@@ -268,27 +270,28 @@ dropped.</p>
 }</pre>
 
 <p>Here&#39;s iterating forward:</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; Iterator for IntoIter&lt;T&gt; {
-        type Item = T;
-        fn next(&amp;mut self) -&gt; Option&lt;T&gt; {
-            if self.start == self.end {
-                None
-            } else {
-                unsafe {
-                    let result = ptr::read(self.start);
-                    self.start = self.start.offset(1);
-                    Some(result)
-                }
+    type Item = T;
+    fn next(&amp;mut self) -&gt; Option&lt;T&gt; {
+        if self.start == self.end {
+            None
+        } else {
+            unsafe {
+                let result = ptr::read(self.start);
+                self.start = self.start.offset(1);
+                Some(result)
             }
         }
-    
-        fn size_hint(&amp;self) -&gt; (usize, Option&lt;usize&gt;) {
-            let len = (self.end as usize - self.start as usize)
-                      / mem::size_of::&lt;T&gt;();
-            (len, Some(len))
-        }
     }
+
+    fn size_hint(&amp;self) -&gt; (usize, Option&lt;usize&gt;) {
+        let len = (self.end as usize - self.start as usize)
+                  / mem::size_of::&lt;T&gt;();
+        (len, Some(len))
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>IntoIter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>T</span>;
@@ -312,19 +315,20 @@ dropped.</p>
 }</pre>
 
 <p>And here&#39;s iterating backwards.</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; DoubleEndedIterator for IntoIter&lt;T&gt; {
-        fn next_back(&amp;mut self) -&gt; Option&lt;T&gt; {
-            if self.start == self.end {
-                None
-            } else {
-                unsafe {
-                    self.end = self.end.offset(-1);
-                    Some(ptr::read(self.end))
-                }
+    fn next_back(&amp;mut self) -&gt; Option&lt;T&gt; {
+        if self.start == self.end {
+            None
+        } else {
+            unsafe {
+                self.end = self.end.offset(-1);
+                Some(ptr::read(self.end))
             }
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>DoubleEndedIterator</span> <span class='kw'>for</span> <span class='ident'>IntoIter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>next_back</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
@@ -342,22 +346,23 @@ dropped.</p>
 <p>Because IntoIter takes ownership of its allocation, it needs to implement Drop
 to free it. However it also wants to implement Drop to drop any elements it
 contains that weren&#39;t yielded.</p>
+
 <span class='rusttest'>fn main() {
     impl&lt;T&gt; Drop for IntoIter&lt;T&gt; {
-        fn drop(&amp;mut self) {
-            if self.cap != 0 {
-                // drop any remaining elements
-                for _ in &amp;mut *self {}
-    
-                let align = mem::align_of::&lt;T&gt;();
-                let elem_size = mem::size_of::&lt;T&gt;();
-                let num_bytes = elem_size * self.cap;
-                unsafe {
-                    heap::deallocate(*self.buf as *mut _, num_bytes, align);
-                }
+    fn drop(&amp;mut self) {
+        if self.cap != 0 {
+            // drop any remaining elements
+            for _ in &amp;mut *self {}
+
+            let align = mem::align_of::&lt;T&gt;();
+            let elem_size = mem::size_of::&lt;T&gt;();
+            let num_bytes = elem_size * self.cap;
+            unsafe {
+                heap::deallocate(*self.buf as *mut _, num_bytes, align);
             }
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Drop</span> <span class='kw'>for</span> <span class='ident'>IntoIter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>drop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {

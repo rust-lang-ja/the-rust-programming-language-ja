@@ -282,20 +282,20 @@ above. -->
 
 <span class='rusttest'>fn main() {
     mod english {
-        mod greetings {
-        }
-    
-        mod farewells {
-        }
+    mod greetings {
     }
-    
-    mod japanese {
-        mod greetings {
-        }
-    
-        mod farewells {
-        }
+
+    mod farewells {
     }
+}
+
+mod japanese {
+    mod greetings {
+    }
+
+    mod farewells {
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>english</span> {
     <span class='kw'>mod</span> <span class='ident'>greetings</span> {
@@ -360,9 +360,9 @@ ways. -->
 
 <span class='rusttest'>fn main() {
     mod english {
-    //    // contents of our module go here
-        // モジュールの内容はここに
-    }
+//    // contents of our module go here
+    // モジュールの内容はここに
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>english</span> {
     <span class='comment'>// モジュールの内容はここに</span>
@@ -421,7 +421,7 @@ seven files: -->
 
 <span class='rusttest'>fn main() {
     mod english;
-    mod japanese;
+mod japanese;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>english</span>;
 <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
@@ -436,7 +436,7 @@ like this: -->
 
 <span class='rusttest'>fn main() {
     mod greetings;
-    mod farewells;
+mod farewells;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>mod</span> <span class='ident'>greetings</span>;
 <span class='kw'>mod</span> <span class='ident'>farewells</span>;</pre>
@@ -460,8 +460,8 @@ both empty at the moment. Let’s add some functions. -->
 
 <span class='rusttest'>fn main() {
     fn hello() -&gt; String {
-        &quot;Hello!&quot;.to_string()
-    }
+    &quot;Hello!&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>hello</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;Hello!&quot;</span>.<span class='ident'>to_string</span>()
@@ -473,8 +473,8 @@ both empty at the moment. Let’s add some functions. -->
 
 <span class='rusttest'>fn main() {
     fn goodbye() -&gt; String {
-        &quot;Goodbye.&quot;.to_string()
-    }
+    &quot;Goodbye.&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>goodbye</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;Goodbye.&quot;</span>.<span class='ident'>to_string</span>()
@@ -486,8 +486,8 @@ both empty at the moment. Let’s add some functions. -->
 
 <span class='rusttest'>fn main() {
     fn hello() -&gt; String {
-        &quot;こんにちは&quot;.to_string()
-    }
+    &quot;こんにちは&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>hello</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;こんにちは&quot;</span>.<span class='ident'>to_string</span>()
@@ -505,8 +505,8 @@ about the module system. -->
 
 <span class='rusttest'>fn main() {
     fn goodbye() -&gt; String {
-        &quot;さようなら&quot;.to_string()
-    }
+    &quot;さようなら&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>goodbye</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;さようなら&quot;</span>.<span class='ident'>to_string</span>()
@@ -628,7 +628,7 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub mod english;
-    mod japanese;
+mod japanese;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>english</span>;
 <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
@@ -639,7 +639,7 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub mod greetings;
-    pub mod farewells;
+pub mod farewells;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>greetings</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>farewells</span>;</pre>
@@ -650,8 +650,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub fn hello() -&gt; String {
-        &quot;Hello!&quot;.to_string()
-    }
+    &quot;Hello!&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>hello</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;Hello!&quot;</span>.<span class='ident'>to_string</span>()
@@ -663,8 +663,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub fn goodbye() -&gt; String {
-        &quot;Goodbye.&quot;.to_string()
-    }
+    &quot;Goodbye.&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>goodbye</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;Goodbye.&quot;</span>.<span class='ident'>to_string</span>()
@@ -805,7 +805,7 @@ twice. Instead of this: -->
 
 <span class='rusttest'>fn main() {
     use phrases::english::greetings;
-    use phrases::english::farewells;
+use phrases::english::farewells;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>phrases</span>::<span class='ident'>english</span>::<span class='ident'>greetings</span>;
 <span class='kw'>use</span> <span class='ident'>phrases</span>::<span class='ident'>english</span>::<span class='ident'>farewells</span>;</pre>
@@ -864,7 +864,7 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub mod english;
-    pub mod japanese;
+pub mod japanese;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>english</span>;
 <span class='kw'>pub</span> <span class='kw'>mod</span> <span class='ident'>japanese</span>;</pre>
@@ -875,8 +875,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub fn hello() -&gt; String {
-        &quot;こんにちは&quot;.to_string()
-    }
+    &quot;こんにちは&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>hello</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;こんにちは&quot;</span>.<span class='ident'>to_string</span>()
@@ -888,8 +888,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub fn goodbye() -&gt; String {
-        &quot;さようなら&quot;.to_string()
-    }
+    &quot;さようなら&quot;.to_string()
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>goodbye</span>() <span class='op'>-&gt;</span> <span class='ident'>String</span> {
     <span class='string'>&quot;さようなら&quot;</span>.<span class='ident'>to_string</span>()
@@ -901,10 +901,10 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     pub use self::greetings::hello;
-    pub use self::farewells::goodbye;
-    
-    mod greetings;
-    mod farewells;
+pub use self::farewells::goodbye;
+
+mod greetings;
+mod farewells;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>greetings</span>::<span class='ident'>hello</span>;
 <span class='kw'>pub</span> <span class='kw'>use</span> <span class='self'>self</span>::<span class='ident'>farewells</span>::<span class='ident'>goodbye</span>;
@@ -1022,8 +1022,8 @@ uncompressed form of this statement would be: -->
 
 <span class='rusttest'>fn main() {
     use sayings::english;
-    use sayings::english::greetings as en_greetings;
-    use sayings::english::farewells as en_farewells;
+use sayings::english::greetings as en_greetings;
+use sayings::english::farewells as en_farewells;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>sayings</span>::<span class='ident'>english</span>;
 <span class='kw'>use</span> <span class='ident'>sayings</span>::<span class='ident'>english</span>::<span class='ident'>greetings</span> <span class='kw'>as</span> <span class='ident'>en_greetings</span>;

@@ -283,24 +283,24 @@ example of all three variants: -->
 
 <span class='rusttest'>fn main() {
     struct Circle {
-        x: f64,
-        y: f64,
-        radius: f64,
+    x: f64,
+    y: f64,
+    radius: f64,
+}
+
+impl Circle {
+    fn reference(&amp;self) {
+       println!(&quot;taking self by reference!&quot;);
     }
-    
-    impl Circle {
-        fn reference(&amp;self) {
-           println!(&quot;taking self by reference!&quot;);
-        }
-    
-        fn mutable_reference(&amp;mut self) {
-           println!(&quot;taking self by mutable reference!&quot;);
-        }
-    
-        fn takes_ownership(self) {
-           println!(&quot;taking ownership of self!&quot;);
-        }
+
+    fn mutable_reference(&amp;mut self) {
+       println!(&quot;taking self by mutable reference!&quot;);
     }
+
+    fn takes_ownership(self) {
+       println!(&quot;taking ownership of self!&quot;);
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Circle</span> {
     <span class='ident'>x</span>: <span class='ident'>f64</span>,
@@ -329,28 +329,28 @@ have also been written like this: -->
 
 <span class='rusttest'>fn main() {
     struct Circle {
-        x: f64,
-        y: f64,
-        radius: f64,
+    x: f64,
+    y: f64,
+    radius: f64,
+}
+
+impl Circle {
+    fn reference(&amp;self) {
+       println!(&quot;taking self by reference!&quot;);
     }
-    
-    impl Circle {
-        fn reference(&amp;self) {
-           println!(&quot;taking self by reference!&quot;);
-        }
+}
+
+impl Circle {
+    fn mutable_reference(&amp;mut self) {
+       println!(&quot;taking self by mutable reference!&quot;);
     }
-    
-    impl Circle {
-        fn mutable_reference(&amp;mut self) {
-           println!(&quot;taking self by mutable reference!&quot;);
-        }
+}
+
+impl Circle {
+    fn takes_ownership(self) {
+       println!(&quot;taking ownership of self!&quot;);
     }
-    
-    impl Circle {
-        fn takes_ownership(self) {
-           println!(&quot;taking ownership of self!&quot;);
-        }
-    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Circle</span> {
     <span class='ident'>x</span>: <span class='ident'>f64</span>,
@@ -439,9 +439,9 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     struct Circle;
-    impl Circle {
-    fn grow(&amp;self, increment: f64) -&gt; Circle {
-    Circle } }
+impl Circle {
+fn grow(&amp;self, increment: f64) -&gt; Circle {
+Circle } }
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>grow</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>increment</span>: <span class='ident'>f64</span>) <span class='op'>-&gt;</span> <span class='ident'>Circle</span> {</pre>
 

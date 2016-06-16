@@ -202,15 +202,15 @@ Rustにはキーワード <code>match</code> が存在し、複雑な <code>if</
 
 <span class='rusttest'>fn main() {
     let x = 5;
-    
-    match x {
-        1 =&gt; println!(&quot;one&quot;),
-        2 =&gt; println!(&quot;two&quot;),
-        3 =&gt; println!(&quot;three&quot;),
-        4 =&gt; println!(&quot;four&quot;),
-        5 =&gt; println!(&quot;five&quot;),
-        _ =&gt; println!(&quot;something else&quot;),
-    }
+
+match x {
+    1 =&gt; println!(&quot;one&quot;),
+    2 =&gt; println!(&quot;two&quot;),
+    3 =&gt; println!(&quot;three&quot;),
+    4 =&gt; println!(&quot;four&quot;),
+    5 =&gt; println!(&quot;five&quot;),
+    _ =&gt; println!(&quot;something else&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -283,15 +283,15 @@ Rustにはキーワード <code>match</code> が存在し、複雑な <code>if</
 
 <span class='rusttest'>fn main() {
     let x = 5;
-    
-    let number = match x {
-        1 =&gt; &quot;one&quot;,
-        2 =&gt; &quot;two&quot;,
-        3 =&gt; &quot;three&quot;,
-        4 =&gt; &quot;four&quot;,
-        5 =&gt; &quot;five&quot;,
-        _ =&gt; &quot;something else&quot;,
-    };
+
+let number = match x {
+    1 =&gt; &quot;one&quot;,
+    2 =&gt; &quot;two&quot;,
+    3 =&gt; &quot;three&quot;,
+    4 =&gt; &quot;four&quot;,
+    5 =&gt; &quot;five&quot;,
+    _ =&gt; &quot;something else&quot;,
+};
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -319,24 +319,24 @@ Rustにはキーワード <code>match</code> が存在し、複雑な <code>if</
 
 <span class='rusttest'>fn main() {
     enum Message {
-        Quit,
-        ChangeColor(i32, i32, i32),
-        Move { x: i32, y: i32 },
-        Write(String),
-    }
-    
-    fn quit() { /* ... */ }
-    fn change_color(r: i32, g: i32, b: i32) { /* ... */ }
-    fn move_cursor(x: i32, y: i32) { /* ... */ }
-    
-    fn process_message(msg: Message) {
-        match msg {
-            Message::Quit =&gt; quit(),
-            Message::ChangeColor(r, g, b) =&gt; change_color(r, g, b),
-            Message::Move { x: x, y: y } =&gt; move_cursor(x, y),
-            Message::Write(s) =&gt; println!(&quot;{}&quot;, s),
-        };
-    }
+    Quit,
+    ChangeColor(i32, i32, i32),
+    Move { x: i32, y: i32 },
+    Write(String),
+}
+
+fn quit() { /* ... */ }
+fn change_color(r: i32, g: i32, b: i32) { /* ... */ }
+fn move_cursor(x: i32, y: i32) { /* ... */ }
+
+fn process_message(msg: Message) {
+    match msg {
+        Message::Quit =&gt; quit(),
+        Message::ChangeColor(r, g, b) =&gt; change_color(r, g, b),
+        Message::Move { x: x, y: y } =&gt; move_cursor(x, y),
+        Message::Write(s) =&gt; println!(&quot;{}&quot;, s),
+    };
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Message</span> {
     <span class='ident'>Quit</span>,

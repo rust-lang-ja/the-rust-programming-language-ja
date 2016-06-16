@@ -223,7 +223,7 @@ Rustではどちらの括弧もどちらのシチュエーションでも利用�
 
 <span class='rusttest'>fn main() {
     // let v = vec![0; 10]; // ten zeroes
-    let v = vec![0; 10]; // 0が10個
+let v = vec![0; 10]; // 0が10個
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>0</span>; <span class='number'>10</span>]; <span class='comment'>// 0が10個</span></pre>
 
@@ -234,8 +234,8 @@ Rustではどちらの括弧もどちらのシチュエーションでも利用�
 
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5];
-    
-    println!(&quot;The third element of v is {}&quot;, v[2]);
+
+println!(&quot;The third element of v is {}&quot;, v[2]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 
@@ -251,17 +251,17 @@ Rustではどちらの括弧もどちらのシチュエーションでも利用�
 
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3, 4, 5];
-    
-    let i: usize = 0;
-    let j: i32 = 0;
-    
-    // // works
-    // これは動作します
-    v[i];
-    
-    // // doesn’t
-    // 一方、こちらは動作しません
-    v[j];
+
+let i: usize = 0;
+let j: i32 = 0;
+
+// // works
+// これは動作します
+v[i];
+
+// // doesn’t
+// 一方、こちらは動作しません
+v[j];
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 
@@ -301,18 +301,18 @@ error: aborting due to previous error
 
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 2, 3, 4, 5];
-    
-    for i in &amp;v {
-        println!(&quot;A reference to {}&quot;, i);
-    }
-    
-    for i in &amp;mut v {
-        println!(&quot;A mutable reference to {}&quot;, i);
-    }
-    
-    for i in v {
-        println!(&quot;Take ownership of the vector and its element {}&quot;, i);
-    }
+
+for i in &amp;v {
+    println!(&quot;A reference to {}&quot;, i);
+}
+
+for i in &amp;mut v {
+    println!(&quot;A mutable reference to {}&quot;, i);
+}
+
+for i in v {
+    println!(&quot;Take ownership of the vector and its element {}&quot;, i);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>];
 

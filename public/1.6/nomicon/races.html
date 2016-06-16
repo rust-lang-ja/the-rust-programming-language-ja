@@ -186,35 +186,36 @@ program isn&#39;t very good, but Rust can only hold your hand so far. Still, a
 race condition can&#39;t violate memory safety in a Rust program on
 its own. Only in conjunction with some other unsafe code can a race condition
 actually violate memory safety. For instance:</p>
+
 <span class='rusttest'>fn main() {
     use std::thread;
-    use std::sync::atomic::{AtomicUsize, Ordering};
-    use std::sync::Arc;
-    
-    let data = vec![1, 2, 3, 4];
-    // Arc so that the memory the AtomicUsize is stored in still exists for
-    // the other thread to increment, even if we completely finish executing
-    // before it. Rust won&#39;t compile the program without it, because of the
-    // lifetime requirements of thread::spawn!
-    let idx = Arc::new(AtomicUsize::new(0));
-    let other_idx = idx.clone();
-    
-    // `move` captures other_idx by-value, moving it into this thread
-    thread::spawn(move || {
-        // It&#39;s ok to mutate idx because this value
-        // is an atomic, so it can&#39;t cause a Data Race.
-        other_idx.fetch_add(10, Ordering::SeqCst);
-    });
-    
-    // Index with the value loaded from the atomic. This is safe because we
-    // read the atomic memory only once, and then pass a copy of that value
-    // to the Vec&#39;s indexing implementation. This indexing will be correctly
-    // bounds checked, and there&#39;s no chance of the value getting changed
-    // in the middle. However our program may panic if the thread we spawned
-    // managed to increment before this ran. A race condition because correct
-    // program execution (panicking is rarely correct) depends on order of
-    // thread execution.
-    println!(&quot;{}&quot;, data[idx.load(Ordering::SeqCst)]);
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Arc;
+
+let data = vec![1, 2, 3, 4];
+// Arc so that the memory the AtomicUsize is stored in still exists for
+// the other thread to increment, even if we completely finish executing
+// before it. Rust won&#39;t compile the program without it, because of the
+// lifetime requirements of thread::spawn!
+let idx = Arc::new(AtomicUsize::new(0));
+let other_idx = idx.clone();
+
+// `move` captures other_idx by-value, moving it into this thread
+thread::spawn(move || {
+    // It&#39;s ok to mutate idx because this value
+    // is an atomic, so it can&#39;t cause a Data Race.
+    other_idx.fetch_add(10, Ordering::SeqCst);
+});
+
+// Index with the value loaded from the atomic. This is safe because we
+// read the atomic memory only once, and then pass a copy of that value
+// to the Vec&#39;s indexing implementation. This indexing will be correctly
+// bounds checked, and there&#39;s no chance of the value getting changed
+// in the middle. However our program may panic if the thread we spawned
+// managed to increment before this ran. A race condition because correct
+// program execution (panicking is rarely correct) depends on order of
+// thread execution.
+println!(&quot;{}&quot;, data[idx.load(Ordering::SeqCst)]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};
@@ -244,31 +245,32 @@ actually violate memory safety. For instance:</p>
 <span class='comment'>// program execution (panicking is rarely correct) depends on order of</span>
 <span class='comment'>// thread execution.</span>
 <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>data</span>[<span class='ident'>idx</span>.<span class='ident'>load</span>(<span class='ident'>Ordering</span>::<span class='ident'>SeqCst</span>)]);</pre>
+
 <span class='rusttest'>fn main() {
     use std::thread;
-    use std::sync::atomic::{AtomicUsize, Ordering};
-    use std::sync::Arc;
-    
-    let data = vec![1, 2, 3, 4];
-    
-    let idx = Arc::new(AtomicUsize::new(0));
-    let other_idx = idx.clone();
-    
-    // `move` captures other_idx by-value, moving it into this thread
-    thread::spawn(move || {
-        // It&#39;s ok to mutate idx because this value
-        // is an atomic, so it can&#39;t cause a Data Race.
-        other_idx.fetch_add(10, Ordering::SeqCst);
-    });
-    
-    if idx.load(Ordering::SeqCst) &lt; data.len() {
-        unsafe {
-            // Incorrectly loading the idx after we did the bounds check.
-            // It could have changed. This is a race condition, *and dangerous*
-            // because we decided to do `get_unchecked`, which is `unsafe`.
-            println!(&quot;{}&quot;, data.get_unchecked(idx.load(Ordering::SeqCst)));
-        }
+use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::Arc;
+
+let data = vec![1, 2, 3, 4];
+
+let idx = Arc::new(AtomicUsize::new(0));
+let other_idx = idx.clone();
+
+// `move` captures other_idx by-value, moving it into this thread
+thread::spawn(move || {
+    // It&#39;s ok to mutate idx because this value
+    // is an atomic, so it can&#39;t cause a Data Race.
+    other_idx.fetch_add(10, Ordering::SeqCst);
+});
+
+if idx.load(Ordering::SeqCst) &lt; data.len() {
+    unsafe {
+        // Incorrectly loading the idx after we did the bounds check.
+        // It could have changed. This is a race condition, *and dangerous*
+        // because we decided to do `get_unchecked`, which is `unsafe`.
+        println!(&quot;{}&quot;, data.get_unchecked(idx.load(Ordering::SeqCst)));
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicUsize</span>, <span class='ident'>Ordering</span>};

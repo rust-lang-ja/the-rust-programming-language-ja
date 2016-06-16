@@ -162,11 +162,12 @@
 types or lifetimes are logically associated with a struct, but not actually
 part of a field. This most commonly occurs with lifetimes. For instance, the
 <code>Iter</code> for <code>&amp;&#39;a [T]</code> is (approximately) defined as follows:</p>
+
 <span class='rusttest'>fn main() {
     struct Iter&lt;&#39;a, T: &#39;a&gt; {
-        ptr: *const T,
-        end: *const T,
-    }
+    ptr: *const T,
+    end: *const T,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Iter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span>: <span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {
     <span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>T</span>,
@@ -187,14 +188,15 @@ useful such as the information needed by drop check.</p>
 
 <p>Iter logically contains a bunch of <code>&amp;&#39;a T</code>s, so this is exactly what we tell
 the PhantomData to simulate:</p>
+
 <span class='rusttest'>fn main() {
     use std::marker;
-    
-    struct Iter&lt;&#39;a, T: &#39;a&gt; {
-        ptr: *const T,
-        end: *const T,
-        _marker: marker::PhantomData&lt;&amp;&#39;a T&gt;,
-    }
+
+struct Iter&lt;&#39;a, T: &#39;a&gt; {
+    ptr: *const T,
+    end: *const T,
+    _marker: marker::PhantomData&lt;&amp;&#39;a T&gt;,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>marker</span>;
 
@@ -208,12 +210,13 @@ the PhantomData to simulate:</p>
 over <code>&#39;a</code> and <code>T</code>. Everything Just Works.</p>
 
 <p>Another important example is Vec, which is (approximately) defined as follows:</p>
+
 <span class='rusttest'>fn main() {
     struct Vec&lt;T&gt; {
-        data: *const T, // *const for variance!
-        len: usize,
-        cap: usize,
-    }
+    data: *const T, // *const for variance!
+    len: usize,
+    cap: usize,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>data</span>: <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>T</span>, <span class='comment'>// *const for variance!</span>
@@ -236,15 +239,16 @@ Vec&#39;s destructor.</p>
 <p>In order to tell dropck that we <em>do</em> own values of type T, and therefore may
 drop some T&#39;s when <em>we</em> drop, we must add an extra PhantomData saying exactly
 that:</p>
+
 <span class='rusttest'>fn main() {
     use std::marker;
-    
-    struct Vec&lt;T&gt; {
-        data: *const T, // *const for covariance!
-        len: usize,
-        cap: usize,
-        _marker: marker::PhantomData&lt;T&gt;,
-    }
+
+struct Vec&lt;T&gt; {
+    data: *const T, // *const for covariance!
+    len: usize,
+    cap: usize,
+    _marker: marker::PhantomData&lt;T&gt;,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>marker</span>;
 

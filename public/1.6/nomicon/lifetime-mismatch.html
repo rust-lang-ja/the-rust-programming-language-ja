@@ -159,6 +159,7 @@
 
     <h1 class="title">Limits of Lifetimes</h1>
     <p>Given the following code:</p>
+
 <span class='rusttest'>struct Foo;
 
 impl Foo {
@@ -175,7 +176,7 @@ fn main() {
 <span class='kw'>struct</span> <span class='ident'>Foo</span>;
 
 <span class='kw'>impl</span> <span class='ident'>Foo</span> {
-    <span class='kw'>fn</span> <span class='ident'>mutate_and_share</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw'>Self</span> { <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span> }
+    <span class='kw'>fn</span> <span class='ident'>mutate_and_share</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='self'>Self</span> { <span class='kw-2'>&amp;</span><span class='op'>*</span><span class='self'>self</span> }
     <span class='kw'>fn</span> <span class='ident'>share</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) {}
 }
 
@@ -209,6 +210,7 @@ would expect <code>foo.share()</code> to succeed as <code>foo</code> shouldn&#39
 <p>What happened? Well, we got the exact same reasoning as we did for
 <a href="lifetimes.html#example-aliasing-a-mutable-reference">Example 2 in the previous section</a>. We desugar the program and we get
 the following:</p>
+
 <span class='rusttest'>struct Foo;
 
 impl Foo {
@@ -231,7 +233,7 @@ fn main() {
 <span class='kw'>struct</span> <span class='ident'>Foo</span>;
 
 <span class='kw'>impl</span> <span class='ident'>Foo</span> {
-    <span class='kw'>fn</span> <span class='ident'>mutate_and_share</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw'>Self</span> { <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='op'>*</span><span class='self'>self</span> }
+    <span class='kw'>fn</span> <span class='ident'>mutate_and_share</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>Self</span> { <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='op'>*</span><span class='self'>self</span> }
     <span class='kw'>fn</span> <span class='ident'>share</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='self'>self</span>) {}
 }
 

@@ -157,6 +157,7 @@
     <p>The most widespread use of traits is for writing generic functions or types. For
 example, the following signature describes a function for consuming any iterator
 yielding items of type <code>A</code> to produce a collection of <code>A</code>:</p>
+
 <span class='rusttest'>fn main() {
     fn from_iter&lt;T: Iterator&lt;A&gt;&gt;(iterator: T) -&gt; SomeCollection&lt;A&gt;
 }</span><pre class='rust rust-example-rendered'>
@@ -187,6 +188,7 @@ below.</li>
 <li><p><em>Precise types</em>. Because generics give a <em>name</em> to the specific type
 implementing a trait, it is possible to be precise about places where that
 exact type is required or produced. For example, a function</p>
+
 <span class='rusttest'>fn main() {
     fn binary&lt;T: Trait&gt;(x: T, y: T) -&gt; T
 }</span><pre class='rust rust-example-rendered'>

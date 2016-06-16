@@ -218,6 +218,7 @@ receivers, see below). If there is an impl for some type <code>U</code> and <cod
 <code>U</code>, that does not constitute an implementation for <code>T</code>. For example, the
 following will not type check, even though it is OK to coerce <code>t</code> to <code>&amp;T</code> and
 there is an impl for <code>&amp;T</code>:</p>
+
 <span class='rusttest'>trait Trait {}
 
 fn foo&lt;X: Trait&gt;(t: X) {}

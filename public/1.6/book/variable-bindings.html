@@ -331,7 +331,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 
 <span class='rusttest'>fn main() {
     let x = 5;
-    x = 10;
+x = 10;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>10</span>;</pre>
@@ -356,7 +356,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 
 <span class='rusttest'>fn main() {
     let mut x = 5; // mut x: i32
-    x = 10;
+x = 10;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>; <span class='comment'>// mut x: i32</span>
 <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>10</span>;</pre>
@@ -589,18 +589,18 @@ To learn more, run the command again with --verbose.
 
 <span class='rusttest'>fn main() {
     let x: i32 = 8;
-    {
-    //    println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
-        println!(&quot;{}&quot;, x); // &quot;8&quot;を印字する
-        let x = 12;
-    //    println!(&quot;{}&quot;, x); // Prints &quot;12&quot;
-        println!(&quot;{}&quot;, x); // &quot;12&quot;を印字する
-    }
-    // println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
+{
+//    println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
     println!(&quot;{}&quot;, x); // &quot;8&quot;を印字する
-    let x =  42;
-    // println!(&quot;{}&quot;, x); // Prints &quot;42&quot;
-    println!(&quot;{}&quot;, x); // &quot;42&quot;を印字する
+    let x = 12;
+//    println!(&quot;{}&quot;, x); // Prints &quot;12&quot;
+    println!(&quot;{}&quot;, x); // &quot;12&quot;を印字する
+}
+// println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
+println!(&quot;{}&quot;, x); // &quot;8&quot;を印字する
+let x =  42;
+// println!(&quot;{}&quot;, x); // Prints &quot;42&quot;
+println!(&quot;{}&quot;, x); // &quot;42&quot;を印字する
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>8</span>;
 {
@@ -625,13 +625,13 @@ To learn more, run the command again with --verbose.
 
 <span class='rusttest'>fn main() {
     let mut x: i32 = 1;
-    x = 7;
-    // let x = x; // x is now immutable and is bound to 7
-    let x = x; // xはイミュータブルになって7に束縛されました
-    
-    let y = 4;
-    // let y = &quot;I can also be bound to text!&quot;; // y is now of a different type
-    let y = &quot;I can also be bound to text!&quot;; // yは違う型になりました
+x = 7;
+// let x = x; // x is now immutable and is bound to 7
+let x = x; // xはイミュータブルになって7に束縛されました
+
+let y = 4;
+// let y = &quot;I can also be bound to text!&quot;; // y is now of a different type
+let y = &quot;I can also be bound to text!&quot;; // yは違う型になりました
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>1</span>;
 <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>7</span>;

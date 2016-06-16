@@ -270,7 +270,7 @@
 
 <span class='rusttest'>fn main() {
     let x: Vec&lt;u32&gt; = vec![1, 2, 3];
-    assert_eq!(x, [1, 2, 3]);
+assert_eq!(x, [1, 2, 3]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];</pre>
 
@@ -283,13 +283,13 @@
 
 <span class='rusttest'>fn main() {
     let x: Vec&lt;u32&gt; = {
-        let mut temp_vec = Vec::new();
-        temp_vec.push(1);
-        temp_vec.push(2);
-        temp_vec.push(3);
-        temp_vec
-    };
-    assert_eq!(x, [1, 2, 3]);
+    let mut temp_vec = Vec::new();
+    temp_vec.push(1);
+    temp_vec.push(2);
+    temp_vec.push(3);
+    temp_vec
+};
+assert_eq!(x, [1, 2, 3]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u32</span><span class='op'>&gt;</span> <span class='op'>=</span> {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>temp_vec</span> <span class='op'>=</span> <span class='ident'>Vec</span>::<span class='ident'>new</span>();
@@ -460,8 +460,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     $(
-        temp_vec.push($x);
-    )*
+    temp_vec.push($x);
+)*
 }</span><pre class='rust rust-example-rendered'>
 $(
     <span class='ident'>temp_vec</span>.<span class='ident'>push</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>);
@@ -497,10 +497,10 @@ $(
 
 <span class='rusttest'>fn main() {
     macro_rules! foo {
-        () =&gt; {{
-            ...
-        }}
-    }
+    () =&gt; {{
+        ...
+    }}
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>foo</span> {
     () <span class='op'>=&gt;</span> {{
@@ -1187,7 +1187,7 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 
 <span class='rusttest'>fn main() {
     #[macro_use(foo, bar)]
-    extern crate baz;
+extern crate baz;
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>macro_use</span>(<span class='ident'>foo</span>, <span class='ident'>bar</span>)]</span>
 <span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>baz</span>;</pre>
@@ -1366,7 +1366,7 @@ fn main() { }
 </span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>inc</span> {
-    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> ( <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>crate</span>::<span class='ident'>increment</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>) )
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>:<span class='ident'>expr</span>) <span class='op'>=&gt;</span> ( <span class='macro-nonterminal'>$</span><span class='kw'>crate</span>::<span class='macro-nonterminal'>increment</span>(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>x</span>) )
 }</pre>
 
 <!-- to define a single macro that works both inside and outside our library. The -->
@@ -1409,27 +1409,27 @@ fn main() { }
 
 <span class='rusttest'>fn main() {
     macro_rules! bct {
-        // cmd 0:  d ... =&gt; ...
-        (0, $($ps:tt),* ; $_d:tt)
-            =&gt; (bct!($($ps),*, 0 ; ));
-        (0, $($ps:tt),* ; $_d:tt, $($ds:tt),*)
-            =&gt; (bct!($($ps),*, 0 ; $($ds),*));
-    
-        // cmd 1p:  1 ... =&gt; 1 ... p
-        (1, $p:tt, $($ps:tt),* ; 1)
-            =&gt; (bct!($($ps),*, 1, $p ; 1, $p));
-        (1, $p:tt, $($ps:tt),* ; 1, $($ds:tt),*)
-            =&gt; (bct!($($ps),*, 1, $p ; 1, $($ds),*, $p));
-    
-        // cmd 1p:  0 ... =&gt; 0 ...
-        (1, $p:tt, $($ps:tt),* ; $($ds:tt),*)
-            =&gt; (bct!($($ps),*, 1, $p ; $($ds),*));
-    
-    //    // halt on empty data string
-        // 空のデータ文字列で停止します
-        ( $($ps:tt),* ; )
-            =&gt; (());
-    }
+    // cmd 0:  d ... =&gt; ...
+    (0, $($ps:tt),* ; $_d:tt)
+        =&gt; (bct!($($ps),*, 0 ; ));
+    (0, $($ps:tt),* ; $_d:tt, $($ds:tt),*)
+        =&gt; (bct!($($ps),*, 0 ; $($ds),*));
+
+    // cmd 1p:  1 ... =&gt; 1 ... p
+    (1, $p:tt, $($ps:tt),* ; 1)
+        =&gt; (bct!($($ps),*, 1, $p ; 1, $p));
+    (1, $p:tt, $($ps:tt),* ; 1, $($ds:tt),*)
+        =&gt; (bct!($($ps),*, 1, $p ; 1, $($ds),*, $p));
+
+    // cmd 1p:  0 ... =&gt; 0 ...
+    (1, $p:tt, $($ps:tt),* ; $($ds:tt),*)
+        =&gt; (bct!($($ps),*, 1, $p ; $($ds),*));
+
+//    // halt on empty data string
+    // 空のデータ文字列で停止します
+    ( $($ps:tt),* ; )
+        =&gt; (());
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>bct</span> {
     <span class='comment'>// cmd 0:  d ... =&gt; ...</span>
@@ -1520,20 +1520,20 @@ fn main() { }
 
 <span class='rusttest'>fn main() {
     // // A-ok!
-    // Okです！
-    
-    assert!(true);
-    assert_eq!(5, 3 + 2);
-    
-    // // nope :(
-    // 駄目だぁ :(
-    
-    assert!(5 &lt; 3);
-    assert_eq!(5, 3);
+// Okです！
+
+assert!(true);
+assert_eq!(5, 3 + 2);
+
+// // nope :(
+// 駄目だぁ :(
+
+assert!(5 &lt; 3);
+assert_eq!(5, 3);
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Okです！</span>
 
-<span class='macro'>assert</span><span class='macro'>!</span>(<span class='boolval'>true</span>);
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='boolvalue'>true</span>);
 <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='number'>3</span> <span class='op'>+</span> <span class='number'>2</span>);
 
 <span class='comment'>// 駄目だぁ :(</span>
@@ -1555,12 +1555,12 @@ fn main() { }
 
 <span class='rusttest'>fn main() {
     use std::fs::File;
-    
-    fn foo() -&gt; std::io::Result&lt;()&gt; {
-        let f = try!(File::create(&quot;foo.txt&quot;));
-    
-        Ok(())
-    }
+
+fn foo() -&gt; std::io::Result&lt;()&gt; {
+    let f = try!(File::create(&quot;foo.txt&quot;));
+
+    Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 
@@ -1576,17 +1576,17 @@ fn main() { }
 
 <span class='rusttest'>fn main() {
     use std::fs::File;
-    
-    fn foo() -&gt; std::io::Result&lt;()&gt; {
-        let f = File::create(&quot;foo.txt&quot;);
-    
-        let f = match f {
-            Ok(t) =&gt; t,
-            Err(e) =&gt; return Err(e),
-        };
-    
-        Ok(())
-    }
+
+fn foo() -&gt; std::io::Result&lt;()&gt; {
+    let f = File::create(&quot;foo.txt&quot;);
+
+    let f = match f {
+        Ok(t) =&gt; t,
+        Err(e) =&gt; return Err(e),
+    };
+
+    Ok(())
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fs</span>::<span class='ident'>File</span>;
 
@@ -1608,10 +1608,10 @@ fn main() { }
 
 <span class='rusttest'>fn main() {
     if false {
-        unreachable!();
-    }
+    unreachable!();
+}
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>if</span> <span class='boolval'>false</span> {
+<span class='kw'>if</span> <span class='boolvalue'>false</span> {
     <span class='macro'>unreachable</span><span class='macro'>!</span>();
 }</pre>
 
@@ -1626,11 +1626,11 @@ fn main() { }
 
 <span class='rusttest'>fn main() {
     let x: Option&lt;i32&gt; = None;
-    
-    match x {
-        Some(_) =&gt; unreachable!(),
-        None =&gt; println!(&quot;I know x is None!&quot;),
-    }
+
+match x {
+    Some(_) =&gt; unreachable!(),
+    None =&gt; println!(&quot;I know x is None!&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>None</span>;
 

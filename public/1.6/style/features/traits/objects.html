@@ -161,29 +161,30 @@
 <p>Trait objects are useful primarily when <em>heterogeneous</em> collections of objects
 need to be treated uniformly; it is the closest that Rust comes to
 object-oriented programming.</p>
+
 <span class='rusttest'>fn main() {
     struct Frame  { ... }
-    struct Button { ... }
-    struct Label  { ... }
-    
-    trait Widget  { ... }
-    
-    impl Widget for Frame  { ... }
-    impl Widget for Button { ... }
-    impl Widget for Label  { ... }
-    
-    impl Frame {
-        fn new(contents: &amp;[Box&lt;Widget&gt;]) -&gt; Frame {
-            ...
-        }
+struct Button { ... }
+struct Label  { ... }
+
+trait Widget  { ... }
+
+impl Widget for Frame  { ... }
+impl Widget for Button { ... }
+impl Widget for Label  { ... }
+
+impl Frame {
+    fn new(contents: &amp;[Box&lt;Widget&gt;]) -&gt; Frame {
+        ...
     }
-    
-    fn make_gui() -&gt; Box&lt;Widget&gt; {
-        let b: Box&lt;Widget&gt; = box Button::new(...);
-        let l: Box&lt;Widget&gt; = box Label::new(...);
-    
-        box Frame::new([b, l]) as Box&lt;Widget&gt;
-    }
+}
+
+fn make_gui() -&gt; Box&lt;Widget&gt; {
+    let b: Box&lt;Widget&gt; = box Button::new(...);
+    let l: Box&lt;Widget&gt; = box Label::new(...);
+
+    box Frame::new([b, l]) as Box&lt;Widget&gt;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Frame</span>  { ... }
 <span class='kw'>struct</span> <span class='ident'>Button</span> { ... }

@@ -227,23 +227,24 @@ removed (drain supports subranges), and then fix Vec&#39;s <code>len</code>. It&
 unwinding-safe! Easy!</p>
 
 <p>Now consider the following:</p>
+
 <span class='rusttest'>fn main() {
     let mut vec = vec![Box::new(0); 4];
-    
-    {
-        // start draining, vec can no longer be accessed
-        let mut drainer = vec.drain(..);
-    
-        // pull out two elements and immediately drop them
-        drainer.next();
-        drainer.next();
-    
-        // get rid of drainer, but don&#39;t call its destructor
-        mem::forget(drainer);
-    }
-    
-    // Oops, vec[0] was dropped, we&#39;re reading a pointer into free&#39;d memory!
-    println!(&quot;{}&quot;, vec[0]);
+
+{
+    // start draining, vec can no longer be accessed
+    let mut drainer = vec.drain(..);
+
+    // pull out two elements and immediately drop them
+    drainer.next();
+    drainer.next();
+
+    // get rid of drainer, but don&#39;t call its destructor
+    mem::forget(drainer);
+}
+
+// Oops, vec[0] was dropped, we&#39;re reading a pointer into free&#39;d memory!
+println!(&quot;{}&quot;, vec[0]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>vec</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>0</span>); <span class='number'>4</span>];
 
@@ -288,49 +289,50 @@ just like Box, right?</p>
 <p>Nope.</p>
 
 <p>Let&#39;s consider a simplified implementation of Rc:</p>
+
 <span class='rusttest'>fn main() {
     struct Rc&lt;T&gt; {
-        ptr: *mut RcBox&lt;T&gt;,
-    }
-    
-    struct RcBox&lt;T&gt; {
-        data: T,
-        ref_count: usize,
-    }
-    
-    impl&lt;T&gt; Rc&lt;T&gt; {
-        fn new(data: T) -&gt; Self {
-            unsafe {
-                // Wouldn&#39;t it be nice if heap::allocate worked like this?
-                let ptr = heap::allocate::&lt;RcBox&lt;T&gt;&gt;();
-                ptr::write(ptr, RcBox {
-                    data: data,
-                    ref_count: 1,
-                });
-                Rc { ptr: ptr }
-            }
-        }
-    
-        fn clone(&amp;self) -&gt; Self {
-            unsafe {
-                (*self.ptr).ref_count += 1;
-            }
-            Rc { ptr: self.ptr }
+    ptr: *mut RcBox&lt;T&gt;,
+}
+
+struct RcBox&lt;T&gt; {
+    data: T,
+    ref_count: usize,
+}
+
+impl&lt;T&gt; Rc&lt;T&gt; {
+    fn new(data: T) -&gt; Self {
+        unsafe {
+            // Wouldn&#39;t it be nice if heap::allocate worked like this?
+            let ptr = heap::allocate::&lt;RcBox&lt;T&gt;&gt;();
+            ptr::write(ptr, RcBox {
+                data: data,
+                ref_count: 1,
+            });
+            Rc { ptr: ptr }
         }
     }
-    
-    impl&lt;T&gt; Drop for Rc&lt;T&gt; {
-        fn drop(&amp;mut self) {
-            unsafe {
-                (*self.ptr).ref_count -= 1;
-                if (*self.ptr).ref_count == 0 {
-                    // drop the data and then free it
-                    ptr::read(self.ptr);
-                    heap::deallocate(self.ptr);
-                }
+
+    fn clone(&amp;self) -&gt; Self {
+        unsafe {
+            (*self.ptr).ref_count += 1;
+        }
+        Rc { ptr: self.ptr }
+    }
+}
+
+impl&lt;T&gt; Drop for Rc&lt;T&gt; {
+    fn drop(&amp;mut self) {
+        unsafe {
+            (*self.ptr).ref_count -= 1;
+            if (*self.ptr).ref_count == 0 {
+                // drop the data and then free it
+                ptr::read(self.ptr);
+                heap::deallocate(self.ptr);
             }
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>RcBox</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>,
@@ -342,7 +344,7 @@ just like Box, right?</p>
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>data</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>data</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> {
             <span class='comment'>// Wouldn&#39;t it be nice if heap::allocate worked like this?</span>
             <span class='kw'>let</span> <span class='ident'>ptr</span> <span class='op'>=</span> <span class='ident'>heap</span>::<span class='ident'>allocate</span>::<span class='op'>&lt;</span><span class='ident'>RcBox</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span>();
@@ -354,7 +356,7 @@ just like Box, right?</p>
         }
     }
 
-    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>clone</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> {
             (<span class='op'>*</span><span class='self'>self</span>.<span class='ident'>ptr</span>).<span class='ident'>ref_count</span> <span class='op'>+=</span> <span class='number'>1</span>;
         }
@@ -391,9 +393,10 @@ horribly degenerate. Also <em>oh my gosh</em> it&#39;s such a ridiculous corner 
 data on their parent&#39;s stack without any synchronization over that data by
 ensuring the parent joins the thread before any of the shared data goes out
 of scope.</p>
+
 <span class='rusttest'>fn main() {
     pub fn scoped&lt;&#39;a, F&gt;(f: F) -&gt; JoinGuard&lt;&#39;a&gt;
-        where F: FnOnce() + Send + &#39;a
+    where F: FnOnce() + Send + &#39;a
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>scoped</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>f</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>JoinGuard</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>
     <span class='kw'>where</span> <span class='ident'>F</span>: <span class='ident'>FnOnce</span>() <span class='op'>+</span> <span class='ident'>Send</span> <span class='op'>+</span> <span class='lifetime'>&#39;a</span></pre>
@@ -409,29 +412,30 @@ dropped it blocks the parent thread, ensuring the child terminates before any
 of the closed-over data goes out of scope in the parent.</p>
 
 <p>Usage looked like:</p>
+
 <span class='rusttest'>fn main() {
     let mut data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    {
-        let guards = vec![];
-        for x in &amp;mut data {
-            // Move the mutable reference into the closure, and execute
-            // it on a different thread. The closure has a lifetime bound
-            // by the lifetime of the mutable reference `x` we store in it.
-            // The guard that is returned is in turn assigned the lifetime
-            // of the closure, so it also mutably borrows `data` as `x` did.
-            // This means we cannot access `data` until the guard goes away.
-            let guard = thread::scoped(move || {
-                *x *= 2;
-            });
-            // store the thread&#39;s guard for later
-            guards.push(guard);
-        }
-        // All guards are dropped here, forcing the threads to join
-        // (this thread blocks here until the others terminate).
-        // Once the threads join, the borrow expires and the data becomes
-        // accessible again in this thread.
+{
+    let guards = vec![];
+    for x in &amp;mut data {
+        // Move the mutable reference into the closure, and execute
+        // it on a different thread. The closure has a lifetime bound
+        // by the lifetime of the mutable reference `x` we store in it.
+        // The guard that is returned is in turn assigned the lifetime
+        // of the closure, so it also mutably borrows `data` as `x` did.
+        // This means we cannot access `data` until the guard goes away.
+        let guard = thread::scoped(move || {
+            *x *= 2;
+        });
+        // store the thread&#39;s guard for later
+        guards.push(guard);
     }
-    // data is definitely mutated here.
+    // All guards are dropped here, forcing the threads to join
+    // (this thread blocks here until the others terminate).
+    // Once the threads join, the borrow expires and the data becomes
+    // accessible again in this thread.
+}
+// data is definitely mutated here.
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>, <span class='number'>5</span>, <span class='number'>6</span>, <span class='number'>7</span>, <span class='number'>8</span>, <span class='number'>9</span>, <span class='number'>10</span>];
 {
@@ -458,19 +462,20 @@ of the closed-over data goes out of scope in the parent.</p>
 
 <p>In principle, this totally works! Rust&#39;s ownership system perfectly ensures it!
 ...except it relies on a destructor being called to be safe.</p>
+
 <span class='rusttest'>fn main() {
     let mut data = Box::new(0);
-    {
-        let guard = thread::scoped(|| {
-            // This is at best a data race. At worst, it&#39;s also a use-after-free.
-            *data += 1;
-        });
-        // Because the guard is forgotten, expiring the loan without blocking this
-        // thread.
-        mem::forget(guard);
-    }
-    // So the Box is dropped here while the scoped thread may or may not be trying
-    // to access it.
+{
+    let guard = thread::scoped(|| {
+        // This is at best a data race. At worst, it&#39;s also a use-after-free.
+        *data += 1;
+    });
+    // Because the guard is forgotten, expiring the loan without blocking this
+    // thread.
+    mem::forget(guard);
+}
+// So the Box is dropped here while the scoped thread may or may not be trying
+// to access it.
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>0</span>);
 {

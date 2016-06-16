@@ -187,12 +187,13 @@ statically in the case of <a href="exotic-sizes.html#dynamically-sized-types-dst
 of their fields&#39; alignment. Rust will consequently insert padding where
 necessary to ensure that all fields are properly aligned and that the overall
 type&#39;s size is a multiple of its alignment. For instance:</p>
+
 <span class='rusttest'>fn main() {
     struct A {
-        a: u8,
-        b: u32,
-        c: u16,
-    }
+    a: u8,
+    b: u32,
+    c: u16,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>A</span> {
     <span class='ident'>a</span>: <span class='ident'>u8</span>,
@@ -203,14 +204,15 @@ type&#39;s size is a multiple of its alignment. For instance:</p>
 <p>will be 32-bit aligned on an architecture that aligns these primitives to their
 respective sizes. The whole struct will therefore have a size that is a multiple
 of 32-bits. It will potentially become:</p>
+
 <span class='rusttest'>fn main() {
     struct A {
-        a: u8,
-        _pad1: [u8; 3], // to align `b`
-        b: u32,
-        c: u16,
-        _pad2: [u8; 2], // to make overall size multiple of 4
-    }
+    a: u8,
+    _pad1: [u8; 3], // to align `b`
+    b: u32,
+    c: u16,
+    _pad2: [u8; 2], // to make overall size multiple of 4
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>A</span> {
     <span class='ident'>a</span>: <span class='ident'>u8</span>,
@@ -224,16 +226,17 @@ of 32-bits. It will potentially become:</p>
 as you would expect in C. However with the exception of arrays (which are
 densely packed and in-order), the layout of data is not by default specified in
 Rust. Given the two following struct definitions:</p>
+
 <span class='rusttest'>fn main() {
     struct A {
-        a: i32,
-        b: u64,
-    }
-    
-    struct B {
-        a: i32,
-        b: u64,
-    }
+    a: i32,
+    b: u64,
+}
+
+struct B {
+    a: i32,
+    b: u64,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>A</span> {
     <span class='ident'>a</span>: <span class='ident'>i32</span>,
@@ -255,12 +258,13 @@ features of Rust make it desirable for the language to play with data layout in
 complex ways.</p>
 
 <p>For instance, consider this struct:</p>
+
 <span class='rusttest'>fn main() {
     struct Foo&lt;T, U&gt; {
-        count: u16,
-        data1: T,
-        data2: U,
-    }
+    count: u16,
+    data1: T,
+    data2: U,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>U</span><span class='op'>&gt;</span> {
     <span class='ident'>count</span>: <span class='ident'>u16</span>,
@@ -272,20 +276,21 @@ complex ways.</p>
 Rust lays out the fields in the order specified, we expect it to pad the
 values in the struct to satisfy their alignment requirements. So if Rust
 didn&#39;t reorder fields, we would expect it to produce the following:</p>
+
 <span class='rusttest'>fn main() {
     struct Foo&lt;u16, u32&gt; {
-        count: u16,
-        data1: u16,
-        data2: u32,
-    }
-    
-    struct Foo&lt;u32, u16&gt; {
-        count: u16,
-        _pad1: u16,
-        data1: u32,
-        data2: u16,
-        _pad2: u16,
-    }
+    count: u16,
+    data1: u16,
+    data2: u32,
+}
+
+struct Foo&lt;u32, u16&gt; {
+    count: u16,
+    _pad1: u16,
+    data1: u32,
+    data2: u16,
+    _pad2: u16,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='ident'>u16</span>, <span class='ident'>u32</span><span class='op'>&gt;</span> {
     <span class='ident'>count</span>: <span class='ident'>u16</span>,
@@ -308,12 +313,13 @@ requires different monomorphizations to have <em>different field orderings</em>.
 1.0</strong></p>
 
 <p>Enums make this consideration even more complicated. Naively, an enum such as:</p>
+
 <span class='rusttest'>fn main() {
     enum Foo {
-        A(u32),
-        B(u64),
-        C(u8),
-    }
+    A(u32),
+    B(u64),
+    C(u8),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Foo</span> {
     <span class='ident'>A</span>(<span class='ident'>u32</span>),
@@ -322,11 +328,12 @@ requires different monomorphizations to have <em>different field orderings</em>.
 }</pre>
 
 <p>would be laid out as:</p>
+
 <span class='rusttest'>fn main() {
     struct FooRepr {
-        data: u64, // this is either a u64, u32, or u8 based on `tag`
-        tag: u8,   // 0 = A, 1 = B, 2 = C
-    }
+    data: u64, // this is either a u64, u32, or u8 based on `tag`
+    tag: u8,   // 0 = A, 1 = B, 2 = C
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>FooRepr</span> {
     <span class='ident'>data</span>: <span class='ident'>u64</span>, <span class='comment'>// this is either a u64, u32, or u8 based on `tag`</span>

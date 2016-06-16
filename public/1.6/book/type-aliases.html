@@ -203,8 +203,8 @@
 
 <span class='rusttest'>fn main() {
     type Name = String;
-    
-    let x: Name = &quot;Hello&quot;.to_string();
+
+let x: Name = &quot;Hello&quot;.to_string();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>type</span> <span class='ident'>Name</span> <span class='op'>=</span> <span class='ident'>String</span>;
 
@@ -222,11 +222,11 @@
 
 <span class='rusttest'>fn main() {
     let x: i32 = 5;
-    let y: i64 = 5;
-    
-    if x == y {
-       // ...
-    }
+let y: i64 = 5;
+
+if x == y {
+   // ...
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>i64</span> <span class='op'>=</span> <span class='number'>5</span>;
@@ -254,13 +254,13 @@
 
 <span class='rusttest'>fn main() {
     type Num = i32;
-    
-    let x: i32 = 5;
-    let y: Num = 5;
-    
-    if x == y {
-       // ...
-    }
+
+let x: i32 = 5;
+let y: Num = 5;
+
+if x == y {
+   // ...
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>type</span> <span class='ident'>Num</span> <span class='op'>=</span> <span class='ident'>i32</span>;
 
@@ -284,13 +284,13 @@
 
 <span class='rusttest'>fn main() {
     use std::result;
-    
-    enum ConcreteError {
-        Foo,
-        Bar,
-    }
-    
-    type Result&lt;T&gt; = result::Result&lt;T, ConcreteError&gt;;
+
+enum ConcreteError {
+    Foo,
+    Bar,
+}
+
+type Result&lt;T&gt; = result::Result&lt;T, ConcreteError&gt;;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>result</span>;
 

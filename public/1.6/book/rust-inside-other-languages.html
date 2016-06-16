@@ -285,23 +285,23 @@ $ cd embed
 
 <span class='rusttest'>fn main() {
     use std::thread;
-    
-    fn process() {
-        let handles: Vec&lt;_&gt; = (0..10).map(|_| {
-            thread::spawn(|| {
-                let mut x = 0;
-                for _ in 0..5_000_000 {
-                    x += 1
-                }
-                x
-            })
-        }).collect();
-    
-        for h in handles {
-            println!(&quot;Thread finished with count={}&quot;,
-            h.join().map_err(|_| &quot;Could not join a thread!&quot;).unwrap());
-        }
+
+fn process() {
+    let handles: Vec&lt;_&gt; = (0..10).map(|_| {
+        thread::spawn(|| {
+            let mut x = 0;
+            for _ in 0..5_000_000 {
+                x += 1
+            }
+            x
+        })
+    }).collect();
+
+    for h in handles {
+        println!(&quot;Thread finished with count={}&quot;,
+        h.join().map_err(|_| &quot;Could not join a thread!&quot;).unwrap());
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 
@@ -334,7 +334,7 @@ though. The first is to modify the beginning of our code:</p>
 
 <span class='rusttest'>fn main() {
     #[no_mangle]
-    pub extern fn process() {
+pub extern fn process() {
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>no_mangle</span>]</span>
 <span class='kw'>pub</span> <span class='kw'>extern</span> <span class='kw'>fn</span> <span class='ident'>process</span>() {</pre>

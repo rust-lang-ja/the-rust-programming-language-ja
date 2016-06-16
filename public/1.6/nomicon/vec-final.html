@@ -158,7 +158,8 @@
 
 
     <h1 class="title">The Final Code</h1>
-    <span class='rusttest'>#![feature(unique)]
+    
+<span class='rusttest'>#![feature(unique)]
 #![feature(alloc, heap_api)]
 
 extern crate alloc;
@@ -486,7 +487,7 @@ fn main() {}
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>RawVec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='kw'>unsafe</span> {
             <span class='comment'>// !0 is usize::MAX. This branch should be stripped at compile time.</span>
             <span class='kw'>let</span> <span class='ident'>cap</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='ident'>mem</span>::<span class='ident'>size_of</span>::<span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>() <span class='op'>==</span> <span class='number'>0</span> { <span class='op'>!</span><span class='number'>0</span> } <span class='kw'>else</span> { <span class='number'>0</span> };
@@ -555,7 +556,7 @@ fn main() {}
 
     <span class='kw'>fn</span> <span class='ident'>cap</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>usize</span> { <span class='self'>self</span>.<span class='ident'>buf</span>.<span class='ident'>cap</span> }
 
-    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>Vec</span> { <span class='ident'>buf</span>: <span class='ident'>RawVec</span>::<span class='ident'>new</span>(), <span class='ident'>len</span>: <span class='number'>0</span> }
     }
     <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elem</span>: <span class='ident'>T</span>) {
@@ -671,7 +672,7 @@ fn main() {}
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>RawValIter</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>slice</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>slice</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='ident'>RawValIter</span> {
             <span class='ident'>start</span>: <span class='ident'>slice</span>.<span class='ident'>as_ptr</span>(),
             <span class='ident'>end</span>: <span class='kw'>if</span> <span class='ident'>mem</span>::<span class='ident'>size_of</span>::<span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>() <span class='op'>==</span> <span class='number'>0</span> {

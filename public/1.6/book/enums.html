@@ -195,11 +195,11 @@ several possible variants: -->
 
 <span class='rusttest'>fn main() {
     enum Message {
-        Quit,
-        ChangeColor(i32, i32, i32),
-        Move { x: i32, y: i32 },
-        Write(String),
-    }
+    Quit,
+    ChangeColor(i32, i32, i32),
+    Move { x: i32, y: i32 },
+    Write(String),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Message</span> {
     <span class='ident'>Quit</span>,
@@ -234,16 +234,16 @@ of the `enum` itself. This allows both of these to work: -->
 
 <span class='rusttest'>fn main() {
     enum Message {
-        Move { x: i32, y: i32 },
-    }
-    let x: Message = Message::Move { x: 3, y: 4 };
-    
-    enum BoardGameTurn {
-        Move { squares: i32 },
-        Pass,
-    }
-    
-    let y: BoardGameTurn = BoardGameTurn::Move { squares: 1 };
+    Move { x: i32, y: i32 },
+}
+let x: Message = Message::Move { x: 3, y: 4 };
+
+enum BoardGameTurn {
+    Move { squares: i32 },
+    Pass,
+}
+
+let y: BoardGameTurn = BoardGameTurn::Move { squares: 1 };
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>Message</span> <span class='op'>=</span> <span class='ident'>Message</span>::<span class='ident'>Move</span> { <span class='ident'>x</span>: <span class='number'>3</span>, <span class='ident'>y</span>: <span class='number'>4</span> };
 
@@ -275,9 +275,9 @@ possible variants: -->
 
 <span class='rusttest'>fn main() {
     fn process_color_change(msg: Message) {
-    //    let Message::ChangeColor(r, g, b) = msg; // compile-time error
-        let Message::ChangeColor(r, g, b) = msg; // コンパイル時エラー
-    }
+//    let Message::ChangeColor(r, g, b) = msg; // compile-time error
+    let Message::ChangeColor(r, g, b) = msg; // コンパイル時エラー
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>process_color_change</span>(<span class='ident'>msg</span>: <span class='ident'>Message</span>) {
     <span class='kw'>let</span> <span class='ident'>Message</span>::<span class='ident'>ChangeColor</span>(<span class='ident'>r</span>, <span class='ident'>g</span>, <span class='ident'>b</span>) <span class='op'>=</span> <span class='ident'>msg</span>; <span class='comment'>// コンパイル時エラー</span>
@@ -304,9 +304,9 @@ equality yet, but we’ll find out in the [`traits`][traits] section. -->
 
 <span class='rusttest'>fn main() {
     enum Message {
-    Write(String),
-    }
-    let m = Message::Write(&quot;Hello, world&quot;.to_string());
+Write(String),
+}
+let m = Message::Write(&quot;Hello, world&quot;.to_string());
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>m</span> <span class='op'>=</span> <span class='ident'>Message</span>::<span class='ident'>Write</span>(<span class='string'>&quot;Hello, world&quot;</span>.<span class='ident'>to_string</span>());</pre>
 
@@ -316,13 +316,13 @@ equality yet, but we’ll find out in the [`traits`][traits] section. -->
 
 <span class='rusttest'>fn main() {
     enum Message {
-    Write(String),
-    }
-    fn foo(x: String) -&gt; Message {
-        Message::Write(x)
-    }
-    
-    let x = foo(&quot;Hello, world&quot;.to_string());
+Write(String),
+}
+fn foo(x: String) -&gt; Message {
+    Message::Write(x)
+}
+
+let x = foo(&quot;Hello, world&quot;.to_string());
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>x</span>: <span class='ident'>String</span>) <span class='op'>-&gt;</span> <span class='ident'>Message</span> {
     <span class='ident'>Message</span>::<span class='ident'>Write</span>(<span class='ident'>x</span>)
@@ -340,12 +340,12 @@ to convert a vector of `String`s into a vector of `Message::Write`s: -->
 
 <span class='rusttest'>fn main() {
     enum Message {
-    Write(String),
-    }
-    
-    let v = vec![&quot;Hello&quot;.to_string(), &quot;World&quot;.to_string()];
-    
-    let v1: Vec&lt;Message&gt; = v.into_iter().map(Message::Write).collect();
+Write(String),
+}
+
+let v = vec![&quot;Hello&quot;.to_string(), &quot;World&quot;.to_string()];
+
+let v1: Vec&lt;Message&gt; = v.into_iter().map(Message::Write).collect();
 }</span><pre class='rust rust-example-rendered'>
 
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='string'>&quot;Hello&quot;</span>.<span class='ident'>to_string</span>(), <span class='string'>&quot;World&quot;</span>.<span class='ident'>to_string</span>()];

@@ -851,14 +851,14 @@ Rustのスレッドは独立させるための単純なメカニズムとして�
 
 <span class='rusttest'>fn main() {
     use std::thread;
-    
-    let handle = thread::spawn(move || {
-        panic!(&quot;oops!&quot;);
-    });
-    
-    let result = handle.join();
-    
-    assert!(result.is_err());
+
+let handle = thread::spawn(move || {
+    panic!(&quot;oops!&quot;);
+});
+
+let result = handle.join();
+
+assert!(result.is_err());
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
 

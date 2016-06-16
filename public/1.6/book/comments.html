@@ -206,15 +206,15 @@
 
 <span class='rusttest'>fn main() {
     // Line comments are anything after ‘//’ and extend to the end of the line.
-    // 行コメントは「//」以降の全ての文字であり、行末まで続く
-    
-    let x = 5; // this is also a line comment.
-    
-    // If you have a long explanation for something, you can put line comments next
-    // to each other. Put a space between the // and your comment so that it’s
-    // more readable.
-    // もし何かのために長い説明を書くのであれば、行コメントを複数行に渡って書くこと
-    // ができる。//とコメントとの間にスペースを置くことで、より読みやすくなる
+// 行コメントは「//」以降の全ての文字であり、行末まで続く
+
+let x = 5; // this is also a line comment.
+
+// If you have a long explanation for something, you can put line comments next
+// to each other. Put a space between the // and your comment so that it’s
+// more readable.
+// もし何かのために長い説明を書くのであれば、行コメントを複数行に渡って書くこと
+// ができる。//とコメントとの間にスペースを置くことで、より読みやすくなる
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// 行コメントは「//」以降の全ての文字であり、行末まで続く</span>
 
@@ -232,21 +232,21 @@
 
 <span class='rusttest'>fn main() {
     /// Adds one to the number given.
-    /// 与えられた数値に1を加える
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// let five = 5;
-    ///
-    /// assert_eq!(6, add_one(5));
-    /// # fn add_one(x: i32) -&gt; i32 {
-    /// #     x + 1
-    /// # }
-    /// ```
-    fn add_one(x: i32) -&gt; i32 {
-        x + 1
-    }
+/// 与えられた数値に1を加える
+///
+/// # Examples
+///
+/// ```
+/// let five = 5;
+///
+/// assert_eq!(6, add_one(5));
+/// # fn add_one(x: i32) -&gt; i32 {
+/// #     x + 1
+/// # }
+/// ```
+fn add_one(x: i32) -&gt; i32 {
+    x + 1
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='doccomment'>/// 与えられた数値に1を加える</span>
 <span class='doccomment'>///</span>
@@ -275,9 +275,9 @@
 
 <span class='rusttest'>fn main() {
     //! # Rust標準ライブラリ
-    //!
-    //! Rust標準ライブラリはポータブルなRustソフトウェアをビルドするために不可欠な
-    //! ランタイム関数を提供する。
+//!
+//! Rust標準ライブラリはポータブルなRustソフトウェアをビルドするために不可欠な
+//! ランタイム関数を提供する。
 }</span><pre class='rust rust-example-rendered'>
 <span class='doccomment'>//! # Rust標準ライブラリ</span>
 <span class='doccomment'>//!</span>

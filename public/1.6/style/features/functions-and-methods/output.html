@@ -169,13 +169,14 @@ this data is potentially of interest to the client, consider exposing it in the
 API.</p>
 
 <p>Prefer</p>
+
 <span class='rusttest'>fn main() {
     struct SearchResult {
-        found: bool,          // item in container?
-        expected_index: usize // what would the item&#39;s index be?
-    }
-    
-    fn binary_search(&amp;self, k: Key) -&gt; SearchResult
+    found: bool,          // item in container?
+    expected_index: usize // what would the item&#39;s index be?
+}
+
+fn binary_search(&amp;self, k: Key) -&gt; SearchResult
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>SearchResult</span> {
     <span class='ident'>found</span>: <span class='ident'>bool</span>,          <span class='comment'>// item in container?</span>
@@ -185,12 +186,14 @@ API.</p>
 <span class='kw'>fn</span> <span class='ident'>binary_search</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>k</span>: <span class='ident'>Key</span>) <span class='op'>-&gt;</span> <span class='ident'>SearchResult</span></pre>
 
 <p>or</p>
+
 <span class='rusttest'>fn main() {
     fn binary_search(&amp;self, k: Key) -&gt; (bool, usize)
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>binary_search</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>k</span>: <span class='ident'>Key</span>) <span class='op'>-&gt;</span> (<span class='ident'>bool</span>, <span class='ident'>usize</span>)</pre>
 
 <p>over</p>
+
 <span class='rusttest'>fn main() {
     fn binary_search(&amp;self, k: Key) -&gt; bool
 }</span><pre class='rust rust-example-rendered'>
@@ -198,12 +201,14 @@ API.</p>
 
 <h4 id='yield-back-ownership' class='section-header'><a href='#yield-back-ownership'>Yield back ownership:</a></h4>
 <p>Prefer</p>
+
 <span class='rusttest'>fn main() {
     fn from_utf8_owned(vv: Vec&lt;u8&gt;) -&gt; Result&lt;String, Vec&lt;u8&gt;&gt;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>from_utf8_owned</span>(<span class='ident'>vv</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>String</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>u8</span><span class='op'>&gt;&gt;</span></pre>
 
 <p>over</p>
+
 <span class='rusttest'>fn main() {
     fn from_utf8_owned(vv: Vec&lt;u8&gt;) -&gt; Option&lt;String&gt;
 }</span><pre class='rust rust-example-rendered'>

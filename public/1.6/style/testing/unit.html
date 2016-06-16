@@ -168,18 +168,19 @@ definitions.</li>
 </ul>
 
 <p>For example:</p>
+
 <span class='rusttest'>fn main() {
     // Excerpt from std::str
-    
-    #[cfg(test)]
-    mod tests {
-        #[test]
-        fn test_eq() {
-            assert!((eq(&amp;&quot;&quot;.to_owned(), &amp;&quot;&quot;.to_owned())));
-            assert!((eq(&amp;&quot;foo&quot;.to_owned(), &amp;&quot;foo&quot;.to_owned())));
-            assert!((!eq(&amp;&quot;foo&quot;.to_owned(), &amp;&quot;bar&quot;.to_owned())));
-        }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn test_eq() {
+        assert!((eq(&amp;&quot;&quot;.to_owned(), &amp;&quot;&quot;.to_owned())));
+        assert!((eq(&amp;&quot;foo&quot;.to_owned(), &amp;&quot;foo&quot;.to_owned())));
+        assert!((!eq(&amp;&quot;foo&quot;.to_owned(), &amp;&quot;bar&quot;.to_owned())));
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Excerpt from std::str</span>
 

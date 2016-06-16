@@ -183,12 +183,13 @@ it points to.</p>
 
 <p>Structs can actually store a single DST directly as their last field, but this
 makes them a DST as well:</p>
+
 <span class='rusttest'>fn main() {
     // Can&#39;t be stored on the stack directly
-    struct Foo {
-        info: u32,
-        data: [u8],
-    }
+struct Foo {
+    info: u32,
+    data: [u8],
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Can&#39;t be stored on the stack directly</span>
 <span class='kw'>struct</span> <span class='ident'>Foo</span> {
@@ -201,15 +202,16 @@ a variable position based on its alignment</a>.</strong></p>
 
 <h1 id='zero-sized-types-zsts' class='section-header'><a href='#zero-sized-types-zsts'>Zero Sized Types (ZSTs)</a></h1>
 <p>Rust actually allows types to be specified that occupy no space:</p>
+
 <span class='rusttest'>fn main() {
     struct Foo; // No fields = no size
-    
-    // All fields have no size = no size
-    struct Baz {
-        foo: Foo,
-        qux: (),      // empty tuple has no size
-        baz: [u8; 0], // empty array has no size
-    }
+
+// All fields have no size = no size
+struct Baz {
+    foo: Foo,
+    qux: (),      // empty tuple has no size
+    baz: [u8; 0], // empty array has no size
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span>; <span class='comment'>// No fields = no size</span>
 
@@ -251,6 +253,7 @@ indistinguishable from out of memory.</p>
 <p>Rust also enables types to be declared that <em>cannot even be instantiated</em>. These
 types can only be talked about at the type level, and never at the value level.
 Empty types can be declared by specifying an enum with no variants:</p>
+
 <span class='rusttest'>fn main() {
     enum Void {} // No variants = EMPTY
 }</span><pre class='rust rust-example-rendered'>
@@ -268,13 +271,14 @@ this would require providing a value of type <code>Void</code>.</p>
 on this fact. For instance, <code>Result&lt;T, Void&gt;</code> could be represented as just <code>T</code>,
 because the <code>Err</code> case doesn&#39;t actually exist. The following <em>could</em> also
 compile:</p>
+
 <span class='rusttest'>fn main() {
     enum Void {}
-    
-    let res: Result&lt;u32, Void&gt; = Ok(0);
-    
-    // Err doesn&#39;t exist anymore, so Ok is actually irrefutable.
-    let Ok(num) = res;
+
+let res: Result&lt;u32, Void&gt; = Ok(0);
+
+// Err doesn&#39;t exist anymore, so Ok is actually irrefutable.
+let Ok(num) = res;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Void</span> {}
 

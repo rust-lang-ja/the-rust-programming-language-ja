@@ -160,6 +160,7 @@
     <h1 class="title">Higher-Rank Trait Bounds (HRTBs)</h1>
     <p>Rust&#39;s <code>Fn</code> traits are a little bit magic. For instance, we can write the
 following code:</p>
+
 <span class='rusttest'>struct Closure&lt;F&gt; {
     data: (u8, u16),
     func: F,
@@ -202,6 +203,7 @@ fn main() {
 
 <p>If we try to naively desugar this code in the same way that we did in the
 lifetimes section, we run into some trouble:</p>
+
 <span class='rusttest'>struct Closure&lt;F&gt; {
     data: (u8, u16),
     func: F,
@@ -253,6 +255,7 @@ named until we enter the body of <code>call</code>! Also, that isn&#39;t some fi
 
 <p>This job requires The Magic of Higher-Rank Trait Bounds (HRTBs). The way we
 desugar this is as follows:</p>
+
 <span class='rusttest'>fn main() {
     where for&lt;&#39;a&gt; F: Fn(&amp;&#39;a (u8, u16)) -&gt; &amp;&#39;a u8,
 }</span><pre class='rust rust-example-rendered'>

@@ -169,21 +169,22 @@ consequently gives you several ways to solve them.</p>
 <p>First we&#39;ll look at the ways that Safe Rust gives you to reinterpret values.
 The most trivial way to do this is to just destructure a value into its
 constituent parts and then build a new type out of them. e.g.</p>
+
 <span class='rusttest'>fn main() {
     struct Foo {
-        x: u32,
-        y: u16,
-    }
-    
-    struct Bar {
-        a: u32,
-        b: u16,
-    }
-    
-    fn reinterpret(foo: Foo) -&gt; Bar {
-        let Foo { x, y } = foo;
-        Bar { a: x, b: y }
-    }
+    x: u32,
+    y: u16,
+}
+
+struct Bar {
+    a: u32,
+    b: u16,
+}
+
+fn reinterpret(foo: Foo) -&gt; Bar {
+    let Foo { x, y } = foo;
+    Bar { a: x, b: y }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span> {
     <span class='ident'>x</span>: <span class='ident'>u32</span>,

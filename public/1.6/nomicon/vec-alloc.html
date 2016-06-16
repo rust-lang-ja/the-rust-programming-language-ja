@@ -176,23 +176,24 @@ We could trivially define <code>heap::EMPTY</code> ourselves, but we&#39;ll want
 the <code>heap</code> API anyway, so let&#39;s just get that dependency over with.</p>
 
 <p>So:</p>
+
 <span class='rusttest'>#![feature(alloc, heap_api)]
 
 fn main() {
     use std::mem;
-    
-    use alloc::heap::EMPTY;
-    
-    impl&lt;T&gt; Vec&lt;T&gt; {
-        fn new() -&gt; Self {
-            assert!(mem::size_of::&lt;T&gt;() != 0, &quot;We&#39;re not ready to handle ZSTs&quot;);
-            unsafe {
-                // need to cast EMPTY to the actual ptr type we want, let
-                // inference handle it.
-                Vec { ptr: Unique::new(heap::EMPTY as *mut _), len: 0, cap: 0 }
-            }
+
+use alloc::heap::EMPTY;
+
+impl&lt;T&gt; Vec&lt;T&gt; {
+    fn new() -&gt; Self {
+        assert!(mem::size_of::&lt;T&gt;() != 0, &quot;We&#39;re not ready to handle ZSTs&quot;);
+        unsafe {
+            // need to cast EMPTY to the actual ptr type we want, let
+            // inference handle it.
+            Vec { ptr: Unique::new(heap::EMPTY as *mut _), len: 0, cap: 0 }
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>alloc</span>, <span class='ident'>heap_api</span>)]</span>
 
@@ -201,7 +202,7 @@ fn main() {
 <span class='kw'>use</span> <span class='ident'>alloc</span>::<span class='ident'>heap</span>::<span class='ident'>EMPTY</span>;
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='kw'>Self</span> {
+    <span class='kw'>fn</span> <span class='ident'>new</span>() <span class='op'>-&gt;</span> <span class='self'>Self</span> {
         <span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>mem</span>::<span class='ident'>size_of</span>::<span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>() <span class='op'>!=</span> <span class='number'>0</span>, <span class='string'>&quot;We&#39;re not ready to handle ZSTs&quot;</span>);
         <span class='kw'>unsafe</span> {
             <span class='comment'>// need to cast EMPTY to the actual ptr type we want, let</span>
@@ -236,10 +237,11 @@ program.</p>
 
 <p>We said we don&#39;t want to use intrinsics, so doing exactly what <code>std</code> does is
 out. Instead, we&#39;ll call <code>std::process::exit</code> with some random number.</p>
+
 <span class='rusttest'>fn main() {
     fn oom() {
-        ::std::process::exit(-9999);
-    }
+    ::std::process::exit(-9999);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>oom</span>() {
     ::<span class='ident'>std</span>::<span class='ident'>process</span>::<span class='ident'>exit</span>(<span class='op'>-</span><span class='number'>9999</span>);
@@ -266,11 +268,12 @@ analysis, alias analysis, alias analysis. It&#39;s super important to an optimiz
 compiler to be able to reason about data dependencies and aliasing.</p>
 
 <p>As a simple example, consider the following fragment of code:</p>
+
 <span class='rusttest'>fn main() {
     let x = &amp;mut 0;
-    let y = &amp;mut 0;
-    *x *= 7;
-    *y *= 3;
+let y = &amp;mut 0;
+*x *= 7;
+*y *= 3;
 }</span><pre class='rust rust-example-rendered'>
 <span class='op'>*</span><span class='ident'>x</span> <span class='op'>*=</span> <span class='number'>7</span>;
 <span class='op'>*</span><span class='ident'>y</span> <span class='op'>*=</span> <span class='number'>3</span>;</pre>
@@ -348,48 +351,49 @@ such we will guard against this case explicitly.</p>
 <p><em>Phew</em></p>
 
 <p>Ok with all the nonsense out of the way, let&#39;s actually allocate some memory:</p>
+
 <span class='rusttest'>fn main() {
     fn grow(&amp;mut self) {
-        // this is all pretty delicate, so let&#39;s say it&#39;s all unsafe
-        unsafe {
-            // current API requires us to specify size and alignment manually.
-            let align = mem::align_of::&lt;T&gt;();
-            let elem_size = mem::size_of::&lt;T&gt;();
-    
-            let (new_cap, ptr) = if self.cap == 0 {
-                let ptr = heap::allocate(elem_size, align);
-                (1, ptr)
-            } else {
-                // as an invariant, we can assume that `self.cap &lt; isize::MAX`,
-                // so this doesn&#39;t need to be checked.
-                let new_cap = self.cap * 2;
-                // Similarly this can&#39;t overflow due to previously allocating this
-                let old_num_bytes = self.cap * elem_size;
-    
-                // check that the new allocation doesn&#39;t exceed `isize::MAX` at all
-                // regardless of the actual size of the capacity. This combines the
-                // `new_cap &lt;= isize::MAX` and `new_num_bytes &lt;= usize::MAX` checks
-                // we need to make. We lose the ability to allocate e.g. 2/3rds of
-                // the address space with a single Vec of i16&#39;s on 32-bit though.
-                // Alas, poor Yorick -- I knew him, Horatio.
-                assert!(old_num_bytes &lt;= (::std::isize::MAX as usize) / 2,
-                        &quot;capacity overflow&quot;);
-    
-                let new_num_bytes = old_num_bytes * 2;
-                let ptr = heap::reallocate(*self.ptr as *mut _,
-                                            old_num_bytes,
-                                            new_num_bytes,
-                                            align);
-                (new_cap, ptr)
-            };
-    
-            // If allocate or reallocate fail, we&#39;ll get `null` back
-            if ptr.is_null() { oom(); }
-    
-            self.ptr = Unique::new(ptr as *mut _);
-            self.cap = new_cap;
-        }
+    // this is all pretty delicate, so let&#39;s say it&#39;s all unsafe
+    unsafe {
+        // current API requires us to specify size and alignment manually.
+        let align = mem::align_of::&lt;T&gt;();
+        let elem_size = mem::size_of::&lt;T&gt;();
+
+        let (new_cap, ptr) = if self.cap == 0 {
+            let ptr = heap::allocate(elem_size, align);
+            (1, ptr)
+        } else {
+            // as an invariant, we can assume that `self.cap &lt; isize::MAX`,
+            // so this doesn&#39;t need to be checked.
+            let new_cap = self.cap * 2;
+            // Similarly this can&#39;t overflow due to previously allocating this
+            let old_num_bytes = self.cap * elem_size;
+
+            // check that the new allocation doesn&#39;t exceed `isize::MAX` at all
+            // regardless of the actual size of the capacity. This combines the
+            // `new_cap &lt;= isize::MAX` and `new_num_bytes &lt;= usize::MAX` checks
+            // we need to make. We lose the ability to allocate e.g. 2/3rds of
+            // the address space with a single Vec of i16&#39;s on 32-bit though.
+            // Alas, poor Yorick -- I knew him, Horatio.
+            assert!(old_num_bytes &lt;= (::std::isize::MAX as usize) / 2,
+                    &quot;capacity overflow&quot;);
+
+            let new_num_bytes = old_num_bytes * 2;
+            let ptr = heap::reallocate(*self.ptr as *mut _,
+                                        old_num_bytes,
+                                        new_num_bytes,
+                                        align);
+            (new_cap, ptr)
+        };
+
+        // If allocate or reallocate fail, we&#39;ll get `null` back
+        if ptr.is_null() { oom(); }
+
+        self.ptr = Unique::new(ptr as *mut _);
+        self.cap = new_cap;
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>grow</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
     <span class='comment'>// this is all pretty delicate, so let&#39;s say it&#39;s all unsafe</span>

@@ -199,26 +199,26 @@
 
 fn main() {
     extern crate test;
-    
-    pub fn add_two(a: i32) -&gt; i32 {
-        a + 2
+
+pub fn add_two(a: i32) -&gt; i32 {
+    a + 2
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use test::Bencher;
+
+    #[test]
+    fn it_works() {
+        assert_eq!(4, add_two(2));
     }
-    
-    #[cfg(test)]
-    mod tests {
-        use super::*;
-        use test::Bencher;
-    
-        #[test]
-        fn it_works() {
-            assert_eq!(4, add_two(2));
-        }
-    
-        #[bench]
-        fn bench_add_two(b: &amp;mut Bencher) {
-            b.iter(|| add_two(2));
-        }
+
+    #[bench]
+    fn bench_add_two(b: &amp;mut Bencher) {
+        b.iter(|| add_two(2));
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>test</span>)]</span>
 
@@ -230,7 +230,7 @@ fn main() {
 
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>test</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>tests</span> {
-    <span class='kw'>use</span> <span class='ident'>super</span>::<span class='op'>*</span>;
+    <span class='kw'>use</span> <span class='kw'>super</span>::<span class='op'>*</span>;
     <span class='kw'>use</span> <span class='ident'>test</span>::<span class='ident'>Bencher</span>;
 
     <span class='attribute'>#[<span class='ident'>test</span>]</span>
@@ -343,14 +343,14 @@ test result: ok. 0 passed; 0 failed; 1 ignored; 1 measured
 
 fn main() {
     extern crate test;
-    use test::Bencher;
-    
-    #[bench]
-    fn bench_xor_1000_ints(b: &amp;mut Bencher) {
-        b.iter(|| {
-            (0..1000).fold(0, |old, new| old ^ new);
-        });
-    }
+use test::Bencher;
+
+#[bench]
+fn bench_xor_1000_ints(b: &amp;mut Bencher) {
+    b.iter(|| {
+        (0..1000).fold(0, |old, new| old ^ new);
+    });
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>test</span>)]</span>
 
@@ -391,12 +391,12 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 1 measured
 
 <span class='rusttest'>fn main() {
     struct X;
-    impl X { fn iter&lt;T, F&gt;(&amp;self, _: F) where F: FnMut() -&gt; T {} } let b = X;
-    b.iter(|| {
-       // note lack of `;` (could also use an explicit `return`).
-        // `;` が無いことに注意して下さい (明示的な `return` を使うこともできます)。
-        (0..1000).fold(0, |old, new| old ^ new)
-    });
+impl X { fn iter&lt;T, F&gt;(&amp;self, _: F) where F: FnMut() -&gt; T {} } let b = X;
+b.iter(|| {
+   // note lack of `;` (could also use an explicit `return`).
+    // `;` が無いことに注意して下さい (明示的な `return` を使うこともできます)。
+    (0..1000).fold(0, |old, new| old ^ new)
+});
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>b</span>.<span class='ident'>iter</span>(<span class='op'>||</span> {
     <span class='comment'>// `;` が無いことに注意して下さい (明示的な `return` を使うこともできます)。</span>

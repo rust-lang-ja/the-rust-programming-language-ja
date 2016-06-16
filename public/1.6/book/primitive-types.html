@@ -210,12 +210,12 @@
 
 <span class='rusttest'>fn main() {
     let x = true;
-    
-    let y: bool = false;
-}</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='boolval'>true</span>;
 
-<span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='boolval'>false</span>;</pre>
+let y: bool = false;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='ident'>bool</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;</pre>
 
 <!-- A common use of booleans is in [`if` conditionals][if]. --> 
 
@@ -239,7 +239,7 @@
 
 <span class='rusttest'>fn main() {
     let x = &#39;x&#39;;
-    let two_hearts = &#39;💕&#39;;
+let two_hearts = &#39;💕&#39;;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&#39;x&#39;</span>;
 <span class='kw'>let</span> <span class='ident'>two_hearts</span> <span class='op'>=</span> <span class='string'>&#39;💕&#39;</span>;</pre>
@@ -281,9 +281,9 @@
 
 <span class='rusttest'>fn main() {
     // let x = 42; // x has type i32
-    let x = 42; // xはi32型を持つ
-    // let y = 1.0; // y has type f64
-    let y = 1.0; // yはf64型を持つ
+let x = 42; // xはi32型を持つ
+// let y = 1.0; // y has type f64
+let y = 1.0; // yはf64型を持つ
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>42</span>; <span class='comment'>// xはi32型を持つ</span>
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>1.0</span>; <span class='comment'>// yはf64型を持つ</span></pre>
@@ -393,7 +393,7 @@
 
 <span class='rusttest'>fn main() {
     let a = [1, 2, 3]; // a: [i32; 3]
-    let mut m = [1, 2, 3]; // m: [i32; 3]
+let mut m = [1, 2, 3]; // m: [i32; 3]
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]; <span class='comment'>// a: [i32; 3]</span>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>m</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]; <span class='comment'>// m: [i32; 3]</span></pre>
@@ -426,8 +426,8 @@
 
 <span class='rusttest'>fn main() {
     let a = [1, 2, 3];
-    
-    println!(&quot;a has {} elements&quot;, a.len());
+
+println!(&quot;a has {} elements&quot;, a.len());
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 
@@ -439,8 +439,8 @@
 
 <span class='rusttest'>fn main() {
     let names = [&quot;Graydon&quot;, &quot;Brian&quot;, &quot;Niko&quot;]; // names: [&amp;str; 3]
-    
-    println!(&quot;The second name is: {}&quot;, names[1]);
+
+println!(&quot;The second name is: {}&quot;, names[1]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>names</span> <span class='op'>=</span> [<span class='string'>&quot;Graydon&quot;</span>, <span class='string'>&quot;Brian&quot;</span>, <span class='string'>&quot;Niko&quot;</span>]; <span class='comment'>// names: [&amp;str; 3]</span>
 
@@ -502,10 +502,10 @@
 
 <span class='rusttest'>fn main() {
     let a = [0, 1, 2, 3, 4];
-    // let complete = &amp;a[..]; // A slice containing all of the elements in a
-    let complete = &amp;a[..]; // aに含まれる全ての要素を持つスライス
-    // let middle = &amp;a[1..4]; // A slice of a: just the elements 1, 2, and 3
-    let middle = &amp;a[1..4]; // 1、2、3のみを要素に持つaのスライス
+// let complete = &amp;a[..]; // A slice containing all of the elements in a
+let complete = &amp;a[..]; // aに含まれる全ての要素を持つスライス
+// let middle = &amp;a[1..4]; // A slice of a: just the elements 1, 2, and 3
+let middle = &amp;a[1..4]; // 1、2、3のみを要素に持つaのスライス
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>0</span>, <span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>, <span class='number'>4</span>];
 <span class='kw'>let</span> <span class='ident'>complete</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>a</span>[..]; <span class='comment'>// aに含まれる全ての要素を持つスライス</span>
@@ -594,9 +594,9 @@
 
 <span class='rusttest'>fn main() {
     let mut x = (1, 2); // x: (i32, i32)
-    let y = (2, 3); // y: (i32, i32)
-    
-    x = y;
+let y = (2, 3); // y: (i32, i32)
+
+x = y;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='number'>1</span>, <span class='number'>2</span>); <span class='comment'>// x: (i32, i32)</span>
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> (<span class='number'>2</span>, <span class='number'>3</span>); <span class='comment'>// y: (i32, i32)</span>
@@ -612,8 +612,8 @@
 
 <span class='rusttest'>fn main() {
     let (x, y, z) = (1, 2, 3);
-    
-    println!(&quot;x is {}&quot;, x);
+
+println!(&quot;x is {}&quot;, x);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> (<span class='ident'>x</span>, <span class='ident'>y</span>, <span class='ident'>z</span>) <span class='op'>=</span> (<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>);
 
@@ -646,9 +646,9 @@
 
 <span class='rusttest'>fn main() {
     // (0,); // single-element tuple
-     (0,); // 1要素のタプル
-    // (0); // zero in parentheses
-     (0); // 丸括弧に囲まれたゼロ
+ (0,); // 1要素のタプル
+// (0); // zero in parentheses
+ (0); // 丸括弧に囲まれたゼロ
 }</span><pre class='rust rust-example-rendered'>
  (<span class='number'>0</span>,); <span class='comment'>// 1要素のタプル</span>
  (<span class='number'>0</span>); <span class='comment'>// 丸括弧に囲まれたゼロ</span></pre>
@@ -662,12 +662,12 @@
 
 <span class='rusttest'>fn main() {
     let tuple = (1, 2, 3);
-    
-    let x = tuple.0;
-    let y = tuple.1;
-    let z = tuple.2;
-    
-    println!(&quot;x is {}&quot;, x);
+
+let x = tuple.0;
+let y = tuple.1;
+let z = tuple.2;
+
+println!(&quot;x is {}&quot;, x);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>tuple</span> <span class='op'>=</span> (<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>);
 
@@ -699,8 +699,8 @@
 
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 { x }
-    
-    let x: fn(i32) -&gt; i32 = foo;
+
+let x: fn(i32) -&gt; i32 = foo;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> { <span class='ident'>x</span> }
 

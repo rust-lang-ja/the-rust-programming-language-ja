@@ -160,6 +160,7 @@
     <h1 class="title">Destructors</h1>
     <p>What the language <em>does</em> provide is full-blown automatic destructors through the
 <code>Drop</code> trait, which provides the following method:</p>
+
 <span class='rusttest'>fn main() {
     fn drop(&amp;mut self);
 }</span><pre class='rust rust-example-rendered'>
@@ -182,6 +183,7 @@ Drop, Rust will prevent you from e.g. moving fields out of self. For most types,
 this is totally fine.</p>
 
 <p>For instance, a custom implementation of <code>Box</code> might write <code>Drop</code> like this:</p>
+
 <span class='rusttest'>#![feature(alloc, heap_api, drop_in_place, unique)]
 
 extern crate alloc;
@@ -232,6 +234,7 @@ a <a href="phantom-data.html">Unique</a> that has no actual <code>Drop</code> im
 use-after-free the <code>ptr</code> because when drop exits, it becomes inaccessible.</p>
 
 <p>However this wouldn&#39;t work:</p>
+
 <span class='rusttest'>#![feature(alloc, heap_api, drop_in_place, unique)]
 
 extern crate alloc;
@@ -311,12 +314,13 @@ use-after-frees and double-frees.</p>
 
 <p>Note that the recursive drop behavior applies to all structs and enums
 regardless of whether they implement Drop. Therefore something like</p>
+
 <span class='rusttest'>fn main() {
     struct Boxy&lt;T&gt; {
-        data1: Box&lt;T&gt;,
-        data2: Box&lt;T&gt;,
-        info: u32,
-    }
+    data1: Box&lt;T&gt;,
+    data2: Box&lt;T&gt;,
+    info: u32,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Boxy</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>data1</span>: <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>,
@@ -329,11 +333,12 @@ dropped, even though it itself doesn&#39;t implement Drop. We say that such a ty
 <em>needs Drop</em>, even though it is not itself Drop.</p>
 
 <p>Similarly,</p>
+
 <span class='rusttest'>fn main() {
     enum Link {
-        Next(Box&lt;Link&gt;),
-        None,
-    }
+    Next(Box&lt;Link&gt;),
+    None,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Link</span> {
     <span class='ident'>Next</span>(<span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Link</span><span class='op'>&gt;</span>),
@@ -350,6 +355,7 @@ destructors.</p>
 
 <p>The classic safe solution to overriding recursive drop and allowing moving out
 of Self during <code>drop</code> is to use an Option:</p>
+
 <span class='rusttest'>#![feature(alloc, heap_api, drop_in_place, unique)]
 
 extern crate alloc;

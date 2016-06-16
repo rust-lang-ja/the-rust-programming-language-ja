@@ -213,9 +213,9 @@ four contexts. The first one is to mark a function as unsafe:
 
 <span class='rusttest'>fn main() {
     unsafe fn danger_will_robinson() {
-       // scary stuff
-        // 恐ろしいもの
-    }
+   // scary stuff
+    // 恐ろしいもの
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>danger_will_robinson</span>() {
     <span class='comment'>// 恐ろしいもの</span>
@@ -231,9 +231,9 @@ The second use of `unsafe` is an unsafe block:
 
 <span class='rusttest'>fn main() {
     unsafe {
-       // scary stuff
-        // 恐ろしいもの
-    }
+   // scary stuff
+    // 恐ろしいもの
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> {
     <span class='comment'>// 恐ろしいもの</span>
@@ -254,7 +254,7 @@ The second use of `unsafe` is an unsafe block:
 
 <span class='rusttest'>fn main() {
     unsafe trait Scary { }
-    unsafe impl Scary for i32 {}
+unsafe impl Scary for i32 {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>unsafe</span> <span class='kw'>impl</span> <span class='ident'>Scary</span> <span class='kw'>for</span> <span class='ident'>i32</span> {}</pre>
 

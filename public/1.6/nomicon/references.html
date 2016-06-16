@@ -253,16 +253,17 @@ references can be reachable but <em>not</em> live through the process of <em>reb
 one of its descendants. A reborrowed reference will only be live again once all
 reborrows derived from it expire. For instance, a mutable reference can be
 reborrowed to point to a field of its referent:</p>
+
 <span class='rusttest'>fn main() {
     let x = &amp;mut (1, 2);
-    {
-        // reborrow x to a subfield
-        let y = &amp;mut x.0;
-        // y is now live, but x isn&#39;t
-        *y = 3;
-    }
-    // y goes out of scope, so x is live again
-    *x = (5, 7);
+{
+    // reborrow x to a subfield
+    let y = &amp;mut x.0;
+    // y is now live, but x isn&#39;t
+    *y = 3;
+}
+// y goes out of scope, so x is live again
+*x = (5, 7);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> (<span class='number'>1</span>, <span class='number'>2</span>);
 {
@@ -278,19 +279,20 @@ reborrowed to point to a field of its referent:</p>
 they are <em>disjoint</em>: no reference is an ancestor of another. Rust
 explicitly enables this to be done with disjoint struct fields, because
 disjointness can be statically proven:</p>
+
 <span class='rusttest'>fn main() {
     let x = &amp;mut (1, 2);
-    {
-        // reborrow x to two disjoint subfields
-        let y = &amp;mut x.0;
-        let z = &amp;mut x.1;
-    
-        // y and z are now live, but x isn&#39;t
-        *y = 3;
-        *z = 4;
-    }
-    // y and z go out of scope, so x is live again
-    *x = (5, 7);
+{
+    // reborrow x to two disjoint subfields
+    let y = &amp;mut x.0;
+    let z = &amp;mut x.1;
+
+    // y and z are now live, but x isn&#39;t
+    *y = 3;
+    *z = 4;
+}
+// y and z go out of scope, so x is live again
+*x = (5, 7);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> (<span class='number'>1</span>, <span class='number'>2</span>);
 {

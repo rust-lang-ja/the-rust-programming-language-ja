@@ -198,10 +198,10 @@
 
 <span class='rusttest'>fn main() {
     #[cfg(foo)]
-    fn foo() {}
-    
-    #[cfg(bar = &quot;baz&quot;)]
-    fn bar() {}
+fn foo() {}
+
+#[cfg(bar = &quot;baz&quot;)]
+fn bar() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>foo</span>)]</span>
 
@@ -213,13 +213,13 @@
 
 <span class='rusttest'>fn main() {
     #[cfg(any(unix, windows))]
-    fn foo() {}
-    
-    #[cfg(all(unix, target_pointer_width = &quot;32&quot;))]
-    fn bar() {}
-    
-    #[cfg(not(foo))]
-    fn not_foo() {}
+fn foo() {}
+
+#[cfg(all(unix, target_pointer_width = &quot;32&quot;))]
+fn bar() {}
+
+#[cfg(not(foo))]
+fn not_foo() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>unix</span>, <span class='ident'>windows</span>))]</span>
 
@@ -233,7 +233,7 @@
 
 <span class='rusttest'>fn main() {
     #[cfg(any(not(unix), all(target_os=&quot;macos&quot;, target_arch = &quot;powerpc&quot;)))]
-    fn foo() {}
+fn foo() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>any</span>(<span class='ident'>not</span>(<span class='ident'>unix</span>), <span class='ident'>all</span>(<span class='ident'>target_os</span><span class='op'>=</span><span class='string'>&quot;macos&quot;</span>, <span class='ident'>target_arch</span> <span class='op'>=</span> <span class='string'>&quot;powerpc&quot;</span>)))]</span></pre>
 
@@ -267,8 +267,8 @@ secure-password = [&quot;bcrypt&quot;]
 
 <span class='rusttest'>fn main() {
     #[cfg(feature = &quot;foo&quot;)]
-    mod foo {
-    }
+mod foo {
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>feature</span> <span class='op'>=</span> <span class='string'>&quot;foo&quot;</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>foo</span> {
@@ -293,7 +293,7 @@ secure-password = [&quot;bcrypt&quot;]
 
 <span class='rusttest'>fn main() {
     #[cfg_attr(a, b)]
-    fn foo() {}
+fn foo() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg_attr</span>(<span class='ident'>a</span>, <span class='ident'>b</span>)]</span></pre>
 
@@ -311,8 +311,8 @@ secure-password = [&quot;bcrypt&quot;]
 
 <span class='rusttest'>fn main() {
     if cfg!(target_os = &quot;macos&quot;) || cfg!(target_os = &quot;ios&quot;) {
-        println!(&quot;Think Different!&quot;);
-    }
+    println!(&quot;Think Different!&quot;);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>if</span> <span class='macro'>cfg</span><span class='macro'>!</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>) <span class='op'>||</span> <span class='macro'>cfg</span><span class='macro'>!</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;ios&quot;</span>) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Think Different!&quot;</span>);

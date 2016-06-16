@@ -161,10 +161,11 @@
 </blockquote>
 
 <p>For a container with elements of type <code>U</code>, iterator methods should be named:</p>
+
 <span class='rusttest'>fn main() {
     fn iter(&amp;self) -&gt; T           // where T implements Iterator&lt;&amp;U&gt;
-    fn iter_mut(&amp;mut self) -&gt; T   // where T implements Iterator&lt;&amp;mut U&gt;
-    fn into_iter(self) -&gt; T       // where T implements Iterator&lt;U&gt;
+fn iter_mut(&amp;mut self) -&gt; T   // where T implements Iterator&lt;&amp;mut U&gt;
+fn into_iter(self) -&gt; T       // where T implements Iterator&lt;U&gt;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>iter</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>           <span class='comment'>// where T implements Iterator&lt;&amp;U&gt;</span>
 <span class='kw'>fn</span> <span class='ident'>iter_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>T</span>   <span class='comment'>// where T implements Iterator&lt;&amp;mut U&gt;</span>

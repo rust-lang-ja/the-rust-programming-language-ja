@@ -228,11 +228,11 @@ fn main() {
 
 fn main() {
     trait Foo {
-        const ID: i32;
-    }
-    
-    impl Foo for i32 {
-    }
+    const ID: i32;
+}
+
+impl Foo for i32 {
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>associated_consts</span>)]</span>
 
@@ -311,10 +311,10 @@ fn main() {
 
 fn main() {
     struct Foo;
-    
-    impl Foo {
-        const FOO: u32 = 3;
-    }
+
+impl Foo {
+    const FOO: u32 = 3;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>associated_consts</span>)]</span>
 

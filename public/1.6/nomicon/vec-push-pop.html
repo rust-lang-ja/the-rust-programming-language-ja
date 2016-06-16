@@ -174,17 +174,18 @@ target address with the bits of the value we provide. No evaluation involved.</p
 
 <p>For <code>push</code>, if the old len (before push was called) is 0, then we want to write
 to the 0th index. So we should offset by the old len.</p>
+
 <span class='rusttest'>fn main() {
     pub fn push(&amp;mut self, elem: T) {
-        if self.len == self.cap { self.grow(); }
-    
-        unsafe {
-            ptr::write(self.ptr.offset(self.len as isize), elem);
-        }
-    
-        // Can&#39;t fail, we&#39;ll OOM first.
-        self.len += 1;
+    if self.len == self.cap { self.grow(); }
+
+    unsafe {
+        ptr::write(self.ptr.offset(self.len as isize), elem);
     }
+
+    // Can&#39;t fail, we&#39;ll OOM first.
+    self.len += 1;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>push</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>elem</span>: <span class='ident'>T</span>) {
     <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>len</span> <span class='op'>==</span> <span class='self'>self</span>.<span class='ident'>cap</span> { <span class='self'>self</span>.<span class='ident'>grow</span>(); }
@@ -207,17 +208,18 @@ of T there.</p>
 
 <p>For <code>pop</code>, if the old len is 1, we want to read out of the 0th index. So we
 should offset by the new len.</p>
+
 <span class='rusttest'>fn main() {
     pub fn pop(&amp;mut self) -&gt; Option&lt;T&gt; {
-        if self.len == 0 {
-            None
-        } else {
-            self.len -= 1;
-            unsafe {
-                Some(ptr::read(self.ptr.offset(self.len as isize)))
-            }
+    if self.len == 0 {
+        None
+    } else {
+        self.len -= 1;
+        unsafe {
+            Some(ptr::read(self.ptr.offset(self.len as isize)))
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>pop</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>if</span> <span class='self'>self</span>.<span class='ident'>len</span> <span class='op'>==</span> <span class='number'>0</span> {

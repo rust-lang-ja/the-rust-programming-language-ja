@@ -165,19 +165,21 @@ when we talked about <code>&#39;a: &#39;b</code>, it was ok for <code>&#39;a</co
 <code>&#39;b</code>. At first glance, this seems to be a meaningless distinction. Nothing ever
 gets dropped at the same time as another, right? This is why we used the
 following desugaring of <code>let</code> statements:</p>
+
 <span class='rusttest'>fn main() {
     let x;
-    let y;
+let y;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>;
 <span class='kw'>let</span> <span class='ident'>y</span>;</pre>
+
 <span class='rusttest'>fn main() {
     {
-        let x;
-        {
-            let y;
-        }
+    let x;
+    {
+        let y;
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 {
     <span class='kw'>let</span> <span class='ident'>x</span>;
@@ -188,6 +190,7 @@ following desugaring of <code>let</code> statements:</p>
 
 <p>Each creates its own scope, clearly establishing that one drops before the
 other. However, what if we do the following?</p>
+
 <span class='rusttest'>fn main() {
     let (x, y) = (vec![], vec![]);
 }</span><pre class='rust rust-example-rendered'>
@@ -208,6 +211,7 @@ of the contents of any type that implements Drop.</p>
 
 <p>So why do we care? We care because if the type system isn&#39;t careful, it could
 accidentally make dangling pointers. Consider the following simple program:</p>
+
 <span class='rusttest'>struct Inspector&lt;&#39;a&gt;(&amp;&#39;a u8);
 
 fn main() {
@@ -229,6 +233,7 @@ not <em>strictly</em> outlive <code>inspector</code> doesn&#39;t matter. As long
 is alive, so is days.</p>
 
 <p>However if we add a destructor, the program will no longer compile!</p>
+
 <span class='rusttest'>struct Inspector&lt;&#39;a&gt;(&amp;&#39;a u8);
 
 impl&lt;&#39;a&gt; Drop for Inspector&lt;&#39;a&gt; {
@@ -307,6 +312,7 @@ though their type gives them the capability for such access.</p>
 
 <p>For example, this variant of the above <code>Inspector</code> example will never
 accessed borrowed data:</p>
+
 <span class='rusttest'>struct Inspector&lt;&#39;a&gt;(&amp;&#39;a u8, &amp;&#39;static str);
 
 impl&lt;&#39;a&gt; Drop for Inspector&lt;&#39;a&gt; {
@@ -342,6 +348,7 @@ fn main() {
 }</pre>
 
 <p>Likewise, this variant will also never access borrowed data:</p>
+
 <span class='rusttest'>use std::fmt;
 
 struct Inspector&lt;T: fmt::Display&gt;(T, &amp;&#39;static str);
@@ -411,15 +418,16 @@ to do so.</p>
 
 <p>That attribute is called <code>unsafe_destructor_blind_to_params</code>.
 To deploy it on the Inspector example from above, we would write:</p>
+
 <span class='rusttest'>fn main() {
     struct Inspector&lt;&#39;a&gt;(&amp;&#39;a u8, &amp;&#39;static str);
-    
-    impl&lt;&#39;a&gt; Drop for Inspector&lt;&#39;a&gt; {
-        #[unsafe_destructor_blind_to_params]
-        fn drop(&amp;mut self) {
-            println!(&quot;Inspector(_, {}) knows when *not* to inspect.&quot;, self.1);
-        }
+
+impl&lt;&#39;a&gt; Drop for Inspector&lt;&#39;a&gt; {
+    #[unsafe_destructor_blind_to_params]
+    fn drop(&amp;mut self) {
+        println!(&quot;Inspector(_, {}) knows when *not* to inspect.&quot;, self.1);
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Inspector</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>u8</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>);
 
@@ -447,16 +455,17 @@ occur indirectly. Examples of such indirect access are:</p>
 other avenues for such indirect access.)</p>
 
 <p>Here is an example of invoking a callback:</p>
+
 <span class='rusttest'>fn main() {
     struct Inspector&lt;T&gt;(T, &amp;&#39;static str, Box&lt;for &lt;&#39;r&gt; fn(&amp;&#39;r T) -&gt; String&gt;);
-    
-    impl&lt;T&gt; Drop for Inspector&lt;T&gt; {
-        fn drop(&amp;mut self) {
-            // The `self.2` call could access a borrow e.g. if `T` is `&amp;&#39;a _`.
-            println!(&quot;Inspector({}, {}) unwittingly inspects expired data.&quot;,
-                     (self.2)(&amp;self.0), self.1);
-        }
+
+impl&lt;T&gt; Drop for Inspector&lt;T&gt; {
+    fn drop(&amp;mut self) {
+        // The `self.2` call could access a borrow e.g. if `T` is `&amp;&#39;a _`.
+        println!(&quot;Inspector({}, {}) unwittingly inspects expired data.&quot;,
+                 (self.2)(&amp;self.0), self.1);
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Inspector</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>T</span>, <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>str</span>, <span class='ident'>Box</span><span class='op'>&lt;</span><span class='kw'>for</span> <span class='op'>&lt;</span><span class='lifetime'>&#39;r</span><span class='op'>&gt;</span> <span class='kw'>fn</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;r</span> <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>String</span><span class='op'>&gt;</span>);
 
@@ -469,19 +478,20 @@ other avenues for such indirect access.)</p>
 }</pre>
 
 <p>Here is an example of a trait method call:</p>
+
 <span class='rusttest'>fn main() {
     use std::fmt;
-    
-    struct Inspector&lt;T: fmt::Display&gt;(T, &amp;&#39;static str);
-    
-    impl&lt;T: fmt::Display&gt; Drop for Inspector&lt;T&gt; {
-        fn drop(&amp;mut self) {
-            // There is a hidden call to `&lt;T as Display&gt;::fmt` below, which
-            // could access a borrow e.g. if `T` is `&amp;&#39;a _`
-            println!(&quot;Inspector({}, {}) unwittingly inspects expired data.&quot;,
-                     self.0, self.1);
-        }
+
+struct Inspector&lt;T: fmt::Display&gt;(T, &amp;&#39;static str);
+
+impl&lt;T: fmt::Display&gt; Drop for Inspector&lt;T&gt; {
+    fn drop(&amp;mut self) {
+        // There is a hidden call to `&lt;T as Display&gt;::fmt` below, which
+        // could access a borrow e.g. if `T` is `&amp;&#39;a _`
+        println!(&quot;Inspector({}, {}) unwittingly inspects expired data.&quot;,
+                 self.0, self.1);
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>fmt</span>;
 

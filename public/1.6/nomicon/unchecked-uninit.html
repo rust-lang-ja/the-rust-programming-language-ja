@@ -204,27 +204,28 @@ are allocated. However the ways writing arbitrary bits to arbitrary
 locations of memory can break things are basically uncountable!</p>
 
 <p>Putting this all together, we get the following:</p>
+
 <span class='rusttest'>fn main() {
     use std::mem;
-    use std::ptr;
-    
-    // size of the array is hard-coded but easy to change. This means we can&#39;t
-    // use [a, b, c] syntax to initialize the array, though!
-    const SIZE: usize = 10;
-    
-    let mut x: [Box&lt;u32&gt;; SIZE];
-    
-    unsafe {
-        // convince Rust that x is Totally Initialized
-        x = mem::uninitialized();
-        for i in 0..SIZE {
-            // very carefully overwrite each index without reading it
-            // NOTE: exception safety is not a concern; Box can&#39;t panic
-            ptr::write(&amp;mut x[i], Box::new(i as u32));
-        }
+use std::ptr;
+
+// size of the array is hard-coded but easy to change. This means we can&#39;t
+// use [a, b, c] syntax to initialize the array, though!
+const SIZE: usize = 10;
+
+let mut x: [Box&lt;u32&gt;; SIZE];
+
+unsafe {
+    // convince Rust that x is Totally Initialized
+    x = mem::uninitialized();
+    for i in 0..SIZE {
+        // very carefully overwrite each index without reading it
+        // NOTE: exception safety is not a concern; Box can&#39;t panic
+        ptr::write(&amp;mut x[i], Box::new(i as u32));
     }
-    
-    println!(&quot;{:?}&quot;, x);
+}
+
+println!(&quot;{:?}&quot;, x);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ptr</span>;

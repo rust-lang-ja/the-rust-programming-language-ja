@@ -203,9 +203,9 @@ standard library provides a type, `Option<T>`, that’s generic: -->
 
 <span class='rusttest'>fn main() {
     enum Option&lt;T&gt; {
-        Some(T),
-        None,
-    }
+    Some(T),
+    None,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='prelude-val'>Some</span>(<span class='ident'>T</span>),
@@ -234,8 +234,8 @@ match, we’d get an error: -->
 
 <span class='rusttest'>fn main() {
     let x: Option&lt;f64&gt; = Some(5);
-    // error: mismatched types: expected `core::option::Option&lt;f64&gt;`,
-    // found `core::option::Option&lt;_&gt;` (expected f64 but found integral variable)
+// error: mismatched types: expected `core::option::Option&lt;f64&gt;`,
+// found `core::option::Option&lt;_&gt;` (expected f64 but found integral variable)
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5</span>);
 <span class='comment'>// error: mismatched types: expected `core::option::Option&lt;f64&gt;`,</span>
@@ -248,7 +248,7 @@ to match up: -->
 
 <span class='rusttest'>fn main() {
     let x: Option&lt;i32&gt; = Some(5);
-    let y: Option&lt;f64&gt; = Some(5.0f64);
+let y: Option&lt;f64&gt; = Some(5.0f64);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5</span>);
 <span class='kw'>let</span> <span class='ident'>y</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5.0f64</span>);</pre>
@@ -263,9 +263,9 @@ to match up: -->
 
 <span class='rusttest'>fn main() {
     enum Result&lt;T, E&gt; {
-        Ok(T),
-        Err(E),
-    }
+    Ok(T),
+    Err(E),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>E</span><span class='op'>&gt;</span> {
     <span class='prelude-val'>Ok</span>(<span class='ident'>T</span>),
@@ -279,9 +279,9 @@ can be any letter you’d like. We could define `Result<T, E>` as: -->
 
 <span class='rusttest'>fn main() {
     enum Result&lt;A, Z&gt; {
-        Ok(A),
-        Err(Z),
-    }
+    Ok(A),
+    Err(Z),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>Z</span><span class='op'>&gt;</span> {
     <span class='prelude-val'>Ok</span>(<span class='ident'>A</span>),
@@ -307,9 +307,9 @@ computation, and to have the ability to return an error if it didn’t work out.
 
 <span class='rusttest'>fn main() {
     fn takes_anything&lt;T&gt;(x: T) {
-    // do something with x
-      // xで何か行う
-    }
+// do something with x
+  // xで何か行う
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>takes_anything</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>) {
   <span class='comment'>// xで何か行う</span>
@@ -326,8 +326,8 @@ type, `T`”, and the `x: T` says “x has the type `T`.” -->
 
 <span class='rusttest'>fn main() {
     fn takes_two_of_the_same_things&lt;T&gt;(x: T, y: T) {
-        // ...
-    }
+    // ...
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>takes_two_of_the_same_things</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>, <span class='ident'>y</span>: <span class='ident'>T</span>) {
     <span class='comment'>// ...</span>
@@ -339,8 +339,8 @@ type, `T`”, and the `x: T` says “x has the type `T`.” -->
 
 <span class='rusttest'>fn main() {
     fn takes_two_things&lt;T, U&gt;(x: T, y: U) {
-        // ...
-    }
+    // ...
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>takes_two_things</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>, <span class='ident'>y</span>: <span class='ident'>U</span>) {
     <span class='comment'>// ...</span>
@@ -355,12 +355,12 @@ type, `T`”, and the `x: T` says “x has the type `T`.” -->
 
 <span class='rusttest'>fn main() {
     struct Point&lt;T&gt; {
-        x: T,
-        y: T,
-    }
-    
-    let int_origin = Point { x: 0, y: 0 };
-    let float_origin = Point { x: 0.0, y: 0.0 };
+    x: T,
+    y: T,
+}
+
+let int_origin = Point { x: 0, y: 0 };
+let float_origin = Point { x: 0.0, y: 0.0 };
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='ident'>x</span>: <span class='ident'>T</span>,
@@ -382,15 +382,15 @@ declare the type parameter after the `impl`: -->
 
 <span class='rusttest'>fn main() {
     struct Point&lt;T&gt; {
-        x: T,
-        y: T,
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn swap(&amp;mut self) {
+        std::mem::swap(&amp;mut self.x, &amp;mut self.y);
     }
-    
-    impl&lt;T&gt; Point&lt;T&gt; {
-        fn swap(&amp;mut self) {
-            std::mem::swap(&amp;mut self.x, &amp;mut self.y);
-        }
-    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Point</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>fn</span> <span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {

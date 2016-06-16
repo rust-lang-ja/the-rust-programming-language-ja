@@ -165,16 +165,17 @@ underlying type.</p>
 
 <p>For example, a <code>f64</code> value might be used to represent a quantity in miles or in
 kilometers. Using newtypes, we can keep track of the intended interpretation:</p>
+
 <span class='rusttest'>fn main() {
     struct Miles(pub f64);
-    struct Kilometers(pub f64);
-    
-    impl Miles {
-        fn as_kilometers(&amp;self) -&gt; Kilometers { ... }
-    }
-    impl Kilometers {
-        fn as_miles(&amp;self) -&gt; Miles { ... }
-    }
+struct Kilometers(pub f64);
+
+impl Miles {
+    fn as_kilometers(&amp;self) -&gt; Kilometers { ... }
+}
+impl Kilometers {
+    fn as_miles(&amp;self) -&gt; Miles { ... }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Miles</span>(<span class='kw'>pub</span> <span class='ident'>f64</span>);
 <span class='kw'>struct</span> <span class='ident'>Kilometers</span>(<span class='kw'>pub</span> <span class='ident'>f64</span>);
@@ -188,6 +189,7 @@ kilometers. Using newtypes, we can keep track of the intended interpretation:</p
 
 <p>Once we have separated these two types, we can statically ensure that we do not
 confuse them. For example, the function</p>
+
 <span class='rusttest'>fn main() {
     fn are_we_there_yet(distance_travelled: Miles) -&gt; bool { ... }
 }</span><pre class='rust rust-example-rendered'>
@@ -204,13 +206,14 @@ promises to the client.</p>
 <p>For example, consider a function <code>my_transform</code> that returns a compound iterator
 type <code>Enumerate&lt;Skip&lt;vec::MoveItems&lt;T&gt;&gt;&gt;</code>. We wish to hide this type from the
 client, so that the client&#39;s view of the return type is roughly <code>Iterator&lt;(usize, T)&gt;</code>. We can do so using the newtype pattern:</p>
+
 <span class='rusttest'>fn main() {
     struct MyTransformResult&lt;T&gt;(Enumerate&lt;Skip&lt;vec::MoveItems&lt;T&gt;&gt;&gt;);
-    impl&lt;T&gt; Iterator&lt;(usize, T)&gt; for MyTransformResult&lt;T&gt; { ... }
-    
-    fn my_transform&lt;T, Iter: Iterator&lt;T&gt;&gt;(iter: Iter) -&gt; MyTransformResult&lt;T&gt; {
-        ...
-    }
+impl&lt;T&gt; Iterator&lt;(usize, T)&gt; for MyTransformResult&lt;T&gt; { ... }
+
+fn my_transform&lt;T, Iter: Iterator&lt;T&gt;&gt;(iter: Iter) -&gt; MyTransformResult&lt;T&gt; {
+    ...
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>MyTransformResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>Enumerate</span><span class='op'>&lt;</span><span class='ident'>Skip</span><span class='op'>&lt;</span><span class='ident'>vec</span>::<span class='ident'>MoveItems</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span><span class='op'>&gt;</span>);
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span><span class='op'>&lt;</span>(<span class='ident'>usize</span>, <span class='ident'>T</span>)<span class='op'>&gt;</span> <span class='kw'>for</span> <span class='ident'>MyTransformResult</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> { ... }

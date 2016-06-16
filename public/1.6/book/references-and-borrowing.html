@@ -285,18 +285,18 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <span class='rusttest'>fn main() {
     fn foo(v1: Vec&lt;i32&gt;, v2: Vec&lt;i32&gt;) -&gt; (Vec&lt;i32&gt;, Vec&lt;i32&gt;, i32) {
-      // do stuff with v1 and v2
-        // v1とv2についての作業を行う
-    
-      // hand back ownership, and the result of our function
-        // 所有権と関数の結果を返す
-        (v1, v2, 42)
-    }
-    
-    let v1 = vec![1, 2, 3];
-    let v2 = vec![1, 2, 3];
-    
-    let (v1, v2, answer) = foo(v1, v2);
+  // do stuff with v1 and v2
+    // v1とv2についての作業を行う
+
+  // hand back ownership, and the result of our function
+    // 所有権と関数の結果を返す
+    (v1, v2, 42)
+}
+
+let v1 = vec![1, 2, 3];
+let v2 = vec![1, 2, 3];
+
+let (v1, v2, answer) = foo(v1, v2);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>v1</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>v2</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> (<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>i32</span>) {
     <span class='comment'>// v1とv2についての作業を行う</span>
@@ -319,21 +319,21 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <span class='rusttest'>fn main() {
     fn foo(v1: &amp;Vec&lt;i32&gt;, v2: &amp;Vec&lt;i32&gt;) -&gt; i32 {
-      // do stuff with v1 and v2
-        // v1とv2についての作業を行う
-    
-      // return the answer
-        // 答えを返す
-        42
-    }
-    
-    let v1 = vec![1, 2, 3];
-    let v2 = vec![1, 2, 3];
-    
-    let answer = foo(&amp;v1, &amp;v2);
-    
-    // we can use v1 and v2 here!
-    // ここではv1とv2が使える!
+  // do stuff with v1 and v2
+    // v1とv2についての作業を行う
+
+  // return the answer
+    // 答えを返す
+    42
+}
+
+let v1 = vec![1, 2, 3];
+let v2 = vec![1, 2, 3];
+
+let answer = foo(&amp;v1, &amp;v2);
+
+// we can use v1 and v2 here!
+// ここではv1とv2が使える!
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>v1</span>: <span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>v2</span>: <span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='comment'>// v1とv2についての作業を行う</span>
@@ -376,12 +376,12 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <span class='rusttest'>fn main() {
     fn foo(v: &amp;Vec&lt;i32&gt;) {
-         v.push(5);
-    }
-    
-    let v = vec![];
-    
-    foo(&amp;v);
+     v.push(5);
+}
+
+let v = vec![];
+
+foo(&amp;v);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>v</span>: <span class='kw-2'>&amp;</span><span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) {
      <span class='ident'>v</span>.<span class='ident'>push</span>(<span class='number'>5</span>);
@@ -417,11 +417,11 @@ v.push(5);
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    {
-        let y = &amp;mut x;
-        *y += 1;
-    }
-    println!(&quot;{}&quot;, x);
+{
+    let y = &amp;mut x;
+    *y += 1;
+}
+println!(&quot;{}&quot;, x);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 {
@@ -547,11 +547,11 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    let y = &amp;mut x;
-    
-    *y += 1;
-    
-    println!(&quot;{}&quot;, x);
+let y = &amp;mut x;
+
+*y += 1;
+
+println!(&quot;{}&quot;, x);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;
@@ -601,19 +601,19 @@ Rustでは借用はその有効なスコープと結び付けられます。
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    
-    let y = &amp;mut x;    // -+ &amp;mut borrow of x starts here
-                       //  |
-    *y += 1;           //  |
-                       //  |
-    println!(&quot;{}&quot;, x); // -+ - try to borrow x here
-                       // -+ &amp;mut borrow of x ends here
-    let y = &amp;mut x;    // -+ xの&amp;mut借用がここから始まる
-                       //  |
-    *y += 1;           //  |
-                       //  |
-    println!(&quot;{}&quot;, x); // -+ - ここでxを借用しようとする
-                       // -+ xの&amp;mut借用がここで終わる
+
+let y = &amp;mut x;    // -+ &amp;mut borrow of x starts here
+                   //  |
+*y += 1;           //  |
+                   //  |
+println!(&quot;{}&quot;, x); // -+ - try to borrow x here
+                   // -+ &amp;mut borrow of x ends here
+let y = &amp;mut x;    // -+ xの&amp;mut借用がここから始まる
+                   //  |
+*y += 1;           //  |
+                   //  |
+println!(&quot;{}&quot;, x); // -+ - ここでxを借用しようとする
+                   // -+ xの&amp;mut借用がここで終わる
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -634,17 +634,17 @@ Rustでは借用はその有効なスコープと結び付けられます。
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    
-    {
-        let y = &amp;mut x; // -+ &amp;mut borrow starts here
-        *y += 1;        //  |
-    }                   // -+ ... and ends here
-        let y = &amp;mut x; // -+ &amp;mut借用がここから始まる
-        *y += 1;        //  |
-    }                   // -+ ... そしてここで終わる
-    
-    println!(&quot;{}&quot;, x);  // &lt;- try to borrow x here
-    println!(&quot;{}&quot;, x);  // &lt;- ここでxを借用しようとする
+
+{
+    let y = &amp;mut x; // -+ &amp;mut borrow starts here
+    *y += 1;        //  |
+}                   // -+ ... and ends here
+    let y = &amp;mut x; // -+ &amp;mut借用がここから始まる
+    *y += 1;        //  |
+}                   // -+ ... そしてここで終わる
+
+println!(&quot;{}&quot;, x);  // &lt;- try to borrow x here
+println!(&quot;{}&quot;, x);  // &lt;- ここでxを借用しようとする
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -689,10 +689,10 @@ Rustの借用チェッカはこれの発生を回避します。</p>
 
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 2, 3];
-    
-    for i in &amp;v {
-        println!(&quot;{}&quot;, i);
-    }
+
+for i in &amp;v {
+    println!(&quot;{}&quot;, i);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 
@@ -712,11 +712,11 @@ Rustの借用チェッカはこれの発生を回避します。</p>
 
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 2, 3];
-    
-    for i in &amp;v {
-        println!(&quot;{}&quot;, i);
-        v.push(34);
-    }
+
+for i in &amp;v {
+    println!(&quot;{}&quot;, i);
+    v.push(34);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 
@@ -762,17 +762,17 @@ Rustはこれが真であることを保証するために、参照のスコー�
 
 <!-- which was invalid. For example: -->
 
-<p>もしRustがこの所有物をチェックしなければ、無効な参照をうっかり使ってしまうかもしれません。
+<p>もしRustがこの性質をチェックしなければ、無効な参照をうっかり使ってしまうかもしれません。
 例えばこうです。</p>
 
 <span class='rusttest'>fn main() {
     let y: &amp;i32;
-    {
-        let x = 5;
-        y = &amp;x;
-    }
-    
-    println!(&quot;{}&quot;, y);
+{
+    let x = 5;
+    y = &amp;x;
+}
+
+println!(&quot;{}&quot;, y);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>;
 {
@@ -827,10 +827,10 @@ statement 0 at 4:18
 
 <span class='rusttest'>fn main() {
     let y: &amp;i32;
-    let x = 5;
-    y = &amp;x;
-    
-    println!(&quot;{}&quot;, y);
+let x = 5;
+y = &amp;x;
+
+println!(&quot;{}&quot;, y);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>;
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;

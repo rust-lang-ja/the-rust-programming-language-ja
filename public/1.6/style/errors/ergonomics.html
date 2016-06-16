@@ -161,24 +161,25 @@ pattern.</p>
 
 <h3 id='the-try-macro' class='section-header'><a href='#the-try-macro'>The <code>try!</code> macro</a></h3>
 <p>Prefer</p>
+
 <span class='rusttest'>fn main() {
     use std::io::{File, Open, Write, IoError};
-    
-    struct Info {
-        name: String,
-        age: i32,
-        rating: i32
-    }
-    
-    fn write_info(info: &amp;Info) -&gt; Result&lt;(), IoError&gt; {
-        let mut file = File::open_mode(&amp;Path::new(&quot;my_best_friends.txt&quot;),
-                                       Open, Write);
-        // Early return on error
-        try!(file.write_line(&amp;format!(&quot;name: {}&quot;, info.name)));
-        try!(file.write_line(&amp;format!(&quot;age: {}&quot;, info.age)));
-        try!(file.write_line(&amp;format!(&quot;rating: {}&quot;, info.rating)));
-        return Ok(());
-    }
+
+struct Info {
+    name: String,
+    age: i32,
+    rating: i32
+}
+
+fn write_info(info: &amp;Info) -&gt; Result&lt;(), IoError&gt; {
+    let mut file = File::open_mode(&amp;Path::new(&quot;my_best_friends.txt&quot;),
+                                   Open, Write);
+    // Early return on error
+    try!(file.write_line(&amp;format!(&quot;name: {}&quot;, info.name)));
+    try!(file.write_line(&amp;format!(&quot;age: {}&quot;, info.age)));
+    try!(file.write_line(&amp;format!(&quot;rating: {}&quot;, info.rating)));
+    return Ok(());
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>File</span>, <span class='ident'>Open</span>, <span class='ident'>Write</span>, <span class='ident'>IoError</span>};
 
@@ -199,29 +200,30 @@ pattern.</p>
 }</pre>
 
 <p>over</p>
+
 <span class='rusttest'>fn main() {
     use std::io::{File, Open, Write, IoError};
-    
-    struct Info {
-        name: String,
-        age: i32,
-        rating: i32
+
+struct Info {
+    name: String,
+    age: i32,
+    rating: i32
+}
+
+fn write_info(info: &amp;Info) -&gt; Result&lt;(), IoError&gt; {
+    let mut file = File::open_mode(&amp;Path::new(&quot;my_best_friends.txt&quot;),
+                                   Open, Write);
+    // Early return on error
+    match file.write_line(&amp;format!(&quot;name: {}&quot;, info.name)) {
+        Ok(_) =&gt; (),
+        Err(e) =&gt; return Err(e)
     }
-    
-    fn write_info(info: &amp;Info) -&gt; Result&lt;(), IoError&gt; {
-        let mut file = File::open_mode(&amp;Path::new(&quot;my_best_friends.txt&quot;),
-                                       Open, Write);
-        // Early return on error
-        match file.write_line(&amp;format!(&quot;name: {}&quot;, info.name)) {
-            Ok(_) =&gt; (),
-            Err(e) =&gt; return Err(e)
-        }
-        match file.write_line(&amp;format!(&quot;age: {}&quot;, info.age)) {
-            Ok(_) =&gt; (),
-            Err(e) =&gt; return Err(e)
-        }
-        return file.write_line(&amp;format!(&quot;rating: {}&quot;, info.rating));
+    match file.write_line(&amp;format!(&quot;age: {}&quot;, info.age)) {
+        Ok(_) =&gt; (),
+        Err(e) =&gt; return Err(e)
     }
+    return file.write_line(&amp;format!(&quot;rating: {}&quot;, info.rating));
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>io</span>::{<span class='ident'>File</span>, <span class='ident'>Open</span>, <span class='ident'>Write</span>, <span class='ident'>IoError</span>};
 

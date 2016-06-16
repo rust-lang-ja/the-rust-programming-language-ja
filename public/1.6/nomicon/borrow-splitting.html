@@ -163,21 +163,22 @@ working with a composite structure. The borrow checker understands some basic
 stuff, but will fall over pretty easily. It does understand structs
 sufficiently to know that it&#39;s possible to borrow disjoint fields of a struct
 simultaneously. So this works today:</p>
+
 <span class='rusttest'>fn main() {
     struct Foo {
-        a: i32,
-        b: i32,
-        c: i32,
-    }
-    
-    let mut x = Foo {a: 0, b: 0, c: 0};
-    let a = &amp;mut x.a;
-    let b = &amp;mut x.b;
-    let c = &amp;x.c;
-    *b += 1;
-    let c2 = &amp;x.c;
-    *a += 10;
-    println!(&quot;{} {} {} {}&quot;, a, b, c, c2);
+    a: i32,
+    b: i32,
+    c: i32,
+}
+
+let mut x = Foo {a: 0, b: 0, c: 0};
+let a = &amp;mut x.a;
+let b = &amp;mut x.b;
+let c = &amp;x.c;
+*b += 1;
+let c2 = &amp;x.c;
+*a += 10;
+println!(&quot;{} {} {} {}&quot;, a, b, c, c2);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span> {
     <span class='ident'>a</span>: <span class='ident'>i32</span>,
@@ -196,11 +197,12 @@ simultaneously. So this works today:</p>
 
 <p>However borrowck doesn&#39;t understand arrays or slices in any way, so this doesn&#39;t
 work:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = [1, 2, 3];
-    let a = &amp;mut x[0];
-    let b = &amp;mut x[1];
-    println!(&quot;{} {}&quot;, a, b);
+let a = &amp;mut x[0];
+let b = &amp;mut x[1];
+println!(&quot;{} {}&quot;, a, b);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> [<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>[<span class='number'>0</span>];
@@ -235,16 +237,17 @@ that consumes the slice and returns two mutable slices. One for everything to
 the left of the index, and one for everything to the right. Intuitively we know
 this is safe because the slices don&#39;t overlap, and therefore alias. However
 the implementation requires some unsafety:</p>
+
 <span class='rusttest'>fn main() {
     fn split_at_mut(&amp;mut self, mid: usize) -&gt; (&amp;mut [T], &amp;mut [T]) {
-        let len = self.len();
-        let ptr = self.as_mut_ptr();
-        assert!(mid &lt;= len);
-        unsafe {
-            (from_raw_parts_mut(ptr, mid),
-             from_raw_parts_mut(ptr.offset(mid as isize), len - mid))
-        }
+    let len = self.len();
+    let ptr = self.as_mut_ptr();
+    assert!(mid &lt;= len);
+    unsafe {
+        (from_raw_parts_mut(ptr, mid),
+         from_raw_parts_mut(ptr.offset(mid as isize), len - mid))
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>split_at_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>mid</span>: <span class='ident'>usize</span>) <span class='op'>-&gt;</span> (<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>T</span>], <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>T</span>]) {
     <span class='kw'>let</span> <span class='ident'>len</span> <span class='op'>=</span> <span class='self'>self</span>.<span class='ident'>len</span>();
@@ -261,17 +264,18 @@ same value, we explicitly construct brand-new slices through raw pointers.</p>
 
 <p>However more subtle is how iterators that yield mutable references work.
 The iterator trait is defined as follows:</p>
+
 <span class='rusttest'>fn main() {
     trait Iterator {
-        type Item;
-    
-        fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
-    }
+    type Item;
+
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt;;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>trait</span> <span class='ident'>Iterator</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
+    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span>;
 }</pre>
 
 <p>Given this definition, Self::Item has <em>no</em> connection to <code>self</code>. This means that
@@ -293,6 +297,7 @@ actually ever yield multiple mutable references to the same piece of data.</p>
 implemented for many types!</p>
 
 <p>For instance here&#39;s a singly linked list:</p>
+
 <span class='rusttest'>fn main() {}
 type Link&lt;T&gt; = Option&lt;Box&lt;Node&lt;T&gt;&gt;&gt;;
 
@@ -346,7 +351,7 @@ impl&lt;&#39;a, T&gt; Iterator for IterMut&lt;&#39;a, T&gt; {
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>IterMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>T</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>take</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>node</span><span class='op'>|</span> {
             <span class='self'>self</span>.<span class='number'>0</span> <span class='op'>=</span> <span class='ident'>node</span>.<span class='ident'>next</span>.<span class='ident'>as_mut</span>().<span class='ident'>map</span>(<span class='op'>|</span><span class='ident'>node</span><span class='op'>|</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='op'>*</span><span class='op'>*</span><span class='ident'>node</span>);
             <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>node</span>.<span class='ident'>elem</span>
@@ -355,6 +360,7 @@ impl&lt;&#39;a, T&gt; Iterator for IterMut&lt;&#39;a, T&gt; {
 }</pre>
 
 <p>Here&#39;s a mutable slice:</p>
+
 <span class='rusttest'>fn main() {}
 use std::mem;
 
@@ -392,7 +398,7 @@ impl&lt;&#39;a, T&gt; DoubleEndedIterator for IterMut&lt;&#39;a, T&gt; {
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>IterMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>T</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='number'>0</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> []);
         <span class='kw'>if</span> <span class='ident'>slice</span>.<span class='ident'>is_empty</span>() { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
 
@@ -403,7 +409,7 @@ impl&lt;&#39;a, T&gt; DoubleEndedIterator for IterMut&lt;&#39;a, T&gt; {
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>DoubleEndedIterator</span> <span class='kw'>for</span> <span class='ident'>IterMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>next_back</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next_back</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='kw'>let</span> <span class='ident'>slice</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>replace</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='number'>0</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> []);
         <span class='kw'>if</span> <span class='ident'>slice</span>.<span class='ident'>is_empty</span>() { <span class='kw'>return</span> <span class='prelude-val'>None</span>; }
 
@@ -415,6 +421,7 @@ impl&lt;&#39;a, T&gt; DoubleEndedIterator for IterMut&lt;&#39;a, T&gt; {
 }</pre>
 
 <p>And here&#39;s a binary tree:</p>
+
 <span class='rusttest'>fn main() {}
 use std::collections::VecDeque;
 
@@ -568,7 +575,7 @@ impl&lt;&#39;a, T&gt; DoubleEndedIterator for IterMut&lt;&#39;a, T&gt; {
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>NodeIterMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> <span class='ident'>State</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span>;
 
-    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>left</span>.<span class='ident'>take</span>() {
             <span class='prelude-val'>Some</span>(<span class='ident'>node</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>State</span>::<span class='ident'>Node</span>(<span class='ident'>node</span>)),
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>elem</span>.<span class='ident'>take</span>() {
@@ -583,7 +590,7 @@ impl&lt;&#39;a, T&gt; DoubleEndedIterator for IterMut&lt;&#39;a, T&gt; {
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>DoubleEndedIterator</span> <span class='kw'>for</span> <span class='ident'>NodeIterMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>next_back</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next_back</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>right</span>.<span class='ident'>take</span>() {
             <span class='prelude-val'>Some</span>(<span class='ident'>node</span>) <span class='op'>=&gt;</span> <span class='prelude-val'>Some</span>(<span class='ident'>State</span>::<span class='ident'>Node</span>(<span class='ident'>node</span>)),
             <span class='prelude-val'>None</span> <span class='op'>=&gt;</span> <span class='kw'>match</span> <span class='self'>self</span>.<span class='ident'>elem</span>.<span class='ident'>take</span>() {
@@ -599,7 +606,7 @@ impl&lt;&#39;a, T&gt; DoubleEndedIterator for IterMut&lt;&#39;a, T&gt; {
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Iterator</span> <span class='kw'>for</span> <span class='ident'>IterMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
     <span class='kw'>type</span> <span class='ident'>Item</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>T</span>;
-    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='kw'>loop</span> {
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>front_mut</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>node_it</span><span class='op'>|</span> <span class='ident'>node_it</span>.<span class='ident'>next</span>()) {
                 <span class='prelude-val'>Some</span>(<span class='ident'>State</span>::<span class='ident'>Elem</span>(<span class='ident'>elem</span>)) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>elem</span>),
@@ -611,7 +618,7 @@ impl&lt;&#39;a, T&gt; DoubleEndedIterator for IterMut&lt;&#39;a, T&gt; {
 }
 
 <span class='kw'>impl</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>DoubleEndedIterator</span> <span class='kw'>for</span> <span class='ident'>IterMut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='ident'>T</span><span class='op'>&gt;</span> {
-    <span class='kw'>fn</span> <span class='ident'>next_back</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>next_back</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='self'>Self</span>::<span class='ident'>Item</span><span class='op'>&gt;</span> {
         <span class='kw'>loop</span> {
             <span class='kw'>match</span> <span class='self'>self</span>.<span class='number'>0</span>.<span class='ident'>back_mut</span>().<span class='ident'>and_then</span>(<span class='op'>|</span><span class='ident'>node_it</span><span class='op'>|</span> <span class='ident'>node_it</span>.<span class='ident'>next_back</span>()) {
                 <span class='prelude-val'>Some</span>(<span class='ident'>State</span>::<span class='ident'>Elem</span>(<span class='ident'>elem</span>)) <span class='op'>=&gt;</span> <span class='kw'>return</span> <span class='prelude-val'>Some</span>(<span class='ident'>elem</span>),

@@ -157,16 +157,18 @@
     
 <h3 id='use-custom-types-to-imbue-meaning-do-not-abuse-bool-option-or-other-core-types-fixme-needs-rfc' class='section-header'><a href='#use-custom-types-to-imbue-meaning-do-not-abuse-bool-option-or-other-core-types-fixme-needs-rfc'>Use custom types to imbue meaning; do not abuse <code>bool</code>, <code>Option</code> or other core types. <strong>[FIXME: needs RFC]</strong></a></h3>
 <p>Prefer</p>
+
 <span class='rusttest'>fn main() {
     let w = Widget::new(Small, Round)
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> <span class='ident'>Widget</span>::<span class='ident'>new</span>(<span class='ident'>Small</span>, <span class='ident'>Round</span>)</pre>
 
 <p>over</p>
+
 <span class='rusttest'>fn main() {
     let w = Widget::new(true, false)
 }</span><pre class='rust rust-example-rendered'>
-<span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> <span class='ident'>Widget</span>::<span class='ident'>new</span>(<span class='boolval'>true</span>, <span class='boolval'>false</span>)</pre>
+<span class='kw'>let</span> <span class='ident'>w</span> <span class='op'>=</span> <span class='ident'>Widget</span>::<span class='ident'>new</span>(<span class='boolvalue'>true</span>, <span class='boolvalue'>false</span>)</pre>
 
 <p>Core types like <code>bool</code>, <code>u8</code> and <code>Option</code> have many possible interpretations.</p>
 
@@ -196,12 +198,13 @@ and hiding fields instead.</p>
 
 <h3 id='use-custom-enums-for-alternatives-bitflags-for-c-style-flags-fixme-needs-rfc' class='section-header'><a href='#use-custom-enums-for-alternatives-bitflags-for-c-style-flags-fixme-needs-rfc'>Use custom <code>enum</code>s for alternatives, <code>bitflags</code> for C-style flags. <strong>[FIXME: needs RFC]</strong></a></h3>
 <p>Rust supports <code>enum</code> types with &quot;custom discriminants&quot;:</p>
+
 <span class='rusttest'>fn main() {
     enum Color {
-      Red = 0xff0000,
-      Green = 0x00ff00,
-      Blue = 0x0000ff
-    }
+  Red = 0xff0000,
+  Green = 0x00ff00,
+  Blue = 0x0000ff
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>Color</span> {
   <span class='ident'>Red</span> <span class='op'>=</span> <span class='number'>0xff0000</span>,

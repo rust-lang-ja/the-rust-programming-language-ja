@@ -269,66 +269,66 @@
 
 <span class='rusttest'>fn main() {
     #![crate_type=&quot;dylib&quot;]
-    #![feature(plugin_registrar, rustc_private)]
-    
-    extern crate syntax;
-    extern crate rustc;
-    extern crate rustc_plugin;
-    
-    use syntax::codemap::Span;
-    use syntax::parse::token;
-    use syntax::ast::TokenTree;
-    use syntax::ext::base::{ExtCtxt, MacResult, DummyResult, MacEager};
-    // use syntax::ext::build::AstBuilder;  // trait for expr_usize
-    use syntax::ext::build::AstBuilder;  // expr_usizeのトレイト
-    use rustc_plugin::Registry;
-    
-    fn expand_rn(cx: &amp;mut ExtCtxt, sp: Span, args: &amp;[TokenTree])
-            -&gt; Box&lt;MacResult + &#39;static&gt; {
-    
-        static NUMERALS: &amp;&#39;static [(&amp;&#39;static str, usize)] = &amp;[
-            (&quot;M&quot;, 1000), (&quot;CM&quot;, 900), (&quot;D&quot;, 500), (&quot;CD&quot;, 400),
-            (&quot;C&quot;,  100), (&quot;XC&quot;,  90), (&quot;L&quot;,  50), (&quot;XL&quot;,  40),
-            (&quot;X&quot;,   10), (&quot;IX&quot;,   9), (&quot;V&quot;,   5), (&quot;IV&quot;,   4),
-            (&quot;I&quot;,    1)];
-    
-        if args.len() != 1 {
-            cx.span_err(
-                sp,
-                &amp;format!(&quot;argument should be a single identifier, but got {} arguments&quot;, args.len()));
+#![feature(plugin_registrar, rustc_private)]
+
+extern crate syntax;
+extern crate rustc;
+extern crate rustc_plugin;
+
+use syntax::codemap::Span;
+use syntax::parse::token;
+use syntax::ast::TokenTree;
+use syntax::ext::base::{ExtCtxt, MacResult, DummyResult, MacEager};
+// use syntax::ext::build::AstBuilder;  // trait for expr_usize
+use syntax::ext::build::AstBuilder;  // expr_usizeのトレイト
+use rustc_plugin::Registry;
+
+fn expand_rn(cx: &amp;mut ExtCtxt, sp: Span, args: &amp;[TokenTree])
+        -&gt; Box&lt;MacResult + &#39;static&gt; {
+
+    static NUMERALS: &amp;&#39;static [(&amp;&#39;static str, usize)] = &amp;[
+        (&quot;M&quot;, 1000), (&quot;CM&quot;, 900), (&quot;D&quot;, 500), (&quot;CD&quot;, 400),
+        (&quot;C&quot;,  100), (&quot;XC&quot;,  90), (&quot;L&quot;,  50), (&quot;XL&quot;,  40),
+        (&quot;X&quot;,   10), (&quot;IX&quot;,   9), (&quot;V&quot;,   5), (&quot;IV&quot;,   4),
+        (&quot;I&quot;,    1)];
+
+    if args.len() != 1 {
+        cx.span_err(
+            sp,
+            &amp;format!(&quot;argument should be a single identifier, but got {} arguments&quot;, args.len()));
+        return DummyResult::any(sp);
+    }
+
+    let text = match args[0] {
+        TokenTree::Token(_, token::Ident(s, _)) =&gt; s.to_string(),
+        _ =&gt; {
+            cx.span_err(sp, &quot;argument should be a single identifier&quot;);
             return DummyResult::any(sp);
         }
-    
-        let text = match args[0] {
-            TokenTree::Token(_, token::Ident(s, _)) =&gt; s.to_string(),
-            _ =&gt; {
-                cx.span_err(sp, &quot;argument should be a single identifier&quot;);
+    };
+
+    let mut text = &amp;*text;
+    let mut total = 0;
+    while !text.is_empty() {
+        match NUMERALS.iter().find(|&amp;&amp;(rn, _)| text.starts_with(rn)) {
+            Some(&amp;(rn, val)) =&gt; {
+                total += val;
+                text = &amp;text[rn.len()..];
+            }
+            None =&gt; {
+                cx.span_err(sp, &quot;invalid Roman numeral&quot;);
                 return DummyResult::any(sp);
             }
-        };
-    
-        let mut text = &amp;*text;
-        let mut total = 0;
-        while !text.is_empty() {
-            match NUMERALS.iter().find(|&amp;&amp;(rn, _)| text.starts_with(rn)) {
-                Some(&amp;(rn, val)) =&gt; {
-                    total += val;
-                    text = &amp;text[rn.len()..];
-                }
-                None =&gt; {
-                    cx.span_err(sp, &quot;invalid Roman numeral&quot;);
-                    return DummyResult::any(sp);
-                }
-            }
         }
-    
-        MacEager::expr(cx.expr_usize(sp, total))
     }
-    
-    #[plugin_registrar]
-    pub fn plugin_registrar(reg: &amp;mut Registry) {
-        reg.register_macro(&quot;rn&quot;, expand_rn);
-    }
+
+    MacEager::expr(cx.expr_usize(sp, total))
+}
+
+#[plugin_registrar]
+pub fn plugin_registrar(reg: &amp;mut Registry) {
+    reg.register_macro(&quot;rn&quot;, expand_rn);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>crate_type</span><span class='op'>=</span><span class='string'>&quot;dylib&quot;</span>]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>plugin_registrar</span>, <span class='ident'>rustc_private</span>)]</span>
@@ -462,11 +462,11 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     fn expand_foo(cx: &amp;mut ExtCtxt, sp: Span, args: &amp;[TokenTree])
-            -&gt; Box&lt;MacResult+&#39;static&gt; {
-    
-        let mut parser = cx.new_parser_from_tts(args);
-    
-        let expr: P&lt;Expr&gt; = parser.parse_expr();
+        -&gt; Box&lt;MacResult+&#39;static&gt; {
+
+    let mut parser = cx.new_parser_from_tts(args);
+
+    let expr: P&lt;Expr&gt; = parser.parse_expr();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>expand_foo</span>(<span class='ident'>cx</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>ExtCtxt</span>, <span class='ident'>sp</span>: <span class='ident'>Span</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>TokenTree</span>])
         <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>MacResult</span><span class='op'>+</span><span class='lifetime'>&#39;static</span><span class='op'>&gt;</span> {
@@ -556,40 +556,40 @@ fn main() {
 
 fn main() {
     extern crate syntax;
-    
-    // Load rustc as a plugin to get macros
-    // macroを使うためにrustcをプラグインとして読み込む
-    #[macro_use]
-    extern crate rustc;
-    extern crate rustc_plugin;
-    
-    use rustc::lint::{EarlyContext, LintContext, LintPass, EarlyLintPass,
-                      EarlyLintPassObject, LintArray};
-    use rustc_plugin::Registry;
-    use syntax::ast;
-    
-    declare_lint!(TEST_LINT, Warn, &quot;Warn about items named &#39;lintme&#39;&quot;);
-    
-    struct Pass;
-    
-    impl LintPass for Pass {
-        fn get_lints(&amp;self) -&gt; LintArray {
-            lint_array!(TEST_LINT)
+
+// Load rustc as a plugin to get macros
+// macroを使うためにrustcをプラグインとして読み込む
+#[macro_use]
+extern crate rustc;
+extern crate rustc_plugin;
+
+use rustc::lint::{EarlyContext, LintContext, LintPass, EarlyLintPass,
+                  EarlyLintPassObject, LintArray};
+use rustc_plugin::Registry;
+use syntax::ast;
+
+declare_lint!(TEST_LINT, Warn, &quot;Warn about items named &#39;lintme&#39;&quot;);
+
+struct Pass;
+
+impl LintPass for Pass {
+    fn get_lints(&amp;self) -&gt; LintArray {
+        lint_array!(TEST_LINT)
+    }
+}
+
+impl EarlyLintPass for Pass {
+    fn check_item(&amp;mut self, cx: &amp;EarlyContext, it: &amp;ast::Item) {
+        if it.ident.name.as_str() == &quot;lintme&quot; {
+            cx.span_lint(TEST_LINT, it.span, &quot;item is named &#39;lintme&#39;&quot;);
         }
     }
-    
-    impl EarlyLintPass for Pass {
-        fn check_item(&amp;mut self, cx: &amp;EarlyContext, it: &amp;ast::Item) {
-            if it.ident.name.as_str() == &quot;lintme&quot; {
-                cx.span_lint(TEST_LINT, it.span, &quot;item is named &#39;lintme&#39;&quot;);
-            }
-        }
-    }
-    
-    #[plugin_registrar]
-    pub fn plugin_registrar(reg: &amp;mut Registry) {
-        reg.register_early_lint_pass(box Pass as EarlyLintPassObject);
-    }
+}
+
+#[plugin_registrar]
+pub fn plugin_registrar(reg: &amp;mut Registry) {
+    reg.register_early_lint_pass(box Pass as EarlyLintPassObject);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>plugin_registrar</span>)]</span>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>feature</span>(<span class='ident'>box_syntax</span>, <span class='ident'>rustc_private</span>)]</span>
@@ -635,8 +635,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     #![plugin(lint_plugin_test)]
-    
-    fn lintme() { }
+
+fn lintme() { }
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>plugin</span>(<span class='ident'>lint_plugin_test</span>)]</span>
 

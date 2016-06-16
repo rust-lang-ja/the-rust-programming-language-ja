@@ -223,10 +223,10 @@
 
 <span class='rusttest'>fn main() {
     #![no_std]
-    
-    fn plus_one(x: i32) -&gt; i32 {
-        x + 1
-    }
+
+fn plus_one(x: i32) -&gt; i32 {
+    x + 1
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>no_std</span>]</span>
 
@@ -255,14 +255,14 @@ Rustは自動的に <code>core</code> と <a href="../core/prelude/v1/">その�
 
 <span class='rusttest'>fn main() {
     #![no_std]
-    
-    fn may_fail(failure: bool) -&gt; Result&lt;(), &amp;&#39;static str&gt; {
-        if failure {
-            Err(&quot;this didn’t work!&quot;)
-        } else {
-            Ok(())
-        }
+
+fn may_fail(failure: bool) -&gt; Result&lt;(), &amp;&#39;static str&gt; {
+    if failure {
+        Err(&quot;this didn’t work!&quot;)
+    } else {
+        Ok(())
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>no_std</span>]</span>
 

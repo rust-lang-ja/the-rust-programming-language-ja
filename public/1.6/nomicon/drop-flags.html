@@ -169,10 +169,11 @@ How can it do this with conditional initialization?</p>
 <p>Note that this is not a problem that all assignments need worry about. In
 particular, assigning through a dereference unconditionally drops, and assigning
 in a <code>let</code> unconditionally doesn&#39;t drop:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = Box::new(0); // let makes a fresh variable, so never need to drop
-    let y = &amp;mut x;
-    *y = Box::new(1); // Deref assumes the referent is initialized, so always drops
+let y = &amp;mut x;
+*y = Box::new(1); // Deref assumes the referent is initialized, so always drops
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>0</span>); <span class='comment'>// let makes a fresh variable, so never need to drop</span>
 <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;
@@ -190,13 +191,14 @@ flag is evaluated to determine if it should be dropped.</p>
 statically known at every point in the program. If this is the case, then the
 compiler can theoretically generate more efficient code! For instance, straight-
 line code has such <em>static drop semantics</em>:</p>
+
 <span class='rusttest'>fn main() {
     let mut x = Box::new(0); // x was uninit; just overwrite.
-    let mut y = x;           // y was uninit; just overwrite and make x uninit.
-    x = Box::new(0);         // x was uninit; just overwrite.
-    y = x;                   // y was init; Drop y, overwrite it, and make x uninit!
-                             // y goes out of scope; y was init; Drop y!
-                             // x goes out of scope; x was uninit; do nothing.
+let mut y = x;           // y was uninit; just overwrite and make x uninit.
+x = Box::new(0);         // x was uninit; just overwrite.
+y = x;                   // y was init; Drop y, overwrite it, and make x uninit!
+                         // y goes out of scope; y was init; Drop y!
+                         // x goes out of scope; x was uninit; do nothing.
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>0</span>); <span class='comment'>// x was uninit; just overwrite.</span>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>x</span>;           <span class='comment'>// y was uninit; just overwrite and make x uninit.</span>
@@ -207,17 +209,18 @@ line code has such <em>static drop semantics</em>:</p>
 
 <p>Similarly, branched code where all branches have the same behavior with respect
 to initialization has static drop semantics:</p>
+
 <span class='rusttest'>fn main() {
     let condition = true;
-    let mut x = Box::new(0);    // x was uninit; just overwrite.
-    if condition {
-        drop(x)                 // x gets moved out; make x uninit.
-    } else {
-        println!(&quot;{}&quot;, x);
-        drop(x)                 // x gets moved out; make x uninit.
-    }
-    x = Box::new(0);            // x was uninit; just overwrite.
-                                // x goes out of scope; x was init; Drop x!
+let mut x = Box::new(0);    // x was uninit; just overwrite.
+if condition {
+    drop(x)                 // x gets moved out; make x uninit.
+} else {
+    println!(&quot;{}&quot;, x);
+    drop(x)                 // x gets moved out; make x uninit.
+}
+x = Box::new(0);            // x was uninit; just overwrite.
+                            // x goes out of scope; x was init; Drop x!
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>0</span>);    <span class='comment'>// x was uninit; just overwrite.</span>
 <span class='kw'>if</span> <span class='ident'>condition</span> {
@@ -230,15 +233,16 @@ to initialization has static drop semantics:</p>
                             <span class='comment'>// x goes out of scope; x was init; Drop x!</span></pre>
 
 <p>However code like this <em>requires</em> runtime information to correctly Drop:</p>
+
 <span class='rusttest'>fn main() {
     let condition = true;
-    let x;
-    if condition {
-        x = Box::new(0);        // x was uninit; just overwrite.
-        println!(&quot;{}&quot;, x);
-    }
-                                // x goes out of scope; x might be uninit;
-                                // check the flag!
+let x;
+if condition {
+    x = Box::new(0);        // x was uninit; just overwrite.
+    println!(&quot;{}&quot;, x);
+}
+                            // x goes out of scope; x might be uninit;
+                            // check the flag!
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>;
 <span class='kw'>if</span> <span class='ident'>condition</span> {
@@ -249,12 +253,13 @@ to initialization has static drop semantics:</p>
                             <span class='comment'>// check the flag!</span></pre>
 
 <p>Of course, in this case it&#39;s trivial to retrieve static drop semantics:</p>
+
 <span class='rusttest'>fn main() {
     let condition = true;
-    if condition {
-        let x = Box::new(0);
-        println!(&quot;{}&quot;, x);
-    }
+if condition {
+    let x = Box::new(0);
+    println!(&quot;{}&quot;, x);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>if</span> <span class='ident'>condition</span> {
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>0</span>);

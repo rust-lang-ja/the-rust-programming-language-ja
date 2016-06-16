@@ -165,17 +165,18 @@ appropriate. This name is chosen rather than names like <code>find</code> or
 
 <h4 id='containers' class='section-header'><a href='#containers'>Containers</a></h4>
 <p>For a container with keys/indexes of type <code>K</code> and elements of type <code>V</code>:</p>
+
 <span class='rusttest'>fn main() {
     // Look up element without failing
-    fn get(&amp;self, key: K) -&gt; Option&lt;&amp;V&gt;
-    fn get_mut(&amp;mut self, key: K) -&gt; Option&lt;&amp;mut V&gt;
-    
-    // Convenience for .get(key).map(|elt| elt.clone())
-    fn get_clone(&amp;self, key: K) -&gt; Option&lt;V&gt;
-    
-    // Lookup element, failing if it is not found:
-    impl Index&lt;K, V&gt; for Container { ... }
-    impl IndexMut&lt;K, V&gt; for Container { ... }
+fn get(&amp;self, key: K) -&gt; Option&lt;&amp;V&gt;
+fn get_mut(&amp;mut self, key: K) -&gt; Option&lt;&amp;mut V&gt;
+
+// Convenience for .get(key).map(|elt| elt.clone())
+fn get_clone(&amp;self, key: K) -&gt; Option&lt;V&gt;
+
+// Lookup element, failing if it is not found:
+impl Index&lt;K, V&gt; for Container { ... }
+impl IndexMut&lt;K, V&gt; for Container { ... }
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Look up element without failing</span>
 <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>key</span>: <span class='ident'>K</span>) <span class='op'>-&gt;</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='kw-2'>&amp;</span><span class='ident'>V</span><span class='op'>&gt;</span>
@@ -191,20 +192,22 @@ appropriate. This name is chosen rather than names like <code>find</code> or
 <h4 id='wrapperscells' class='section-header'><a href='#wrapperscells'>Wrappers/Cells</a></h4>
 <p>Prefer specific conversion functions like <code>as_bytes</code> or <code>into_vec</code> whenever
 possible. Otherwise, use:</p>
+
 <span class='rusttest'>fn main() {
     // Extract contents without failing
-    fn get(&amp;self) -&gt; &amp;V
-    fn get_mut(&amp;mut self) -&gt; &amp;mut V
-    fn unwrap(self) -&gt; V
+fn get(&amp;self) -&gt; &amp;V
+fn get_mut(&amp;mut self) -&gt; &amp;mut V
+fn unwrap(self) -&gt; V
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Extract contents without failing</span>
 <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='ident'>V</span>
 <span class='kw'>fn</span> <span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>V</span>
 <span class='kw'>fn</span> <span class='ident'>unwrap</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>V</span></pre>
 
-<h4 id='wrapperscells-around-copy-data' class='section-header'><a href='#wrapperscells-around-copy-data'>Wrappers/Cells around <code>Copy</code> data</a></h4><span class='rusttest'>fn main() {
+<h4 id='wrapperscells-around-copy-data' class='section-header'><a href='#wrapperscells-around-copy-data'>Wrappers/Cells around <code>Copy</code> data</a></h4>
+<span class='rusttest'>fn main() {
     // Extract contents without failing
-    fn get(&amp;self) -&gt; V
+fn get(&amp;self) -&gt; V
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Extract contents without failing</span>
 <span class='kw'>fn</span> <span class='ident'>get</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>V</span></pre>
@@ -214,22 +217,24 @@ possible. Otherwise, use:</p>
 play a special role for failure.</p>
 
 <p>For <code>Option&lt;V&gt;</code>:</p>
+
 <span class='rusttest'>fn main() {
     // Extract contents or fail if not available
-    fn assert(self) -&gt; V
-    fn expect(self, &amp;str) -&gt; V
+fn assert(self) -&gt; V
+fn expect(self, &amp;str) -&gt; V
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Extract contents or fail if not available</span>
 <span class='kw'>fn</span> <span class='ident'>assert</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>V</span>
 <span class='kw'>fn</span> <span class='ident'>expect</span>(<span class='self'>self</span>, <span class='kw-2'>&amp;</span><span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='ident'>V</span></pre>
 
 <p>For <code>Result&lt;V, E&gt;</code>:</p>
+
 <span class='rusttest'>fn main() {
     // Extract the contents of Ok variant; fail if Err
-    fn assert(self) -&gt; V
-    
-    // Extract the contents of Err variant; fail if Ok
-    fn assert_err(self) -&gt; E
+fn assert(self) -&gt; V
+
+// Extract the contents of Err variant; fail if Ok
+fn assert_err(self) -&gt; E
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// Extract the contents of Ok variant; fail if Err</span>
 <span class='kw'>fn</span> <span class='ident'>assert</span>(<span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>V</span>

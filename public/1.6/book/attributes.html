@@ -194,7 +194,7 @@
 
 <span class='rusttest'>fn main() {
     #[test]
-    fn foo() {}
+fn foo() {}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>test</span>]</span></pre>
 
@@ -204,8 +204,8 @@
 
 <span class='rusttest'>fn main() {
     mod foo {
-    #![test]
-    }
+#![test]
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#<span class='op'>!</span>[<span class='ident'>test</span>]</span></pre>
 
@@ -217,11 +217,11 @@
 
 <span class='rusttest'>fn main() {
     #[foo]
-    struct Foo;
-    
-    mod bar {
-        #![bar]
-    }
+struct Foo;
+
+mod bar {
+    #![bar]
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>foo</span>]</span>
 <span class='kw'>struct</span> <span class='ident'>Foo</span>;
@@ -248,9 +248,9 @@
 
 <span class='rusttest'>fn main() {
     #[test]
-    fn check() {
-        assert_eq!(2, 1 + 1);
-    }
+fn check() {
+    assert_eq!(2, 1 + 1);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>test</span>]</span>
 <span class='kw'>fn</span> <span class='ident'>check</span>() {
@@ -272,8 +272,8 @@
 
 <span class='rusttest'>fn main() {
     #[inline(always)]
-    fn super_fast_fn() {
-    }
+fn super_fast_fn() {
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>inline</span>(<span class='ident'>always</span>)]</span>
 <span class='kw'>fn</span> <span class='ident'>super_fast_fn</span>() {</pre>
@@ -284,8 +284,8 @@
 
 <span class='rusttest'>fn main() {
     #[cfg(target_os = &quot;macos&quot;)]
-    mod macos_only {
-    }
+mod macos_only {
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>cfg</span>(<span class='ident'>target_os</span> <span class='op'>=</span> <span class='string'>&quot;macos&quot;</span>)]</span>
 <span class='kw'>mod</span> <span class='ident'>macos_only</span> {</pre>

@@ -191,50 +191,51 @@ treatment of ownership, as described below.</p>
 be consumed. The follow variant on
 <a href="https://doc.rust-lang.org/stable/std/process/struct.Command.html"><code>std::process::Command</code></a>
 is one example:</p>
+
 <span class='rusttest'>fn main() {
     // NOTE: the actual Command API does not use owned Strings;
-    // this is a simplified version.
-    
-    pub struct Command {
-        program: String,
-        args: Vec&lt;String&gt;,
-        cwd: Option&lt;String&gt;,
-        // etc
-    }
-    
-    impl Command {
-        pub fn new(program: String) -&gt; Command {
-            Command {
-                program: program,
-                args: Vec::new(),
-                cwd: None,
-            }
-        }
-    
-        /// Add an argument to pass to the program.
-        pub fn arg&lt;&#39;a&gt;(&amp;&#39;a mut self, arg: String) -&gt; &amp;&#39;a mut Command {
-            self.args.push(arg);
-            self
-        }
-    
-        /// Add multiple arguments to pass to the program.
-        pub fn args&lt;&#39;a&gt;(&amp;&#39;a mut self, args: &amp;[String])
-                        -&gt; &amp;&#39;a mut Command {
-            self.args.push_all(args);
-            self
-        }
-    
-        /// Set the working directory for the child process.
-        pub fn cwd&lt;&#39;a&gt;(&amp;&#39;a mut self, dir: String) -&gt; &amp;&#39;a mut Command {
-            self.cwd = Some(dir);
-            self
-        }
-    
-        /// Executes the command as a child process, which is returned.
-        pub fn spawn(&amp;self) -&gt; std::io::Result&lt;Process&gt; {
-            ...
+// this is a simplified version.
+
+pub struct Command {
+    program: String,
+    args: Vec&lt;String&gt;,
+    cwd: Option&lt;String&gt;,
+    // etc
+}
+
+impl Command {
+    pub fn new(program: String) -&gt; Command {
+        Command {
+            program: program,
+            args: Vec::new(),
+            cwd: None,
         }
     }
+
+    /// Add an argument to pass to the program.
+    pub fn arg&lt;&#39;a&gt;(&amp;&#39;a mut self, arg: String) -&gt; &amp;&#39;a mut Command {
+        self.args.push(arg);
+        self
+    }
+
+    /// Add multiple arguments to pass to the program.
+    pub fn args&lt;&#39;a&gt;(&amp;&#39;a mut self, args: &amp;[String])
+                    -&gt; &amp;&#39;a mut Command {
+        self.args.push_all(args);
+        self
+    }
+
+    /// Set the working directory for the child process.
+    pub fn cwd&lt;&#39;a&gt;(&amp;&#39;a mut self, dir: String) -&gt; &amp;&#39;a mut Command {
+        self.cwd = Some(dir);
+        self
+    }
+
+    /// Executes the command as a child process, which is returned.
+    pub fn spawn(&amp;self) -&gt; std::io::Result&lt;Process&gt; {
+        ...
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// NOTE: the actual Command API does not use owned Strings;</span>
 <span class='comment'>// this is a simplified version.</span>
@@ -291,19 +292,20 @@ methods take and return a mutable borrow of <code>self</code>.</p>
 <h4 id='the-benefit' class='section-header'><a href='#the-benefit'>The benefit</a></h4>
 <p>By using borrows throughout, <code>Command</code> can be used conveniently for both
 one-liner and more complex constructions:</p>
+
 <span class='rusttest'>fn main() {
     // One-liners
-    Command::new(&quot;/bin/cat&quot;).arg(&quot;file.txt&quot;).spawn();
-    
-    // Complex configuration
-    let mut cmd = Command::new(&quot;/bin/ls&quot;);
-    cmd.arg(&quot;.&quot;);
-    
-    if size_sorted {
-        cmd.arg(&quot;-S&quot;);
-    }
-    
-    cmd.spawn();
+Command::new(&quot;/bin/cat&quot;).arg(&quot;file.txt&quot;).spawn();
+
+// Complex configuration
+let mut cmd = Command::new(&quot;/bin/ls&quot;);
+cmd.arg(&quot;.&quot;);
+
+if size_sorted {
+    cmd.arg(&quot;-S&quot;);
+}
+
+cmd.spawn();
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// One-liners</span>
 <span class='ident'>Command</span>::<span class='ident'>new</span>(<span class='string'>&quot;/bin/cat&quot;</span>).<span class='ident'>arg</span>(<span class='string'>&quot;file.txt&quot;</span>).<span class='ident'>spawn</span>();
@@ -321,30 +323,31 @@ one-liner and more complex constructions:</p>
 <h3 id='consuming-builders' class='section-header'><a href='#consuming-builders'>Consuming builders:</a></h3>
 <p>Sometimes builders must transfer ownership when constructing the final type
 <code>T</code>, meaning that the terminal methods must take <code>self</code> rather than <code>&amp;self</code>:</p>
+
 <span class='rusttest'>fn main() {
     // A simplified excerpt from std::thread::Builder
-    
-    impl ThreadBuilder {
-        /// Name the thread-to-be. Currently the name is used for identification
-        /// only in failure messages.
-        pub fn named(mut self, name: String) -&gt; ThreadBuilder {
-            self.name = Some(name);
-            self
-        }
-    
-        /// Redirect thread-local stdout.
-        pub fn stdout(mut self, stdout: Box&lt;Writer + Send&gt;) -&gt; ThreadBuilder {
-            self.stdout = Some(stdout);
-            //   ^~~~~~ this is owned and cannot be cloned/re-used
-            self
-        }
-    
-        /// Creates and executes a new child thread.
-        pub fn spawn(self, f: proc():Send) {
-            // consume self
-            ...
-        }
+
+impl ThreadBuilder {
+    /// Name the thread-to-be. Currently the name is used for identification
+    /// only in failure messages.
+    pub fn named(mut self, name: String) -&gt; ThreadBuilder {
+        self.name = Some(name);
+        self
     }
+
+    /// Redirect thread-local stdout.
+    pub fn stdout(mut self, stdout: Box&lt;Writer + Send&gt;) -&gt; ThreadBuilder {
+        self.stdout = Some(stdout);
+        //   ^~~~~~ this is owned and cannot be cloned/re-used
+        self
+    }
+
+    /// Creates and executes a new child thread.
+    pub fn spawn(self, f: proc():Send) {
+        // consume self
+        ...
+    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// A simplified excerpt from std::thread::Builder</span>
 
@@ -386,19 +389,20 @@ continue to work well but complex configuration is less convenient.</p></li>
 <p>Under the rubric of making easy things easy and hard things possible, <em>all</em>
 builder methods for a consuming builder should take and returned an owned
 <code>self</code>. Then client code works as follows:</p>
+
 <span class='rusttest'>fn main() {
     // One-liners
-    ThreadBuilder::new().named(&quot;my_thread&quot;).spawn(proc() { ... });
-    
-    // Complex configuration
-    let mut thread = ThreadBuilder::new();
-    thread = thread.named(&quot;my_thread_2&quot;); // must re-assign to retain ownership
-    
-    if reroute {
-        thread = thread.stdout(mywriter);
-    }
-    
-    thread.spawn(proc() { ... });
+ThreadBuilder::new().named(&quot;my_thread&quot;).spawn(proc() { ... });
+
+// Complex configuration
+let mut thread = ThreadBuilder::new();
+thread = thread.named(&quot;my_thread_2&quot;); // must re-assign to retain ownership
+
+if reroute {
+    thread = thread.stdout(mywriter);
+}
+
+thread.spawn(proc() { ... });
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// One-liners</span>
 <span class='ident'>ThreadBuilder</span>::<span class='ident'>new</span>().<span class='ident'>named</span>(<span class='string'>&quot;my_thread&quot;</span>).<span class='ident'>spawn</span>(<span class='kw'>proc</span>() { ... });

@@ -168,17 +168,18 @@ behave like, a slice in all sorts of conditions.</p>
 <p>All we need is <code>slice::from_raw_parts</code>. It will correctly handle empty slices
 for us. Later once we set up zero-sized type support it will also Just Work
 for those too.</p>
+
 <span class='rusttest'>fn main() {
     use std::ops::Deref;
-    
-    impl&lt;T&gt; Deref for Vec&lt;T&gt; {
-        type Target = [T];
-        fn deref(&amp;self) -&gt; &amp;[T] {
-            unsafe {
-                ::std::slice::from_raw_parts(*self.ptr, self.len)
-            }
+
+impl&lt;T&gt; Deref for Vec&lt;T&gt; {
+    type Target = [T];
+    fn deref(&amp;self) -&gt; &amp;[T] {
+        unsafe {
+            ::std::slice::from_raw_parts(*self.ptr, self.len)
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>Deref</span>;
 
@@ -192,16 +193,17 @@ for those too.</p>
 }</pre>
 
 <p>And let&#39;s do DerefMut too:</p>
+
 <span class='rusttest'>fn main() {
     use std::ops::DerefMut;
-    
-    impl&lt;T&gt; DerefMut for Vec&lt;T&gt; {
-        fn deref_mut(&amp;mut self) -&gt; &amp;mut [T] {
-            unsafe {
-                ::std::slice::from_raw_parts_mut(*self.ptr, self.len)
-            }
+
+impl&lt;T&gt; DerefMut for Vec&lt;T&gt; {
+    fn deref_mut(&amp;mut self) -&gt; &amp;mut [T] {
+        unsafe {
+            ::std::slice::from_raw_parts_mut(*self.ptr, self.len)
         }
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>ops</span>::<span class='ident'>DerefMut</span>;
 

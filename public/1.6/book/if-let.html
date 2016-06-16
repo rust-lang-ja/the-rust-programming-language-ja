@@ -205,11 +205,11 @@
 
 <span class='rusttest'>fn main() {
     let option = Some(5);
-    fn foo(x: i32) { }
-    match option {
-        Some(x) =&gt; { foo(x) },
-        None =&gt; {},
-    }
+fn foo(x: i32) { }
+match option {
+    Some(x) =&gt; { foo(x) },
+    None =&gt; {},
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>match</span> <span class='ident'>option</span> {
     <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=&gt;</span> { <span class='ident'>foo</span>(<span class='ident'>x</span>) },
@@ -222,11 +222,11 @@
 
 <span class='rusttest'>fn main() {
     let option = Some(5);
-    fn foo(x: i32) { }
-    if option.is_some() {
-        let x = option.unwrap();
-        foo(x);
-    }
+fn foo(x: i32) { }
+if option.is_some() {
+    let x = option.unwrap();
+    foo(x);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>if</span> <span class='ident'>option</span>.<span class='ident'>is_some</span>() {
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>option</span>.<span class='ident'>unwrap</span>();
@@ -241,10 +241,10 @@
 
 <span class='rusttest'>fn main() {
     let option = Some(5);
-    fn foo(x: i32) { }
-    if let Some(x) = option {
-        foo(x);
-    }
+fn foo(x: i32) { }
+if let Some(x) = option {
+    foo(x);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>option</span> {
     <span class='ident'>foo</span>(<span class='ident'>x</span>);
@@ -267,13 +267,13 @@
 
 <span class='rusttest'>fn main() {
     let option = Some(5);
-    fn foo(x: i32) { }
-    fn bar() { }
-    if let Some(x) = option {
-        foo(x);
-    } else {
-        bar();
-    }
+fn foo(x: i32) { }
+fn bar() { }
+if let Some(x) = option {
+    foo(x);
+} else {
+    bar();
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>if</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>option</span> {
     <span class='ident'>foo</span>(<span class='ident'>x</span>);
@@ -291,12 +291,12 @@
 
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 3, 5, 7, 11];
-    loop {
-        match v.pop() {
-            Some(x) =&gt;  println!(&quot;{}&quot;, x),
-            None =&gt; break,
-        }
+loop {
+    match v.pop() {
+        Some(x) =&gt;  println!(&quot;{}&quot;, x),
+        None =&gt; break,
     }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>3</span>, <span class='number'>5</span>, <span class='number'>7</span>, <span class='number'>11</span>];
 <span class='kw'>loop</span> {
@@ -312,9 +312,9 @@
 
 <span class='rusttest'>fn main() {
     let mut v = vec![1, 3, 5, 7, 11];
-    while let Some(x) = v.pop() {
-        println!(&quot;{}&quot;, x);
-    }
+while let Some(x) = v.pop() {
+    println!(&quot;{}&quot;, x);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>3</span>, <span class='number'>5</span>, <span class='number'>7</span>, <span class='number'>11</span>];
 <span class='kw'>while</span> <span class='kw'>let</span> <span class='prelude-val'>Some</span>(<span class='ident'>x</span>) <span class='op'>=</span> <span class='ident'>v</span>.<span class='ident'>pop</span>() {

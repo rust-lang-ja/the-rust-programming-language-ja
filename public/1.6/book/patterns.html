@@ -208,13 +208,13 @@ bindings][bindings], [match statements][match], and other places, too.-->
 
 <span class='rusttest'>fn main() {
     let x = 1;
-    
-    match x {
-        1 =&gt; println!(&quot;one&quot;),
-        2 =&gt; println!(&quot;two&quot;),
-        3 =&gt; println!(&quot;three&quot;),
-        _ =&gt; println!(&quot;anything&quot;),
-    }
+
+match x {
+    1 =&gt; println!(&quot;one&quot;),
+    2 =&gt; println!(&quot;two&quot;),
+    3 =&gt; println!(&quot;three&quot;),
+    _ =&gt; println!(&quot;anything&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
 
@@ -235,13 +235,13 @@ bindings][bindings], [match statements][match], and other places, too.-->
 
 <span class='rusttest'>fn main() {
     let x = &#39;x&#39;;
-    let c = &#39;c&#39;;
-    
-    match c {
-        x =&gt; println!(&quot;x: {} c: {}&quot;, x, c),
-    }
-    
-    println!(&quot;x: {}&quot;, x)
+let c = &#39;c&#39;;
+
+match c {
+    x =&gt; println!(&quot;x: {} c: {}&quot;, x, c),
+}
+
+println!(&quot;x: {}&quot;, x)
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&#39;x&#39;</span>;
 <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='string'>&#39;c&#39;</span>;
@@ -275,12 +275,12 @@ x: x
 
 <span class='rusttest'>fn main() {
     let x = 1;
-    
-    match x {
-        1 | 2 =&gt; println!(&quot;one or two&quot;),
-        3 =&gt; println!(&quot;three&quot;),
-        _ =&gt; println!(&quot;anything&quot;),
-    }
+
+match x {
+    1 | 2 =&gt; println!(&quot;one or two&quot;),
+    3 =&gt; println!(&quot;three&quot;),
+    _ =&gt; println!(&quot;anything&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
 
@@ -304,15 +304,15 @@ inside of a pattern: -->
 
 <span class='rusttest'>fn main() {
     struct Point {
-        x: i32,
-        y: i32,
-    }
-    
-    let origin = Point { x: 0, y: 0 };
-    
-    match origin {
-        Point { x, y } =&gt; println!(&quot;({},{})&quot;, x, y),
-    }
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { x, y } =&gt; println!(&quot;({},{})&quot;, x, y),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
@@ -331,15 +331,15 @@ inside of a pattern: -->
 
 <span class='rusttest'>fn main() {
     struct Point {
-        x: i32,
-        y: i32,
-    }
-    
-    let origin = Point { x: 0, y: 0 };
-    
-    match origin {
-        Point { x: x1, y: y1 } =&gt; println!(&quot;({},{})&quot;, x1, y1),
-    }
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { x: x1, y: y1 } =&gt; println!(&quot;({},{})&quot;, x1, y1),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
@@ -358,15 +358,15 @@ inside of a pattern: -->
 
 <span class='rusttest'>fn main() {
     struct Point {
-        x: i32,
-        y: i32,
-    }
-    
-    let origin = Point { x: 0, y: 0 };
-    
-    match origin {
-        Point { x, .. } =&gt; println!(&quot;x is {}&quot;, x),
-    }
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { x, .. } =&gt; println!(&quot;x is {}&quot;, x),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
@@ -389,15 +389,15 @@ inside of a pattern: -->
 
 <span class='rusttest'>fn main() {
     struct Point {
-        x: i32,
-        y: i32,
-    }
-    
-    let origin = Point { x: 0, y: 0 };
-    
-    match origin {
-        Point { y, .. } =&gt; println!(&quot;y is {}&quot;, y),
-    }
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { y, .. } =&gt; println!(&quot;y is {}&quot;, y),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Point</span> {
     <span class='ident'>x</span>: <span class='ident'>i32</span>,
@@ -432,10 +432,10 @@ inside of a pattern: -->
 
 <span class='rusttest'>fn main() {
     let some_value: Result&lt;i32, &amp;&#39;static str&gt; = Err(&quot;There was an error&quot;);
-    match some_value {
-        Ok(value) =&gt; println!(&quot;got a value: {}&quot;, value),
-        Err(_) =&gt; println!(&quot;an error occurred&quot;),
-    }
+match some_value {
+    Ok(value) =&gt; println!(&quot;got a value: {}&quot;, value),
+    Err(_) =&gt; println!(&quot;an error occurred&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>match</span> <span class='ident'>some_value</span> {
     <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a value: {}&quot;</span>, <span class='ident'>value</span>),
@@ -455,12 +455,12 @@ ignore parts of a larger structure: -->
 
 <span class='rusttest'>fn main() {
     fn coordinate() -&gt; (i32, i32, i32) {
-        // generate and return some sort of triple tuple
-        // 3要素のタプルを生成して返す
-    (1, 2, 3)
-    }
-    
-    let (x, _, z) = coordinate();
+    // generate and return some sort of triple tuple
+    // 3要素のタプルを生成して返す
+(1, 2, 3)
+}
+
+let (x, _, z) = coordinate();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>coordinate</span>() <span class='op'>-&gt;</span> (<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>) {
     <span class='comment'>// 3要素のタプルを生成して返す</span>
@@ -479,16 +479,16 @@ ignore the middle element. -->
 
 <span class='rusttest'>fn main() {
     enum OptionalTuple {
-        Value(i32, i32, i32),
-        Missing,
-    }
-    
-    let x = OptionalTuple::Value(5, -2, 3);
-    
-    match x {
-        OptionalTuple::Value(..) =&gt; println!(&quot;Got a tuple!&quot;),
-        OptionalTuple::Missing =&gt; println!(&quot;No such luck.&quot;),
-    }
+    Value(i32, i32, i32),
+    Missing,
+}
+
+let x = OptionalTuple::Value(5, -2, 3);
+
+match x {
+    OptionalTuple::Value(..) =&gt; println!(&quot;Got a tuple!&quot;),
+    OptionalTuple::Missing =&gt; println!(&quot;No such luck.&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>OptionalTuple</span> {
     <span class='ident'>Value</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>),
@@ -515,10 +515,10 @@ ignore the middle element. -->
 
 <span class='rusttest'>fn main() {
     let x = 5;
-    
-    match x {
-        ref r =&gt; println!(&quot;Got a reference to {}&quot;, r),
-    }
+
+match x {
+    ref r =&gt; println!(&quot;Got a reference to {}&quot;, r),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -538,10 +538,10 @@ reference, `ref mut` will work in the same way: -->
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
-    
-    match x {
-        ref mut mr =&gt; println!(&quot;Got a mutable reference to {}&quot;, mr),
-    }
+
+match x {
+    ref mut mr =&gt; println!(&quot;Got a mutable reference to {}&quot;, mr),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -558,11 +558,11 @@ reference, `ref mut` will work in the same way: -->
 
 <span class='rusttest'>fn main() {
     let x = 1;
-    
-    match x {
-        1 ... 5 =&gt; println!(&quot;one through five&quot;),
-        _ =&gt; println!(&quot;anything&quot;),
-    }
+
+match x {
+    1 ... 5 =&gt; println!(&quot;one through five&quot;),
+    _ =&gt; println!(&quot;anything&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
 
@@ -581,12 +581,12 @@ reference, `ref mut` will work in the same way: -->
 
 <span class='rusttest'>fn main() {
     let x = &#39;💅&#39;;
-    
-    match x {
-        &#39;a&#39; ... &#39;j&#39; =&gt; println!(&quot;early letter&quot;),
-        &#39;k&#39; ... &#39;z&#39; =&gt; println!(&quot;late letter&quot;),
-        _ =&gt; println!(&quot;something else&quot;),
-    }
+
+match x {
+    &#39;a&#39; ... &#39;j&#39; =&gt; println!(&quot;early letter&quot;),
+    &#39;k&#39; ... &#39;z&#39; =&gt; println!(&quot;late letter&quot;),
+    _ =&gt; println!(&quot;something else&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&#39;💅&#39;</span>;
 
@@ -609,16 +609,16 @@ reference, `ref mut` will work in the same way: -->
 
 <span class='rusttest'>fn main() {
     let x = 1;
-    
-    match x {
-        e @ 1 ... 5 =&gt; println!(&quot;got a range element {}&quot;, e),
-        _ =&gt; println!(&quot;anything&quot;),
-    }
+
+match x {
+    e @ 1 ... 5 =&gt; println!(&quot;got a range element {}&quot;, e),
+    _ =&gt; println!(&quot;anything&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
 
 <span class='kw'>match</span> <span class='ident'>x</span> {
-    <span class='ident'>e</span> <span class='kw-2'>@</span> <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
+    <span class='ident'>e</span> @ <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
     _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
 }</pre>
 
@@ -630,16 +630,16 @@ do a complicated match of part of a data structure: -->
 
 <span class='rusttest'>fn main() {
     #[derive(Debug)]
-    struct Person {
-        name: Option&lt;String&gt;,
-    }
-    
-    let name = &quot;Steve&quot;.to_string();
-    let mut x: Option&lt;Person&gt; = Some(Person { name: Some(name) });
-    match x {
-        Some(Person { name: ref a @ Some(_), .. }) =&gt; println!(&quot;{:?}&quot;, a),
-        _ =&gt; {}
-    }
+struct Person {
+    name: Option&lt;String&gt;,
+}
+
+let name = &quot;Steve&quot;.to_string();
+let mut x: Option&lt;Person&gt; = Some(Person { name: Some(name) });
+match x {
+    Some(Person { name: ref a @ Some(_), .. }) =&gt; println!(&quot;{:?}&quot;, a),
+    _ =&gt; {}
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
 <span class='kw'>struct</span> <span class='ident'>Person</span> {
@@ -649,7 +649,7 @@ do a complicated match of part of a data structure: -->
 <span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='string'>&quot;Steve&quot;</span>.<span class='ident'>to_string</span>();
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Person</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>Person</span> { <span class='ident'>name</span>: <span class='prelude-val'>Some</span>(<span class='ident'>name</span>) });
 <span class='kw'>match</span> <span class='ident'>x</span> {
-    <span class='prelude-val'>Some</span>(<span class='ident'>Person</span> { <span class='ident'>name</span>: <span class='kw-2'>ref</span> <span class='ident'>a</span> <span class='kw-2'>@</span> <span class='prelude-val'>Some</span>(_), .. }) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>a</span>),
+    <span class='prelude-val'>Some</span>(<span class='ident'>Person</span> { <span class='ident'>name</span>: <span class='kw-2'>ref</span> <span class='ident'>a</span> @ <span class='prelude-val'>Some</span>(_), .. }) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>a</span>),
     _ <span class='op'>=&gt;</span> {}
 }</pre>
 
@@ -664,16 +664,16 @@ of the pattern: -->
 
 <span class='rusttest'>fn main() {
     let x = 5;
-    
-    match x {
-        e @ 1 ... 5 | e @ 8 ... 10 =&gt; println!(&quot;got a range element {}&quot;, e),
-        _ =&gt; println!(&quot;anything&quot;),
-    }
+
+match x {
+    e @ 1 ... 5 | e @ 8 ... 10 =&gt; println!(&quot;got a range element {}&quot;, e),
+    _ =&gt; println!(&quot;anything&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
 
 <span class='kw'>match</span> <span class='ident'>x</span> {
-    <span class='ident'>e</span> <span class='kw-2'>@</span> <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>|</span> <span class='ident'>e</span> <span class='kw-2'>@</span> <span class='number'>8</span> ... <span class='number'>10</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
+    <span class='ident'>e</span> @ <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>|</span> <span class='ident'>e</span> @ <span class='number'>8</span> ... <span class='number'>10</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
     _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
 }</pre>
 
@@ -686,17 +686,17 @@ of the pattern: -->
 
 <span class='rusttest'>fn main() {
     enum OptionalInt {
-        Value(i32),
-        Missing,
-    }
-    
-    let x = OptionalInt::Value(5);
-    
-    match x {
-        OptionalInt::Value(i) if i &gt; 5 =&gt; println!(&quot;Got an int bigger than five!&quot;),
-        OptionalInt::Value(..) =&gt; println!(&quot;Got an int!&quot;),
-        OptionalInt::Missing =&gt; println!(&quot;No such luck.&quot;),
-    }
+    Value(i32),
+    Missing,
+}
+
+let x = OptionalInt::Value(5);
+
+match x {
+    OptionalInt::Value(i) if i &gt; 5 =&gt; println!(&quot;Got an int bigger than five!&quot;),
+    OptionalInt::Value(..) =&gt; println!(&quot;Got an int!&quot;),
+    OptionalInt::Missing =&gt; println!(&quot;No such luck.&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>enum</span> <span class='ident'>OptionalInt</span> {
     <span class='ident'>Value</span>(<span class='ident'>i32</span>),
@@ -721,15 +721,15 @@ of the pattern: -->
 
 <span class='rusttest'>fn main() {
     let x = 4;
-    let y = false;
-    
-    match x {
-        4 | 5 if y =&gt; println!(&quot;yes&quot;),
-        _ =&gt; println!(&quot;no&quot;),
-    }
+let y = false;
+
+match x {
+    4 | 5 if y =&gt; println!(&quot;yes&quot;),
+    _ =&gt; println!(&quot;no&quot;),
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>4</span>;
-<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='boolval'>false</span>;
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
 
 <span class='kw'>match</span> <span class='ident'>x</span> {
     <span class='number'>4</span> <span class='op'>|</span> <span class='number'>5</span> <span class='kw'>if</span> <span class='ident'>y</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;yes&quot;</span>),
@@ -761,8 +761,8 @@ mixed and matched, depending on what you’re doing: -->
 
 <span class='rusttest'>fn main() {
     match x {
-        Foo { x: Some(ref name), y: None } =&gt; ...
-    }
+    Foo { x: Some(ref name), y: None } =&gt; ...
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>match</span> <span class='ident'>x</span> {
     <span class='ident'>Foo</span> { <span class='ident'>x</span>: <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>), <span class='ident'>y</span>: <span class='prelude-val'>None</span> } <span class='op'>=&gt;</span> ...

@@ -202,16 +202,16 @@ Rustはそのような処理を行うためにインラインアセンブリを 
 
 <span class='rusttest'>fn main() {
     // asm!(assembly template
-    asm!(アセンブリのテンプレート
-    //   : output operands
-       : 出力オペランド
-    //   : input operands
-       : 入力オペランド
-    //   : clobbers
-       : 破壊されるデータ
-    //   : options
-       : オプション
-       );
+asm!(アセンブリのテンプレート
+//   : output operands
+   : 出力オペランド
+//   : input operands
+   : 入力オペランド
+//   : clobbers
+   : 破壊されるデータ
+//   : options
+   : オプション
+   );
 }</span><pre class='rust rust-example-rendered'>
 <span class='macro'>asm</span><span class='macro'>!</span>(<span class='ident'>アセンブリのテンプレート</span>
    : <span class='ident'>出力オペランド</span>
@@ -383,11 +383,11 @@ fn main() {
 <span class='rusttest'>#![feature(asm)]
 fn main() {
     #[cfg(any(target_arch = &quot;x86&quot;, target_arch = &quot;x86_64&quot;))]
-    unsafe fn read_byte_in(port: u16) -&gt; u8 {
-    let result: u8;
-    asm!(&quot;in %dx, %al&quot; : &quot;={al}&quot;(result) : &quot;{dx}&quot;(port));
-    result
-    }
+unsafe fn read_byte_in(port: u16) -&gt; u8 {
+let result: u8;
+asm!(&quot;in %dx, %al&quot; : &quot;={al}&quot;(result) : &quot;{dx}&quot;(port));
+result
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>result</span>: <span class='ident'>u8</span>;
 <span class='macro'>asm</span><span class='macro'>!</span>(<span class='string'>&quot;in %dx, %al&quot;</span> : <span class='string'>&quot;={al}&quot;</span>(<span class='ident'>result</span>) : <span class='string'>&quot;{dx}&quot;</span>(<span class='ident'>port</span>));

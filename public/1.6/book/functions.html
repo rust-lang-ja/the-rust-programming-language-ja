@@ -212,7 +212,7 @@
 
 <span class='rusttest'>fn main() {
     fn foo() {
-    }
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>() {
 }</pre>
@@ -224,8 +224,8 @@
 
 <span class='rusttest'>fn main() {
     fn print_number(x: i32) {
-        println!(&quot;x is: {}&quot;, x);
-    }
+    println!(&quot;x is: {}&quot;, x);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>print_number</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is: {}&quot;</span>, <span class='ident'>x</span>);
@@ -293,8 +293,8 @@ fn print_sum(x: i32, y: i32) {
 
 <span class='rusttest'>fn main() {
     fn print_sum(x, y) {
-        println!(&quot;sum is: {}&quot;, x + y);
-    }
+    println!(&quot;sum is: {}&quot;, x + y);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>print_sum</span>(<span class='ident'>x</span>, <span class='ident'>y</span>) {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;sum is: {}&quot;</span>, <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>);
@@ -329,8 +329,8 @@ fn print_number(x, y) {
 
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
-        x + 1
-    }
+    x + 1
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>add_one</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>
@@ -351,8 +351,8 @@ fn print_number(x, y) {
 
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
-        x + 1;
-    }
+    x + 1;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>add_one</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>;
@@ -427,7 +427,7 @@ Rubyではこうなります。</p>
 
 <span class='rusttest'>fn main() {
     // let x = (let y = 5); // expected identifier, found keyword `let`
-    let x = (let y = 5); // 識別子を期待していましたが、キーワード `let` が見付かりました
+let x = (let y = 5); // 識別子を期待していましたが、キーワード `let` が見付かりました
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> (<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>5</span>); <span class='comment'>// 識別子を期待していましたが、キーワード `let` が見付かりました</span></pre>
 
@@ -453,9 +453,9 @@ Rubyではこうなります。</p>
 
 <span class='rusttest'>fn main() {
     let mut y = 5;
-    
-    // let x = (y = 6);  // x has the value `()`, not `6`
-    let x = (y = 6);  // xは値 `()` を持っており、 `6` ではありません
+
+// let x = (y = 6);  // x has the value `()`, not `6`
+let x = (y = 6);  // xは値 `()` を持っており、 `6` ではありません
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>5</span>;
 
@@ -490,8 +490,8 @@ Rubyではこうなります。</p>
 
 <span class='rusttest'>fn main() {
     fn add_one(x: i32) -&gt; i32 {
-        x + 1
-    }
+    x + 1
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>add_one</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>
@@ -516,12 +516,12 @@ Rustはそのためのキーワード <code>return</code> を持っています�
 
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
-        return x;
-    
-       // we never run this code!
-        // このコードは走りません!
-        x + 1
-    }
+    return x;
+
+   // we never run this code!
+    // このコードは走りません!
+    x + 1
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='kw'>return</span> <span class='ident'>x</span>;
@@ -538,8 +538,8 @@ Rustはそのためのキーワード <code>return</code> を持っています�
 
 <span class='rusttest'>fn main() {
     fn foo(x: i32) -&gt; i32 {
-        return x + 1;
-    }
+    return x + 1;
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='kw'>return</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>;
@@ -564,8 +564,8 @@ Rustはそのためのキーワード <code>return</code> を持っています�
 
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
-        panic!(&quot;This function never returns!&quot;);
-    }
+    panic!(&quot;This function never returns!&quot;);
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>diverges</span>() <span class='op'>-&gt;</span> <span class='op'>!</span> {
     <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;This function never returns!&quot;</span>);
@@ -645,10 +645,10 @@ stack backtrace:
 
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
-       panic!(&quot;This function never returns!&quot;);
-    }
-    let x: i32 = diverges();
-    let x: String = diverges();
+   panic!(&quot;This function never returns!&quot;);
+}
+let x: i32 = diverges();
+let x: String = diverges();
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>diverges</span>();
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>String</span> <span class='op'>=</span> <span class='ident'>diverges</span>();</pre>
@@ -674,14 +674,14 @@ stack backtrace:
 
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 {
-        i + 1
-    }
-    
-    // without type inference
-    let f: fn(i32) -&gt; i32 = plus_one;
-    
-    // with type inference
-    let f = plus_one;
+    i + 1
+}
+
+// without type inference
+let f: fn(i32) -&gt; i32 = plus_one;
+
+// with type inference
+let f = plus_one;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>plus_one</span>(<span class='ident'>i</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
     <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>
@@ -699,8 +699,8 @@ stack backtrace:
 
 <span class='rusttest'>fn main() {
     fn plus_one(i: i32) -&gt; i32 { i + 1 }
-    let f = plus_one;
-    let six = f(5);
+let f = plus_one;
+let six = f(5);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>six</span> <span class='op'>=</span> <span class='ident'>f</span>(<span class='number'>5</span>);</pre>
 

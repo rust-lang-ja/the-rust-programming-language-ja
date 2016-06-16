@@ -283,14 +283,14 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- Rust will free the bound resources. For example: -->
 
-<p>Rustでは <a href="variable-bindings.html">変数束縛</a> は所有物を持ちます。つまり、それらはそれらが束縛されているものの「所有権を持つ」ということです。
+<p>Rustでは <a href="variable-bindings.html">変数束縛</a> はある特性を持ちます。それは、束縛されているものの「所有権を持つ」ということです。
 これは束縛がスコープから外れるとき、Rustは束縛されているリソースを解放するだろうということを意味します。
 例えばこうです。</p>
 
 <span class='rusttest'>fn main() {
     fn foo() {
-        let v = vec![1, 2, 3];
-    }
+    let v = vec![1, 2, 3];
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>() {
     <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
@@ -325,8 +325,8 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
-    
-    let v2 = v;
+
+let v2 = v;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 
@@ -338,10 +338,10 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
-    
-    let v2 = v;
-    
-    println!(&quot;v[0] is: {}&quot;, v[0]);
+
+let v2 = v;
+
+println!(&quot;v[0] is: {}&quot;, v[0]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 
@@ -366,15 +366,15 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <span class='rusttest'>fn main() {
     fn take(v: Vec&lt;i32&gt;) {
-      // what happens here isn’t important.
-        // ここで何が起きるかは重要ではない
-    }
-    
-    let v = vec![1, 2, 3];
-    
-    take(v);
-    
-    println!(&quot;v[0] is: {}&quot;, v[0]);
+  // what happens here isn’t important.
+    // ここで何が起きるかは重要ではない
+}
+
+let v = vec![1, 2, 3];
+
+take(v);
+
+println!(&quot;v[0] is: {}&quot;, v[0]);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>take</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) {
     <span class='comment'>// ここで何が起きるかは重要ではない</span>
@@ -409,8 +409,8 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
-    
-    let v2 = v;
+
+let v2 = v;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 
@@ -466,10 +466,10 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <span class='rusttest'>fn main() {
     let v = 1;
-    
-    let v2 = v;
-    
-    println!(&quot;v is: {}&quot;, v);
+
+let v2 = v;
+
+println!(&quot;v is: {}&quot;, v);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='number'>1</span>;
 
@@ -535,7 +535,7 @@ fn change_truth(x: bool) -&gt; bool {
 }
 </span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>main</span>() {
-    <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='boolval'>true</span>;
+    <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
 
     <span class='kw'>let</span> <span class='ident'>_y</span> <span class='op'>=</span> <span class='ident'>change_truth</span>(<span class='ident'>a</span>);
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>a</span>);
@@ -571,13 +571,13 @@ println!(&quot;{}&quot;, a);
 
 <span class='rusttest'>fn main() {
     fn foo(v: Vec&lt;i32&gt;) -&gt; Vec&lt;i32&gt; {
-      // do stuff with v
-        // vについての作業を行う
-    
-      // hand back ownership
-        // 所有権を返す
-        v
-    }
+  // do stuff with v
+    // vについての作業を行う
+
+  // hand back ownership
+    // 所有権を返す
+    v
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>v</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> {
     <span class='comment'>// vについての作業を行う</span>
@@ -593,18 +593,18 @@ println!(&quot;{}&quot;, a);
 
 <span class='rusttest'>fn main() {
     fn foo(v1: Vec&lt;i32&gt;, v2: Vec&lt;i32&gt;) -&gt; (Vec&lt;i32&gt;, Vec&lt;i32&gt;, i32) {
-      // do stuff with v1 and v2
-        // v1とv2についての作業を行う
-    
-      // hand back ownership, and the result of our function
-        // 所有権と関数の結果を返す
-        (v1, v2, 42)
-    }
-    
-    let v1 = vec![1, 2, 3];
-    let v2 = vec![1, 2, 3];
-    
-    let (v1, v2, answer) = foo(v1, v2);
+  // do stuff with v1 and v2
+    // v1とv2についての作業を行う
+
+  // hand back ownership, and the result of our function
+    // 所有権と関数の結果を返す
+    (v1, v2, 42)
+}
+
+let v1 = vec![1, 2, 3];
+let v2 = vec![1, 2, 3];
+
+let (v1, v2, answer) = foo(v1, v2);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>v1</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>v2</span>: <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>) <span class='op'>-&gt;</span> (<span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>Vec</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span>, <span class='ident'>i32</span>) {
     <span class='comment'>// v1とv2についての作業を行う</span>

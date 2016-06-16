@@ -324,14 +324,14 @@ Rustでの所有権システムはこれをライフタイムと呼ばれる概�
 
 <span class='rusttest'>fn main() {
     // implicit
-    // 黙示的に
-    fn foo(x: &amp;i32) {
-    }
-    
-    // explicit
-    // 明示的に
-    fn bar&lt;&#39;a&gt;(x: &amp;&#39;a i32) {
-    }
+// 黙示的に
+fn foo(x: &amp;i32) {
+}
+
+// explicit
+// 明示的に
+fn bar&lt;&#39;a&gt;(x: &amp;&#39;a i32) {
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='comment'>// 黙示的に</span>
 <span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>) {
@@ -453,8 +453,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     struct Foo&lt;&#39;a&gt; {
-    x: &amp;&#39;a i32,
-    }
+x: &amp;&#39;a i32,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>struct</span> <span class='ident'>Foo</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span> {</pre>
 
@@ -464,8 +464,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     struct Foo&lt;&#39;a&gt; {
-    x: &amp;&#39;a i32,
-    }
+x: &amp;&#39;a i32,
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>i32</span>,</pre>
 
@@ -533,8 +533,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     fn x_or_y&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39;a str {
-       x
-    }
+   x
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>x_or_y</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>, <span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span> {</pre>
 
@@ -549,8 +549,8 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     fn x_or_y&lt;&#39;a, &#39;b&gt;(x: &amp;&#39;a str, y: &amp;&#39;b str) -&gt; &amp;&#39;a str {
-       x
-    }
+   x
+}
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>x_or_y</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>, <span class='ident'>y</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> <span class='ident'>str</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span> {</pre>
 
@@ -716,7 +716,7 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     static FOO: i32 = 5;
-    let x: &amp;&#39;static i32 = &amp;FOO;
+let x: &amp;&#39;static i32 = &amp;FOO;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>static</span> <span class='ident'>FOO</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>5</span>;
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> <span class='ident'>i32</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>FOO</span>;</pre>
@@ -832,49 +832,49 @@ fn main() {
 
 <span class='rusttest'>fn main() {
     // fn print(s: &amp;str); // elided
-    // fn print&lt;&#39;a&gt;(s: &amp;&#39;a str); // expanded
-    fn print(s: &amp;str); // 省略された形
-    fn print&lt;&#39;a&gt;(s: &amp;&#39;a str); // 展開した形
-    
-    // fn debug(lvl: u32, s: &amp;str); // elided
-    // fn debug&lt;&#39;a&gt;(lvl: u32, s: &amp;&#39;a str); // expanded
-    fn debug(lvl: u32, s: &amp;str); // 省略された形
-    fn debug&lt;&#39;a&gt;(lvl: u32, s: &amp;&#39;a str); // 展開された形
-    
-    // In the preceding example, `lvl` doesn’t need a lifetime because it’s not a
-    // reference (`&amp;`). Only things relating to references (such as a `struct`
-    // which contains a reference) need lifetimes.
-    // 前述の例では`lvl`はライフタイムを必要としません。なぜなら、それは参照（`&amp;`）
-    // ではないからです。（参照を含む`struct`のような）参照に関係するものだけがライ
-    // フタイムを必要とします。
-    
-    // fn substr(s: &amp;str, until: u32) -&gt; &amp;str; // elided
-    // fn substr&lt;&#39;a&gt;(s: &amp;&#39;a str, until: u32) -&gt; &amp;&#39;a str; // expanded
-    fn substr(s: &amp;str, until: u32) -&gt; &amp;str; // 省略された形
-    fn substr&lt;&#39;a&gt;(s: &amp;&#39;a str, until: u32) -&gt; &amp;&#39;a str; // 展開された形
-    
-    // fn get_str() -&gt; &amp;str; // ILLEGAL, no inputs
-    fn get_str() -&gt; &amp;str; // 不正。入力がない
-    
-    // fn frob(s: &amp;str, t: &amp;str) -&gt; &amp;str; // ILLEGAL, two inputs
-    // fn frob&lt;&#39;a, &#39;b&gt;(s: &amp;&#39;a str, t: &amp;&#39;b str) -&gt; &amp;str; // Expanded: Output lifetime is ambiguous
-    fn frob(s: &amp;str, t: &amp;str) -&gt; &amp;str; // 不正。入力が2つある
-    fn frob&lt;&#39;a, &#39;b&gt;(s: &amp;&#39;a str, t: &amp;&#39;b str) -&gt; &amp;str; // 展開された形。出力ライフタイムが決まらない
-    
-    // fn get_mut(&amp;mut self) -&gt; &amp;mut T; // elided
-    // fn get_mut&lt;&#39;a&gt;(&amp;&#39;a mut self) -&gt; &amp;&#39;a mut T; // expanded
-    fn get_mut(&amp;mut self) -&gt; &amp;mut T; // 省略された形
-    fn get_mut&lt;&#39;a&gt;(&amp;&#39;a mut self) -&gt; &amp;&#39;a mut T; // 展開された形
-    
-    // fn args&lt;T:ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // elided
-    // fn args&lt;&#39;a, &#39;b, T:ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // expanded
-    fn args&lt;T:ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // 省略された形
-    fn args&lt;&#39;a, &#39;b, T:ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // 展開された形
-    
-    // fn new(buf: &amp;mut [u8]) -&gt; BufWriter; // elided
-    // fn new&lt;&#39;a&gt;(buf: &amp;&#39;a mut [u8]) -&gt; BufWriter&lt;&#39;a&gt;; // expanded
-    fn new(buf: &amp;mut [u8]) -&gt; BufWriter; // 省略された形
-    fn new&lt;&#39;a&gt;(buf: &amp;&#39;a mut [u8]) -&gt; BufWriter&lt;&#39;a&gt;; // 展開された形
+// fn print&lt;&#39;a&gt;(s: &amp;&#39;a str); // expanded
+fn print(s: &amp;str); // 省略された形
+fn print&lt;&#39;a&gt;(s: &amp;&#39;a str); // 展開した形
+
+// fn debug(lvl: u32, s: &amp;str); // elided
+// fn debug&lt;&#39;a&gt;(lvl: u32, s: &amp;&#39;a str); // expanded
+fn debug(lvl: u32, s: &amp;str); // 省略された形
+fn debug&lt;&#39;a&gt;(lvl: u32, s: &amp;&#39;a str); // 展開された形
+
+// In the preceding example, `lvl` doesn’t need a lifetime because it’s not a
+// reference (`&amp;`). Only things relating to references (such as a `struct`
+// which contains a reference) need lifetimes.
+// 前述の例では`lvl`はライフタイムを必要としません。なぜなら、それは参照（`&amp;`）
+// ではないからです。（参照を含む`struct`のような）参照に関係するものだけがライ
+// フタイムを必要とします。
+
+// fn substr(s: &amp;str, until: u32) -&gt; &amp;str; // elided
+// fn substr&lt;&#39;a&gt;(s: &amp;&#39;a str, until: u32) -&gt; &amp;&#39;a str; // expanded
+fn substr(s: &amp;str, until: u32) -&gt; &amp;str; // 省略された形
+fn substr&lt;&#39;a&gt;(s: &amp;&#39;a str, until: u32) -&gt; &amp;&#39;a str; // 展開された形
+
+// fn get_str() -&gt; &amp;str; // ILLEGAL, no inputs
+fn get_str() -&gt; &amp;str; // 不正。入力がない
+
+// fn frob(s: &amp;str, t: &amp;str) -&gt; &amp;str; // ILLEGAL, two inputs
+// fn frob&lt;&#39;a, &#39;b&gt;(s: &amp;&#39;a str, t: &amp;&#39;b str) -&gt; &amp;str; // Expanded: Output lifetime is ambiguous
+fn frob(s: &amp;str, t: &amp;str) -&gt; &amp;str; // 不正。入力が2つある
+fn frob&lt;&#39;a, &#39;b&gt;(s: &amp;&#39;a str, t: &amp;&#39;b str) -&gt; &amp;str; // 展開された形。出力ライフタイムが決まらない
+
+// fn get_mut(&amp;mut self) -&gt; &amp;mut T; // elided
+// fn get_mut&lt;&#39;a&gt;(&amp;&#39;a mut self) -&gt; &amp;&#39;a mut T; // expanded
+fn get_mut(&amp;mut self) -&gt; &amp;mut T; // 省略された形
+fn get_mut&lt;&#39;a&gt;(&amp;&#39;a mut self) -&gt; &amp;&#39;a mut T; // 展開された形
+
+// fn args&lt;T:ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // elided
+// fn args&lt;&#39;a, &#39;b, T:ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // expanded
+fn args&lt;T:ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // 省略された形
+fn args&lt;&#39;a, &#39;b, T:ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // 展開された形
+
+// fn new(buf: &amp;mut [u8]) -&gt; BufWriter; // elided
+// fn new&lt;&#39;a&gt;(buf: &amp;&#39;a mut [u8]) -&gt; BufWriter&lt;&#39;a&gt;; // expanded
+fn new(buf: &amp;mut [u8]) -&gt; BufWriter; // 省略された形
+fn new&lt;&#39;a&gt;(buf: &amp;&#39;a mut [u8]) -&gt; BufWriter&lt;&#39;a&gt;; // 展開された形
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>fn</span> <span class='ident'>print</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='ident'>str</span>); <span class='comment'>// 省略された形</span>
 <span class='kw'>fn</span> <span class='ident'>print</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>s</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>str</span>); <span class='comment'>// 展開した形</span>
