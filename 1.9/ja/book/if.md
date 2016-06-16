@@ -20,7 +20,6 @@ Rustにおける `if` の扱いは さほど複雑ではありませんが、伝
 let x = 5;
 
 if x == 5 {
-//  println!("x is five!");
     println!("x は 5 です!");
 }
 ```
@@ -38,10 +37,8 @@ if x == 5 {
 let x = 5;
 
 if x == 5 {
-//  println!("x is five!");
     println!("x は 5 です!");
 } else {
-//  println!("x is not five :(");
     println!("x は 5 ではありません :(");
 }
 ```
@@ -53,13 +50,10 @@ if x == 5 {
 let x = 5;
 
 if x == 5 {
-//  println!("x is five!");
     println!("x は 5 です!");
 } else if x == 6 {
-//  println!("x is six!");
     println!("x は 6 です!");
 } else {
-//  println!("x is not five or six :(");
     println!("x は 5 でも 6 でもありません :(");
 }
 ```
