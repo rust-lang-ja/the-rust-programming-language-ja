@@ -180,27 +180,27 @@
     <h1 class="title">はじめる</h1>
     <!-- % Getting Started -->
 
-<!-- This first section of the book will get us going with Rust and its tooling. -->
+<!-- This first chapter of the book will get us going with Rust and its tooling. -->
 
 <!-- First, we’ll install Rust. Then, the classic ‘Hello World’ program. Finally, -->
 
 <!-- we’ll talk about Cargo, Rust’s build system and package manager. -->
 
-<p>この一番最初のセクションでRustとツールの使い方をやっていきます。
+<p>この最初の章では、Rustとツールについて、はじめの一歩を踏み出します。
 最初にRustをインストールします。そしてお決まりの「Hello World」をやります。
-最後にRustのビルドシステム兼パッケージマネージャのCargoについて話します。</p>
+最後にCargoという、Rustのビルドシステム兼パッケージマネージャについて学びます。</p>
 
 <!-- # Installing Rust -->
 
 <h1 id='rustのインストール' class='section-header'><a href='#rustのインストール'>Rustのインストール</a></h1>
 <!-- The first step to using Rust is to install it. Generally speaking, you’ll need -->
 
-<!-- an Internet connection to run the commands in this chapter, as we’ll be -->
+<!-- an Internet connection to run the commands in this section, as we’ll be -->
 
 <!-- downloading Rust from the internet. -->
 
 <p>Rustを使い始める最初のステップはインストールです。
-この章のコマンドでインターネットからRustのダウンロードをするのでインターネットへの接続が必要でしょう。</p>
+このセクションでは、コマンドでインターネットからRustをダウンロードしますので、インターネットへの接続が必要です。</p>
 
 <!-- We’ll be showing off a number of commands using a terminal, and those lines all -->
 
@@ -214,7 +214,7 @@
 
 <p>コマンドを色々提示しますが、それらは全て <code>$</code> から始まります。 <code>$</code> を入力する必要はありません。
 <code>$</code> はただコマンドの先頭を示しているだけです。
-これから、Web上でも「 <code>$</code> で始まるものは一般ユーザで実行し <code>#</code> で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになります。</p>
+これから、Web上でも「 <code>$</code> で始まるものは一般ユーザで実行し <code>#</code> で始まるものは管理者権限で実行する」というルールに従ったチュートリアルや例をよく見ることになるでしょう。</p>
 
 <!-- ## Platform support -->
 
@@ -225,7 +225,8 @@
 
 <!-- into three tiers, each with a different set of guarantees. -->
 
-<p>Rustのコンパイラは等しくサポートされている訳ではありませんが様々なプラットフォーム上で動き、様々なプラットフォームへとコンパイル出来ます。
+<p>Rustのコンパイラは様々なプラットフォーム上で動き、また、他のプラットフォーム向けにもコンパイルできます。
+しかし、全てのプラットフォームが等しくサポートされているわけではありません。
 Rustのサポートレベルは3階級に分かれていて、それぞれ違う保証をします。</p>
 
 <!-- Platforms are identified by their "target triple" which is the string to inform -->
@@ -234,8 +235,9 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 
 <!-- whether the corresponding component works on the specified platform. -->
 
-<p>プラットフォームはその「ターゲットトリプル」というどの種類のアウトプットを生成すべきかをコンパイラに伝える文字列で識別されます。
-下記の表は対応するコンポーネントがそのプラットフォームで動作するかを示します。</p>
+<p>プラットフォームは「ターゲットトリプル」という文字列によって識別されます。
+これは、どの種類のアウトプットを生成すべきかをコンパイラに伝えるためのものです。
+下の表は対応するコンポーネントがそのプラットフォームで動作するかを示します。</p>
 
 <!-- ### Tier 1 -->
 
@@ -244,7 +246,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 
 <!-- Specifically they will each satisfy the following requirements: -->
 
-<p>1級のプラットフォームは「ビルド出来かつ動くことを保証する」ものとされています。
+<p>1級のプラットフォームは「ビルドでき、かつ動くことを保証する」ものとされています。
 特に以下の要求それぞれを満たします。</p>
 
 <!-- * Automated testing is set up to run tests for the platform. -->
@@ -276,6 +278,13 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 </thead>
 
 <tbody>
+<tr>
+<td><code>i686-pc-windows-msvc</code></td>
+<td>✓</td>
+<td>✓</td>
+<td>✓</td>
+<td>32-bit MSVC (Windows 7+)</td>
+</tr>
 <tr>
 <td><code>x86_64-pc-windows-msvc</code></td>
 <td>✓</td>
@@ -340,7 +349,8 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <!-- these platforms are required to have each of the following: -->
 
 <p>2級のプラットフォームは「ビルドを保証する」ものとされています。
-自動テストは走っておらず、ビルド出来たとしてもちゃんと動く保証はありませんが大抵ほぼ動きますしパッチはいつでも歓迎しています!
+自動テストは走っておらず、ビルドできたとしてもちゃんと動く保証はありません。
+しかし、大抵の場合、ほぼ動きますし、パッチはいつでも歓迎しています!
 特に、以下が要請されています。</p>
 
 <!-- * Automated building is set up, but may not be running tests. -->
@@ -356,51 +366,9 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <ul>
 <li>自動ビルドはセットアップされているがテストは走っていないかもしれない</li>
 <li><code>rust-lang/rust</code> レポジトリのmasterブランチへの変更は <strong>ビルドが</strong> 通ってからされる。
-これは標準ライブラリしかコンパイル出来ないものもあれば完全なブートストラップまで出来るものもあることを意味するということに注意してください。</li>
+これは、標準ライブラリしかコンパイルできないものもあれば、完全なブートストラップまでできるものもある、ということを意味しますので注意してください。</li>
 <li>公式のリリースがそのプラットフォーム向けに提供される</li>
 </ul>
-
-<table>
-<thead>
-<tr>
-<th>Target</th>
-<th>std</th>
-<th>rustc</th>
-<th>cargo</th>
-<th>notes</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td><code>i686-pc-windows-msvc</code></td>
-<td>✓</td>
-<td>✓</td>
-<td>✓</td>
-<td>32-bit MSVC (Windows 7+)</td>
-</tr>
-</tbody>
-</table>
-
-<!-- ### Tier 3 -->
-
-<h3 id='3級' class='section-header'><a href='#3級'>3級</a></h3>
-<!-- Tier 3 platforms are those which Rust has support for, but landing changes is -->
-
-<!-- not gated on the platform either building or passing tests. Working builds for -->
-
-<!-- these platforms may be spotty as their reliability is often defined in terms of -->
-
-<!-- community contributions. Additionally, release artifacts and installers are not -->
-
-<!-- provided, but there may be community infrastructure producing these in -->
-
-<!-- unofficial locations. -->
-
-<p>3級のプラットフォームはサポートはされているものの、テストやビルドによる変更の管理は行なっていないものたちです。
-コミュニティの貢献度で信頼性が定義されるのでビルドが通るかはまちまちです。
-さらに、リリースやインストーラは提供されません。
-しかしコミュニティが非公式な場所にリリースやインストーラを作れるインフラを持っているかもしれません。</p>
 
 <table>
 <thead>
@@ -427,20 +395,6 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <td></td>
 <td></td>
 <td>ARM Android</td>
-</tr>
-<tr>
-<td><code>i686-linux-android</code></td>
-<td>✓</td>
-<td></td>
-<td></td>
-<td>32-bit x86 Android</td>
-</tr>
-<tr>
-<td><code>aarch64-linux-android</code></td>
-<td>✓</td>
-<td></td>
-<td></td>
-<td>ARM64 Android</td>
 </tr>
 <tr>
 <td><code>arm-unknown-linux-gnueabi</code></td>
@@ -477,12 +431,82 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <td></td>
 <td>MIPS (LE) Linux (2.6.18+)</td>
 </tr>
+</tbody>
+</table>
+
+<!-- ### Tier 3 -->
+
+<h3 id='3級' class='section-header'><a href='#3級'>3級</a></h3>
+<!-- Tier 3 platforms are those which Rust has support for, but landing changes is -->
+
+<!-- not gated on the platform either building or passing tests. Working builds for -->
+
+<!-- these platforms may be spotty as their reliability is often defined in terms of -->
+
+<!-- community contributions. Additionally, release artifacts and installers are not -->
+
+<!-- provided, but there may be community infrastructure producing these in -->
+
+<!-- unofficial locations. -->
+
+<p>3級のプラットフォームはサポートはされているものの、テストやビルドによる変更の管理は行なっていないものたちです。
+コミュニティの貢献度で信頼性が定まるので、ビルドが通るかはまちまちです。
+さらに、リリースやインストーラは提供されません。
+しかしコミュニティが、非公式な場所にリリースやインストーラを作るためのインフラを持っているかもしれません。</p>
+
+<table>
+<thead>
+<tr>
+<th>Target</th>
+<th>std</th>
+<th>rustc</th>
+<th>cargo</th>
+<th>notes</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>i686-linux-android</code></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>32-bit x86 Android</td>
+</tr>
+<tr>
+<td><code>aarch64-linux-android</code></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>ARM64 Android</td>
+</tr>
 <tr>
 <td><code>powerpc-unknown-linux-gnu</code></td>
 <td>✓</td>
 <td></td>
 <td></td>
 <td>PowerPC Linux (2.6.18+)</td>
+</tr>
+<tr>
+<td><code>powerpc64-unknown-linux-gnu</code></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>PPC64 Linux (2.6.18+)</td>
+</tr>
+<tr>
+<td><code>powerpc64le-unknown-linux-gnu</code></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>PPC64LE Linux (2.6.18+)</td>
+</tr>
+<tr>
+<td><code>armv7-unknown-linux-gnueabihf</code></td>
+<td>✓</td>
+<td></td>
+<td></td>
+<td>ARMv7 Linux (2.6.18+)</td>
 </tr>
 <tr>
 <td><code>i386-apple-ios</code></td>
@@ -523,14 +547,14 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <td><code>i686-unknown-freebsd</code></td>
 <td>✓</td>
 <td>✓</td>
-<td></td>
+<td>✓</td>
 <td>32-bit FreeBSD</td>
 </tr>
 <tr>
 <td><code>x86_64-unknown-freebsd</code></td>
 <td>✓</td>
 <td>✓</td>
-<td></td>
+<td>✓</td>
 <td>64-bit FreeBSD</td>
 </tr>
 <tr>
@@ -569,6 +593,13 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <td>64-bit NetBSD Rump Kernel</td>
 </tr>
 <tr>
+<td><code>x86_64-sun-solaris</code></td>
+<td>✓</td>
+<td>✓</td>
+<td></td>
+<td>64-bit Solaris/SunOS</td>
+</tr>
+<tr>
 <td><code>i686-pc-windows-msvc</code> (XP)</td>
 <td>✓</td>
 <td></td>
@@ -589,7 +620,7 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 
 <!-- tier 3 platforms that will ever be! -->
 
-<p>このテーブルは時間と共に拡張されるかもしれないことに注意して下さい。
+<p>この表は時間と共に拡張されるかもしれないことに注意してください。
 これから存在する全ての3級のプラットフォームは網羅していないのです!</p>
 
 <!-- ## Installing on Linux or Mac -->
@@ -597,70 +628,43 @@ Rustのサポートレベルは3階級に分かれていて、それぞれ違う
 <h2 id='linuxまたはmacでのインストール' class='section-header'><a href='#linuxまたはmacでのインストール'>LinuxまたはMacでのインストール</a></h2>
 <!-- If we're on Linux or a Mac, all we need to do is open a terminal and type this: -->
 
-<p>LinuxかMacを使っているなら以下を入力するだけです</p>
+<p>LinuxかMacを使っているなら、ターミナルを開いて、以下のように入力するだけで済みます。</p>
 
 <pre><code class="language-bash">$ curl -sSf https://static.rust-lang.org/rustup.sh | sh
 </code></pre>
 
-<!-- This will download a script, and stat the installation. If it all goes well, -->
+<!-- This will download a script, and start the installation. If it all goes well, -->
 
 <!-- you’ll see this appear: -->
 
 <p>このコマンドでスクリプトをダウンロードしインストールを始めます。
-全て上手くいったら以下が表示される筈です。</p>
+全てが上手くいったら、以下のように表示されるはずです。</p>
 
-<pre><code class="language-text">Welcome to Rust.
-
-This script will download the Rust compiler and its package manager, Cargo, and
-install them to /usr/local. You may install elsewhere by running this script
-with the --prefix=&lt;path&gt; option.
-
-The installer will run under ‘sudo’ and may ask you for your password. If you do
-not want the script to run ‘sudo’ then pass it the --disable-sudo flag.
-
-You may uninstall later by running /usr/local/lib/rustlib/uninstall.sh,
-or by running this script again with the --uninstall flag.
-
-Continue? (y/N) 
+<pre><code class="language-text">Rust is ready to roll.
 </code></pre>
 
 <blockquote>
 <p>訳注:</p>
 
-<pre><code class="language-text">Rustへようこそ。
-
-このスクリプトはRustコンパイラとそのパッケージマネージャCargoをダウンロードし、/usr/local
-へとインストールします。--prefix=&lt;path&gt; オプションを使うことで他の場所へインストール
-出来ます。
-
-インストーラは「sudo」下で走るのでパスワードを尋きます。もし&#39;sudo&#39;を使ってほしくないなら
---disable-sudo フラグを渡します。
-
-You may uninstall later by running /usr/local/lib/rustlib/uninstall.sh,
-or by running this script again with the --uninstall flag.
-
-/usr/local/lib/rustlib/uninstall.shを実行するかこのスクリプトに--uninstallフラグを
-付けて実行することで後程アンインストール出来ます。
-
-続けますか? (y/N) 
+<pre><code class="language-text">Rustを使う準備ができました。
 </code></pre>
 </blockquote>
 
 <!-- From here, press `y` for ‘yes’, and then follow the rest of the prompts. -->
 
-<p>ここで「はい」の意味で <code>y</code> を押しましょう。そして以後のプロンプトに従って下さい。</p>
+<p>ここで「はい」の意味で <code>y</code> を押しましょう。そして以後の画面の指示に従ってください。</p>
 
 <!-- ## Installing on Windows -->
 
 <h2 id='windowsでのインストール' class='section-header'><a href='#windowsでのインストール'>Windowsでのインストール</a></h2>
 <!-- If you're on Windows, please download the appropriate [installer][install-page]. -->
 
-<p>Windowsを使っているなら適切な<a href="https://www.rust-lang.org/install.html">インストーラ</a>をダウンロードして下さい。</p>
+<p>Windowsを使っているなら適切な<a href="https://www.rust-lang.org/install.html">インストーラ</a>をダウンロードしてください。</p>
 
 <!-- ## Uninstalling -->
 
 <h2 id='アンインストール' class='section-header'><a href='#アンインストール'>アンインストール</a></h2>
-<!-- Uninstalling Rust is as easy as installing it. On Linux or Mac, just run -->
+<!-- Uninstalling Rust is as easy as installing it. On Linux or Mac, run -->
 
 <!-- the uninstall script: -->
 
@@ -674,21 +678,21 @@ LinuxかMacならアンインストールスクリプトを使うだけです。
 
 <!-- an uninstall option. -->
 
-<p>Windowsのインストーラを使ったなら <code>.msi</code> をもう一度実行すればアンインストールのオプションが出てきます。</p>
+<p>Windowsのインストーラを使ったなら <code>.msi</code> をもう一度実行すれば、アンインストールのオプションが出てきます。</p>
 
 <!-- ## Troubleshooting -->
 
 <h2 id='トラブルシューティング' class='section-header'><a href='#トラブルシューティング'>トラブルシューティング</a></h2>
 <!-- If we've got Rust installed, we can open up a shell, and type this: -->
 
-<p>既にRustをインストールしているならシェルを開いて以下を打ちましょう。</p>
+<p>既にRustをインストールしているなら、シェルを開いて以下を打ちましょう。</p>
 
 <pre><code class="language-bash">$ rustc --version
 </code></pre>
 
 <!-- You should see the version number, commit hash, and commit date. -->
 
-<p>バージョン番号、コミットハッシュ、そしてコミット日時が表示される筈です。</p>
+<p>バージョン番号、コミットハッシュ、そしてコミット日時が表示されるはずです。</p>
 
 <!-- If you do, Rust has been installed successfully! Congrats! -->
 
@@ -702,27 +706,45 @@ LinuxかMacならアンインストールスクリプトを使うだけです。
 
 <!-- the local hard drive. -->
 
-<p>Windowsを使っていて、表示されないなら%PATH%システム変数にRustが入っているか確認して下さい。
-入っていなければもう一度インストーラを実行し、「Change,
-repair, or remove installation」ページの「Change」を選択し、「Add to PATH」がローカルのハードドライブにインストールされていることを確認して下さい。</p>
+<p>Windowsを使っていて、表示されないなら、%PATH%システム変数にRustが入っているか確認してください。
+入っていなければもう一度インストーラを実行し、「Change, repair, or remove installation」ページの「Change」を選択し、「Add to PATH」が、ローカルのハードドライブにインストールされていることを確認してください。</p>
+
+<!-- Rust does not do its own linking, and so you’ll need to have a linker -->
+
+<!-- installed. Doing so will depend on your specific system, consult its -->
+
+<!-- documentation for more details. -->
+
+<p>Rustにはプログラムをリンクする機能がありませんので、別途、リンカもインストールしないといけないでしょう。
+インストール方法は、お使いのシステムによって異なります。
+詳細については、そのシステムのドキュメントを参照してください。</p>
 
 <!-- If not, there are a number of places where we can get help. The easiest is -->
 
-<!-- [the #rust IRC channel on irc.mozilla.org][irc], which we can access through -->
+<!-- [the #rust-beginners IRC channel on irc.mozilla.org][irc-beginners] and for -->
 
-<!-- [Mibbit][mibbit]. Click that link, and we'll be chatting with other Rustaceans -->
+<!-- general discussion [the #rust IRC channel on irc.mozilla.org][irc], which we -->
 
-<!-- (a silly nickname we call ourselves) who can help us out. Other great resources -->
+<!-- can access through [Mibbit][mibbit]. Then we'll be chatting with other -->
 
-<!-- include [the user’s forum][users], and [Stack Overflow][stackoverflow]. -->
+<!-- Rustaceans (a silly nickname we call ourselves) who can help us out. Other great -->
 
-<p>もし上手くいかないなら様々な場所で助けを得られます。
-最も簡単なのは<a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust">Mibbit</a>からアクセス出来る<a href="irc://irc.mozilla.org/#rust">irc.mozilla.orgにある#rustチャネル</a>です。
-リンクをクリックしたら他の助けを求められるRustacean達(我々のことをふざけてこう呼ぶのです)とチャット出来ます。
-他には<a href="https://users.rust-lang.org/">ユーザフォーラム</a>や<a href="http://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>などがあります。</p>
+<!-- resources include [the user’s forum][users] and [Stack Overflow][stackoverflow]. -->
+
+<p>もし上手くいかないなら、様々な場所で助けを得られます。
+最も簡単なのは、<a href="irc://irc.mozilla.org/#rust-beginners">irc.mozilla.orgの#rust-beginnersチャネル</a>ですし、一般的な話題なら、<a href="irc://irc.mozilla.org/#rust">irc.mozilla.orgの#rustチャネル</a>もあります。
+どちらも<a href="http://chat.mibbit.com/?server=irc.mozilla.org&amp;channel=%23rust-beginners,%23rust">Mibbit</a>からアクセスできます。
+リンクをクリックしたらRustacean達(我々のことをふざけてこう呼ぶのです)につながりますので、チャット通して助けてもらえるでしょう。
+他には、<a href="https://users.rust-lang.org/">ユーザフォーラム</a>や<a href="http://stackoverflow.com/questions/tagged/rust">Stack Overflow</a>などがあります。</p>
 
 <blockquote>
-<p>訳注: TODO:日本語で会話出来るリソースを探す</p>
+<p>訳注: Rustについて、日本語で会話したり、質問したりできる場所もあります。</p>
+
+<ul>
+<li>Slackの<a href="https://rust-jp.slack.com/">rust-jpチーム</a>（<a href="http://rust-jp.herokuapp.com/">参加登録はこちら</a>）</li>
+<li><a href="https://teratail.com/tags/Rust">teratail / テラテイル</a></li>
+<li><a href="https://ja.stackoverflow.com/questions/tagged/rust">Stack Overflow ja / スタック・オーバーフロー</a></li>
+</ul>
 </blockquote>
 
 <!-- This installer also installs a copy of the documentation locally, so we can -->
@@ -746,7 +768,7 @@ WindowsではRustをインストールした所の <code>share/doc</code> ディ
 
 <!-- print the text “Hello, world!” to the screen, and in this section, we'll follow -->
 
-<!-- that tradition.  -->
+<!-- that tradition. -->
 
 <p>Rustをインストールしたので最初のRustのプログラムを書いていきましょう。
 新しい言語を学ぶ時に「Hello, world!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。</p>
@@ -755,12 +777,12 @@ WindowsではRustをインストールした所の <code>share/doc</code> ディ
 
 <!-- quickly verify that your compiler is installed, and that it's working properly. -->
 
-<!-- Printing information to the screen is also just a pretty common thing to do, so -->
+<!-- Printing information to the screen is also a pretty common thing to do, so -->
 
 <!-- practicing it early on is good. -->
 
-<p>このように小さなプログラムから始める利点はコンパイラがインストールされていて、正しく動くことを素早く確認出来ることです。
-情報をスクリーンに表示することも非常によくやることなので早い内に練習しておくのが良いです。</p>
+<p>このように小さなプログラムから始める利点は、コンパイラがインストールされていて、正しく動くことを素早く確認できることです。
+情報をスクリーンに表示することも非常によくやるので、早い内に練習しておくのが良いです。</p>
 
 <!-- &gt; Note: This book assumes basic familiarity with the command line. Rust itself -->
 
@@ -776,14 +798,14 @@ WindowsではRustをインストールした所の <code>share/doc</code> ディ
 
 <!-- &gt; IDE is out of the scope of this tutorial, so check the documentation for your -->
 
-<!-- &gt; specific setup.  -->
+<!-- &gt; specific setup. -->
 
 <blockquote>
 <p>留意: 本書はコマンドラインをある程度使えることを仮定しています。Rust本体はコードの編集やツール群、
-コードの置き場には特に要求を設けませんのでコマンドラインよりIDEを好むならそうしても構いません。
+コードの置き場には特に要求を設けませんので、コマンドラインよりIDEを好むならそうしても構いません。
 Rustを念頭に置いて作られたIDE、<a href="https://github.com/oakes/SolidOak">SolidOak</a>を試してみるといいかもしれません。
-コミュニティにより多数の拡張が開発されていますし、Rustチームも<a href="https://github.com/rust-lang/rust/blob/master/src/etc/CONFIGS.md">様々なエディタ</a>向けにプラグインを用意しています。
-このチュートリアルではエディタやIDEの設定は扱いませんのでそれぞれに合ったドキュメントを参照して下さい。</p>
+コミュニティにより多数のエクステンション（機能拡張）が開発されていますし、Rustチームも<a href="https://github.com/rust-lang/rust/blob/master/src/etc/CONFIGS.md">様々なエディタ</a>向けにプラグインを用意しています。
+このチュートリアルではエディタやIDEの設定は扱いませんので、それぞれに合ったドキュメントを参照してください。</p>
 </blockquote>
 
 <!-- ## Creating a Project File -->
@@ -798,9 +820,9 @@ Rustを念頭に置いて作られたIDE、<a href="https://github.com/oakes/Sol
 <!-- following commands to make a directory for this particular project: -->
 
 <p>まず、Rustのコードを書くファイルを用意します。
-Rustはコードがどこにあるかは気にしませんが本書を進めるにあたってホームディレクトリ下に
-<em>projects</em> ディレクトリを作って全てのプロジェクトをそのディレクトリ下に入れることをお勧めます。
-ターミナルを開いて以下のコマンドで今回のプロジェクトのディレクトリを作りましょう。</p>
+Rustはコードがどこにあるかは気にしませんが、本書を進めるにあたってホームディレクトリ直下に
+<em>projects</em> ディレクトリを作って、全てのプロジェクトをそのディレクトリ下に入れることをお勧めます。
+ターミナルを開いて以下のコマンドを入力し、今回のプロジェクトのディレクトリを作りましょう。</p>
 
 <pre><code class="language-bash">$ mkdir ~/projects
 $ cd ~/projects
@@ -813,8 +835,8 @@ $ cd hello_world
 <!-- &gt; Consult the documentation for your shell for more details. -->
 
 <blockquote>
-<p>留意: WindowsでかつPowerShellを使っていないのなら  <code>~</code> は上手く動かないかもしれません。
-使っているシェルのドキュメントをあたってみて下さい。</p>
+<p>留意: WindowsでかつPowerShellを使っていないのなら <code>~</code> は上手く動かないかもしれません。
+使っているシェルのドキュメントをあたってみてください。</p>
 </blockquote>
 
 <!-- ## Writing and Running a Rust Program -->
@@ -834,7 +856,7 @@ Rustのファイルは常に <em>.rs</em> 拡張子で終わります。ファ�
 
 <!-- Now open the *main.rs* file you just created, and type the following code: -->
 
-<p>それでは作った <em>main.rs</em> を開いて以下のコードを打ちましょう。</p>
+<p>それでは、いま作った <em>main.rs</em> を開いて、以下のコードを打ちましょう。</p>
 
 <span class='rusttest'>fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -855,25 +877,25 @@ $ ./main
 Hello, world!
 </code></pre>
 
-<!-- In Windows, just replace `main` with `main.exe`. Regardless of your operating -->
+<!-- In Windows, replace `main` with `main.exe`. Regardless of your operating -->
 
 <!-- system, you should see the string `Hello, world!` print to the terminal. If you -->
 
 <!-- did, then congratulations! You've officially written a Rust program. That makes -->
 
-<!-- you a Rust programmer! Welcome.  -->
+<!-- you a Rust programmer! Welcome. -->
 
-<p>Windowsでは <code>main</code> を <code>main.exe</code> と読み替えて下さい。使っているOSに関わらず、 <code>Hello, world!</code> の文字列がターミナルに印字されるのを目にする筈です。
+<p>Windowsでは <code>main</code> を <code>main.exe</code> と読み替えてください。使っているOSに関わらず、 <code>Hello, world!</code> の文字列がターミナルに印字されるのを目にするはずです。
 目にしたなら、おめでとうございます！あなたは正式にRustのプログラムを記述しました。これであなたもRustプログラマです！ようこそ。</p>
 
 <!-- ## Anatomy of a Rust Program -->
 
-<h2 id='rustプログラムの解剖' class='section-header'><a href='#rustプログラムの解剖'>Rustプログラムの解剖</a></h2>
+<h2 id='rustプログラムの構造' class='section-header'><a href='#rustプログラムの構造'>Rustプログラムの構造</a></h2>
 <!-- Now, let’s go over what just happened in your "Hello, world!" program in -->
 
 <!-- detail. Here's the first piece of the puzzle: -->
 
-<p>さて、「Hello, world!」プログラムで何が起きていたのがつぶさに見ていきましょう。
+<p>さて、「Hello, world!」プログラムで何が起きていたのか、詳しく見ていきましょう。
 パズルの最初のピースがこれです。</p>
 
 <span class='rusttest'>fn main() {
@@ -896,9 +918,10 @@ Hello, world!
 
 <!-- entirely. -->
 
-<p>これらの行はRustの <em>関数</em> を定義します。 <code>main</code> 関数は特別です。全てのRustプログラムの開始点になります。
+<p>これらの行はRustの <em>関数</em> を定義します。
+<code>main</code> 関数は特別で、全てのRustプログラムの開始点になります。
 最初の行は「引数を取らず、返り値も返さない関数 <code>main</code> を宣言します」といっています。
-引数があれば、括弧(<code>(</code> と <code>)</code>)の中に入りますし、今回はこの関数から何も値を返さないので返り値の型を完全に省略出来ます。</p>
+引数があれば、括弧(<code>(</code> と <code>)</code>)の中に入りますし、今回はこの関数から何も値を返さないので、返り値の型を完全に省略できます。</p>
 
 <!-- Also note that the function body is wrapped in curly braces (`{` and `}`). Rust -->
 
@@ -908,9 +931,9 @@ Hello, world!
 
 <!-- space in between. -->
 
-<p>さらに、関数の本体部が波括弧(<code>{</code> と <code>}</code>)で括られていることに留意して下さい。
-Rustは全ての関数の本体部に波括弧を要請します。
-関数宣言と同じ行に1スペース空けて開き波括弧を置くのが良いスタイルとされます。</p>
+<p>さらに、関数の本体部が波括弧(<code>{</code> と <code>}</code>)で括られていることに留意してください。
+Rustは全ての関数の本体部に波括弧を要求します。
+関数宣言と同じ行にスペースを1つ空けて開き波括弧を置くのが、良いスタイルとされます。</p>
 
 <!-- Inside the `main()` function: -->
 
@@ -936,15 +959,15 @@ Rustは全ての関数の本体部に波括弧を要請します。
 
 <!-- function instead, it would look like this: `println()` (without the !). We'll -->
 
-<!-- discuss Rust macros in more detail later, but for now you just need to -->
+<!-- discuss Rust macros in more detail later, but for now you only need to -->
 
 <!-- know that when you see a `!` that means that you’re calling a macro instead of -->
 
-<!-- a normal function.  -->
+<!-- a normal function. -->
 
 <p>2つ目の重要な部分は <code>println!()</code> の行です。これはRustのメタプログラミング機構、 <em><a href="macros.html">マクロ</a></em> の呼び出しです。
 もし関数を呼び出しているのなら、 <code>println()</code> のようになります(! がありません)。
-Rustのマクロについては後程詳細に議論しますが、今のところ <code>!</code> を見たら普通の関数ではなくマクロを呼び出していることを意味するということだけ知っておいて下さい。</p>
+Rustのマクロについては、後の章で詳細に議論しますが、今のところ <code>!</code> を見たら、普通の関数ではなくマクロを呼び出していることを意味する、ということだけ知っておいてください。</p>
 
 <!-- Next is `"Hello, world!"` which is a *string*. Strings are a surprisingly -->
 
@@ -958,16 +981,16 @@ Rustのマクロについては後程詳細に議論しますが、今のとこ�
 システムプログラミング言語では文字列は驚くほど複雑なトピックで、これは <em><a href="the-stack-and-the-heap.html">静的に確保された</a></em> 文字列です。
 文字列をスクリーンに印字してくれる <code>println!</code> にこれを引数として渡します。簡単ですね！</p>
 
-<!-- The line ends with a semicolon (`;`). Rust is an *[expression oriented]* -->
+<!-- The line ends with a semicolon (`;`). Rust is an *[expression-oriented -->
 
-<!-- language, which means that most things are expressions, rather than statements. -->
+<!-- language]*, which means that most things are expressions, rather than -->
 
-<!-- The `;` indicates that this expression is over, and the next one is ready to -->
+<!-- statements. The `;` indicates that this expression is over, and the next one is -->
 
-<!-- begin. Most lines of Rust code end with a `;`. -->
+<!-- ready to begin. Most lines of Rust code end with a `;`. -->
 
-<p>件の行はセミコロン(<code>;</code>)で終わります。Rustは <em><a href="glossary.html#%E5%BC%8F%E6%8C%87%E5%90%91%E8%A8%80%E8%AA%9E">式指向言語</a></em> で、ほとんどのものは文ではなく式になります。
-<code>;</code> は式が終わり、次の式が始まることを示します。Rustのコードのほとんどの行は <code>;</code> で終わります。</p>
+<p>行はセミコロン(<code>;</code>)で終わります。Rustは <em><a href="glossary.html#%E5%BC%8F%E6%8C%87%E5%90%91%E8%A8%80%E8%AA%9E">式指向言語</a></em> で、ほとんどのものは文ではなく式になります。
+<code>;</code> は式が終わり、次の式が始まることを示します。Rustのコードの大半の行は <code>;</code> で終わります。</p>
 
 <!-- [expression-oriented language]: glossary.html#expression-oriented-language -->
 
@@ -976,7 +999,7 @@ Rustのマクロについては後程詳細に議論しますが、今のとこ�
 <h2 id='コンパイルと実行は別の手順' class='section-header'><a href='#コンパイルと実行は別の手順'>コンパイルと実行は別の手順</a></h2>
 <!-- In "Writing and Running a Rust Program", we showed you how to run a newly -->
 
-<!-- created program. We'll break that process down and examine each step now.  -->
+<!-- created program. We'll break that process down and examine each step now. -->
 
 <p>「Rustのプログラムを書いて走らせる」で、新しく作ったプログラムをどうやって実行するか示しました。
 それぞれを分解して手順毎に見ていきましょう。</p>
@@ -988,7 +1011,7 @@ Rustのマクロについては後程詳細に議論しますが、今のとこ�
 <!-- file, like this: -->
 
 <p>Rustのプログラムを走らせる前に、コンパイルする必要があります。
-Rustのコンパイラはこのように <code>rustc</code> と入力してソースファイルの名前を渡してあげることで使えます。</p>
+Rustのコンパイラはこのように <code>rustc</code> と入力して、ソースファイルの名前を渡してあげることで使えます。</p>
 
 <pre><code class="language-bash">$ rustc main.rs
 </code></pre>
@@ -1002,8 +1025,8 @@ Rustのコンパイラはこのように <code>rustc</code> と入力してソ�
 <!-- your shell as follows: -->
 
 <p>CまたはC++のバックグラウンドを持つならこれが <code>gcc</code> や <code>clang</code> に似ていことに気付くでしょう。
-コンパイルが成功したら、Rustは実行可能バイナリを吐いている筈です。
-LinuxかOSXなら以下のように <code>ls</code> コマンドで確認出来ます。</p>
+コンパイルが成功したら、Rustは実行可能バイナリを出力したはずです。
+LinuxかOSXなら以下のように <code>ls</code> コマンドで確認できます。</p>
 
 <pre><code class="language-bash">$ ls
 main  main.rs
@@ -1024,7 +1047,7 @@ main.exe  main.rs
 <!-- do from here is run the `main` or `main.exe` file, like this: -->
 
 <p>2つのファイルがあるといっています。 <code>.rs</code> 拡張子を持ったソースコードと実行可能ファイル(Windowsでは <code>main.exe</code> 、それ以外では <code>main</code> )。
-ここからあとは <code>main</code> または <code>main.exe</code> のファイルをこのように実行するだけです。</p>
+あとは <code>main</code> または <code>main.exe</code> ファイルを、このように実行するだけです。</p>
 
 <pre><code class="language-bash">$ ./main  # あるいはWindowsならmain.exe
 </code></pre>
@@ -1051,9 +1074,9 @@ main.exe  main.rs
 
 <!-- is a tradeoff in language design. -->
 
-<p>もしRubyやPython、JavaScriptなどの動的な言語から来たのならコンパイルと実行が別の手順になっていることに馴れないでしょう。
-Rustは、プログラムをコンパイルして、それを別の誰かに渡したら、Rustがなくても動く、 <em>事前コンパイル</em> 言語です。
-他方別の誰かに <code>.rb</code> や <code>.py</code> 、 <code>.js</code> を渡したら(それぞれ)Ruby、PythonあるいはJavaScriptの実装が必要になりますが、コンパイルにも実行にも1つのコマンドで事足ります。
+<p>もしRubyやPython、JavaScriptなどの動的な言語から来たのなら、コンパイルと実行が別の手順になっていることに馴れないかもしれません。
+Rustは、プログラムをコンパイルして、それを別の誰かに渡したら、Rustがなくても動く <em>事前コンパイル</em> 言語です。
+それと対照的に、別の誰かに <code>.rb</code> や <code>.py</code> 、 <code>.js</code> を渡したら(それぞれ)Ruby、PythonあるいはJavaScriptの実装が必要になりますが、コンパイルにも実行にも1つのコマンドで事足ります。
 全ては言語設計上のトレードオフです。</p>
 
 <!-- Just compiling with `rustc` is fine for simple programs, but as your project -->
@@ -1066,8 +1089,8 @@ Rustは、プログラムをコンパイルして、それを別の誰かに渡�
 
 <!-- programs. -->
 
-<p>単純なプログラムなら単に <code>rustc</code> でコンパイルすれば十分ですがプロジェクトが大きくなるにつれてプロジェクトの全てのオプションを管理したり他の人やプロジェクトと容易に共有出来るようにしたくなるでしょう。
-次は現実世界のRustプログラムを書く手助けになるCargoというツールを紹介します。</p>
+<p>単純なプログラムなら単に <code>rustc</code> でコンパイルすれば十分ですが、プロジェクトが大きくなるにつれて、プロジェクトの全てのオプションを管理したり、他の人やプロジェクトと容易に共有できるようにしたくなるでしょう。
+次は現実世界のRustプログラムを書く手助けになる、Cargoというツールを紹介します。</p>
 
 <!-- # Hello, Cargo! -->
 
@@ -1082,9 +1105,10 @@ Rustは、プログラムをコンパイルして、それを別の誰かに渡�
 
 <!-- them. -->
 
-<p>CargoはRustのビルドシステムであり、パッケージマネージャでありRustaceanはCargoをRustプロジェクトの管理にも使います。
-Cargoは3つのものを管理します、則ち、コードのビルド、コードが依存するライブラリのダウンロード、そしてそれらのライブラリのビルド。
-それに依存するのでコードが必要とするライブラリを「依存」と呼びます。</p>
+<p>CargoはRustのビルドシステムであり、パッケージマネージャであり、RustaceanはCargoをRustプロジェクトの管理にも使います。
+Cargoは3つのものを管理します。それは、コードのビルド、コードが依存するライブラリのダウンロード、それらのライブラリのビルドです。
+あなたのコードが必要とするライブラリを、「依存(dependencies)」と呼びます。
+なぜならコードがそれに依存しているからです。</p>
 
 <!-- The simplest Rust programs don’t have any dependencies, so right now, you'd -->
 
@@ -1094,8 +1118,8 @@ Cargoは3つのものを管理します、則ち、コードのビルド、コ�
 
 <!-- that will be a lot easier to do. -->
 
-<p>最も簡単なRustのプログラムは依存を持たないのでここではCargoの1つめの機能だけを使います。
-もっと複雑なRustのコードを書くにつれて、依存を追加したくなるでしょうが、Cargoを使えばそれがとても簡単に出来ます。</p>
+<p>最も簡単なRustのプログラムは依存を持たないので、ここではCargoの1つ目の機能だけを使います。
+もっと複雑なRustのコードを書くにつれて、依存を追加したくなるでしょうが、Cargoを使えばそれがとても簡単にできます。</p>
 
 <!-- As the vast, vast majority of Rust projects use Cargo, we will assume that -->
 
@@ -1105,9 +1129,9 @@ Cargoは3つのものを管理します、則ち、コードのビルド、コ�
 
 <!-- other means, you can check if you have Cargo installed by typing: -->
 
-<p>ほとんどのRustのプロジェクトがCargoを使うのでこれ以後はCargoを使うものと仮定します。
-公式のインストーラを使ったならCargoはRustに同梱されています。
-他の手段でRustをインストールしたなら、以下のコマンドでCargoがインストールされているか確認出来ます。</p>
+<p>ほとんどのRustのプロジェクトがCargoを使うので、本書でもこれ以降はCargoを使うことを前提とします。
+公式のインストーラを使ったなら、CargoはRustに同梱されています。
+他の手段でRustをインストールしたなら、ターミナルで以下のコマンドを打てば、Cargoがインストールされているか確認できます。</p>
 
 <pre><code class="language-bash">$ cargo --version
 </code></pre>
@@ -1118,17 +1142,17 @@ Cargoは3つのものを管理します、則ち、コードのビルド、コ�
 
 <!-- in which you installed Rust, to determine if Cargo is separate. -->
 
-<p>バージョン番号を確認出来たなら、良かった！「 <code>コマンドが見つかりません</code> 」などのエラーが出たなら
-Rustをインストールしたシステムのドキュメントを見て、Cargoが別になっているか判断しましょう。</p>
+<p>バージョン番号が表示されれば大丈夫です。
+もし「 <code>コマンドが見つかりません</code> 」などのエラーが出たなら、Rustをインストールしたシステムのドキュメントを見て、Cargoが別になっているか調べましょう。</p>
 
 <!-- ## Converting to Cargo -->
 
 <h2 id='cargoへ変換する' class='section-header'><a href='#cargoへ変換する'>Cargoへ変換する</a></h2>
 <!-- Let’s convert the Hello World program to Cargo. To Cargo-fy a project, you need -->
 
-<!-- to do three things:  -->
+<!-- to do three things: -->
 
-<p>Hello WorldプログラムをCargoに変換しましょう。
+<p>それでは、Hello WorldプログラムをCargoに変換しましょう。
 プロジェクトをCargo化するには3つのことをする必要があります。</p>
 
 <!-- 1. Put your source file in the right directory. -->
@@ -1141,7 +1165,7 @@ Rustをインストールしたシステムのドキュメントを見て、Carg
 
 <ol>
 <li>ソースファイルを正しいディレクトリに置く</li>
-<li>古い実行可能ファイル(Windowsなら <code>main.exe</code> 、他では <code>main</code>)を消し、新しいものを作る</li>
+<li>古い実行可能ファイル(Windowsなら <code>main.exe</code> 、他では <code>main</code>)を削除し、新しいものを作る</li>
 <li>Cargoの設定ファイルを作る</li>
 </ol>
 
@@ -1156,7 +1180,7 @@ Rustをインストールしたシステムのドキュメントを見て、Carg
 
 <!-- enter the following commands: -->
 
-<p>まず、ターミナルに戻って、 <em>hello_world</em> ディレクトリに行き、次のコマンドを打ちます。</p>
+<p>まずターミナルに戻って、 <em>hello_world</em> ディレクトリに移動し、次のコマンドを打ちます。</p>
 
 <pre><code class="language-bash">$ mkdir src
 $ mv main.rs src/main.rs
@@ -1171,21 +1195,21 @@ $ rm main  # Windowsなら&#39;del main.exe&#39;になります
 
 <!-- to your code. In this way, using Cargo helps you keep your projects nice and -->
 
-<!-- tidy. There's a place for everything, and everything is in its place.  -->
+<!-- tidy. There's a place for everything, and everything is in its place. -->
 
-<p>Cargoはソースファイルが <em>src</em> ディレクトリにあるものとして動くので、まずそうしましょう。
-READMEやライセンス情報、他のコードに関係ないものはプロジェクト(このケースでは <em>hello_world</em>)直下に残したままになります。
-こうすることでCargoを使えばプロジェクトを綺麗に整頓された状態を保てます。
+<p>Cargoはソースファイルが <em>src</em> ディレクトリにあることを期待しているので、まずそうしましょう。
+READMEやライセンス情報、他のコードに関係ないものは、プロジェクト(このケースでは <em>hello_world</em>)直下に残したままになります。
+このように、Cargoを使うことで、プロジェクトを綺麗に整頓された状態を保てます。
 すべてのものには場所があり、すべてが自身の場所に収まります。</p>
 
-<!-- Now, copy *main.rs* to the *src* directory, and delete the compiled file you -->
+<!-- Now, move *main.rs* into the *src* directory, and delete the compiled file you -->
 
 <!-- created with `rustc`. As usual, replace `main` with `main.exe` if you're on -->
 
 <!-- Windows. -->
 
-<p>では、 <em>main.rs</em> を <em>src</em> ディレクトリにコピーして、 <code>rustc</code> でコンパイルして作ったファイルを削除します。
-これまで通り、Windowsなら <code>main</code> を <code>main.exe</code> に読み替えて下さい。</p>
+<p>では <em>main.rs</em> を <em>src</em> ディレクトリへ移動して、また <code>rustc</code> でコンパイルして作ったファイルを削除します。
+これまで通り、Windowsなら <code>main</code> を <code>main.exe</code> に読み替えてください。</p>
 
 <!-- This example retains `main.rs` as the source filename because it's creating an -->
 
@@ -1193,11 +1217,11 @@ READMEやライセンス情報、他のコードに関係ないものはプロ�
 
 <!-- `lib.rs`. This convention is used by Cargo to successfully compile your -->
 
-<!-- projects, but it can be overridden if you wish.  -->
+<!-- projects, but it can be overridden if you wish. -->
 
-<p>今回の例では実行可能ファイルを作るので <code>main.rs</code> の名前を引き続き使います。
-もしライブラリを作りたいなら <code>lib.rs</code> という名前にすることになります。
-この規約はCargoでプロジェクトを正しくコンパイルするのに使われていますが、望むなら上書きすることも出来ます。</p>
+<p>今回の例では実行可能ファイルを作るので、 <code>main.rs</code> の名前を引き続き使います。
+もしライブラリを作りたいなら、 <code>lib.rs</code> という名前にすることになります。
+この規約はCargoでプロジェクトを正しくコンパイルするのに使われていますが、必要なら変更できます。</p>
 
 <!-- ### Creating a Configuration File -->
 
@@ -1206,13 +1230,14 @@ READMEやライセンス情報、他のコードに関係ないものはプロ�
 
 <!-- `Cargo.toml`. -->
 
-<p>次に、 <em>hello_world</em> ディレクトリ下にファイルを作ります。それを <code>Cargo.toml</code> とします。</p>
+<p>次に <em>hello_world</em> ディレクトリ下にファイルを作ります。それを <code>Cargo.toml</code> とします。</p>
 
 <!-- Make sure to capitalize the `C` in `Cargo.toml`, or Cargo won't know what to do -->
 
-<!-- with the configuration file.  -->
+<!-- with the configuration file. -->
 
-<p>ちゃんと <code>Cargo.toml</code> の <code>C</code> が大文字になっていることを確認しましょう、そうしないとCargoが設定ファイルと認識出来なくなります。</p>
+<p>ここで <code>Cargo.toml</code> の <code>C</code> が大文字になっていることを確認しましょう。
+そうしないとCargoが設定ファイルだと認識してくれません。</p>
 
 <!-- This file is in the *[TOML]* (Tom's Obvious, Minimal Language) format. TOML is -->
 
@@ -1221,7 +1246,7 @@ READMEやライセンス情報、他のコードに関係ないものはプロ�
 <!-- configuration format. -->
 
 <p>このファイルは <em><a href="https://github.com/toml-lang/toml">TOML</a></em> (Tom&#39;s Obvious, Minimal Language ([訳注] Tomの理解しやすい、極小な言語) ) フォーマットで書かれます。
-TOMLはINIに似ていますがいくつかの素晴しい機能が追加されていて、Cargoの設定フォーマットとして使われています。</p>
+TOMLはINIに似ていますが、いくつかの素晴しい機能が追加されており、Cargoの設定フォーマットとして使われています。</p>
 
 <!-- Inside this file, type the following information: -->
 
@@ -1238,10 +1263,10 @@ authors = [ &quot;あなたの名前 &lt;you@example.com&gt;&quot; ]
 
 <!-- configuring a package. As we add more information to this file, we’ll add other -->
 
-<!-- sections, but for now, we just have the package configuration. -->
+<!-- sections, but for now, we only have the package configuration. -->
 
-<p>最初の行、 <code>[package]</code> は下に続く記述がパッケージの設定であることを示します。
-さらなる情報をこのファイルに追加する時には他のセクションを追加することになりますが、今のところパッケージの設定しかしていません。</p>
+<p>最初の行 <code>[package]</code> は下に続く記述がパッケージの設定であることを示します。
+さらなる情報をこのファイルに追加する時には、他のセクションを追加することになりますが、今のところパッケージの設定しかしていません。</p>
 
 <!-- The other three lines set the three bits of configuration that Cargo needs to -->
 
@@ -1255,7 +1280,7 @@ authors = [ &quot;あなたの名前 &lt;you@example.com&gt;&quot; ]
 
 <p>これらの情報を <em>Cargo.toml</em> ファイルに追加し終わったら、保存して設定ファイルの作成は終了です。</p>
 
-<!-- ## Building and Running a Cargo Project  -->
+<!-- ## Building and Running a Cargo Project -->
 
 <h2 id='cargoプロジェクトのビルドと実行' class='section-header'><a href='#cargoプロジェクトのビルドと実行'>Cargoプロジェクトのビルドと実行</a></h2>
 <!-- With your *Cargo.toml* file in place in your project's root directory, you -->
@@ -1264,7 +1289,7 @@ authors = [ &quot;あなたの名前 &lt;you@example.com&gt;&quot; ]
 
 <!-- following commands: -->
 
-<p><em>Cargo.toml</em> をプロジェクトのルートディレクトリに置いたら、Hello Worldプログラムのビルドと実行の準備が整っている筈です!
+<p><em>Cargo.toml</em> をプロジェクトのルートディレクトリに置いたら、Hello Worldプログラムのビルドと実行の準備が整っているはずです!
 以下のコマンドを入力しましょう。</p>
 
 <pre><code class="language-bash">$ cargo build
@@ -1273,9 +1298,9 @@ $ ./target/debug/hello_world
 Hello, world!
 </code></pre>
 
-<!-- Bam! If all goes well, `Hello, world!` should print to the terminal once more.  -->
+<!-- Bam! If all goes well, `Hello, world!` should print to the terminal once more. -->
 
-<p>ババーン!全てが上手くいったら、もう一度 <code>Hello, world!</code> がターミナルに印字される筈です。</p>
+<p>ババーン!全てが上手くいったら、もう一度 <code>Hello, world!</code> がターミナルに印字されるはずです。</p>
 
 <!-- You just built a project with `cargo build` and ran it with -->
 
@@ -1283,7 +1308,7 @@ Hello, world!
 
 <!-- `cargo run` as follows: -->
 
-<p><code>cargo build</code> でプロジェクトをビルドして <code>./target/debug/hello_world</code> でそれを実行したのですが、実は次のように <code>cargo run</code> 一発でそれらを実行出来ます。</p>
+<p><code>cargo build</code> でプロジェクトをビルドして <code>./target/debug/hello_world</code> でそれを実行したのですが、実は次のように <code>cargo run</code> 一発でそれらを実行できます。</p>
 
 <pre><code class="language-bash">$ cargo run
      Running `target/debug/hello_world`
@@ -1298,8 +1323,8 @@ Hello, world!
 
 <!-- would have seen something like this: -->
 
-<p>この例でプロジェクトを再度ビルドしていないことに注意して下さい。
-Cargoはファイルが変更されていないことが分かるのでバイナリの実行だけを行います。
+<p>この例でプロジェクトを再度ビルドしていないことに注意してください。
+Cargoはファイルが変更されていないことが分かるので、バイナリの実行だけを行います。
 ソースコードを修正していたら、Cargoは実行する前にプロジェクトを再度ビルドし、あなたはこのようなものを目にしたことでしょう。</p>
 
 <pre><code class="language-bash">$ cargo run
@@ -1316,23 +1341,29 @@ Hello, world!
 
 <!-- With simple projects, Cargo doesn't bring a whole lot over just using `rustc`, -->
 
-<!-- but it will become useful in future. With complex projects composed of multiple -->
+<!-- but it will become useful in the future. This is especially true when you start -->
 
-<!-- crates, it’s much easier to let Cargo coordinate the build. With Cargo, you can -->
+<!-- using crates; these are synonymous with a ‘library’ or ‘package’ in other -->
 
-<!-- just run `cargo build`, and it should work the right way. -->
+<!-- programming languages. For complex projects composed of multiple crates, it’s -->
 
-<p>単純なプロジェクトではCargoを使っても単に <code>rustc</code> を使うのとさほど変わないでしょうが将来において役に立つでしょう。
-特に、クレートを使い始めた時によく当て嵌ります。
-複数のクレートで構成された複雑なプロジェクトではCargoにビルドを任せた方がとても簡単になります。
+<!-- much easier to let Cargo coordinate the build. Using Cargo, you can run `cargo -->
+
+<!-- build`, and it should work the right way. -->
+
+<p>単純なプロジェクトではCargoを使っても、単に <code>rustc</code> を使うのとさほど変わないかもしれません。
+しかし、将来において役に立つでしょう。
+特にクレートを使い始めた時によく当て嵌ります。
+クレートは、他の言語で「ライブラリ」や「パッケージ」と呼ばれているものと同じです。
+複数のクレートで構成された複雑なプロジェクトでは、Cargoにビルドを任せた方がとても簡単になります。
 Cargoを使えば <code>cargo build</code> を実行するだけで正しく動いてくれます。</p>
 
-<!-- ## Building for Release -->
+<!-- ### Building for Release -->
 
-<h2 id='リリースビルド' class='section-header'><a href='#リリースビルド'>リリースビルド</a></h2>
-<!-- When your project is finally ready for release, you can use cargo build -->
+<h3 id='リリースビルド' class='section-header'><a href='#リリースビルド'>リリースビルド</a></h3>
+<!-- When your project is ready for release, you can use `cargo build -->
 
-<!-- --release to compile your project with optimizations. These optimizations make -->
+<!-- --release` to compile your project with optimizations. These optimizations make -->
 
 <!-- your Rust code run faster, but turning them on makes your program take longer -->
 
@@ -1340,16 +1371,19 @@ Cargoを使えば <code>cargo build</code> を実行するだけで正しく動�
 
 <!-- and one for building the final program you’ll give to a user. -->
 
-<p>最終的にプロジェクトのリリース準備が整ったら <code>cargo build --release</code> を使うことで最適化を掛けてプロジェクトをコンパイル出来ます。
-最適化を掛けることでRustのコードは速くなりますが、コンパイル時間は長くなります。
-こういう訳で、開発向けとユーザへ配布する最終版プログラムを作る時向けの2つの違うプロファイルが存在するのです。</p>
+<p>プロジェクトがリリースできる状態になったら <code>cargo build --release</code> を使うことで、最適化をかけてプロジェクトをコンパイルできます。
+最適化することで、Rustのコードは速くなりますが、コンパイル時間は長くなります。
+このような理由から、開発の時用と、ユーザへ配布する最終版プログラムを作る時用の、2つのプロファイルが存在するのです。</p>
 
-<!-- Running this command also causes Cargo to create a new file called -->
+<!-- ### What Is That `Cargo.lock`? -->
+
+<h3 id='cargolock-とは' class='section-header'><a href='#cargolock-とは'><code>Cargo.lock</code> とは？</a></h3>
+<!-- Running `cargo build` also causes Cargo to create a new file called -->
 
 <!-- *Cargo.lock*, which looks like this: -->
 
-<p>このコマンドを走らせると <em>Cargo.lock</em> という新しいファイルも出来ます。
-それの中身はこのようになっています。</p>
+<p><code>cargo build</code> を実行すると <em>Cargo.lock</em> という新しいファイルもできます。
+中身はこのようになっています。</p>
 
 <pre><code class="language-toml">[root]
 name = &quot;hello_world&quot;
@@ -1366,14 +1400,14 @@ version = &quot;0.0.1&quot;
 
 <p>Cargoは <em>Cargo.lock</em> でアプリケーションの依存を追跡します。
 これはHello Worldプロジェクトの <em>Cargo.lock</em> ファイルです。
-このプロジェクトは依存を持たないのでファイルの中身はほとんどありません。
+このプロジェクトは依存を持たないので、ファイルの中身はほとんどありません。
 実際には自身でこのファイルに触ることはありません。Cargoに任せてしまいます。</p>
 
 <!-- That’s it! If you've been following along, you should have successfully built -->
 
-<!-- `hello_world` with Cargo.  -->
+<!-- `hello_world` with Cargo. -->
 
-<p>出来ました!ここまでついて来たならCargoで <code>hello_world</code> をビルドする所まで出来た筈です。</p>
+<p>できました!ここまでついて来たならCargoで <code>hello_world</code> をビルドする所までできたはずです。</p>
 
 <!-- Even though the project is simple, it now uses much of the real tooling you’ll -->
 
@@ -1381,8 +1415,8 @@ version = &quot;0.0.1&quot;
 
 <!-- virtually all Rust projects with some variation on the following commands: -->
 
-<p>このプロジェクトはとてもシンプルですがこれからRustを使っていく上で実際に使うことになるツール類を色々使っています。
-実際、事実上全てのRustプロジェクトで以下のコマンドの変形を使うことになります。</p>
+<p>このプロジェクトはとてもシンプルですが、これからRustを使っていく上で実際に使うことになるツール類を色々使っています。
+実際、事実上全てのRustプロジェクトで、以下のコマンドの変形を使うことになります。</p>
 
 <pre><code class="language-bash">$ git clone someurl.com/foo
 $ cd foo
@@ -1399,7 +1433,7 @@ $ cargo build
 <!-- can start developing in right away. -->
 
 <p>新たなプロジェクトを始めるのに先の手順を毎回踏む必要はありません!
-Cargoで即座に開発を始められる骨組だけのプロジェクトを素早く作ることが出来ます。</p>
+Cargoで即座に開発を始められる骨組だけのプロジェクトを素早く作ることができます。</p>
 
 <!-- To start a new project with Cargo, enter `cargo new` at the command line: -->
 
@@ -1414,12 +1448,12 @@ Cargoで即座に開発を始められる骨組だけのプロジェクトを素
 
 <!-- *binaries* (as in `/usr/bin`, if you’re on a Unix system). -->
 
-<p>ライブラリではなく実行可能アプリケーションを作りたいのでこのコマンドは <code>--bin</code> を渡しています。
+<p>ライブラリではなく実行可能アプリケーションを作りたいので、このコマンドは <code>--bin</code> を渡しています。
 実行可能ファイルはよく <em>バイナリ</em> と呼ばれます(なのでUnixシステムでは <code>/usr/bin/</code> に入っています)。</p>
 
 <!-- Cargo has generated two files and one directory for us: a `Cargo.toml` and a -->
 
-<!-- *src* directory with a *main.rs* file inside. These should look familliar, -->
+<!-- *src* directory with a *main.rs* file inside. These should look familiar, -->
 
 <!-- they’re exactly what we created by hand, above. -->
 
@@ -1430,7 +1464,7 @@ Cargoで即座に開発を始められる骨組だけのプロジェクトを素
 
 <!-- look something like this: -->
 
-<p>これさえあれば始められます。まず、 <code>Cargo.toml</code> を開きます。このようになっている筈です。</p>
+<p>これさえあれば始められます。まず、 <code>Cargo.toml</code> を開きます。このようになっているはずです。</p>
 
 <pre><code class="language-toml">[package]
 
@@ -1450,7 +1484,7 @@ Cargoが <code>hello_world</code> ディレクトリを <code>git</code> レポ�
 
 <!-- Here’s what should be in `src/main.rs`: -->
 
-<p><code>src/main.rs</code> の中身はこのようになっている筈です。</p>
+<p><code>src/main.rs</code> の中身はこのようになっているはずです。</p>
 
 <span class='rusttest'>fn main() {
     println!(&quot;Hello, world!&quot;);
@@ -1460,7 +1494,7 @@ Cargoが <code>hello_world</code> ディレクトリを <code>git</code> レポ�
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hello, world!&quot;</span>);
 }</pre>
 
-<!-- Cargo has generated a "Hello World!" for you, and you’re ready to start coding!  -->
+<!-- Cargo has generated a "Hello World!" for you, and you’re ready to start coding! -->
 
 <p>Cargoが「Hello World!」を生成したのでコードを書き始められます!</p>
 
@@ -1469,7 +1503,7 @@ Cargoが <code>hello_world</code> ディレクトリを <code>git</code> レポ�
 <!-- guide], which covers all of its features. -->
 
 <blockquote>
-<p>留意: Cargoについて詳しく見たいなら、公式の<a href="http://doc.crates.io/guide.html">Cargoガイド</a>を見ましょう。全ての機能が網羅してあります。</p>
+<p>留意: Cargoについて詳しく知りたいなら、公式の<a href="http://doc.crates.io/guide.html">Cargoガイド</a>を見ましょう。全ての機能が網羅してあります。</p>
 </blockquote>
 
 <!-- # Closing Thoughts -->
@@ -1479,24 +1513,24 @@ Cargoが <code>hello_world</code> ディレクトリを <code>git</code> レポ�
 
 <!-- this book, and the rest of your time with Rust. Now that you’ve got the tools -->
 
-<!-- down, we'll cover more about the Rust language itself.  -->
+<!-- down, we'll cover more about the Rust language itself. -->
 
 <p>この章はこれ以後の本書、そしてあなたがRustを書いていく上で役に立つ基本を扱いました。
-ツールについては一歩踏み出したのでRust言語自体を扱っていきます。</p>
+ツールについては一歩踏み出したので、これ以降は、Rust言語自体を扱っていきます。</p>
 
-<!-- You have two options: Dive into a project with ‘[Learn Rust][learnrust]’, or -->
+<!-- You have two options: Dive into a project with ‘[Tutorial: Guessing Game][guessinggame]’, or -->
 
 <!-- start from the bottom and work your way up with ‘[Syntax and -->
 
 <!-- Semantics][syntax]’. More experienced systems programmers will probably prefer -->
 
-<!-- ‘Learn Rust’, while those from dynamic backgrounds may enjoy either. Different -->
+<!-- ‘Tutorial: Guessing Game’, while those from dynamic backgrounds may enjoy either. Different -->
 
 <!-- people learn differently! Choose whatever’s right for you. -->
 
 <p>2つの選択肢があります。
-<a href="learn-rust.html">Rustを学ぶ</a>でプロジェクトをやるか、<a href="syntax-and-semantics.html">シンタックスとセマンティクス</a>で下から進んでいくかです。
-経験豊富なシステムプログラマなら「Rustを学ぶ」が好みでしょうが、動的なバックグラウンドを持つ人なら他方が馴染むでしょう。
+<a href="guessing-game.html">チュートリアル：数当てゲーム</a>でプロジェクトを体験するか、<a href="syntax-and-semantics.html">シンタックスとセマンティクス</a>でボトムアップに進んでいくかです。
+経験豊富なシステムプログラマなら「チュートリアル：数当てゲーム」が好みでしょうが、動的なバックグラウンドを持つ人なら他方が馴染むでしょう。
 違う人同士違う学び方をするのです!自分に合ったものを選びましょう。</p>
 
     <script type="text/javascript">
