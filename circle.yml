@@ -10,7 +10,7 @@ machine:
     RUST_NIGHTLY_RELEASE_DATE: "2016-06-01"
     RUST_HOME: $HOME/rust/nightly-$RUST_NIGHTLY_RELEASE_DATE
     RUSTBOOK_GIT_URL: https://github.com/tatsuya6502/rustbook.git
-    RUSTBOOK_GIT_BRANCH: rust-1.11.0-nightly
+    RUSTBOOK_GIT_BRANCH: update-playpenjs
     PATH: $RUST_HOME/bin:$PATH
     LD_LIBRARY_PATH: $RUST_HOME/lib
 
