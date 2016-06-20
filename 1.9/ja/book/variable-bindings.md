@@ -44,7 +44,7 @@ let (x, y) = (1, 2);
 <!-- of our minds as we go forward. -->
 この文が評価されたあと、 `x` は1になり、 `y` は2になります。
 パターンは本当に強力で、本書には[パターンのセクション][pattern]もあります。
-今のところこの機能は必要ないので頭の片隅に留めておいてだけいて下さい。
+今のところこの機能は必要ないので頭の片隅に留めておいてだけいてください。
 
 [pattern]: patterns.html
 
@@ -94,7 +94,7 @@ fn main() {
 <!-- `let`. Including these kinds of comments is not idiomatic Rust, but we'll -->
 <!-- occasionally include them to help you understand what the types that Rust -->
 <!-- infers are. -->
-この注釈と `let` の時に使う記法の類似性に留意して下さい。
+この注釈と `let` の時に使う記法の類似性に留意してください。
 このようなコメントを書くのはRust的ではありませんが、時折理解の手助けのためにRustが推論する型をコメントで注釈します。
 
 <!-- # Mutability -->
@@ -158,7 +158,7 @@ x = 10;
 Rustの束縛はもう1つ他の言語と異る点があります。束縛を使う前に値で初期化されている必要があるのです。
 
 <!-- Let’s try it out. Change your `src/main.rs` file to look like this: -->
-試してみましょう。 `src/main.rs` をいじってこのようにしてみて下さい。
+試してみましょう。 `src/main.rs` をいじってこのようにしてみてください。
 
 ```rust
 fn main() {
@@ -186,7 +186,7 @@ src/main.rs:2     let x: i32;
 <!-- however. Let’s do that. Change your program to look like this: -->
 Rustは一度も使われない変数について警告を出しますが、一度も使われないので人畜無害です。
 ところがこの `x` を使おうとすると事は一変します。やってみましょう。
-プログラムをこのように変更して下さい。
+プログラムをこのように変更してください。
 
 ```rust,ignore
 fn main() {
@@ -197,7 +197,7 @@ fn main() {
 ```
 
 <!-- And try to build it. You’ll get an error: -->
-そしてビルドしてみて下さい。このようなエラーが出るはずです。
+そしてビルドしてみてください。このようなエラーが出るはずです。
 
 ```bash
 $ cargo build
@@ -224,7 +224,7 @@ Rustでは未初期化の値を使うことは許されていません。
 <!-- in the middle of a string." We add a comma, and then `x`, to indicate that we -->
 <!-- want `x` to be the value we’re interpolating. The comma is used to separate -->
 <!-- arguments we pass to functions and macros, if you’re passing more than one. -->
-表示する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて `{` を眺めてみて下さい。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
+表示する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて `{` を眺めてみてください。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
 Rustはこれを何かの値を入れて(interpolate、インターポーレート)くれという要求だと解釈します。
 *文字列インターポーレーション* (String interpolation)はコンピュータサイエンスの用語で、「文字列の中に差し込む」という意味です。
 その後に続けてカンマ、そして `x` を置いて `x` がインターポーレートしようとしている値だと指示しています。
