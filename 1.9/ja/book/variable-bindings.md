@@ -197,7 +197,7 @@ fn main() {
 ```
 
 <!-- And try to build it. You’ll get an error: -->
-そしてビルドしてみて下さい。このようなエラーが出る筈です。
+そしてビルドしてみて下さい。このようなエラーが出るはずです。
 
 ```bash
 $ cargo build
@@ -272,7 +272,7 @@ fn main() {
 <!-- 3", but this example cannot be compiled successfully, because the second -->
 <!-- `println!` cannot access the value of `y`, since it is not in scope anymore. -->
 <!-- Instead we get this error: -->
-最初の `println!` は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と表示する筈ですが、
+最初の `println!` は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と表示するはずですが、
 2つめの `println!` は `y` がもうスコープにいないため `y` にアクセスできないのでこの例はコンパイルできません。
 代わりに以下のようなエラーが出ます。
 
