@@ -180,21 +180,34 @@
     <h1 class="title">数当てゲーム</h1>
     <!-- % Guessing Game -->
 
-<!-- For our first project, we’ll implement a classic beginner programming problem: -->
+<!-- Let’s learn some Rust! For our first project, we’ll implement a classic -->
 
-<!-- the guessing game. Here’s how it works: Our program will generate a random -->
+<!-- beginner programming problem: the guessing game. Here’s how it works: Our -->
 
-<!-- integer between one and a hundred. It will then prompt us to enter a guess. -->
+<!-- program will generate a random integer between one and a hundred. It will then -->
 
-<!-- Upon entering our guess, it will tell us if we’re too low or too high. Once we -->
+<!-- prompt us to enter a guess. Upon entering our guess, it will tell us if we’re -->
 
-<!-- guess correctly, it will congratulate us. Sounds good? -->
+<!-- too low or too high. Once we guess correctly, it will congratulate us. Sounds -->
 
-<p>最初のプロジェクトとして、古典的な初心者向けのプログラミングの問題、数当てゲームを実装します。
-動作: プログラムは1から100の間のあるランダムな数字を生成します。
-そしてその値の予想値の入力を促します。
-予想値を入力すると大きすぎるあるいは小さすぎると教えてくれます。
-当たったらおめでとうと言ってくれます。良さそうですか?</p>
+<!-- good? -->
+
+<!-- 訳注："For our first project" となっていますが、プロジェクトはこれ１つだけなので、「このプロジェクトでは」としました。 -->
+
+<p>Rustの学習を始めましょう。
+このプロジェクトでは、古典的な初心者向けのプログラミングの問題、数当てゲームを実装します。
+これは次のように動作します。
+プログラムは1から100までの数字を1つ、ランダムに生成します。
+そしてあなたに、数字を予想して入力するよう促します。
+予想値を入力すると、大きすぎる、あるいは、小さすぎるといったヒントを出します。
+当たったら、おめでとうと言ってくれます。良さそうですか？</p>
+
+<!-- Along the way, we’ll learn a little bit about Rust. The next chapter, ‘Syntax -->
+
+<!-- and Semantics’, will dive deeper into each part. -->
+
+<p>この章を通じて、Rust に関するごく基本なことが学べるでしょう。
+次の章「シンタックスとセマンティクス」では、それぞれのパートについて、より深く学んでいきます。</p>
 
 <!-- # Set up -->
 
@@ -205,9 +218,9 @@
 
 <!-- has a command that does that for us. Let’s give it a shot: -->
 
-<p>新しいプロジェクトを作りましょう。プロジェクトのディレクトリへ行って下さい。
-<code>hello_world</code> の時にどのようなディレクトリ構成で、どのように <code>Cargo.toml</code> を作る必要があったか覚えてますか?
-Cargoにはそれらのことをしてくれるコマンドがあるのでした。使いましょう。</p>
+<p>新しいプロジェクトを作りましょう。プロジェクトのディレクトリへ行ってください。
+<code>hello_world</code> の時にどのようなディレクトリ構成で、どのように <code>Cargo.toml</code> を作る必要があったか覚えてますか？
+Cargoにはそれらのことをしてくれるコマンドがあるのでした。やってみましょう。</p>
 
 <pre><code class="language-bash">$ cd ~/projects
 $ cargo new guessing_game --bin
@@ -235,7 +248,7 @@ authors = [&quot;あなたの名前 &lt;you@example.com&gt;&quot;]
 
 <!-- and fix that. -->
 
-<p>Cargoはこれらの情報を環境から取得します。もし合ってなかったら、どうぞ修正して下さい。</p>
+<p>Cargoはこれらの情報を環境から取得します。もし間違っていたら、どうぞ修正してください。</p>
 
 <!-- Finally, Cargo generated a ‘Hello, world!’ for us. Check out `src/main.rs`: -->
 
@@ -251,7 +264,7 @@ authors = [&quot;あなたの名前 &lt;you@example.com&gt;&quot;]
 
 <!-- Let’s try compiling what Cargo gave us: -->
 
-<p>Cargoが用意してくれたものをコンパイルしてみましょう。</p>
+<p>Cargoが用意したものをコンパイルしてみましょう。</p>
 
 <pre><code class="language-{bash}">$ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -261,7 +274,7 @@ authors = [&quot;あなたの名前 &lt;you@example.com&gt;&quot;]
 
 <!-- our code in this file. -->
 
-<p>素晴しい!もう一度 <code>src/main.rs</code> を開きましょう。全てのコードをこの中に書いていきます。</p>
+<p>素晴らしい。もう一度 <code>src/main.rs</code> を開きましょう。全てのコードをこの中に書いていきます。</p>
 
 <!-- Before we move on, let me show you one more Cargo command: `run`. `cargo run` -->
 
@@ -269,8 +282,8 @@ authors = [&quot;あなたの名前 &lt;you@example.com&gt;&quot;]
 
 <!-- Try it out: -->
 
-<p>行動する前に、もう一つCargoのコマンドを紹介させて下さい。 <code>run</code> です。
-<code>cargo run</code> は <code>cargo build</code> のようなものですが、生成された実行可能ファイルの実行までします。
+<p>先に進む前に、Cargoのコマンドをもう1つ紹介させてください。 <code>run</code> です。
+<code>cargo run</code> は <code>cargo build</code> のようなものですが、生成した実行可能ファイルを走らせてくれます。
 試してみましょう。</p>
 
 <pre><code class="language-bash">$ cargo run
@@ -285,8 +298,9 @@ Hello, world!
 
 <!-- iteration before moving on to the next one. -->
 
-<p>すごい! <code>run</code> コマンドはプロジェクトを細かく回す必要があるときに手頃でしょう。
-今回のゲームがまさにそのようなプロジェクトです。すぐに試してから次の行動に移るの繰り返しをする必要があります。</p>
+<p>いい感じです。
+<code>run</code> コマンドはプロジェクトを細かく回す必要があるときに便利でしょう。
+今回のゲームがまさにそのようなプロジェクトです。すぐに試してから次の行動に移るといったことを繰り返していきます。</p>
 
 <!-- # Processing a Guess -->
 
@@ -295,8 +309,8 @@ Hello, world!
 
 <!-- allow our player to input a guess. Put this in your `src/main.rs`: -->
 
-<p>とりかかりましょう!
-数当てゲームでまずしなければいけないことはプレイヤーに予想値を入力させることです。
+<p>では作り始めましょう。
+数当てゲームで最初にしないといけないのは、プレイヤーに予想値を入力させることです。
 これを <code>src/main.rs</code> に書きましょう。</p>
 
 <span class='rusttest'>use std::io;
@@ -333,19 +347,18 @@ fn main() {
 <p>[訳注] それぞれの文言は</p>
 
 <ul>
-<li>Guess the number!: 数字を当ててみて!</li>
-<li>Please input your guess.: 予想値を入力して下さい</li>
+<li>Guess the number!: 数字を当ててみて！</li>
+<li>Please input your guess.: 予想値を入力してください</li>
 <li>Failed to read line: 行の読み取りに失敗しました</li>
 <li>You guessed: {}: あなたの予想値: {}</li>
 </ul>
 
-<p>の意味ですが、エディタの設定などによってはソースコード中に日本語を使うと
-コンパイル出来ないことがあるので英文のままにしてあります。</p>
+<p>の意味ですが、エディタの設定などによっては、ソースコード中に日本語を使うとコンパイルできないことがあるので、英文のままにしてあります。</p>
 </blockquote>
 
 <!-- There’s a lot here! Let’s go over it, bit by bit. -->
 
-<p>いろいろなことあります！少しづつやっていきましょう。</p>
+<p>いろいろと出てきましたね。順に見ていきましょう。</p>
 
 <span class='rusttest'>fn main() {
     use std::io;
@@ -364,11 +377,10 @@ fn main() {
 
 <!-- imports a number of useful, `io`-related things. -->
 
-<p>ユーザの入力を取得して結果を出力する必要があります。
-なので <code>io</code> 標準ライブラリからライブラリが必要になります。
-Rustが全てのプログラムにデフォルトで読み込むものは少しだけで、<a href="../std/prelude/index.html">「プレリュード」</a>といいます。
-プレリュードになければ、直接 <code>use</code> しなければいけません。
-2つめの「プレリュード」、<a href="../std/io/prelude/index.html"><code>io</code> プレリュード</a>もあり、同様にそれをインポートすると <code>io</code> に関連した多数の有用なものがインポートされます。</p>
+<p>これからユーザの入力を取得して、結果を出力するわけですが、それには、標準ライブラリの中にある <code>io</code> ライブラリが必要です。
+Rustは全てのプログラムに、ごく限られたものをデフォルトでインポートしますが、これを<a href="../std/prelude/index.html">「プレリュード」</a>と呼びます。
+プレリュードにないものは、直接 <code>use</code> する必要があります。
+なお、2つ目の「プレリュード」、<a href="../std/io/prelude/index.html"><code>io</code> プレリュード</a>もあり、もしそれをインポートすると、 <code>io</code> に関連した多数の有用なものがインポートされます。</p>
 
 <span class='rusttest'>fn main() {
 </span><pre class='rust rust-example-rendered'>
@@ -384,9 +396,9 @@ Rustが全てのプログラムにデフォルトで読み込むものは少し�
 
 <!-- [tuple][tuples]. -->
 
-<p>以前見たように <code>main()</code> 関数がプログラムのエントリーポイントになります。
-<code>fn</code> 構文で新たな関数を宣言し、 <code>()</code> が引数がないことを示し、 <code>{</code> が関数の本体部の始まりです。
-返り値の型は書いていないので <code>()</code> 、空の<a href="primitive-types.html#tuples">タプル</a>として扱われます。</p>
+<p>すでに見てきたように <code>main()</code> 関数がプログラムのエントリーポイントになります。
+<code>fn</code> 構文は新たな関数を宣言し、 <code>()</code> で引数がないことを示し、 <code>{</code> が関数本体の始まりです。
+返り値の型は書かなかったので、 <code>()</code> 、つまり空の<a href="primitive-types.html#tuples">タプル</a>として扱われます。</p>
 
 <span class='rusttest'>fn main() {
         println!(&quot;Guess the number!&quot;);
@@ -401,7 +413,7 @@ Rustが全てのプログラムにデフォルトで読み込むものは少し�
 
 <!-- prints a [string][strings] to the screen. -->
 
-<p>前に <code>println!()</code> が<a href="strings.html">文字列</a>をスクリーンに印字する<a href="macros.html">マクロ</a>であることを学びました。</p>
+<p>前に <code>println!()</code> が<a href="strings.html">文字列</a>をスクリーンに表示する<a href="macros.html">マクロ</a>であることを学びました。</p>
 
 <span class='rusttest'>fn main() {
         let mut guess = String::new();
@@ -414,9 +426,9 @@ Rustが全てのプログラムにデフォルトで読み込むものは少し�
 
 <!-- used to create ‘variable bindings’. They take this form: -->
 
-<p>面白くなってきました!この小さな1行で色々なことが行われています。
-最初に気付くのはこれが「変数束縛」を作る<a href="variable-bindings.html">let文</a>であることです。
-let文はこの形を取ります。</p>
+<p>少し興味深いものが出てきました。このわずか1行で、様々なことが起こっています。
+最初に気付くのは、これが「変数束縛」を作る<a href="variable-bindings.html">let文</a>であることです。
+let文は以下の形を取ります。</p>
 
 <span class='rusttest'>fn main() {
     let foo = bar;
@@ -430,7 +442,7 @@ let文はこの形を取ります。</p>
 <!-- a few tricks up their sleeves. -->
 
 <p>これは <code>foo</code> という名前の束縛を作り、それを値 <code>bar</code> に束縛します。
-多くの言語ではこれは「変数」と呼ばれるものですが、Rustの変数束縛は少しばかり皮を被せてあります。</p>
+多くの言語ではこれを「変数」と呼びますが、Rustの変数束縛は少しばかり皮を被せてあります。</p>
 
 <!-- For example, they’re [immutable][immutable] by default. That’s why our example -->
 
@@ -443,9 +455,9 @@ let文はこの形を取ります。</p>
 <!-- to use for now: -->
 
 <p>例えば、束縛はデフォルトで<a href="mutability.html">イミュータブル</a> (不変)です。
-なので、この例ではイミュータブルではなくミュータブル(可変)な束縛にするために <code>mut</code> を使っているのです。
-<code>let</code> は代入の左辺に名前を取る訳ではなくて実際には<a href="patterns.html">パターン</a>を受け取ります。
-後程パターンを使います。簡単なのでもう使えますね。</p>
+ですから、この例ではイミュータブルではなく、ミュータブル(可変)な束縛にするために <code>mut</code> を使っているのです。
+<code>let</code> は代入の左辺に単に１つの名前を取るのではなく、実際には<a href="patterns.html">パターン</a>を受け取ります。
+パターンは後ほど使います。今のところ、すごく簡単ですね。</p>
 
 <span class='rusttest'>fn main() {
     // let foo = 5; // immutable.
@@ -468,7 +480,7 @@ let mut bar = 5; // ミュータブル
 
 <!-- bound to: `String::new()`. -->
 
-<p>という訳で <code>let mut guess</code> がミュータブルな束縛 <code>guess</code> を導入することを知りました。
+<p>このように <code>let mut guess</code> がミュータブルな束縛 <code>guess</code> を導入することを知りました。
 しかし <code>=</code> の反対側、 <code>String::new()</code> が何であるかを見る必要があります。</p>
 
 <!-- `String` is a string type, provided by the standard library. A -->
@@ -486,8 +498,8 @@ let mut bar = 5; // ミュータブル
 
 <!-- ‘static method’. -->
 
-<p><code>::new()</code> 構文は特定の型の「関連関数」なので <code>::</code> 構文を使っています。
-つまり、これは <code>String</code> のインスタンスではなく <code>String</code> 自体に関連付けられているということです。
+<p><code>::new()</code> という構文ですが、これは特定の型に紐づく「関連関数」なので <code>::</code> を使っています。
+つまりこれは、 <code>String</code> のインスタンスではなく、 <code>String</code> 自体に関連付けられているということです。
 これを「スタティックメソッド」と呼ぶ言語もあります。</p>
 
 <!-- This function is named `new()`, because it creates a new, empty `String`. -->
@@ -496,12 +508,12 @@ let mut bar = 5; // ミュータブル
 
 <!-- a new value of some kind. -->
 
-<p>この関数は新たな空の <code>String</code> を作るので <code>new()</code> の名付けられています。
-<code>new()</code> 関数はある種の新たな値を作るのによく使われる名前なので様々な型でこの関数を見るでしょう。</p>
+<p>この関数は新たな空の <code>String</code> を作るので、 <code>new()</code> と名付けられています。
+<code>new()</code> 関数はある種の新たな値を作るのによく使われる名前なので、様々な型でこの関数を見るでしょう。</p>
 
 <!-- Let’s move forward: -->
 
-<p>先に進みましょう。</p>
+<p>次に進みましょう。</p>
 
 <span class='rusttest'>fn main() {
         io::stdin().read_line(&amp;mut guess)
@@ -514,7 +526,7 @@ let mut bar = 5; // ミュータブル
 
 <!-- the first: -->
 
-<p>さらに色々あります!一歩一歩進んでいきましょう。最初の行は2つの部分を持ちます。
+<p>いろいろ出てきました。少しずつ確認していきましょう。最初の行は2つの部分で構成されます。
 これが最初の部分です。</p>
 
 <span class='rusttest'>fn main() {
@@ -528,18 +540,19 @@ let mut bar = 5; // ミュータブル
 
 <!-- have written this line as `std::io::stdin()`. -->
 
-<p>プログラムの最初の行でどのように <code>std::io</code> を <code>use</code> したかを覚えていますか?
-それの関連関数を呼び出しているのです。 <code>use std::io</code> していないなら <code>std::io::stdin()</code> と書くことになります。</p>
+<p>プログラムの最初の行でどのように <code>std::io</code> を <code>use</code> したか覚えていますか？
+ここでは、その関連関数を呼び出しているのです。
+もし <code>use std::io</code> としなかったなら、 <code>std::io::stdin()</code> と書くことになります。</p>
 
 <!-- This particular function returns a handle to the standard input for your -->
 
 <!-- terminal. More specifically, a [std::io::Stdin][iostdin]. -->
 
-<p>この関数はターミナルの標準入力へのハンドルを返します。詳しくは<a href="../std/io/struct.Stdin.html">std::io::Stdin</a>を見て下さい。</p>
+<p>この関数はターミナルの標準入力へのハンドルを返します。詳しくは <a href="../std/io/struct.Stdin.html">std::io::Stdin</a> を見てください。</p>
 
 <!-- The next part will use this handle to get input from the user: -->
 
-<p>次の部分はこのハンドルを使ってユーザからの入力を取得します。</p>
+<p>次の部分では、ハンドルを使ってユーザからの入力を取得します。</p>
 
 <span class='rusttest'>fn main() {
     .read_line(&amp;mut guess)
@@ -556,7 +569,7 @@ let mut bar = 5; // ミュータブル
 
 <p>ここで、ハンドルに対して<a href="../std/io/struct.Stdin.html#method.read_line"><code>read_line()</code></a>メソッドを呼んでいます。
 <a href="method-syntax.html">メソッド</a>は関連関数のようなものですが、型自体ではなくインスタンスに対してだけ使えます。
-<code>read_line()</code> に1つ引数を渡してもいます。 <code>&amp;mut guess</code> です。</p>
+<code>read_line()</code> に引数を1つ渡してます。 <code>&amp;mut guess</code> です。</p>
 
 <!-- Remember how we bound `guess` above? We said it was mutable. However, -->
 
@@ -576,12 +589,13 @@ let mut bar = 5; // ミュータブル
 
 <!-- write `&mut guess`, rather than `&guess`. -->
 
-<p><code>guess</code> がどのように束縛されたか覚えてますか?ミュータブルであると言いました。
-しかしながら <code>read_line</code> は <code>String</code> を引数に取りません。 <code>&amp;mut String</code> を取るのです。
-Rustには<a href="references-and-borrowing.html">参照</a>と呼ばれる機能があって、1つのデータに対して複数の参照を持つことが出来、コピーを減らすことが出来ます。
-Rustの主要な売りの1つが参照をいかに安全に簡単に使えるかなので、参照は複雑な機能です。
-しかしこのプログラムを作り終えるのに今すぐ詳細を知る必要はありません。
-今のところ、 <code>let</code> と同じように参照はデフォルトでイミュータブルであるということだけ覚えておいて下さい。
+<p><code>guess</code> がどのように束縛されたか覚えてますか？ ミュータブルであると言いました。
+しかしながら、 <code>read_line</code> は <code>String</code> を引数に取りません。 <code>&amp;mut String</code> を取るのです。
+Rustには<a href="references-and-borrowing.html">参照</a>と呼ばれる機能があり、1つのデータに対して複数の参照を持つことができます。
+これにより、値をコピーする機会を減らせます。
+Rustの主要な売りの1つが、参照をいかに安全に簡単に使えるかなので、参照は複雑な機能です。
+しかしこのプログラムを作り終えるのに、今すぐ詳細を知る必要はありません。
+今のところ <code>let</code> と同じように、参照はデフォルトでイミュータブルであるということだけ覚えておいてください。
 なので <code>&amp;guess</code> ではなく <code>&amp;mut guess</code> と書く必要があるのです。</p>
 
 <!-- Why does `read_line()` take a mutable reference to a string? Its job is -->
@@ -592,9 +606,9 @@ Rustの主要な売りの1つが参照をいかに安全に簡単に使えるか
 
 <!-- the input, it needs to be mutable. -->
 
-<p>何故 <code>read_line()</code> は文字列へのミュータブルな参照を取るのでしょうか?
-<code>read_line()</code> はユーザが標準入力に打ったものを取得し、それを文字列に入れる役割を果たします。
-なのでその文字列を引数として受け取り、そして入力文字列を追加するために文字列はミュータブルである必要があるのです。</p>
+<p>なぜ <code>read_line()</code> は文字列へのミュータブルな参照を取るのでしょうか？
+<code>read_line()</code> はユーザが標準入力に打ったものを取得し、それを文字列に格納します。
+ですから、格納先の文字列を引数として受け取り、そこに入力文字列を追加するために、ミュータブルであることが求められるのです。</p>
 
 <!-- But we’re not quite done with this line of code, though. While it’s -->
 
@@ -602,7 +616,7 @@ Rustの主要な売りの1つが参照をいかに安全に簡単に使えるか
 
 <!-- code: -->
 
-<p>しかしまだこの行について終わっていません。テキスト上では1行ですが、コードの論理行の1部でしかないのです。</p>
+<p>しかし、この行はまだ終わっていません。テキスト上では1行ですが、コードの論理行の1部でしかないのです。</p>
 
 <span class='rusttest'>fn main() {
             .expect(&quot;Failed to read line&quot;);
@@ -616,15 +630,15 @@ Rustの主要な売りの1つが参照をいかに安全に簡単に使えるか
 <!-- done: -->
 
 <p>メソッドを <code>.foo()</code> 構文で呼び出す時、改行してスペースを入れても構いません。
-そうすることで長い行を分割出来ます。
-こうすることだって <em>出来ました</em></p>
+そうすることで長い行を分割できます。
+こうすることだって <em>できました</em></p>
 
 <span class='rusttest'>fn main() {
         io::stdin().read_line(&amp;mut guess).expect(&quot;failed to read line&quot;);
 }</span><pre class='rust rust-example-rendered'>
     <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>).<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);</pre>
 
-<!-- But that gets hard to read. So we’ve split it up, three lines for three method -->
+<!-- But that gets hard to read. So we’ve split it up, two lines for two method -->
 
 <!-- calls. We already talked about `read_line()`, but what about `expect()`? Well, -->
 
@@ -638,11 +652,11 @@ Rustの主要な売りの1つが参照をいかに安全に簡単に使えるか
 
 <!-- sub-libraries, like `io::Result`. -->
 
-<p>ですがこれだと読み辛いです。ですので3つのメソッド呼び出しを3行に分割します。
-<code>read_line()</code> については話しましたが <code>expect</code> についてはどうでしょう?
-さて、 <code>read_line()</code> がユーザの入力を <code>&amp;mut String</code> に入れることには言及しました。
-しかし値も返します。
-この場合、標準ライブラリにある汎用の<a href="../std/result/enum.Result.html"><code>Result</code></a>であり、そしてそれをサブライブラリに特殊化したバージョンの <code>io::Result</code> になります。</p>
+<p>ですがこれだと読み辛いです。そこで2つのメソッド呼び出しを、2つの行に分割したわけです。
+さて <code>read_line()</code> については話しましたが、 <code>expect()</code> は何でしょうか？
+実は、<code>read_line()</code> は引数として渡した <code>&amp;mut String</code> にユーザの入力を入れるだけでなく、<a href="../std/io/type.Result.html"><code>io::Result</code></a> という値も返すのです。
+標準ライブラリには <code>Result</code> という名の付く型がいくつもあります。
+まず汎用の<a href="../std/result/enum.Result.html"><code>Result</code></a>があって、さらに個々のライブラリに特殊化されたバージョンもあり、<code>io::Result</code> もその１つです。</p>
 
 <!-- The purpose of these `Result` types is to encode error handling information. -->
 
@@ -658,14 +672,14 @@ Rustの主要な売りの1つが参照をいかに安全に簡単に使えるか
 
 <p>これらの <code>Result</code> 型の目的は、エラーハンドリング情報をエンコードすることです。
 <code>Result</code> 型の値には、他の型と同じように、メソッドが定義されています。
-今回は <code>io::Result</code> に<a href="../std/option/enum.Option.html#method.expect"><code>expect()</code>メソッド</a>が定義されていて、それが呼び出された値が成功でなければ与えたメッセージと共に<a href="error-handling.html"><code>panic!</code></a>します。
-このような <code>panic!</code> はメッセージを表示してプログラムをクラッシュさせます。</p>
+今回の場合 <code>io::Result</code> に<a href="../std/result/enum.Result.html#method.expect"><code>expect()</code>メソッド</a>が定義されており、それは、呼び出された値が成功を表すものでなければ、与えたメッセージと共に<a href="error-handling.html"><code>panic!</code></a>します。
+<code>panic!</code> は、メッセージを表示してプログラムをクラッシュさせます。</p>
 
-<!-- If we leave off calling these two methods, our program will compile, but -->
+<!-- If we leave off calling this method, our program will compile, but -->
 
 <!-- we’ll get a warning: -->
 
-<p>この2つのメソッドを呼び出さないままにしておくと、プログラムはコンパイルしますが、警告が出ます。</p>
+<p>このメソッドを呼び出さずにいると、プログラムはコンパイルできますが、警告が出ます。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -681,21 +695,22 @@ src/main.rs:10     io::stdin().read_line(&amp;mut guess);
 
 <!-- you haven’t handled a possible error. The right way to suppress the error is -->
 
-<!-- to actually write error handling. Luckily, if we just want to crash if there’s -->
+<!-- to actually write error handling. Luckily, if we want to crash if there’s -->
 
-<!-- a problem, we can use these two little methods. If we can recover from the -->
+<!-- a problem, we can use `expect()`. If we can recover from the -->
 
 <!-- error somehow, we’d do something else, but we’ll save that for a future -->
 
 <!-- project. -->
 
-<p>Rustは値 <code>Result</code> を使っていないことを警告します。警告は <code>io::Result</code> が持つ特別なアノテーションに由来します。
-Rustはエラーの可能性があるのに処理していないことを教えてくれるのです。
-エラーを出さないためには実際にエラー処理を書くのが正しやり方です。
-幸運にも、問題があった時にそのままクラッシュさせたいならこの小さな2つのメソッドをそのまま使えます。
-どうにかしてエラーから回復したいなら、別のことをしないていけませんが、それは将来のプロジェクトに取っておきます。</p>
+<p>Rustは <code>Result</code> 値を使っていないことを警告します。警告は <code>io::Result</code> が持つ特別なアノテーションに由来します。
+Rustはエラーの可能性があるのに、処理していないことを教えてくれるのです。
+警告を出さないためには、実際にエラー処理を書くのが正しやり方です。
+幸運にも、問題があった時にそのままクラッシュさせたいなら、<code>expect()</code> が使えます。
+どうにかしてエラーから回復したいなら、別のことをしないといけません。
+しかしそれは、将来のプロジェクトに取っておきましょう。</p>
 
-<!-- There’s just one line of this first example left: -->
+<!-- There’s only one line of this first example left: -->
 
 <p>最初の例も残すところあと1行です。</p>
 
@@ -712,7 +727,7 @@ Rustはエラーの可能性があるのに処理していないことを教え�
 
 <!-- pass multiple arguments: -->
 
-<p>これは入力を保持している文字列を印字します。 <code>{}</code> はプレースホルダで、引数として <code>guess</code> を渡しています。
+<p>これは入力を保持している文字列を表示します。 <code>{}</code> はプレースホルダで、引数として <code>guess</code> を渡しています。
 複数の <code>{}</code> があれば、複数を引数を渡すことになります。</p>
 
 <span class='rusttest'>fn main() {
@@ -728,11 +743,11 @@ println!(&quot;x and y: {} and {}&quot;, x, y);
 
 <!-- Easy. -->
 
-<p>簡単簡単。</p>
+<p>簡単ですね。</p>
 
 <!-- Anyway, that’s the tour. We can run what we have with `cargo run`: -->
 
-<p>いずれにせよ、一巡り終えました。これまでのものを <code>cargo run</code> で実行出来ます。</p>
+<p>いずれにせよ、一巡り終えました。これまでのものを <code>cargo run</code> で実行できます。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -747,7 +762,7 @@ You guessed: 6
 
 <!-- and then print it back out. -->
 
-<p>よし!最初の部分は終わりました。キーボードから入力を取得して、出力し返すまで出来ました。</p>
+<p>これでよし！ 最初の部分は終わりました。キーボードからの入力を取得して、出力を返すところまでできました。</p>
 
 <!-- # Generating a secret number -->
 
@@ -764,9 +779,9 @@ You guessed: 6
 
 <!-- programs. -->
 
-<p>次に、秘密の数を生成する必要があります。Rustの標準ライブラリには乱数の機能がまだありません。
-ですが、Rustチームは<a href="https://crates.io/crates/rand"><code>rand</code> クレート</a>を提供します。
-「クレート」はRustのコードのパッケージです。今まで作ってきたのは実行可能な「バイナリクレート」です。
+<p>次に秘密の数を生成しましょう。Rustの標準ライブラリには乱数の機能がまだありません。
+ですが、Rustチームは<a href="https://crates.io/crates/rand"><code>rand</code> クレート</a>を提供しています。
+「クレート」はRustのコードをパッケージ化したものです。今まで作ってきたのは、実行可能な「バイナリクレート」です。
 <code>rand</code> は「ライブラリクレート」で、他のプログラムから使われることを意図したコードが入っています。</p>
 
 <!-- Using external crates is where Cargo really shines. Before we can write -->
@@ -775,8 +790,8 @@ You guessed: 6
 
 <!-- add these few lines at the bottom: -->
 
-<p>外部のクレートを使う時にこそCargoが光ります。 <code>rand</code> を使う前に <code>Cargo.toml</code> を修正する必要があります。
-<code>Cargo.toml</code> を開いて、この数行を末尾に追記しましょう。</p>
+<p>外部のクレートを使う時にこそ、Cargoが活きてきます。 <code>rand</code> を使う前に <code>Cargo.toml</code> を修正する必要があります。
+<code>Cargo.toml</code> を開いて、その末尾に以下の行を追加しましょう。</p>
 
 <pre><code class="language-toml">[dependencies]
 
@@ -809,15 +824,15 @@ rand=&quot;0.3.0&quot;
 
 <!-- [Cargo’s documentation][cargodoc] contains more details. -->
 
-<p><code>Cargo.toml</code> の <code>[dependencies]</code> (訳注: 依存)セクションは <code>[package]</code> セクションに似ています。
-後続の行は次のセクションが始まるまでそのセクションに属します。
-Cargoはどの外部クレートのどのバージョンに依存するのかの情報を取得するのにdependenciesセクションを使います。
-今回のケースではバージョン<code>0.3.0</code>を指定していますが、Cargoは指定されたバージョンと互換性のあるバージョンを理解します。
+<p><code>Cargo.toml</code> の <code>[dependencies]</code> (依存)セクションは <code>[package]</code> セクションに似ています。
+後続の行は、次のセクションが始まるまでそのセクションに属します。
+Cargoはどの外部クレートのどのバージョンに依存するのかの情報を取得するのに、dependenciesセクションを使います。
+今回のケースではバージョン<code>0.3.0</code>を指定していますが、Cargoは指定されたバージョンと互換性のあるバージョンだと解釈します。
 Cargoはバージョン記述の標準、<a href="http://semver.org">セマンティックバージョニング</a>を理解します。
-上記のようなそのままのバージョンは <code>^0.3.0</code> の略記で、「0.3.0と互換性のあるもの」という意味です。
-正確に <code>0.3.0</code> だけを使いたいなら <code>rand=&quot;=0.3.0&quot;</code> (等号が2つあることに注意して下さい)と書きます。
-そして最新版を使いたいなら <code>*</code> を使います。また、バージョンの範囲を使うことも出来ます。
-<a href="http://doc.crates.io/crates-io.html">Cargoのドキュメント</a>にさらなる詳細があります。</p>
+上記のように、単にバージョンを書くのは、実は <code>^0.3.0</code> の略記になっており、「0.3.0と互換性のあるもの」という意味になります。
+もし正確に <code>0.3.0</code> だけを使いたいなら <code>rand=&quot;=0.3.0&quot;</code> (等号が2つあることに注意してください)と書きます。
+さらに最新版を使いたいなら <code>*</code> を使います。また、バージョンの範囲を使うこともできます。
+<a href="http://doc.crates.io/crates-io.html">Cargoのドキュメント</a>に、さらなる詳細があります。</p>
 
 <!-- Now, without changing any of our code, let’s build our project: -->
 
@@ -834,7 +849,7 @@ Cargoはバージョン記述の標準、<a href="http://semver.org">セマン�
 
 <!-- (You may see different versions, of course.) -->
 
-<p>(もちろん、別のバージョンが表示される可能性もあります。)</p>
+<p>(もちろん、別のバージョンが表示される可能性もあります)</p>
 
 <!-- Lots of new output! Now that we have an external dependency, Cargo fetches the -->
 
@@ -844,9 +859,9 @@ Cargoはバージョン記述の標準、<a href="http://semver.org">セマン�
 
 <!-- post their open source Rust projects for others to use. -->
 
-<p>色々新しい出力があります!
-外部依存が出来たので、Cargoはそれぞれの最新版をレジストリ—<a href="https://crates.io">Crates.io</a>のコピー—から取得します。
-Crates.ioはRustのエコシステムに居る人が他人が使うためにオープンソースのRustプロジェクトを投稿する場所です。</p>
+<p>いろいろと新しい出力がありました。
+外部依存ができたので、Cargoはそれぞれの最新版についての情報を、レジストリという、<a href="https://crates.io">Crates.io</a>からコピーしたデータから取得します。
+Crates.ioは、Rustのエコシステムに参加している人たちが、オープンソースのRustプロジェクトを投稿し、共有するための場所です。</p>
 
 <!-- After updating the registry, Cargo checks our `[dependencies]` and downloads -->
 
@@ -858,9 +873,9 @@ Crates.ioはRustのエコシステムに居る人が他人が使うためにオ�
 
 <!-- our project. -->
 
-<p>レジストリをアップデートした後にCargoは <code>[dependencies]</code> を確認し、まだダウンロードしていないものをダウンロードします。
-今回のケースでは <code>rand</code> に依存するとだけ書いてますが <code>libc</code> も取得されています。これは <code>rand</code> が動作するのに <code>libc</code> に依存するためです。
-これらのダウンロードが終わったら、それらのコンパイル、そしてプロジェクトのコンパイルをします。</p>
+<p>レジストリをアップデートした後に、Cargoは <code>[dependencies]</code> を確認し、まだ手元にないものがあればダウンロードします。
+今回のケースでは <code>rand</code> に依存するとだけ書きましたが、 <code>libc</code> も取得されています。これは <code>rand</code> が動作するのに <code>libc</code> に依存するためです。
+ダウンロードが終わったら、それらをコンパイルし、続いてプロジェクトをコンパイルします。</p>
 
 <!-- If we run `cargo build` again, we’ll get different output: -->
 
@@ -875,10 +890,11 @@ Crates.ioはRustのエコシステムに居る人が他人が使うためにオ�
 
 <!-- stuff. With nothing to do, it simply exits. If we open up `src/main.rs` again, -->
 
-<!-- make a trivial change, and then save it again, we’ll just see one line: -->
+<!-- make a trivial change, and then save it again, we’ll only see one line: -->
 
-<p>そうです、何も出力がありません!Cargoはプロジェクトがビルドされていて、依存もビルドされていることを知っているのでそれらのことをする必要がないのです。
-何もすることがなければそのまま終了します。もし <code>src/main.rs</code> を少し変更して保存したら、次のような行を目にするはずです。</p>
+<p>そうです、何も出力されないのです。
+Cargoはプロジェクトがビルドされていて、依存もビルドされていることを知っているので、それらを繰り返さないのです。
+何もすることがなければそのまま終了します。もし <code>src/main.rs</code> を少し変更して保存したら、次のように表示されます。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -894,9 +910,9 @@ Crates.ioはRustのエコシステムに居る人が他人が使うためにオ�
 
 <!-- code? -->
 
-<p>Cargoには <code>rand</code> の <code>0.3.x</code> を使うと伝えたので、それが書かれた時点での最新版、 <code>v0.3.8</code> を取得しました。
-ですが来週 <code>v0.3.9</code> が出て、重要なバグフィクスがされたらどうなるのでしょう?
-バグフィクスを取り込むのは重要ですが、 <code>0.3.9</code> にコードが動かなくなるようなリグレッションがあったらどうしましょう?</p>
+<p>Cargoには <code>rand</code> の <code>0.3.x</code> を使うと伝えたので、執筆時点の最新版 <code>v0.3.8</code> を取得しました。
+ですがもし来週 <code>v0.3.9</code> が出て、重要なバグがフィクスされたらどうなるのでしょう？
+バグフィクスを取り込むのは重要ですが、 <code>0.3.9</code> にコードが動かなくなるようなリグレッションがあったらどうしましょう？</p>
 
 <!-- The answer to this problem is the `Cargo.lock` file you’ll now find in your -->
 
@@ -916,11 +932,11 @@ Crates.ioはRustのエコシステムに居る人が他人が使うためにオ�
 
 <!-- thanks to the lock file. -->
 
-<p>この問題への回答はプロジェクトのディレクトリにある <code>Cargo.lock</code> です。
+<p>この問題への答えは、プロジェクトのディレクトリにある <code>Cargo.lock</code> です。
 プロジェクトを最初にビルドした時に、Cargoは基準を満たす全てのバージョンを探索し、 <code>Cargo.lock</code> ファイルに書き出します。
-その後のビルドではCargoはまず <code>Cargo.lock</code> ファイルがあるか確認し、再度バージョンを探索することなく、そこで指定されたバージョンを使います。
+その後のビルドでは、Cargoはまず <code>Cargo.lock</code> ファイルがあるか確認し、再度バージョンを探索することなく、そこで指定されたバージョンを使います。
 これで自動的に再現性のあるビルドが手に入ります。
-言い換えると、明示的にアップグレードしない限り我々は <code>0.3.8</code> を使い続けますし、ロックファイルのおかげでコードを共有する人も <code>0.3.8</code> を使い続けます。</p>
+言い換えると、明示的にアップグレードしない限り、私たちは <code>0.3.8</code> を使い続けますし、ロックファイルのおかげで、コードを共有する人たちも <code>0.3.8</code> を使い続けます。</p>
 
 <!-- What about when we _do_ want to use `v0.3.9`? Cargo has another command, -->
 
@@ -936,11 +952,11 @@ Crates.ioはRustのエコシステムに居る人が他人が使うためにオ�
 
 <!-- will update the index and re-evaluate our `rand` requirements. -->
 
-<p><code>v0.3.9</code> を使いたい時はどうすればいいのでしょうか?
-Cargoには「ロックを無視して、指定したバージョンを満たす全ての最新版を探しなさい。もし出来たらそれをロックファイルに書きなさい」を意味する別のコマンド、 <code>update</code> があります。
+<p>では <code>v0.3.9</code> を <em>使いたい</em> 時はどうすればいいのでしょうか？
+Cargoには別のコマンド <code>update</code> があり、次のことを意味します：「ロックを無視して、指定したバージョンを満たす全ての最新版を探しなさい。それに成功したら、ロックファイルに書きなさい」
 しかし、デフォルトではCargoは <code>0.3.0</code> より大きく、 <code>0.4.0</code> より小さいバージョンを探しにいきます。
 <code>0.4.x</code> より大きなバージョンを使いたいなら直接 <code>Cargo.toml</code> を更新する必要があります。
-そうしたら、次に <code>cargo build</code> をする時に、Cargoはインデックスをアップデートして <code>rand</code> への制約を再度評価します。</p>
+そうしたら、次に <code>cargo build</code> をする時に、Cargoはインデックスをアップデートして、<code>rand</code> の要件を再評価します。</p>
 
 <!-- There’s a lot more to say about [Cargo][doccargo] and [its -->
 
@@ -950,8 +966,8 @@ Cargoには「ロックを無視して、指定したバージョンを満たす
 
 <!-- projects which are assembled out of a number of sub-packages. -->
 
-<p><a href="http://doc.crates.io">Cargo</a>と<a href="http://doc.crates.io/crates-io.html">そのエコシステム</a>については色々言うことがあるのですが今のところこれらのことだけを知っておいて下さい。
-Cargoのお陰でライブラリの再利用は本当に簡単になりますし、Rustaceanは他のパッケージをいくつも使った小さなライブラリをよく書きます。</p>
+<p><a href="http://doc.crates.io">Cargo</a>と<a href="http://doc.crates.io/crates-io.html">そのエコシステム</a>については、説明することがまだ色々あるのですが、今のところは、これらのことだけを知っておけば十分です。
+Cargoのおかげでライブラリの再利用は本当に簡単になりますし、Rustaceanは他のパッケージをいくつも使った小さなライブラリをよく書きます。</p>
 
 <!-- Let’s get on to actually _using_ `rand`. Here’s our next step: -->
 
@@ -1003,13 +1019,11 @@ fn main() {
 </pre>
 
 <blockquote>
-<p>訳注: 先程と同じ理由でソースコード内の文言は翻訳していません。意味は</p>
+<p>訳注:</p>
 
 <ul>
 <li>The secret number is: {}: 秘密の数字は: {}です</li>
 </ul>
-
-<p>です。</p>
 </blockquote>
 
 <!-- The first thing we’ve done is change the first line. It now says -->
@@ -1022,9 +1036,9 @@ fn main() {
 
 <!-- in the `rand` crate by prefixing it with `rand::`. -->
 
-<p>まず最初に変更したのは最初の行です。 <code>extern crate rand</code> となっています。
-<code>rand</code> を <code>[dependencies]</code> に宣言したので、 <code>extern crate</code> でそれを使うことをRustに伝えれます。
-これはまた、 <code>use rand;</code> とするのと同じこともしますので、 <code>rand</code> にあるものは <code>rand::</code> と前置すれば使えるようになります。</p>
+<p>1つ目の変更は最初の行です。 <code>extern crate rand</code> としました。
+<code>rand</code> を <code>[dependencies]</code> に宣言したので、 <code>extern crate</code> でそれを使うことをRustに伝えています。
+これはまた、 <code>use rand;</code> と同じこともしますので、 <code>rand</code> にあるものは <code>rand::</code> と前置すれば使えるようになります。</p>
 
 <!-- Next, we added another `use` line: `use rand::Rng`. We’re going to use a -->
 
@@ -1036,10 +1050,10 @@ fn main() {
 
 <!-- details, read the [traits][traits] section. -->
 
-<p>次に、もう1行 <code>use</code> を追加しました。 <code>use rand::Rng</code> です。
-すぐに、とあるメソッドを使うのですが、それが動作するには <code>Rng</code> がスコープに入っている必要があるのです。
-基本的な考え方はこうです: メソッドは「トレイト」と呼ばれるもので定義されており、メソッドが動作するにはそのトレイトがスコープにある必要があるのです。
-詳しくは<a href="traits.html">トレイト</a>セクションを読んで下さい。</p>
+<p>次にもう1行 <code>use</code> を追加しました。 <code>use rand::Rng</code> です。
+この後すぐ、あるメソッドを使うのですが、それが動作するには <code>Rng</code> をスコープに入れる必要があるのです。
+基本的な考え方は次の通りです。このメソッドは「トレイト」と呼ばれるもので定義されており、動作させるために、該当するトレイトをスコープに入れる必要があるのです。
+詳しくは<a href="traits.html">トレイト</a>セクションを読んでください。</p>
 
 <!-- There are two other lines we added, in the middle: -->
 
@@ -1066,12 +1080,12 @@ fn main() {
 
 <!-- so we need `1` and `101` to get a number ranging from one to a hundred. -->
 
-<p><code>rand::thread_rng()</code> を使って現在いる<a href="concurrency.html">スレッド</a>にローカルな乱数生成器のコピーを取得しています。
-上で <code>use rand::Rng</code> したので生成器は <code>gen_range()</code> メソッドを使えます。
-このメソッドは2つの引数を取り、それらの間にある数を生成します。
-下限は含みますが、上限は含まないので1から100までの数を生成するには <code>1</code> と <code>101</code> を渡す必要があります。</p>
+<p><code>rand::thread_rng()</code> を使って、いま現在の実行<a href="concurrency.html">スレッド</a>に対してローカルな、乱数生成器のコピーを取得しています。
+上で <code>use rand::Rng</code> したので、生成器は <code>gen_range()</code> メソッドを使えます。
+このメソッドは2つの引数を取り、その間の数を1つ生成します。
+下限は含みますが、上限は含まないので、1から100までの数を生成するには <code>1</code> と <code>101</code> を渡す必要があります。</p>
 
-<!-- The second line just prints out the secret number. This is useful while -->
+<!-- The second line prints out the secret number. This is useful while -->
 
 <!-- we’re developing our program, so we can easily test it out. But we’ll be -->
 
@@ -1079,14 +1093,14 @@ fn main() {
 
 <!-- the answer when you start it up! -->
 
-<p>2つ目の行は秘密の数字を印字します。
-これは開発する時には有用で、簡単に動作確認出来ます。
-しかし最終版では削除します。
-最初に答えが印字されたらゲームじゃなくなってしまいます!</p>
+<p>2行目は秘密の数字を表示します。
+これは開発する時には有用で、簡単に動作確認できます。
+もちろん最終版では削除します。
+最初に答えを見せたら、ゲームじゃなくなってしまいます！</p>
 
 <!-- Try running our new program a few times: -->
 
-<p>何度か新たなプログラムを実行してみましょう。</p>
+<p>更新したプログラムを、何度か実行してみましょう。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -1107,7 +1121,7 @@ You guessed: 5
 
 <!-- Great! Next up: comparing our guess to the secret number. -->
 
-<p>良し良し。次は予想値と秘密の数字を比較します。</p>
+<p>うまくいきました。次は予想値と秘密の数を比較します。</p>
 
 <!-- # Comparing guesses -->
 
@@ -1116,8 +1130,8 @@ You guessed: 5
 
 <!-- Here’s our next step, though it doesn’t quite compile yet: -->
 
-<p>ユーザーの入力を受け取れるようになったので、秘密の数字と比較しましょう。
-コンパイル出来ませんが、これが次のステップです。</p>
+<p>ユーザーの入力を受け取れるようになったので、秘密の数と比較しましょう。
+まだコンパイルできませんが、これが次のステップです。</p>
 
 <span class='rusttest'>extern crate rand;
 
@@ -1178,12 +1192,12 @@ fn main() {
 }</pre>
 
 <blockquote>
-<p>訳注: 同じく、</p>
+<p>訳注:</p>
 
 <ul>
-<li>Too small!: 小さすぎます!</li>
-<li>Too big!: 大きすぎます!</li>
-<li>You win!: あなたの勝ちです!</li>
+<li>Too small!: 小さすぎます！</li>
+<li>Too big!: 大きすぎます！</li>
+<li>You win!: あなたの勝ちです！</li>
 </ul>
 </blockquote>
 
@@ -1193,8 +1207,9 @@ fn main() {
 
 <!-- it: -->
 
-<p>いくか新しいことがあります。まず、新たに <code>use</code> が増えました。 <code>std::cmp::Ordering</code> をスコープに導入します。
-そして、末尾にそれを使うコードが5行増えてます。</p>
+<p>いくつか新しいことがあります。まず <code>use</code> が増えました。
+<code>std::cmp::Ordering</code> という型をスコープに導入しています。
+また、それを使うためのコードを末尾に5行追加しました。</p>
 
 <span class='rusttest'>fn main() {
     match guess.cmp(&amp;secret_number) {
@@ -1219,10 +1234,10 @@ fn main() {
 
 <!-- [`enum`][enum], short for ‘enumeration’, which looks like this: -->
 
-<p><code>cmp()</code> は比較可能なものに対しならなんでも呼べて、引数に比較したい対象の参照を取ります。
-<code>cmp()</code> は先程 <code>use</code> した <code>Ordering</code> を返します。
-<a href="match.html"><code>match</code></a>文を使って正確に <code>Ordering</code> のどれであるかを判断しています。
-<code>Ordering</code> は<a href="enums.html"><code>enum</code></a> (訳注: 列挙型)で、enumは「enumeration(訳注: 列挙)」の略です。
+<p><code>cmp()</code> は比較可能な全てのものに対して呼べるメソッドで、引数として、比較したい相手の参照を取ります。
+そして、先ほど <code>use</code> した、<code>Ordering</code> 型の値を返します。
+<a href="match.html"><code>match</code></a> 文を使って、正確に <code>Ordering</code> のどれであるかを判断しています。
+<code>Ordering</code> は <a href="enums.html"><code>enum</code> (列挙型)</a> で、enumは「enumeration(列挙)」の略です。
 このようなものです。</p>
 
 <span class='rusttest'>fn main() {
@@ -1243,7 +1258,7 @@ fn main() {
 <!-- namespace for a particular `enum` variant. -->
 
 <p>この定義だと、 <code>Foo</code> 型のものは <code>Foo::Bar</code> あるいは <code>Foo::Baz</code> のいずれかです。
-<code>::</code> を使って <code>enum</code> のバリアントの名前空間を指示します。</p>
+<code>::</code> を使って <code>enum</code> のバリアントの名前空間を指定します。</p>
 
 <!-- The [`Ordering`][ordering] `enum` has three possible variants: `Less`, `Equal`, -->
 
@@ -1253,7 +1268,7 @@ fn main() {
 
 <!-- `Ordering`, we have three arms: -->
 
-<p><a href="../std/cmp/enum.Ordering.html"><code>Ordering</code></a> <code>enum</code> は3つのバリアントを持ちます。 <code>Less</code> 、 <code>Equal</code> そして <code>Greater</code> です。
+<p><a href="../std/cmp/enum.Ordering.html"><code>Ordering</code></a> <code>enum</code> は3つのバリアントを持ちます。 <code>Less</code> 、 <code>Equal</code> 、 <code>Greater</code> です。
 <code>match</code> 文ではある型の値を取って、それぞれの可能な値に対する「腕」を作れます。
 <code>Ordering</code> には3種類あるので、3つの腕を作っています。</p>
 
@@ -1274,7 +1289,7 @@ fn main() {
 
 <!-- `Equal`, `You win!`. `match` is really useful, and is used often in Rust. -->
 
-<p><code>Less</code> なら <code>Too small!</code> を、 <code>Greater</code> なら <code>Too big!</code> を、 <code>Equal</code> なら <code>You win!</code> を印字します。
+<p><code>Less</code> なら <code>Too small!</code> を、 <code>Greater</code> なら <code>Too big!</code> を、 <code>Equal</code> なら <code>You win!</code> を表示します。
 <code>match</code> はとても便利で、Rustでよく使われます。</p>
 
 <!-- I did mention that this won’t quite compile yet, though. Let’s try it: -->
@@ -1316,17 +1331,17 @@ Could not compile `guessing_game`.
 
 <!-- read as input into a real number type, for comparison. We can do that -->
 
-<!-- with three more lines. Here’s our new program: -->
+<!-- with two more lines. Here’s our new program: -->
 
-<p>ふぅ!大きなエラーです。核心になっているのは「型の不一致」です。
-Rustには強い静的な型システムがあります。しかし型推論も持っています。
-<code>let guess = String::new()</code> と書いた時、Rustは <code>guess</code> が文字列である筈だと推論出来るのでわざわざ型を書かなくてもよいのです。
-<code>secret_number</code> には、は1から100までの数字を持っている数値型、32bit数の <code>i32</code> 、あるいは符号なし32bit数の <code>u32</code> 、あるいは64bit不動小数点数 <code>f64</code> あるいはそれ以外、様々な型がありえます。
-これまで、それは問題ではありませんでしたので、Rustは <code>i32</code> をデフォルトとしてました。
-しかしながらここで、 <code>guess</code> と <code>secret_number</code> の比較の仕方が分かりません。
+<p>うわ、大きなエラーです。核心になっているのは「型の不一致」です。
+Rustには強い静的な型システムがあり、また、型推論もあります。
+<code>let guess = String::new()</code> と書いた時、Rustは <code>guess</code> が文字列であるはずだと推論できるので、わざわざ型を書かなくてもよいのです。
+また、<code>secret_number</code> では、1から100までの数値を表せる型として、いくつかの候補があり、例えば、32bit数の <code>i32</code> 、符号なし32bit数の <code>u32</code> 、64bit数の <code>i64</code> などが該当します。
+これまで、そのどれであっても良かったため、Rustはデフォルトの <code>i32</code> としてました。
+しかしここで、Rustは <code>guess</code> と <code>secret_number</code> の比較のしかたが分からないのです。
 これらは同じ型である必要があります。
-究極には入力として読み取った <code>String</code> を比較のために実数の型にしたいです。
-それは3行追加すれば出来ます。
+ということは、私たちたちは本当は、入力として読み取った <code>String</code> を、比較のために実数の型にしたかったわけです。
+それは2行追加すればできます。
 新しいプログラムです。</p>
 
 <span class='rusttest'>extern crate rand;
@@ -1393,9 +1408,9 @@ fn main() {
     }
 }</pre>
 
-<!-- The new three lines: -->
+<!-- The new two lines: -->
 
-<p>新しい3行はこれです。</p>
+<p>新しい2行はこれです。</p>
 
 <span class='rusttest'>fn main() {
         let guess: u32 = guess.trim().parse()
@@ -1416,10 +1431,10 @@ fn main() {
 
 <!-- else. -->
 
-<p>ちょっと待って下さい、既に <code>guess</code> を定義してありますよね?
-してあります、が、Rustでは以前の <code>guess</code> の定義を新しいもので「隠す」ことが出来ます(訳注: このように隠すことをシャドーイングといいます)。
+<p>ちょっと待ってください、既に <code>guess</code> を定義してありますよね？
+たしかにそうですが、Rustでは以前の <code>guess</code> の定義を新しいもので「覆い隠す」ことができるのです(訳注: このように隠すことをシャドーイングといいます)。
 まさにこのように、最初 <code>String</code> であった <code>guess</code> を <code>u32</code> に変換したい、というような状況でよく使われます。
-シャドーイングのおかげで <code>guess_str</code> と <code>guess</code> のように別々の名前を考える必要はなくなり、 <code>guess</code> の名前を再利用出来ます。</p>
+シャドーイングのおかげで <code>guess_str</code> と <code>guess</code> のように別々の名前を考える必要はなくなり、 <code>guess</code> の名前を再利用できます。</p>
 
 <!-- We bind `guess` to an expression that looks like something we wrote earlier: -->
 
@@ -1440,7 +1455,7 @@ fn main() {
 
 <!-- return, `guess` looks like this: `5\n`. The `\n` represents ‘newline’, the -->
 
-<!-- enter key. `trim()` gets rid of this, leaving our string with just the `5`. The -->
+<!-- enter key. `trim()` gets rid of this, leaving our string with only the `5`. The -->
 
 <!-- [`parse()` method on strings][parse] parses a string into some kind of number. -->
 
@@ -1454,18 +1469,19 @@ fn main() {
 
 <!-- but we’ve chosen `u32`. It’s a good default choice for a small positive number. -->
 
-<p>ここでは、 <code>guess</code> は古い <code>guess</code> 、入力を保持している <code>String</code> の <code>guess</code> です。
-<code>String</code> の <code>trim()</code> メソッドは文字列の最初と最後にある空白を取り除きます。
-<code>read_line()</code> を満たすには「リターン」キーを押す必要があるのでこれは重要です。
-つまり、 <code>5</code> と入力してリターンを押したら、 <code>guess</code> は <code>5\n</code> のようになっています。
-<code>\n</code> 「は改行」、エンターキーを表しています。 <code>trim()</code> で <code>5</code> だけを残してこれを取り除けます。
-<a href="../std/primitive.str.html#method.parse">文字列の <code>parse()</code> メソッド</a>は文字列を何かの数値へとパースします。
-様々な数値をパース出来るので、Rustに正確にどの型の数値が欲しいのかを伝える必要があります。
-なので、 <code>let guess: u32</code> なのです。
+<p>ここでの <code>guess</code> は、古い <code>guess</code> を指しており、入力を保持する <code>String</code> です。
+<code>String</code> の <code>trim()</code> メソッドは、文字列の最初と最後にある空白を取り除きます。
+<code>read_line()</code> を満たすには「リターン」キーを押す必要があるので、これは重要です。
+つまり <code>5</code> と入力してリターンを押したら、 <code>guess</code> は <code>5\n</code> のようになっています。
+<code>\n</code> は「改行」、つまり、エンターキーを表しています。
+<code>trim()</code> することで、<code>5</code> だけを残してこれを取り除けます。
+<a href="../std/primitive.str.html#method.parse">文字列の <code>parse()</code> メソッド</a>は、文字列を何かの数値へとパースします。
+様々な数値をパースできるので、Rustに正確にどの型の数値が欲しいのかを伝える必要があります。
+なので <code>let guess: u32</code> と書いたのです。
 <code>guess</code> の後のコロン(<code>:</code>)は型注釈を付けようとしていることをRustに伝えます。
 <code>u32</code> は符号なし32bit整数です。
-Rustには<a href="primitive-types.html#numeric-types">様々なビルトインの数値型</a>がありますが、今回は <code>u32</code> を選びました。
-小さな正整数にはちょうどいいデフォルトの選択肢です。</p>
+Rustには <a href="primitive-types.html#numeric-types">様々なビルトインの数値型</a> がありますが、今回は <code>u32</code> を選びました。
+小さな正整数にはちょうどいいデフォルトとなる選択肢です。</p>
 
 <!-- Just like `read_line()`, our call to `parse()` could cause an error. What if -->
 
@@ -1475,9 +1491,9 @@ Rustには<a href="primitive-types.html#numeric-types">様々なビルトイン�
 
 <!-- method to crash if there’s an error. -->
 
-<p><code>read_line()</code> と同じように、 <code>parse()</code> の呼び出しでもエラーが起き得ます。
-文字列に <code>A👍%</code> が含まれていたらどうなるでしょう?それは数値には変換出来ません。
-なので、 <code>read_line()</code> と同じように <code>expect()</code> を使ってエラーがあったらクラッシュするようにします。</p>
+<p><code>read_line()</code> と同じように、 <code>parse()</code> の呼び出しでもエラーが起こり得ます。
+文字列に <code>A👍%</code> が含まれていたらどうなるでしょう？ それは数値には変換できません。
+ですから <code>read_line()</code> と同じように <code>expect()</code> を使って、エラーがあったらクラッシュするようにします。</p>
 
 <!-- Let’s try our program out! -->
 
@@ -1500,22 +1516,22 @@ Too big!
 
 <!-- the number works, as well as guessing a number too small. -->
 
-<p>よし!予想値の前にスペースも入れてみましたがそれでもちゃんと76と予想したんだと理解してくれます。
-何度か動かしてみて、当たりが動くこと、小さい数字も動くことを確認してみて下さい。</p>
+<p>ばっちりです。予想値の前にスペースも入れてみましたが、それでも私が76と予想したんだと、ちゃんと理解してくれました。
+何度か動かしてみて、当たりが動くこと、小さい数字も動くことを確認してみてください。</p>
 
 <!-- Now we’ve got most of the game working, but we can only make one guess. Let’s -->
 
 <!-- change that by adding loops! -->
 
-<p>ゲームのほとんどが完成するようになりましたが、1回しか予想出来ません。
-ループを使って書き換えましょう!</p>
+<p>ゲームが完成に近づいてきましたが、まだ、1回しか予想できません。
+ループを使って書き換えましょう。</p>
 
 <!-- # Looping -->
 
 <h1 id='ループ' class='section-header'><a href='#ループ'>ループ</a></h1>
 <!-- The `loop` keyword gives us an infinite loop. Let’s add that in: -->
 
-<p><code>loop</code> キーワードで無限ループが出来ます。入れてみましょう。</p>
+<p><code>loop</code> キーワードで無限ループが得られます。追加しましょう。</p>
 
 <span class='rusttest'>extern crate rand;
 
@@ -1591,9 +1607,9 @@ fn main() {
 
 <!-- and quit. Observe: -->
 
-<p>そして試してみましょう。でも待って下さい、無限ループを追加しませんでした? そうです。
-<code>parse()</code> に関する議論を覚えてますか?数字でない答えを入力すると <code>panic!</code> して終了するのでした。
-やってみましょう。</p>
+<p>試してみましょう。え？でも待ってください、無限ループを追加しましたよね。
+そうです。でも <code>parse()</code> に関する議論を覚えてますか？ 数字でない答えを入力すると <code>panic!</code> して終了するのでした。
+見ててください。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -1621,8 +1637,8 @@ thread &#39;&lt;main&gt;&#39; panicked at &#39;Please type a number!&#39;
 
 <!-- suboptimal to say the least. First, let’s actually quit when you win the game: -->
 
-<p>おっ! <code>quit</code> で確かに終了しました。他の数字でないものでも同じことです。
-でもこれは控え目に言っても最適とは言えません。
+<p>はいこの通り、たしかに <code>quit</code> で終了しました。他の数字でないものを入れても同じです。
+でもこれは、お世辞にも良いやり方とは言えませんね。
 まず、ゲームに勝ったら本当に終了するようにしましょう。</p>
 
 <span class='rusttest'>extern crate rand;
@@ -1703,16 +1719,16 @@ fn main() {
 
 <!-- win. Exiting the loop also means exiting the program, since it’s the last -->
 
-<!-- thing in `main()`. We have just one more tweak to make: when someone inputs a -->
+<!-- thing in `main()`. We have only one more tweak to make: when someone inputs a -->
 
-<!-- non-number, we don’t want to quit, we just want to ignore it. We can do that -->
+<!-- non-number, we don’t want to quit, we want to ignore it. We can do that -->
 
 <!-- like this: -->
 
 <p><code>You win!</code> の後に <code>break</code> を加えることで、ゲームに勝った時にループを抜けます。
 ループを抜けることは同時に、それが <code>main()</code> の最後の要素なので、プログラムが終了することも意味します。
-もう1つ調整をします。数値でない入力をした時に、終了したくはありません、無視したいです。
-それはこのように出来ます。</p>
+もう1つ修正します。数値でない入力をした時に終了するのではなく、無視させましょう。
+それはこのようにできます。</p>
 
 <span class='rusttest'>extern crate rand;
 
@@ -1809,36 +1825,38 @@ fn main() {
 
 <!-- This is how you generally move from ‘crash on error’ to ‘actually handle the -->
 
-<!-- returned by `parse()` is an `enum` just like `Ordering`, but in this case, each -->
+<!-- error’, by switching from `expect()` to a `match` statement. A `Result` is -->
 
-<!-- variant has some data associated with it: `Ok` is a success, and `Err` is a -->
+<!-- returned by `parse()`, this is an `enum`  like `Ordering`, but in this case, -->
+
+<!-- each variant has some data associated with it: `Ok` is a success, and `Err` is a -->
 
 <!-- failure. Each contains more information: the successfully parsed integer, or an -->
 
-<!-- error type. In this case, we `match` on `Ok(num)`, which sets the inner value -->
+<!-- error type. In this case, we `match` on `Ok(num)`, which sets the name `num` to -->
 
-<!-- of the `Ok` to the name `num`, and then we just return it on the right-hand -->
+<!-- the unwrapped `Ok` value (the integer), and then we  return it on the -->
 
-<!-- side. In the `Err` case, we don’t care what kind of error it is, so we just -->
+<!-- right-hand side. In the `Err` case, we don’t care what kind of error it is, so -->
 
-<!-- use `_` instead of a name. This ignores the error, and `continue` causes us -->
+<!-- we just use the catch all `_` instead of a name. This catches everything that -->
 
-<!-- to go to the next iteration of the `loop`. -->
+<!-- isn't `Ok`, and `continue` lets us move to the next iteration of the loop; in -->
 
-<!-- INTERNAL: 「‘actually handle the returned by `parse()`...」 と明らかに文書が崩れているので
-「‘actually handle the returned value'. The returned value by `parse()`...」だったんだと思って訳しました
--->
+<!-- effect, this enables us to ignore all errors and continue with our program. -->
 
-<p>これが「エラーならクラッシュ」から「実際に返値のエラーをハンドルする」への一般的な移行の仕方です。
-<code>parse()</code> の返す値は <code>Ordering</code> と同じような <code>enum</code> ですが、今回はそれぞれのバリアントにデータが関連付いています。
+<p>このように、「エラーならクラッシュ」から「実際に戻り値のエラーをハンドルすること」へ移行する一般的な方法は、<code>expect()</code> を <code>match</code> 文に変更することです。
+<code>parse()</code> は <code>Result</code> を返します。
+これは <code>Ordering</code> と同じような <code>enum</code> ですが、今回はそれぞれのバリアントにデータが関連付いています。
 <code>Ok</code> は成功で、 <code>Err</code> は失敗です。それぞれには追加の情報もあります。パースに成功した整数、あるいはエラーの種類です。
-このケースでは、 <code>Ok(num)</code> に対して <code>match</code> していて、それで <code>Ok</code> に内包された値を <code>num</code> という名前に設定しており、右側でそのまま返しています。
-<code>Err</code> の場合、エラーの種類は気にしにないので、名前ではなく <code>_</code> を使います。
-これはエラーを無視していて、 <code>continue</code> で <code>loop</code> の次の繰り返しに進みます。</p>
+このケースでは <code>Ok(num)</code> に対して <code>match</code> していて、これは <code>Ok</code> をアンラップして得られた値(整数値)を <code>num</code> という名前に設定します。続く右側では、その値をそのまま返しています。
+<code>Err</code> の場合、エラーの種類は気にしにないので、名前ではなく、任意の値にマッチする <code>_</code> を使いました。
+こうすれば <code>Ok</code> 以外の全てをキャッチすることができ、<code>continue</code> によって、loop の次の繰り返しに進みます。
+こうして全てのエラーを無視し、プログラムの実行を続けることが可能になるのです。</p>
 
 <!-- Now we should be good! Let’s try: -->
 
-<p>これで良いはずです。試しましょう!</p>
+<p>これでいいはずです。試してみましょう。</p>
 
 <pre><code class="language-bash">$ cargo run
    Compiling guessing_game v0.1.0 (file:///home/you/projects/guessing_game)
@@ -1869,10 +1887,11 @@ You win!
 
 <!-- final source: -->
 
-<p>すごい!最後のほんのちょっとだけ修正して、数当てゲームを終えましょう。
-なんだか分かりますか?そうです、秘密の数字は印字したくありません。
-テストには良かったのですがゲームを台無しにしてしまいます。
-これが最終ソースです。</p>
+<p>素晴らしい！
+最後にほんの少し修正して、数当てゲームの制作を終えましょう。
+なんだか分かりますか？ そうです、秘密の数字は表示したくありません。
+テストには便利でしたが、ゲームを台無しにしてしまいます。
+これが最終的なソースコードです。</p>
 
 <span class='rusttest'>extern crate rand;
 
@@ -1950,10 +1969,10 @@ fn main() {
 
 <!-- # Complete! -->
 
-<h1 id='完成' class='section-header'><a href='#完成'>完成!</a></h1>
+<h1 id='終わりに' class='section-header'><a href='#終わりに'>終わりに</a></h1>
 <!-- At this point, you have successfully built the Guessing Game! Congratulations! -->
 
-<p>ここにて数当てゲームを作ることが出来ました!おめでとうございます!</p>
+<p>数当てゲームが遂に完成しました！ お疲れ様でした！</p>
 
 <!-- This first project showed you a lot: `let`, `match`, methods, associated -->
 
@@ -1961,9 +1980,11 @@ fn main() {
 
 <!-- even more. -->
 
-<p>この最初のプロジェクトで色々なものを見せました。
+<!-- 訳注：最後の文が "Our next project will show off ..." となっていますが、プログラムの作成ではなく、「シンタックスとセマンティクス」なので、以下のように変更しました。 -->
+
+<p>このプロジェクトでは、様々なものをお見せしました。
 <code>let</code> 、 <code>match</code> 、メソッド、関連関数、外部クレートの使い方、などなど。
-次のプロジェクトではさらに色々見せます。</p>
+次の章では、それぞれについて、さらに深く学んでいきましょう。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
