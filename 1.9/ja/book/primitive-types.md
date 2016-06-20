@@ -276,9 +276,8 @@ let middle = &a[1..4]; // 1、2、3のみを要素に持つaのスライス
 <!-- reference, like `&str`. We'll elaborate further when we cover -->
 <!-- [Strings][strings] and [references]. -->
 Rustの `str` 型は最もプリミティブな文字列型です。
-[サイズ不定型][dst] のように、それ自体が非常に便利なものではありませんが、 [`&str`][strings] のように参照の後ろに置かれたときに便利になります。
-そのため、それはそのまま置いておきましょう。
-（TODO：翻訳を更新する）
+[サイズ不定型][dst] のように、それ単体ではあまり便利ではありませんが、 [`&str`][strings] のように参照の後ろに置かれたときに便利になります。
+[文字列][strings] と [参照][references] についてカバーする際に、より正確に学びましょう。
 
 [dst]: unsized-types.html
 [strings]: strings.html
