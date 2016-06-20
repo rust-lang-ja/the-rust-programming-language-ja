@@ -1,18 +1,18 @@
 % 関数
 <!-- % Functions -->
 
-<!--Every Rust program has at least one function, the `main` function:-->
-Rustのプログラムには全て、少なくとも1つの関数、 `main` 関数があります。
+<!-- Every Rust program has at least one function, the `main` function: -->
+Rustにおける全てのプログラムには、少なくとも1つの関数、 `main` 関数があります。
 
 ```rust
 fn main() {
 }
 ```
 
-<!--This is the simplest possible function declaration. As we mentioned before,-->
-<!--`fn` says ‘this is a function’, followed by the name, some parentheses because-->
-<!--this function takes no arguments, and then some curly braces to indicate the-->
-<!--body. Here’s a function named `foo`:-->
+<!-- This is the simplest possible function declaration. As we mentioned before, -->
+<!-- `fn` says ‘this is a function’, followed by the name, some parentheses because -->
+<!-- this function takes no arguments, and then some curly braces to indicate the -->
+<!-- body. Here’s a function named `foo`: -->
 これは評価可能な関数定義の最も単純なものです。
 前に言ったように、 `fn` は「これは関数です」ということを示します。この関数には引数がないので、名前と丸括弧が続きます。そして、その本文を表す波括弧が続きます。
 これが `foo` という名前の関数です。
@@ -22,9 +22,9 @@ fn foo() {
 }
 ```
 
-<!--So, what about taking arguments? Here’s a function that prints a number:-->
+<!-- So, what about taking arguments? Here’s a function that prints a number: -->
 それでは、引数を取る場合はどうでしょうか。
-これが数値を出力する関数です。
+これが数値を表示する関数です。
 
 ```rust
 fn print_number(x: i32) {
@@ -32,7 +32,7 @@ fn print_number(x: i32) {
 }
 ```
 
-<!--Here’s a complete program that uses `print_number`:-->
+<!-- Here’s a complete program that uses `print_number`: -->
 これが `print_number` を使う完全なプログラムです。
 
 ```rust
@@ -45,13 +45,13 @@ fn print_number(x: i32) {
 }
 ```
 
-<!--As you can see, function arguments work very similar to `let` declarations:-->
-<!--you add a type to the argument name, after a colon.-->
+<!-- As you can see, function arguments work very similar to `let` declarations: -->
+<!-- you add a type to the argument name, after a colon. -->
 見てのとおり、関数の引数は `let` 宣言と非常によく似た動きをします。
 引数の名前にコロンに続けて型を追加します。
 
-<!--Here’s a complete program that adds two numbers together and prints them:-->
-これが2つの数値を足して結果を出力する完全なプログラムです。
+<!-- Here’s a complete program that adds two numbers together and prints them: -->
+これが2つの数値を足して結果を表示する完全なプログラムです。
 
 ```rust
 fn main() {
@@ -63,12 +63,12 @@ fn print_sum(x: i32, y: i32) {
 }
 ```
 
-<!--You separate arguments with a comma, both when you call the function, as well-->
-<!--as when you declare it.-->
+<!-- You separate arguments with a comma, both when you call the function, as well -->
+<!-- as when you declare it. -->
 関数を呼び出すときも、それを宣言したときと同様に、引数をコンマで区切ります。
 
-<!--Unlike `let`, you _must_ declare the types of function arguments. This does-->
-<!--not work:-->
+<!-- Unlike `let`, you _must_ declare the types of function arguments. This does -->
+<!-- not work: -->
 `let` と異なり、あなたは関数の引数の型を宣言 _しなければなりません_ 。
 これは動きません。
 
@@ -78,24 +78,24 @@ fn print_sum(x, y) {
 }
 ```
 
-<!--You get this error:-->
+<!-- You get this error: -->
 このエラーが発生します。
 
 ```text
 expected one of `!`, `:`, or `@`, found `)`
-fn print_number(x, y) {
+fn print_sum(x, y) {
 ```
 
-<!--This is a deliberate design decision. While full-program inference is possible,-->
-<!--languages which have it, like Haskell, often suggest that documenting your-->
-<!--types explicitly is a best-practice. We agree that forcing functions to declare-->
-<!--types while allowing for inference inside of function bodies is a wonderful-->
-<!--sweet spot between full inference and no inference.-->
+<!-- This is a deliberate design decision. While full-program inference is possible, -->
+<!-- languages which have it, like Haskell, often suggest that documenting your -->
+<!-- types explicitly is a best-practice. We agree that forcing functions to declare -->
+<!-- types while allowing for inference inside of function bodies is a wonderful -->
+<!-- sweet spot between full inference and no inference. -->
 これはよく考えられた設計上の決断です。
 プログラムによる完全な推論は可能ですが、Haskellのようにそれを行っている言語では、しばしば型を明示的にドキュメント化することがベストプラクティスであるとして提案されます。
 私たちは関数に型の宣言を強制する一方で、関数の本文での推論を認めることが完全な推論と推論なしとの間のすばらしいスイートスポットであるということで意見が一致したのです。
 
-<!--What about returning a value? Here’s a function that adds one to an integer:-->
+<!-- What about returning a value? Here’s a function that adds one to an integer: -->
 戻り値についてはどうでしょうか。
 これが整数に1を加える関数です。
 
@@ -105,11 +105,11 @@ fn add_one(x: i32) -> i32 {
 }
 ```
 
-<!--Rust functions return exactly one value, and you declare the type after an-->
-<!--‘arrow’, which is a dash (`-`) followed by a greater-than sign (`>`). The last-->
-<!--line of a function determines what it returns. You’ll note the lack of a-->
-<!--semicolon here. If we added it in:-->
-Rustの関数はちょうど1つだけの値を返します。そして、ダッシュ（ `-` ）の後ろに大なりの記号（ `>` ）を続けた「矢印」の後にその型を宣言します。
+<!-- Rust functions return exactly one value, and you declare the type after an -->
+<!-- ‘arrow’, which is a dash (`-`) followed by a greater-than sign (`>`). The last -->
+<!-- line of a function determines what it returns. You’ll note the lack of a -->
+<!-- semicolon here. If we added it in: -->
+Rustの関数は値を1つだけ返します。そして、ダッシュ（ `-` ）の後ろに大なりの記号（ `>` ）を続けた「矢印」の後にその型を宣言します。
 関数の最後の行が何を返すのかを決定します。
 ここにセミコロンがないことに気が付くでしょう。
 もしそれを追加すると、こうなります。
@@ -120,7 +120,7 @@ fn add_one(x: i32) -> i32 {
 }
 ```
 
-<!--We would get an error:-->
+<!-- We would get an error: -->
 エラーが発生するでしょう。
 
 ```text
@@ -134,25 +134,25 @@ help: consider removing this semicolon:
           ^
 ```
 
-<!--This reveals two interesting things about Rust: it is an expression-based-->
-<!--language, and semicolons are different from semicolons in other ‘curly brace-->
-<!--and semicolon’-based languages. These two things are related.-->
+<!-- This reveals two interesting things about Rust: it is an expression-based -->
+<!-- language, and semicolons are different from semicolons in other ‘curly brace -->
+<!-- and semicolon’-based languages. These two things are related. -->
 これはRustについて2つの興味深いことを明らかにします。それが式ベースの言語であること、そしてセミコロンが他の「波括弧とセミコロン」ベースの言語でのセミコロンとは違っているということです。
 これら2つのことは関連します。
 
-<!--## Expressions vs. Statements-->
-## 式対文
+<!-- ## Expressions vs. Statements -->
+## 式と文
 
-<!--Rust is primarily an expression-based language. There are only two kinds of-->
-<!--statements, and everything else is an expression.-->
+<!-- Rust is primarily an expression-based language. There are only two kinds of -->
+<!-- statements, and everything else is an expression. -->
 Rustは主として式ベースの言語です。
 文には2種類しかなく、その他の全ては式です。
 
-<!--So what's the difference? Expressions return a value, and statements do not.-->
-<!--That’s why we end up with ‘not all control paths return a value’ here: the-->
-<!--statement `x + 1;` doesn’t return a value. There are two kinds of statements in-->
-<!--Rust: ‘declaration statements’ and ‘expression statements’. Everything else is-->
-<!--an expression. Let’s talk about declaration statements first.-->
+<!-- So what's the difference? Expressions return a value, and statements do not. -->
+<!-- That’s why we end up with ‘not all control paths return a value’ here: the -->
+<!-- statement `x + 1;` doesn’t return a value. There are two kinds of statements in -->
+<!-- Rust: ‘declaration statements’ and ‘expression statements’. Everything else is -->
+<!-- an expression. Let’s talk about declaration statements first. -->
 ではその違いは何でしょうか。
 式は値を返しますが、文は返しません。
 それが「not all control paths return a value」で終わった理由です。文 `x + 1;` は値を返さないからです。
@@ -160,37 +160,40 @@ Rustには2種類の文があります。「宣言文」と「式文」です。
 その他の全ては式です。
 まずは宣言文について話しましょう。
 
-<!--In some languages, variable bindings can be written as expressions, not just-->
-<!--statements. Like Ruby:-->
-いくつかの言語では、変数束縛を文としてだけではなく、式として書くことができます。
+<!-- In some languages, variable bindings can be written as expressions, not -->
+<!-- statements. Like Ruby: -->
+いくつかの言語では、変数束縛を文としてだけではなく、式としても書けます。
 Rubyではこうなります。
 
 ```ruby
 x = y = 5
 ```
 
-<!--In Rust, however, using `let` to introduce a binding is _not_ an expression. The-->
-<!--following will produce a compile-time error:-->
+<!-- In Rust, however, using `let` to introduce a binding is _not_ an expression. The -->
+<!-- following will produce a compile-time error: -->
 しかし、Rustでは束縛を導入するための `let` の使用は式では _ありません_ 。
 次の例はコンパイルエラーを起こします。
 
 ```ignore
 # // let x = (let y = 5); // expected identifier, found keyword `let`
-let x = (let y = 5); // 識別子を期待していましたが、キーワード `let` が見付かりました
+let x = (let y = 5); // 識別子を期待していましたが、キーワード `let` が見つかりました
 ```
 
-<!--The compiler is telling us here that it was expecting to see the beginning of-->
-<!--an expression, and a `let` can only begin a statement, not an expression.-->
-ここでコンパイラは次のことを教えています。式の先頭を検出することが期待されていたところ、 `let` は式ではなく文の先頭にしかなれないということです。
+<!-- The compiler is telling us here that it was expecting to see the beginning of -->
+<!-- an expression, and a `let` can only begin a statement, not an expression. -->
+ここでコンパイラが言っているのは、式の先頭が来ることを期待していましたが、 `let` は式ではなく、文の先頭にしかなれませんよ、ということです。
 
-<!--Note that assigning to an already-bound variable (e.g. `y = 5`) is still an-->
-<!--expression, although its value is not particularly useful. Unlike other-->
-<!--languages where an assignment evaluates to the assigned value (e.g. `5` in the-->
-<!--previous example), in Rust the value of an assignment is an empty tuple `()`-->
-<!--because the assigned value can have [just one owner](ownership.html), and any-->
-<!--other returned value would be too surprising:-->
-次のことに注意しましょう。既に束縛されている変数（例えば、 `y = 5` ）への割当ては、その値が特に役に立つものではなかったとしてもやはり式です。割当てが割り当てられる値（例えば、前の例では `5` ）を評価する他の言語とは異なり、Rustでは割当ての値は空のタプル `()` です。なぜなら、割り当てられる値には [単一の所有者](ownership.html) しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。
-
+<!-- Note that assigning to an already-bound variable (e.g. `y = 5`) is still an -->
+<!-- expression, although its value is not particularly useful. Unlike other -->
+<!-- languages where an assignment evaluates to the assigned value (e.g. `5` in the -->
+<!-- previous example), in Rust the value of an assignment is an empty tuple `()` -->
+<!-- because the assigned value can have [only one owner](ownership.html), and any -->
+<!-- other returned value would be too surprising: -->
+次のことに注意しましょう。
+既に束縛されている変数への代入（例えば `y = 5` ）は、その値が特に役に立つものではありませんが、やはり式です。
+他の言語の中には、代入式を評価すると、代入された値（例えば、前の例では `5` ）が返されるものもあります。
+しかし、Rustの代入式はそれと異なり、評価すると空のタプル `()` が返されます。
+なぜなら、代入された値には [単一の所有者](ownership.html) しかおらず、他のどんな値を返したとしても予想外の出来事になってしまうからです。
 
 ```rust
 let mut y = 5;
@@ -199,21 +202,21 @@ let mut y = 5;
 let x = (y = 6);  // xは値 `()` を持っており、 `6` ではありません
 ```
 
-<!--The second kind of statement in Rust is the *expression statement*. Its-->
-<!--purpose is to turn any expression into a statement. In practical terms, Rust's-->
-<!--grammar expects statements to follow other statements. This means that you use-->
-<!--semicolons to separate expressions from each other. This means that Rust-->
-<!--looks a lot like most other languages that require you to use semicolons-->
-<!--at the end of every line, and you will see semicolons at the end of almost-->
-<!--every line of Rust code you see.-->
+<!-- The second kind of statement in Rust is the *expression statement*. Its -->
+<!-- purpose is to turn any expression into a statement. In practical terms, Rust's -->
+<!-- grammar expects statements to follow other statements. This means that you use -->
+<!-- semicolons to separate expressions from each other. This means that Rust -->
+<!-- looks a lot like most other languages that require you to use semicolons -->
+<!-- at the end of every line, and you will see semicolons at the end of almost -->
+<!-- every line of Rust code you see. -->
 Rustでの2種類目の文は *式文* です。
 これの目的は式を文に変換することです。
 実際にはRustの文法は文の後には他の文が続くことが期待されています。
 これはそれぞれの式を区切るためにセミコロンを使うということを意味します。
 これはRustが全ての行末にセミコロンを使うことを要求する他の言語のほとんどとよく似ていること、そして見られるRustのコードのほとんど全ての行末で、セミコロンが見られるということを意味します。
 
-<!--What is this exception that makes us say "almost"? You saw it already, in this-->
-<!--code:-->
+<!-- What is this exception that makes us say "almost"? You saw it already, in this -->
+<!-- code: -->
 「ほとんど」と言ったところの例外は何でしょうか。
 この例で既に見ています。
 
@@ -223,16 +226,16 @@ fn add_one(x: i32) -> i32 {
 }
 ```
 
-<!--Our function claims to return an `i32`, but with a semicolon, it would return-->
-<!--`()` instead. Rust realizes this probably isn’t what we want, and suggests-->
-<!--removing the semicolon in the error we saw before.-->
+<!-- Our function claims to return an `i32`, but with a semicolon, it would return -->
+<!-- `()` instead. Rust realizes this probably isn’t what we want, and suggests -->
+<!-- removing the semicolon in the error we saw before. -->
 この関数は `i32` を返そうとしていますが、セミコロンを付ければ、それは代わりに `()` を返します。
 Rustはこの挙動がおそらく求めているものではないということを理解するので、前に見たエラーの中で、セミコロンを削除することを提案するのです。
 
-<!--## Early returns-->
+<!-- ## Early returns -->
 ## 早期リターン
 
-<!--But what about early returns? Rust does have a keyword for that, `return`:-->
+<!-- But what about early returns? Rust does have a keyword for that, `return`: -->
 しかし、早期リターンについてはどうでしょうか。
 Rustはそのためのキーワード `return` を持っています。
 
@@ -246,8 +249,8 @@ fn foo(x: i32) -> i32 {
 }
 ```
 
-<!--Using a `return` as the last line of a function works, but is considered poor-->
-<!--style:-->
+<!-- Using a `return` as the last line of a function works, but is considered poor -->
+<!-- style: -->
 `return` を関数の最後の行で使っても動きますが、それはよろしくないスタイルだと考えられています。
 
 ```rust
@@ -256,16 +259,16 @@ fn foo(x: i32) -> i32 {
 }
 ```
 
-<!--The previous definition without `return` may look a bit strange if you haven’t-->
-<!--worked in an expression-based language before, but it becomes intuitive over-->
-<!--time.-->
+<!-- The previous definition without `return` may look a bit strange if you haven’t -->
+<!-- worked in an expression-based language before, but it becomes intuitive over -->
+<!-- time. -->
 あなたがこれまで式ベースの言語を使ったことがなければ、 `return` のない前の定義の方がちょっと変に見えるかもしれません。しかし、それは時間とともに直観的に感じられるようになります。
 
-<!--## Diverging functions-->
+<!-- ## Diverging functions -->
 ## ダイバージング関数
 
-<!--Rust has some special syntax for ‘diverging functions’, which are functions that-->
-<!--do not return:-->
+<!-- Rust has some special syntax for ‘diverging functions’, which are functions that -->
+<!-- do not return: -->
 Rustはリターンしない関数、「ダイバージング関数」のための特別な構文をいくつか持っています。
 
 ```rust
@@ -274,25 +277,25 @@ fn diverges() -> ! {
 }
 ```
 
-<!--`panic!` is a macro, similar to `println!()` that we’ve already seen. Unlike-->
-<!--`println!()`, `panic!()` causes the current thread of execution to crash with-->
-<!--the given message. Because this function will cause a crash, it will never-->
-<!--return, and so it has the type ‘`!`’, which is read ‘diverges’.-->
+<!-- `panic!` is a macro, similar to `println!()` that we’ve already seen. Unlike -->
+<!-- `println!()`, `panic!()` causes the current thread of execution to crash with -->
+<!-- the given message. Because this function will cause a crash, it will never -->
+<!-- return, and so it has the type ‘`!`’, which is read ‘diverges’. -->
 `panic!` は既に見てきた `println!` と同様にマクロです。
 `println!` とは違って、 `panic!` は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
 この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「 `!` 」型を持つのです。
 
-<!--If you add a main function that calls `diverges()` and run it, you’ll get-->
-<!--some output that looks like this:-->
+<!-- If you add a main function that calls `diverges()` and run it, you’ll get -->
+<!-- some output that looks like this: -->
 もし `diverges()` を呼び出すメイン関数を追加してそれを実行するならば、次のようなものが出力されるでしょう。
 
 ```text
 thread ‘<main>’ panicked at ‘This function never returns!’, hello.rs:2
 ```
 
-<!--If you want more information, you can get a backtrace by setting the-->
-<!--`RUST_BACKTRACE` environment variable:-->
-もしもっと情報を得たいと思うのであれば、 `RUST_BACKTRACE` 環境変数をセットすることでバックトレースを得ることができます。
+<!-- If you want more information, you can get a backtrace by setting the -->
+<!-- `RUST_BACKTRACE` environment variable: -->
+もしもっと情報を得たいと思うのであれば、 `RUST_BACKTRACE` 環境変数をセットすることでバックトレースが得られます。
 
 ```text
 $ RUST_BACKTRACE=1 ./diverges
@@ -313,8 +316,24 @@ stack backtrace:
   13:                0x0 - <unknown>
 ```
 
-<!--`RUST_BACKTRACE` also works with Cargo’s `run` command:-->
-`RUST_BACKTRACE` はCargoの `run` コマンドでも使うことができます。
+<!-- If you need to override an already set `RUST_BACKTRACE`, -->
+<!-- in cases when you cannot just unset the variable, -->
+<!-- then set it to `0` to avoid getting a backtrace. -->
+<!-- Any other value(even no value at all) turns on backtrace. -->
+
+もしすでに `RUST_BACKTRACE` 変数がセットされており、それをアンセットできないなどの理由により値を上書きするのなら、 `0` にセットすればバックトレースが取得されなくなります。
+それ以外の全ての値では（環境変数はあるが値がない場合も含め）バックトレースがオンになります。
+
+```text
+$ export RUST_BACKTRACE=1
+...
+$ RUST_BACKTRACE=0 ./diverges
+thread '<main>' panicked at 'This function never returns!', hello.rs:2
+note: Run with `RUST_BACKTRACE=1` for a backtrace.
+```
+
+<!-- `RUST_BACKTRACE` also works with Cargo’s `run` command: -->
+`RUST_BACKTRACE` はCargoの `run` コマンドでも使えます。
 
 ```text
 $ RUST_BACKTRACE=1 cargo run
@@ -336,8 +355,8 @@ stack backtrace:
   13:                0x0 - <unknown>
 ```
 
-<!--A diverging function can be used as any type:-->
-ダイバージング関数は任意の型として使うことができます。
+<!-- A diverging function can be used as any type: -->
+ダイバージング関数は任意の型としても使えます。
 
 ```should_panic
 # fn diverges() -> ! {
@@ -347,19 +366,19 @@ let x: i32 = diverges();
 let x: String = diverges();
 ```
 
-<!--## Function pointers-->
+<!-- ## Function pointers -->
 ## 関数ポインタ
 
-<!--We can also create variable bindings which point to functions:-->
-関数を指示する変数束縛を作ることもできます。
+<!-- We can also create variable bindings which point to functions: -->
+関数を指す（ポイントする）変数束縛も作れます。
 
 ```rust
 let f: fn(i32) -> i32;
 ```
 
-<!--`f` is a variable binding which points to a function that takes an `i32` as-->
-<!--an argument and returns an `i32`. For example:-->
-`f` は `i32` を引数として受け取り、 `i32` を返す関数を指示する変数束縛です。
+<!-- `f` is a variable binding which points to a function that takes an `i32` as -->
+<!-- an argument and returns an `i32`. For example: -->
+`f` という変数束縛は、 `i32` を引数として受け取り、 `i32` を返す関数へのポインタになります。
 例えばこうです。
 
 ```rust
@@ -367,15 +386,17 @@ fn plus_one(i: i32) -> i32 {
     i + 1
 }
 
-// without type inference
+# // without type inference
+// 型推論なし
 let f: fn(i32) -> i32 = plus_one;
 
-// with type inference
+# // with type inference
+// 型推論あり
 let f = plus_one;
 ```
 
-<!--We can then use `f` to call the function:-->
-そして、その関数を呼び出すために `f` を使うことができます。
+<!-- We can then use `f` to call the function: -->
+そして `f` を使って関数を呼び出せます。
 
 ```rust
 # fn plus_one(i: i32) -> i32 { i + 1 }
