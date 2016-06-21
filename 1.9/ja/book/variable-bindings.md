@@ -225,9 +225,9 @@ Rustでは未初期化の値を使うことは許されていません。
 <!-- want `x` to be the value we’re interpolating. The comma is used to separate -->
 <!-- arguments we pass to functions and macros, if you’re passing more than one. -->
 表示する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて `{` を眺めてみてください。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
-Rustはこれを、何かの値で補完(interpolate)してほしいのだと解釈します。
-*文字列補完* (string interpolation)はコンピュータサイエンスの用語で、「文字列の間に差し込む」という意味です。
-その後に続けてカンマ、そして `x` を置いて、 `x` が補完に使う値だと指示しています。
+Rustはこれを、何かの値で補間(interpolate)してほしいのだと解釈します。
+*文字列補間* (string interpolation)はコンピュータサイエンスの用語で、「文字列の間に差し込む」という意味です。
+その後に続けてカンマ、そして `x` を置いて、 `x` が補間に使う値だと指示しています。
 カンマは2つ以上の引数を関数やマクロに渡す時に使われます。
 
 <!-- When you use the curly braces, Rust will attempt to display the value in a -->
@@ -235,7 +235,7 @@ Rustはこれを、何かの値で補完(interpolate)してほしいのだと解
 <!-- more detailed manner, there are a [wide number of options available][format]. -->
 <!-- For now, we'll stick to the default: integers aren't very complicated to -->
 <!-- print. -->
-波括弧を使うと、Rustは補完に使う値の型を調べて意味のある方法で表示しようとします。
+波括弧を使うと、Rustは補間に使う値の型を調べて意味のある方法で表示しようとします。
 フォーマットをさらに詳しく指定したいなら[数多くのオプションが利用できます][format]。
 とりあえずのところ、デフォルトに従いましょう。整数の表示はそれほど複雑ではありません。
 
