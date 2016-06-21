@@ -184,7 +184,7 @@
 
 <!-- bind some value to a name, so it can be used later. `let` is -->
 
-<!-- used to introduce a binding, just like this: -->
+<!-- used to introduce a binding, like this: -->
 
 <p>事実上全ての「Hello World」でないRustのプログラムは <em>変数束縛</em> を使っています。
 変数束縛は何らかの値を名前へと束縛するので、後でその値を使えます。
@@ -219,30 +219,30 @@
 
 <!-- variable bindings have a few tricks up their sleeves. For example the -->
 
-<!-- left-hand side of a `let` expression is a ‘[pattern][pattern]’, not just a -->
+<!-- left-hand side of a `let` statement is a ‘[pattern][pattern]’, not just a -->
 
 <!-- variable name. This means we can do things like: -->
 
 <p>多くの言語では変数束縛は <em>変数</em> と呼ばれるでしょうが、Rustの変数束縛は多少皮を被せてあります。
-例えば、 <code>let</code> の左側の式は「<a href="patterns.html">パターン</a>」であって、ただの変数名ではありません。
-これはこのようなことが出来るということです。</p>
+例えば、 <code>let</code> 文の左側は「<a href="patterns.html">パターン</a>」であって、ただの変数名ではありません。
+これはこのようなことができるということです。</p>
 
 <span class='rusttest'>fn main() {
     let (x, y) = (1, 2);
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> (<span class='ident'>x</span>, <span class='ident'>y</span>) <span class='op'>=</span> (<span class='number'>1</span>, <span class='number'>2</span>);</pre>
 
-<!-- After this expression is evaluated, `x` will be one, and `y` will be two. -->
+<!-- After this statement is evaluated, `x` will be one, and `y` will be two. -->
 
 <!-- Patterns are really powerful, and have [their own section][pattern] in the -->
 
-<!-- book. We don’t need those features for now, so we’ll just keep this in the back -->
+<!-- book. We don’t need those features for now, so we’ll keep this in the back -->
 
 <!-- of our minds as we go forward. -->
 
-<p>パターン式が評価されたあと、 <code>x</code> は1になり、 <code>y</code> は2になります。
+<p>この文が評価されたあと、 <code>x</code> は1になり、 <code>y</code> は2になります。
 パターンは本当に強力で、本書には<a href="patterns.html">パターンのセクション</a>もあります。
-今のところこの機能は必要ないので頭の片隅に留めておいてだけいて下さい。</p>
+今のところこの機能は必要ないので頭の片隅に留めておいてだけいてください。</p>
 
 <!-- # Type annotations -->
 
@@ -259,11 +259,11 @@
 
 <p>Rustは静的な型付言語であり、前もって型を与えておいて、それがコンパイル時に検査されます。
 じゃあなぜ最初の例はコンパイルが通るのでしょう?ええと、Rustには「型推論」と呼ばれるものがあります。
-型推論が型が何であるか判断出来るなら、型を書く必要はなくなります。</p>
+型推論が型が何であるか判断できるなら、型を書く必要はなくなります。</p>
 
 <!-- We can add the type if we want to, though. Types come after a colon (`:`): -->
 
-<p>書きたいなら型を書くことも出来ます。型はコロン(<code>:</code>)のあとに書きます。</p>
+<p>書きたいなら型を書くこともできます。型はコロン(<code>:</code>)のあとに書きます。</p>
 
 <span class='rusttest'>fn main() {
     let x: i32 = 5;
@@ -311,7 +311,7 @@ Rustには多くのプリミティブな整数型があります。プリミテ�
 
 <!-- infers are. -->
 
-<p>この注釈と <code>let</code> の時に使う記法の類似性に留意して下さい。
+<p>この注釈と <code>let</code> の時に使う記法の類似性に留意してください。
 このようなコメントを書くのはRust的ではありませんが、時折理解の手助けのためにRustが推論する型をコメントで注釈します。</p>
 
 <!-- # Mutability -->
@@ -365,7 +365,7 @@ x = 10;
 
 <!-- mutation, then the solution is quite easy: add `mut`. -->
 
-<p>束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと考えることが出来ます。
+<p>束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと考えることができます。
 もし <code>mut</code> を忘れたらコンパイラが捕捉して、変更するつもりでなかったものを変更した旨を教えてくれます。
 束縛がデフォルトでミュータブルだったらコンパイラはこれを捕捉できません。
 もし <em>本当に</em> 変更を意図していたのなら話は簡単です。 <code>mut</code> をつけ加えればいいのです。</p>
@@ -395,7 +395,7 @@ x = 10;
 
 <!-- Let’s try it out. Change your `src/main.rs` file to look like this: -->
 
-<p>試してみましょう。 <code>src/main.rs</code> をいじってこのようにしてみて下さい。</p>
+<p>試してみましょう。 <code>src/main.rs</code> をいじってこのようにしてみてください。</p>
 
 <span class='rusttest'>fn main() {
     let x: i32;
@@ -413,8 +413,8 @@ x = 10;
 
 <!-- warning, but it will still print "Hello, world!": -->
 
-<p>コマンドラインで <code>cargo build</code> を使ってビルド出来ます。
-警告が出ますが、それでもまだ「Hello, world!」は印字されます。</p>
+<p>コマンドラインで <code>cargo build</code> を使ってビルドできます。
+警告が出ますが、それでもまだ「Hello, world!」は表示されます。</p>
 
 <pre><code class="language-text">   Compiling hello_world v0.0.1 (file:///home/you/projects/hello_world)
 src/main.rs:2:9: 2:10 warning: unused variable: `x`, #[warn(unused_variable)]
@@ -431,7 +431,7 @@ src/main.rs:2     let x: i32;
 
 <p>Rustは一度も使われない変数について警告を出しますが、一度も使われないので人畜無害です。
 ところがこの <code>x</code> を使おうとすると事は一変します。やってみましょう。
-プログラムをこのように変更して下さい。</p>
+プログラムをこのように変更してください。</p>
 
 <span class='rusttest'>fn main() {
     let x: i32;
@@ -447,7 +447,7 @@ src/main.rs:2     let x: i32;
 
 <!-- And try to build it. You’ll get an error: -->
 
-<p>そしてビルドしてみて下さい。このようなエラーが出る筈です。</p>
+<p>そしてビルドしてみてください。このようなエラーが出るはずです。</p>
 
 <pre><code class="language-bash">$ cargo build
    Compiling hello_world v0.0.1 (file:///home/you/projects/hello_world)
@@ -481,25 +481,25 @@ Could not compile `hello_world`.
 
 <!-- arguments we pass to functions and macros, if you’re passing more than one. -->
 
-<p>印字する文字列に2つの波括弧(<code>{}</code>、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて <code>{</code> を眺めてみて下さい。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
-Rustはこれを何かの値を入れて(interpolate、インターポーレート)くれという要求だと解釈します。
-<em>文字列インターポーレーション</em> (String interpolation)はコンピュータサイエンスの用語で、「文字列の中に差し込む」という意味です。
-その後に続けてカンマ、そして <code>x</code> を置いて <code>x</code> がインターポーレートしようとしている値だと指示しています。
+<p>表示する文字列に2つの波括弧(<code>{}</code>、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて <code>{</code> を眺めてみてください。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
+Rustはこれを、何かの値で補間(interpolate)してほしいのだと解釈します。
+<em>文字列補間</em> (string interpolation)はコンピュータサイエンスの用語で、「文字列の間に差し込む」という意味です。
+その後に続けてカンマ、そして <code>x</code> を置いて、 <code>x</code> が補間に使う値だと指示しています。
 カンマは2つ以上の引数を関数やマクロに渡す時に使われます。</p>
 
-<!-- When you just use the curly braces, Rust will attempt to display the value in a -->
+<!-- When you use the curly braces, Rust will attempt to display the value in a -->
 
 <!-- meaningful way by checking out its type. If you want to specify the format in a -->
 
 <!-- more detailed manner, there are a [wide number of options available][format]. -->
 
-<!-- For now, we'll just stick to the default: integers aren't very complicated to -->
+<!-- For now, we'll stick to the default: integers aren't very complicated to -->
 
 <!-- print. -->
 
-<p>単に波括弧だけを使った時は、Rustはインターポーレートされる値の型を調べて意味のある方法で表示しようとします。
-フォーマットをさらに詳しく指定したいなら<a href="../std/fmt/index.html">数多くのオプションが利用出来ます</a>。
-とりあえずのところ、デフォルトに従いましょう。整数の印字はそれほど複雑ではありません。</p>
+<p>波括弧を使うと、Rustは補間に使う値の型を調べて意味のある方法で表示しようとします。
+フォーマットをさらに詳しく指定したいなら<a href="../std/fmt/index.html">数多くのオプションが利用できます</a>。
+とりあえずのところ、デフォルトに従いましょう。整数の表示はそれほど複雑ではありません。</p>
 
 <!-- # Scope and shadowing -->
 
@@ -519,7 +519,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 <p>束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか有効でありません。
 ブロックは <code>{</code> と <code>}</code> に囲まれた文の集まりです。関数定義もブロックです!
 以下の例では異なるブロックで有効な2つの変数束縛、 <code>x</code> と <code>y</code> を定義しています。
-<code>x</code> は <code>fn main() {}</code> ブロックの中でアクセス可能ですが、 <code>y</code> は内側のブロックからのみアクセス出来ます。</p>
+<code>x</code> は <code>fn main() {}</code> ブロックの中でアクセス可能ですが、 <code>y</code> は内側のブロックからのみアクセスできます。</p>
 
 <span class='rusttest'>fn main() {
     let x: i32 = 17;
@@ -548,8 +548,8 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 
 <!-- Instead we get this error: -->
 
-<p>最初の <code>println!</code> は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と印字する筈ですが、
-2つめの <code>println!</code> は <code>y</code> がもうスコープにいないため <code>y</code> にアクセス出来ないのでこの例はコンパイル出来ません。
+<p>最初の <code>println!</code> は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と表示するはずですが、
+2つめの <code>println!</code> は <code>y</code> がもうスコープにいないため <code>y</code> にアクセスできないのでこの例はコンパイルできません。
 代わりに以下のようなエラーが出ます。</p>
 
 <pre><code class="language-bash">$ cargo build
@@ -576,33 +576,33 @@ To learn more, run the command again with --verbose.
 
 <!-- scope, will override the previous binding. -->
 
-<p>さらに加えて、変数束縛は覆い隠すことが出来ます(訳注: このことをシャドーイングと言います)。
+<p>さらに加えて、変数束縛は覆い隠すことができます(訳注: このことをシャドーイングと言います)。
 つまり後に出てくる同じ名前の変数束縛があるとそれがスコープに入り、以前の束縛を上書きするのです。</p>
 
 <span class='rusttest'>fn main() {
     let x: i32 = 8;
 {
 //    println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
-    println!(&quot;{}&quot;, x); // &quot;8&quot;を印字する
+    println!(&quot;{}&quot;, x); // &quot;8&quot;を表示する
     let x = 12;
 //    println!(&quot;{}&quot;, x); // Prints &quot;12&quot;
-    println!(&quot;{}&quot;, x); // &quot;12&quot;を印字する
+    println!(&quot;{}&quot;, x); // &quot;12&quot;を表示する
 }
 // println!(&quot;{}&quot;, x); // Prints &quot;8&quot;
-println!(&quot;{}&quot;, x); // &quot;8&quot;を印字する
+println!(&quot;{}&quot;, x); // &quot;8&quot;を表示する
 let x =  42;
 // println!(&quot;{}&quot;, x); // Prints &quot;42&quot;
-println!(&quot;{}&quot;, x); // &quot;42&quot;を印字する
+println!(&quot;{}&quot;, x); // &quot;42&quot;を表示する
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>8</span>;
 {
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;8&quot;を印字する</span>
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;8&quot;を表示する</span>
     <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>12</span>;
-    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;12&quot;を印字する</span>
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;12&quot;を表示する</span>
 }
-<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;8&quot;を印字する</span>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;8&quot;を表示する</span>
 <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span>  <span class='number'>42</span>;
-<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;42&quot;を印字する</span></pre>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// &quot;42&quot;を表示する</span></pre>
 
 <!-- Shadowing and mutable bindings may appear as two sides of the same coin, but -->
 
@@ -612,8 +612,8 @@ println!(&quot;{}&quot;, x); // &quot;42&quot;を印字する
 
 <!-- is also possible to change the mutability of a binding. -->
 
-<p>シャドーイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用が出来ないケースがあります。
-その1つにシャドーイングは同じ名前に違う型の値を再束縛することが出来ます。</p>
+<p>シャドーイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用ができないケースがあります。
+その1つにシャドーイングは同じ名前に違う型の値を再束縛することができます。</p>
 
 <span class='rusttest'>fn main() {
     let mut x: i32 = 1;
