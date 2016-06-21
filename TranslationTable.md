@@ -101,8 +101,8 @@
 | interior                       | 内側の
 | install                        | インストール
 | installer                      | インストーラ
-| interpolate                    | インターポーレートする
-| interpolation                  | インターポーレーション
+| interpolate                    | 補間する
+| (string) interpolation         | （文字列）補間
 | Intrinsics                     | Intrinsic
 | key                            | キー
 | keyword                        | キーワード

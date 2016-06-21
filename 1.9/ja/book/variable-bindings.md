@@ -3,7 +3,7 @@
 
 <!-- Virtually every non-'Hello World’ Rust program uses *variable bindings*. They -->
 <!-- bind some value to a name, so it can be used later. `let` is -->
-<!-- used to introduce a binding, just like this: -->
+<!-- used to introduce a binding, like this: -->
 事実上全ての「Hello World」でないRustのプログラムは *変数束縛* を使っています。
 変数束縛は何らかの値を名前へと束縛するので、後でその値を使えます。
 このように、 `let` が束縛を導入するのに使われています。
@@ -28,23 +28,23 @@ fn main() {
 
 <!-- In many languages, a variable binding would be called a *variable*, but Rust’s -->
 <!-- variable bindings have a few tricks up their sleeves. For example the -->
-<!-- left-hand side of a `let` expression is a ‘[pattern][pattern]’, not just a -->
+<!-- left-hand side of a `let` statement is a ‘[pattern][pattern]’, not just a -->
 <!-- variable name. This means we can do things like: -->
 多くの言語では変数束縛は *変数* と呼ばれるでしょうが、Rustの変数束縛は多少皮を被せてあります。
-例えば、 `let` の左側の式は「[パターン][pattern]」であって、ただの変数名ではありません。
-これはこのようなことが出来るということです。
+例えば、 `let` 文の左側は「[パターン][pattern]」であって、ただの変数名ではありません。
+これはこのようなことができるということです。
 
 ```rust
 let (x, y) = (1, 2);
 ```
 
-<!-- After this expression is evaluated, `x` will be one, and `y` will be two. -->
+<!-- After this statement is evaluated, `x` will be one, and `y` will be two. -->
 <!-- Patterns are really powerful, and have [their own section][pattern] in the -->
-<!-- book. We don’t need those features for now, so we’ll just keep this in the back -->
+<!-- book. We don’t need those features for now, so we’ll keep this in the back -->
 <!-- of our minds as we go forward. -->
-パターン式が評価されたあと、 `x` は1になり、 `y` は2になります。
+この文が評価されたあと、 `x` は1になり、 `y` は2になります。
 パターンは本当に強力で、本書には[パターンのセクション][pattern]もあります。
-今のところこの機能は必要ないので頭の片隅に留めておいてだけいて下さい。
+今のところこの機能は必要ないので頭の片隅に留めておいてだけいてください。
 
 [pattern]: patterns.html
 
@@ -58,10 +58,10 @@ let (x, y) = (1, 2);
 <!-- out. -->
 Rustは静的な型付言語であり、前もって型を与えておいて、それがコンパイル時に検査されます。
 じゃあなぜ最初の例はコンパイルが通るのでしょう?ええと、Rustには「型推論」と呼ばれるものがあります。
-型推論が型が何であるか判断出来るなら、型を書く必要はなくなります。
+型推論が型が何であるか判断できるなら、型を書く必要はなくなります。
 
 <!-- We can add the type if we want to, though. Types come after a colon (`:`): -->
-書きたいなら型を書くことも出来ます。型はコロン(`:`)のあとに書きます。
+書きたいなら型を書くこともできます。型はコロン(`:`)のあとに書きます。
 
 ```rust
 let x: i32 = 5;
@@ -94,7 +94,7 @@ fn main() {
 <!-- `let`. Including these kinds of comments is not idiomatic Rust, but we'll -->
 <!-- occasionally include them to help you understand what the types that Rust -->
 <!-- infers are. -->
-この注釈と `let` の時に使う記法の類似性に留意して下さい。
+この注釈と `let` の時に使う記法の類似性に留意してください。
 このようなコメントを書くのはRust的ではありませんが、時折理解の手助けのためにRustが推論する型をコメントで注釈します。
 
 <!-- # Mutability -->
@@ -136,7 +136,7 @@ x = 10;
 <!-- something you may not have intended to mutate. If bindings were mutable by -->
 <!-- default, the compiler would not be able to tell you this. If you _did_ intend -->
 <!-- mutation, then the solution is quite easy: add `mut`. -->
-束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと考えることが出来ます。
+束縛がデフォルトでイミュータブルであるのは複合的な理由によるものですが、Rustの主要な焦点、安全性の一環だと考えることができます。
 もし `mut` を忘れたらコンパイラが捕捉して、変更するつもりでなかったものを変更した旨を教えてくれます。
 束縛がデフォルトでミュータブルだったらコンパイラはこれを捕捉できません。
 もし _本当に_ 変更を意図していたのなら話は簡単です。 `mut` をつけ加えればいいのです。
@@ -158,7 +158,7 @@ x = 10;
 Rustの束縛はもう1つ他の言語と異る点があります。束縛を使う前に値で初期化されている必要があるのです。
 
 <!-- Let’s try it out. Change your `src/main.rs` file to look like this: -->
-試してみましょう。 `src/main.rs` をいじってこのようにしてみて下さい。
+試してみましょう。 `src/main.rs` をいじってこのようにしてみてください。
 
 ```rust
 fn main() {
@@ -170,8 +170,8 @@ fn main() {
 
 <!-- You can use `cargo build` on the command line to build it. You’ll get a -->
 <!-- warning, but it will still print "Hello, world!": -->
-コマンドラインで `cargo build` を使ってビルド出来ます。
-警告が出ますが、それでもまだ「Hello, world!」は印字されます。
+コマンドラインで `cargo build` を使ってビルドできます。
+警告が出ますが、それでもまだ「Hello, world!」は表示されます。
 
 ```text
    Compiling hello_world v0.0.1 (file:///home/you/projects/hello_world)
@@ -186,7 +186,7 @@ src/main.rs:2     let x: i32;
 <!-- however. Let’s do that. Change your program to look like this: -->
 Rustは一度も使われない変数について警告を出しますが、一度も使われないので人畜無害です。
 ところがこの `x` を使おうとすると事は一変します。やってみましょう。
-プログラムをこのように変更して下さい。
+プログラムをこのように変更してください。
 
 ```rust,ignore
 fn main() {
@@ -197,7 +197,7 @@ fn main() {
 ```
 
 <!-- And try to build it. You’ll get an error: -->
-そしてビルドしてみて下さい。このようなエラーが出る筈です。
+そしてビルドしてみてください。このようなエラーが出るはずです。
 
 ```bash
 $ cargo build
@@ -224,20 +224,20 @@ Rustでは未初期化の値を使うことは許されていません。
 <!-- in the middle of a string." We add a comma, and then `x`, to indicate that we -->
 <!-- want `x` to be the value we’re interpolating. The comma is used to separate -->
 <!-- arguments we pass to functions and macros, if you’re passing more than one. -->
-印字する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて `{` を眺めてみて下さい。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
-Rustはこれを何かの値を入れて(interpolate、インターポーレート)くれという要求だと解釈します。
-*文字列インターポーレーション* (String interpolation)はコンピュータサイエンスの用語で、「文字列の中に差し込む」という意味です。
-その後に続けてカンマ、そして `x` を置いて `x` がインターポーレートしようとしている値だと指示しています。
+表示する文字列に2つの波括弧(`{}`、口髭という人もいます…(訳注: 海外の顔文字は横になっているので首を傾けて `{` を眺めてみてください。また、日本語だと「中括弧」と呼ぶ人もいますね))を入れました。
+Rustはこれを、何かの値で補間(interpolate)してほしいのだと解釈します。
+*文字列補間* (string interpolation)はコンピュータサイエンスの用語で、「文字列の間に差し込む」という意味です。
+その後に続けてカンマ、そして `x` を置いて、 `x` が補間に使う値だと指示しています。
 カンマは2つ以上の引数を関数やマクロに渡す時に使われます。
 
-<!-- When you just use the curly braces, Rust will attempt to display the value in a -->
+<!-- When you use the curly braces, Rust will attempt to display the value in a -->
 <!-- meaningful way by checking out its type. If you want to specify the format in a -->
 <!-- more detailed manner, there are a [wide number of options available][format]. -->
-<!-- For now, we'll just stick to the default: integers aren't very complicated to -->
+<!-- For now, we'll stick to the default: integers aren't very complicated to -->
 <!-- print. -->
-単に波括弧だけを使った時は、Rustはインターポーレートされる値の型を調べて意味のある方法で表示しようとします。
-フォーマットをさらに詳しく指定したいなら[数多くのオプションが利用出来ます][format]。
-とりあえずのところ、デフォルトに従いましょう。整数の印字はそれほど複雑ではありません。
+波括弧を使うと、Rustは補間に使う値の型を調べて意味のある方法で表示しようとします。
+フォーマットをさらに詳しく指定したいなら[数多くのオプションが利用できます][format]。
+とりあえずのところ、デフォルトに従いましょう。整数の表示はそれほど複雑ではありません。
 
 [format]: ../std/fmt/index.html
 
@@ -253,7 +253,7 @@ Rustはこれを何かの値を入れて(interpolate、インターポーレー�
 束縛に話を戻しましょう。変数束縛にはスコープがあります。変数束縛は定義されたブロック内でしか有効でありません。
 ブロックは `{` と `}` に囲まれた文の集まりです。関数定義もブロックです!
 以下の例では異なるブロックで有効な2つの変数束縛、 `x` と `y` を定義しています。
-`x` は `fn main() {}` ブロックの中でアクセス可能ですが、 `y` は内側のブロックからのみアクセス出来ます。
+`x` は `fn main() {}` ブロックの中でアクセス可能ですが、 `y` は内側のブロックからのみアクセスできます。
 
 
 ```rust,ignore
@@ -272,8 +272,8 @@ fn main() {
 <!-- 3", but this example cannot be compiled successfully, because the second -->
 <!-- `println!` cannot access the value of `y`, since it is not in scope anymore. -->
 <!-- Instead we get this error: -->
-最初の `println!` は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と印字する筈ですが、
-2つめの `println!` は `y` がもうスコープにいないため `y` にアクセス出来ないのでこの例はコンパイル出来ません。
+最初の `println!` は「The value of x is 17 and the value of y is 3」(訳注: 「xの値は17でyの値は3」)と表示するはずですが、
+2つめの `println!` は `y` がもうスコープにいないため `y` にアクセスできないのでこの例はコンパイルできません。
 代わりに以下のようなエラーが出ます。
 
 ```bash
@@ -298,31 +298,31 @@ To learn more, run the command again with --verbose.
 <!-- Additionally, variable bindings can be shadowed. This means that a later -->
 <!-- variable binding with the same name as another binding, that's currently in -->
 <!-- scope, will override the previous binding. -->
-さらに加えて、変数束縛は覆い隠すことが出来ます(訳注: このことをシャドーイングと言います)。
+さらに加えて、変数束縛は覆い隠すことができます(訳注: このことをシャドーイングと言います)。
 つまり後に出てくる同じ名前の変数束縛があるとそれがスコープに入り、以前の束縛を上書きするのです。
 
 ```rust
 let x: i32 = 8;
 {
 # //    println!("{}", x); // Prints "8"
-    println!("{}", x); // "8"を印字する
+    println!("{}", x); // "8"を表示する
     let x = 12;
 # //    println!("{}", x); // Prints "12"
-    println!("{}", x); // "12"を印字する
+    println!("{}", x); // "12"を表示する
 }
 # // println!("{}", x); // Prints "8"
-println!("{}", x); // "8"を印字する
+println!("{}", x); // "8"を表示する
 let x =  42;
 # // println!("{}", x); // Prints "42"
-println!("{}", x); // "42"を印字する
+println!("{}", x); // "42"を表示する
 ```
 
 <!-- Shadowing and mutable bindings may appear as two sides of the same coin, but -->
 <!-- they are two distinct concepts that can't always be used interchangeably. For -->
 <!-- one, shadowing enables us to rebind a name to a value of a different type. It -->
 <!-- is also possible to change the mutability of a binding. -->
-シャドーイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用が出来ないケースがあります。
-その1つにシャドーイングは同じ名前に違う型の値を再束縛することが出来ます。
+シャドーイングとミュータブルな束縛はコインの表と裏のように見えるかもしれませんが、それぞれ独立な概念であり互いに代用ができないケースがあります。
+その1つにシャドーイングは同じ名前に違う型の値を再束縛することができます。
 
 ```rust
 let mut x: i32 = 1;
