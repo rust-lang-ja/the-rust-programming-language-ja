@@ -281,6 +281,7 @@ Rustの `str` 型は最もプリミティブな文字列型です。
 
 [dst]: unsized-types.html
 [strings]: strings.html
+[references]: references-and-borrowing.html
 
 <!-- You can find more documentation for `str` [in the standard library -->
 <!-- documentation][str]. -->
