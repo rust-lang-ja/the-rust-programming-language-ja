@@ -35,11 +35,12 @@
 <!-- Rust has a focus on safety and speed. It accomplishes these goals through many -->
 <!-- ‘zero-cost abstractions’, which means that in Rust, abstractions cost as little -->
 <!-- as possible in order to make them work. The ownership system is a prime example -->
-<!-- of a zero cost abstraction. All of the analysis we’ll talk about in this guide -->
+<!-- of a zero-cost abstraction. All of the analysis we’ll talk about in this guide -->
 <!-- is _done at compile time_. You do not pay any run-time cost for any of these -->
 <!-- features. -->
 Rustは安全性とスピートに焦点を合わせます。
-Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通じて成し遂げます。それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
+Rustはそれらの目標を、様々な「ゼロコスト抽象化」を通じて成し遂げます。
+それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
 所有権システムはゼロコスト抽象化の主な例です。
 このガイドの中で話すであろう解析の全ては _コンパイル時に行われます_ 。
 それらのどの機能に対しても実行時のコストは全く掛かりません。
@@ -54,9 +55,11 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- rules of the ownership system for a period of time, they fight the borrow -->
 <!-- checker less and less. -->
 しかし、このシステムはあるコストを持ちます。それは学習曲線です。
-多くの新しいRustのユーザは「借用チェッカとの戦い」と好んで呼ばれるものを経験します。そこではRustコンパイラが開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
+多くのRust入門者は、私たちが「借用チェッカとの戦い」と呼ぶものを経験します。
+そこではRustコンパイラが、開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
 所有権がどのように機能するのかについてのプログラマのメンタルモデルがRustの実装する実際のルールにマッチしないため、これはしばしば起きます。
-しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。一度彼らが所有権システムのルールとともにしばらく仕事をすれば、彼らが借用チェッカと戦うことは少なくなっていくということです。
+しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。
+それは、所有権システムのルールと共にしばらく仕事をすれば、借用チェッカと戦うことは次第に少なくなっていく、というものです。
 
 <!-- With that in mind, let’s learn about borrowing. -->
 それを念頭に置いて、借用について学びましょう。
@@ -120,9 +123,9 @@ let answer = foo(&v1, &v2);
 何かを借用した束縛はそれがスコープから外れるときにリソースを割当解除しません。
 これは `foo()` の呼出しの後に元の束縛を再び使うことができることを意味します。
 
-<!-- References are immutable, just like bindings. This means that inside of `foo()`, -->
+<!-- References are immutable, like bindings. This means that inside of `foo()`, -->
 <!-- the vectors can’t be changed at all: -->
-参照は束縛とちょうど同じようにイミュータブルです。
+参照は束縛と同じようにイミュータブルです。
 これは `foo()` の中ではベクタは全く変更できないことを意味します。
 
 ```rust,ignore
@@ -153,7 +156,7 @@ v.push(5);
 <!-- There’s a second kind of reference: `&mut T`. A ‘mutable reference’ allows you -->
 <!-- to mutate the resource you’re borrowing. For example: -->
 参照には2つ目の種類、 `&mut T` があります。
-「ミュータブルな参照」によって借用しているリソースを変更することができるようになります。
+「ミュータブルな参照」によって借用しているリソースを変更できるようになります。
 例は次のとおりです。
 
 ```rust
@@ -168,22 +171,22 @@ println!("{}", x);
 <!-- This will print `6`. We make `y` a mutable reference to `x`, then add one to -->
 <!-- the thing `y` points at. You’ll notice that `x` had to be marked `mut` as well. -->
 <!-- If it wasn’t, we couldn’t take a mutable borrow to an immutable value. -->
-これは `6` をプリントするでしょう。
+これは `6` を表示するでしょう。
 `y` を `x` へのミュータブルな参照にして、それから `y` の指示先に1を足します。
 `x` も `mut` とマークしなければならないことに気付くでしょう。
 そうしないと、イミュータブルな値へのミュータブルな借用ということになってしまい、使うことができなくなってしまいます。
 
 <!-- You'll also notice we added an asterisk (`*`) in front of `y`, making it `*y`, -->
-<!-- this is because `y` is an `&mut` reference. You'll also need to use them for -->
+<!-- this is because `y` is a `&mut` reference. You'll also need to use them for -->
 <!-- accessing the contents of a reference as well. -->
 アスタリスク（ `*` ）を `y` の前に追加して、それを `*y` にしたことにも気付くでしょう。これは、 `y` が `&mut` 参照だからです。
 参照の内容にアクセスするためにもそれらを使う必要があるでしょう。
 
-<!-- Otherwise, `&mut` references are just like references. There _is_ a large -->
+<!-- Otherwise, `&mut` references are like references. There _is_ a large -->
 <!-- difference between the two, and how they interact, though. You can tell -->
 <!-- something is fishy in the above example, because we need that extra scope, with -->
 <!-- the `{` and `}`. If we remove them, we get an error: -->
-それ以外は、 `&mut` 参照は普通の参照と全く同じです。
+それ以外は、 `&mut` 参照は普通の参照と同じです。
 しかし、2つの間には、そしてそれらがどのように相互作用するかには大きな違いが _あります_ 。
 前の例で何かが怪しいと思ったかもしれません。なぜなら、 `{` と `}` を使って追加のスコープを必要とするからです。
 もしそれらを削除すれば、次のようなエラーが出ます。
@@ -223,8 +226,8 @@ fn main() {
 * リソースに対する1つ以上の参照（ `&T` ）
 * ただ1つのミュータブルな参照（ `&mut T` ）
 
-<!-- You may notice that this is very similar, though not exactly the same as, -->
-<!-- to the definition of a data race: -->
+<!-- You may notice that this is very similar to, though not exactly the same as, -->
+<!-- the definition of a data race: -->
 これがデータ競合の定義と非常に似ていることに気付くかもしれません。全く同じではありませんが。
 
 <!-- &lt; There is a ‘data race’ when two or more pointers access the same memory -->
@@ -283,11 +286,13 @@ fn main() {
 ```
 
 <!-- In other words, the mutable borrow is held through the rest of our example. What -->
-<!-- we want is for the mutable borrow to end _before_ we try to call `println!` and -->
-<!-- make an immutable borrow. In Rust, borrowing is tied to the scope that the -->
-<!-- borrow is valid for. And our scopes look like this: -->
-言い換えると、ミュータブルな借用は先程の例の残りの間ずっと保持されるということです。
-必要なものは、 `println!` を呼び出し、イミュータブルな借用を作ろうとする _前に_ 終わるミュータブルな借用です。
+<!-- we want is for the mutable borrow by `y` to end so that the resource can be -->
+<!-- returned to the owner, `x`. `x` can then provide a immutable borrow to `println!`. -->
+<!-- In Rust, borrowing is tied to the scope that the borrow is valid for. And our -->
+<!-- scopes look like this: -->
+言い換えると、ミュータブルな借用は、先ほどの例の残りの間、ずっと保持されるということです。
+ここで私たちが求めているのは、`y` によるミュータブルな借用が終わり、リソースがその所有者である `x` に返却されることです。
+そうすれば `x` は `println!` にイミュータブルな借用を提供できるわけです。
 Rustでは借用はその有効なスコープと結び付けられます。
 そしてスコープはこのように見えます。
 
@@ -331,9 +336,9 @@ println!("{}", x);  // <- ここでxを借用しようとする
 
 <!-- There’s no problem. Our mutable borrow goes out of scope before we create an -->
 <!-- immutable one. But scope is the key to seeing how long a borrow lasts for. -->
-問題ありません。
+これなら問題ありません。
 ミュータブルな借用はイミュータブルな借用を作る前にスコープから外れます。
-しかしスコープは借用がどれくらい存続するのか理解するための鍵となります。
+しかしスコープは、借用がどれくらい存続するのか理解するための鍵となります。
 
 <!-- ## Issues borrowing prevents -->
 ## 借用が回避する問題
@@ -362,10 +367,10 @@ for i in &v {
 }
 ```
 
-<!-- This prints out one through three. As we iterate through the vectors, we’re -->
+<!-- This prints out one through three. As we iterate through the vector, we’re -->
 <!-- only given references to the elements. And `v` is itself borrowed as immutable, -->
 <!-- which means we can’t change it while we’re iterating: -->
-これは1から3までをプリントアウトします。
+これは1から3までを表示します。
 ベクタに対して繰り返すとき、要素への参照だけを受け取ります。
 そして、 `v` はそれ自体イミュータブルとして借用され、それは繰返しを行っている間はそれを変更できないことを意味します。
 
