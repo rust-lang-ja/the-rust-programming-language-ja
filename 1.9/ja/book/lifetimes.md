@@ -38,7 +38,8 @@
 <!-- is _done at compile time_. You do not pay any run-time cost for any of these -->
 <!-- features. -->
 Rustは安全性とスピートに焦点を合わせます。
-Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通じて成し遂げます。それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
+Rustはそれらの目標を、様々な「ゼロコスト抽象化」を通じて成し遂げます。
+それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
 所有権システムはゼロコスト抽象化の主な例です。
 このガイドの中で話すであろう解析の全ては _コンパイル時に行われます_ 。
 それらのどの機能に対しても実行時のコストは全く掛かりません。
@@ -53,9 +54,11 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- rules of the ownership system for a period of time, they fight the borrow -->
 <!-- checker less and less. -->
 しかし、このシステムはあるコストを持ちます。それは学習曲線です。
-多くの新しいRustのユーザは「借用チェッカとの戦い」と好んで呼ばれるものを経験します。そこではRustコンパイラが開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
+多くのRust入門者は、私たちが「借用チェッカとの戦い」と呼ぶものを経験します。
+そこではRustコンパイラが、開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
 所有権がどのように機能するのかについてのプログラマのメンタルモデルがRustの実装する実際のルールにマッチしないため、これはしばしば起きます。
-しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。一度彼らが所有権システムのルールとともにしばらく仕事をすれば、彼らが借用チェッカと戦うことは少なくなっていくということです。
+しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。
+それは、所有権システムのルールと共にしばらく仕事をすれば、借用チェッカと戦うことは次第に少なくなっていく、というものです。
 
 <!-- With that in mind, let’s learn about lifetimes. -->
 それを念頭に置いて、所有権について学びましょう。
@@ -80,9 +83,9 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- Uh oh! Your reference is pointing to an invalid resource. This is called a -->
 <!-- dangling pointer or ‘use after free’, when the resource is memory. -->
-あー！　
-あなたの参照は無効なリソースを指示しています。
-リソースがメモリであるとき、これはダングリングポインタ又は「解放後の使用」と呼ばれます。
+あー！
+あなたの参照は無効なリソースを指しています。
+リソースがメモリであるとき、これはダングリングポインタまたは「解放後の使用」と呼ばれます。
 
 <!-- To fix this, we have to make sure that step four never happens after step -->
 <!-- three. The ownership system in Rust does this through a concept called -->
@@ -90,9 +93,9 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 これを修正するためには、ステップ3の後にステップ4が絶対に起こらないようにしなければなりません。
 Rustでの所有権システムはこれをライフタイムと呼ばれる概念を通じて行います。それは参照の有効なスコープを記述するものです。
 
-<!-- When we have a function that takes a reference by argument, we can be implicit -->
-<!-- or explicit about the lifetime of the reference: -->
-引数として参照を受け取る関数について、参照のライフタイムを黙示又は明示することができます。
+<!-- When we have a function that takes an argument by reference, we can be -->
+<!-- implicit or explicit about the lifetime of the reference: -->
+引数として参照を受け取る関数について、参照のライフタイムを黙示または明示できます。
 
 ```rust
 # // implicit
@@ -124,10 +127,10 @@ fn bar<'a>(...)
 <!-- discuss the `<>`s after a function’s name. A function can have ‘generic -->
 <!-- parameters’ between the `<>`s, of which lifetimes are one kind. We’ll discuss -->
 <!-- other kinds of generics [later in the book][generics], but for now, let’s -->
-<!-- just focus on the lifetimes aspect. -->
+<!-- focus on the lifetimes aspect. -->
 [関数の構文][functions] については前に少し話しました。しかし、関数名の後の `<>` については議論しませんでした。
 関数は `<>` の間に「ジェネリックパラメータ」を持つことができ、ライフタイムはその一種です。
-他の種類のジェネリクスについては [本書の後の方][generics] で議論しますが、とりあえず、ライフタイムの面だけに焦点を合わせましょう。
+他の種類のジェネリクスについては [本書の後の方][generics] で議論しますが、とりあえず、ライフタイムの面に焦点を合わせましょう。
 
 [functions]: functions.html
 [generics]: generics.html
@@ -149,14 +152,14 @@ fn bar<'a, 'b>(...)
 ...(x: &'a i32)
 ```
 
-<!-- If we wanted an `&mut` reference, we’d do this: -->
+<!-- If we wanted a `&mut` reference, we’d do this: -->
 もし `&mut` 参照が欲しいのならば、次のようにします。
 
 ```rust,ignore
 ...(x: &'a mut i32)
 ```
 
-<!-- If you compare `&mut i32` to `&'a mut i32`, they’re the same, it’s just that -->
+<!-- If you compare `&mut i32` to `&'a mut i32`, they’re the same, it’s that -->
 <!-- the lifetime `'a` has snuck in between the `&` and the `mut i32`. We read `&mut -->
 <!-- i32` as ‘a mutable reference to an `i32`’ and `&'a mut i32` as ‘a mutable -->
 <!-- reference to an `i32` with the lifetime `'a`’. -->
@@ -187,7 +190,7 @@ fn main() {
 [structs]: structs.html
 
 <!-- As you can see, `struct`s can also have lifetimes. In a similar way to functions, -->
-見てのとおり、 `struct` もライフタイムを持つことができます。
+見てのとおり、 `struct` もライフタイムを持てます。
 これは関数と同じ方法です。
 
 ```rust
@@ -236,16 +239,16 @@ fn main() {
 ```
 
 <!-- As you can see, we need to declare a lifetime for `Foo` in the `impl` line. We repeat -->
-<!-- `'a` twice, just like on functions: `impl<'a>` defines a lifetime `'a`, and `Foo<'a>` -->
+<!-- `'a` twice, like on functions: `impl<'a>` defines a lifetime `'a`, and `Foo<'a>` -->
 <!-- uses it. -->
 見てのとおり、 `Foo` のライフタイムは `impl` 行で宣言する必要があります。
-ちょうど関数のときのように `'a` は2回繰り返されます。つまり、 `impl<'a>` はライフタイム `'a` を定義し、 `Foo<'a>` はそれを使うのです。
+関数のときのように `'a` は2回繰り返されます。つまり、 `impl<'a>` はライフタイム `'a` を定義し、 `Foo<'a>` はそれを使うのです。
 
 <!-- ## Multiple lifetimes -->
 ## 複数のライフタイム
 
 <!-- If you have multiple references, you can use the same lifetime multiple times: -->
-もし複数の参照があれば、同じライフタイムを複数回使うことができます。
+もし複数の参照があるなら、同じライフタイムを何度でも使えます。
 
 ```rust
 fn x_or_y<'a>(x: &'a str, y: &'a str) -> &'a str {
@@ -257,7 +260,7 @@ fn x_or_y<'a>(x: &'a str, y: &'a str) -> &'a str {
 <!-- return value is also alive for that scope. If you wanted `x` and `y` to have -->
 <!-- different lifetimes, you can use multiple lifetime parameters: -->
 これは `x` と `y` が両方とも同じスコープで有効であり、戻り値もそのスコープで有効であることを示します。
-もし `x` と `y` に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使うことができます。
+もし `x` と `y` に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使えます。
 
 ```rust
 fn x_or_y<'a, 'b>(x: &'a str, y: &'b str) -> &'a str {
@@ -349,14 +352,14 @@ fn main() {
 <!-- Whew! As you can see here, the scopes of `f` and `y` are smaller than the scope -->
 <!-- of `x`. But when we do `x = &f.x`, we make `x` a reference to something that’s -->
 <!-- about to go out of scope. -->
-ふう!
+ふう！
 見てのとおり、ここでは `f` と `y` のスコープは `x` のスコープよりも小さいです。
 しかし `x = &f.x` を実行するとき、 `x` をまさにスコープから外れた何かの参照にしてしまいます。
 
 <!-- Named lifetimes are a way of giving these scopes a name. Giving something a -->
 <!-- name is the first step towards being able to talk about it. -->
 名前の付いたライフタイムはそれらのスコープに名前を与える方法です。
-何かに名前を与えることはそれについて話をすることができるようになるための最初のステップです。
+何かに名前を与えることはそれについて話をできるようになるための最初のステップです。
 
 <!-- ## 'static -->
 ## 'static
@@ -390,19 +393,18 @@ let x: &'static i32 = &FOO;
 <!-- ## Lifetime Elision -->
 ## ライフタイムの省略
 
-<!-- Rust supports powerful local type inference in function bodies, but it’s -->
-<!-- forbidden in item signatures to allow reasoning about the types based on -->
-<!-- the item signature alone. However, for ergonomic reasons a very restricted -->
-<!-- secondary inference algorithm called “lifetime elision” applies in function -->
-<!-- signatures. It infers only based on the signature components themselves and not -->
-<!-- based on the body of the function, only infers lifetime parameters, and does -->
-<!-- this with only three easily memorizable and unambiguous rules. This makes -->
-<!-- lifetime elision a shorthand for writing an item signature, while not hiding -->
+<!-- Rust supports powerful local type inference in the bodies of functions but not in their item signatures. -->
+<!-- It's forbidden to allow reasoning about types based on the item signature alone. -->
+<!-- However, for ergonomic reasons, a very restricted secondary inference algorithm called -->
+<!-- “lifetime elision” does apply when judging lifetimes. Lifetime elision is concerned solely to infer -->
+<!-- lifetime parameters using three easily memorizable and unambiguous rules. This means lifetime elision -->
+<!-- acts as a shorthand for writing an item signature, while not hiding -->
 <!-- away the actual types involved as full local inference would if applied to it. -->
-Rustは関数本体の部分では強力なローカル型推論をサポートします。しかし要素のシグネチャの部分では、型が要素のシグネチャだけでわかるようにするため、（型推論が）許されていません。
-とはいえ、エルゴノミック（人間にとっての扱いやすさ）の理由により、"ライフタイムの省略"と呼ばれている、非常に制限された第二の推論アルゴリズムがシグネチャの部分に適用されます。
-その推論はシグネチャのコンポーネントだけに基づき、関数本体には基づかず、ライフタイムパラメータだけを推論します。そしてたった3つの覚えやすく明確なルールに従って行います。
-ライフタイムの省略で要素のシグネチャを短く書くことができます。しかしローカル型推論が適用されるときのように実際の型を隠すことはできません。
+Rustは関数本体については強力なローカル型推論をサポートしますが、要素のシグネチャについては別です。
+そこで型推論が許されていないのは、要素のシグネチャだけで型がわかるようにするためです。
+とはいえ、エルゴノミック（人間にとっての扱いやすさ）上の理由により、ライフタイムを決定する際には、「ライフタイムの省略」と呼ばれる、非常に制限された第二の推論アルゴリズムが適用されます。
+ライフタイムの推論は、ライフタイムパラメータの推論だけに関係しており、たった3つの覚えやすく明確なルールに従います。
+ライフタイムの省略は要素のシグネチャを短く書けることを意味しますが、ローカル型推論が適用されるときのように実際の型を隠すことはできません。
 
 <!-- When talking about lifetime elision, we use the term *input lifetime* and -->
 <!-- *output lifetime*. An *input lifetime* is a lifetime associated with a parameter -->
@@ -431,11 +433,11 @@ fn foo<'a>(bar: &'a str) -> &'a str
 ```
 
 <!-- Here are the three rules: -->
-これが3つのルールです。
+3つのルールを以下に示します。
 
 <!-- * Each elided lifetime in a function’s arguments becomes a distinct lifetime -->
 <!--   parameter. -->
-* 関数の引数の中の省略された各ライフタイムは互いに異なるライフタイムパラメータになる
+* 関数の引数の中の省略された各ライフタイムは、互いに異なるライフタイムパラメータになる
 
 <!-- * If there is exactly one input lifetime, elided or not, that lifetime is -->
 <!--   assigned to all elided lifetimes in the return values of that function. -->
@@ -443,7 +445,7 @@ fn foo<'a>(bar: &'a str) -> &'a str
 
 <!-- * If there are multiple input lifetimes, but one of them is `&self` or `&mut -->
 <!--   self`, the lifetime of `self` is assigned to all elided output lifetimes. -->
-* もし入力ライフタイムが複数あるが、その1つが `&self` 又は `&mut self` であれば、 `self` のライフタイムは省略された出力ライフタイム全てに割り当てられる
+* もし入力ライフタイムが複数あるが、その1つが `&self` または `&mut self` であれば、 `self` のライフタイムは省略された出力ライフタイム全てに割り当てられる
 
 <!-- Otherwise, it is an error to elide an output lifetime. -->
 そうでないときは、出力ライフタイムの省略はエラーです。
@@ -492,10 +494,10 @@ fn frob<'a, 'b>(s: &'a str, t: &'b str) -> &str; // 展開された形。出力�
 fn get_mut(&mut self) -> &mut T; // 省略された形
 fn get_mut<'a>(&'a mut self) -> &'a mut T; // 展開された形
 
-# // fn args<T:ToCStr>(&mut self, args: &[T]) -> &mut Command; // elided
-# // fn args<'a, 'b, T:ToCStr>(&'a mut self, args: &'b [T]) -> &'a mut Command; // expanded
-fn args<T:ToCStr>(&mut self, args: &[T]) -> &mut Command; // 省略された形
-fn args<'a, 'b, T:ToCStr>(&'a mut self, args: &'b [T]) -> &'a mut Command; // 展開された形
+# // fn args<T: ToCStr>(&mut self, args: &[T]) -> &mut Command; // elided
+# // fn args<'a, 'b, T: ToCStr>(&'a mut self, args: &'b [T]) -> &'a mut Command; // expanded
+fn args<T: ToCStr>(&mut self, args: &[T]) -> &mut Command; // 省略された形
+fn args<'a, 'b, T: ToCStr>(&'a mut self, args: &'b [T]) -> &'a mut Command; // 展開された形
 
 # // fn new(buf: &mut [u8]) -> BufWriter; // elided
 # // fn new<'a>(buf: &'a mut [u8]) -> BufWriter<'a>; // expanded
