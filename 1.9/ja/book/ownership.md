@@ -105,10 +105,12 @@ fn foo() {
 ベクタは [ジェネリクス型][generics] `Vec<T>` を持ちますので、この例における `v` は `Vec<i32>` 型になるでしょう。
 ジェネリクスについては、この章の後の方で詳しく説明します。
 
-[arrays]: primitive-types.html#arrays
+[arrays]: primitive-types.html#配列
 [vectors]: vectors.html
-[heap]: the-stack-and-the-heap.html
-[stack]: the-stack-and-the-heap.html#the-stack
+<!-- 訳注：原文では[heap]のリンク先が単に the-stack-and-the-heap.html となっていますが、 -->
+<!-- [stack]に合わせて、#ヒープ を追加しました -->
+[heap]: the-stack-and-the-heap.html#ヒープ
+[stack]: the-stack-and-the-heap.html#スタック
 [bindings]: variable-bindings.html
 [generics]: generics.html
 
@@ -193,6 +195,9 @@ let x = 10;
 Rustは [スタック][sh] 上に整数 [i32] のためのメモリを割り当て、そこに、10という値を表すビットパターンをコピーします。
 そして後から参照できるよう、変数名xをこのメモリ領域に束縛します。
 
+<!-- 訳注：原文ではi32へのリンクが抜けているので、ここに追加しました -->
+[i32]: primitive-types.html#数値型
+
 <!-- Now consider the following code fragment: -->
 今度は、こんなコード片について考えてみましょう。
 
@@ -232,8 +237,8 @@ let mut v2 = v;
 <!-- `v` and `v2` at the same time. -->
 `v` を `v2` にムーブするときRustが実際に行うのは、ビット単位のコピーを使って、ベクタオブジェクト `v` が示すスタック領域の情報を、 `v2` が示すスタック領域へコピーすることです。
 この浅いコピーでは、実際のデータを格納しているヒープ領域はコピーしません。
-これはベクタに格納されたデータとして、ヒープ上の同一のメモリ領域を指すポインタが、2つできてしまうことを意味します。
-もし誰かが `v` と `v2` に同時にアクセスしたら？
+これは、ベクタの内容として、同一のヒープメモリ領域を指すポインタが2つあることを意味します。
+もし誰かが `v` と `v2` に同時にアクセスできるとしたら？
 これはデータ競合を持ち込むことになり、Rustの安全性保証に違反するでしょう。
 
 <!-- For example if we truncated the vector to just two elements through `v2`: -->
