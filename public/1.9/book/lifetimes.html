@@ -232,7 +232,8 @@
 <!-- features. -->
 
 <p>Rustは安全性とスピートに焦点を合わせます。
-Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通じて成し遂げます。それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
+Rustはそれらの目標を、様々な「ゼロコスト抽象化」を通じて成し遂げます。
+それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
 所有権システムはゼロコスト抽象化の主な例です。
 このガイドの中で話すであろう解析の全ては <em>コンパイル時に行われます</em> 。
 それらのどの機能に対しても実行時のコストは全く掛かりません。</p>
@@ -256,9 +257,11 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- checker less and less. -->
 
 <p>しかし、このシステムはあるコストを持ちます。それは学習曲線です。
-多くの新しいRustのユーザは「借用チェッカとの戦い」と好んで呼ばれるものを経験します。そこではRustコンパイラが開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
+多くのRust入門者は、私たちが「借用チェッカとの戦い」と呼ぶものを経験します。
+そこではRustコンパイラが、開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
 所有権がどのように機能するのかについてのプログラマのメンタルモデルがRustの実装する実際のルールにマッチしないため、これはしばしば起きます。
-しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。一度彼らが所有権システムのルールとともにしばらく仕事をすれば、彼らが借用チェッカと戦うことは少なくなっていくということです。</p>
+しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。
+それは、所有権システムのルールと共にしばらく仕事をすれば、借用チェッカと戦うことは次第に少なくなっていく、というものです。</p>
 
 <!-- With that in mind, let’s learn about lifetimes. -->
 
@@ -295,9 +298,9 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- dangling pointer or ‘use after free’, when the resource is memory. -->
 
-<p>あー！　
-あなたの参照は無効なリソースを指示しています。
-リソースがメモリであるとき、これはダングリングポインタ又は「解放後の使用」と呼ばれます。</p>
+<p>あー！
+あなたの参照は無効なリソースを指しています。
+リソースがメモリであるとき、これはダングリングポインタまたは「解放後の使用」と呼ばれます。</p>
 
 <!-- To fix this, we have to make sure that step four never happens after step -->
 
@@ -308,11 +311,11 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <p>これを修正するためには、ステップ3の後にステップ4が絶対に起こらないようにしなければなりません。
 Rustでの所有権システムはこれをライフタイムと呼ばれる概念を通じて行います。それは参照の有効なスコープを記述するものです。</p>
 
-<!-- When we have a function that takes a reference by argument, we can be implicit -->
+<!-- When we have a function that takes an argument by reference, we can be -->
 
-<!-- or explicit about the lifetime of the reference: -->
+<!-- implicit or explicit about the lifetime of the reference: -->
 
-<p>引数として参照を受け取る関数について、参照のライフタイムを黙示又は明示することができます。</p>
+<p>引数として参照を受け取る関数について、参照のライフタイムを黙示または明示できます。</p>
 
 <span class='rusttest'>fn main() {
     // implicit
@@ -358,11 +361,11 @@ fn bar&lt;&#39;a&gt;(x: &amp;&#39;a i32) {
 
 <!-- other kinds of generics [later in the book][generics], but for now, let’s -->
 
-<!-- just focus on the lifetimes aspect. -->
+<!-- focus on the lifetimes aspect. -->
 
 <p><a href="functions.html">関数の構文</a> については前に少し話しました。しかし、関数名の後の <code>&lt;&gt;</code> については議論しませんでした。
 関数は <code>&lt;&gt;</code> の間に「ジェネリックパラメータ」を持つことができ、ライフタイムはその一種です。
-他の種類のジェネリクスについては <a href="generics.html">本書の後の方</a> で議論しますが、とりあえず、ライフタイムの面だけに焦点を合わせましょう。</p>
+他の種類のジェネリクスについては <a href="generics.html">本書の後の方</a> で議論しますが、とりあえず、ライフタイムの面に焦点を合わせましょう。</p>
 
 <!-- We use `<>` to declare our lifetimes. This says that `bar` has one lifetime, -->
 
@@ -386,7 +389,7 @@ fn bar&lt;&#39;a&gt;(x: &amp;&#39;a i32) {
 }</span><pre class='rust rust-example-rendered'>
 ...(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='ident'>i32</span>)</pre>
 
-<!-- If we wanted an `&mut` reference, we’d do this: -->
+<!-- If we wanted a `&mut` reference, we’d do this: -->
 
 <p>もし <code>&amp;mut</code> 参照が欲しいのならば、次のようにします。</p>
 
@@ -395,7 +398,7 @@ fn bar&lt;&#39;a&gt;(x: &amp;&#39;a i32) {
 }</span><pre class='rust rust-example-rendered'>
 ...(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>i32</span>)</pre>
 
-<!-- If you compare `&mut i32` to `&'a mut i32`, they’re the same, it’s just that -->
+<!-- If you compare `&mut i32` to `&'a mut i32`, they’re the same, it’s that -->
 
 <!-- the lifetime `'a` has snuck in between the `&` and the `mut i32`. We read `&mut -->
 
@@ -440,7 +443,7 @@ fn main() {
 
 <!-- As you can see, `struct`s can also have lifetimes. In a similar way to functions, -->
 
-<p>見てのとおり、 <code>struct</code> もライフタイムを持つことができます。
+<p>見てのとおり、 <code>struct</code> もライフタイムを持てます。
 これは関数と同じ方法です。</p>
 
 <span class='rusttest'>fn main() {
@@ -509,19 +512,19 @@ fn main() {
 
 <!-- As you can see, we need to declare a lifetime for `Foo` in the `impl` line. We repeat -->
 
-<!-- `'a` twice, just like on functions: `impl<'a>` defines a lifetime `'a`, and `Foo<'a>` -->
+<!-- `'a` twice, like on functions: `impl<'a>` defines a lifetime `'a`, and `Foo<'a>` -->
 
 <!-- uses it. -->
 
 <p>見てのとおり、 <code>Foo</code> のライフタイムは <code>impl</code> 行で宣言する必要があります。
-ちょうど関数のときのように <code>&#39;a</code> は2回繰り返されます。つまり、 <code>impl&lt;&#39;a&gt;</code> はライフタイム <code>&#39;a</code> を定義し、 <code>Foo&lt;&#39;a&gt;</code> はそれを使うのです。</p>
+関数のときのように <code>&#39;a</code> は2回繰り返されます。つまり、 <code>impl&lt;&#39;a&gt;</code> はライフタイム <code>&#39;a</code> を定義し、 <code>Foo&lt;&#39;a&gt;</code> はそれを使うのです。</p>
 
 <!-- ## Multiple lifetimes -->
 
 <h2 id='複数のライフタイム' class='section-header'><a href='#複数のライフタイム'>複数のライフタイム</a></h2>
 <!-- If you have multiple references, you can use the same lifetime multiple times: -->
 
-<p>もし複数の参照があれば、同じライフタイムを複数回使うことができます。</p>
+<p>もし複数の参照があるなら、同じライフタイムを何度でも使えます。</p>
 
 <span class='rusttest'>fn main() {
     fn x_or_y&lt;&#39;a&gt;(x: &amp;&#39;a str, y: &amp;&#39;a str) -&gt; &amp;&#39;a str {
@@ -537,7 +540,7 @@ fn main() {
 <!-- different lifetimes, you can use multiple lifetime parameters: -->
 
 <p>これは <code>x</code> と <code>y</code> が両方とも同じスコープで有効であり、戻り値もそのスコープで有効であることを示します。
-もし <code>x</code> と <code>y</code> に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使うことができます。</p>
+もし <code>x</code> と <code>y</code> に違うライフタイムを持たせたいのであれば、複数のライフタイムパラメータを使えます。</p>
 
 <span class='rusttest'>fn main() {
     fn x_or_y&lt;&#39;a, &#39;b&gt;(x: &amp;&#39;a str, y: &amp;&#39;b str) -&gt; &amp;&#39;a str {
@@ -668,7 +671,7 @@ fn main() {
 
 <!-- about to go out of scope. -->
 
-<p>ふう!
+<p>ふう！
 見てのとおり、ここでは <code>f</code> と <code>y</code> のスコープは <code>x</code> のスコープよりも小さいです。
 しかし <code>x = &amp;f.x</code> を実行するとき、 <code>x</code> をまさにスコープから外れた何かの参照にしてしまいます。</p>
 
@@ -677,7 +680,7 @@ fn main() {
 <!-- name is the first step towards being able to talk about it. -->
 
 <p>名前の付いたライフタイムはそれらのスコープに名前を与える方法です。
-何かに名前を与えることはそれについて話をすることができるようになるための最初のステップです。</p>
+何かに名前を与えることはそれについて話をできるようになるための最初のステップです。</p>
 
 <!-- ## 'static -->
 
@@ -722,28 +725,25 @@ let x: &amp;&#39;static i32 = &amp;FOO;
 <!-- ## Lifetime Elision -->
 
 <h2 id='ライフタイムの省略' class='section-header'><a href='#ライフタイムの省略'>ライフタイムの省略</a></h2>
-<!-- Rust supports powerful local type inference in function bodies, but it’s -->
+<!-- Rust supports powerful local type inference in the bodies of functions but not in their item signatures. -->
 
-<!-- forbidden in item signatures to allow reasoning about the types based on -->
+<!-- It's forbidden to allow reasoning about types based on the item signature alone. -->
 
-<!-- the item signature alone. However, for ergonomic reasons a very restricted -->
+<!-- However, for ergonomic reasons, a very restricted secondary inference algorithm called -->
 
-<!-- secondary inference algorithm called “lifetime elision” applies in function -->
+<!-- “lifetime elision” does apply when judging lifetimes. Lifetime elision is concerned solely to infer -->
 
-<!-- signatures. It infers only based on the signature components themselves and not -->
+<!-- lifetime parameters using three easily memorizable and unambiguous rules. This means lifetime elision -->
 
-<!-- based on the body of the function, only infers lifetime parameters, and does -->
-
-<!-- this with only three easily memorizable and unambiguous rules. This makes -->
-
-<!-- lifetime elision a shorthand for writing an item signature, while not hiding -->
+<!-- acts as a shorthand for writing an item signature, while not hiding -->
 
 <!-- away the actual types involved as full local inference would if applied to it. -->
 
-<p>Rustは関数本体の部分では強力なローカル型推論をサポートします。しかし要素のシグネチャの部分では、型が要素のシグネチャだけでわかるようにするため、（型推論が）許されていません。
-とはいえ、エルゴノミック（人間にとっての扱いやすさ）の理由により、&quot;ライフタイムの省略&quot;と呼ばれている、非常に制限された第二の推論アルゴリズムがシグネチャの部分に適用されます。
-その推論はシグネチャのコンポーネントだけに基づき、関数本体には基づかず、ライフタイムパラメータだけを推論します。そしてたった3つの覚えやすく明確なルールに従って行います。
-ライフタイムの省略で要素のシグネチャを短く書くことができます。しかしローカル型推論が適用されるときのように実際の型を隠すことはできません。</p>
+<p>Rustは関数本体については強力なローカル型推論をサポートしますが、要素のシグネチャについては別です。
+そこで型推論が許されていないのは、要素のシグネチャだけで型がわかるようにするためです。
+とはいえ、エルゴノミック（人間にとっての扱いやすさ）上の理由により、ライフタイムを決定する際には、「ライフタイムの省略」と呼ばれる、非常に制限された第二の推論アルゴリズムが適用されます。
+ライフタイムの推論は、ライフタイムパラメータの推論だけに関係しており、たった3つの覚えやすく明確なルールに従います。
+ライフタイムの省略は要素のシグネチャを短く書けることを意味しますが、ローカル型推論が適用されるときのように実際の型を隠すことはできません。</p>
 
 <!-- When talking about lifetime elision, we use the term *input lifetime* and -->
 
@@ -782,14 +782,14 @@ let x: &amp;&#39;static i32 = &amp;FOO;
 
 <!-- Here are the three rules: -->
 
-<p>これが3つのルールです。</p>
+<p>3つのルールを以下に示します。</p>
 
 <!-- * Each elided lifetime in a function’s arguments becomes a distinct lifetime -->
 
 <!--   parameter. -->
 
 <ul>
-<li>関数の引数の中の省略された各ライフタイムは互いに異なるライフタイムパラメータになる</li>
+<li>関数の引数の中の省略された各ライフタイムは、互いに異なるライフタイムパラメータになる</li>
 </ul>
 
 <!-- * If there is exactly one input lifetime, elided or not, that lifetime is -->
@@ -805,7 +805,7 @@ let x: &amp;&#39;static i32 = &amp;FOO;
 <!--   self`, the lifetime of `self` is assigned to all elided output lifetimes. -->
 
 <ul>
-<li>もし入力ライフタイムが複数あるが、その1つが <code>&amp;self</code> 又は <code>&amp;mut self</code> であれば、 <code>self</code> のライフタイムは省略された出力ライフタイム全てに割り当てられる</li>
+<li>もし入力ライフタイムが複数あるが、その1つが <code>&amp;self</code> または <code>&amp;mut self</code> であれば、 <code>self</code> のライフタイムは省略された出力ライフタイム全てに割り当てられる</li>
 </ul>
 
 <!-- Otherwise, it is an error to elide an output lifetime. -->
@@ -858,10 +858,10 @@ fn frob&lt;&#39;a, &#39;b&gt;(s: &amp;&#39;a str, t: &amp;&#39;b str) -&gt; &amp
 fn get_mut(&amp;mut self) -&gt; &amp;mut T; // 省略された形
 fn get_mut&lt;&#39;a&gt;(&amp;&#39;a mut self) -&gt; &amp;&#39;a mut T; // 展開された形
 
-// fn args&lt;T:ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // elided
-// fn args&lt;&#39;a, &#39;b, T:ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // expanded
-fn args&lt;T:ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // 省略された形
-fn args&lt;&#39;a, &#39;b, T:ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // 展開された形
+// fn args&lt;T: ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // elided
+// fn args&lt;&#39;a, &#39;b, T: ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // expanded
+fn args&lt;T: ToCStr&gt;(&amp;mut self, args: &amp;[T]) -&gt; &amp;mut Command; // 省略された形
+fn args&lt;&#39;a, &#39;b, T: ToCStr&gt;(&amp;&#39;a mut self, args: &amp;&#39;b [T]) -&gt; &amp;&#39;a mut Command; // 展開された形
 
 // fn new(buf: &amp;mut [u8]) -&gt; BufWriter; // elided
 // fn new&lt;&#39;a&gt;(buf: &amp;&#39;a mut [u8]) -&gt; BufWriter&lt;&#39;a&gt;; // expanded
@@ -889,8 +889,8 @@ fn new&lt;&#39;a&gt;(buf: &amp;&#39;a mut [u8]) -&gt; BufWriter&lt;&#39;a&gt;; /
 <span class='kw'>fn</span> <span class='ident'>get_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>T</span>; <span class='comment'>// 省略された形</span>
 <span class='kw'>fn</span> <span class='ident'>get_mut</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>T</span>; <span class='comment'>// 展開された形</span>
 
-<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='ident'>T</span>:<span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// 省略された形</span>
-<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>T</span>:<span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> [<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// 展開された形</span>
+<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='ident'>T</span>: <span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span>[<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// 省略された形</span>
+<span class='kw'>fn</span> <span class='ident'>args</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span>, <span class='lifetime'>&#39;b</span>, <span class='ident'>T</span>: <span class='ident'>ToCStr</span><span class='op'>&gt;</span>(<span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;b</span> [<span class='ident'>T</span>]) <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> <span class='ident'>Command</span>; <span class='comment'>// 展開された形</span>
 
 <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>BufWriter</span>; <span class='comment'>// 省略された形</span>
 <span class='kw'>fn</span> <span class='ident'>new</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>(<span class='ident'>buf</span>: <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;a</span> <span class='kw-2'>mut</span> [<span class='ident'>u8</span>]) <span class='op'>-&gt;</span> <span class='ident'>BufWriter</span><span class='op'>&lt;</span><span class='lifetime'>&#39;a</span><span class='op'>&gt;</span>; <span class='comment'>// 展開された形</span></pre>
