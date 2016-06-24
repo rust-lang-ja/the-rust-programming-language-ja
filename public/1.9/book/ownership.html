@@ -234,7 +234,8 @@
 <!-- features. -->
 
 <p>Rustは安全性とスピートに焦点を合わせます。
-Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通じて成し遂げます。それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
+Rustはそれらの目標を、様々な「ゼロコスト抽象化」を通じて成し遂げます。
+それは、Rustでは抽象化を機能させるためのコストをできる限り小さくすることを意味します。
 所有権システムはゼロコスト抽象化の主な例です。
 このガイドの中で話すであろう解析の全ては <em>コンパイル時に行われます</em> 。
 それらのどの機能に対しても実行時のコストは全く掛かりません。</p>
@@ -258,9 +259,11 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 <!-- checker less and less. -->
 
 <p>しかし、このシステムはあるコストを持ちます。それは学習曲線です。
-多くの新しいRustのユーザは「借用チェッカとの戦い」と好んで呼ばれるものを経験します。そこではRustコンパイラが開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
+多くのRust入門者は、私たちが「借用チェッカとの戦い」と呼ぶものを経験します。
+そこではRustコンパイラが、開発者が正しいと考えるプログラムをコンパイルすることを拒絶します。
 所有権がどのように機能するのかについてのプログラマのメンタルモデルがRustの実装する実際のルールにマッチしないため、これはしばしば起きます。
-しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。一度彼らが所有権システムのルールとともにしばらく仕事をすれば、彼らが借用チェッカと戦うことは少なくなっていくということです。</p>
+しかし、よいニュースがあります。より経験豊富なRustの開発者は次のことを報告します。
+それは、所有権システムのルールと共にしばらく仕事をすれば、借用チェッカと戦うことは次第に少なくなっていく、というものです。</p>
 
 <!-- With that in mind, let’s learn about ownership. -->
 
@@ -288,20 +291,47 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
     <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 }</pre>
 
-<!-- When `v` comes into scope, a new [`Vec<T>`][vect] is created. In this case, the -->
+<!-- When `v` comes into scope, a new [vector][vectors] is created on [the stack][stack], -->
 
-<!-- vector also allocates space on [the heap][heap], for the three elements. When -->
+<!-- and it allocates space on [the heap][heap] for its elements. When `v` goes out -->
 
-<!-- `v` goes out of scope at the end of `foo()`, Rust will clean up everything -->
+<!-- of scope at the end of `foo()`, Rust will clean up everything related to the -->
 
-<!-- related to the vector, even the heap-allocated memory. This happens -->
+<!-- vector, even the heap-allocated memory. This happens deterministically, at the -->
 
-<!-- deterministically, at the end of the scope. -->
+<!-- end of the scope. -->
 
-<p><code>v</code> がスコープに入るとき、新しい <a href="../std/vec/struct.Vec.html"><code>Vec&lt;T&gt;</code></a> が作られます。
-この場合、ベクタも3つの要素のために <a href="the-stack-and-the-heap.html">ヒープ</a> に空間を割り当てます。
-<code>foo()</code> の最後で <code>v</code> がスコープから外れるとき、Rustはベクタに関連するもの全てを取り除くでしょう。それがヒープ割当てのメモリであってもです。
+<p><code>v</code> がスコープに入るとき、新しい <a href="vectors.html">ベクタ</a> が <a href="the-stack-and-the-heap.html#%E3%82%B9%E3%82%BF%E3%83%83%E3%82%AF">スタック</a> 上に作られ、要素を格納するために <a href="the-stack-and-the-heap.html#%E3%83%92%E3%83%BC%E3%83%97">ヒープ</a> に空間を割り当てます。
+<code>foo()</code> の最後で <code>v</code> がスコープから外れるとき、Rustはベクタに関連するもの全てを取り除くでしょう。
+それがヒープ割り当てのメモリであってもです。
 これはスコープの最後で決定的に起こります。</p>
+
+<!-- We'll cover [vectors] in detail later in this chapter; we only use them -->
+
+<!-- here as an example of a type that allocates space on the heap at runtime. They -->
+
+<!-- behave like [arrays], except their size may change by `push()`ing more -->
+
+<!-- elements onto them. -->
+
+<!-- 訳注："We'll cover [vectors] in detail later..." となっていますが、 -->
+
+<!-- ベクタはこのセクションより前に説明されていますので、それに合わせて訳を変更しました。 -->
+
+<p><a href="vectors.html">ベクタ</a> については、前のセクションで説明済みですが、簡単に復習しましょう。
+ここではベクタを、実行時にヒープに空間を割り当てる型の例として用いています。
+ベクタは <a href="primitive-types.html#%E9%85%8D%E5%88%97">配列</a> のように振る舞いますが、追加の要素を <code>push()</code> するとサイズが変わるところは違います。</p>
+
+<!-- Vectors have a [generic type][generics] `Vec<T>`, so in this example `v` will have type -->
+
+<!-- `Vec<i32>`. We'll cover generics in detail later in this chapter. -->
+
+<p>ベクタは <a href="generics.html">ジェネリクス型</a> <code>Vec&lt;T&gt;</code> を持ちますので、この例における <code>v</code> は <code>Vec&lt;i32&gt;</code> 型になるでしょう。
+ジェネリクスについては、この章の後の方で詳しく説明します。</p>
+
+<!-- 訳注：原文では[heap]のリンク先が単に the-stack-and-the-heap.html となっていますが、 -->
+
+<!-- [stack]に合わせて、#ヒープ を追加しました -->
 
 <!-- # Move semantics -->
 
@@ -312,7 +342,7 @@ Rustはそれらの目標をたくさんの「ゼロコスト抽象化」を通�
 
 <!-- assign it to another binding: -->
 
-<p>しかし、ここではもっと微妙なことがあります。それは、Rustは与えられたリソースに対する束縛が <em>1つだけ</em> あるということを保証するということです。
+<p>しかし、ここではもっと些細に見えることがあります。それは、Rustは与えられたリソースに対する束縛が <em>1つだけ</em> あることを保証するというものです。
 例えば、もしベクタがあれば、それを別の束縛に割り当てることはできます。</p>
 
 <span class='rusttest'>fn main() {
@@ -343,7 +373,7 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <!-- It looks like this: -->
 
-<p>それはこのように見えます。</p>
+<p>こんな感じのエラーです。</p>
 
 <pre><code class="language-text">error: use of moved value: `v`
 println!(&quot;v[0] is: {}&quot;, v[0]);
@@ -386,48 +416,142 @@ println!(&quot;v[0] is: {}&quot;, v[0]);
 
 <p>「use of moved value」という同じエラーです。
 所有権を何か別のものに転送するとき、参照するものを「ムーブした」と言います。
-ここでは特別な種類の注釈を必要としません。
-それはRustの行うデフォルトの動作です。</p>
+これは特別な種類の注釈なしに行われます。
+つまりRustのデフォルトの動作です。</p>
 
 <!-- ## The details -->
 
 <h2 id='詳細' class='section-header'><a href='#詳細'>詳細</a></h2>
 <!-- The reason that we cannot use a binding after we’ve moved it is subtle, but -->
 
-<!-- important. When we write code like this: -->
+<!-- important. -->
 
-<p>束縛をムーブした後ではそれを使うことができないということの理由は微妙ですが重要です。
-このようなコードを書いたとします。</p>
+<p>束縛をムーブした後で、それを使うことができないと言いました。
+その理由は、ごく詳細かもしれませんが、とても重要です。</p>
+
+<!-- When we write code like this: -->
+
+<p>このようなコードを書いた時、</p>
+
+<span class='rusttest'>fn main() {
+    let x = 10;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>10</span>;</pre>
+
+<!-- Rust allocates memory for an integer [i32] on the [stack][sh], copies the bit -->
+
+<!-- pattern representing the value of 10 to the allocated memory and binds the -->
+
+<!-- variable name x to this memory region for future reference. -->
+
+<p>Rustは <a href="the-stack-and-the-heap.html">スタック</a> 上に整数 <a href="primitive-types.html#%E6%95%B0%E5%80%A4%E5%9E%8B">i32</a> のためのメモリを割り当て、そこに、10という値を表すビットパターンをコピーします。
+そして後から参照できるよう、変数名xをこのメモリ領域に束縛します。</p>
+
+<!-- 訳注：原文ではi32へのリンクが抜けているので、ここに追加しました -->
+
+<!-- Now consider the following code fragment: -->
+
+<p>今度は、こんなコード片について考えてみましょう。</p>
 
 <span class='rusttest'>fn main() {
     let v = vec![1, 2, 3];
 
-let v2 = v;
+let mut v2 = v;
 }</span><pre class='rust rust-example-rendered'>
 <span class='kw'>let</span> <span class='ident'>v</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
 
-<span class='kw'>let</span> <span class='ident'>v2</span> <span class='op'>=</span> <span class='ident'>v</span>;</pre>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>v2</span> <span class='op'>=</span> <span class='ident'>v</span>;</pre>
 
-<!-- The first line allocates memory for the vector object, `v`, and for the data it -->
+<!-- The first line allocates memory for the vector object `v` on the stack like -->
 
-<!-- contains. The vector object is stored on the [stack][sh] and contains a pointer -->
+<!-- it does for `x` above. But in addition to that it also allocates some memory -->
 
-<!-- to the content (`[1, 2, 3]`) stored on the [heap][sh]. When we move `v` to `v2`, -->
+<!-- on the [heap][sh] for the actual data (`[1, 2, 3]`). Rust copies the address -->
 
-<!-- it creates a copy of that pointer, for `v2`. Which means that there would be two -->
+<!-- of this heap allocation to an internal pointer, which is part of the vector -->
 
-<!-- pointers to the content of the vector on the heap. It would violate Rust’s -->
+<!-- object placed on the stack (let's call it the data pointer). -->
 
-<!-- safety guarantees by introducing a data race. Therefore, Rust forbids using `v` -->
+<!-- 訳注：ここで "data pointer" という言葉を導入してますが、後で使っていないので、訳は省きました。-->
 
-<!-- after we’ve done the move. -->
+<!-- 訳注：allocation ですが、「割り当て」だと不自然な所は、「領域(region)」と訳しました。 -->
 
-<p>最初の行はベクタオブジェクト <code>v</code> とそれの含むデータのためのメモリを割り当てます。
-ベクタオブジェクトは <a href="the-stack-and-the-heap.html">スタック</a> に保存され、 <a href="the-stack-and-the-heap.html">ヒープ</a> に保存された内容（ <code>[1, 2, 3]</code> ）へのポインタを含みます。
-<code>v</code> を <code>v2</code> にムーブするとき、それは <code>v2</code> のためにそのポインタのコピーを作ります。
-それは、ヒープ上のベクタの内容へのポインタが2つあることを意味します。
-それはデータ競合を持ち込むことでRustの安全性保証に違反するでしょう。
-そのため、Rustはムーブを終えた後の <code>v</code> の使用を禁止するのです。</p>
+<p>最初の行では、先ほどの <code>x</code> と同様に、ベクタオブジェクト <code>v</code> のために、スタック上にメモリを割り当てます。
+しかし、これに加えて、実際のデータ（ <code>[1, 2, 3]</code> ）のために、 <a href="the-stack-and-the-heap.html">ヒープ</a> 上にもメモリを割り当てます。
+スタック上のベクタオブジェクトの中にはポインタがあり、Rustはいま割り当てたヒープのアドレスをそこへコピーします。</p>
+
+<!-- It is worth pointing out (even at the risk of stating the obvious) that the -->
+
+<!-- vector object and its data live in separate memory regions instead of being a -->
+
+<!-- single contiguous memory allocation (due to reasons we will not go into at -->
+
+<!-- this point of time). These two parts of the vector (the one on the stack and -->
+
+<!-- one on the heap) must agree with each other at all times with regards to -->
+
+<!-- things like the length, capacity etc. -->
+
+<p>すでに分かりきっているかもしれませんが、念のためここで確認しておきたいのは、ベクタオブジェクトとそのデータは、それぞれが別のメモリ領域に格納されていることです。
+決してそれらは、1つの連続したメモリ領域に置かれているわけではありません（その理由についての詳細は、いまは省きます）。
+そして、ベクタにおけるこれら2つの部分（スタック上のものと、ヒープ上のもの）は、要素数やキャパシティ（容量）などについて、常にお互いの間で一貫性が保たれている必要があります。</p>
+
+<!-- When we move `v` to `v2`, Rust actually does a bitwise copy of the vector -->
+
+<!-- object `v` into the stack allocation represented by `v2`. This shallow copy -->
+
+<!-- does not create a copy of the heap allocation containing the actual data. -->
+
+<!-- Which means that there would be two pointers to the contents of the vector -->
+
+<!-- both pointing to the same memory allocation on the heap. It would violate -->
+
+<!-- Rust’s safety guarantees by introducing a data race if one could access both -->
+
+<!-- `v` and `v2` at the same time. -->
+
+<p><code>v</code> を <code>v2</code> にムーブするときRustが実際に行うのは、ビット単位のコピーを使って、ベクタオブジェクト <code>v</code> が示すスタック領域の情報を、 <code>v2</code> が示すスタック領域へコピーすることです。
+この浅いコピーでは、実際のデータを格納しているヒープ領域はコピーしません。
+これは、ベクタの内容として、同一のヒープメモリ領域を指すポインタが2つあることを意味します。
+もし誰かが <code>v</code> と <code>v2</code> に同時にアクセスできるとしたら？
+これはデータ競合を持ち込むことになり、Rustの安全性保証に違反するでしょう。</p>
+
+<!-- For example if we truncated the vector to just two elements through `v2`: -->
+
+<p>例えば <code>v2</code> を通して、ベクタを2要素分、切り詰めたとしましょう。</p>
+
+<span class='rusttest'>fn main() {
+    let v = vec![1, 2, 3];
+let mut v2 = v;
+v2.truncate(2);
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>v2</span>.<span class='ident'>truncate</span>(<span class='number'>2</span>);</pre>
+
+<!-- and `v1` were still accessible we'd end up with an invalid vector since `v1` -->
+
+<!-- would not know that the heap data has been truncated. Now, the part of the -->
+
+<!-- vector `v1` on the stack does not agree with the corresponding part on the -->
+
+<!-- heap. `v1` still thinks there are three elements in the vector and will -->
+
+<!-- happily let us access the non existent element `v1[2]` but as you might -->
+
+<!-- already know this is a recipe for disaster. Especially because it might lead -->
+
+<!-- to a segmentation fault or worse allow an unauthorized user to read from -->
+
+<!-- memory to which they don't have access. -->
+
+<p>もしまだ <code>v1</code> にアクセスできたとしたら、<code>v1</code> はヒープデータが切り詰められたことを知らないので、不正なベクタを提供することになってしまいます。
+ここでスタック上の <code>v1</code> は、ヒープ上で対応する相手と一貫性が取れていません。
+<code>v1</code> はベクタにまだ3つの要素があると思っているので、もし私たちが存在しない要素 <code>v1[2]</code> にアクセスしようとしたら、喜んでそうさせるでしょう。
+しかし、すでにお気づきの通り、特に次のような理由から大惨事に繋がるかもしれません。
+これはセグメンテーション違反を起こすかもしれませんし、最悪の場合、権限を持たないユーザーが、本来アクセスできないはずのメモリを読めてしまうかもしれないのです。</p>
+
+<!-- This is why Rust forbids using `v` after we’ve done the move. -->
+
+<p>このような理由から、Rustはムーブを終えた後の <code>v</code> の使用を禁止するのです。</p>
 
 <!-- It’s also important to note that optimizations may remove the actual copy of -->
 
@@ -435,8 +559,8 @@ let v2 = v;
 
 <!-- inefficient as it initially seems. -->
 
-<p>最適化が状況によってはスタック上のバイトの実際のコピーを削除するかもしれないことに気付くことも重要です。
-そのため、それは最初に思ったほど非効率ではないかもしれません。</p>
+<p>また知っておいてほしいのは、状況によっては最適化により、スタック上のバイトを実際にコピーする処理が省かれる可能性があることです。
+そのため、ムーブは最初に思ったほど非効率ではないかもしれません。</p>
 
 <!-- ## `Copy` types -->
 
@@ -453,7 +577,7 @@ let v2 = v;
 
 <p>所有権が他の束縛に転送されるとき、元の束縛を使うことができないということを証明しました。
 しかし、この挙動を変更する <a href="traits.html">トレイト</a> があります。それは <code>Copy</code> と呼ばれます。
-トレイトについてはまだ議論していませんが、とりあえずそれらを挙動を追加するある型への注釈として考えることができます。
+トレイトについてはまだ議論していませんが、とりあえずそれらを、ある型に対してある挙動を追加するための、注釈のようなものとして考えて構いません。
 例えばこうです。</p>
 
 <span class='rusttest'>fn main() {
@@ -478,8 +602,8 @@ println!(&quot;v is: {}&quot;, v);
 <!-- has no pointers to data somewhere else, copying it is a full copy. -->
 
 <p>この場合、 <code>v</code> は <code>i32</code> で、それは <code>Copy</code> トレイトを実装します。
-これはちょうどムーブと同じように、 <code>v</code> を <code>v2</code> に割り当てるとき、データのコピーが作られるということを意味します。
-しかし、ムーブと違って後でまだ <code>v</code> を使うことができます。
+これはちょうどムーブと同じように、 <code>v</code> を <code>v2</code> に代入するとき、データのコピーが作られることを意味します。
+しかし、ムーブと違って、後でまだ <code>v</code> を使うことができます。
 これは <code>i32</code> がどこか別の場所へのポインタを持たず、コピーが完全コピーだからです。</p>
 
 <!-- All primitive types implement the `Copy` trait and their ownership is -->
@@ -581,7 +705,7 @@ println!(&quot;{}&quot;, a);
 <!-- This would get very tedious. It gets worse the more things we want to take ownership of: -->
 
 <p>これは非常に退屈になるでしょう。
-もっとたくさんのものの所有権を受け取れば、それはもっとひどくなります。</p>
+もっとたくさんのものの所有権を受け取ろうとすると、状況はさらに悪化します。</p>
 
 <span class='rusttest'>fn main() {
     fn foo(v1: Vec&lt;i32&gt;, v2: Vec&lt;i32&gt;) -&gt; (Vec&lt;i32&gt;, Vec&lt;i32&gt;, i32) {
@@ -614,7 +738,7 @@ let (v1, v2, answer) = foo(v1, v2);
 
 <!-- complicated. -->
 
-<p>うわあ!
+<p>うわあ！
 戻り値の型、リターン行、関数呼出しがもっと複雑になります。</p>
 
 <!-- Luckily, Rust offers a feature, borrowing, which helps us solve this problem. -->
@@ -622,7 +746,7 @@ let (v1, v2, answer) = foo(v1, v2);
 <!-- It’s the topic of the next section! -->
 
 <p>幸運なことに、Rustは借用という機能を提供します。それはこの問題を解決するために手助けしてくれます。
-それが次のセクションの話題です!</p>
+それが次のセクションの話題です。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
