@@ -4,7 +4,7 @@
 <!-- checks are conservative by nature: there are some programs that are actually -->
 <!-- safe, but the compiler is not able to verify this is true. To write these kinds -->
 <!-- of programs, we need to tell the compiler to relax its restrictions a bit. For -->
-<!-- this, Rust has a keyword, `unsafe`. Code using `unsafe` has less restrictions -->
+<!-- this, Rust has a keyword, `unsafe`. Code using `unsafe` has fewer restrictions -->
 <!-- than normal code does. -->
 Rustの主たる魅力は、プログラムの動作についての強力で静的な保証です。
 しかしながら、安全性検査は本来保守的なものです。
@@ -56,8 +56,8 @@ unsafe impl Scary for i32 {}
 ```
 
 <!-- It’s important to be able to explicitly delineate code that may have bugs that -->
-<!-- cause big problems. If a Rust program segfaults, you can be sure it’s somewhere -->
-<!-- in the sections marked `unsafe`. -->
+<!-- cause big problems. If a Rust program segfaults, you can be sure the cause is -->
+<!-- related to something marked `unsafe`. -->
 大きな問題を引き起こすバグがあるかもしれないコードを明示できるのは重要なことです。
 もしRustのプログラムがセグメンテーション違反を起こしても、バグは `unsafe` で印付けられた区間のどこかにあると確信できます。
 
@@ -166,11 +166,11 @@ Rustでバグのあるコードを書くことはできますし、実際に書�
 
 <!-- That’s it. It’s important that `unsafe` does not, for example, ‘turn off the -->
 <!-- borrow checker’. Adding `unsafe` to some random Rust code doesn’t change its -->
-<!-- semantics, it won’t just start accepting anything. But it will let you write -->
+<!-- semantics, it won’t start accepting anything. But it will let you write -->
 <!-- things that _do_ break some of the rules. -->
 以上です。
 重要なのは、 `unsafe` が、たとえば「借用チェッカをオフにする」といったことを行わないことです。
-Rustのコードの適当な位置に `unsafe` を加えてもセマンティクスは変わらず、何でもただ受理するようになるということにはなりません。
+Rustのコードの適当な位置に `unsafe` を加えてもセマンティクスは変わらず、何でも受理するようになるということにはなりません。
 それでも、`unsafe` はルールのいくつかを破るコードを書けるようにはするのです。
 
 <!-- You will also encounter the `unsafe` keyword when writing bindings to foreign -->
