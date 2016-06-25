@@ -2,7 +2,7 @@
 <!-- % `const` and `static` -->
 
 <!-- Rust has a way of defining constants with the `const` keyword: -->
-Rustでは `const` を用いることで定数を定義することができます:
+Rustでは `const` を用いることで定数を定義できます:
 
 ```rust
 const N: i32 = 5;
@@ -47,7 +47,7 @@ static N: i32 = 5;
 <!-- Statics live for the entire lifetime of a program, and therefore any -->
 <!-- reference stored in a constant has a [`'static` lifetime][lifetimes]: -->
 静的アイテムはプログラム全体のライフタイムの間生きています。
-そのため定数に保存されている参照は [`static` ライフタイム][lifetimes]を持ちます:
+そのため定数に保存されている参照は [`static` ライフタイム][lifetimes] を持ちます:
 
 ```rust
 static NAME: &'static str = "Steve";
@@ -59,7 +59,7 @@ static NAME: &'static str = "Steve";
 ## ミュータビリティ
 
 <!-- You can introduce mutability with the `mut` keyword: -->
-`mut` を利用することでミュータビリティを導入することができます:
+`mut` を利用することでミュータビリティを導入できます:
 
 ```rust
 static mut N: i32 = 5;
@@ -83,20 +83,20 @@ unsafe {
 
 [unsafe]: unsafe.html
 
-<!-- Furthermore, any type stored in a `static` must be `Sync`, and may not have -->
+<!-- Furthermore, any type stored in a `static` must be `Sync`, and must not have -->
 <!-- a [`Drop`][drop] implementation. -->
-さらに言えば、 `static` な変数に格納される値の型は `Sync` を実装しており、
-かつ [`Drop`][drop] は実装していない必要があります。
+さらに言えば、 `static` な変数に格納される値の型は `Sync` を実装しており、かつ [`Drop`][drop] は実装していない必要があります。
 
 [drop]: drop.html
 
+<!-- # Initializing -->
 # 初期化
 
-<!-- Both `const` and `static` have requirements for giving them a value. They may -->
-<!-- only be given a value that’s a constant expression. In other words, you cannot -->
-<!-- use the result of a function call or anything similarly complex or at runtime. -->
+<!-- Both `const` and `static` have requirements for giving them a value. They must -->
+<!-- be given a value that’s a constant expression. In other words, you cannot use -->
+<!-- the result of a function call or anything similarly complex or at runtime. -->
 `const` 、 `static` どちらも値に対してそれらが定数式でなければならないという要件があります。
-言い換えると、関数の呼び出しのような複雑なものや実行時の値を指定することはできないとうことです。
+言い換えると、関数の呼び出しのような複雑なものや実行時の値を指定することはできないということです。
 
 <!-- # Which construct should I use? -->
 # どちらを使うべきか
@@ -105,7 +105,5 @@ unsafe {
 <!-- rare that you actually want a memory location associated with your constant, -->
 <!-- and using a const allows for optimizations like constant propagation not only -->
 <!-- in your crate but downstream crates. -->
-
 大抵の場合、`static` か `const` で選ぶときは `const` を選ぶと良いでしょう。
-定数を定義したい時に、そのメモリロケーションが固定であることを必要とする場面は珍しく、
-`const` を用いることで定数伝播によってあなたのクレートだけでなく、それを利用するクレートでも最適化をすることができます。
+定数を定義したい時に、そのメモリロケーションが固定であることを必要とする場面は珍しく、また `const` を用いることで定数伝播によってあなたのクレートだけでなく、それを利用するクレートでも最適化が行われます。
