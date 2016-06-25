@@ -337,7 +337,7 @@ static Foo_for_String_vtable: FooVtable = FooVtable {
 
 <!-- Suppose we’ve got some values that implement `Foo`. The explicit form of -->
 <!-- construction and use of `Foo` trait objects might look a bit like (ignoring the -->
-<!-- type mismatches: they’re all just pointers anyway): -->
+<!-- type mismatches: they’re all pointers anyway): -->
 例えば `Foo` を実装する値を幾つか得たとします。
 `Foo` トレイトオブジェクトを作る、あるいは使う時のコードを明示的に書いたものは少しだけ似ているでしょう。
 （型の違いを無視すればですが、どのみちただのポインタになります）
