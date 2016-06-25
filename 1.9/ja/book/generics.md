@@ -54,7 +54,7 @@ let x: Option<f64> = Some(5);
 // found `core::option::Option<_>` (expected f64 but found integral variable)
 ```
 
-<!-- That doesn’t mean we can’t make `Option<T>`s that hold an `f64`! They just have -->
+<!-- That doesn’t mean we can’t make `Option<T>`s that hold an `f64`! They have -->
 <!-- to match up: -->
 これは `f64` を保持する `Option<T>` が作れないという意味ではありませんからね！
 リテラルと宣言の型をぴったり合わせなければなりません。
@@ -157,9 +157,9 @@ let float_origin = Point { x: 0.0, y: 0.0 };
 <!-- and we then use `x: T` in the type declaration, too. -->
 関数と同様に、 `<T>` がジェネリックパラメータを宣言する場所であり、型宣言において `x: T` を使うのも同じです。
 
-<!-- When you want to add an implementation for the generic `struct`, you just -->
+<!-- When you want to add an implementation for the generic `struct`, you -->
 <!-- declare the type parameter after the `impl`: -->
-ジェネリックな `struct` に実装を追加したい場合、 `impl` の後に型パラメータを宣言するだけです。
+ジェネリックな `struct` に実装を追加したい場合、 `impl` の後に型パラメータを宣言します。
 
 ```rust
 # struct Point<T> {
