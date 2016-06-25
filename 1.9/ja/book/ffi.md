@@ -18,7 +18,8 @@ Rustは現在、C++ライブラリを直接呼び出すことができません�
 <!-- Many of these examples use [the `libc` crate][libc], which provides various -->
 <!-- type definitions for C types, among other things. If you’re trying these -->
 <!-- examples yourself, you’ll need to add `libc` to your `Cargo.toml`: -->
-これらの例の多くは [`libc`クレート][libc] を使っています。これは、主にCの様々な型の定義を提供するものです。
+これらの例の多くは [`libc`クレート][libc] を使っています。
+これは、主にCの様々な型の定義を提供するものです。
 もしこれらの例を自分で試すのであれば、次のように `libc` を `Cargo.toml` に追加する必要があるでしょう。
 
 ```toml
@@ -73,7 +74,8 @@ Cライブラリは、スレッドセーフでないインターフェイスを�
 <!-- When declaring the argument types to a foreign function, the Rust compiler can -->
 <!-- not check if the declaration is correct, so specifying it correctly is part of -->
 <!-- keeping the binding correct at runtime. -->
-他言語関数について引数の型を宣言するとき、Rustのコンパイラはその宣言が正しいかどうかを確認することができません。それを正しく指定することは実行時にバインディングを正しく動作させるために必要なことです。
+他言語関数について引数の型を宣言するとき、Rustのコンパイラはその宣言が正しいかどうかを確認することができません。
+それを正しく指定することは実行時にバインディングを正しく動作させるために必要なことです。
 
 <!-- The `extern` block can be extended to cover the entire snappy API: -->
 `extern` ブロックはsnappyのAPI全体をカバーするように拡張することができます。
@@ -148,7 +150,7 @@ pub fn validate_compressed_buffer(src: &[u8]) -> bool {
 <!-- `snappy_compress` function as an output parameter. An output parameter is also passed to retrieve -->
 <!-- the true length after compression for setting the length. -->
 `snappy_max_compressed_length` 関数は、圧縮後の結果を保持するために必要な最大の容量のベクタを割り当てるために使うことができます。
-そして、そのベクタは結果を受け取るための引数として`snappy_compress`関数に渡されます。
+そして、そのベクタは結果を受け取るための引数として `snappy_compress` 関数に渡されます。
 結果を受け取るための引数は、長さをセットするために、圧縮後の本当の長さを取得するためにも渡されます。
 
 ```rust
@@ -441,24 +443,26 @@ void trigger_callback() {
 異なる `kind` の値はリンク時のネイティブライブラリの使われ方の違いを意味します。
 リンクの視点からすると、Rustコンパイラは2種類の生成物を作ります。
 部分生成物（rlib/staticlib）と最終生成物（dylib/binary）です。
-ネイティブダイナミックライブラリとフレームワークの依存関係は最終生成物を作るときまで伝播され解決されますが、スタティックライブラリの依存関係は全く伝えません。なぜなら、スタティックライブラリはその後に続く生成物に直接統合されてしまうからです。
+ネイティブダイナミックライブラリとフレームワークの依存関係は最終生成物を作るときまで伝播され解決されますが、スタティックライブラリの依存関係は全く伝えません。
+なぜなら、スタティックライブラリはその後に続く生成物に直接統合されてしまうからです。
 
 <!-- A few examples of how this model can be used are: -->
 このモデルをどのように使うことができるのかという例は次のとおりです。
 
 <!-- * A native build dependency. Sometimes some C/C++ glue is needed when writing -->
-<!--   some Rust code, but distribution of the C/C++ code in a library format is just -->
+<!--   some Rust code, but distribution of the C/C++ code in a library format is -->
 <!--   a burden. In this case, the code will be archived into `libfoo.a` and then the -->
 <!--   Rust crate would declare a dependency via `#[link(name = "foo", kind = -->
 <!--   "static")]`. -->
 * ネイティブビルドの依存関係。
-  ときどき、Rustのコードを書くときにC/C++のグルーが必要になりますが、ライブラリの形式でのC/C++のコードの配布は重荷でしかありません。
+  ときどき、Rustのコードを書くときにC/C++のグルーが必要ですが、ライブラリの形式でのC/C++のコードの配布は重荷になります。
   このような場合、 コードは `libfoo.a` にアーカイブされ、それからRustのクレートで `#[link(name = "foo", kind = "static")]` によって依存関係を宣言します。
 
 <!--   Regardless of the flavor of output for the crate, the native static library -->
 <!--   will be included in the output, meaning that distribution of the native static -->
 <!--   library is not necessary. -->
-   クレートの成果物の種類にかかわらず、ネイティブスタティックライブラリは成果物に含まれます。これは、ネイティブスタティックライブラリの配布は不要だということを意味します。
+  クレートの成果物の種類にかかわらず、ネイティブスタティックライブラリは成果物に含まれます。
+  これは、ネイティブスタティックライブラリの配布は不要だということを意味します。
 
 <!-- * A normal dynamic dependency. Common system libraries (like `readline`) are -->
 <!--   available on a large number of systems, and often a static copy of these -->
@@ -585,6 +589,9 @@ extern "stdcall" {
 * `aapcs`
 * `cdecl`
 * `fastcall`
+* `vectorcall`
+  <!-- This is currently hidden behind the `abi_vectorcall` gate and is subject to change. -->
+  **TODO**: 翻訳する
 * `Rust`
 * `rust-intrinsic`
 * `system`
@@ -597,7 +604,7 @@ extern "stdcall" {
 <!-- architecture, this means that the abi used would be `stdcall`. On x86_64, -->
 <!-- however, windows uses the `C` calling convention, so `C` would be used. This -->
 <!-- means that in our previous example, we could have used `extern "system" { ... }` -->
-<!-- to define a block for all windows systems, not just x86 ones. -->
+<!-- to define a block for all windows systems, not only x86 ones. -->
 このリストのABIのほとんどは名前のとおりですが、 `system` ABIは少し変わっています。
 この規則はターゲットのライブラリを相互利用するために適切なABIを選択します。
 例えば、x86アーキテクチャのWin32では、使われるABIは `stdcall` になります。
@@ -625,7 +632,8 @@ extern "stdcall" {
 Rust独自のボックス（ `Box<T>` ）は包んでいるオブジェクトを指すハンドルとして非ヌルポインタを使います。
 しかし、それらは内部のアロケータによって管理されるため、手で作るべきではありません。
 参照は型を直接指す非ヌルポインタとみなすことが安全にできます。
-しかし、借用チェックやミュータブルについてのルールが破られた場合、安全性は保証されません。生ポインタについてはコンパイラは借用チェックやミュータブルほどには仮定を置かないので、必要なときには、生ポインタ（ `*` ）を使いましょう。
+しかし、借用チェックやミュータブルについてのルールが破られた場合、安全性は保証されません。
+生ポインタについてはコンパイラは借用チェックやミュータブルほどには仮定を置かないので、必要なときには、生ポインタ（ `*` ）を使いましょう。
 
 <!-- Vectors and strings share the same basic memory layout, and utilities are -->
 <!-- available in the `vec` and `str` modules for working with C APIs. However, -->
@@ -746,7 +754,8 @@ extern "C" {
 <!-- of type safety. These structures are called ‘opaque’. Here’s an example, in C: -->
 これはその状況に対処するための完全に正当な方法です。
 しかし、もっとよい方法があります。
-これを解決するために、いくつかのCライブラリでは、代わりに `struct` を作っています。そこでは構造体の詳細とメモリレイアウトはプライベートです。
+これを解決するために、いくつかのCライブラリでは、代わりに `struct` を作っています。
+そこでは構造体の詳細とメモリレイアウトはプライベートです。
 これは型の安全性をいくらか満たします。
 それらの構造体は「オペーク」と呼ばれます。
 これがCによる例です。
