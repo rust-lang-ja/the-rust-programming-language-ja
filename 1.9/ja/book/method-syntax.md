@@ -61,11 +61,11 @@ fn main() {
 <!-- Methods take a special first parameter, of which there are three variants: -->
 <!-- `self`, `&self`, and `&mut self`. You can think of this first parameter as -->
 <!-- being the `foo` in `foo.bar()`. The three variants correspond to the three -->
-<!-- kinds of things `foo` could be: `self` if it’s just a value on the stack, -->
+<!-- kinds of things `foo` could be: `self` if it’s a value on the stack, -->
 <!-- `&self` if it’s a reference, and `&mut self` if it’s a mutable reference. -->
-<!-- Because we took the `&self` parameter to `area`, we can use it just like any -->
+<!-- Because we took the `&self` parameter to `area`, we can use it like any -->
 <!-- other parameter. Because we know it’s a `Circle`, we can access the `radius` -->
-<!-- just like we would with any other `struct`. -->
+<!-- like we would with any other `struct`. -->
 メソッドに渡す特別な第1引数として、 `self` 、 `&self` 、 `&mut self` という3つの変形があります。
 第一引数は `foo.bar()` に於ける `foo` だと考えて下さい。
 3つの変形は `foo` が成り得る3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。
@@ -177,7 +177,7 @@ fn grow(&self, increment: f64) -> Circle {
 # Circle } }
 ```
 
-<!-- We just say we’re returning a `Circle`. With this method, we can grow a new -->
+<!-- We say we’re returning a `Circle`. With this method, we can grow a new -->
 <!-- `Circle` to any arbitrary size. -->
 単に `Circle` を返しているだけです。
 このメソッドにより、私たちは新しい `Circle` を任意の大きさに拡大することができます。
