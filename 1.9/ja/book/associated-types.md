@@ -32,8 +32,8 @@ fn distance<N, E, G: Graph<N, E>>(graph: &G, start: &N, end: &N) -> u32 { ... }
 ```
 
 <!-- Our distance calculation works regardless of our `Edge` type, so the `E` stuff in -->
-<!-- this signature is just a distraction. -->
-この距離を計算する関数distanceは、辺の型に関わらず動作します、そのためシグネチャに含まれる `E` に関連する部分は邪魔でしかありません。
+<!-- this signature is a distraction. -->
+この距離を計算する関数distanceは、辺の型に関わらず動作します、そのためシグネチャに含まれる `E` に関連する部分は邪魔となります。
 
 <!-- What we really want to say is that a certain `E`dge and `N`ode type come together -->
 <!-- to form each kind of `Graph`. We can do that with associated types: -->
@@ -52,7 +52,7 @@ trait Graph {
 ```
 
 <!-- Now, our clients can be abstract over a given `Graph`: -->
-このようにすると、`Graph` を使った関数は以下のように書くことができます:
+このようにすると、`Graph` を使った関数は以下のように書けます:
 
 ```rust,ignore
 fn distance<G: Graph>(graph: &G, start: &G::N, end: &G::N) -> u32 { ... }
@@ -60,7 +60,6 @@ fn distance<G: Graph>(graph: &G, start: &G::N, end: &G::N) -> u32 { ... }
 
 <!-- No need to deal with the `E`dge type here! -->
 もう `E` について扱う必要はありません!
-
 
 <!-- Let’s go over all this in more detail. -->
 もっと詳しく見ていきましょう。
@@ -89,7 +88,7 @@ trait Graph {
 <!-- if we wanted our `N` type to implement `Display`, so we can print the nodes out, -->
 <!-- we could do this: -->
 これらの `type` 宣言は、関数で利用できるものと同じものが全て利用できます。
-たとえば、 `N` 型が `Display` を実装していて欲しい時、つまり私達が頂点を出力したい時、以下のようにして指定することができます:
+たとえば、 `N` 型が `Display` を実装していて欲しい時、つまり私達が頂点を出力したい時、以下のようにして指定できます:
 
 ```rust
 use std::fmt;
@@ -141,14 +140,14 @@ impl Graph for MyGraph {
 <!-- This silly implementation always returns `true` and an empty `Vec<Edge>`, but it -->
 <!-- gives you an idea of how to implement this kind of thing. We first need three -->
 <!-- `struct`s, one for the graph, one for the node, and one for the edge. If it made -->
-<!-- more sense to use a different type, that would work as well, we’re just going to -->
+<!-- more sense to use a different type, that would work as well, we’re going to -->
 <!-- use `struct`s for all three here. -->
-この奇妙な実装は、つねに `true` と空の `Vec<Edge>` を返しますが、どのように定義したら良いかのアイデアをくれます。
+この奇妙な実装は、常に `true` と空の `Vec<Edge>` を返しますが、どのように定義したら良いかのアイデアをくれます。
 まず、はじめに3つの `struct` が必要です、ひとつはグラフのため、そしてひとつは頂点のため、そしてもうひとつは辺のため。
-もし異なる型を利用することが適切ならば、そのようにすると良いでしょう、今回はこの3つの `struct` を用います。
+もし異なる型を利用することが適切ならば、そのようにすると良いでしょう。
+今回はこの3つの `struct` を用います。
 
-
-<!-- Next is the `impl` line, which is just like implementing any other trait. -->
+<!-- Next is the `impl` line, which is an implementing like any other trait. -->
 次は `impl` の行です、これは他のトレイトを実装するときと同様です。
 
 <!-- From here, we use `=` to define our associated types. The name the trait uses -->
@@ -163,9 +162,9 @@ impl Graph for MyGraph {
 ## 関連型を伴うトレイト
 
 <!-- There’s one more bit of syntax we should talk about: trait objects. If you -->
-<!-- try to create a trait object from an associated type, like this: -->
-すこし触れておきたい構文: トレイトオブジェクト が有ります。
-もし、トレイトオブジェクトを以下のように関連型から作成しようとした場合:
+<!-- try to create a trait object from a trait with an associated type, like this: -->
+すこし触れておきたい構文: トレイトオブジェクト があります。
+もし、トレイトオブジェクトを以下のように関連型を持つトレイトから作成しようとした場合:
 
 ```rust,ignore
 # trait Graph {
@@ -207,7 +206,8 @@ let obj = Box::new(graph) as Box<Graph>;
 
 <!-- We can’t create a trait object like this, because we don’t know the associated -->
 <!-- types. Instead, we can write this: -->
-上のようにしてトレイトオブジェクトを作ることはできません、なぜなら関連型について知らないからです
+上のようにしてトレイトオブジェクトを作ることはできません。
+なぜなら関連型について知らないからです。
 代わりに以下のように書くことができます:
 
 ```rust
@@ -237,5 +237,6 @@ let obj = Box::new(graph) as Box<Graph<N=Node, E=Edge>>;
 <!-- The `N=Node` syntax allows us to provide a concrete type, `Node`, for the `N` -->
 <!-- type parameter. Same with `E=Edge`. If we didn’t provide this constraint, we -->
 <!-- couldn’t be sure which `impl` to match this trait object to. -->
-`N=Node` 構文を用いて型パラメータ `N` にたいして具体的な型 `Node` を指定することができます、`E=Edge` についても同様です。
+`N=Node` 構文を用いて型パラメータ `N` に対して具体的な型 `Node` を指定できます。
+`E=Edge` についても同様です。
 もしこの制約を指定しなかった場合、このトレイトオブジェクトに対してどの `impl` がマッチするのか定まりません。
