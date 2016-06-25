@@ -3,11 +3,9 @@
 
 <!-- For extremely low-level manipulations and performance reasons, one -->
 <!-- might wish to control the CPU directly. Rust supports using inline -->
-<!-- assembly to do this via the `asm!` macro. The syntax roughly matches -->
-<!-- that of GCC & Clang: -->
+<!-- assembly to do this via the `asm!` macro.
 極めて低レベルな技巧やパフォーマンス上の理由から、CPUを直接コントロールしたいと思う人もいるでしょう。
 Rustはそのような処理を行うためにインラインアセンブリを `asm!` マクロによってサポートしています。
-インラインアセンブリの構文はGCCやClangのものとおおまかに一致しています。
 
 ```ignore
 # // asm!(assembly template
@@ -25,11 +23,11 @@ asm!(アセンブリのテンプレート
 
 <!-- Any use of `asm` is feature gated (requires `#![feature(asm)]` on the -->
 <!-- crate to allow) and of course requires an `unsafe` block. -->
-`asm` のいかなる利用もフィーチャーゲートの対象です(利用するには `#![feature(asm)]` がクレートに必要になります)、
+`asm` のいかなる利用もフィーチャーゲートの対象です(利用するには `#![feature(asm)]` がクレートに必要になります)。
 そしてもちろん `unsafe` ブロックも必要です。
 
-<!-- > **Note**: the examples here are given in x86/x86-64 assembly, but -->
-<!-- > all platforms are supported. -->
+<!-- &gt; **Note**: the examples here are given in x86/x86-64 assembly, but -->
+<!-- &gt; all platforms are supported. -->
 > **メモ**: ここでの例はx86/x86-64のアセンブリで示されますが、すべてのプラットフォームがサポートされています。
 
 <!-- ## Assembly template -->
@@ -146,9 +144,8 @@ result
 <!-- different values so we use the clobbers list to indicate to the -->
 <!-- compiler not to assume any values loaded into those registers will -->
 <!-- stay valid. -->
-幾つかのインストラクションは異なる値を持っている可能性のあるレジスタを変更する事があります、
-そのため、コンパイラがそれらのレジスタに格納された値が処理後にも有効であると思わないように、
-破壊されるデータのリストを利用します。
+幾つかのインストラクションは異なる値を持っている可能性のあるレジスタを変更する事があります。
+そのため、コンパイラがそれらのレジスタに格納された値が処理後にも有効であると思わないように、破壊されるデータのリストを利用します。
 
 ```rust
 # #![feature(asm)]
@@ -193,7 +190,7 @@ asm!("mov $$0x200, %eax" : /* 出力なし */ : /* 入力無し */ : "{eax}");
 <!--    the compiler to insert its usual stack alignment code-->
 <!-- 3. *intel* - use intel syntax instead of the default AT&T.-->
 1. *volatile* - このオプションを指定することは、gcc/clangで `__asm__ __volatile__ (...)` を指定することと類似しています。
-2. *alignstack* - いくつかのインストラクションはスタックが決まった方式(例: SSE)でアラインされていることを期待しています、
+2. *alignstack* - いくつかのインストラクションはスタックが決まった方式(例: SSE)でアラインされていることを期待しています。
    このオプションを指定することはコンパイラに通常のスタックをアラインメントするコードの挿入を指示します。
 3. *intel* - デフォルトのAT&T構文の代わりにインテル構文を利用することを意味しています。
 
@@ -216,7 +213,7 @@ println!("eax is currently {}", result);
 <!-- inline assembler expressions][llvm-docs], so be sure to check out [their -->
 <!-- documentation as well][llvm-docs] for more information about clobbers, -->
 <!-- constraints, etc. -->
-現在の `asm!` マクロの実装は [LLVMのインラインアセンブリ表現][llvm-docs] への直接的なバインディングです、
+現在の `asm!` マクロの実装は [LLVMのインラインアセンブリ表現][llvm-docs] への直接的なバインディングです。
 そのため破壊されるデータのリストや、制約、その他の情報について [LLVMのドキュメント][llvm-docs] を確認してください。
 
 [llvm-docs]: http://llvm.org/docs/LangRef.html#inline-assembler-expressions
