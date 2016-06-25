@@ -182,7 +182,7 @@
 
 <!-- Rust has a way of defining constants with the `const` keyword: -->
 
-<p>Rustでは <code>const</code> を用いることで定数を定義することができます:</p>
+<p>Rustでは <code>const</code> を用いることで定数を定義できます:</p>
 
 <span class='rusttest'>fn main() {
     const N: i32 = 5;
@@ -240,7 +240,7 @@
 <!-- reference stored in a constant has a [`'static` lifetime][lifetimes]: -->
 
 <p>静的アイテムはプログラム全体のライフタイムの間生きています。
-そのため定数に保存されている参照は <a href="lifetimes.html"><code>static</code> ライフタイム</a>を持ちます:</p>
+そのため定数に保存されている参照は <a href="lifetimes.html"><code>static</code> ライフタイム</a> を持ちます:</p>
 
 <span class='rusttest'>fn main() {
     static NAME: &amp;&#39;static str = &quot;Steve&quot;;
@@ -252,7 +252,7 @@
 <h2 id='ミュータビリティ' class='section-header'><a href='#ミュータビリティ'>ミュータビリティ</a></h2>
 <!-- You can introduce mutability with the `mut` keyword: -->
 
-<p><code>mut</code> を利用することでミュータビリティを導入することができます:</p>
+<p><code>mut</code> を利用することでミュータビリティを導入できます:</p>
 
 <span class='rusttest'>fn main() {
     static mut N: i32 = 5;
@@ -284,22 +284,23 @@ unsafe {
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;N: {}&quot;</span>, <span class='ident'>N</span>);
 }</pre>
 
-<!-- Furthermore, any type stored in a `static` must be `Sync`, and may not have -->
+<!-- Furthermore, any type stored in a `static` must be `Sync`, and must not have -->
 
 <!-- a [`Drop`][drop] implementation. -->
 
-<p>さらに言えば、 <code>static</code> な変数に格納される値の型は <code>Sync</code> を実装しており、
-かつ <a href="drop.html"><code>Drop</code></a> は実装していない必要があります。</p>
+<p>さらに言えば、 <code>static</code> な変数に格納される値の型は <code>Sync</code> を実装しており、かつ <a href="drop.html"><code>Drop</code></a> は実装していない必要があります。</p>
+
+<!-- # Initializing -->
 
 <h1 id='初期化' class='section-header'><a href='#初期化'>初期化</a></h1>
-<!-- Both `const` and `static` have requirements for giving them a value. They may -->
+<!-- Both `const` and `static` have requirements for giving them a value. They must -->
 
-<!-- only be given a value that’s a constant expression. In other words, you cannot -->
+<!-- be given a value that’s a constant expression. In other words, you cannot use -->
 
-<!-- use the result of a function call or anything similarly complex or at runtime. -->
+<!-- the result of a function call or anything similarly complex or at runtime. -->
 
 <p><code>const</code> 、 <code>static</code> どちらも値に対してそれらが定数式でなければならないという要件があります。
-言い換えると、関数の呼び出しのような複雑なものや実行時の値を指定することはできないとうことです。</p>
+言い換えると、関数の呼び出しのような複雑なものや実行時の値を指定することはできないということです。</p>
 
 <!-- # Which construct should I use? -->
 
@@ -313,8 +314,7 @@ unsafe {
 <!-- in your crate but downstream crates. -->
 
 <p>大抵の場合、<code>static</code> か <code>const</code> で選ぶときは <code>const</code> を選ぶと良いでしょう。
-定数を定義したい時に、そのメモリロケーションが固定であることを必要とする場面は珍しく、
-<code>const</code> を用いることで定数伝播によってあなたのクレートだけでなく、それを利用するクレートでも最適化をすることができます。</p>
+定数を定義したい時に、そのメモリロケーションが固定であることを必要とする場面は珍しく、また <code>const</code> を用いることで定数伝播によってあなたのクレートだけでなく、それを利用するクレートでも最適化が行われます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";

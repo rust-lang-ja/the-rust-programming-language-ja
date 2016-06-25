@@ -186,8 +186,8 @@
 
 <!-- to run some code when a value goes out of scope. For example: -->
 
-<p>トレイトについて学びましたので、Rustの標準ライブラリによって提供されている具体的なトレイト <a href="../std/ops/trait.Drop.html"><code>Drop</code></a>について説明しましょう。
-<code>Drop</code> トレイトは値がスコープ外になった時にコードを実行する方法を提供します:</p>
+<p>トレイトについて学びましたので、Rustの標準ライブラリによって提供されている具体的なトレイト <a href="../std/ops/trait.Drop.html"><code>Drop</code></a> について説明しましょう。
+<code>Drop</code> トレイトは値がスコープ外になった時にコードを実行する方法を提供します。</p>
 
 <span class='rusttest'>struct HasDrop;
 
@@ -228,7 +228,8 @@ fn main() {
 <!-- reference to `self`. -->
 
 <p><code>x</code> が <code>main()</code> の終わりでスコープ外になった時、 <code>Drop</code> のコードが実行されます。
-<code>Drop</code> は <code>drop()</code> と呼ばれるミュータブルな <code>self</code> への参照を引数に取るメソッドを持っています。</p>
+<code>Drop</code> にはメソッドは1つだけあり、それもまた <code>drop()</code> と呼ばれます。
+ミュータブルな <code>self</code> への参照を引数に取ります。</p>
 
 <!-- That’s it! The mechanics of `Drop` are very simple, but there are some -->
 
@@ -236,8 +237,9 @@ fn main() {
 
 <!-- declared. Here’s another example: -->
 
-<p>これだけです！ <code>Drop</code> のメカニズムは非常にシンプルです、しかし少しだけ注意すべき点があります。
-たとえば、値がドロップされる順序は、それらが定義された順序と反対の順序になります:</p>
+<p>これだけです！
+<code>Drop</code> のメカニズムは非常にシンプルですが、少しばかり注意があります。
+たとえば、値がドロップされる順序は、それらが定義された順序と反対の順序になります。</p>
 
 <span class='rusttest'>struct Firework {
     strength: i32,
@@ -271,17 +273,18 @@ fn main() {
 
 <!-- This will output: -->
 
-<p>このコードは以下の様な出力をします:</p>
+<p>このコードは以下のように出力します。</p>
 
 <pre><code class="language-text">BOOM times 100!!!
 BOOM times 1!!!
 </code></pre>
 
-<!-- The TNT goes off before the firecracker does, because it was declared -->
+<!-- The `tnt` goes off before the `firecracker` does, because it was declared -->
 
 <!-- afterwards. Last in, first out. -->
 
-<p>TNTが爆竹(firecracker)が鳴る前に爆発してしまいました、これはTNTが定義されたのは爆竹よりも後だったことによります。
+<p><code>tnt</code> が <code>firecracker</code> （爆竹）が鳴る前に爆発してしまいました。
+これはTNTが定義されたのは爆竹よりも後だったためです。
 ラストイン・ファーストアウトです。</p>
 
 <!-- So what is `Drop` good for? Generally, `Drop` is used to clean up any resources -->
@@ -294,9 +297,10 @@ BOOM times 1!!!
 
 <!-- underlying value. -->
 
-<p><code>Drop</code> は何をするのに適しているのでしょうか？一般的に <code>Drop</code> は <code>struct</code> に関連付けられているリソースのクリーンアップに利用されます。
-たとえば、 <a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code> 型</a> は参照カウントを行う型です。 <code>Drop</code> が呼ばれると、参照カウントがデクリメントされ、
-もし参照の合計数が0になっていたら、内包している値がクリーンアップされます。</p>
+<p><code>Drop</code> は何をするのに向いているのでしょうか？
+一般的に <code>Drop</code> は <code>struct</code> に関連付けられているリソースのクリーンアップに使われます。
+たとえば <a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code> 型</a> は参照カウントを行う型です。
+<code>Drop</code> が呼ばれると、参照カウントがデクリメントされ、もし参照の合計数が0になっていたら、内包している値がクリーンアップされます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
