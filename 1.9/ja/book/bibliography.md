@@ -4,7 +4,8 @@
 <!-- This is a reading list of material relevant to Rust. It includes prior -->
 <!-- research that has - at one time or another - influenced the design of -->
 <!-- Rust, as well as publications about Rust. -->
-これはRustに関連した読書一覧です。これらの中には（ある時点での）Rustの設計に影響を与えたものもあればRustについての出版物もあります。
+これはRustに関連した読書一覧です。
+これらの中には（ある時点での）Rustの設計に影響を与えたものもあれば、Rustについての出版物もあります。
 
 <!-- ### Type system -->
 ### 型システム
@@ -23,7 +24,8 @@
 * [Typeclasses: making ad-hoc polymorphism less ad hoc](http://www.ps.uni-sb.de/courses/typen-ws99/class.ps.gz)
 * [Macros that work together](https://www.cs.utah.edu/plt/publications/jfp12-draft-fcdf.pdf)
 * [Traits: composable units of behavior](http://scg.unibe.ch/archive/papers/Scha03aTraits.pdf)
-* [Alias burying](http://www.cs.uwm.edu/faculty/boyland/papers/unique-preprint.ps) - 似たようなことをしようとしましたがやめました。
+* [Alias burying](http://www.cs.uwm.edu/faculty/boyland/papers/unique-preprint.ps)
+  &mdash; 似たようなことをしようとしましたがやめました
 * [External uniqueness is unique enough](http://www.cs.uu.nl/research/techreps/UU-CS-2002-048.html)
 * [Uniqueness and Reference Immutability for Safe Parallelism](https://research.microsoft.com/pubs/170528/msr-tr-2012-79.pdf)
 * [Region Based Memory Management](http://www.cs.ucla.edu/~palsberg/tba/papers/tofte-talpin-iandc97.pdf)
@@ -46,15 +48,18 @@
 <!-- * [Non-blocking steal-half work queues](http://www.cs.bgu.ac.il/%7Ehendlerd/papers/p280-hendler.pdf) -->
 <!-- * [Reagents: expressing and composing fine-grained concurrency](http://www.mpi-sws.org/~turon/reagents.pdf) -->
 <!-- * [Algorithms for scalable synchronization of shared-memory multiprocessors](https://www.cs.rochester.edu/u/scott/papers/1991_TOCS_synch.pdf) -->
-<!-- * [Epoc-based reclamation](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-579.pdf). -->
+<!-- * [Epoch-based reclamation](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-579.pdf). -->
 * [Singularity: rethinking the software stack](https://research.microsoft.com/pubs/69431/osr2007_rethinkingsoftwarestack.pdf)
 * [Language support for fast and reliable message passing in singularity OS](https://research.microsoft.com/pubs/67482/singsharp.pdf)
 * [Scheduling multithreaded computations by work stealing](http://supertech.csail.mit.edu/papers/steal.pdf)
 * [Thread scheduling for multiprogramming multiprocessors](http://www.eecis.udel.edu/%7Ecavazos/cisc879-spring2008/papers/arora98thread.pdf)
 * [The data locality of work stealing](http://www.aladdin.cs.cmu.edu/papers/pdfs/y2000/locality_spaa00.pdf)
-* [Dynamic circular work stealing deque](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&rep=rep1&type=pdf) - ChaseとLevのdeque
-* [Work-first and help-first scheduling policies for async-finish task parallelism](http://www.cs.rice.edu/%7Eyguo/pubs/PID824943.pdf) - 完全正格(fully-strict)なワークスティーリング(work stealing)より一般的
-* [A Java fork/join calamity](http://www.coopsoft.com/ar/CalamityArticle.html) - Javaの fork/joinライブラリについての評価。特にワークスティーリングの非正格な計算への応用。
+* [Dynamic circular work stealing deque](http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&rep=rep1&type=pdf)
+  &mdash; ChaseとLevのdeque
+* [Work-first and help-first scheduling policies for async-finish task parallelism](http://www.cs.rice.edu/%7Eyguo/pubs/PID824943.pdf)
+  &mdash; 完全正格(fully-strict)なワークスティーリング(work stealing)より一般的
+* [A Java fork/join calamity](http://www.coopsoft.com/ar/CalamityArticle.html)
+  &mdash; Javaの fork/joinライブラリについての評価。特にワークスティーリングの非正格な計算への応用
 * [Scheduling techniques for concurrent systems](http://www.stanford.edu/~ouster/cgi-bin/papers/coscheduling.pdf)
 * [Contention aware scheduling](http://www.blagodurov.net/files/a8-blagodurov.pdf)
 * [Balanced work stealing for time-sharing multicores](http://www.cse.ohio-state.edu/hpcs/WWW/HTML/publications/papers/TR-12-1.pdf)
@@ -62,7 +67,7 @@
 * [Non-blocking steal-half work queues](http://www.cs.bgu.ac.il/%7Ehendlerd/papers/p280-hendler.pdf)
 * [Reagents: expressing and composing fine-grained concurrency](http://www.mpi-sws.org/~turon/reagents.pdf)
 * [Algorithms for scalable synchronization of shared-memory multiprocessors](https://www.cs.rochester.edu/u/scott/papers/1991_TOCS_synch.pdf)
-* [Epoc-based reclamation](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-579.pdf).
+* [Epoch-based reclamation](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-579.pdf)
 
 <!-- ### Others -->
 ### その他
@@ -111,32 +116,31 @@
 <!--   Rust](http://munksgaard.me/papers/laumann-munksgaard-larsen.pdf). Philip -->
 <!--   Munksgaard's master's thesis. Research for Servo. -->
 <!-- * [Ownership is Theft: Experiences Building an Embedded OS in Rust - Amit Levy, et. al.](http://amitlevy.com/papers/tock-plos2015.pdf) -->
-* [GPU Programming in Rust: Implementing High Level Abstractions in a
-Systems Level
-Language](http://www.cs.indiana.edu/~eholk/papers/hips2013.pdf)。 Eric Holkによる初期のGPU研究。
-* [Parallel closures: a new twist on an old
-  idea](https://www.usenix.org/conference/hotpar12/parallel-closures-new-twist-old-idea)
-  - 正確にはRustについてではないが、nmatsakisによるもの（訳注: nmatsakisはmozillaのデベロッパ）
-* [Patina: A Formalization of the Rust Programming
-  Language](ftp://ftp.cs.washington.edu/tr/2015/03/UW-CSE-15-03-02.pdf)。 Eric Reedによる初期の型システムのサブセットの形式化
-* [Experience Report: Developing the Servo Web Browser Engine using
-  Rust](http://arxiv.org/abs/1505.07383)。 Lars Bergstromによるもの
-* [Implementing a Generic Radix Trie in
-  Rust](https://michaelsproul.github.io/rust_radix_paper/rust-radix-sproul.pdf)。 Michael Sproulの学部論文
-* [Reenix: Implementing a Unix-Like Operating System in
-  Rust](http://scialex.github.io/reenix.pdf)。 Alex Lightの学部論文。
-* [Evaluation of performance and productivity metrics of potential
-  programming languages in the HPC environment]
-  (http://octarineparrot.com/assets/mrfloya-thesis-ba.pdf)。
-  Florian Wilkensの卒業論文。 C、 Go Rustを比較する
-* [Nom, a byte oriented, streaming, zero copy, parser combinators library
-  in Rust](http://spw15.langsec.org/papers/couprie-nom.pdf)。 Geoffroy CouprieによるVLCのための研究
-* [Graph-Based Higher-Order Intermediate
-  Representation](http://compilers.cs.uni-saarland.de/papers/lkh15_cgo.pdf)。 Rustに似た言語、Impalaで実装された実験的中間表現
-* [Code Refinement of Stencil
-  Codes](http://compilers.cs.uni-saarland.de/papers/ppl14_web.pdf)。 Impalaを使った別の論文
-* [Parallelization in Rust with fork-join and
-  friends](http://publications.lib.chalmers.se/records/fulltext/219016/219016.pdf)。 Linus Farnstrandの修士論文
-* [Session Types for
-  Rust](http://munksgaard.me/papers/laumann-munksgaard-larsen.pdf)。 Philip Munksgaardの修士論文。Servoのための研究。
+<!-- * [You can't spell trust without Rust](https://raw.githubusercontent.com/Gankro/thesis/master/thesis.pdf). Alexis Beingessner's master's thesis. -->
+* [GPU Programming in Rust: Implementing High Level Abstractions in a Systems Level Language](http://www.cs.indiana.edu/~eholk/papers/hips2013.pdf)
+  &mdash; Eric Holkによる初期のGPU研究
+* [Parallel closures: a new twist on an old idea](https://www.usenix.org/conference/hotpar12/parallel-closures-new-twist-old-idea)
+  &mdash; 正確にはRustについてではないが、nmatsakisによるもの（訳注: nmatsakisはmozillaのデベロッパ）
+* [Patina: A Formalization of the Rust Programming Language](ftp://ftp.cs.washington.edu/tr/2015/03/UW-CSE-15-03-02.pdf)
+  &mdash; Eric Reedによる初期の型システムのサブセットの形式化
+* [Experience Report: Developing the Servo Web Browser Engine using Rust](http://arxiv.org/abs/1505.07383)
+  &mdash; Lars Bergstromによるもの
+* [Implementing a Generic Radix Trie in Rust](https://michaelsproul.github.io/rust_radix_paper/rust-radix-sproul.pdf)
+  &mdash; Michael Sproulの学部論文
+* [Reenix: Implementing a Unix-Like Operating System in Rust](http://scialex.github.io/reenix.pdf)
+  &mdash; Alex Lightの学部論文
+* [Evaluation of performance and productivity metrics of potential programming languages in the HPC environment](http://octarineparrot.com/assets/mrfloya-thesis-ba.pdf)
+  &mdash; Florian Wilkensの卒業論文。C、Go、Rustを比較する
+* [Nom, a byte oriented, streaming, zero copy, parser combinators library in Rust](http://spw15.langsec.org/papers/couprie-nom.pdf)
+  &mdash; Geoffroy CouprieによるVLCのための研究
+* [Graph-Based Higher-Order Intermediate Representation](http://compilers.cs.uni-saarland.de/papers/lkh15_cgo.pdf)
+  &mdash; Rustに似た言語、Impalaで実装された実験的中間表現
+* [Code Refinement of Stencil Codes](http://compilers.cs.uni-saarland.de/papers/ppl14_web.pdf)
+  &mdash; Impalaを使った別の論文
+* [Parallelization in Rust with fork-join and friends](http://publications.lib.chalmers.se/records/fulltext/219016/219016.pdf)
+  &mdash; Linus Farnstrandの修士論文
+* [Session Types for Rust](http://munksgaard.me/papers/laumann-munksgaard-larsen.pdf)
+  &mdash; Philip Munksgaardの修士論文。Servoのための研究
 * [Ownership is Theft: Experiences Building an Embedded OS in Rust - Amit Levy, et. al.](http://amitlevy.com/papers/tock-plos2015.pdf)
+* [You can't spell trust without Rust](https://raw.githubusercontent.com/Gankro/thesis/master/thesis.pdf)
+  &mdash; Alexis Beingessnerの修士論文
