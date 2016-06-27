@@ -142,5 +142,5 @@
 * [Session Types for Rust](http://munksgaard.me/papers/laumann-munksgaard-larsen.pdf)
   &mdash; Philip Munksgaardの修士論文。Servoのための研究
 * [Ownership is Theft: Experiences Building an Embedded OS in Rust - Amit Levy, et. al.](http://amitlevy.com/papers/tock-plos2015.pdf)
-* [You can't spell trust without Rust](https://raw.githubusercontent.com/Gankro/thesis/master/thesis.PD)
+* [You can't spell trust without Rust](https://raw.githubusercontent.com/Gankro/thesis/master/thesis.pdf)
   &mdash; Alexis Beingessnerの修士論文
