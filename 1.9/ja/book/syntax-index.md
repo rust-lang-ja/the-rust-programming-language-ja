@@ -4,7 +4,7 @@
 <!-- ## Keywords -->
 ## キーワード
 
-<!-- * `as`: primitive casting.  See [Casting Between Types (`as`)]. -->
+<!-- * `as`: primitive casting, or disambiguating the specific trait containing an item.  See [Casting Between Types (`as`)], [Universal Function Call Syntax (Angle-bracket Form)], [Associated Types]. -->
 <!-- * `break`: break out of loop.  See [Loops (Ending Iteration Early)]. -->
 <!-- * `const`: constant items and constant raw pointers.  See [`const` and `static`], [Raw Pointers]. -->
 <!-- * `continue`: continue to next loop iteration.  See [Loops (Ending Iteration Early)]. -->
@@ -38,7 +38,7 @@
 <!-- * `use`: import symbols into scope.  See [Crates and Modules (Importing Modules with `use`)]. -->
 <!-- * `where`: type constraint clauses.  See [Traits (`where` clause)]. -->
 <!-- * `while`: conditional loop.  See [Loops (`while`)]. -->
-* `as`: プリミティブのキャスト。 [型間のキャスト (`as`)] 参照。
+* `as`: プリミティブのキャスト。あるいはあるアイテムを含むトレイトの曖昧性の排除。 [型間のキャスト (`as`)] 参照。
 * `break`: ループからの脱却。[ループ (反復の早期終了)] 参照。
 * `const`: 定数および定数ポインタ。 [`const` と `static`] 、 [生ポインタ] 参照。
 * `continue`: 次の反復への継続。 [ループ (反復の早期終了)] 参照。
