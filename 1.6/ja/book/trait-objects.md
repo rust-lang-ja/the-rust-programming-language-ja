@@ -129,7 +129,7 @@ implements the trait by *casting* it (e.g. `&x as &Foo`) or *coercing* it
 <!-- These trait object coercions and casts also work for pointers like `&mut T` to
 `&mut Foo` and `Box<T>` to `Box<Foo>`, but that’s all at the moment. Coercions
 and casts are identical. -->
-これらトレイトオブジェクトの型強制とキャストは `&mut T` を `&mut Foo` へ、 `Box<T>` を `Box<Foo>` へ、というようにどちらもポインタに対する操作ですが、今の所はこれだけです。型変換とキャストは同一です。
+これらトレイトオブジェクトの型強制とキャストは `&mut T` を `&mut Foo` へ、 `Box<T>` を `Box<Foo>` へ、というようにどちらもポインタに対する操作ですが、今の所はこれだけです。型強制とキャストは同一です。
 
 <!-- This operation can be seen as ‘erasing’ the compiler’s knowledge about the
 specific type of the pointer, and hence trait objects are sometimes referred to
