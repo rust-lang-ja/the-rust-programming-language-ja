@@ -131,6 +131,59 @@ fn main() {
 }
 ```
 
+<!-- As closures can capture variables from their environment, we can also try to -->
+<!-- bring some data into the other thread: -->
+クロージャは環境から変数を捕捉出来るので、スレッドにデータを取り込もうとすることも出来ます。
+
+
+```rust,ignore
+use std::thread;
+
+fn main() {
+    let x = 1;
+    thread::spawn(|| {
+        println!("x is {}", x);
+    });
+}
+```
+
+<!-- However, this gives us an error: -->
+しかし、これはエラーです。
+
+```text
+5:19: 7:6 error: closure may outlive the current function, but it
+                 borrows `x`, which is owned by the current function
+...
+5:19: 7:6 help: to force the closure to take ownership of `x` (and any other referenced variables),
+          use the `move` keyword, as shown:
+      thread::spawn(move || {
+          println!("x is {}", x);
+      });
+```
+
+<!-- This is because by default closures capture variables by reference, and thus the -->
+<!-- closure only captures a _reference to `x`_. This is a problem, because the -->
+<!-- thread may outlive the scope of `x`, leading to a dangling pointer. -->
+これはクロージャはデフォルトで変数を参照で捕捉するためクロージャは _`x` への参照_ のみを捕捉するからです。
+これは問題です。なぜならスレッドは `x` のスコープよに長生きするかもしれないのでダングリングポインタを招きかねません。
+
+<!-- To fix this, we use a `move` closure as mentioned in the error message. `move` -->
+<!-- closures are explained in depth [here](closures.html#move-closures); basically -->
+<!-- they move variables from their environment into themselves. -->
+これを直すにはエラーメッセージにあるように `move` クロージャを使います。
+`move` クロージャは [こちら](closures.html#move-closures) で詳細に説明されていますが、基本的には変数を環境からクロージャへムーブします。
+
+```rust
+use std::thread;
+
+fn main() {
+    let x = 1;
+    thread::spawn(move || {
+        println!("x is {}", x);
+    });
+}
+```
+
 <!-- Many languages have the ability to execute threads, but it's wildly unsafe. -->
 <!-- There are entire books about how to prevent errors that occur from shared -->
 <!-- mutable state. Rust helps out with its type system here as well, by preventing -->
