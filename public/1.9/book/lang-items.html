@@ -238,9 +238,15 @@ unsafe fn allocate(size: usize, _align: usize) -&gt; *mut u8 {
 
     p
 }
+
 #[lang = &quot;exchange_free&quot;]
 unsafe fn deallocate(ptr: *mut u8, _size: usize, _align: usize) {
     libc::free(ptr as *mut libc::c_void)
+}
+
+#[lang = &quot;box_free&quot;]
+unsafe fn box_free&lt;T&gt;(ptr: *mut T) {
+    deallocate(ptr as *mut u8, ::core::mem::size_of::&lt;T&gt;(), ::core::mem::align_of::&lt;T&gt;());
 }
 
 #[start]
@@ -279,9 +285,15 @@ fn main(argc: isize, argv: *const *const u8) -&gt; isize {
 
     <span class='ident'>p</span>
 }
+
 <span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;exchange_free&quot;</span>]</span>
 <span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>deallocate</span>(<span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span>, <span class='ident'>_size</span>: <span class='ident'>usize</span>, <span class='ident'>_align</span>: <span class='ident'>usize</span>) {
     <span class='ident'>libc</span>::<span class='ident'>free</span>(<span class='ident'>ptr</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>libc</span>::<span class='ident'>c_void</span>)
+}
+
+<span class='attribute'>#[<span class='ident'>lang</span> <span class='op'>=</span> <span class='string'>&quot;box_free&quot;</span>]</span>
+<span class='kw'>unsafe</span> <span class='kw'>fn</span> <span class='ident'>box_free</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>ptr</span>: <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>T</span>) {
+    <span class='ident'>deallocate</span>(<span class='ident'>ptr</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw-2'>mut</span> <span class='ident'>u8</span>, ::<span class='ident'>core</span>::<span class='ident'>mem</span>::<span class='ident'>size_of</span>::<span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(), ::<span class='ident'>core</span>::<span class='ident'>mem</span>::<span class='ident'>align_of</span>::<span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>());
 }
 
 <span class='attribute'>#[<span class='ident'>start</span>]</span>
