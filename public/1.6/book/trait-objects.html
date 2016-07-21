@@ -275,7 +275,7 @@ Rust will create a special version of `do_something()` for both `u8` and
 `String`, and then replace the call sites with calls to these specialized
 functions. In other words, Rust generates something like this: -->
 
-<p>これはRustが <code>u8</code> と <code>String</code> それぞれ専用の <code>do_something()</code> を作成し、それら特殊化された関数を宛がうように呼び出しの部分を書き換えるという意味です。（訳注: 作成された専用の <code>do_something()</code> は「特殊化された関数」(specialized function)と呼ばれます）</p>
+<p>これはRustが <code>u8</code> と <code>String</code> それぞれ専用の <code>do_something()</code> を作成し、それら特殊化された関数を宛てがうように呼び出しの部分を書き換えるという意味です。（訳注: 作成された専用の <code>do_something()</code> は「特殊化された関数」(specialized function)と呼ばれます）</p>
 
 <span class='rusttest'>trait Foo { fn method(&amp;self) -&gt; String; }
 impl Foo for u8 { fn method(&amp;self) -&gt; String { format!(&quot;u8: {}&quot;, *self) } }
