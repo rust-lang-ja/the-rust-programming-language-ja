@@ -653,7 +653,7 @@ the `sayings::japanese::farewells` module. As you can see we can later refer to
 the Japanese `goodbye` function with no module qualifiers. This kind of glob
 should be used sparingly. It’s worth noting that it only imports the public
 symbols, even if the code doing the globbing is in the same module. -->
-第二の `use` 文では `sayings::japanese::farewells` モジュールから全てのシンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の `goodbye` 関数を参照できています。この類のグロブは慎重に使うべきです。スターグロブにはパブリックなシンボルをインポートするだけの機能しかありません、例えグロブするコードが同一のモジュール内であったとしてもです。
+第二の `use` 文では `sayings::japanese::farewells` モジュールから全てのパブリックなシンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の `goodbye` 関数を参照できています。この類のグロブは慎重に使うべきです。スターグロブにはパブリックなシンボルをインポートするだけの機能しかありません、例えグロブするコードが同一のモジュール内であったとしてもです。
 
 <!-- The third `use` statement bears more explanation. It's using "brace expansion"
 globbing to compress three `use` statements into one (this sort of syntax
