@@ -18,6 +18,11 @@ dependencies:
   post:
     - sudo apt-get update
     - sudo apt-get install curl file gcc git make openssh-client
+    # Delete .gitconfig to prevent "cargo install" and "cargo build" from
+    # failing when pulling the registry info (crates.io-index).
+    # See https://github.com/rust-lang-ja/rust-by-example-ja/issues/38#issuecomment-238214915
+    # NOTE: Assuming .gitconfig only has a rewrite rule for https://github.com
+    - cat $HOME/.gitconfig; rm $HOME/.gitconfig
     - mkdir -p $HOME/rust
     # Install rustc and cargo, or use cached ones.
     - ./tools/circleci/setup-rust.sh $RUST_HOME $RUST_NIGHTLY_RELEASE_DATE
