@@ -49,9 +49,9 @@ impl HasArea for Circle {
 ```
 
 <!-- As you can see, the `trait` block looks very similar to the `impl` block,
-but we don’t define a body, just a type signature. When we `impl` a trait,
-we use `impl Trait for Item`, rather than just `impl Item`. -->
-このように、 `trait` ブロックは `impl` ブロックにとても似ているように見えますが、関数本体を定義せず、型シグネチャだけを定義しています。トレイトを `impl` するときは、ただ `impl Item` とするのではなく、 `impl Trait for Item` と記述します。
+but we don’t define a body, only a type signature. When we `impl` a trait,
+we use `impl Trait for Item`, rather than only `impl Item`. -->
+このように、 `trait` ブロックは `impl` ブロックにとても似ているように見えますが、関数本体を定義せず、型シグネチャだけを定義しています。トレイトを `impl` するときは、 `impl Item` とだけ書くのではなく、 `impl Trait for Item` と記述します。
 
 <!-- ## Trait bounds on generic functions -->
 ## ジェネリック関数におけるトレイト境界
@@ -169,7 +169,7 @@ print_area(5);
 コンパイル時エラーが発生します。
 
 ```text
-error: the trait `HasArea` is not implemented for the type `_` [E0277]
++error: the trait bound `_ : HasArea` is not satisfied [E0277]
 ```
 
 <!-- ## Trait bounds on generic structs -->
@@ -308,18 +308,25 @@ let result = f.write(buf);
 it won’t affect you, unless you `use` that trait. -->
 これは、例え誰かが `i32` へメソッドを追加するような望ましくない何かを行ったとしても、あなたがトレイトを `use` しない限り、影響はないことを意味します。
 
-<!-- There’s one more restriction on implementing traits: either the trait, or the
-type you’re writing the `impl` for, must be defined by you. So, we could
-implement the `HasArea` type for `i32`, because `HasArea` is in our code. But
-if we tried to implement `ToString`, a trait provided by Rust, for `i32`, we could
-not, because neither the trait nor the type are in our code. -->
-トレイトの実装における制限はもう1つあります。トレイト、またはあなたが書いている `impl` の対象となる型は、あなた自身によって実装されなければなりません。 `HasArea` は私たちが記述したコードであるため、 `i32` のための `HasArea` を実装することができます。しかし、 `i32` のためにRustによって提供されている `ToString` トレイトを実装したいとしても、トレイトと型が共に私たちの記述したコードでないため、それはできません。
+<!-- There’s one more restriction on implementing traits: either the trait
+or the type you’re implementing it for must be defined by you. Or more
+precisely, one of them must be defined in the same crate as the `impl`
+you're writing. For more on Rust's module and package system, see the
+chapter on [crates and modules][cm]. -->
+トレイトの実装における制限はもう1つあります。トレイトまたはあなたがそれを実装している型はあなた自身によって定義されなければなりません。より明確に言えば、それらの内の1つはあなたが書く `impl` と同一のクレートに定義されなければなりません。Rustのモジュールとパッケージシステムについての詳細は、 [クレートとモジュール][cm] の章を見てください。
+
+<!-- So, we could implement the `HasArea` type for `i32`, because we defined
+`HasArea` in our code. But if we tried to implement `ToString`, a trait
+provided by Rust, for `i32`, we could not, because neither the trait nor
+the type are defined in our crate. -->
+以上により `i32` について `HasArea` 型が実装できるはずです、コードには `HasArea` を定義しましたからね。しかしRustによって `i32` について提供されている `ToString` を実装しようとすると失敗するはずです、トレイトと型の両方が私達のクレートで定義されていませんからね。
 
 <!-- One last thing about traits: generic functions with a trait bound use
 ‘monomorphization’ (mono: one, morph: form), so they are statically dispatched.
 What’s that mean? Check out the chapter on [trait objects][to] for more details. -->
 トレイトに関して最後に1つ。トレイト境界が設定されたジェネリック関数は「単相化」(monomorphization)(mono:単一の、morph:様相)されるため、静的ディスパッチが行われます。一体どういう意味でしょうか？詳細については、 [トレイトオブジェクト][to] の章をチェックしてください。
 
+[cm]: crates-and-modules.html
 [to]: trait-objects.html
 
 <!-- # Multiple trait bounds -->
@@ -549,7 +556,7 @@ impl FooBar for Baz {
 `Foo` の実装を忘れると、Rustは以下のように伝えるでしょう。
 
 ```text
-error: the trait `main::Foo` is not implemented for the type `main::Baz` [E0277]
++error: the trait bound `main::Baz : main::Foo` is not satisfied [E0277]
 ```
 
 <!-- # Deriving -->
