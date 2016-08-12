@@ -28,7 +28,7 @@ dependencies:
     - ./tools/circleci/setup-rust.sh $RUST_HOME $RUST_NIGHTLY_RELEASE_DATE
     - rustc --version --verbose
     - cargo --version --verbose
-    # Install rustbook, or use cached one.
+    # Install rustbook.
     - cargo install --force --root $RUST_HOME --git $RUSTBOOK_GIT_URL --branch $RUSTBOOK_GIT_BRANCH
     - rustbook help
   cache_directories:
