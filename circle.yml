@@ -29,7 +29,7 @@ dependencies:
     - rustc --version --verbose
     - cargo --version --verbose
     # Install rustbook, or use cached one.
-    - cargo install --force --root $RUST_HOME --git $RUSTBOOK_GIT_URL --branch $RUSTBOOK_GIT_BRANCH || true
+    - cargo install --force --root $RUST_HOME --git $RUSTBOOK_GIT_URL --branch $RUSTBOOK_GIT_BRANCH
     - rustbook help
   cache_directories:
     - "~/rust"
