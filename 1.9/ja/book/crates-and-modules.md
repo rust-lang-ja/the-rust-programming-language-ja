@@ -3,7 +3,7 @@
 
 <!-- When a project starts getting large, it’s considered good software
 engineering practice to split it up into a bunch of smaller pieces, and then
-fit them together. It’s also important to have a well-defined interface, so
+fit them together. It is also important to have a well-defined interface, so
 that some of your functionality is private, and some is public. To facilitate
 these kinds of things, Rust has a module system. -->
 プロジェクトが大きくなり始めた際に、コードを小さなまとまりに分割しそれらでプロジェクトを組み立てるのはソフトウェア工学における優れた慣例だと考えられています。幾つかの機能をプライベートとし、また幾つかをパブリックとできるように、はっきりと定義されたインターフェースも重要となります。こういった事柄を容易にするため、Rustはモジュールシステムを有しています。
@@ -134,7 +134,7 @@ build  deps  examples  libphrases-a7448e02a0468eaa.rlib  native
 crate from another crate, let’s break it up into multiple files. -->
 `libphrases-hash.rlib` はコンパイルされたクレートです。このクレートを他のクレートから使う方法を見る前に、複数のファイルに分割してみましょう。
 
-<!-- # Multiple file crates -->
+<!-- # Multiple File Crates -->
 # 複数のファイルによるクレート
 
 <!-- If each crate were just one file, these files would get very large. It’s often
@@ -216,15 +216,21 @@ mod farewells;
 ```
 
 <!-- Again, these declarations tell Rust to look for either
-`src/english/greetings.rs` and `src/japanese/greetings.rs` or
-`src/english/farewells/mod.rs` and `src/japanese/farewells/mod.rs`. Because
-these sub-modules don’t have their own sub-modules, we’ve chosen to make them
-`src/english/greetings.rs` and `src/japanese/farewells.rs`. Whew! -->
-繰り返すと、これら宣言はRustへ `src/english/greetings.rs` と `src/japanese/greetings.rs` 、または `src/english/farewells/mod.rs` と `src/japanese/farewells/mod.rs` のどちらかを見よと伝えています。これらサブモジュールは自身配下のサブモジュールを持たないため、私たちは `src/english/greetings.rs` と `src/japanese/farewells.rs` を選びました。ヒュー！
+`src/english/greetings.rs`, `src/english/farewells.rs`,
+`src/japanese/greetings.rs` and `src/japanese/farewells.rs` or
+`src/english/greetings/mod.rs`, `src/english/farewells/mod.rs`,
+`src/japanese/greetings/mod.rs` and
+`src/japanese/farewells/mod.rs`. Because these sub-modules don’t have
+their own sub-modules, we’ve chosen to make them
+`src/english/greetings.rs`, `src/english/farewells.rs`,
+`src/japanese/greetings.rs` and `src/japanese/farewells.rs`. Whew! -->
+繰り返すと、これら宣言はRustへ `src/english/greetings.rs` 、 `src/english/farewells.rs` 、 `src/japanese/greetings.rs` 、 `src/japanese/farewells.rs` 、または `src/english/greetings/mod.rs` 、 `src/english/farewells/mod.rs` 、 `src/japanese/greetings/mod.rs` 、 `src/japanese/farewells/mod.rs` のどちらかを見よと伝えています。これらサブモジュールは自身配下のサブモジュールを持たないため、私たちは `src/english/greetings.rs` 、 `src/english/farewells.rs` 、 `src/japanese/greetings.rs` 、 `src/japanese/farewells.rs` を選びました。ヒュー！
 
-<!-- The contents of `src/english/greetings.rs` and `src/japanese/farewells.rs` are
-both empty at the moment. Let’s add some functions. -->
-`src/english/greetings.rs` と `src/japanese/farewells.rs` の中身は現在両方とも空です。幾つか関数を追加しましょう。
+<!-- The contents of `src/english/greetings.rs`,
+`src/english/farewells.rs`, `src/japanese/greetings.rs` and
+`src/japanese/farewells.rs` are all empty at the moment. Let’s add
+some functions. -->
+`src/english/greetings.rs` 、 `src/english/farewells.rs` 、 `src/japanese/greetings.rs` 、 `src/japanese/farewells.rs` の中身は現在全て空です。幾つか関数を追加しましょう。
 
 <!-- Put this in `src/english/greetings.rs`: -->
 `src/english/greetings.rs` に以下を入力します。
@@ -253,7 +259,7 @@ fn hello() -> String {
 }
 ```
 
-<!-- Of course, you can copy and paste this from this web page, or just type
+<!-- Of course, you can copy and paste this from this web page, or type
 something else. It’s not important that you actually put ‘konnichiwa’ to learn
 about the module system. -->
 勿論、このwebページからコピー&ペーストしたり、他の何かをタイプしても構いません。モジュールシステムを学ぶのに「konnichiwa」と入力するのは重要なことではありません。
@@ -343,7 +349,7 @@ depth. -->
 <!-- Rust allows you to precisely control which aspects of your interface are
 public, and so private is the default. To make things public, you use the `pub`
 keyword. Let’s focus on the `english` module first, so let’s reduce our `src/main.rs`
-to just this: -->
+to only this: -->
 Rustはインターフェースのパブリックである部分をきっちりと管理します。そのためプライベートがデフォルトです。パブリックにするためには `pub` キーワードを使います。まずは `english` モジュールに焦点を当てたいので、 `src/main.rs` をこれだけに減らしましょう。
 
 ```rust,ignore
@@ -507,7 +513,7 @@ use phrases::english::{greetings, farewells};
 <!-- ## Re-exporting with `pub use` -->
 ## `pub use` による再エクスポート
 
-<!-- You don’t just use `use` to shorten identifiers. You can also use it inside of your crate
+<!-- You don’t only use `use` to shorten identifiers. You can also use it inside of your crate
 to re-export a function inside another module. This allows you to present an external
 interface that may not directly map to your internal code organization. -->
 `use` は識別子を短くするためだけに用いるのではありません。他のモジュール内の関数を再エクスポートするためにクレートの中で使うこともできます。これを使って内部のコード構成そのままではない外部向けインターフェースを提供できます。
@@ -642,11 +648,12 @@ to it as "sayings". Similarly, the first `use` statement pulls in the
 ambiguity when importing similarly-named items from different places. -->
 第一に、インポートされているものを `extern crate` と `use` 双方でリネームしています。そのため 「phrases」という名前のクレートであっても、ここでは「sayings」として参照することになります。同様に、始めの `use` 文はクレートから `japanese::greetings` を引き出していますが、単純な `greetings` ではなく `ja_greetings` で利用できるようにしています。これは異なる場所から同じ名前のアイテムをインポートする際、曖昧さを回避するのに役立ちます。
 
-<!-- The second `use` statement uses a star glob to bring in _all_ symbols from the
-`sayings::japanese::farewells` module. As you can see we can later refer to
+<!-- The second `use` statement uses a star glob to bring in all public symbols from
+the `sayings::japanese::farewells` module. As you can see we can later refer to
 the Japanese `goodbye` function with no module qualifiers. This kind of glob
-should be used sparingly. -->
-第二の `use` 文では `sayings::japanese::farewells` モジュールから _全ての_ シンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の `goodbye` 関数を参照できています。なお、この類のグロブは慎重に使うべきです。
+should be used sparingly. It’s worth noting that it only imports the public
+symbols, even if the code doing the globbing is in the same module. -->
+第二の `use` 文では `sayings::japanese::farewells` モジュールから全てのパブリックなシンボルを持ってくるためにスターグロブを使っています。ご覧の通り、最後にモジュールの修飾無しで日本語の `goodbye` 関数を参照できています。この類のグロブは慎重に使うべきです。スターグロブにはパブリックなシンボルをインポートするだけの機能しかありません、例えグロブするコードが同一のモジュール内であったとしてもです。
 
 <!-- The third `use` statement bears more explanation. It's using "brace expansion"
 globbing to compress three `use` statements into one (this sort of syntax
@@ -661,6 +668,6 @@ use sayings::english::farewells as en_farewells;
 ```
 
 <!-- As you can see, the curly brackets compress `use` statements for several items
-under the same path, and in this context `self` just refers back to that path.
+under the same path, and in this context `self` refers back to that path.
 Note: The curly brackets cannot be nested or mixed with star globbing. -->
-ご覧の通り、波括弧は同一パス下にある幾つかのアイテムに対する `use` 文を圧縮します。また、この文脈における `self` はパスの1つ手前を参照するだけです。（訳注: `sayings::english::{self}` の `self` が指す1つ手前は `sayings::english` です）注意: 波括弧はネストできず、スターグロブと混ぜるとこともできません。
+ご覧の通り、波括弧は同一パス下にある幾つかのアイテムに対する `use` 文を圧縮します。また、この文脈における `self` はパスの1つ手前を参照します。（訳注: `sayings::english::{self}` の `self` が指す1つ手前は `sayings::english` です）注意: 波括弧はネストできず、スターグロブと混ぜるとこともできません。
