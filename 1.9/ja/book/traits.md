@@ -51,7 +51,7 @@ impl HasArea for Circle {
 <!-- As you can see, the `trait` block looks very similar to the `impl` block,
 but we don’t define a body, only a type signature. When we `impl` a trait,
 we use `impl Trait for Item`, rather than only `impl Item`. -->
-このように、 `trait` ブロックは `impl` ブロックにとても似ているように見えますが、関数本体を定義せず、型シグネチャだけを定義しています。トレイトを `impl` するときは、 `impl Item` とだけ書くのではなく、 `impl Trait for Item` と記述します。
+このように、 `trait` ブロックは `impl` ブロックにとても似ているように見えますが、関数本体を定義せず、型シグネチャだけを定義しています。トレイトを `impl` するときは、 `impl Item` とだけ書くのではなく、 `impl Trait for Item` と書きます。
 
 <!-- ## Trait bounds on generic functions -->
 ## ジェネリック関数におけるトレイト境界
@@ -169,7 +169,7 @@ print_area(5);
 コンパイル時エラーが発生します。
 
 ```text
-+error: the trait bound `_ : HasArea` is not satisfied [E0277]
+error: the trait bound `_ : HasArea` is not satisfied [E0277]
 ```
 
 <!-- ## Trait bounds on generic structs -->
@@ -319,7 +319,7 @@ chapter on [crates and modules][cm]. -->
 `HasArea` in our code. But if we tried to implement `ToString`, a trait
 provided by Rust, for `i32`, we could not, because neither the trait nor
 the type are defined in our crate. -->
-以上により `i32` について `HasArea` 型が実装できるはずです、コードには `HasArea` を定義しましたからね。しかしRustによって `i32` について提供されている `ToString` を実装しようとすると失敗するはずです、トレイトと型の両方が私達のクレートで定義されていませんからね。
+以上により `i32` について `HasArea` 型が実装できるはずです、コードには `HasArea` を定義しましたからね。しかしRustによって `i32` に提供されている `ToString` を実装しようとすると失敗するはずです、トレイトと型の両方が私達のクレートで定義されていませんからね。
 
 <!-- One last thing about traits: generic functions with a trait bound use
 ‘monomorphization’ (mono: one, morph: form), so they are statically dispatched.
@@ -556,7 +556,7 @@ impl FooBar for Baz {
 `Foo` の実装を忘れると、Rustは以下のように伝えるでしょう。
 
 ```text
-+error: the trait bound `main::Baz : main::Foo` is not satisfied [E0277]
+error: the trait bound `main::Baz : main::Foo` is not satisfied [E0277]
 ```
 
 <!-- # Deriving -->
