@@ -313,13 +313,13 @@ or the type you’re implementing it for must be defined by you. Or more
 precisely, one of them must be defined in the same crate as the `impl`
 you're writing. For more on Rust's module and package system, see the
 chapter on [crates and modules][cm]. -->
-トレイトの実装における制限はもう1つあります。トレイトまたはあなたがそれを実装している型はあなた自身によって定義されなければなりません。より明確に言えば、それらの内の1つはあなたが書く `impl` と同一のクレートに定義されなければなりません。Rustのモジュールとパッケージシステムについての詳細は、 [クレートとモジュール][cm] の章を見てください。
+トレイトの実装における制限はもう1つあります。トレイトまたはあなたがそれを実装している型はあなた自身によって定義されなければなりません。より正確に言えば、それらの内の1つはあなたが書く `impl` と同一のクレートに定義されなければなりません。Rustのモジュールとパッケージシステムについての詳細は、 [クレートとモジュール][cm] の章を見てください。
 
 <!-- So, we could implement the `HasArea` type for `i32`, because we defined
 `HasArea` in our code. But if we tried to implement `ToString`, a trait
 provided by Rust, for `i32`, we could not, because neither the trait nor
 the type are defined in our crate. -->
-以上により `i32` について `HasArea` 型が実装できるはずです、コードには `HasArea` を定義しましたからね。しかしRustによって `i32` に提供されている `ToString` を実装しようとすると失敗するはずです、トレイトと型の両方が私達のクレートで定義されていませんからね。
+以上により `i32` について `HasArea` 型が実装できるはずです、コードには `HasArea` を定義しましたからね。しかし `i32` にRustによって提供されている `ToString` を実装しようとすると失敗するはずです、トレイトと型の両方が私達のクレートで定義されていませんからね。
 
 <!-- One last thing about traits: generic functions with a trait bound use
 ‘monomorphization’ (mono: one, morph: form), so they are statically dispatched.
