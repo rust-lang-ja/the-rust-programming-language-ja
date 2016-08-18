@@ -6,7 +6,7 @@
 <!-- enclosing scope and are ‘closed over’ when used in the function. From this, we -->
 <!-- get the name ‘closures’ and Rust provides a really great implementation of -->
 <!-- them, as we’ll see. -->
-しばしば、関数と _自由変数_ と一つにまとめておくことがコードの明確さや再利用に役立つ場合が有ります。
+しばしば、関数と _自由変数_ を一つにまとめておくことがコードの明確さや再利用に役立つ場合が有ります。
 自由変数は外部のスコープから来て、関数中で使われるときに「閉じ込め」られます。
 そのためそのようなまとまりを「クロージャ」と呼び、
 Rustはこれから見ていくようにクロージャの非常に良い実装を提供しています。
