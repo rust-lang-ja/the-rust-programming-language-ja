@@ -266,7 +266,7 @@ that if the trait isn’t defined in your scope, it doesn’t apply. Here’s an
 example: the standard library provides a [`Write`][write] trait which adds
 extra functionality to `File`s, for doing file I/O. By default, a `File`
 won’t have its methods: -->
-ここまでくると世紀末感漂いますが、手が負えなくなることを防ぐためにトレイトの実装周りには2つの制限が設けられています。第1に、あなたのスコープ内で定義されていないトレイトは適用されません。例えば、標準ライブラリは `File` にI/O機能を追加するための `Write` トレイトを提供しています。デフォルトでは、 `File` は `Writes` で定義されるメソッド群を持っていません。
+ここまでくると世紀末感が漂いますが、手に負えなくなることを防ぐためにトレイトの実装周りには2つの制限が設けられています。第1に、あなたのスコープ内で定義されていないトレイトは適用されません。例えば、標準ライブラリは `File` にI/O機能を追加するための `Write` トレイトを提供しています。デフォルトでは、 `File` は `Writes` で定義されるメソッド群を持っていません。
 
 [write]: ../std/io/trait.Write.html
 
