@@ -768,7 +768,7 @@ $ cargo build
 ```
 
 <!-- ## Making A New Cargo Project the Easy Way -->
-## 新たなCargoプロジェクを作る簡単な方法
+## 新たなCargoプロジェクトを作る簡単な方法
 
 <!-- You don’t have to go through that previous process every time you want to start -->
 <!-- a new project! Cargo can quickly make a bare-bones project directory that you -->
