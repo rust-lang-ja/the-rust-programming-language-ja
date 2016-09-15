@@ -413,7 +413,7 @@ println!("{}", x + y);
 ```text
     まず、`x`に5をセットする
 
-    ```text
+    ```rust
     let x = 5;
     # let y = 6;
     # println!("{}", x + y);
@@ -421,7 +421,7 @@ println!("{}", x + y);
 
     次に、`y`に6をセットする
 
-    ```text
+    ```rust
     # let x = 5;
     let y = 6;
     # println!("{}", x + y);
@@ -429,7 +429,7 @@ println!("{}", x + y);
 
     最後に、`x`と`y`との合計を出力する
 
-    ```text
+    ```rust
     # let x = 5;
     # let y = 6;
     println!("{}", x + y);
