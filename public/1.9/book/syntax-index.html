@@ -183,7 +183,7 @@
 <!-- ## Keywords -->
 
 <h2 id='キーワード' class='section-header'><a href='#キーワード'>キーワード</a></h2>
-<!-- * `as`: primitive casting.  See [Casting Between Types (`as`)]. -->
+<!-- * `as`: primitive casting, or disambiguating the specific trait containing an item.  See [Casting Between Types (`as`)], [Universal Function Call Syntax (Angle-bracket Form)], [Associated Types]. -->
 
 <!-- * `break`: break out of loop.  See [Loops (Ending Iteration Early)]. -->
 
@@ -252,7 +252,7 @@
 <!-- * `while`: conditional loop.  See [Loops (`while`)]. -->
 
 <ul>
-<li><code>as</code>: プリミティブのキャスト。 <a href="casting-between-types.html#as">型間のキャスト (<code>as</code>)</a> 参照。</li>
+<li><code>as</code>: プリミティブのキャスト。あるいはあるアイテムを含むトレイトの曖昧性の排除。 <a href="casting-between-types.html#as">型間のキャスト (<code>as</code>)</a> 、 <a href="ufcs.html#%E5%B1%B1%E6%8B%AC%E5%BC%A7%E5%BD%A2%E5%BC%8F">共通の関数呼び出し構文 (山括弧形式)</a> 、 <a href="associated-types.html">関連型</a> 参照。</li>
 <li><code>break</code>: ループからの脱却。<a href="loops.html#%E5%8F%8D%E5%BE%A9%E3%81%AE%E6%97%A9%E6%9C%9F%E7%B5%82%E4%BA%86">ループ (反復の早期終了)</a> 参照。</li>
 <li><code>const</code>: 定数および定数ポインタ。 <a href="const-and-static.html"><code>const</code> と <code>static</code></a> 、 <a href="raw-pointers.html">生ポインタ</a> 参照。</li>
 <li><code>continue</code>: 次の反復への継続。 <a href="loops.html#%E5%8F%8D%E5%BE%A9%E3%81%AE%E6%97%A9%E6%9C%9F%E7%B5%82%E4%BA%86">ループ (反復の早期終了)</a> 参照。</li>
@@ -295,9 +295,11 @@
 
 <!-- * `!` (`!expr`): bitwise or logical complement.  Overloadable (`Not`). -->
 
+<!-- * `!=` (`var != expr`): nonequality comparison.  Overloadable (`PartialEq`). -->
+
 <!-- * `%` (`expr % expr`): arithmetic remainder.  Overloadable (`Rem`). -->
 
-<!-- * `%=` (`var %= expr`): arithmetic remainder & assignment. -->
+<!-- * `%=` (`var %= expr`): arithmetic remainder & assignment. Overloadable (`RemAssign`). -->
 
 <!-- * `&` (`expr & expr`): bitwise and.  Overloadable (`BitAnd`). -->
 
@@ -305,7 +307,7 @@
 
 <!-- * `&` (`&type`, `&mut type`, `&'a type`, `&'a mut type`): borrowed pointer type.  See [References and Borrowing]. -->
 
-<!-- * `&=` (`var &= expr`): bitwise and & assignment. -->
+<!-- * `&=` (`var &= expr`): bitwise and & assignment. Overloadable (`BitAndAssign`). -->
 
 <!-- * `&&` (`expr && expr`): logical and. -->
 
@@ -315,13 +317,13 @@
 
 <!-- * `*` (`*const type`, `*mut type`): raw pointer.  See [Raw Pointers]. -->
 
-<!-- * `*=` (`var *= expr`): arithmetic multiplication & assignment. -->
+<!-- * `*=` (`var *= expr`): arithmetic multiplication & assignment. Overloadable (`MulAssign`). -->
 
 <!-- * `+` (`expr + expr`): arithmetic addition.  Overloadable (`Add`). -->
 
 <!-- * `+` (`trait + trait`, `'a + trait`): compound type constraint.  See [Traits (Multiple Trait Bounds)]. -->
 
-<!-- * `+=` (`var += expr`): arithmetic addition & assignment. -->
+<!-- * `+=` (`var += expr`): arithmetic addition & assignment. Overloadable (`AddAssign`). -->
 
 <!-- * `,`: argument and element separator.  See [Attributes], [Functions], [Structs], [Generics], [Match], [Closures], [Crates and Modules (Importing Modules with `use`)]. -->
 
@@ -329,7 +331,7 @@
 
 <!-- * `-` (`- expr`): arithmetic negation.  Overloadable (`Neg`). -->
 
-<!-- * `-=` (`var -= expr`): arithmetic subtraction & assignment. -->
+<!-- * `-=` (`var -= expr`): arithmetic subtraction & assignment. Overloadable (`SubAssign`). -->
 
 <!-- * `->` (`fn(…) -> type`, `|…| -> type`): function and closure return type.  See [Functions], [Closures]. -->
 
@@ -343,11 +345,13 @@
 
 <!-- * `..` (`variant(x, ..)`, `struct_type { x, .. }`): "and the rest" pattern binding.  See [Patterns (Ignoring bindings)]. -->
 
-<!-- * `...` (`expr ... expr`): inclusive range pattern.  See [Patterns (Ranges)]. -->
+<!-- * `...` (`...expr`, `expr...expr`) *in an expression*: inclusive range expression. See [Iterators]. -->
+
+<!-- * `...` (`expr...expr`) *in a pattern*: inclusive range pattern.  See [Patterns (Ranges)]. -->
 
 <!-- * `/` (`expr / expr`): arithmetic division.  Overloadable (`Div`). -->
 
-<!-- * `/=` (`var /= expr`): arithmetic division & assignment. -->
+<!-- * `/=` (`var /= expr`): arithmetic division & assignment. Overloadable (`DivAssign`). -->
 
 <!-- * `:` (`pat: type`, `ident: type`): constraints.  See [Variable Bindings], [Functions], [Structs], [Traits]. -->
 
@@ -361,31 +365,31 @@
 
 <!-- * `<<` (`expr << expr`): left-shift.  Overloadable (`Shl`). -->
 
-<!-- * `<<=` (`var <<= expr`): left-shift & assignment. -->
+<!-- * `<<=` (`var <<= expr`): left-shift & assignment. Overloadable (`ShlAssign`). -->
 
-<!-- * `<` (`expr < expr`): less-than comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+<!-- * `<` (`expr < expr`): less-than comparison.  Overloadable (`PartialOrd`). -->
 
-<!-- * `<=` (`var <= expr`): less-than or equal-to comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+<!-- * `<=` (`var <= expr`): less-than or equal-to comparison.  Overloadable (`PartialOrd`). -->
 
 <!-- * `=` (`var = expr`, `ident = type`): assignment/equivalence.  See [Variable Bindings], [`type` Aliases], generic parameter defaults. -->
 
-<!-- * `==` (`var == expr`): comparison.  Overloadable (`Eq`, `PartialEq`). -->
+<!-- * `==` (`var == expr`): equality comparison.  Overloadable (`PartialEq`). -->
 
 <!-- * `=>` (`pat => expr`): part of match arm syntax.  See [Match]. -->
 
-<!-- * `>` (`expr > expr`): greater-than comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+<!-- * `>` (`expr > expr`): greater-than comparison.  Overloadable (`PartialOrd`). -->
 
-<!-- * `>=` (`var >= expr`): greater-than or equal-to comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+<!-- * `>=` (`var >= expr`): greater-than or equal-to comparison.  Overloadable (`PartialOrd`). -->
 
 <!-- * `>>` (`expr >> expr`): right-shift.  Overloadable (`Shr`). -->
 
-<!-- * `>>=` (`var >>= expr`): right-shift & assignment. -->
+<!-- * `>>=` (`var >>= expr`): right-shift & assignment. Overloadable (`ShrAssign`). -->
 
 <!-- * `@` (`ident @ pat`): pattern binding.  See [Patterns (Bindings)]. -->
 
 <!-- * `^` (`expr ^ expr`): bitwise exclusive or.  Overloadable (`BitXor`). -->
 
-<!-- * `^=` (`var ^= expr`): bitwise exclusive or & assignment. -->
+<!-- * `^=` (`var ^= expr`): bitwise exclusive or & assignment. Overloadable (`BitXorAssign`). -->
 
 <!-- * `|` (`expr | expr`): bitwise or.  Overloadable (`BitOr`). -->
 
@@ -393,65 +397,67 @@
 
 <!-- * `|` (`|…| expr`): closures.  See [Closures]. -->
 
-<!-- * `|=` (`var |= expr`): bitwise or & assignment. -->
+<!-- * `|=` (`var |= expr`): bitwise or & assignment. Overloadable (`BitOrAssign`). -->
 
 <!-- * `||` (`expr || expr`): logical or. -->
 
 <!-- * `_`: "ignored" pattern binding.  See [Patterns (Ignoring bindings)]. -->
 
 <ul>
-<li><code>!</code> (<code>ident!(…)</code>, <code>ident!{…}</code>, <code>ident![…]</code>): マクロ展開を表す。 <a href="macros.html">マクロ</a>参照</li>
+<li><code>!</code> (<code>ident!(…)</code>, <code>ident!{…}</code>, <code>ident![…]</code>): マクロ展開を表す。 <a href="macros.html">マクロ</a> 参照</li>
 <li><code>!</code> (<code>!expr</code>): ビット毎、あるいは論理の補数。 オーバロード可能 (<code>Not</code>)。</li>
+<li><code>!=</code> (<code>var != expr</code>): 非等価性比較。オーバーロード可能 (<code>PartialEq</code>)。</li>
 <li><code>%</code> (<code>expr % expr</code>): 算術剰余算。オーバーロード可能 (<code>Rem</code>)。</li>
-<li><code>%=</code> (<code>var %= expr</code>): 算術剰余算をして代入。</li>
+<li><code>%=</code> (<code>var %= expr</code>): 算術剰余算をして代入。 オーバーロード可能 (<code>RemAssign</code>)。</li>
 <li><code>&amp;</code> (<code>expr &amp; expr</code>):ビット毎の論理積。 オーバーロード可能 (<code>BitAnd</code>)。</li>
 <li><code>&amp;</code> (<code>&amp;expr</code>): 借用。 <a href="references-and-borrowing.html">参照と借用</a> 参照</li>
-<li><code>&amp;</code> (<code>&amp;type</code>, <code>&amp;mut type</code>, <code>&amp;&#39;a type</code>, <code>&amp;&#39;a mut type</code>): 借用されたポインタの型。 <a href="references-and-borrowing.html">参照と借用</a>参照。</li>
-<li><code>&amp;=</code> (<code>var &amp;= expr</code>): ビット毎の論理積をして代入。</li>
+<li><code>&amp;</code> (<code>&amp;type</code>, <code>&amp;mut type</code>, <code>&amp;&#39;a type</code>, <code>&amp;&#39;a mut type</code>): 借用されたポインタの型。 <a href="references-and-borrowing.html">参照と借用</a> 参照。</li>
+<li><code>&amp;=</code> (<code>var &amp;= expr</code>): ビット毎の論理積をして代入。オーバーロード可能 (<code>BitAndAssign</code>)。</li>
 <li><code>&amp;&amp;</code> (<code>expr &amp;&amp; expr</code>): 論理積。</li>
 <li><code>*</code> (<code>expr * expr</code>): 算術乗算。 オーバーロード可能 (<code>Mul</code>)。</li>
 <li><code>*</code> (<code>*expr</code>): 参照外し。</li>
-<li><code>*</code> (<code>*const type</code>, <code>*mut type</code>): 生ポインタ。 <a href="raw-pointers.html">生ポインタ</a>参照。</li>
-<li><code>*=</code> (<code>var *= expr</code>): 算術乗算をして代入。</li>
+<li><code>*</code> (<code>*const type</code>, <code>*mut type</code>): 生ポインタ。 <a href="raw-pointers.html">生ポインタ</a> 参照。</li>
+<li><code>*=</code> (<code>var *= expr</code>): 算術乗算をして代入。オーバーロード可能 (<code>MulAssign</code>)。</li>
 <li><code>+</code> (<code>expr + expr</code>): 算術加算。オーバーロード可能 (<code>Add</code>)。</li>
-<li><code>+</code> (<code>trait + trait</code>, <code>&#39;a + trait</code>): 合成型制約。 <a href="traits.html#%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%88%E3%83%AC%E3%82%A4%E3%83%88%E5%A2%83%E7%95%8C">トレイト (複数のトレイト境界)</a>参照。</li>
-<li><code>+=</code> (<code>var += expr</code>): 算術加算をして代入。</li>
-<li><code>,</code>: 引数または要素の区切り。  <a href="attributes.html">アトリビュート</a>、 <a href="functions.html">関数</a> 、 <a href="structs.html">構造体</a> 、 <a href="generics.html">ジェネリクス</a> 、 <a href="match.html">マッチ</a> 、 <a href="closures.html">クロージャ</a> 、 [クレートとモジュール (<code>use</code> で使ってモジュールをインポートする)] 参照。</li>
+<li><code>+</code> (<code>trait + trait</code>, <code>&#39;a + trait</code>): 合成型制約。 <a href="traits.html#%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%88%E3%83%AC%E3%82%A4%E3%83%88%E5%A2%83%E7%95%8C">トレイト (複数のトレイト境界)</a> 参照。</li>
+<li><code>+=</code> (<code>var += expr</code>): 算術加算をして代入。 オーバーロード可能 (<code>AddAssign</code>)。</li>
+<li><code>,</code>: 引数または要素の区切り。  <a href="attributes.html">アトリビュート</a> 、 <a href="functions.html">関数</a> 、 <a href="structs.html">構造体</a> 、 <a href="generics.html">ジェネリクス</a> 、 <a href="match.html">マッチ</a> 、 <a href="closures.html">クロージャ</a> 、 [クレートとモジュール (<code>use</code> で使ってモジュールをインポートする)] 参照。</li>
 <li><code>-</code> (<code>expr - expr</code>): 算術減算。オーバーロード可能 (<code>Sub</code>)。</li>
 <li><code>-</code> (<code>- expr</code>): 算術負。オーバーロード可能 (<code>Neg</code>)。</li>
-<li><code>-=</code> (<code>var -= expr</code>): 算術減算をして代入。</li>
-<li><code>-&gt;</code> (<code>fn(…) -&gt; type</code>, <code>|…| -&gt; type</code>): 関数とクロージャの返り型。 <a href="functions.html">関数</a>、<a href="closures.html">クロージャ</a>参照。</li>
-<li><code>-&gt; !</code> (<code>fn(…) -&gt; !</code>, <code>|…| -&gt; !</code>): ダイバージング関数またはクロージャ。<a href="functions.html#%E3%83%80%E3%82%A4%E3%83%90%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E9%96%A2%E6%95%B0">ダイバージング関数</a>参照。</li>
-<li><code>.</code> (<code>expr.ident</code>): メンバへのアクセス。 <a href="structs.html">構造体</a>、 <a href="method-syntax.html">メソッド構文</a>参照。</li>
+<li><code>-=</code> (<code>var -= expr</code>): 算術減算をして代入。 オーバーロード可能 (<code>SubAssign</code>)。</li>
+<li><code>-&gt;</code> (<code>fn(…) -&gt; type</code>, <code>|…| -&gt; type</code>): 関数とクロージャの返り型。 <a href="functions.html">関数</a> 、<a href="closures.html">クロージャ</a> 参照。</li>
+<li><code>-&gt; !</code> (<code>fn(…) -&gt; !</code>, <code>|…| -&gt; !</code>): ダイバージング関数またはクロージャ。 <a href="functions.html#%E3%83%80%E3%82%A4%E3%83%90%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E9%96%A2%E6%95%B0">ダイバージング関数</a> 参照。</li>
+<li><code>.</code> (<code>expr.ident</code>): メンバへのアクセス。 <a href="structs.html">構造体</a> 、 <a href="method-syntax.html">メソッド構文</a> 参照。</li>
 <li><code>..</code> (<code>..</code>, <code>expr..</code>, <code>..expr</code>, <code>expr..expr</code>): 右に開な区間のリテラル。</li>
 <li><code>..</code> (<code>..expr</code>): 構造体リテラルのアップデート構文。<a href="structs.html#%E3%82%A2%E3%83%83%E3%83%97%E3%83%87%E3%83%BC%E3%83%88%E6%A7%8B%E6%96%87">構造体 (アップデート構文)</a>参照。</li>
 <li><code>..</code> (<code>variant(x, ..)</code>, <code>struct_type { x, .. }</code>): 「〜と残り」のパターン束縛。 <a href="patterns.html#%E6%9D%9F%E7%B8%9B%E3%81%AE%E7%84%A1%E8%A6%96">パターン (束縛の無視)</a> 参照。</li>
-<li><code>...</code> (<code>expr ... expr</code>): 閉区間リテラル。 <a href="patterns.html#%E3%83%AC%E3%83%B3%E3%82%B8">パターン (レンジ)</a> 参照。</li>
+<li><code>...</code> (<code>...expr</code>, <code>expr...expr</code>) <em>式内で</em>: 閉区間式。<a href="iterators.html">イテレータ</a> 参照</li>
+<li><code>...</code> (<code>expr...expr</code>) <em>パターン内で</em>: 閉区間パターン。 <a href="patterns.html#%E3%83%AC%E3%83%B3%E3%82%B8">パターン (レンジ)</a> 参照</li>
 <li><code>/</code> (<code>expr / expr</code>): 算術除算。オーバーロード可能 (<code>Div</code>)。</li>
-<li><code>/=</code> (<code>var /= expr</code>): 算術除算と代入。</li>
+<li><code>/=</code> (<code>var /= expr</code>): 算術除算と代入。オーバーロード可能 (<code>DivAssign</code>)。</li>
 <li><code>:</code> (<code>pat: type</code>, <code>ident: type</code>): 制約。<a href="variable-bindings.html">変数束縛</a> 、 <a href="functions.html">関数</a> 、 <a href="structs.html">構造体</a> 、 <a href="traits.html">トレイト</a> 参照。</li>
 <li><code>:</code> (<code>ident: expr</code>): 構造体のフィールドの初期化。 <a href="structs.html">構造体</a> 参照。</li>
 <li><code>:</code> (<code>&#39;a: loop {…}</code>): ループラベル。 <a href="loops.html#%E3%83%AB%E3%83%BC%E3%83%97%E3%83%A9%E3%83%99%E3%83%AB">ループ (ループラベル)</a> 参照。</li>
 <li><code>;</code>: 文またはアイテムの区切り。</li>
 <li><code>;</code> (<code>[…; len]</code>): 固定長配列構文の一部。 <a href="primitive-types.html#%E9%85%8D%E5%88%97">プリミティブ型 (配列)</a> 参照。</li>
 <li><code>&lt;&lt;</code> (<code>expr &lt;&lt; expr</code>): 左シフト。オーバーロード可能 (<code>Shl</code>)。</li>
-<li><code>&lt;&lt;=</code> (<code>var &lt;&lt;= expr</code>): 左シフトして代入。</li>
-<li><code>&lt;</code> (<code>expr &lt; expr</code>): 「より小さい」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
-<li><code>&lt;=</code> (<code>var &lt;= expr</code>): 「以下」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
+<li><code>&lt;&lt;=</code> (<code>var &lt;&lt;= expr</code>): 左シフトして代入。 オーバーロード可能 (<code>ShlAssign</code>)。</li>
+<li><code>&lt;</code> (<code>expr &lt; expr</code>): 「より小さい」の比較。オーバーロード可能 (<code>PartialOrd</code>)。</li>
+<li><code>&lt;=</code> (<code>var &lt;= expr</code>): 「以下」の比較。オーバーロード可能 (<code>PartialOrd</code>)。</li>
 <li><code>=</code> (<code>var = expr</code>, <code>ident = type</code>): 代入/等価比較。 <a href="variable-bindings.html">変数束縛</a> 、 <a href="type-aliases.html"><code>type</code> エイリアス</a>、 ジェネリックパラメータのデフォルトを参照。</li>
-<li><code>==</code> (<code>var == expr</code>): 比較。オーバーロード可能 (<code>Eq</code>, <code>PartialEq</code>)。</li>
+<li><code>==</code> (<code>var == expr</code>): 等価性比較。オーバーロード可能 (<code>PartialEq</code>)。</li>
 <li><code>=&gt;</code> (<code>pat =&gt; expr</code>): マッチの腕の構文の一部。 <a href="match.html">マッチ</a> 参照。</li>
-<li><code>&gt;</code> (<code>expr &gt; expr</code>): 「より大きい」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
-<li><code>&gt;=</code> (<code>var &gt;= expr</code>): 「以上」の比較。オーバーロード可能 (<code>Cmp</code>, <code>PartialCmp</code>)。</li>
+<li><code>&gt;</code> (<code>expr &gt; expr</code>): 「より大きい」の比較。オーバーロード可能 (<code>PartialOrd</code>)。</li>
+<li><code>&gt;=</code> (<code>var &gt;= expr</code>): 「以上」の比較。オーバーロード可能 (<code>PartialOrd</code>)。</li>
 <li><code>&gt;&gt;</code> (<code>expr &gt;&gt; expr</code>): 右シフト。オーバーロード可能 (<code>Shr</code>)。</li>
-<li><code>&gt;&gt;=</code> (<code>var &gt;&gt;= expr</code>): 右シフトして代入。</li>
+<li><code>&gt;&gt;=</code> (<code>var &gt;&gt;= expr</code>): 右シフトして代入。 オーバーロード可能 (<code>ShrAssign</code>)。</li>
 <li><code>@</code> (<code>ident @ pat</code>): パターン束縛。 <a href="patterns.html#%E6%9D%9F%E7%B8%9B">パターン (束縛)</a> 参照。</li>
 <li><code>^</code> (<code>expr ^ expr</code>): ビット毎の排他的論理和。オーバーロード可能 (<code>BitXor</code>)。</li>
-<li><code>^=</code> (<code>var ^= expr</code>): ビット毎の排他的論理和をして代入。</li>
+<li><code>^=</code> (<code>var ^= expr</code>): ビット毎の排他的論理和をして代入。オーバーロード可能 (<code>BitXorAssign</code>)。</li>
 <li><code>|</code> (<code>expr | expr</code>): ビット毎の論理和。 オーバーロード可能 (<code>BitOr</code>)。</li>
 <li><code>|</code> (<code>pat | pat</code>): パターンの「または」。 <a href="patterns.html#%E8%A4%87%E5%BC%8F%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">パターン (複式パターン)</a> 参照</li>
 <li><code>|</code> (<code>|…| expr</code>): クロージャ。<a href="closures.html">クロージャ</a> 参照。</li>
-<li><code>|=</code> (<code>var |= expr</code>): ビット毎の論理和をして代入。</li>
+<li><code>|=</code> (<code>var |= expr</code>): ビット毎の論理和をして代入。オーバーロード可能 (<code>BitOrAssign</code>)。</li>
 <li><code>||</code> (<code>expr || expr</code>): 論理和。</li>
 <li><code>_</code>: 「無視」するパターン束縛。 <a href="patterns.html#%E6%9D%9F%E7%B8%9B%E3%81%AE%E7%84%A1%E8%A6%96">パターン (束縛の無視)</a>。</li>
 </ul>
@@ -501,17 +507,26 @@
 
 <!-- * `super::path`: path relative to the parent of the current module.  See [Crates and Modules (Re-exporting with `pub use`)]. -->
 
-<!-- * `type::ident`: associated constants, functions, and types.  See [Associated Types]. -->
+<!-- * `type::ident`, `<type as trait>::ident`: associated constants, functions, and types.  See [Associated Types]. -->
 
 <!-- * `<type>::…`: associated item for a type which cannot be directly named (*e.g.* `<&T>::…`, `<[T]>::…`, *etc.*).  See [Associated Types]. -->
+
+<!-- * `trait::method(…)`: disambiguating a method call by naming the trait which defines it. See [Universal Function Call Syntax]. -->
+
+<!-- * `type::method(…)`: disambiguating a method call by naming the type for which it's defined. See [Universal Function Call Syntax]. -->
+
+<!-- * `<type as trait>::method(…)`: disambiguating a method call by naming the trait _and_ type. See [Universal Function Call Syntax (Angle-bracket Form)]. -->
 
 <ul>
 <li><code>ident::ident</code>: パス。<a href="crates-and-modules.html#%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E5%AE%9A%E7%BE%A9%E3%81%99%E3%82%8B">クレートとモジュール (モジュールを定義する)</a> 参照。</li>
 <li><code>::path</code>: クレートのルートからの相対パス (<em>つまり</em> 明示的な絶対パス)。 <a href="crates-and-modules.html#pub-use-%E3%81%AB%E3%82%88%E3%82%8B%E5%86%8D%E3%82%A8%E3%82%AF%E3%82%B9%E3%83%9D%E3%83%BC%E3%83%88">クレートとモジュール (<code>pub use</code> による再エクスポート)</a> 参照。</li>
 <li><code>self::path</code>: 現在のモジュールからの相対パス (<em>つまり</em> 明示的な相対パス)。 <a href="crates-and-modules.html#pub-use-%E3%81%AB%E3%82%88%E3%82%8B%E5%86%8D%E3%82%A8%E3%82%AF%E3%82%B9%E3%83%9D%E3%83%BC%E3%83%88">クレートとモジュール (<code>pub use</code> による再エクスポート)</a> 参照。</li>
 <li><code>super::path</code>: 現在のモジュールの親からの相対パス。 <a href="crates-and-modules.html#pub-use-%E3%81%AB%E3%82%88%E3%82%8B%E5%86%8D%E3%82%A8%E3%82%AF%E3%82%B9%E3%83%9D%E3%83%BC%E3%83%88">クレートとモジュール (<code>pub use</code> による再エクスポート)</a> 参照。</li>
-<li><code>type::ident</code>: 関連定数、関数、型。 <a href="associated-types.html">関連型</a> 参照。</li>
+<li><code>type::ident</code>, <code>&lt;type as trait&gt;::ident</code>: 関連定数、関数、型。 <a href="associated-types.html">関連型</a> 参照。</li>
 <li><code>&lt;type&gt;::…</code>: 直接名前付けられない型の関連アイテム (<em>例えば</em> <code>&lt;&amp;T&gt;::…</code> 、 <code>&lt;[T]&gt;::…</code> 、 <em>など</em>)。 <a href="associated-types.html">関連型</a> 参照。</li>
+<li> <code>trait::method(…)</code>: メソッドを定義したトレイトを指定することによるメソッド呼び出しの曖昧性排除。 <a href="ufcs.html">共通の関数呼び出し構文</a> 参照。</li>
+<li><code>type::method(…)</code>: そのメソッドが定義された型を指定することによるメソッド呼び出しの曖昧性排除。 <a href="ufcs.html">共通の関数呼び出し構文</a> 参照。</li>
+<li><code>&lt;type as trait&gt;::method(…)</code>: メソッドを定義したトレイト <em>及び</em> 型を指定することによるメソッド呼び出しの曖昧性排除。 <a href="ufcs.html#%E5%B1%B1%E6%8B%AC%E5%BC%A7%E5%BD%A2%E5%BC%8F">共通の関数呼び出し構文 (山括弧形式)</a> 参照。</li>
 </ul>
 
 <!-- Generics -->
@@ -547,7 +562,9 @@
 
 <!-- * `T: U`: generic parameter `T` constrained to types that implement `U`.  See [Traits]. -->
 
-<!-- * `T: 'a`: generic type `T` must outlive lifetime `'a`. -->
+<!-- * `T: 'a`: generic type `T` must outlive lifetime `'a`. When we say that a type 'outlives' the lifetime, we mean that it cannot transitively contain any references with lifetimes shorter than `'a`. -->
+
+<!-- * `T : 'static`: The generic type `T` contains no borrowed references other than `'static` ones. -->
 
 <!-- * `'b: 'a`: generic lifetime `'b` must outlive lifetime `'a`. -->
 
@@ -557,7 +574,8 @@
 
 <ul>
 <li><code>T: U</code>: <code>U</code> を実装する型に制約されたジェネリックパラメータ <code>T</code> 。 <a href="traits.html">トレイト</a> 参照。</li>
-<li><code>T: &#39;a</code>: ジェネリック型 <code>T</code> はライフタイム <code>&#39;a</code> より長生きしなければならない。</li>
+<li><code>T: &#39;a</code>: ジェネリック型 <code>T</code> はライフタイム <code>&#39;a</code> より長生きしなければならない。ライフタイムが「長生きする」とは <code>&#39;a</code> より短かい、いかなるライフタイムも推移的に含んでいないことを意味する。</li>
+<li><code>T : &#39;static</code>: ジェネリック型Tは <code>&#39;static</code> なもの以外の借用した参照を含んでいない。</li>
 <li><code>&#39;b: &#39;a</code>: ジェネリックライフタイム <code>&#39;b</code> はライフタイム <code>&#39;a</code> より長生きしなければならない。</li>
 <li><code>T: ?Sized</code>: ジェネリック型パラメータが動的サイズ型になること許可する。 <a href="unsized-types.html#sized">サイズ不定型 (<code>?Sized</code>)</a> 参照。</li>
 <li><code>&#39;a + trait</code>, <code>trait + trait</code>: 合成型制約。 <a href="traits.html#%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%88%E3%83%AC%E3%82%A4%E3%83%88%E5%A2%83%E7%95%8C">トレイト (複数のトレイト境界)</a> 参照。</li>
