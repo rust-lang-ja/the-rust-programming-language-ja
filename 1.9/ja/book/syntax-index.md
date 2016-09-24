@@ -4,7 +4,7 @@
 <!-- ## Keywords -->
 ## キーワード
 
-<!-- * `as`: primitive casting.  See [Casting Between Types (`as`)]. -->
+<!-- * `as`: primitive casting, or disambiguating the specific trait containing an item.  See [Casting Between Types (`as`)], [Universal Function Call Syntax (Angle-bracket Form)], [Associated Types]. -->
 <!-- * `break`: break out of loop.  See [Loops (Ending Iteration Early)]. -->
 <!-- * `const`: constant items and constant raw pointers.  See [`const` and `static`], [Raw Pointers]. -->
 <!-- * `continue`: continue to next loop iteration.  See [Loops (Ending Iteration Early)]. -->
@@ -38,7 +38,7 @@
 <!-- * `use`: import symbols into scope.  See [Crates and Modules (Importing Modules with `use`)]. -->
 <!-- * `where`: type constraint clauses.  See [Traits (`where` clause)]. -->
 <!-- * `while`: conditional loop.  See [Loops (`while`)]. -->
-* `as`: プリミティブのキャスト。 [型間のキャスト (`as`)] 参照。
+* `as`: プリミティブのキャスト。あるいはあるアイテムを含むトレイトの曖昧性の排除。 [型間のキャスト (`as`)] 、 [共通の関数呼び出し構文 (山括弧形式)] 、 [関連型] 参照。
 * `break`: ループからの脱却。[ループ (反復の早期終了)] 参照。
 * `const`: 定数および定数ポインタ。 [`const` と `static`] 、 [生ポインタ] 参照。
 * `continue`: 次の反復への継続。 [ループ (反復の早期終了)] 参照。
@@ -78,110 +78,114 @@
 
 <!-- * `!` (`ident!(…)`, `ident!{…}`, `ident![…]`): denotes macro expansion.  See [Macros]. -->
 <!-- * `!` (`!expr`): bitwise or logical complement.  Overloadable (`Not`). -->
+<!-- * `!=` (`var != expr`): nonequality comparison.  Overloadable (`PartialEq`). -->
 <!-- * `%` (`expr % expr`): arithmetic remainder.  Overloadable (`Rem`). -->
-<!-- * `%=` (`var %= expr`): arithmetic remainder & assignment. -->
+<!-- * `%=` (`var %= expr`): arithmetic remainder & assignment. Overloadable (`RemAssign`). -->
 <!-- * `&` (`expr & expr`): bitwise and.  Overloadable (`BitAnd`). -->
 <!-- * `&` (`&expr`): borrow.  See [References and Borrowing]. -->
 <!-- * `&` (`&type`, `&mut type`, `&'a type`, `&'a mut type`): borrowed pointer type.  See [References and Borrowing]. -->
-<!-- * `&=` (`var &= expr`): bitwise and & assignment. -->
+<!-- * `&=` (`var &= expr`): bitwise and & assignment. Overloadable (`BitAndAssign`). -->
 <!-- * `&&` (`expr && expr`): logical and. -->
 <!-- * `*` (`expr * expr`): arithmetic multiplication.  Overloadable (`Mul`). -->
 <!-- * `*` (`*expr`): dereference. -->
 <!-- * `*` (`*const type`, `*mut type`): raw pointer.  See [Raw Pointers]. -->
-<!-- * `*=` (`var *= expr`): arithmetic multiplication & assignment. -->
+<!-- * `*=` (`var *= expr`): arithmetic multiplication & assignment. Overloadable (`MulAssign`). -->
 <!-- * `+` (`expr + expr`): arithmetic addition.  Overloadable (`Add`). -->
 <!-- * `+` (`trait + trait`, `'a + trait`): compound type constraint.  See [Traits (Multiple Trait Bounds)]. -->
-<!-- * `+=` (`var += expr`): arithmetic addition & assignment. -->
+<!-- * `+=` (`var += expr`): arithmetic addition & assignment. Overloadable (`AddAssign`). -->
 <!-- * `,`: argument and element separator.  See [Attributes], [Functions], [Structs], [Generics], [Match], [Closures], [Crates and Modules (Importing Modules with `use`)]. -->
 <!-- * `-` (`expr - expr`): arithmetic subtraction.  Overloadable (`Sub`). -->
 <!-- * `-` (`- expr`): arithmetic negation.  Overloadable (`Neg`). -->
-<!-- * `-=` (`var -= expr`): arithmetic subtraction & assignment. -->
+<!-- * `-=` (`var -= expr`): arithmetic subtraction & assignment. Overloadable (`SubAssign`). -->
 <!-- * `->` (`fn(…) -> type`, `|…| -> type`): function and closure return type.  See [Functions], [Closures]. -->
 <!-- * `-> !` (`fn(…) -> !`, `|…| -> !`): diverging function or closure. See [Diverging Functions]. -->
 <!-- * `.` (`expr.ident`): member access.  See [Structs], [Method Syntax]. -->
 <!-- * `..` (`..`, `expr..`, `..expr`, `expr..expr`): right-exclusive range literal. -->
 <!-- * `..` (`..expr`): struct literal update syntax.  See [Structs (Update syntax)]. -->
 <!-- * `..` (`variant(x, ..)`, `struct_type { x, .. }`): "and the rest" pattern binding.  See [Patterns (Ignoring bindings)]. -->
-<!-- * `...` (`expr ... expr`): inclusive range pattern.  See [Patterns (Ranges)]. -->
+<!-- * `...` (`...expr`, `expr...expr`) *in an expression*: inclusive range expression. See [Iterators]. -->
+<!-- * `...` (`expr...expr`) *in a pattern*: inclusive range pattern.  See [Patterns (Ranges)]. -->
 <!-- * `/` (`expr / expr`): arithmetic division.  Overloadable (`Div`). -->
-<!-- * `/=` (`var /= expr`): arithmetic division & assignment. -->
+<!-- * `/=` (`var /= expr`): arithmetic division & assignment. Overloadable (`DivAssign`). -->
 <!-- * `:` (`pat: type`, `ident: type`): constraints.  See [Variable Bindings], [Functions], [Structs], [Traits]. -->
 <!-- * `:` (`ident: expr`): struct field initializer.  See [Structs]. -->
 <!-- * `:` (`'a: loop {…}`): loop label.  See [Loops (Loops Labels)]. -->
 <!-- * `;`: statement and item terminator. -->
 <!-- * `;` (`[…; len]`): part of fixed-size array syntax.  See [Primitive Types (Arrays)]. -->
 <!-- * `<<` (`expr << expr`): left-shift.  Overloadable (`Shl`). -->
-<!-- * `<<=` (`var <<= expr`): left-shift & assignment. -->
-<!-- * `<` (`expr < expr`): less-than comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
-<!-- * `<=` (`var <= expr`): less-than or equal-to comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+<!-- * `<<=` (`var <<= expr`): left-shift & assignment. Overloadable (`ShlAssign`). -->
+<!-- * `<` (`expr < expr`): less-than comparison.  Overloadable (`PartialOrd`). -->
+<!-- * `<=` (`var <= expr`): less-than or equal-to comparison.  Overloadable (`PartialOrd`). -->
 <!-- * `=` (`var = expr`, `ident = type`): assignment/equivalence.  See [Variable Bindings], [`type` Aliases], generic parameter defaults. -->
-<!-- * `==` (`var == expr`): comparison.  Overloadable (`Eq`, `PartialEq`). -->
+<!-- * `==` (`var == expr`): equality comparison.  Overloadable (`PartialEq`). -->
 <!-- * `=>` (`pat => expr`): part of match arm syntax.  See [Match]. -->
-<!-- * `>` (`expr > expr`): greater-than comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
-<!-- * `>=` (`var >= expr`): greater-than or equal-to comparison.  Overloadable (`Cmp`, `PartialCmp`). -->
+<!-- * `>` (`expr > expr`): greater-than comparison.  Overloadable (`PartialOrd`). -->
+<!-- * `>=` (`var >= expr`): greater-than or equal-to comparison.  Overloadable (`PartialOrd`). -->
 <!-- * `>>` (`expr >> expr`): right-shift.  Overloadable (`Shr`). -->
-<!-- * `>>=` (`var >>= expr`): right-shift & assignment. -->
+<!-- * `>>=` (`var >>= expr`): right-shift & assignment. Overloadable (`ShrAssign`). -->
 <!-- * `@` (`ident @ pat`): pattern binding.  See [Patterns (Bindings)]. -->
 <!-- * `^` (`expr ^ expr`): bitwise exclusive or.  Overloadable (`BitXor`). -->
-<!-- * `^=` (`var ^= expr`): bitwise exclusive or & assignment. -->
+<!-- * `^=` (`var ^= expr`): bitwise exclusive or & assignment. Overloadable (`BitXorAssign`). -->
 <!-- * `|` (`expr | expr`): bitwise or.  Overloadable (`BitOr`). -->
 <!-- * `|` (`pat | pat`): pattern alternatives.  See [Patterns (Multiple patterns)]. -->
 <!-- * `|` (`|…| expr`): closures.  See [Closures]. -->
-<!-- * `|=` (`var |= expr`): bitwise or & assignment. -->
+<!-- * `|=` (`var |= expr`): bitwise or & assignment. Overloadable (`BitOrAssign`). -->
 <!-- * `||` (`expr || expr`): logical or. -->
 <!-- * `_`: "ignored" pattern binding.  See [Patterns (Ignoring bindings)]. -->
-* `!` (`ident!(…)`, `ident!{…}`, `ident![…]`): マクロ展開を表す。 [マクロ]参照
+* `!` (`ident!(…)`, `ident!{…}`, `ident![…]`): マクロ展開を表す。 [マクロ] 参照
 * `!` (`!expr`): ビット毎、あるいは論理の補数。 オーバロード可能 (`Not`)。
+* `!=` (`var != expr`): 非等価性比較。オーバーロード可能 (`PartialEq`)。
 * `%` (`expr % expr`): 算術剰余算。オーバーロード可能 (`Rem`)。
-* `%=` (`var %= expr`): 算術剰余算をして代入。
+* `%=` (`var %= expr`): 算術剰余算をして代入。 オーバーロード可能 (`RemAssign`)。
 * `&` (`expr & expr`):ビット毎の論理積。 オーバーロード可能 (`BitAnd`)。
 * `&` (`&expr`): 借用。 [参照と借用] 参照
-* `&` (`&type`, `&mut type`, `&'a type`, `&'a mut type`): 借用されたポインタの型。 [参照と借用]参照。
-* `&=` (`var &= expr`): ビット毎の論理積をして代入。
+* `&` (`&type`, `&mut type`, `&'a type`, `&'a mut type`): 借用されたポインタの型。 [参照と借用] 参照。
+* `&=` (`var &= expr`): ビット毎の論理積をして代入。オーバーロード可能 (`BitAndAssign`)。
 * `&&` (`expr && expr`): 論理積。
 * `*` (`expr * expr`): 算術乗算。 オーバーロード可能 (`Mul`)。
 * `*` (`*expr`): 参照外し。
-* `*` (`*const type`, `*mut type`): 生ポインタ。 [生ポインタ]参照。
-* `*=` (`var *= expr`): 算術乗算をして代入。
+* `*` (`*const type`, `*mut type`): 生ポインタ。 [生ポインタ] 参照。
+* `*=` (`var *= expr`): 算術乗算をして代入。オーバーロード可能 (`MulAssign`)。
 * `+` (`expr + expr`): 算術加算。オーバーロード可能 (`Add`)。
-* `+` (`trait + trait`, `'a + trait`): 合成型制約。 [トレイト (複数のトレイト境界)]参照。
-* `+=` (`var += expr`): 算術加算をして代入。
-* `,`: 引数または要素の区切り。  [アトリビュート]、 [関数] 、 [構造体] 、 [ジェネリクス] 、 [マッチ] 、 [クロージャ] 、 [クレートとモジュール (`use` で使ってモジュールをインポートする)] 参照。
+* `+` (`trait + trait`, `'a + trait`): 合成型制約。 [トレイト (複数のトレイト境界)] 参照。
+* `+=` (`var += expr`): 算術加算をして代入。 オーバーロード可能 (`AddAssign`)。
+* `,`: 引数または要素の区切り。  [アトリビュート] 、 [関数] 、 [構造体] 、 [ジェネリクス] 、 [マッチ] 、 [クロージャ] 、 [クレートとモジュール (`use` で使ってモジュールをインポートする)] 参照。
 * `-` (`expr - expr`): 算術減算。オーバーロード可能 (`Sub`)。
 * `-` (`- expr`): 算術負。オーバーロード可能 (`Neg`)。
-* `-=` (`var -= expr`): 算術減算をして代入。
-* `->` (`fn(…) -> type`, `|…| -> type`): 関数とクロージャの返り型。 [関数]、[クロージャ]参照。
-* `-> !` (`fn(…) -> !`, `|…| -> !`): ダイバージング関数またはクロージャ。[ダイバージング関数]参照。
-* `.` (`expr.ident`): メンバへのアクセス。 [構造体]、 [メソッド構文]参照。
+* `-=` (`var -= expr`): 算術減算をして代入。 オーバーロード可能 (`SubAssign`)。
+* `->` (`fn(…) -> type`, `|…| -> type`): 関数とクロージャの返り型。 [関数] 、[クロージャ] 参照。
+* `-> !` (`fn(…) -> !`, `|…| -> !`): ダイバージング関数またはクロージャ。 [ダイバージング関数] 参照。
+* `.` (`expr.ident`): メンバへのアクセス。 [構造体] 、 [メソッド構文] 参照。
 * `..` (`..`, `expr..`, `..expr`, `expr..expr`): 右に開な区間のリテラル。
 * `..` (`..expr`): 構造体リテラルのアップデート構文。[構造体 (アップデート構文)]参照。
 * `..` (`variant(x, ..)`, `struct_type { x, .. }`): 「〜と残り」のパターン束縛。 [パターン (束縛の無視)] 参照。
-* `...` (`expr ... expr`): 閉区間リテラル。 [パターン (レンジ)] 参照。
+* `...` (`...expr`, `expr...expr`) *式内で*: 閉区間式。[イテレータ] 参照
+* `...` (`expr...expr`) *パターン内で*: 閉区間パターン。 [パターン (レンジ)] 参照
 * `/` (`expr / expr`): 算術除算。オーバーロード可能 (`Div`)。
-* `/=` (`var /= expr`): 算術除算と代入。
+* `/=` (`var /= expr`): 算術除算と代入。オーバーロード可能 (`DivAssign`)。
 * `:` (`pat: type`, `ident: type`): 制約。[変数束縛] 、 [関数] 、 [構造体] 、 [トレイト] 参照。
 * `:` (`ident: expr`): 構造体のフィールドの初期化。 [構造体] 参照。
 * `:` (`'a: loop {…}`): ループラベル。 [ループ (ループラベル)] 参照。
 * `;`: 文またはアイテムの区切り。
 * `;` (`[…; len]`): 固定長配列構文の一部。 [プリミティブ型 (配列)] 参照。
 * `<<` (`expr << expr`): 左シフト。オーバーロード可能 (`Shl`)。
-* `<<=` (`var <<= expr`): 左シフトして代入。
-* `<` (`expr < expr`): 「より小さい」の比較。オーバーロード可能 (`Cmp`, `PartialCmp`)。
-* `<=` (`var <= expr`): 「以下」の比較。オーバーロード可能 (`Cmp`, `PartialCmp`)。
+* `<<=` (`var <<= expr`): 左シフトして代入。 オーバーロード可能 (`ShlAssign`)。
+* `<` (`expr < expr`): 「より小さい」の比較。オーバーロード可能 (`PartialOrd`)。
+* `<=` (`var <= expr`): 「以下」の比較。オーバーロード可能 (`PartialOrd`)。
 * `=` (`var = expr`, `ident = type`): 代入/等価比較。 [変数束縛] 、 [`type` エイリアス]、 ジェネリックパラメータのデフォルトを参照。
-* `==` (`var == expr`): 比較。オーバーロード可能 (`Eq`, `PartialEq`)。
+* `==` (`var == expr`): 等価性比較。オーバーロード可能 (`PartialEq`)。
 * `=>` (`pat => expr`): マッチの腕の構文の一部。 [マッチ] 参照。
-* `>` (`expr > expr`): 「より大きい」の比較。オーバーロード可能 (`Cmp`, `PartialCmp`)。
-* `>=` (`var >= expr`): 「以上」の比較。オーバーロード可能 (`Cmp`, `PartialCmp`)。
+* `>` (`expr > expr`): 「より大きい」の比較。オーバーロード可能 (`PartialOrd`)。
+* `>=` (`var >= expr`): 「以上」の比較。オーバーロード可能 (`PartialOrd`)。
 * `>>` (`expr >> expr`): 右シフト。オーバーロード可能 (`Shr`)。
-* `>>=` (`var >>= expr`): 右シフトして代入。
+* `>>=` (`var >>= expr`): 右シフトして代入。 オーバーロード可能 (`ShrAssign`)。
 * `@` (`ident @ pat`): パターン束縛。 [パターン (束縛)] 参照。
 * `^` (`expr ^ expr`): ビット毎の排他的論理和。オーバーロード可能 (`BitXor`)。
-* `^=` (`var ^= expr`): ビット毎の排他的論理和をして代入。
+* `^=` (`var ^= expr`): ビット毎の排他的論理和をして代入。オーバーロード可能 (`BitXorAssign`)。
 * `|` (`expr | expr`): ビット毎の論理和。 オーバーロード可能 (`BitOr`)。
 * `|` (`pat | pat`): パターンの「または」。 [パターン (複式パターン)] 参照
 * `|` (`|…| expr`): クロージャ。[クロージャ] 参照。
-* `|=` (`var |= expr`): ビット毎の論理和をして代入。
+* `|=` (`var |= expr`): ビット毎の論理和をして代入。オーバーロード可能 (`BitOrAssign`)。
 * `||` (`expr || expr`): 論理和。
 * `_`: 「無視」するパターン束縛。 [パターン (束縛の無視)]。
 
@@ -215,14 +219,20 @@
 <!-- * `::path`: path relative to the crate root (*i.e.* an explicitly absolute path).  See [Crates and Modules (Re-exporting with `pub use`)]. -->
 <!-- * `self::path`: path relative to the current module (*i.e.* an explicitly relative path).  See [Crates and Modules (Re-exporting with `pub use`)]. -->
 <!-- * `super::path`: path relative to the parent of the current module.  See [Crates and Modules (Re-exporting with `pub use`)]. -->
-<!-- * `type::ident`: associated constants, functions, and types.  See [Associated Types]. -->
+<!-- * `type::ident`, `<type as trait>::ident`: associated constants, functions, and types.  See [Associated Types]. -->
 <!-- * `<type>::…`: associated item for a type which cannot be directly named (*e.g.* `<&T>::…`, `<[T]>::…`, *etc.*).  See [Associated Types]. -->
+<!-- * `trait::method(…)`: disambiguating a method call by naming the trait which defines it. See [Universal Function Call Syntax]. -->
+<!-- * `type::method(…)`: disambiguating a method call by naming the type for which it's defined. See [Universal Function Call Syntax]. -->
+<!-- * `<type as trait>::method(…)`: disambiguating a method call by naming the trait _and_ type. See [Universal Function Call Syntax (Angle-bracket Form)]. -->
 * `ident::ident`: パス。[クレートとモジュール (モジュールを定義する)] 参照。
 * `::path`: クレートのルートからの相対パス (*つまり* 明示的な絶対パス)。 [クレートとモジュール (`pub use` による再エクスポート)] 参照。
 * `self::path`: 現在のモジュールからの相対パス (*つまり* 明示的な相対パス)。 [クレートとモジュール (`pub use` による再エクスポート)] 参照。
 * `super::path`: 現在のモジュールの親からの相対パス。 [クレートとモジュール (`pub use` による再エクスポート)] 参照。
-* `type::ident`: 関連定数、関数、型。 [関連型] 参照。
+* `type::ident`, `<type as trait>::ident`: 関連定数、関数、型。 [関連型] 参照。
 * `<type>::…`: 直接名前付けられない型の関連アイテム (*例えば* `<&T>::…` 、 `<[T]>::…` 、 *など*)。 [関連型] 参照。
+*  `trait::method(…)`: メソッドを定義したトレイトを指定することによるメソッド呼び出しの曖昧性排除。 [共通の関数呼び出し構文] 参照。
+* `type::method(…)`: そのメソッドが定義された型を指定することによるメソッド呼び出しの曖昧性排除。 [共通の関数呼び出し構文] 参照。
+* `<type as trait>::method(…)`: メソッドを定義したトレイト *及び* 型を指定することによるメソッド呼び出しの曖昧性排除。 [共通の関数呼び出し構文 (山括弧形式)] 参照。
 
 <!-- Generics -->
 
@@ -246,12 +256,14 @@
 <!-- Constraints -->
 
 <!-- * `T: U`: generic parameter `T` constrained to types that implement `U`.  See [Traits]. -->
-<!-- * `T: 'a`: generic type `T` must outlive lifetime `'a`. -->
+<!-- * `T: 'a`: generic type `T` must outlive lifetime `'a`. When we say that a type 'outlives' the lifetime, we mean that it cannot transitively contain any references with lifetimes shorter than `'a`. -->
+<!-- * `T : 'static`: The generic type `T` contains no borrowed references other than `'static` ones. -->
 <!-- * `'b: 'a`: generic lifetime `'b` must outlive lifetime `'a`. -->
 <!-- * `T: ?Sized`: allow generic type parameter to be a dynamically-sized type.  See [Unsized Types (`?Sized`)]. -->
 <!-- * `'a + trait`, `trait + trait`: compound type constraint.  See [Traits (Multiple Trait Bounds)]. -->
 * `T: U`: `U` を実装する型に制約されたジェネリックパラメータ `T` 。 [トレイト] 参照。
-* `T: 'a`: ジェネリック型 `T` はライフタイム `'a` より長生きしなければならない。
+* `T: 'a`: ジェネリック型 `T` はライフタイム `'a` より長生きしなければならない。ライフタイムが「長生きする」とは `'a` より短かい、いかなるライフタイムも推移的に含んでいないことを意味する。
+* `T : 'static`: ジェネリック型Tは `'static` なもの以外の借用した参照を含んでいない。
 * `'b: 'a`: ジェネリックライフタイム `'b` はライフタイム `'a` より長生きしなければならない。
 * `T: ?Sized`: ジェネリック型パラメータが動的サイズ型になること許可する。 [サイズ不定型 (`?Sized`)] 参照。
 * `'a + trait`, `trait + trait`: 合成型制約。 [トレイト (複数のトレイト境界)] 参照。
@@ -347,6 +359,7 @@
 [関数 (早期リターン)]: functions.html#早期リターン
 [関数]: functions.html
 [ジェネリクス]: generics.html
+[イテレータ]: iterators.html
 [ライフタイム]: lifetimes.html
 [ループ (`for`)]: loops.html#for
 [ループ (`loop`)]: loops.html#loop
@@ -380,6 +393,8 @@
 [トレイト (`where` 節)]: traits.html#where-節
 [トレイト (複数のトレイト境界)]: traits.html#複数のトレイト境界
 [トレイト]: traits.html
+[共通の関数呼び出し構文]: ufcs.html
+[共通の関数呼び出し構文 (山括弧形式)]: ufcs.html#山括弧形式
 [Unsafe]: unsafe.html
 [サイズ不定型 (`?Sized`)]: unsized-types.html#sized
 [変数束縛]: variable-bindings.html
