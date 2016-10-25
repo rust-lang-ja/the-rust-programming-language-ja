@@ -1354,9 +1354,9 @@ fn main() { }
 <p>Rustは(まだ)健全なクレートの参照の仕組みを持っていません、
 しかし、この問題に対する簡単な対処方法を提供しています。
 <code>foo</code>というクレートからインポートされたマクロ中において、
-特別なマクロ変数 <code>$create</code> は <code>::foo</code> に展開されます。
+特別なマクロ変数 <code>$crate</code> は <code>::foo</code> に展開されます。
 対照的に、マクロが同じクレートの中で定義され利用された場合、
-<code>$create</code> は何にも展開されません。これはつまり以下のように書けることを意味しています:</p>
+<code>$crate</code> は何にも展開されません。これはつまり以下のように書けることを意味しています:</p>
 
 <span class='rusttest'>#[macro_export]
 macro_rules! inc {
