@@ -82,7 +82,7 @@ let number = match x {
 ```
 
 <!-- Sometimes it’s a nice way of converting something from one type to another. -->
-`match` はしばしば、ある型からある型へ変換するための良い手段になりまうす。
+`match` はしばしば、ある型からある型へ変換するための良い手段になります。
 
 <!-- # Matching on enums -->
 # 列挙型に対するマッチ
