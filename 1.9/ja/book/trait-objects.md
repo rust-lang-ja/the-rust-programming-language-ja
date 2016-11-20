@@ -195,7 +195,7 @@ Rustはガーベジコレクタによって管理される多くの言語とは�
 dependent crates may implement `Foo` (any number of bytes at all). There’s no
 way to guarantee that this last point can work if the values are stored without
 a pointer, because those other types can be arbitrarily large. -->
-`Foo` のためには、 `String` (24 bytes)か `u8` (1 byte)もしくは `Foo` （とにかくどんなサイズでも）を実装する依存クレイト内の型のうちから少なくとも1つの値を格納する必要があります。ポインタ無しで値を保存した場合、その直後の動作が正しいかどうかを保証する方法がありません。型によって値のサイズが異なるからです。
+`Foo` のためには、 `String` (24 bytes)か `u8` (1 byte)もしくは `Foo` （とにかくどんなサイズでも）を実装する依存クレート内の型のうちから少なくとも1つの値を格納する必要があります。ポインタ無しで値を保存した場合、その直後の動作が正しいかどうかを保証する方法がありません。型によって値のサイズが異なるからです。
 
 <!-- Putting the value behind a pointer means the size of the value is not relevant
 when we are tossing a trait object around, only the size of the pointer itself. -->
