@@ -203,7 +203,7 @@
 <p>ほとんどの型はコンパイル時に知れる、バイト数で測った、サイズがあります。
 例えば、 <code>i32</code> 型は、32ビット(4バイト)というサイズです。
 しかしながら、表現のためには便利であってもサイズが定まっていない型が存在します。
-そのような方を 「サイズ不定」又は「動的サイズ」型と呼びます。
+そのような型を 「サイズ不定」又は「動的サイズ」型と呼びます。
 一例を上げると <code>[T]</code> 型は 一定のサイズの<code>T</code> のシーケンスを意味していますが、その要素数については規定されていないため、サイズは不定となります。</p>
 
 <!-- Rust understands a few of these types, but they have some restrictions. There -->
@@ -270,7 +270,7 @@
 
 <!-- pointers, can use this `impl`. -->
 
-<p>このように書いたとすると、このコードは <a href="references-and-borrowing.html">参照</a> に対してのみ動作する用になり、他のポインタ型に対しては動作しないことになります。
+<p>このように書いたとすると、このコードは <a href="references-and-borrowing.html">参照</a> に対してのみ動作するようになり、他のポインタ型に対しては動作しないことになります。
 <code>imp for str</code> のように書くことで、すべてのポインタ、ユーザーの定義した独自のスマートポインタ(いくつかの点についてバグがあるので、それを先ずは直さなくてはなりませんが)もこの <code>impl</code> を利用可能になります。</p>
 
 <h1 id='sized' class='section-header'><a href='#sized'>?Sized</a></h1>
