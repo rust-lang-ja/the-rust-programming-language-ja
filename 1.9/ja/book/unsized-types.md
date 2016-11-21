@@ -10,7 +10,7 @@
 ほとんどの型はコンパイル時に知れる、バイト数で測った、サイズがあります。
 例えば、 `i32` 型は、32ビット(4バイト)というサイズです。
 しかしながら、表現のためには便利であってもサイズが定まっていない型が存在します。
-そのような方を 「サイズ不定」又は「動的サイズ」型と呼びます。
+そのような型を 「サイズ不定」又は「動的サイズ」型と呼びます。
 一例を上げると `[T]` 型は 一定のサイズの`T` のシーケンスを意味していますが、その要素数については規定されていないため、サイズは不定となります。
 
 <!-- Rust understands a few of these types, but they have some restrictions. There -->
@@ -56,7 +56,7 @@ impl Foo for &str {
 <!-- other types of pointers. With the `impl for str`, all pointers, including (at -->
 <!-- some point, there are some bugs to fix first) user-defined custom smart -->
 <!-- pointers, can use this `impl`. -->
-このように書いたとすると、このコードは [参照][ref] に対してのみ動作する用になり、他のポインタ型に対しては動作しないことになります。
+このように書いたとすると、このコードは [参照][ref] に対してのみ動作するようになり、他のポインタ型に対しては動作しないことになります。
 `imp for str` のように書くことで、すべてのポインタ、ユーザーの定義した独自のスマートポインタ(いくつかの点についてバグがあるので、それを先ずは直さなくてはなりませんが)もこの `impl` を利用可能になります。
 
 [ref]: references-and-borrowing.html
