@@ -3,7 +3,7 @@
 
 <!-- The standard library provides a special trait, [`Deref`][deref]. It’s normally -->
 <!-- used to overload `*`, the dereference operator: -->
-標準ライブラリは特別なトレイト [`Dref`][deref] を提供します。
+標準ライブラリは特別なトレイト [`Deref`][deref] を提供します。
 `Deref` は通常、参照外し演算子 `*` をオーバーロードするために利用されます。
 
 ```rust
