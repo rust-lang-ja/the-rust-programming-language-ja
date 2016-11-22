@@ -222,9 +222,9 @@ shared mutable state がとてもとても悪いものであるということ�
 ポインタの誤った使用の防止には [所有権のシステム](ownership.html) が役立ちますが、このシステムはデータ競合を排除する際にも同様に一役買います。
 データ競合は、並行性のバグの中で最悪なものの一つです。
 
-<!-- As an example, here is a Rust program that would have a data race in many -->
+<!-- As an example, here is a Rust program that could have a data race in many -->
 <!-- languages. It will not compile: -->
-例として、多くの言語で起こるようなデータ競合を含んだRustプログラムをあげます。
+例として、多くの言語で起こりうるようなデータ競合を含んだRustプログラムをあげます。
 これは、コンパイルが通りません。
 
 ```ignore
@@ -254,10 +254,27 @@ fn main() {
 ```
 
 <!-- Rust knows this wouldn't be safe! If we had a reference to `data` in each -->
-<!-- thread, and the thread takes ownership of the reference, we'd have three -->
-<!-- owners! -->
+<!-- thread, and the thread takes ownership of the reference, we'd have three owners! -->
+<!-- `data` gets moved out of `main` in the first call to `spawn()`, so subsequent -->
+<!-- calls in the loop cannot use this variable. -->
 Rustはこれが安全でないだろうと知っているのです!
 もし、各スレッドに `data` への参照があり、スレッドごとにその参照の所有権があるとしたら、３人の所有者がいることになってしまうのです!
+`data` は最初の `spawn` の呼び出しで `main` からムーブしてしまっているので、ループ内の続く呼び出しはこの変数を使えないのです。
+
+<!-- Note that this specific example will not cause a data race since different array -->
+<!-- indices are being accessed. But this can't be determined at compile time, and in -->
+<!-- a similar situation where `i` is a constant or is random, you would have a data -->
+<!-- race. -->
+この例では配列の異ったインデックスにアクセスしているのでデータ競合は起きません。
+しかしこの分離性はコンパイル時に決定出来ませんし `i` が定数や乱数だった時にデータ競合が起きます。
+
+<!-- So, we need some type that lets us have more than one owning reference to a -->
+<!-- value. Usually, we'd use `Rc<T>` for this, which is a reference counted type -->
+<!-- that provides shared ownership. It has some runtime bookkeeping that keeps track -->
+<!-- of the number of references to it, hence the "reference count" part of its name. -->
+そのため、１つの値に対して２つ以上の所有権を持った参照を持てるような型が必要です。
+通常、この用途には `Rc<T>` を使います。これは所有権の共有を提供するリファレンスカウントの型です。
+実行時のなんちゃらがひつようで、リファレンスの数をカウントします。なのでリファレンスカウントです。
 
 <!-- So, we need some type that lets us have more than one reference to a value and -->
 <!-- that we can share between threads, that is it must implement `Sync`. -->
