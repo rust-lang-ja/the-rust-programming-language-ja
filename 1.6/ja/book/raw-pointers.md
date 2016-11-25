@@ -14,7 +14,7 @@ your library, while exposing a safe interface for your users. For example, `*`
 pointers are allowed to alias, allowing them to be used to write
 shared-ownership types, and even thread-safe shared memory types (the `Rc<T>`
 and `Arc<T>` types are both implemented entirely in Rust). -->
-`*const T` と `*mut T` はRustにおいて「生ポインタ」と呼ばれます。時々、ある種ののライブラリを書く際に、あなたは何らかの理由でRustが行う安全性の保証を避けなければならないこともあります。このようなケースでは、ユーザに安全なインターフェースを提供しつつ、ライブラリの実装に生ポインタを使用できます。例えば、 `*` ポインタはエイリアスとして振る舞うこともできるので、所有権を共有する型を書くのに用いたり、スレッドセーフな共有メモリ型でさえも実装できます。( `Rc<T>` と `Arc<T>` 型は完全にRustのみで実装されています)
+`*const T` と `*mut T` はRustにおいて「生ポインタ」と呼ばれます。時々、ある種のライブラリを書く際に、あなたは何らかの理由でRustが行う安全性の保証を避けなければならないこともあります。このようなケースでは、ユーザに安全なインターフェースを提供しつつ、ライブラリの実装に生ポインタを使用できます。例えば、 `*` ポインタはエイリアスとして振る舞うこともできるので、所有権を共有する型を書くのに用いたり、スレッドセーフな共有メモリ型でさえも実装できます。( `Rc<T>` と `Arc<T>` 型は完全にRustのみで実装されています)
 
 <!-- Here are some things to remember about raw pointers that are different than
 other pointer types. They: -->
