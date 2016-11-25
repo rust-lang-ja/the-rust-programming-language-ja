@@ -576,7 +576,7 @@ Rustのコードに展開されていないマクロが含まれていても、 
 <!-- expression / statement. Rust uses a simple rule to resolve this ambiguity. A -->
 <!-- macro invocation that stands for items must be either -->
 ブロック中でのマクロ呼出は、幾つかのアイテムや、一つの式 / 文 に対応します。
-Rustはこの曖昧性を判定するためにRustは単純なルールを利用します。
+Rustはこの曖昧性を判定するために単純なルールを利用します。
 アイテムに対応しているマクロ呼出は以下のどちらかでなければなりません
 
 <!-- * delimited by curly braces, e.g. `foo! { ... }`, or -->
@@ -650,7 +650,7 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 <!-- be forced to choose between parsing `$t` and parsing `$e`. Changing the -->
 <!-- invocation syntax to put a distinctive token in front can solve the problem. In -->
 <!-- this case, you can write `$(T $t:ty)* E $e:exp`. -->
-マクロシステムはパースの曖昧さについてな何も対処しません。
+マクロシステムはパースの曖昧さについては何も対処しません。
 例えば、 `$($t:ty)* $e:expr` は常にパースが失敗します、
 なぜならパーサーは `$t` をパースするか、 `$e` をパースするかを選ぶことを強制されるためです。
 呼出構文を変更して識別可能なトークンを先頭につけることでこの問題は回避することができます。
@@ -691,7 +691,7 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 
 <!-- The `macro_use` attribute can also appear on `extern crate`. In this context -->
 <!-- it controls which macros are loaded from the external crate, e.g. -->
-また、 `macro_use` アトリビュートは `extern create` の上でも利用することができます。
+また、 `macro_use` アトリビュートは `extern crate` の上でも利用することができます。
 そのようにした場合、 `macro_use` アトリビュートは外部のクレートからどのマクロをロードするのかを指定します。
 以下がその例です:
 
