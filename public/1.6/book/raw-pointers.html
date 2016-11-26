@@ -203,7 +203,7 @@ pointers are allowed to alias, allowing them to be used to write
 shared-ownership types, and even thread-safe shared memory types (the `Rc<T>`
 and `Arc<T>` types are both implemented entirely in Rust). -->
 
-<p><code>*const T</code> と <code>*mut T</code> はRustにおいて「生ポインタ」と呼ばれます。時々、ある種ののライブラリを書く際に、あなたは何らかの理由でRustが行う安全性の保証を避けなければならないこともあります。このようなケースでは、ユーザに安全なインターフェースを提供しつつ、ライブラリの実装に生ポインタを使用できます。例えば、 <code>*</code> ポインタはエイリアスとして振る舞うこともできるので、所有権を共有する型を書くのに用いたり、スレッドセーフな共有メモリ型でさえも実装できます。( <code>Rc&lt;T&gt;</code> と <code>Arc&lt;T&gt;</code> 型は完全にRustのみで実装されています)</p>
+<p><code>*const T</code> と <code>*mut T</code> はRustにおいて「生ポインタ」と呼ばれます。時々、ある種のライブラリを書く際に、あなたは何らかの理由でRustが行う安全性の保証を避けなければならないこともあります。このようなケースでは、ユーザに安全なインターフェースを提供しつつ、ライブラリの実装に生ポインタを使用できます。例えば、 <code>*</code> ポインタはエイリアスとして振る舞うこともできるので、所有権を共有する型を書くのに用いたり、スレッドセーフな共有メモリ型でさえも実装できます。( <code>Rc&lt;T&gt;</code> と <code>Arc&lt;T&gt;</code> 型は完全にRustのみで実装されています)</p>
 
 <!-- Here are some things to remember about raw pointers that are different than
 other pointer types. They: -->

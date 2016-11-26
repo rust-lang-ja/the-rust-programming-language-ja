@@ -1011,7 +1011,7 @@ fn main() {
 <!-- macro invocation that stands for items must be either -->
 
 <p>ブロック中でのマクロ呼出は、幾つかのアイテムや、一つの式 / 文 に対応します。
-Rustはこの曖昧性を判定するためにRustは単純なルールを利用します。
+Rustはこの曖昧性を判定するために単純なルールを利用します。
 アイテムに対応しているマクロ呼出は以下のどちらかでなければなりません</p>
 
 <!-- * delimited by curly braces, e.g. `foo! { ... }`, or -->
@@ -1128,7 +1128,7 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 
 <!-- this case, you can write `$(T $t:ty)* E $e:exp`. -->
 
-<p>マクロシステムはパースの曖昧さについてな何も対処しません。
+<p>マクロシステムはパースの曖昧さについては何も対処しません。
 例えば、 <code>$($t:ty)* $e:expr</code> は常にパースが失敗します、
 なぜならパーサーは <code>$t</code> をパースするか、 <code>$e</code> をパースするかを選ぶことを強制されるためです。
 呼出構文を変更して識別可能なトークンを先頭につけることでこの問題は回避することができます。
@@ -1181,7 +1181,7 @@ Rustはこの曖昧性を判定するためにRustは単純なルールを利用
 
 <!-- it controls which macros are loaded from the external crate, e.g. -->
 
-<p>また、 <code>macro_use</code> アトリビュートは <code>extern create</code> の上でも利用することができます。
+<p>また、 <code>macro_use</code> アトリビュートは <code>extern crate</code> の上でも利用することができます。
 そのようにした場合、 <code>macro_use</code> アトリビュートは外部のクレートからどのマクロをロードするのかを指定します。
 以下がその例です:</p>
 
