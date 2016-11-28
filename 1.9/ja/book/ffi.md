@@ -364,7 +364,6 @@ int32_t register_callback(void* callback_target, rust_callback callback) {
 }
 
 void trigger_callback() {
-# //  cb(cb_target, 7); // Will call callback(&rustObject, 7) in Rust
   cb(cb_target, 7); // Rustのcallback(&rustObject, 7)を呼び出す
 }
 ```
