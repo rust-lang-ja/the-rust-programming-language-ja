@@ -116,7 +116,7 @@ Rustでは戻り値を使います。
 # // Guess a number between 1 and 10.
 # // If it matches the number we had in mind, return true. Else, return false.
 // 1から10までの数字を予想します。
-// もし予想した数字に一致したらtrueを返し、そうでなけれは、falseを返します。
+// もし予想した数字に一致したらtrueを返し、そうでなければfalseを返します。
 fn guess(n: i32) -> bool {
     if n < 1 || n > 10 {
         panic!("Invalid number: {}", n);
@@ -314,7 +314,7 @@ impl<T> Option<T> {
 > 訳注：
 >
 > called `Option::unwrap()` on a `None` value：<br/>
-> `None` な値に対して `Option:unwpal()` が呼ばれました
+> `None` な値に対して `Option:unwrap()` が呼ばれました
 
 <!-- The `unwrap` method *abstracts away the case analysis*. This is precisely the thing -->
 <!-- that makes `unwrap` ergonomic to use. Unfortunately, that `panic!` means that -->
@@ -1178,7 +1178,7 @@ fn main() {
 <!-- `map_err`. -->
 このコードは、やや難解になってきました。
 このようなコードを簡単に書けるようになるまでには、結構な量の練習が必要かもしれません。
-こういうもの書くときは *型に導かれる* ようにします。
+こういうものを書くときは *型に導かれる* ようにします。
 `file_double` のリターン型を `Result<i32, String>` に変更したらすぐに、それに合ったコンビネータを探し始めるのです。
 この例では `and_then`, `map`, `map_err` の、3種類のコンビネータだけを使いました。
 
@@ -1188,7 +1188,7 @@ fn main() {
 <!-- Correspondingly, there are two calls to `and_then`. -->
 `and_then` は、エラーを返すかもしれない処理同士を繋いでいくために使います。
 ファイルを開いた後に、失敗するかもしれない処理が2つあります：
-ファイルからの読み込む所と、内容を数値としてパースする所です。
+ファイルから読み込む所と、内容を数値としてパースする所です。
 これに対応して `and_then` も2回呼ばれています。
 
 <!-- `map` is used to apply a function to the `Ok(...)` value of a `Result`. For -->
@@ -1855,7 +1855,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 <!-- automatic type conversion for us by calling `From::from` on the error value. -->
 <!-- In particular, we converted errors to `Box<Error>`, which works, but the type -->
 <!-- is opaque to callers. -->
-最後の節では `try!` マクロの本当の定義を確認し、それが `From::from` をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
+前の節では `try!` マクロの本当の定義を確認し、それが `From::from` をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
 特にそこでは、エラーを `Box<Error>` に変換しました。
 これはたしかに動きますが、呼び出し元にとって、型がオペークになってしまいました。
 
