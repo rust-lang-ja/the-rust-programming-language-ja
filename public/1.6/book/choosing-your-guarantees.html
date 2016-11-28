@@ -701,7 +701,7 @@ let x = RefCell::new(vec![1,2,3,4]);
 <p>C++の <code>shared_ptr</code> は <code>Arc</code> と似ていますが、C++の場合、中身のデータは常にミュータブルです。
 C++と同じセマンティクスで使うためには、 <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> 、 <code>Arc&lt;RwLock&lt;T&gt;&gt;</code> 、 <code>Arc&lt;UnsafeCell&lt;T&gt;&gt;</code> を使うべきです <sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> （ <code>UnsafeCell&lt;T&gt;</code> はどんなデータでも持つことができ、実行時のコストも掛かりませんが、それにアクセスするためには <code>unsafe</code> ブロックが必要というセル型です）。
 最後のものは、その使用がメモリをアンセーフにしないことを確信している場合にだけ使うべきです。
-次のことを覚えましょう。構造体に書き込むのはアトミックな作業ではなく、<code>vec.push()</code>のような多くの関数は内部でメモリの再割当てを行い、アンセーフな挙動を引き起こす可能性があります。そのため単純な操作であるということだけでは <code>UnsafeCall</code> を正当化するには十分ではありません。</p>
+次のことを覚えましょう。構造体に書き込むのはアトミックな作業ではなく、<code>vec.push()</code>のような多くの関数は内部でメモリの再割当てを行い、アンセーフな挙動を引き起こす可能性があります。そのため単純な操作であるということだけでは <code>UnsafeCell</code> を正当化するには十分ではありません。</p>
 
 <!--[^4]: `Arc<UnsafeCell<T>>` actually won't compile since `UnsafeCell<T>` isn't `Send` or `Sync`, but we can wrap it in a type and implement `Send`/`Sync` for it manually to get `Arc<Wrapper<T>>` where `Wrapper` is `struct Wrapper<T>(UnsafeCell<T>)`.-->
 

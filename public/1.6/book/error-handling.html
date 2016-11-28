@@ -373,7 +373,7 @@ Rustでは戻り値を使います。</p>
 <span class='rusttest'>// Guess a number between 1 and 10.
 // If it matches the number we had in mind, return true. Else, return false.
 // 1から10までの数字を予想します。
-// もし予想した数字に一致したらtrueを返し、そうでなけれは、falseを返します。
+// もし予想した数字に一致したらtrueを返し、そうでなければfalseを返します。
 fn guess(n: i32) -&gt; bool {
     if n &lt; 1 || n &gt; 10 {
         panic!(&quot;Invalid number: {}&quot;, n);
@@ -386,7 +386,7 @@ fn main() {
 }
 </span><pre class='rust rust-example-rendered'>
 <span class='comment'>// 1から10までの数字を予想します。</span>
-<span class='comment'>// もし予想した数字に一致したらtrueを返し、そうでなけれは、falseを返します。</span>
+<span class='comment'>// もし予想した数字に一致したらtrueを返し、そうでなければfalseを返します。</span>
 <span class='kw'>fn</span> <span class='ident'>guess</span>(<span class='ident'>n</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>bool</span> {
     <span class='kw'>if</span> <span class='ident'>n</span> <span class='op'>&lt;</span> <span class='number'>1</span> <span class='op'>||</span> <span class='ident'>n</span> <span class='op'>&gt;</span> <span class='number'>10</span> {
         <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;Invalid number: {}&quot;</span>, <span class='ident'>n</span>);
@@ -675,7 +675,7 @@ impl&lt;T&gt; Option&lt;T&gt; {
 <p>訳注：</p>
 
 <p>called <code>Option::unwrap()</code> on a <code>None</code> value：<br/>
-<code>None</code> な値に対して <code>Option:unwpal()</code> が呼ばれました</p>
+<code>None</code> な値に対して <code>Option:unwrap()</code> が呼ばれました</p>
 </blockquote>
 
 <!-- The `unwrap` method *abstracts away the case analysis*. This is precisely the thing -->
@@ -1992,7 +1992,7 @@ fn main() {
 
 <p>このコードは、やや難解になってきました。
 このようなコードを簡単に書けるようになるまでには、結構な量の練習が必要かもしれません。
-こういうもの書くときは <em>型に導かれる</em> ようにします。
+こういうものを書くときは <em>型に導かれる</em> ようにします。
 <code>file_double</code> のリターン型を <code>Result&lt;i32, String&gt;</code> に変更したらすぐに、それに合ったコンビネータを探し始めるのです。
 この例では <code>and_then</code>, <code>map</code>, <code>map_err</code> の、3種類のコンビネータだけを使いました。</p>
 
@@ -2006,7 +2006,7 @@ fn main() {
 
 <p><code>and_then</code> は、エラーを返すかもしれない処理同士を繋いでいくために使います。
 ファイルを開いた後に、失敗するかもしれない処理が2つあります：
-ファイルからの読み込む所と、内容を数値としてパースする所です。
+ファイルから読み込む所と、内容を数値としてパースする所です。
 これに対応して <code>and_then</code> も2回呼ばれています。</p>
 
 <!-- `map` is used to apply a function to the `Ok(...)` value of a `Result`. For -->
@@ -3046,7 +3046,7 @@ fn file_double&lt;P: AsRef&lt;Path&gt;&gt;(file_path: P) -&gt; Result&lt;i32, Bo
 
 <!-- is opaque to callers. -->
 
-<p>最後の節では <code>try!</code> マクロの本当の定義を確認し、それが <code>From::from</code> をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
+<p>前の節では <code>try!</code> マクロの本当の定義を確認し、それが <code>From::from</code> をエラーの値に対して呼ぶことで、自動的な型変換をする様子を見ました。
 特にそこでは、エラーを <code>Box&lt;Error&gt;</code> に変換しました。
 これはたしかに動きますが、呼び出し元にとって、型がオペークになってしまいました。</p>
 
@@ -3495,11 +3495,11 @@ fn main() {
 
     let matches = match opts.parse(&amp;args[1..]) {
         Ok(m)  =&gt; { m }
-    Err(e) =&gt; { panic!(e.to_string()) }
+        Err(e) =&gt; { panic!(e.to_string()) }
     };
     if matches.opt_present(&quot;h&quot;) {
         print_usage(&amp;program, opts);
-    return;
+        return;
     }
     let data_path = args[1].clone();
     let city = args[2].clone();
@@ -3527,11 +3527,11 @@ fn main() {
 
     <span class='kw'>let</span> <span class='ident'>matches</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>opts</span>.<span class='ident'>parse</span>(<span class='kw-2'>&amp;</span><span class='ident'>args</span>[<span class='number'>1</span>..]) {
         <span class='prelude-val'>Ok</span>(<span class='ident'>m</span>)  <span class='op'>=&gt;</span> { <span class='ident'>m</span> }
-    <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> { <span class='macro'>panic</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>to_string</span>()) }
+        <span class='prelude-val'>Err</span>(<span class='ident'>e</span>) <span class='op'>=&gt;</span> { <span class='macro'>panic</span><span class='macro'>!</span>(<span class='ident'>e</span>.<span class='ident'>to_string</span>()) }
     };
     <span class='kw'>if</span> <span class='ident'>matches</span>.<span class='ident'>opt_present</span>(<span class='string'>&quot;h&quot;</span>) {
         <span class='ident'>print_usage</span>(<span class='kw-2'>&amp;</span><span class='ident'>program</span>, <span class='ident'>opts</span>);
-    <span class='kw'>return</span>;
+        <span class='kw'>return</span>;
     }
     <span class='kw'>let</span> <span class='ident'>data_path</span> <span class='op'>=</span> <span class='ident'>args</span>[<span class='number'>1</span>].<span class='ident'>clone</span>();
     <span class='kw'>let</span> <span class='ident'>city</span> <span class='op'>=</span> <span class='ident'>args</span>[<span class='number'>2</span>].<span class='ident'>clone</span>();
