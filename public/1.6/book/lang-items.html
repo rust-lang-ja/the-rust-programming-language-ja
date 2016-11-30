@@ -220,7 +220,7 @@
 
 <!-- sugar for dynamic allocations via `malloc` and `free`: -->
 
-<p>例えば、 <code>Box</code> ポインタは2つの言語アイテムを必要とします。1つはアロケーションのためもう1つはデアロケーションのため。
+<p>例えば、 <code>Box</code> ポインタは2つの言語アイテムを必要とします。1つはアロケーションのため、もう1つはデアロケーションのため。
 フリースタンディング環境で動くプログラムは <code>Box</code> を <code>malloc</code> と <code>free</code> による動的アロケーションの糖衣として使います。</p>
 
 <span class='rusttest'>#![feature(lang_items, box_syntax, start, libc)]
@@ -306,7 +306,7 @@ fn main(argc: isize, argv: *const *const u8) -&gt; isize {
 
 <!-- return a valid pointer, and so needs to do the check internally. -->
 
-<p><code>abort</code> を使ってることに注意して下さい: <code>exchange_malloc</code> 言語アイテムは有効なポインタを返すものとされており、内部でその検査する必要があるのです。</p>
+<p><code>abort</code> を使ってることに注意して下さい: <code>exchange_malloc</code> 言語アイテムは有効なポインタを返すものとされており、内部でその検査をする必要があるのです。</p>
 
 <!-- Other features provided by lang items include: -->
 
