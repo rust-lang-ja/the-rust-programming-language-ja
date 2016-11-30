@@ -19,7 +19,7 @@
 <!-- For example, `Box` pointers require two lang items, one for allocation -->
 <!-- and one for deallocation. A freestanding program that uses the `Box` -->
 <!-- sugar for dynamic allocations via `malloc` and `free`: -->
-例えば、 `Box` ポインタは2つの言語アイテムを必要とします。1つはアロケーションのためもう1つはデアロケーションのため。
+例えば、 `Box` ポインタは2つの言語アイテムを必要とします。1つはアロケーションのため、もう1つはデアロケーションのため。
 フリースタンディング環境で動くプログラムは `Box` を `malloc` と `free` による動的アロケーションの糖衣として使います。
 
 ```rust
@@ -67,7 +67,7 @@ fn main(argc: isize, argv: *const *const u8) -> isize {
 
 <!-- Note the use of `abort`: the `exchange_malloc` lang item is assumed to -->
 <!-- return a valid pointer, and so needs to do the check internally. -->
-`abort` を使ってることに注意して下さい: `exchange_malloc` 言語アイテムは有効なポインタを返すものとされており、内部でその検査する必要があるのです。
+`abort` を使ってることに注意して下さい: `exchange_malloc` 言語アイテムは有効なポインタを返すものとされており、内部でその検査をする必要があるのです。
 
 <!-- Other features provided by lang items include: -->
 言語アイテムによって提供される機能には以下のようなものがあります。:
