@@ -1,4 +1,5 @@
 % スタックとヒープ
+<!-- % The Stack and the Heap -->
 
 <!--
 As a systems language, Rust operates at a low level. If you’re coming from a
