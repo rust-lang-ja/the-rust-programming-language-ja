@@ -18,10 +18,10 @@ Rustでは戻り値を使います。
 こうすることで、全体がどう組み合わさっているのかの理解が進み、より実用的な知識が身につくでしょう。
 
 <!-- When done naïvely, error handling in Rust can be verbose and annoying. This -->
-<!-- chapter will explore those stumbling blocks and demonstrate how to use the -->
+<!-- section will explore those stumbling blocks and demonstrate how to use the -->
 <!-- standard library to make error handling concise and ergonomic. -->
 もし素朴なやり方を用いたなら、Rustにおけるエラーハンドリングは、冗長で面倒なものになり得ます。
-この章では、エラーを処理する上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかにシンプルでエルゴノミック（人間にとって扱いやすいもの）に変わるのかを紹介します。
+このセクションでは、エラーを処理する上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかにシンプルでエルゴノミック（人間にとって扱いやすいもの）に変わるのかを紹介します。
 
 <!-- # Table of Contents -->
 # 目次
@@ -1048,7 +1048,7 @@ fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
 これは `Result::map` に似ていますが、 `Result` 値の *エラー* の部分に対して関数をマップするところが異なります。
 もし `Result` の値が `Ok(...)` だったら、そのまま変更せずに返します。
 
-<!-- `map_err` is the trick that makes all of this work. `map_err` is like -->
+<!-- We use `map_err` here because it is necessary for the error types to remain -->
 <!-- the same (because of our use of `and_then`). Since we chose to convert the -->
 <!-- `Option<String>` (from `argv.nth(1)`) to a `Result<String, String>`, we must -->
 <!-- also convert the `ParseIntError` from `arg.parse()` to a `String`. -->
@@ -1231,7 +1231,7 @@ fn main() {
 例えば、一番最後の `map` の呼び出しは、`Ok(...)` の値（ `i32` 型）に `2` を掛けます。
 もし、これより前にエラーが起きたなら、この操作は `map` の定義に従ってスキップされます。
 
-<!-- `map_err` is the trick that makes all of this work. `map_err` is just like -->
+<!-- `map_err` is the trick that makes all of this work. `map_err` is like -->
 <!-- `map`, except it applies a function to the `Err(...)` value of a `Result`. In -->
 <!-- this case, we want to convert all of our errors to one type: `String`. Since -->
 <!-- both `io::Error` and `num::ParseIntError` implement `ToString`, we can call the -->
@@ -1875,7 +1875,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 しかし `Box<Error>` が不透明であるという制限は残ります。
 （注意：これは完全な真実ではありません。
 なぜならRustでは実行時のリフレクションができるからです。
-この方法が有効なシナリオもありますが、[この章で扱う範囲を超えています](https://crates.io/crates/error) ）
+この方法が有効なシナリオもありますが、[このセクションで扱う範囲を超えています](https://crates.io/crates/error) ）
 
 <!-- It's time to revisit our custom `CliError` type and tie everything together. -->
 では、私たちの独自のエラー型 `CliError` に戻って、全てを一つにまとめ上げましょう。
@@ -2085,7 +2085,7 @@ impl From<num::ParseFloatError> for CliError {
 <!-- rather dense. While there is plenty of example code to go along with -->
 <!-- the prose, most of it was specifically designed to be pedagogical. So, -->
 <!-- we're going to do something new: a case study. -->
-この章は長かったですね。
+このセクションは長かったですね。
 あなたのバックグラウンドにもよりますが、内容が少し濃すぎたかもしれません。
 たくさんのコード例に、散文的な説明が添えられる形で進行しましたが、これは主に学習を助けるために、あえてこう構成されていたのでした。
 次はなにか新しいことをしましょう。ケーススタディです。
@@ -2743,8 +2743,10 @@ impl Error for CliError {
         match *self {            
             CliError::Io(ref err) => Some(err),
             CliError::Parse(ref err) => Some(err),
-            // Our custom error doesn't have an underlying cause, but we could
-            // modify it so that it does.
+#            // Our custom error doesn't have an underlying cause, but we could
+#            // modify it so that it does.
+            // 今回の自前のエラーは下流の原因となるエラーは持っていませんが
+            // そのように変更することも可能です。
             CliError::NotFound() => None,
         }
     }
@@ -2963,7 +2965,7 @@ match search(&args.arg_data_path, &args.arg_city) {
 <!--   found a healthy mix of `try!` and combinators to be quite appealing. -->
 <!--   `and_then`, `map` and `unwrap_or` are my favorites. -->
 * もし短いサンプルコードを書いていて、エラーハンドリングが重荷になるようなら、 `unwrap` を使っても大丈夫かもしれません（ [`Result::unwrap`](../std/result/enum.Result.html#method.unwrap), [`Option::unwrap`](../std/option/enum.Option.html#method.unwrap), [`Option::expect`](../std/option/enum.Option.html#method.expect) のいずれかが使えます）。
-  あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、この章を紹介してください！）
+  あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、このセクションを紹介してください！）
 * もし即興のプログラムを書いているなら `unwrap` を使うことに罪悪感を持たなくてもいいでしょう。
   ただし警告があります：もしそれが最終的に他の人たちの手に渡るなら、彼らが貧弱なエラーメッセージに動揺してもおかしくありません。
 * もし即興のプログラムを書いていて、パニックすることに、どうしても後ろめたさを感じるなら、エラー型として `String` か `Box<Error + Send + Sync>` のいずれかを使ってください（ `Box<Error + Send + Sync>` は [`From` 実装がある](../std/convert/trait.From.html) ので使えます）。
