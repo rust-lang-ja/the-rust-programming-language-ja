@@ -36,6 +36,7 @@ $ cd adder
 これが `src/lib.rs` の内容です。
 
 ```rust
+# fn main() {}
 #[test]
 fn it_works() {
 }
@@ -102,6 +103,7 @@ test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured
 テストを失敗させましょう。
 
 ```rust
+# fn main() {}
 #[test]
 fn it_works() {
     assert!(false);
@@ -183,6 +185,7 @@ Windowsでは、 `cmd` を使っていればこうです。
 もう1つのアトリビュート、 `should_panic` を使ってテストの失敗を反転させることができます。
 
 ```rust
+# fn main() {}
 #[test]
 #[should_panic]
 fn it_works() {
@@ -216,6 +219,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 Rustはもう1つのマクロ、 `assert_eq!` を提供しています。これは2つの引数の等価性を調べます。
 
 ```rust
+# fn main() {}
 #[test]
 #[should_panic]
 fn it_works() {
@@ -256,6 +260,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 前述の例のもっと安全なバージョンはこうなります。
 
 ```rust
+# fn main() {}
 #[test]
 #[should_panic(expected = "assertion failed")]
 fn it_works() {
@@ -268,6 +273,7 @@ fn it_works() {
 「リアルな」テストを書いてみましょう。
 
 ```rust,ignore
+# fn main() {}
 pub fn add_two(a: i32) -> i32 {
     a + 2
 }
@@ -291,6 +297,7 @@ fn it_works() {
 そのようなテストは、 `ignore` アトリビュートを使ってデフォルトでは無効にすることができます。
 
 ```rust
+# fn main() {}
 #[test]
 fn it_works() {
     assert_eq!(4, add_two(2));
@@ -360,6 +367,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 今までの例の慣用的な書き方はこのようになります。
 
 ```rust,ignore
+# fn main() {}
 pub fn add_two(a: i32) -> i32 {
     a + 2
 }
@@ -397,6 +405,7 @@ mod tests {
 `src/lib.rs` をグロブを使うように変更しましょう。
 
 ```rust,ignore
+# fn main() {}
 pub fn add_two(a: i32) -> i32 {
     a + 2
 }
@@ -438,11 +447,11 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 動きます!
 
 <!--The current convention is to use the `tests` module to hold your "unit-style"-->
-<!--tests. Anything that just tests one small bit of functionality makes sense to-->
+<!--tests. Anything that tests one small bit of functionality makes sense to-->
 <!--go here. But what about "integration-style" tests instead? For that, we have-->
 <!--the `tests` directory.-->
 現在の慣習では、 `tests` モジュールは「ユニット」テストを入れるために使うことになっています。
-単一の小さな機能の単位をテストするだけのものは全て、ここに入れる意味があります。
+単一の小さな機能の単位をテストするものは全て、ここに入れる意味があります。
 しかし、「結合」テストはどうでしょうか。
 結合テストのためには、 `tests` ディレクトリがあります。
 
@@ -456,6 +465,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 ```rust,ignore
 extern crate adder;
 
+# fn main() {}
 #[test]
 fn it_works() {
     assert_eq!(4, adder::add_two(2));
@@ -525,6 +535,7 @@ test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured
 これが例を付けた具体的な `src/lib.rs` です。
 
 ```rust,ignore
+# fn main() {}
 # //! The `adder` crate provides functions that add numbers to other numbers.
 //! `adder`クレートはある数値を数値に加える関数を提供する
 //!
@@ -605,12 +616,7 @@ test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured
 例を追加するにつれて、それらの名前は `add_two_1` というような形で数値が増えていきます。
 
 <!--We haven’t covered all of the details with writing documentation tests. For more,-->
-<!--please see the [Documentation chapter](documentation.html)-->
+<!-- please see the [Documentation chapter](documentation.html). -->
 まだドキュメンテーションテストの書き方の詳細について、全てをカバーしてはいません。
 詳しくは [ドキュメントの章](documentation.html) を見てください。
 
-<!--One final note: documentation tests *cannot* be run on binary crates.-->
-<!--To see more on file arrangement see the [Crates and-->
-<!--Modules](crates-and-modules.html) section.-->
-最後の注意：バイナリクレート上のテストは実行 *できません* 。
-ファイルの配置についてもっと知りたい場合は [クレートとモジュール](crates-and-modules.html) セクションを見ましょう。
