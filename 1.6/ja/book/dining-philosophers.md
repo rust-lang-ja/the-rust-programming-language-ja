@@ -230,7 +230,7 @@ fn main() {
 <!-- Here, we create five variable bindings with five new philosophers. -->
 <!-- If we _didn’t_ define -->
 <!-- that `new()` function, it would look like this: -->
-ここでは、5つの新しい哲学者に対して5つの変数束縛を作ります。仮に `new` 関数を定義 _しない_ なら、次ように書く必要があります:
+ここでは、5つの新しい哲学者に対して5つの変数束縛を作ります。仮に `new` 関数を定義 _しない_ なら、次のように書く必要があります:
 
 ```rust
 # struct Philosopher {
