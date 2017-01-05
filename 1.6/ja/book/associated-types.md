@@ -143,7 +143,7 @@ impl Graph for MyGraph {
 <!-- `struct`s, one for the graph, one for the node, and one for the edge. If it made -->
 <!-- more sense to use a different type, that would work as well, we’re just going to -->
 <!-- use `struct`s for all three here. -->
-この奇妙な実装は、つねに `true` と空の `Vec<Edge>` を返しますますが、どのように定義したら良いかのアイデアをくれます。
+この奇妙な実装は、つねに `true` と空の `Vec<Edge>` を返しますが、どのように定義したら良いかのアイデアをくれます。
 まず、はじめに3つの `struct` が必要です、ひとつはグラフのため、そしてひとつは頂点のため、そしてもうひとつは辺のため。
 もし異なる型を利用することが適切ならば、そのようにすると良いでしょう、今回はこの3つの `struct` を用います。
 
