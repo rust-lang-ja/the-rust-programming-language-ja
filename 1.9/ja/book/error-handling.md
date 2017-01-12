@@ -31,7 +31,7 @@ Rustでは戻り値を使います。
 <!-- incrementally. As such, programmers with experience in other expressive type -->
 <!-- systems may want to jump around. -->
 この章はとても長くなります。
-というのは、直和型(sum type) とコンビネータから始めることで、Restにおけるエラーハンドリングを徐々に改善していくための動機を与えるからです。
+というのは、直和型(sum type) とコンビネータから始めることで、Rustにおけるエラーハンドリングを徐々に改善していくための動機を与えるからです。
 このような構成ですので、もしすでに他の表現力豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
 
 <!-- * [The Basics](#the-basics) -->
