@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["ErrorKind","A list specifying general categories of I/O error."]],"struct":[["Error","The error type for I/O operations of the `Read`, `Write`, `Seek`, and associated traits."]],"type":[["Result","A specialized `Result` type for I/O operations."]]});

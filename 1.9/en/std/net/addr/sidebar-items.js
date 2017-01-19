@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["SocketAddr","Representation of a socket address for networking applications."]],"struct":[["SocketAddrV4","An IPv4 socket address which is a (ip, port) combination."],["SocketAddrV6","An IPv6 socket address."]],"trait":[["ToSocketAddrs","A trait for objects which can be converted or resolved to one or more `SocketAddr` values."]]});
