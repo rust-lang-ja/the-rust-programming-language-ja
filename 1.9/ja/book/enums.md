@@ -1,9 +1,11 @@
 % 列挙型
 <!-- % Enums -->
 
-<!-- An `enum` in Rust is a type that represents data that could be one of
-several possible variants: -->
+<!-- An `enum` in Rust is a type that represents data that is one of
+several possible variants. Each variant in the `enum` can optionally
+have data associated with it: -->
 Rustの `enum` は、いくつかのヴァリアントのうちからどれか一つをとるデータを表す型です。
+`enum` の各ヴァリアントは、それぞれ自身に関連するデータを持つこともできます。
 
 ```rust
 enum Message {
@@ -14,15 +16,13 @@ enum Message {
 }
 ```
 
-<!-- Each variant can optionally have data associated with it. The syntax for
-defining variants resembles the syntaxes used to define structs: you can
-have variants with no data (like unit-like structs), variants with named
+<!-- The syntax for defining variants resembles the syntaxes used to define structs:
+you can have variants with no data (like unit-like structs), variants with named
 data, and variants with unnamed data (like tuple structs). Unlike
 separate struct definitions, however, an `enum` is a single type. A
 value of the enum can match any of the variants. For this reason, an
 enum is sometimes called a ‘sum type’: the set of possible values of the
 enum is the sum of the sets of possible values for each variant. -->
-各ヴァリアントは、自身に関連するデータを持つこともできます。
 ヴァリアントの定義のための構文は、構造体を定義するのに使われる構文と似ており、
 (unit-like構造体のような) データを持たないヴァリアント、名前付きデータを持つヴァリアント、 (タプル構造体のような) 名前なしデータを持つヴァリアントがありえます。
 しかし、別々に構造体を定義する場合とは異なり、 `enum` は一つの型です。
@@ -54,7 +54,7 @@ let y: BoardGameTurn = BoardGameTurn::Move { squares: 1 };
 the enum, they can both be used without conflict. -->
 どちらのヴァリアントも `Move` という名前ですが、列挙型の名前でスコープ化されているため、衝突することなく使うことができます。
 
-<!-- A value of an enum type contains information about which variant it is,
+<!-- A value of an `enum` type contains information about which variant it is,
 in addition to any data associated with that variant. This is sometimes
 referred to as a ‘tagged union’, since the data includes a ‘tag’
 indicating what type it is. The compiler uses this information to
@@ -85,13 +85,12 @@ equality yet, but we’ll find out in the [`traits`][traits] section. -->
 等値性を実装するにはRustについてまだ知るべきことがありますが、 [`トレイト`][traits] のセクションに書いてあります。
 
 [match]: match.html
-[if-let]: if-let.html
 [traits]: traits.html
 
 <!-- # Constructors as functions -->
 # 関数としてのコンストラクタ
 
-<!-- An enum’s constructors can also be used like functions. For example: -->
+<!-- An `enum` constructor can also be used like a function. For example: -->
 列挙型のコンストラクタも、関数のように使うことができます。
 例えばこうです。
 
@@ -102,7 +101,7 @@ equality yet, but we’ll find out in the [`traits`][traits] section. -->
 let m = Message::Write("Hello, world".to_string());
 ```
 
-<!-- Is the same as -->
+<!-- is the same as -->
 これは、以下と同じです。
 
 ```rust
