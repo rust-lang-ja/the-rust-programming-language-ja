@@ -6,7 +6,7 @@ RUSTBOOK ?= rustbook
 RUSTDOC ?= rustdoc
 
 BASE_DIR=$(VERSION)/$(LANG)
-TARGET_DIR=public/$(VERSION)
+TARGET_DIR=doc/$(VERSION)
 
 DOCS := index \
     complement-lang-faq complement-design-faq complement-project-faq \
@@ -40,7 +40,7 @@ DOC_TARGETS := book nomicon style
 default: all
 
 publish:
-	git subtree -P public push "git@github.com:rust-lang-ja/the-rust-programming-language-ja.git" gh-pages
+	git subtree -P doc push "git@github.com:rust-lang-ja/the-rust-programming-language-ja.git" gh-pages
 
 
 
