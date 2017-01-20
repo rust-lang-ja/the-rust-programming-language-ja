@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Semaphore","A counting, blocking, semaphore."],["SemaphoreGuard","An RAII guard which will release a resource acquired from a semaphore when dropped."]]});
