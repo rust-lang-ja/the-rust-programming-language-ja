@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Grammar</title>
+
+    <link rel="stylesheet" type="text/css" href="rust.css">
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+
+
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <div id="versioninfo">
+  <img src="https://www.rust-lang.org/logos/rust-logo-32x32-blk.png" width="32" height="32" alt><br>
+  <span class="white-sticker"><a href="https://www.rust-lang.org">Rust</a> 1.6</span><br>
+  <a href="https://github.com/rust-lang/rust/commit/"
+    class="hash white-sticker"></a>
+</div>
+
+
+    <h1 class="title">Grammar</h1>
+    <nav id="TOC"><ul>
+<li><a href="#introduction">1 Introduction</a><ul></ul></li>
+<li><a href="#notation">2 Notation</a><ul>
+<li><a href="#unicode-productions">2.1 Unicode productions</a><ul></ul></li>
+<li><a href="#string-table-productions">2.2 String table productions</a><ul></ul></li></ul></li>
+<li><a href="#lexical-structure">3 Lexical structure</a><ul>
+<li><a href="#input-format">3.1 Input format</a><ul></ul></li>
+<li><a href="#special-unicode-productions">3.2 Special Unicode Productions</a><ul>
+<li><a href="#identifiers">3.2.1 Identifiers</a><ul></ul></li>
+<li><a href="#delimiter-restricted-productions">3.2.2 Delimiter-restricted productions</a><ul></ul></li></ul></li>
+<li><a href="#comments">3.3 Comments</a><ul></ul></li>
+<li><a href="#whitespace">3.4 Whitespace</a><ul></ul></li>
+<li><a href="#tokens">3.5 Tokens</a><ul>
+<li><a href="#keywords">3.5.1 Keywords</a><ul></ul></li>
+<li><a href="#literals">3.5.2 Literals</a><ul>
+<li><a href="#character-and-string-literals">3.5.2.1 Character and string literals</a><ul></ul></li>
+<li><a href="#byte-and-byte-string-literals">3.5.2.2 Byte and byte string literals</a><ul></ul></li>
+<li><a href="#number-literals">3.5.2.3 Number literals</a><ul></ul></li>
+<li><a href="#boolean-literals">3.5.2.4 Boolean literals</a><ul></ul></li></ul></li>
+<li><a href="#symbols">3.5.3 Symbols</a><ul></ul></li></ul></li>
+<li><a href="#paths">3.6 Paths</a><ul></ul></li></ul></li>
+<li><a href="#syntax-extensions">4 Syntax extensions</a><ul>
+<li><a href="#macros">4.1 Macros</a><ul></ul></li></ul></li>
+<li><a href="#crates-and-source-files">5 Crates and source files</a><ul></ul></li>
+<li><a href="#items-and-attributes">6 Items and attributes</a><ul>
+<li><a href="#items">6.1 Items</a><ul>
+<li><a href="#type-parameters">6.1.1 Type Parameters</a><ul></ul></li>
+<li><a href="#modules">6.1.2 Modules</a><ul>
+<li><a href="#view-items">6.1.2.1 View items</a><ul>
+<li><a href="#extern-crate-declarations">6.1.2.1.1 Extern crate declarations</a><ul></ul></li>
+<li><a href="#use-declarations">6.1.2.1.2 Use declarations</a><ul></ul></li></ul></li></ul></li>
+<li><a href="#functions">6.1.3 Functions</a><ul>
+<li><a href="#generic-functions">6.1.3.1 Generic functions</a><ul></ul></li>
+<li><a href="#unsafety">6.1.3.2 Unsafety</a><ul>
+<li><a href="#unsafe-functions">6.1.3.2.1 Unsafe functions</a><ul></ul></li>
+<li><a href="#unsafe-blocks">6.1.3.2.2 Unsafe blocks</a><ul></ul></li></ul></li>
+<li><a href="#diverging-functions">6.1.3.3 Diverging functions</a><ul></ul></li></ul></li>
+<li><a href="#type-definitions">6.1.4 Type definitions</a><ul></ul></li>
+<li><a href="#structures">6.1.5 Structures</a><ul></ul></li>
+<li><a href="#enumerations">6.1.6 Enumerations</a><ul></ul></li>
+<li><a href="#constant-items">6.1.7 Constant items</a><ul></ul></li>
+<li><a href="#static-items">6.1.8 Static items</a><ul>
+<li><a href="#mutable-statics">6.1.8.1 Mutable statics</a><ul></ul></li></ul></li>
+<li><a href="#traits">6.1.9 Traits</a><ul></ul></li>
+<li><a href="#implementations">6.1.10 Implementations</a><ul></ul></li>
+<li><a href="#external-blocks">6.1.11 External blocks</a><ul></ul></li></ul></li>
+<li><a href="#visibility-and-privacy">6.2 Visibility and Privacy</a><ul>
+<li><a href="#re-exporting-and-visibility">6.2.1 Re-exporting and Visibility</a><ul></ul></li></ul></li>
+<li><a href="#attributes">6.3 Attributes</a><ul></ul></li></ul></li>
+<li><a href="#statements-and-expressions">7 Statements and expressions</a><ul>
+<li><a href="#statements">7.1 Statements</a><ul>
+<li><a href="#declaration-statements">7.1.1 Declaration statements</a><ul>
+<li><a href="#item-declarations">7.1.1.1 Item declarations</a><ul></ul></li>
+<li><a href="#variable-declarations">7.1.1.2 Variable declarations</a><ul></ul></li></ul></li>
+<li><a href="#expression-statements">7.1.2 Expression statements</a><ul></ul></li></ul></li>
+<li><a href="#expressions">7.2 Expressions</a><ul>
+<li><a href="#lvalues-rvalues-and-temporaries">7.2.0.1 Lvalues, rvalues and temporaries</a><ul></ul></li>
+<li><a href="#moved-and-copied-types">7.2.0.2 Moved and copied types</a><ul></ul></li>
+<li><a href="#literal-expressions">7.2.1 Literal expressions</a><ul></ul></li>
+<li><a href="#path-expressions">7.2.2 Path expressions</a><ul></ul></li>
+<li><a href="#tuple-expressions">7.2.3 Tuple expressions</a><ul></ul></li>
+<li><a href="#unit-expressions">7.2.4 Unit expressions</a><ul></ul></li>
+<li><a href="#structure-expressions">7.2.5 Structure expressions</a><ul></ul></li>
+<li><a href="#block-expressions">7.2.6 Block expressions</a><ul></ul></li>
+<li><a href="#method-call-expressions">7.2.7 Method-call expressions</a><ul></ul></li>
+<li><a href="#field-expressions">7.2.8 Field expressions</a><ul></ul></li>
+<li><a href="#array-expressions">7.2.9 Array expressions</a><ul></ul></li>
+<li><a href="#index-expressions">7.2.10 Index expressions</a><ul></ul></li>
+<li><a href="#range-expressions">7.2.11 Range expressions</a><ul></ul></li>
+<li><a href="#unary-operator-expressions">7.2.12 Unary operator expressions</a><ul></ul></li>
+<li><a href="#binary-operator-expressions">7.2.13 Binary operator expressions</a><ul>
+<li><a href="#arithmetic-operators">7.2.13.1 Arithmetic operators</a><ul></ul></li>
+<li><a href="#bitwise-operators">7.2.13.2 Bitwise operators</a><ul></ul></li>
+<li><a href="#lazy-boolean-operators">7.2.13.3 Lazy boolean operators</a><ul></ul></li>
+<li><a href="#comparison-operators">7.2.13.4 Comparison operators</a><ul></ul></li>
+<li><a href="#type-cast-expressions">7.2.13.5 Type cast expressions</a><ul></ul></li>
+<li><a href="#assignment-expressions">7.2.13.6 Assignment expressions</a><ul></ul></li>
+<li><a href="#compound-assignment-expressions">7.2.13.7 Compound assignment expressions</a><ul></ul></li></ul></li>
+<li><a href="#grouped-expressions">7.2.14 Grouped expressions</a><ul></ul></li>
+<li><a href="#call-expressions">7.2.15 Call expressions</a><ul></ul></li>
+<li><a href="#lambda-expressions">7.2.16 Lambda expressions</a><ul></ul></li>
+<li><a href="#while-loops">7.2.17 While loops</a><ul></ul></li>
+<li><a href="#infinite-loops">7.2.18 Infinite loops</a><ul></ul></li>
+<li><a href="#break-expressions">7.2.19 Break expressions</a><ul></ul></li>
+<li><a href="#continue-expressions">7.2.20 Continue expressions</a><ul></ul></li>
+<li><a href="#for-expressions">7.2.21 For expressions</a><ul></ul></li>
+<li><a href="#if-expressions">7.2.22 If expressions</a><ul></ul></li>
+<li><a href="#match-expressions">7.2.23 Match expressions</a><ul></ul></li>
+<li><a href="#if-let-expressions">7.2.24 If let expressions</a><ul></ul></li>
+<li><a href="#while-let-loops">7.2.25 While let loops</a><ul></ul></li>
+<li><a href="#return-expressions">7.2.26 Return expressions</a><ul></ul></li></ul></li></ul></li>
+<li><a href="#type-system">8 Type system</a><ul>
+<li><a href="#types">8.1 Types</a><ul>
+<li><a href="#primitive-types">8.1.1 Primitive types</a><ul>
+<li><a href="#machine-types">8.1.1.1 Machine types</a><ul></ul></li>
+<li><a href="#machine-dependent-integer-types">8.1.1.2 Machine-dependent integer types</a><ul></ul></li></ul></li>
+<li><a href="#textual-types">8.1.2 Textual types</a><ul></ul></li>
+<li><a href="#tuple-types">8.1.3 Tuple types</a><ul></ul></li>
+<li><a href="#array-and-slice-types">8.1.4 Array, and Slice types</a><ul></ul></li>
+<li><a href="#structure-types">8.1.5 Structure types</a><ul></ul></li>
+<li><a href="#enumerated-types">8.1.6 Enumerated types</a><ul></ul></li>
+<li><a href="#pointer-types">8.1.7 Pointer types</a><ul></ul></li>
+<li><a href="#function-types">8.1.8 Function types</a><ul></ul></li>
+<li><a href="#closure-types">8.1.9 Closure types</a><ul></ul></li>
+<li><a href="#object-types">8.1.10 Object types</a><ul></ul></li>
+<li><a href="#type-parameters-1">8.1.11 Type parameters</a><ul></ul></li>
+<li><a href="#self-types">8.1.12 Self types</a><ul></ul></li></ul></li>
+<li><a href="#type-kinds">8.2 Type kinds</a><ul></ul></li></ul></li>
+<li><a href="#memory-and-concurrency-models">9 Memory and concurrency models</a><ul>
+<li><a href="#memory-model">9.1 Memory model</a><ul>
+<li><a href="#memory-allocation-and-lifetime">9.1.1 Memory allocation and lifetime</a><ul></ul></li>
+<li><a href="#memory-ownership">9.1.2 Memory ownership</a><ul></ul></li>
+<li><a href="#variables">9.1.3 Variables</a><ul></ul></li>
+<li><a href="#boxes">9.1.4 Boxes</a><ul></ul></li></ul></li>
+<li><a href="#threads">9.2 Threads</a><ul>
+<li><a href="#communication-between-threads">9.2.1 Communication between threads</a><ul></ul></li>
+<li><a href="#thread-lifecycle">9.2.2 Thread lifecycle</a><ul></ul></li></ul></li></ul></li></ul></nav>
+<h1 id='introduction' class='section-header'><a href='#introduction'>1 Introduction</a></h1>
+<p>This document is the primary reference for the Rust programming language grammar. It
+provides only one kind of material:</p>
+
+<ul>
+<li>Chapters that formally define the language grammar.</li>
+</ul>
+
+<p>This document does not serve as an introduction to the language. Background
+familiarity with the language is assumed. A separate <a href="guide.html">guide</a> is available to
+help acquire such background.</p>
+
+<p>This document also does not serve as a reference to the <a href="std/index.html">standard</a> library
+included in the language distribution. Those libraries are documented
+separately by extracting documentation attributes from their source code. Many
+of the features that one might expect to be language features are library
+features in Rust, so what you&#39;re looking for may be there, not here.</p>
+
+<h1 id='notation' class='section-header'><a href='#notation'>2 Notation</a></h1>
+<p>Rust&#39;s grammar is defined over Unicode codepoints, each conventionally denoted
+<code>U+XXXX</code>, for 4 or more hexadecimal digits <code>X</code>. <em>Most</em> of Rust&#39;s grammar is
+confined to the ASCII range of Unicode, and is described in this document by a
+dialect of Extended Backus-Naur Form (EBNF), specifically a dialect of EBNF
+supported by common automated LL(k) parsing tools such as <code>llgen</code>, rather than
+the dialect given in ISO 14977. The dialect can be defined self-referentially
+as follows:</p>
+
+<pre><code class="language-antlr">grammar : rule + ;
+rule    : nonterminal &#39;:&#39; productionrule &#39;;&#39; ;
+productionrule : production [ &#39;|&#39; production ] * ;
+production : term * ;
+term : element repeats ;
+element : LITERAL | IDENTIFIER | &#39;[&#39; productionrule &#39;]&#39; ;
+repeats : [ &#39;*&#39; | &#39;+&#39; ] NUMBER ? | NUMBER ? | &#39;?&#39; ;
+</code></pre>
+
+<p>Where:</p>
+
+<ul>
+<li>Whitespace in the grammar is ignored.</li>
+<li>Square brackets are used to group rules.</li>
+<li><code>LITERAL</code> is a single printable ASCII character, or an escaped hexadecimal
+ASCII code of the form <code>\xQQ</code>, in single quotes, denoting the corresponding
+Unicode codepoint <code>U+00QQ</code>.</li>
+<li><code>IDENTIFIER</code> is a nonempty string of ASCII letters and underscores.</li>
+<li>The <code>repeat</code> forms apply to the adjacent <code>element</code>, and are as follows:
+
+<ul>
+<li><code>?</code> means zero or one repetition</li>
+<li><code>*</code> means zero or more repetitions</li>
+<li><code>+</code> means one or more repetitions</li>
+<li>NUMBER trailing a repeat symbol gives a maximum repetition count</li>
+<li>NUMBER on its own gives an exact repetition count</li>
+</ul></li>
+</ul>
+
+<p>This EBNF dialect should hopefully be familiar to many readers.</p>
+
+<h2 id='unicode-productions' class='section-header'><a href='#unicode-productions'>2.1 Unicode productions</a></h2>
+<p>A few productions in Rust&#39;s grammar permit Unicode codepoints outside the ASCII
+range. We define these productions in terms of character properties specified
+in the Unicode standard, rather than in terms of ASCII-range codepoints. The
+section <a href="#special-unicode-productions">Special Unicode Productions</a> lists these
+productions.</p>
+
+<h2 id='string-table-productions' class='section-header'><a href='#string-table-productions'>2.2 String table productions</a></h2>
+<p>Some rules in the grammar &mdash; notably <a href="#unary-operator-expressions">unary
+operators</a>, <a href="#binary-operator-expressions">binary
+operators</a>, and <a href="#keywords">keywords</a> &mdash; are
+given in a simplified form: as a listing of a table of unquoted, printable
+whitespace-separated strings. These cases form a subset of the rules regarding
+the <a href="#tokens">token</a> rule, and are assumed to be the result of a
+lexical-analysis phase feeding the parser, driven by a DFA, operating over the
+disjunction of all such string table entries.</p>
+
+<p>When such a string enclosed in double-quotes (<code>&quot;</code>) occurs inside the grammar,
+it is an implicit reference to a single member of such a string table
+production. See <a href="#tokens">tokens</a> for more information.</p>
+
+<h1 id='lexical-structure' class='section-header'><a href='#lexical-structure'>3 Lexical structure</a></h1>
+<h2 id='input-format' class='section-header'><a href='#input-format'>3.1 Input format</a></h2>
+<p>Rust input is interpreted as a sequence of Unicode codepoints encoded in UTF-8.
+Most Rust grammar rules are defined in terms of printable ASCII-range
+codepoints, but a small number are defined in terms of Unicode properties or
+explicit codepoint lists. <sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup></p>
+
+<h2 id='special-unicode-productions' class='section-header'><a href='#special-unicode-productions'>3.2 Special Unicode Productions</a></h2>
+<p>The following productions in the Rust grammar are defined in terms of Unicode
+properties: <code>ident</code>, <code>non_null</code>, <code>non_eol</code>, <code>non_single_quote</code> and
+<code>non_double_quote</code>.</p>
+
+<h3 id='identifiers' class='section-header'><a href='#identifiers'>3.2.1 Identifiers</a></h3>
+<p>The <code>ident</code> production is any nonempty Unicode<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> string of
+the following form:</p>
+
+<ul>
+<li>The first character has property <code>XID_start</code></li>
+<li>The remaining characters have property <code>XID_continue</code></li>
+</ul>
+
+<p>that does <em>not</em> occur in the set of <a href="#keywords">keywords</a>.</p>
+
+<blockquote>
+<p><strong>Note</strong>: <code>XID_start</code> and <code>XID_continue</code> as character properties cover the
+character ranges used to form the more familiar C and Java language-family
+identifiers.</p>
+</blockquote>
+
+<h3 id='delimiter-restricted-productions' class='section-header'><a href='#delimiter-restricted-productions'>3.2.2 Delimiter-restricted productions</a></h3>
+<p>Some productions are defined by exclusion of particular Unicode characters:</p>
+
+<ul>
+<li><code>non_null</code> is any single Unicode character aside from <code>U+0000</code> (null)</li>
+<li><code>non_eol</code> is <code>non_null</code> restricted to exclude <code>U+000A</code> (<code>&#39;\n&#39;</code>)</li>
+<li><code>non_single_quote</code> is <code>non_null</code> restricted to exclude <code>U+0027</code>  (<code>&#39;</code>)</li>
+<li><code>non_double_quote</code> is <code>non_null</code> restricted to exclude <code>U+0022</code> (<code>&quot;</code>)</li>
+</ul>
+
+<h2 id='comments' class='section-header'><a href='#comments'>3.3 Comments</a></h2>
+<pre><code class="language-antlr">comment : block_comment | line_comment ;
+block_comment : &quot;/*&quot; block_comment_body * &quot;*/&quot; ;
+block_comment_body : [block_comment | character] * ;
+line_comment : &quot;//&quot; non_eol * ;
+</code></pre>
+
+<p><strong>FIXME:</strong> add doc grammar?</p>
+
+<h2 id='whitespace' class='section-header'><a href='#whitespace'>3.4 Whitespace</a></h2>
+<pre><code class="language-antlr">whitespace_char : &#39;\x20&#39; | &#39;\x09&#39; | &#39;\x0a&#39; | &#39;\x0d&#39; ;
+whitespace : [ whitespace_char | comment ] + ;
+</code></pre>
+
+<h2 id='tokens' class='section-header'><a href='#tokens'>3.5 Tokens</a></h2>
+<pre><code class="language-antlr">simple_token : keyword | unop | binop ;
+token : simple_token | ident | literal | symbol | whitespace token ;
+</code></pre>
+
+<h3 id='keywords' class='section-header'><a href='#keywords'>3.5.1 Keywords</a></h3>
+<p id="keyword-table-marker"></p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>abstract</td>
+<td>alignof</td>
+<td>as</td>
+<td>become</td>
+<td>box</td>
+</tr>
+<tr>
+<td>break</td>
+<td>const</td>
+<td>continue</td>
+<td>crate</td>
+<td>do</td>
+</tr>
+<tr>
+<td>else</td>
+<td>enum</td>
+<td>extern</td>
+<td>false</td>
+<td>final</td>
+</tr>
+<tr>
+<td>fn</td>
+<td>for</td>
+<td>if</td>
+<td>impl</td>
+<td>in</td>
+</tr>
+<tr>
+<td>let</td>
+<td>loop</td>
+<td>macro</td>
+<td>match</td>
+<td>mod</td>
+</tr>
+<tr>
+<td>move</td>
+<td>mut</td>
+<td>offsetof</td>
+<td>override</td>
+<td>priv</td>
+</tr>
+<tr>
+<td>proc</td>
+<td>pub</td>
+<td>pure</td>
+<td>ref</td>
+<td>return</td>
+</tr>
+<tr>
+<td>Self</td>
+<td>self</td>
+<td>sizeof</td>
+<td>static</td>
+<td>struct</td>
+</tr>
+<tr>
+<td>super</td>
+<td>trait</td>
+<td>true</td>
+<td>type</td>
+<td>typeof</td>
+</tr>
+<tr>
+<td>unsafe</td>
+<td>unsized</td>
+<td>use</td>
+<td>virtual</td>
+<td>where</td>
+</tr>
+<tr>
+<td>while</td>
+<td>yield</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<p>Each of these keywords has special meaning in its grammar, and all of them are
+excluded from the <code>ident</code> rule.</p>
+
+<h3 id='literals' class='section-header'><a href='#literals'>3.5.2 Literals</a></h3>
+<pre><code class="language-antlr">lit_suffix : ident;
+literal : [ string_lit | char_lit | byte_string_lit | byte_lit | num_lit | bool_lit ] lit_suffix ?;
+</code></pre>
+
+<p>The optional <code>lit_suffix</code> production is only used for certain numeric literals,
+but is reserved for future extension. That is, the above gives the lexical
+grammar, but a Rust parser will reject everything but the 12 special cases
+mentioned in <a href="reference.html#number-literals">Number literals</a> in the
+reference.</p>
+
+<h4 id='character-and-string-literals' class='section-header'><a href='#character-and-string-literals'>3.5.2.1 Character and string literals</a></h4>
+<pre><code class="language-antlr">char_lit : &#39;\x27&#39; char_body &#39;\x27&#39; ;
+string_lit : &#39;&quot;&#39; string_body * &#39;&quot;&#39; | &#39;r&#39; raw_string ;
+
+char_body : non_single_quote
+          | &#39;\x5c&#39; [ &#39;\x27&#39; | common_escape | unicode_escape ] ;
+
+string_body : non_double_quote
+            | &#39;\x5c&#39; [ &#39;\x22&#39; | common_escape | unicode_escape ] ;
+raw_string : &#39;&quot;&#39; raw_string_body &#39;&quot;&#39; | &#39;#&#39; raw_string &#39;#&#39; ;
+
+common_escape : &#39;\x5c&#39;
+              | &#39;n&#39; | &#39;r&#39; | &#39;t&#39; | &#39;0&#39;
+              | &#39;x&#39; hex_digit 2
+unicode_escape : &#39;u&#39; &#39;{&#39; hex_digit+ 6 &#39;}&#39;;
+
+hex_digit : &#39;a&#39; | &#39;b&#39; | &#39;c&#39; | &#39;d&#39; | &#39;e&#39; | &#39;f&#39;
+          | &#39;A&#39; | &#39;B&#39; | &#39;C&#39; | &#39;D&#39; | &#39;E&#39; | &#39;F&#39;
+          | dec_digit ;
+oct_digit : &#39;0&#39; | &#39;1&#39; | &#39;2&#39; | &#39;3&#39; | &#39;4&#39; | &#39;5&#39; | &#39;6&#39; | &#39;7&#39; ;
+dec_digit : &#39;0&#39; | nonzero_dec ;
+nonzero_dec: &#39;1&#39; | &#39;2&#39; | &#39;3&#39; | &#39;4&#39;
+           | &#39;5&#39; | &#39;6&#39; | &#39;7&#39; | &#39;8&#39; | &#39;9&#39; ;
+</code></pre>
+
+<h4 id='byte-and-byte-string-literals' class='section-header'><a href='#byte-and-byte-string-literals'>3.5.2.2 Byte and byte string literals</a></h4>
+<pre><code class="language-antlr">byte_lit : &quot;b\x27&quot; byte_body &#39;\x27&#39; ;
+byte_string_lit : &quot;b\x22&quot; string_body * &#39;\x22&#39; | &quot;br&quot; raw_byte_string ;
+
+byte_body : ascii_non_single_quote
+          | &#39;\x5c&#39; [ &#39;\x27&#39; | common_escape ] ;
+
+byte_string_body : ascii_non_double_quote
+            | &#39;\x5c&#39; [ &#39;\x22&#39; | common_escape ] ;
+raw_byte_string : &#39;&quot;&#39; raw_byte_string_body &#39;&quot;&#39; | &#39;#&#39; raw_byte_string &#39;#&#39; ;
+
+</code></pre>
+
+<h4 id='number-literals' class='section-header'><a href='#number-literals'>3.5.2.3 Number literals</a></h4>
+<pre><code class="language-antlr">num_lit : nonzero_dec [ dec_digit | &#39;_&#39; ] * float_suffix ?
+        | &#39;0&#39; [       [ dec_digit | &#39;_&#39; ] * float_suffix ?
+              | &#39;b&#39;   [ &#39;1&#39; | &#39;0&#39; | &#39;_&#39; ] +
+              | &#39;o&#39;   [ oct_digit | &#39;_&#39; ] +
+              | &#39;x&#39;   [ hex_digit | &#39;_&#39; ] +  ] ;
+
+float_suffix : [ exponent | &#39;.&#39; dec_lit exponent ? ] ? ;
+
+exponent : [&#39;E&#39; | &#39;e&#39;] [&#39;-&#39; | &#39;+&#39; ] ? dec_lit ;
+dec_lit : [ dec_digit | &#39;_&#39; ] + ;
+</code></pre>
+
+<h4 id='boolean-literals' class='section-header'><a href='#boolean-literals'>3.5.2.4 Boolean literals</a></h4>
+<pre><code class="language-antlr">bool_lit : [ &quot;true&quot; | &quot;false&quot; ] ;
+</code></pre>
+
+<p>The two values of the boolean type are written <code>true</code> and <code>false</code>.</p>
+
+<h3 id='symbols' class='section-header'><a href='#symbols'>3.5.3 Symbols</a></h3>
+<pre><code class="language-antlr">symbol : &quot;::&quot; | &quot;-&gt;&quot;
+       | &#39;#&#39; | &#39;[&#39; | &#39;]&#39; | &#39;(&#39; | &#39;)&#39; | &#39;{&#39; | &#39;}&#39;
+       | &#39;,&#39; | &#39;;&#39; ;
+</code></pre>
+
+<p>Symbols are a general class of printable <a href="#tokens">tokens</a> that play structural
+roles in a variety of grammar productions. They are cataloged here for
+completeness as the set of remaining miscellaneous printable tokens that do not
+otherwise appear as <a href="#unary-operator-expressions">unary operators</a>, <a href="#binary-operator-expressions">binary
+operators</a>, or <a href="#keywords">keywords</a>.</p>
+
+<h2 id='paths' class='section-header'><a href='#paths'>3.6 Paths</a></h2>
+<pre><code class="language-antlr">expr_path : [ &quot;::&quot; ] ident [ &quot;::&quot; expr_path_tail ] + ;
+expr_path_tail : &#39;&lt;&#39; type_expr [ &#39;,&#39; type_expr ] + &#39;&gt;&#39;
+               | expr_path ;
+
+type_path : ident [ type_path_tail ] + ;
+type_path_tail : &#39;&lt;&#39; type_expr [ &#39;,&#39; type_expr ] + &#39;&gt;&#39;
+               | &quot;::&quot; type_path ;
+</code></pre>
+
+<h1 id='syntax-extensions' class='section-header'><a href='#syntax-extensions'>4 Syntax extensions</a></h1>
+<h2 id='macros' class='section-header'><a href='#macros'>4.1 Macros</a></h2>
+<pre><code class="language-antlr">expr_macro_rules : &quot;macro_rules&quot; &#39;!&#39; ident &#39;(&#39; macro_rule * &#39;)&#39; &#39;;&#39;
+                 | &quot;macro_rules&quot; &#39;!&#39; ident &#39;{&#39; macro_rule * &#39;}&#39; ;
+macro_rule : &#39;(&#39; matcher * &#39;)&#39; &quot;=&gt;&quot; &#39;(&#39; transcriber * &#39;)&#39; &#39;;&#39; ;
+matcher : &#39;(&#39; matcher * &#39;)&#39; | &#39;[&#39; matcher * &#39;]&#39;
+        | &#39;{&#39; matcher * &#39;}&#39; | &#39;$&#39; ident &#39;:&#39; ident
+        | &#39;$&#39; &#39;(&#39; matcher * &#39;)&#39; sep_token? [ &#39;*&#39; | &#39;+&#39; ]
+        | non_special_token ;
+transcriber : &#39;(&#39; transcriber * &#39;)&#39; | &#39;[&#39; transcriber * &#39;]&#39;
+            | &#39;{&#39; transcriber * &#39;}&#39; | &#39;$&#39; ident
+            | &#39;$&#39; &#39;(&#39; transcriber * &#39;)&#39; sep_token? [ &#39;*&#39; | &#39;+&#39; ]
+            | non_special_token ;
+</code></pre>
+
+<h1 id='crates-and-source-files' class='section-header'><a href='#crates-and-source-files'>5 Crates and source files</a></h1>
+<p><strong>FIXME:</strong> grammar? What production covers #![crate_id = &quot;foo&quot;] ?</p>
+
+<h1 id='items-and-attributes' class='section-header'><a href='#items-and-attributes'>6 Items and attributes</a></h1>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h2 id='items' class='section-header'><a href='#items'>6.1 Items</a></h2>
+<pre><code class="language-antlr">item : vis ? mod_item | fn_item | type_item | struct_item | enum_item
+     | const_item | static_item | trait_item | impl_item | extern_block_item ;
+</code></pre>
+
+<h3 id='type-parameters' class='section-header'><a href='#type-parameters'>6.1.1 Type Parameters</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='modules' class='section-header'><a href='#modules'>6.1.2 Modules</a></h3>
+<pre><code class="language-antlr">mod_item : &quot;mod&quot; ident ( &#39;;&#39; | &#39;{&#39; mod &#39;}&#39; );
+mod : [ view_item | item ] * ;
+</code></pre>
+
+<h4 id='view-items' class='section-header'><a href='#view-items'>6.1.2.1 View items</a></h4>
+<pre><code class="language-antlr">view_item : extern_crate_decl | use_decl &#39;;&#39; ;
+</code></pre>
+
+<h5 id='extern-crate-declarations' class='section-header'><a href='#extern-crate-declarations'>6.1.2.1.1 Extern crate declarations</a></h5>
+<pre><code class="language-antlr">extern_crate_decl : &quot;extern&quot; &quot;crate&quot; crate_name
+crate_name: ident | ( ident &quot;as&quot; ident )
+</code></pre>
+
+<h5 id='use-declarations' class='section-header'><a href='#use-declarations'>6.1.2.1.2 Use declarations</a></h5>
+<pre><code class="language-antlr">use_decl : vis ? &quot;use&quot; [ path &quot;as&quot; ident
+                        | path_glob ] ;
+
+path_glob : ident [ &quot;::&quot; [ path_glob
+                          | &#39;*&#39; ] ] ?
+          | &#39;{&#39; path_item [ &#39;,&#39; path_item ] * &#39;}&#39; ;
+
+path_item : ident | &quot;self&quot; ;
+</code></pre>
+
+<h3 id='functions' class='section-header'><a href='#functions'>6.1.3 Functions</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h4 id='generic-functions' class='section-header'><a href='#generic-functions'>6.1.3.1 Generic functions</a></h4>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h4 id='unsafety' class='section-header'><a href='#unsafety'>6.1.3.2 Unsafety</a></h4>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h5 id='unsafe-functions' class='section-header'><a href='#unsafe-functions'>6.1.3.2.1 Unsafe functions</a></h5>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h5 id='unsafe-blocks' class='section-header'><a href='#unsafe-blocks'>6.1.3.2.2 Unsafe blocks</a></h5>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h4 id='diverging-functions' class='section-header'><a href='#diverging-functions'>6.1.3.3 Diverging functions</a></h4>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='type-definitions' class='section-header'><a href='#type-definitions'>6.1.4 Type definitions</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='structures' class='section-header'><a href='#structures'>6.1.5 Structures</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='enumerations' class='section-header'><a href='#enumerations'>6.1.6 Enumerations</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='constant-items' class='section-header'><a href='#constant-items'>6.1.7 Constant items</a></h3>
+<pre><code class="language-antlr">const_item : &quot;const&quot; ident &#39;:&#39; type &#39;=&#39; expr &#39;;&#39; ;
+</code></pre>
+
+<h3 id='static-items' class='section-header'><a href='#static-items'>6.1.8 Static items</a></h3>
+<pre><code class="language-antlr">static_item : &quot;static&quot; ident &#39;:&#39; type &#39;=&#39; expr &#39;;&#39; ;
+</code></pre>
+
+<h4 id='mutable-statics' class='section-header'><a href='#mutable-statics'>6.1.8.1 Mutable statics</a></h4>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='traits' class='section-header'><a href='#traits'>6.1.9 Traits</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='implementations' class='section-header'><a href='#implementations'>6.1.10 Implementations</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='external-blocks' class='section-header'><a href='#external-blocks'>6.1.11 External blocks</a></h3>
+<pre><code class="language-antlr">extern_block_item : &quot;extern&quot; &#39;{&#39; extern_block &#39;}&#39; ;
+extern_block : [ foreign_fn ] * ;
+</code></pre>
+
+<h2 id='visibility-and-privacy' class='section-header'><a href='#visibility-and-privacy'>6.2 Visibility and Privacy</a></h2>
+<pre><code class="language-antlr">vis : &quot;pub&quot; ;
+</code></pre>
+
+<h3 id='re-exporting-and-visibility' class='section-header'><a href='#re-exporting-and-visibility'>6.2.1 Re-exporting and Visibility</a></h3>
+<p>See <a href="#use-declarations">Use declarations</a>.</p>
+
+<h2 id='attributes' class='section-header'><a href='#attributes'>6.3 Attributes</a></h2>
+<pre><code class="language-antlr">attribute : &#39;#&#39; &#39;!&#39; ? &#39;[&#39; meta_item &#39;]&#39; ;
+meta_item : ident [ &#39;=&#39; literal
+                  | &#39;(&#39; meta_seq &#39;)&#39; ] ? ;
+meta_seq : meta_item [ &#39;,&#39; meta_seq ] ? ;
+</code></pre>
+
+<h1 id='statements-and-expressions' class='section-header'><a href='#statements-and-expressions'>7 Statements and expressions</a></h1>
+<h2 id='statements' class='section-header'><a href='#statements'>7.1 Statements</a></h2>
+<pre><code class="language-antlr">stmt : decl_stmt | expr_stmt | &#39;;&#39; ;
+</code></pre>
+
+<h3 id='declaration-statements' class='section-header'><a href='#declaration-statements'>7.1.1 Declaration statements</a></h3>
+<pre><code class="language-antlr">decl_stmt : item | let_decl ;
+</code></pre>
+
+<h4 id='item-declarations' class='section-header'><a href='#item-declarations'>7.1.1.1 Item declarations</a></h4>
+<p>See <a href="#items">Items</a>.</p>
+
+<h4 id='variable-declarations' class='section-header'><a href='#variable-declarations'>7.1.1.2 Variable declarations</a></h4>
+<pre><code class="language-antlr">let_decl : &quot;let&quot; pat [&#39;:&#39; type ] ? [ init ] ? &#39;;&#39; ;
+init : [ &#39;=&#39; ] expr ;
+</code></pre>
+
+<h3 id='expression-statements' class='section-header'><a href='#expression-statements'>7.1.2 Expression statements</a></h3>
+<pre><code class="language-antlr">expr_stmt : expr &#39;;&#39; ;
+</code></pre>
+
+<h2 id='expressions' class='section-header'><a href='#expressions'>7.2 Expressions</a></h2>
+<pre><code class="language-antlr">expr : literal | path | tuple_expr | unit_expr | struct_expr
+     | block_expr | method_call_expr | field_expr | array_expr
+     | idx_expr | range_expr | unop_expr | binop_expr
+     | paren_expr | call_expr | lambda_expr | while_expr
+     | loop_expr | break_expr | continue_expr | for_expr
+     | if_expr | match_expr | if_let_expr | while_let_expr
+     | return_expr ;
+</code></pre>
+
+<h4 id='lvalues-rvalues-and-temporaries' class='section-header'><a href='#lvalues-rvalues-and-temporaries'>7.2.0.1 Lvalues, rvalues and temporaries</a></h4>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h4 id='moved-and-copied-types' class='section-header'><a href='#moved-and-copied-types'>7.2.0.2 Moved and copied types</a></h4>
+<p><strong>FIXME:</strong> Do we want to capture this in the grammar as different productions?</p>
+
+<h3 id='literal-expressions' class='section-header'><a href='#literal-expressions'>7.2.1 Literal expressions</a></h3>
+<p>See <a href="#literals">Literals</a>.</p>
+
+<h3 id='path-expressions' class='section-header'><a href='#path-expressions'>7.2.2 Path expressions</a></h3>
+<p>See <a href="#paths">Paths</a>.</p>
+
+<h3 id='tuple-expressions' class='section-header'><a href='#tuple-expressions'>7.2.3 Tuple expressions</a></h3>
+<pre><code class="language-antlr">tuple_expr : &#39;(&#39; [ expr [ &#39;,&#39; expr ] * | expr &#39;,&#39; ] ? &#39;)&#39; ;
+</code></pre>
+
+<h3 id='unit-expressions' class='section-header'><a href='#unit-expressions'>7.2.4 Unit expressions</a></h3>
+<pre><code class="language-antlr">unit_expr : &quot;()&quot; ;
+</code></pre>
+
+<h3 id='structure-expressions' class='section-header'><a href='#structure-expressions'>7.2.5 Structure expressions</a></h3>
+<pre><code class="language-antlr">struct_expr : expr_path &#39;{&#39; ident &#39;:&#39; expr
+                      [ &#39;,&#39; ident &#39;:&#39; expr ] *
+                      [ &quot;..&quot; expr ] &#39;}&#39; |
+              expr_path &#39;(&#39; expr
+                      [ &#39;,&#39; expr ] * &#39;)&#39; |
+              expr_path ;
+</code></pre>
+
+<h3 id='block-expressions' class='section-header'><a href='#block-expressions'>7.2.6 Block expressions</a></h3>
+<pre><code class="language-antlr">block_expr : &#39;{&#39; [ stmt &#39;;&#39; | item ] *
+                 [ expr ] &#39;}&#39; ;
+</code></pre>
+
+<h3 id='method-call-expressions' class='section-header'><a href='#method-call-expressions'>7.2.7 Method-call expressions</a></h3>
+<pre><code class="language-antlr">method_call_expr : expr &#39;.&#39; ident paren_expr_list ;
+</code></pre>
+
+<h3 id='field-expressions' class='section-header'><a href='#field-expressions'>7.2.8 Field expressions</a></h3>
+<pre><code class="language-antlr">field_expr : expr &#39;.&#39; ident ;
+</code></pre>
+
+<h3 id='array-expressions' class='section-header'><a href='#array-expressions'>7.2.9 Array expressions</a></h3>
+<pre><code class="language-antlr">array_expr : &#39;[&#39; &quot;mut&quot; ? array_elems? &#39;]&#39; ;
+
+array_elems : [expr [&#39;,&#39; expr]*] | [expr &#39;;&#39; expr] ;
+</code></pre>
+
+<h3 id='index-expressions' class='section-header'><a href='#index-expressions'>7.2.10 Index expressions</a></h3>
+<pre><code class="language-antlr">idx_expr : expr &#39;[&#39; expr &#39;]&#39; ;
+</code></pre>
+
+<h3 id='range-expressions' class='section-header'><a href='#range-expressions'>7.2.11 Range expressions</a></h3>
+<pre><code class="language-antlr">range_expr : expr &quot;..&quot; expr |
+             expr &quot;..&quot; |
+             &quot;..&quot; expr |
+             &quot;..&quot; ;
+</code></pre>
+
+<h3 id='unary-operator-expressions' class='section-header'><a href='#unary-operator-expressions'>7.2.12 Unary operator expressions</a></h3>
+<pre><code class="language-antlr">unop_expr : unop expr ;
+unop : &#39;-&#39; | &#39;*&#39; | &#39;!&#39; ;
+</code></pre>
+
+<h3 id='binary-operator-expressions' class='section-header'><a href='#binary-operator-expressions'>7.2.13 Binary operator expressions</a></h3>
+<pre><code class="language-antlr">binop_expr : expr binop expr | type_cast_expr
+           | assignment_expr | compound_assignment_expr ;
+binop : arith_op | bitwise_op | lazy_bool_op | comp_op
+</code></pre>
+
+<h4 id='arithmetic-operators' class='section-header'><a href='#arithmetic-operators'>7.2.13.1 Arithmetic operators</a></h4>
+<pre><code class="language-antlr">arith_op : &#39;+&#39; | &#39;-&#39; | &#39;*&#39; | &#39;/&#39; | &#39;%&#39; ;
+</code></pre>
+
+<h4 id='bitwise-operators' class='section-header'><a href='#bitwise-operators'>7.2.13.2 Bitwise operators</a></h4>
+<pre><code class="language-antlr">bitwise_op : &#39;&amp;&#39; | &#39;|&#39; | &#39;^&#39; | &quot;&lt;&lt;&quot; | &quot;&gt;&gt;&quot; ;
+</code></pre>
+
+<h4 id='lazy-boolean-operators' class='section-header'><a href='#lazy-boolean-operators'>7.2.13.3 Lazy boolean operators</a></h4>
+<pre><code class="language-antlr">lazy_bool_op : &quot;&amp;&amp;&quot; | &quot;||&quot; ;
+</code></pre>
+
+<h4 id='comparison-operators' class='section-header'><a href='#comparison-operators'>7.2.13.4 Comparison operators</a></h4>
+<pre><code class="language-antlr">comp_op : &quot;==&quot; | &quot;!=&quot; | &#39;&lt;&#39; | &#39;&gt;&#39; | &quot;&lt;=&quot; | &quot;&gt;=&quot; ;
+</code></pre>
+
+<h4 id='type-cast-expressions' class='section-header'><a href='#type-cast-expressions'>7.2.13.5 Type cast expressions</a></h4>
+<pre><code class="language-antlr">type_cast_expr : value &quot;as&quot; type ;
+</code></pre>
+
+<h4 id='assignment-expressions' class='section-header'><a href='#assignment-expressions'>7.2.13.6 Assignment expressions</a></h4>
+<pre><code class="language-antlr">assignment_expr : expr &#39;=&#39; expr ;
+</code></pre>
+
+<h4 id='compound-assignment-expressions' class='section-header'><a href='#compound-assignment-expressions'>7.2.13.7 Compound assignment expressions</a></h4>
+<pre><code class="language-antlr">compound_assignment_expr : expr [ arith_op | bitwise_op ] &#39;=&#39; expr ;
+</code></pre>
+
+<h3 id='grouped-expressions' class='section-header'><a href='#grouped-expressions'>7.2.14 Grouped expressions</a></h3>
+<pre><code class="language-antlr">paren_expr : &#39;(&#39; expr &#39;)&#39; ;
+</code></pre>
+
+<h3 id='call-expressions' class='section-header'><a href='#call-expressions'>7.2.15 Call expressions</a></h3>
+<pre><code class="language-antlr">expr_list : [ expr [ &#39;,&#39; expr ]* ] ? ;
+paren_expr_list : &#39;(&#39; expr_list &#39;)&#39; ;
+call_expr : expr paren_expr_list ;
+</code></pre>
+
+<h3 id='lambda-expressions' class='section-header'><a href='#lambda-expressions'>7.2.16 Lambda expressions</a></h3>
+<pre><code class="language-antlr">ident_list : [ ident [ &#39;,&#39; ident ]* ] ? ;
+lambda_expr : &#39;|&#39; ident_list &#39;|&#39; expr ;
+</code></pre>
+
+<h3 id='while-loops' class='section-header'><a href='#while-loops'>7.2.17 While loops</a></h3>
+<pre><code class="language-antlr">while_expr : [ lifetime &#39;:&#39; ] ? &quot;while&quot; no_struct_literal_expr &#39;{&#39; block &#39;}&#39; ;
+</code></pre>
+
+<h3 id='infinite-loops' class='section-header'><a href='#infinite-loops'>7.2.18 Infinite loops</a></h3>
+<pre><code class="language-antlr">loop_expr : [ lifetime &#39;:&#39; ] ? &quot;loop&quot; &#39;{&#39; block &#39;}&#39;;
+</code></pre>
+
+<h3 id='break-expressions' class='section-header'><a href='#break-expressions'>7.2.19 Break expressions</a></h3>
+<pre><code class="language-antlr">break_expr : &quot;break&quot; [ lifetime ] ?;
+</code></pre>
+
+<h3 id='continue-expressions' class='section-header'><a href='#continue-expressions'>7.2.20 Continue expressions</a></h3>
+<pre><code class="language-antlr">continue_expr : &quot;continue&quot; [ lifetime ] ?;
+</code></pre>
+
+<h3 id='for-expressions' class='section-header'><a href='#for-expressions'>7.2.21 For expressions</a></h3>
+<pre><code class="language-antlr">for_expr : [ lifetime &#39;:&#39; ] ? &quot;for&quot; pat &quot;in&quot; no_struct_literal_expr &#39;{&#39; block &#39;}&#39; ;
+</code></pre>
+
+<h3 id='if-expressions' class='section-header'><a href='#if-expressions'>7.2.22 If expressions</a></h3>
+<pre><code class="language-antlr">if_expr : &quot;if&quot; no_struct_literal_expr &#39;{&#39; block &#39;}&#39;
+          else_tail ? ;
+
+else_tail : &quot;else&quot; [ if_expr | if_let_expr
+                   | &#39;{&#39; block &#39;}&#39; ] ;
+</code></pre>
+
+<h3 id='match-expressions' class='section-header'><a href='#match-expressions'>7.2.23 Match expressions</a></h3>
+<pre><code class="language-antlr">match_expr : &quot;match&quot; no_struct_literal_expr &#39;{&#39; match_arm * &#39;}&#39; ;
+
+match_arm : attribute * match_pat &quot;=&gt;&quot; [ expr &quot;,&quot; | &#39;{&#39; block &#39;}&#39; ] ;
+
+match_pat : pat [ &#39;|&#39; pat ] * [ &quot;if&quot; expr ] ? ;
+</code></pre>
+
+<h3 id='if-let-expressions' class='section-header'><a href='#if-let-expressions'>7.2.24 If let expressions</a></h3>
+<pre><code class="language-antlr">if_let_expr : &quot;if&quot; &quot;let&quot; pat &#39;=&#39; expr &#39;{&#39; block &#39;}&#39;
+               else_tail ? ;
+</code></pre>
+
+<h3 id='while-let-loops' class='section-header'><a href='#while-let-loops'>7.2.25 While let loops</a></h3>
+<pre><code class="language-antlr">while_let_expr : [ lifetime &#39;:&#39; ] ? &quot;while&quot; &quot;let&quot; pat &#39;=&#39; expr &#39;{&#39; block &#39;}&#39; ;
+</code></pre>
+
+<h3 id='return-expressions' class='section-header'><a href='#return-expressions'>7.2.26 Return expressions</a></h3>
+<pre><code class="language-antlr">return_expr : &quot;return&quot; expr ? ;
+</code></pre>
+
+<h1 id='type-system' class='section-header'><a href='#type-system'>8 Type system</a></h1>
+<p><strong>FIXME:</strong> is this entire chapter relevant here? Or should it all have been covered by some production already?</p>
+
+<h2 id='types' class='section-header'><a href='#types'>8.1 Types</a></h2>
+<h3 id='primitive-types' class='section-header'><a href='#primitive-types'>8.1.1 Primitive types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h4 id='machine-types' class='section-header'><a href='#machine-types'>8.1.1.1 Machine types</a></h4>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h4 id='machine-dependent-integer-types' class='section-header'><a href='#machine-dependent-integer-types'>8.1.1.2 Machine-dependent integer types</a></h4>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='textual-types' class='section-header'><a href='#textual-types'>8.1.2 Textual types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='tuple-types' class='section-header'><a href='#tuple-types'>8.1.3 Tuple types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='array-and-slice-types' class='section-header'><a href='#array-and-slice-types'>8.1.4 Array, and Slice types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='structure-types' class='section-header'><a href='#structure-types'>8.1.5 Structure types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='enumerated-types' class='section-header'><a href='#enumerated-types'>8.1.6 Enumerated types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='pointer-types' class='section-header'><a href='#pointer-types'>8.1.7 Pointer types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='function-types' class='section-header'><a href='#function-types'>8.1.8 Function types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='closure-types' class='section-header'><a href='#closure-types'>8.1.9 Closure types</a></h3>
+<pre><code class="language-antlr">closure_type := [ &#39;unsafe&#39; ] [ &#39;&lt;&#39; lifetime-list &#39;&gt;&#39; ] &#39;|&#39; arg-list &#39;|&#39;
+                [ &#39;:&#39; bound-list ] [ &#39;-&gt;&#39; type ]
+lifetime-list := lifetime | lifetime &#39;,&#39; lifetime-list
+arg-list := ident &#39;:&#39; type | ident &#39;:&#39; type &#39;,&#39; arg-list
+bound-list := bound | bound &#39;+&#39; bound-list
+bound := path | lifetime
+</code></pre>
+
+<h3 id='object-types' class='section-header'><a href='#object-types'>8.1.10 Object types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='type-parameters-1' class='section-header'><a href='#type-parameters-1'>8.1.11 Type parameters</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h3 id='self-types' class='section-header'><a href='#self-types'>8.1.12 Self types</a></h3>
+<p><strong>FIXME:</strong> grammar?</p>
+
+<h2 id='type-kinds' class='section-header'><a href='#type-kinds'>8.2 Type kinds</a></h2>
+<p><strong>FIXME:</strong> this is probably not relevant to the grammar...</p>
+
+<h1 id='memory-and-concurrency-models' class='section-header'><a href='#memory-and-concurrency-models'>9 Memory and concurrency models</a></h1>
+<p><strong>FIXME:</strong> is this entire chapter relevant here? Or should it all have been covered by some production already?</p>
+
+<h2 id='memory-model' class='section-header'><a href='#memory-model'>9.1 Memory model</a></h2>
+<h3 id='memory-allocation-and-lifetime' class='section-header'><a href='#memory-allocation-and-lifetime'>9.1.1 Memory allocation and lifetime</a></h3>
+<h3 id='memory-ownership' class='section-header'><a href='#memory-ownership'>9.1.2 Memory ownership</a></h3>
+<h3 id='variables' class='section-header'><a href='#variables'>9.1.3 Variables</a></h3>
+<h3 id='boxes' class='section-header'><a href='#boxes'>9.1.4 Boxes</a></h3>
+<h2 id='threads' class='section-header'><a href='#threads'>9.2 Threads</a></h2>
+<h3 id='communication-between-threads' class='section-header'><a href='#communication-between-threads'>9.2.1 Communication between threads</a></h3>
+<h3 id='thread-lifecycle' class='section-header'><a href='#thread-lifecycle'>9.2.2 Thread lifecycle</a></h3>
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>Substitute definitions for the special Unicode productions are
+provided to the grammar verifier, restricted to ASCII range, when verifying the
+grammar in this document.&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>Non-ASCII characters in identifiers are currently feature
+gated. This is expected to improve soon.&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <footer><p>
+Copyright &copy; 2011-2015 The Rust Project Developers. Licensed under the
+<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
+or the <a href="http://opensource.org/licenses/MIT">MIT license</a>, at your option.
+</p><p>
+This file may not be copied, modified, or distributed except according to those terms.
+</p></footer>
+<script type="text/javascript" src="playpen.js"></script>
+
+
+</body>
+</html>

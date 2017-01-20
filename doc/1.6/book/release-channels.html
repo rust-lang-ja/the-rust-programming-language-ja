@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>リリースチャネル</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='learn-rust.html'><b>3.</b> Rustを学ぶ</a>
+<ul class='section'>
+<li><a  href='guessing-game.html'><b>3.1.</b> 数当てゲーム</a>
+</li>
+<li><a  href='dining-philosophers.html'><b>3.2.</b> 食事する哲学者</a>
+</li>
+<li><a  href='rust-inside-other-languages.html'><b>3.3.</b> 他言語と共存する</a>
+</li>
+</ul>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='ownership.html'><b>4.7.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.8.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.9.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.10.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.11.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.12.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.13.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.14.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.15.</b> メソッド構文</a>
+</li>
+<li><a  href='vectors.html'><b>4.16.</b> ベクタ</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a class='active' href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">リリースチャネル</h1>
+    <!-- % Release Channels -->
+
+<!-- The Rust project uses a concept called ‘release channels’ to manage releases. -->
+
+<!-- It’s important to understand this process to choose which version of Rust -->
+
+<!-- your project should use. -->
+
+<p>Rustプロジェクトではリリースを管理するために「リリースチャネル」という考え方を採用しています。どのバージョンのRustを使用するか決めるためには、この考え方を理解することが重要になります。</p>
+
+<!-- # Overview -->
+
+<h1 id='概要' class='section-header'><a href='#概要'>概要</a></h1>
+<!-- There are three channels for Rust releases: -->
+
+<p>Rustのリリースには以下の3つのチャネルがあります。</p>
+
+<ul>
+<li>Nightly</li>
+<li>Beta</li>
+<li>Stable</li>
+</ul>
+
+<!-- New nightly releases are created once a day. Every six weeks, the latest -->
+
+<!-- nightly release is promoted to ‘Beta’. At that point, it will only receive -->
+
+<!-- patches to fix serious errors. Six weeks later, the beta is promoted to -->
+
+<!-- ‘Stable’, and becomes the next release of `1.x`. -->
+
+<p>新しいnightlyリリースは毎日作られます。6週間ごとに、最新のnightlyリリースが「Beta」に格上げされます。これ以降は深刻なエラーを修正するパッチのみが受け付けられます。さらに6週間後、betaは「Stable」に格上げされ、次の「1.x」リリースになります。</p>
+
+<!-- This process happens in parallel. So every six weeks, on the same day, -->
+
+<!-- nightly goes to beta, beta goes to stable. When `1.x` is released, at -->
+
+<!-- the same time, `1.(x + 1)-beta` is released, and the nightly becomes the -->
+
+<!-- first version of `1.(x + 2)-nightly`. -->
+
+<p>このプロセスは並行して行われます。つまり6週間毎の同じ日に、nightlyはbetaに、betaはstableになります。「1.x」がリリースされると同時に「1.(x + 1)-beta」がリリースされ、nightlyは「1.(x + 2)-nightly」の最初のバージョンになる、ということです。</p>
+
+<!-- # Choosing a version -->
+
+<h1 id='バージョンを選ぶ' class='section-header'><a href='#バージョンを選ぶ'>バージョンを選ぶ</a></h1>
+<!-- Generally speaking, unless you have a specific reason, you should be using the -->
+
+<!-- stable release channel. These releases are intended for a general audience. -->
+
+<p>一般的に言って、特別な理由がなければstableリリースチャネルを使うべきです。このリリースは一般のユーザ向けになっています。</p>
+
+<!-- However, depending on your interest in Rust, you may choose to use nightly -->
+
+<!-- instead. The basic tradeoff is this: in the nightly channel, you can use -->
+
+<!-- unstable, new Rust features. However, unstable features are subject to change, -->
+
+<!-- and so any new nightly release may break your code. If you use the stable -->
+
+<!-- release, you cannot use experimental features, but the next release of Rust -->
+
+<!-- will not cause significant issues through breaking changes. -->
+
+<p>しかしRustに特に関心のある方は、代わりにnightlyを選んでも構いません。基本的な交換条件は次の通りです。nightlyチャネルを選ぶと不安定で新しいフィーチャを使うことができます。しかし、不安定なフィーチャは変更されやすく、新しいnightlyリリースでソースコードが動かなくなってしまうかもしれません。stableリリースを使えば、実験的なフィーチャを使うことはできませんが、Rustのバージョンが上がっても破壊的な変更によるトラブルは起きないでしょう。</p>
+
+<!-- # Helping the ecosystem through CI -->
+
+<h1 id='ciによるエコシステム支援' class='section-header'><a href='#ciによるエコシステム支援'>CIによるエコシステム支援</a></h1>
+<!-- What about beta? We encourage all Rust users who use the stable release channel -->
+
+<!-- to also test against the beta channel in their continuous integration systems. -->
+
+<!-- This will help alert the team in case there’s an accidental regression. -->
+
+<p>betaとはどういうチャネルでしょうか？stableリリースチャネルを使う全てのユーザは、継続的インテグレーションシステムを使ってbetaリリースに対してもテストすることを推奨しています。こうすることで、突発的なリグレッションに備えることができます。</p>
+
+<!-- Additionally, testing against nightly can catch regressions even sooner, and so -->
+
+<!-- if you don’t mind a third build, we’d appreciate testing against all channels. -->
+
+<p>さらに、nightlyに対してもテストすることでより早くリグレッションを捉えることができます。もし差し支えなければ、この3つ目のビルドを含めた全てのチャネルに対してテストしてもらえると嬉しいです。</p>
+
+<!-- As an example, many Rust programmers use [Travis](https://travis-ci.org/) to -->
+
+<!-- test their crates, which is free for open source projects. Travis [supports -->
+
+<!-- Rust directly][travis], and you can use a `.travis.yml` file like this to -->
+
+<!-- test on all channels: -->
+
+<p>例えば、多くのRustプログラマが <a href="https://travis-ci.org/">Travis</a> をクレートのテストに使っています。(このサービスはオープンソースプロジェクトについては無料で使えます) Travisは <a href="http://docs.travis-ci.com/user/languages/rust/">Rustを直接サポート</a> しており、「<code>.travis.yml</code>」に以下のように書くことですべてのチャネルに対するテストを行うことができます。</p>
+
+<pre><code class="language-yaml">language: rust
+rust:
+  - nightly
+  - beta
+  - stable
+
+matrix:
+  allow_failures:
+    - rust: nightly
+</code></pre>
+
+<!-- With this configuration, Travis will test all three channels, but if something -->
+
+<!-- breaks on nightly, it won’t fail your build. A similar configuration is -->
+
+<!-- recommended for any CI system, check the documentation of the one you’re -->
+
+<!-- using for more details. -->
+
+<p>この設定で、Travisは3つ全てのチャネルに対してテストを行いますが、nightlyで何かおかしくなったとしてもビルドが失敗にはなりません。他のCIシステムでも同様の設定をお勧めします。詳細はお使いのシステムのドキュメントを参照してください。</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

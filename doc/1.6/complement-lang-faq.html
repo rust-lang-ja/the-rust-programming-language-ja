@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>The Rust Language FAQ</title>
+
+    <link rel="stylesheet" type="text/css" href="rust.css">
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+
+
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <div id="versioninfo">
+  <img src="https://www.rust-lang.org/logos/rust-logo-32x32-blk.png" width="32" height="32" alt><br>
+  <span class="white-sticker"><a href="https://www.rust-lang.org">Rust</a> 1.6</span><br>
+  <a href="https://github.com/rust-lang/rust/commit/"
+    class="hash white-sticker"></a>
+</div>
+
+
+    <h1 class="title">The Rust Language FAQ</h1>
+    <nav id="TOC"><ul>
+<li><a href="#are-there-any-big-programs-written-in-it-yet-i-want-to-read-big-samples">0.1 Are there any big programs written in it yet? I want to read big samples.</a><ul></ul></li>
+<li><a href="#is-anyone-using-rust-in-production">0.2 Is anyone using Rust in production?</a><ul></ul></li>
+<li><a href="#does-it-run-on-windows">0.3 Does it run on Windows?</a><ul></ul></li>
+<li><a href="#is-it-oo-how-do-i-do-this-thing-i-normally-do-in-an-oo-language">0.4 Is it OO? How do I do this thing I normally do in an OO language?</a><ul></ul></li>
+<li><a href="#how-do-you-get-away-with-no-null-pointers">0.5 How do you get away with &quot;no null pointers&quot;?</a><ul></ul></li>
+<li><a href="#what-is-the-relationship-between-a-module-and-a-crate">0.6 What is the relationship between a module and a crate?</a><ul></ul></li>
+<li><a href="#why-is-panic-unwinding-non-recoverable-within-a-thread-why-not-try-to-catch-exceptions">0.7 Why is panic unwinding non-recoverable within a thread? Why not try to &quot;catch exceptions&quot;?</a><ul></ul></li>
+<li><a href="#why-arent-modules-type-parametric">0.8 Why aren&#39;t modules type-parametric?</a><ul></ul></li>
+<li><a href="#why-arent-values-type-parametric-why-only-items">0.9 Why aren&#39;t values type-parametric? Why only items?</a><ul></ul></li>
+<li><a href="#why-are-enumerations-nominal-and-closed">0.10 Why are enumerations nominal and closed?</a><ul></ul></li>
+<li><a href="#why-arent-channels-synchronous">0.11 Why aren&#39;t channels synchronous?</a><ul></ul></li>
+<li><a href="#why-are-channels-half-duplex-one-way">0.12 Why are channels half-duplex (one-way)?</a><ul></ul></li>
+<li><a href="#why-are-strings-utf-8-by-default-why-not-ucs2-or-ucs4">0.13 Why are strings UTF-8 by default? Why not UCS2 or UCS4?</a><ul></ul></li>
+<li><a href="#why-are-strs-slices-arrays-etc-built-in-types-rather-than-say-special-kinds-of-traitimpl">0.14 Why are <code>str</code>s, slices, arrays etc. built-in types rather than (say) special kinds of trait/impl?</a><ul></ul></li>
+<li><a href="#can-rust-code-call-c-code">0.15 Can Rust code call C code?</a><ul></ul></li>
+<li><a href="#can-c-code-call-rust-code">0.16 Can C code call Rust code?</a><ul></ul></li>
+<li><a href="#why-arent-function-signatures-inferred-why-only-local-variables">0.17 Why aren&#39;t function signatures inferred? Why only local variables?</a><ul></ul></li>
+<li><a href="#why-does-a-type-parameter-need-explicit-trait-bounds-to-invoke-methods-on-it-when-c-templates-do-not">0.18 Why does a type parameter need explicit trait bounds to invoke methods on it, when C++ templates do not?</a><ul></ul></li>
+<li><a href="#will-rust-implement-automatic-semicolon-insertion-like-in-go">0.19 Will Rust implement automatic semicolon insertion, like in Go?</a><ul></ul></li>
+<li><a href="#how-do-i-get-my-program-to-display-the-output-of-logging-macros">0.20 How do I get my program to display the output of logging macros?</a><ul></ul></li>
+<li><a href="#how-fast-is-rust">0.21 How fast is Rust?</a><ul></ul></li></ul></nav>
+<h2 id='are-there-any-big-programs-written-in-it-yet-i-want-to-read-big-samples' class='section-header'><a href='#are-there-any-big-programs-written-in-it-yet-i-want-to-read-big-samples'>0.1 Are there any big programs written in it yet? I want to read big samples.</a></h2>
+<p>There aren&#39;t many large programs yet. The Rust <a href="https://github.com/rust-lang/rust/tree/master/src/librustc">compiler</a>, 60,000+ lines at the time of writing, is written in Rust. As the oldest body of Rust code it has gone through many iterations of the language, and some parts are nicer to look at than others. It may not be the best code to learn from, but <a href="https://github.com/rust-lang/rust/tree/master/src/librustc_borrowck/borrowck">borrowck</a> and <a href="https://github.com/rust-lang/rust/tree/master/src/librustc_resolve">resolve</a> were written recently.</p>
+
+<p>A research browser engine called <a href="https://github.com/servo/servo">Servo</a>, currently 30,000+ lines across more than a dozen crates, will be exercising a lot of Rust&#39;s distinctive type-system and concurrency features, and integrating many native libraries.</p>
+
+<p>Some examples that demonstrate different aspects of the language:</p>
+
+<ul>
+<li><a href="https://github.com/pcwalton/sprocketnes">sprocketnes</a>, an NES emulator with no GC, using modern Rust conventions</li>
+<li>The language&#39;s general-purpose <a href="https://github.com/rust-lang/rust/tree/master/src/libcore/hash">hash</a> function, SipHash-2-4. Bit twiddling, OO, macros</li>
+<li>The standard library&#39;s <a href="https://github.com/rust-lang/rust/tree/master/src/libstd/collections/hash">HashMap</a>, a sendable hash map in an OO style</li>
+<li>The standard library&#39;s <a href="https://github.com/rust-lang/rust/blob/master/src/libserialize/json.rs">json</a> module. Enums and pattern matching</li>
+</ul>
+
+<p>You may also be interested in browsing <a href="https://github.com/trending?l=rust">trending Rust repositories</a> on GitHub.</p>
+
+<h2 id='is-anyone-using-rust-in-production' class='section-header'><a href='#is-anyone-using-rust-in-production'>0.2 Is anyone using Rust in production?</a></h2>
+<p>Yes. For example (incomplete):</p>
+
+<ul>
+<li><a href="http://labs.opendns.com/2013/10/04/zeromq-helping-us-block-malicious-domains/">OpenDNS</a></li>
+<li><a href="http://skylight.io">Skylight</a></li>
+<li><a href="https://github.com/wit-ai/witd">wit.ai</a></li>
+<li><a href="https://codius.org/blog/codius-rust/">Codius</a></li>
+<li><a href="http://maidsafe.net/">MaidSafe</a></li>
+<li><a href="https://terminal.com">Terminal.com</a></li>
+</ul>
+
+<h2 id='does-it-run-on-windows' class='section-header'><a href='#does-it-run-on-windows'>0.3 Does it run on Windows?</a></h2>
+<p>Yes. All development happens in lockstep on all 3 target platforms (using MinGW, not Cygwin).</p>
+
+<h2 id='is-it-oo-how-do-i-do-this-thing-i-normally-do-in-an-oo-language' class='section-header'><a href='#is-it-oo-how-do-i-do-this-thing-i-normally-do-in-an-oo-language'>0.4 Is it OO? How do I do this thing I normally do in an OO language?</a></h2>
+<p>It is multi-paradigm. Not everything is shoe-horned into a single abstraction. Many things you can do in OO languages you can do in Rust, but not everything, and not always using the same abstraction you&#39;re accustomed to.</p>
+
+<h2 id='how-do-you-get-away-with-no-null-pointers' class='section-header'><a href='#how-do-you-get-away-with-no-null-pointers'>0.5 How do you get away with &quot;no null pointers&quot;?</a></h2>
+<p>Data values in the language can only be constructed through a fixed set of initializer forms. Each of those forms requires that its inputs already be initialized. A liveness analysis ensures that local variables are initialized before use.</p>
+
+<h2 id='what-is-the-relationship-between-a-module-and-a-crate' class='section-header'><a href='#what-is-the-relationship-between-a-module-and-a-crate'>0.6 What is the relationship between a module and a crate?</a></h2>
+<ul>
+<li>A crate is a top-level compilation unit that corresponds to a single loadable object.</li>
+<li>A module is a (possibly nested) unit of name-management inside a crate.</li>
+<li>A crate contains an implicit, un-named top-level module.</li>
+<li>Recursive definitions can span modules, but not crates.</li>
+<li>Crates do not have global names, only a set of non-unique metadata tags.</li>
+<li>There is no global inter-crate namespace; all name management occurs within a crate.
+
+<ul>
+<li>Using another crate binds the root of <em>its</em> namespace into the user&#39;s namespace.</li>
+</ul></li>
+</ul>
+
+<h2 id='why-is-panic-unwinding-non-recoverable-within-a-thread-why-not-try-to-catch-exceptions' class='section-header'><a href='#why-is-panic-unwinding-non-recoverable-within-a-thread-why-not-try-to-catch-exceptions'>0.7 Why is panic unwinding non-recoverable within a thread? Why not try to &quot;catch exceptions&quot;?</a></h2>
+<p>In short, because too few guarantees could be made about the dynamic environment of the catch block, as well as invariants holding in the unwound heap, to be able to safely resume; we believe that other methods of signalling and logging errors are more appropriate, with threads playing the role of a &quot;hard&quot; isolation boundary between separate heaps.</p>
+
+<p>Rust provides, instead, three predictable and well-defined options for handling any combination of the three main categories of &quot;catch&quot; logic:</p>
+
+<ul>
+<li>Failure <em>logging</em> is done by the integrated logging subsystem.</li>
+<li><em>Recovery</em> after a panic is done by trapping a thread panic from <em>outside</em>
+the thread, where other threads are known to be unaffected.</li>
+<li><em>Cleanup</em> of resources is done by RAII-style objects with destructors.</li>
+</ul>
+
+<p>Cleanup through RAII-style destructors is more likely to work than in catch blocks anyways, since it will be better tested (part of the non-error control paths, so executed all the time).</p>
+
+<h2 id='why-arent-modules-type-parametric' class='section-header'><a href='#why-arent-modules-type-parametric'>0.8 Why aren&#39;t modules type-parametric?</a></h2>
+<p>We want to maintain the option to parameterize at runtime. We may eventually change this limitation, but initially this is how type parameters were implemented.</p>
+
+<h2 id='why-arent-values-type-parametric-why-only-items' class='section-header'><a href='#why-arent-values-type-parametric-why-only-items'>0.9 Why aren&#39;t values type-parametric? Why only items?</a></h2>
+<p>Doing so would make type inference much more complex, and require the implementation strategy of runtime parameterization.</p>
+
+<h2 id='why-are-enumerations-nominal-and-closed' class='section-header'><a href='#why-are-enumerations-nominal-and-closed'>0.10 Why are enumerations nominal and closed?</a></h2>
+<p>We don&#39;t know if there&#39;s an obvious, easy, efficient, stock-textbook way of supporting open or structural disjoint unions. We prefer to stick to language features that have an obvious and well-explored semantics.</p>
+
+<h2 id='why-arent-channels-synchronous' class='section-header'><a href='#why-arent-channels-synchronous'>0.11 Why aren&#39;t channels synchronous?</a></h2>
+<p>There&#39;s a lot of debate on this topic; it&#39;s easy to find a proponent of default-sync or default-async communication, and there are good reasons for either. Our choice rests on the following arguments:</p>
+
+<ul>
+<li>Part of the point of isolating threads is to decouple threads from one another, such that assumptions in one thread do not cause undue constraints (or bugs, if violated!) in another. Temporal coupling is as real as any other kind; async-by-default relaxes the default case to only <em>causal</em> coupling.</li>
+<li>Default-async supports buffering and batching communication, reducing the frequency and severity of thread-switching and inter-thread / inter-domain synchronization.</li>
+<li>Default-async with transmittable channels is the lowest-level building block on which more-complex synchronization topologies and strategies can be built; it is not clear to us that the majority of cases fit the 2-party full-synchronization pattern rather than some more complex multi-party or multi-stage scenario. We did not want to force all programs to pay for wiring the former assumption into all communications.</li>
+</ul>
+
+<h2 id='why-are-channels-half-duplex-one-way' class='section-header'><a href='#why-are-channels-half-duplex-one-way'>0.12 Why are channels half-duplex (one-way)?</a></h2>
+<p>Similar to the reasoning about default-sync: it wires fewer assumptions into the implementation, that would have to be paid by all use-cases even if they actually require a more complex communication topology.</p>
+
+<h2 id='why-are-strings-utf-8-by-default-why-not-ucs2-or-ucs4' class='section-header'><a href='#why-are-strings-utf-8-by-default-why-not-ucs2-or-ucs4'>0.13 Why are strings UTF-8 by default? Why not UCS2 or UCS4?</a></h2>
+<p>The <code>str</code> type is UTF-8 because we observe more text in the wild in this encoding – particularly in network transmissions, which are endian-agnostic – and we think it&#39;s best that the default treatment of I/O not involve having to recode codepoints in each direction.</p>
+
+<p>This does mean that indexed access to a Unicode codepoint inside a <code>str</code> value is an O(n) operation. On the one hand, this is clearly undesirable; on the other hand, this problem is full of trade-offs and we&#39;d like to point a few important qualifications:</p>
+
+<ul>
+<li>Scanning a <code>str</code> for ASCII-range codepoints can still be done safely octet-at-a-time. If you use <code>.as_bytes()</code>, pulling out a <code>u8</code> costs only O(1) and produces a value that can be cast and compared to an ASCII-range <code>char</code>. So if you&#39;re (say) line-breaking on <code>&#39;\n&#39;</code>, octet-based treatment still works. UTF8 was well-designed this way.</li>
+<li>Most &quot;character oriented&quot; operations on text only work under very restricted language assumptions sets such as &quot;ASCII-range codepoints only&quot;. Outside ASCII-range, you tend to have to use a complex (non-constant-time) algorithm for determining linguistic-unit (glyph, word, paragraph) boundaries anyways. We recommend using an &quot;honest&quot; linguistically-aware, Unicode-approved algorithm.</li>
+<li>The <code>char</code> type is UCS4. If you honestly need to do a codepoint-at-a-time algorithm, it&#39;s trivial to write a <code>type wstr = [char]</code>, and unpack a <code>str</code> into it in a single pass, then work with the <code>wstr</code>. In other words: the fact that the language is not &quot;decoding to UCS4 by default&quot; shouldn&#39;t stop you from decoding (or re-encoding any other way) if you need to work with that encoding.</li>
+</ul>
+
+<h2 id='why-are-strs-slices-arrays-etc-built-in-types-rather-than-say-special-kinds-of-traitimpl' class='section-header'><a href='#why-are-strs-slices-arrays-etc-built-in-types-rather-than-say-special-kinds-of-traitimpl'>0.14 Why are <code>str</code>s, slices, arrays etc. built-in types rather than (say) special kinds of trait/impl?</a></h2>
+<p>In each case there is one or more operator, literal constructor, overloaded use or integration with a built-in control structure that makes us think it would be awkward to phrase the type in terms of more-general type constructors. Same as, say, with numbers! But this is partly an aesthetic call, and we&#39;d be willing to look at a worked-out proposal for eliminating or rephrasing these special cases.</p>
+
+<h2 id='can-rust-code-call-c-code' class='section-header'><a href='#can-rust-code-call-c-code'>0.15 Can Rust code call C code?</a></h2>
+<p>Yes. Calling C code from Rust is simple and exactly as efficient as calling C code from C.</p>
+
+<h2 id='can-c-code-call-rust-code' class='section-header'><a href='#can-c-code-call-rust-code'>0.16 Can C code call Rust code?</a></h2>
+<p>Yes. The Rust code has to be exposed via an <code>extern</code> declaration, which makes it C-ABI compatible. Such a function can be passed to C code as a function pointer or, if given the <code>#[no_mangle]</code> attribute to disable symbol mangling, can be called directly from C code.</p>
+
+<h2 id='why-arent-function-signatures-inferred-why-only-local-variables' class='section-header'><a href='#why-arent-function-signatures-inferred-why-only-local-variables'>0.17 Why aren&#39;t function signatures inferred? Why only local variables?</a></h2>
+<ul>
+<li>Mechanically, it simplifies the inference algorithm; inference only requires looking at one function at a time.</li>
+<li>The same simplification goes double for human readers. A reader does not need an IDE running an inference algorithm across an entire crate to be able to guess at a function&#39;s argument types; it&#39;s always explicit and nearby.</li>
+</ul>
+
+<h2 id='why-does-a-type-parameter-need-explicit-trait-bounds-to-invoke-methods-on-it-when-c-templates-do-not' class='section-header'><a href='#why-does-a-type-parameter-need-explicit-trait-bounds-to-invoke-methods-on-it-when-c-templates-do-not'>0.18 Why does a type parameter need explicit trait bounds to invoke methods on it, when C++ templates do not?</a></h2>
+<ul>
+<li><p>Requiring explicit bounds means that the compiler can type-check the code at the point where the type-parametric item is <em>defined</em>, rather than delaying to when its type parameters are instantiated.  You know that <em>any</em> set of type parameters fulfilling the bounds listed in the API will compile. It&#39;s an enforced minimal level of documentation, and results in very clean error messages.</p></li>
+<li><p>Scoping of methods is also a problem.  C++ needs <a href="http://en.wikipedia.org/wiki/Argument-dependent_name_lookup">Koenig (argument dependent) lookup</a>, which comes with its own host of problems. Explicit bounds avoid this issue: traits are explicitly imported and then used as bounds on type parameters, so there is a clear mapping from the method to its implementation (via the trait and the instantiated type).</p>
+
+<ul>
+<li>Related to the above point: since a parameter explicitly names its trait bounds, a single type is able to implement traits whose sets of method names overlap, cleanly and unambiguously.</li>
+</ul></li>
+<li><p>There is further discussion on <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-September/005603.html">this thread on the Rust mailing list</a>.</p></li>
+</ul>
+
+<h2 id='will-rust-implement-automatic-semicolon-insertion-like-in-go' class='section-header'><a href='#will-rust-implement-automatic-semicolon-insertion-like-in-go'>0.19 Will Rust implement automatic semicolon insertion, like in Go?</a></h2>
+<p>For simplicity, we do not plan to do so. Implementing automatic semicolon insertion for Rust would be tricky because the absence of a trailing semicolon means &quot;return a value&quot;.</p>
+
+<h2 id='how-do-i-get-my-program-to-display-the-output-of-logging-macros' class='section-header'><a href='#how-do-i-get-my-program-to-display-the-output-of-logging-macros'>0.20 How do I get my program to display the output of logging macros?</a></h2>
+<p><strong>Short Answer</strong>: Set the <code>RUST_LOG</code> environment variable to the name of your source file, sans extension.</p>
+
+<pre><code class="language-sh">rustc hello.rs
+export RUST_LOG=hello
+./hello
+</code></pre>
+
+<p><strong>Long Answer</strong>: <code>RUST_LOG</code> takes a &#39;logging spec&#39; that consists of a
+comma-separated list of paths, where a path consists of the crate name and
+sequence of module names, each separated by double-colons. For standalone <code>.rs</code>
+files, the crate is implicitly named after the source file, so in the above
+example we were setting <code>RUST_LOG</code> to the name of the hello crate. Multiple paths
+can be combined to control the exact logging you want to see. For example, when
+debugging linking in the compiler, you might set the following:</p>
+
+<pre><code class="language-sh">RUST_LOG=rustc_metadata::creader,rustc::util::filesearch,rustc::back::rpath
+</code></pre>
+
+<p>For a full description, see <a href="log/index.html">the logging crate</a>.</p>
+
+<h2 id='how-fast-is-rust' class='section-header'><a href='#how-fast-is-rust'>0.21 How fast is Rust?</a></h2>
+<p>As always, this question is difficult to answer. There&#39;s still a lot of work to
+do on speed, and depending on what you&#39;re benchmarking, Rust has variable
+performance.</p>
+
+<p>That said, it is an explicit goal of Rust to be as fast as C++ for most things.
+Language decisions are made with performance in mind, and we want Rust to be as
+fast as possible. Given that Rust is built on top of LLVM, any performance
+improvements in it also help Rust become faster.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <footer><p>
+Copyright &copy; 2011-2015 The Rust Project Developers. Licensed under the
+<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
+or the <a href="http://opensource.org/licenses/MIT">MIT license</a>, at your option.
+</p><p>
+This file may not be copied, modified, or distributed except according to those terms.
+</p></footer>
+<script type="text/javascript" src="playpen.js"></script>
+
+
+</body>
+</html>
