@@ -16,7 +16,7 @@ set -e
 REVISION=$(git rev-parse --short HEAD)
 
 # If there are anything to commit, do `git commit` and `git push`
-git add doc
+git add docs
 set +e
 ret=$(git status | grep -q 'nothing to commit'; echo $?)
 set -e

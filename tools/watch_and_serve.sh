@@ -40,7 +40,7 @@ main() {
     set -e
     trap "trap - TERM && pkill -P $$" INT TERM EXIT
 
-    "$RUBY" -run -e httpd -- "${ROOT}/doc" --port 8080 &
+    "$RUBY" -run -e httpd -- "${ROOT}/docs" --port 8080 &
     "$DIR/watch.sh" "$@"
 }
 
