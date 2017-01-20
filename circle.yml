@@ -43,18 +43,18 @@ test:
   post:
     # Save 1.9 contents as an artifact
     - mkdir $CIRCLE_ARTIFACTS/1.9
-    - cp -p doc/1.9/index.html $CIRCLE_ARTIFACTS/1.9
-    - cp -rp doc/1.9/book $CIRCLE_ARTIFACTS/1.9
-    - cp -rp doc/1.9/*.inc doc/1.9/*.css doc/1.9/*.js $CIRCLE_ARTIFACTS/1.9
-    - tar cJf doc-1.9.txz doc/1.9
-    - mv doc-1.9.txz $CIRCLE_ARTIFACTS
+    - cp -p docs/1.9/index.html $CIRCLE_ARTIFACTS/1.9
+    - cp -rp docs/1.9/book $CIRCLE_ARTIFACTS/1.9
+    - cp -rp docs/1.9/*.inc docs/1.9/*.css docs/1.9/*.js $CIRCLE_ARTIFACTS/1.9
+    - tar cJf docs-1.9.txz docs/1.9
+    - mv docs-1.9.txz $CIRCLE_ARTIFACTS
     # Save 1.6 contents as an artifact
     - mkdir $CIRCLE_ARTIFACTS/1.6
-    - cp -p doc/1.6/index.html $CIRCLE_ARTIFACTS/1.6
-    - cp -rp doc/1.6/book $CIRCLE_ARTIFACTS/1.6
-    - cp -rp doc/1.6/*.inc doc/1.6/*.css doc/1.6/*.js $CIRCLE_ARTIFACTS/1.6
-    - tar cJf doc-1.6.txz doc/1.6
-    - mv doc-1.6.txz $CIRCLE_ARTIFACTS
+    - cp -p docs/1.6/index.html $CIRCLE_ARTIFACTS/1.6
+    - cp -rp docs/1.6/book $CIRCLE_ARTIFACTS/1.6
+    - cp -rp docs/1.6/*.inc docs/1.6/*.css docs/1.6/*.js $CIRCLE_ARTIFACTS/1.6
+    - tar cJf docs-1.6.txz docs/1.6
+    - mv docs-1.6.txz $CIRCLE_ARTIFACTS
 
 deployment:
   publish:
@@ -64,6 +64,6 @@ deployment:
       - git config user.email "tatsuya@hibaridb.org"
       # Do not publish 1.9 to gh-pages until all (or most of) the contents
       # are updated from 1.6.
-      - rm -rf doc/1.9
+      - rm -rf docs/1.9
       - ./tools/circleci/push-to-master.sh
       # - ./tools/circleci/publish-to-gh-pages.sh
