@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Not Found</title>
+
+    <link rel="stylesheet" type="text/css" href="https://doc.rust-lang.org/rust.css">
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+
+
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <div id="versioninfo">
+  <img src="https://www.rust-lang.org/logos/rust-logo-32x32-blk.png" width="32" height="32" alt><br>
+  <span class="white-sticker"><a href="https://www.rust-lang.org">Rust</a> 1.6.0-dev</span><br>
+  <a href="https://github.com/rust-lang/rust/commit/"
+    class="hash white-sticker"></a>
+</div>
+
+
+    <h1 class="title">Not Found</h1>
+    <!-- Completely hide the TOC and the section numbers -->
+
+<style type="text/css">
+#TOC { display: none; }
+.header-section-number { display: none; }
+li {list-style-type: none; }
+</style>
+
+<p>Looks like you&#39;ve taken a wrong turn.</p>
+
+<p>Some things that might be helpful to you though:</p>
+
+<h1 id='search-1' class='section-header'><a href='#search-1'>Search</a></h1>
+<ul>
+<li><form action="https://duckduckgo.com/">
+<input type="text" id="site-search" name="q" size="80"></input>
+<input type="submit" value="Search DuckDuckGo">
+</form></li>
+<li>Rust doc search: <span id="core-search"></span></li>
+</ul>
+
+<h1 id='reference' class='section-header'><a href='#reference'>Reference</a></h1>
+<ul>
+<li><a href="https://www.rust-lang.org">The Rust official site</a></li>
+<li><a href="https://doc.rust-lang.org/reference.html">The Rust reference</a></li>
+</ul>
+
+<h1 id='docs' class='section-header'><a href='#docs'>Docs</a></h1>
+<ul>
+<li><a href="https://doc.rust-lang.org/std/">The standard library</a></li>
+</ul>
+
+<script>
+function get_url_fragments() {
+    var last = document.URL.split("/").pop();
+    var tokens = last.split(".");
+    var op = [];
+    for (var i=0; i < tokens.length; i++) {
+        var t = tokens[i];
+        if (t == 'html' || t.indexOf("#") != -1) {
+            // no html or anchors
+        } else {
+            op.push(t);
+        }
+    }
+    return op;
+}
+
+function populate_site_search() {
+    var op = get_url_fragments();
+
+    var search = document.getElementById('site-search');
+    search.value = op.join(' ') + " site:doc.rust-lang.org";
+}
+
+function populate_rust_search() {
+    var op = get_url_fragments();
+    var lt = op.pop();
+
+    // #18540, use a single token
+
+    var a = document.createElement("a");
+    a.href = "https://doc.rust-lang.org/core/?search=" + encodeURIComponent(lt);
+    a.textContent = lt;
+    var search = document.getElementById('core-search');
+    search.innerHTML = "";
+    search.appendChild(a);
+}
+populate_site_search();
+populate_rust_search();
+</script>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <footer><p>
+Copyright &copy; 2011-2015 The Rust Project Developers. Licensed under the
+<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
+or the <a href="http://opensource.org/licenses/MIT">MIT license</a>, at your option.
+</p><p>
+This file may not be copied, modified, or distributed except according to those terms.
+</p></footer>
+<script type="text/javascript" src="playpen.js"></script>
+
+
+</body>
+</html>
