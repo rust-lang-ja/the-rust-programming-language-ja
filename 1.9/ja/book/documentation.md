@@ -100,7 +100,7 @@ hello.rs:4 }
 ```
 
 <!-- This [unfortunate error](https://github.com/rust-lang/rust/issues/22547) is -->
-<!-- correct: documentation comments apply to the thing after them, and there's -->
+<!-- correct; documentation comments apply to the thing after them, and there's -->
 <!-- nothing after that last comment. -->
 この [残念なエラー](https://github.com/rust-lang/rust/issues/22547) は正しいのです。ドキュメンテーションコメントはそれらの後のものに適用されるところ、その最後のコメントの後には何もないからです。
 
@@ -163,7 +163,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 もし関数にこのような、パニックによって検出されたり強制されたりするような自明でない取決めがあるときには、ドキュメントを作成することは非常に重要です。
 
 ```rust
-/// # Failures
+/// # Errors
 # fn foo() {}
 ```
 
@@ -250,7 +250,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 ```
 
 <!-- This will highlight according to whatever language you're showing off. -->
-<!-- If you're just showing plain text, choose `text`. -->
+<!-- If you're only showing plain text, choose `text`. -->
 これは、使われている言語が何であるかに応じてハイライトされます。
 もし単なるプレーンテキストを書いているのであれば、 `text` を選択してください。
 
@@ -355,7 +355,7 @@ fn main() {
 <!-- can use this to your advantage. In this case, documentation comments need -->
 <!-- to apply to some kind of function, so if I want to show you just a -->
 <!-- documentation comment, I need to add a little function definition below -->
-<!-- it. At the same time, it's just there to satisfy the compiler, so hiding -->
+<!-- it. At the same time, it's only there to satisfy the compiler, so hiding -->
 <!-- it makes the example more clear. You can use this technique to explain -->
 <!-- longer examples in detail, while still preserving the testability of your -->
 <!-- documentation. -->
@@ -488,7 +488,7 @@ macro_rules! panic_unless {
 
 ```rust,ignore
 /// use std::io;
-/// let mut input = String::new(); 
+/// let mut input = String::new();
 /// try!(io::stdin().read_line(&mut input));
 ```
 
@@ -503,7 +503,7 @@ macro_rules! panic_unless {
 /// ```
 /// use std::io;
 /// # fn foo() -> io::Result<()> {
-/// let mut input = String::new(); 
+/// let mut input = String::new();
 /// try!(io::stdin().read_line(&mut input));
 /// # Ok(())
 /// # }
@@ -648,8 +648,8 @@ mod foo {
 # fn foo() {}
 ```
 
-<!-- is just -->
-これは、単にこうします。
+<!-- is -->
+これは、こうします。
 
 ~~~markdown
 # Examples
