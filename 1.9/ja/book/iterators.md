@@ -23,7 +23,7 @@ call the `.next()` method on repeatedly, and it gives us a sequence of things. -
 starts at 0) and exclusive on the right (so it ends at 9). A mathematician
 would write "[0, 10)". To get a range that goes all the way up to 10 you can
 write `0...10`.) -->
-（ところで、 `0..10` のようにドット2つのレンジは左端を含み（つまり0から始まる）右端を含みません（つまり9で終わる）。数学的な書き方をすれば 「[0, 10)]」です。10まで含むレンジが欲しければ `0...10` と書きます。）
+（ところで、 `0..10` のようにドット2つのレンジは左端を含み（つまり0から始まる）右端を含みません（つまり9で終わる）。数学的な書き方をすれば 「[0, 10)」です。10まで含むレンジが欲しければ `0...10` と書きます。）
 
 <!-- Like this: -->
 こんな風に:
