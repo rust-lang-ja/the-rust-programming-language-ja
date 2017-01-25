@@ -96,6 +96,6 @@ pub extern fn main(argc: i32, argv: *const *const u8) -> i32 {
 <!-- which do not trigger a panic can be assured that this function is never -->
 <!-- called. The second function, `panic_fmt`, is also used by the failure -->
 <!-- mechanisms of the compiler. -->
-2つある関数のうち1つ目は `eh_personality` で、コンパイラの失敗メカニズムに使われます。これはしばしばGCCのpersonality関数に割り当てられますが（詳細は[libstd実装](unwind)を参照してください）、パニックを発生させないクレートではこの関数は呼ばれないことが保証されています。2つ目の関数は `panic_fmt` で、こちらもコンパイラの失敗メカニズムのために使われます。
+2つある関数のうち1つ目は `eh_personality` で、コンパイラの失敗メカニズムに使われます。これはしばしばGCCのpersonality関数に割り当てられますが（詳細は[libstd実装][unwind]を参照してください）、パニックを発生させないクレートではこの関数は呼ばれないことが保証されています。2つ目の関数は `panic_fmt` で、こちらもコンパイラの失敗メカニズムのために使われます。
 
 [unwind]: https://github.com/rust-lang/rust/blob/master/src/libstd/sys/common/unwind/gcc.rs
