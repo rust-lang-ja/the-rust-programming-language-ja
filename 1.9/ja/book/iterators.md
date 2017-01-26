@@ -19,6 +19,12 @@ call the `.next()` method on repeatedly, and it gives us a sequence of things. -
 あなたはもうRustに詳しいので、私たちはどのようにこれが動作しているのか詳しく話すことができます。
 レンジ(ranges、ここでは `0..10` )は「イテレータ」(iterators)です。イテレータは `.next()` メソッドを繰り返し呼び出すことができ、その都度順番に値を返すものです。
 
+<!-- (By the way, a range with two dots like `0..10` is inclusive on the left (so it
+starts at 0) and exclusive on the right (so it ends at 9). A mathematician
+would write "[0, 10)". To get a range that goes all the way up to 10 you can
+write `0...10`.) -->
+（ところで、 `0..10` のようにドット2つのレンジは左端を含み（つまり0から始まる）右端を含みません（つまり9で終わる）。数学的な書き方をすれば 「[0, 10)」です。10まで含むレンジが欲しければ `0...10` と書きます。）
+
 <!-- Like this: -->
 こんな風に:
 
@@ -44,7 +50,7 @@ which gives us a reference to the next value of the iterator. `next` returns an
 始めに変数rangeへミュータブルな束縛を行っていますが、これがイテレータです。その次には中に `match` が入った `loop` があります。この `match` は `range.next()` を呼び出し、イテレータから得た次の値への参照を使用しています。 `next` は `Option<i32>` を返します。このケースでは、次の値があればその値は `Some(i32)` であり、返ってくる値が無くなれば `None` が返ってきます。もし `Some(i32)` であればそれを表示し、 `None` であれば `break` によりループから脱出しています。
 
 <!-- This code sample is basically the same as our `for` loop version. The `for`
-loop is just a handy way to write this `loop`/`match`/`break` construct. -->
+loop is a handy way to write this `loop`/`match`/`break` construct. -->
 このコードは、基本的に `for` ループバージョンと同じ動作です。 `for` ループはこの `loop`/ `match` / `break` で構成された処理を手軽に書ける方法というわけです。
 
 <!-- `for` loops aren't the only thing that uses iterators, however. Writing your
@@ -107,8 +113,8 @@ for num in &nums {
 references?  Firstly, because we explicitly asked it to with
 `&`. Secondly, if it gave us the data itself, we would have to be its
 owner, which would involve making a copy of the data and giving us the
-copy. With references, we're just borrowing a reference to the data,
-and so it's just passing a reference, without needing to do the move. -->
+copy. With references, we're only borrowing a reference to the data,
+and so it's only passing a reference, without needing to do the move. -->
 今、私たちは明示的に `num` の参照外しを行いました。なぜ `&nums` は私たちに参照を渡すのでしょうか？第一に、`&`を用いて私たちが明示的に要求したからです。第二に、もしデータそれ自体を渡す場合、私たちはデータの所有者でなければならないため、データの複製と、それを私たちに渡す操作が伴います。参照を使えば、データへの参照を借用して渡すだけで済み、ムーブを行う必要がなくなります。
 
 <!-- So, now that we've established that ranges are often not what you want, let's
@@ -325,7 +331,7 @@ doesn't print any numbers: -->
 ```
 
 <!-- If you are trying to execute a closure on an iterator for its side effects,
-just use `for` instead. -->
+use `for` instead. -->
 もし副作用のためにイテレータに対してクロージャの実行を試みるのであれば、代わりに `for` を使いましょう。
 
 <!-- There are tons of interesting iterator adaptors. `take(n)` will return an
@@ -362,11 +368,16 @@ for i in (1..100).filter(|&x| x % 2 == 0) {
 ```
 
 <!-- This will print all of the even numbers between one and a hundred.
-(Note that because `filter` doesn't consume the elements that are
-being iterated over, it is passed a reference to each element, and
-thus the filter predicate uses the `&x` pattern to extract the integer
-itself.) -->
-これは1から100の間の偶数を全て出力します。(反復処理中の要素を `filter` で消費させないために、各要素の参照が渡されることに注目して下さい。そのためfilterの述語に `&x` パターンを用いて整数自体を抽出しています。)
+(Note that, unlike `map`, the closure passed to `filter` is passed a reference
+to the element instead of the element itself. The filter predicate here uses
+the `&x` pattern to extract the integer. The filter closure is passed a
+reference because it returns `true` or `false` instead of the element,
+so the `filter` implementation must retain ownership to put the elements
+into the newly constructed iterator.) -->
+これは1から100の間の偶数を全て出力します。
+（`map` と違って、`filter` に渡されたクロージャには要素そのものではなく要素への参照が渡されます。
+フィルターする述語は `&x` パターンを使って整数を取り出しています。
+フィルターするクロージャは要素ではなく `true` 又は `false` を返すので、 `filter` の実装は返り値のイテレータに所有権を渡すために要素への所有権を保持しておかないとならないのです。）
 
 > 訳注: クロージャで用いられている `&x` パターンは [パターン][patterns] の章では紹介されていません。簡単に解説すると、何らかの参照 `&T` から **内容のみを取り出してコピー** するのが `&x` パターンです。参照をそのまま受け取る `ref x` パターンとは異なりますので注意して下さい。
 
