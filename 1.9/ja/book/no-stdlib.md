@@ -47,7 +47,7 @@ fn start(_argc: isize, _argv: *const *const u8) -> isize {
 // これらの関数とトレイトは必要最小限のhello worldのようなプログラムが
 // 使うのではなく、コンパイラが使います。通常これらはlibstdにより提供されます。
 #[lang = "eh_personality"] extern fn eh_personality() {}
-#[lang = "panic_fmt"] fn panic_fmt() -> ! { loop {} }
+#[lang = "panic_fmt"] extern fn panic_fmt() -> ! { loop {} }
 # #[lang = "eh_unwind_resume"] extern fn rust_eh_unwind_resume() {}
 # #[no_mangle] pub extern fn rust_eh_register_frames () {}
 # #[no_mangle] pub extern fn rust_eh_unregister_frames () {}
@@ -77,7 +77,7 @@ pub extern fn main(argc: i32, argv: *const *const u8) -> i32 {
 }
 
 #[lang = "eh_personality"] extern fn eh_personality() {}
-#[lang = "panic_fmt"] fn panic_fmt() -> ! { loop {} }
+#[lang = "panic_fmt"] extern fn panic_fmt() -> ! { loop {} }
 # #[lang = "eh_unwind_resume"] extern fn rust_eh_unwind_resume() {}
 # #[no_mangle] pub extern fn rust_eh_register_frames () {}
 # #[no_mangle] pub extern fn rust_eh_unregister_frames () {}
@@ -90,11 +90,12 @@ pub extern fn main(argc: i32, argv: *const *const u8) -> i32 {
 <!-- library, but without it you must define your own. -->
 今のところ、コンパイラは実行可能形式においていくつかのシンボルが呼び出し可能であるという前提を置いています。通常、これらの関数は標準ライブラリが提供しますが、それを使わない場合自分で定義しなければなりません。
 
-<!-- The first of these two functions, `eh_personality`, is used by the -->
-<!-- failure mechanisms of the compiler. This is often mapped to GCC's -->
-<!-- personality function (see the -->
-<!-- [libstd implementation](../std/rt/unwind/index.html) for more -->
-<!-- information), but crates which do not trigger a panic can be assured -->
-<!-- that this function is never called. The second function, `panic_fmt`, is -->
-<!-- also used by the failure mechanisms of the compiler. -->
-2つある関数のうち1つ目は `eh_personality` で、コンパイラの失敗メカニズムに使われます。これはしばしばGCCのpersonality関数に割り当てられますが（詳細は[libstd実装](../std/rt/unwind/index.html)を参照してください）、パニックを発生させないクレートではこの関数は呼ばれないことが保証されています。2つ目の関数は `panic_fmt` で、こちらもコンパイラの失敗メカニズムのために使われます。
+<!-- The first of these two functions, `eh_personality`, is used by the failure -->
+<!-- mechanisms of the compiler. This is often mapped to GCC's personality function -->
+<!-- (see the [libstd implementation][unwind] for more information), but crates -->
+<!-- which do not trigger a panic can be assured that this function is never -->
+<!-- called. The second function, `panic_fmt`, is also used by the failure -->
+<!-- mechanisms of the compiler. -->
+2つある関数のうち1つ目は `eh_personality` で、コンパイラの失敗メカニズムに使われます。これはしばしばGCCのpersonality関数に割り当てられますが（詳細は[libstd実装][unwind]を参照してください）、パニックを発生させないクレートではこの関数は呼ばれないことが保証されています。2つ目の関数は `panic_fmt` で、こちらもコンパイラの失敗メカニズムのために使われます。
+
+[unwind]: https://github.com/rust-lang/rust/blob/master/src/libstd/sys/common/unwind/gcc.rs
