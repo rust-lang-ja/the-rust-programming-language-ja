@@ -27,7 +27,7 @@ match x {
 <!-- `match` takes an expression and then branches based on its value. Each ‘arm’ of -->
 <!-- the branch is of the form `val => expression`. When the value matches, that arm’s -->
 <!-- expression will be evaluated. It’s called `match` because of the term ‘pattern -->
-<!-- matching’, which `match` is an implementation of. There’s a [separate section on -->
+<!-- matching’, which `match` is an implementation of. There’s an [entire section on -->
 <!-- patterns][patterns] that covers all the patterns that are possible here. -->
 `match` は一つの式とその式の値に基づく複数のブランチを引数に取ります。
 一つ一つの「腕」は `val => expression` という形式を取ります。
@@ -37,25 +37,32 @@ match x {
 
 [patterns]: patterns.html
 
-<!-- One of the many advantages of `match` is it enforces ‘exhaustiveness checking’. -->
-<!-- For example if we remove the last arm with the underscore `_`, the compiler will -->
-<!-- give us an error: -->
-数ある `match` の利点のうちの一つに「網羅性検査」を行なうということが上げられます。
-例えば最後の `_` の腕を消すと、コンパイラはエラーを出します。
+<!-- So what’s the big advantage? Well, there are a few. First of all, `match` -->
+<!-- enforces ‘exhaustiveness checking’. Do you see that last arm, the one with the -->
+<!-- underscore (`_`)? If we remove that arm, Rust will give us an error: -->
+`match` を使う利点は何でしょうか？ いくつか有りますが、
+まず一つ目としては `match` をつかうことで、「網羅性検査」が実施されます。
+上のコードで、最後のアンダースコア( `_` )を用いている腕があるのがわかりますか？
+もし、その腕を削除した場合、Rustは以下の様なエラーを発生させます:
 
 ```text
 error: non-exhaustive patterns: `_` not covered
 ```
 
-<!-- Rust is telling us that we forgot some value. The compiler infers from `x` that it -->
-<!-- can have any 32bit integer value; for example -2,147,483,648 to 2,147,483,647. The `_` acts  -->
-<!-- as a 'catch-all', and will catch all possible values that *aren't* specified in  -->
-<!-- an arm of `match`. As you can see in the previous example, we provide `match`  -->
-<!-- arms for integers 1-5, if `x` is 6 or any other value, then it is caught by `_`. -->
-Rustは何かしらの値を忘れていると教えてくれています。
-コンパイラは `x` が任意の32bitの値、例えば-2,147,483,648から2,147,483,647を取り得ると推論します。
-`_` が「がらくた入れ」として振舞います、 `match` の腕で指定され *なかった* 可能な値全てを捕捉します。
-先の例で見た通り、 `match` の腕は 1〜5の値を書いたので、 `x` が6、あるいは他の値だった時は `_` に捕捉されます。
+<!-- In other words, Rust is trying to tell us we forgot a value. Because `x` is an -->
+<!-- integer, Rust knows that it can have a number of different values – for -->
+<!-- example, `6`. Without the `_`, however, there is no arm that could match, and -->
+<!-- so Rust refuses to compile the code. `_` acts like a ‘catch-all arm’. If none -->
+<!-- of the other arms match, the arm with `_` will, and since we have this -->
+<!-- catch-all arm, we now have an arm for every possible value of `x`, and so our -->
+<!-- program will compile successfully. -->
+言い換えると、Rustは値を忘れていることを伝えようとしているのです。
+なぜなら `x` は整数であるため、Rustは `x` は多くの異なる値を取ることができることを知っています。
+例えば、 `6` などがそれにに当たります。
+もし `_` がなかった場合、 `6` にマッチする腕が存在しない事になります、そのためRustはコンパイルを通しません。
+`_` は「全てキャッチする腕」のように振る舞います。
+もし他の腕がどれもマッチしなかった場合、 `_` の腕が実行されることになります、
+この「全てキャッチする腕」が存在するため、 `x` が取り得るすべての値について対応する腕が存在することになり、コンパイルが成功します。
 
 <!-- `match` is also an expression, which means we can use it on the right-hand -->
 <!-- side of a `let` binding or directly where an expression is used: -->
@@ -74,10 +81,8 @@ let number = match x {
 };
 ```
 
-<!-- Sometimes it’s a nice way of converting something from one type to another; in -->
-<!-- this example the integers are converted to `String`. -->
+<!-- Sometimes it’s a nice way of converting something from one type to another. -->
 `match` はしばしば、ある型からある型へ変換するための良い手段になります。
-この例では整数が `String` に変換されています。
 
 <!-- # Matching on enums -->
 # 列挙型に対するマッチ
@@ -110,10 +115,9 @@ fn process_message(msg: Message) {
 
 <!-- Again, the Rust compiler checks exhaustiveness, so it demands that you -->
 <!-- have a match arm for every variant of the enum. If you leave one off, it -->
-<!-- will give you a compile-time error unless you use `_` or provide all possible -->
-<!-- arms. -->
+<!-- will give you a compile-time error unless you use `_`. -->
 繰り返しになりますが、Rustコンパイラは網羅性のチェックを行い、列挙型のすべてのバリアントに対して、マッチする腕が存在することを要求します。
-もし、一つでもマッチする腕のないバリアントを残している場合、 `_` を用いるか可能な腕を全て書くかしなければコンパイルエラーが発生します。
+もし、一つでもマッチする腕のないバリアントを残している場合、 `_` を用いなければコンパイルエラーが発生します。
 
 <!-- Unlike the previous uses of `match`, you can’t use the normal `if` -->
 <!-- statement to do this. You can use the [`if let`][if-let] statement, -->
