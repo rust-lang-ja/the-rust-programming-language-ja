@@ -66,7 +66,15 @@ let s = "foo\
 assert_eq!("foobar", s);
 ```
 
-<!-- Rust has more than just `&str`s though. A `String`, is a heap-allocated string. -->
+<!-- Note that you normally cannot access a `str` directly, but only through a `&str` -->
+<!-- reference. This is because `str` is an unsized type which requires additional -->
+<!-- runtime information to be usable. For more information see the chapter on -->
+<!-- [unsized types][ut]. -->
+通常、`str` には直接アクセス出来ず、 `&str` 参照を通してのみアクセス出来ることに注意して下さい。
+これは `str` がサイズ不定型であり追加の実行時情報がないと利用出来ないからです。
+詳しくは[サイズ不定型][ut]の章を読んで下さい。
+
+<!-- Rust has more than only `&str`s though. A `String` is a heap-allocated string. -->
 <!-- This string is growable, and is also guaranteed to be UTF-8. `String`s are -->
 <!-- commonly created by converting from a string slice using the `to_string` -->
 <!-- method. -->
@@ -123,7 +131,7 @@ TcpStream::connect(&*addr_string); // addr_string を &str に変換して渡す
 <!-- ## Indexing  -->
 ## インデクシング
 
-<!-- Because strings are valid UTF-8, strings do not support indexing: -->
+<!-- Because strings are valid UTF-8, they do not support indexing: -->
 文字列が正しいUTF-8であるため、文字列はインデクシングをサポートしていません:
 
 ```rust,ignore
@@ -241,5 +249,6 @@ let hello_world = hello + &world;
 これは、 `&String` が自動的に `&str` に型強制されるためです。
 このフィーチャーは 「 [`Deref` による型強制][dc] 」と呼ばれています。
 
+[ut]: unsized-types.html
 [dc]: deref-coercions.html
 [connect]: ../std/net/struct.TcpStream.html#method.connect
