@@ -9,28 +9,28 @@
 一般的にエラーハンドリングは、例外、もしくは、戻り値を使ったものの、大きく2つに分類されます。
 Rustでは戻り値を使います。
 
-<!-- In this chapter, we intend to provide a comprehensive treatment of how to deal -->
+<!-- In this section, we intend to provide a comprehensive treatment of how to deal -->
 <!-- with errors in Rust. More than that, we will attempt to introduce error handling -->
 <!-- one piece at a time so that you'll come away with a solid working knowledge of -->
 <!-- how everything fits together. -->
-この章では、Rustでのエラーハンドリングに関わる包括的な扱い方を提示しようと思います。
+このセクションでは、Rustでのエラーハンドリングに関わる包括的な扱い方を提示しようと思います。
 単にそれだけではなく、エラーハンドリングのやり方を、ひとつひとつ、順番に積み上げていきます。
 こうすることで、全体がどう組み合わさっているのかの理解が進み、より実用的な知識が身につくでしょう。
 
 <!-- When done naïvely, error handling in Rust can be verbose and annoying. This -->
-<!-- chapter will explore those stumbling blocks and demonstrate how to use the -->
+<!-- section will explore those stumbling blocks and demonstrate how to use the -->
 <!-- standard library to make error handling concise and ergonomic. -->
 もし素朴なやり方を用いたなら、Rustにおけるエラーハンドリングは、冗長で面倒なものになり得ます。
-この章では、エラーを処理する上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかにシンプルでエルゴノミック（人間にとって扱いやすいもの）に変わるのかを紹介します。
+このセクションでは、エラーを処理する上でどのような課題があるかを吟味し、標準ライブラリを使うと、それがいかにシンプルでエルゴノミック（人間にとって扱いやすいもの）に変わるのかを紹介します。
 
 <!-- # Table of Contents -->
 # 目次
 
-<!-- This chapter is very long, mostly because we start at the very beginning with -->
+<!-- This section is very long, mostly because we start at the very beginning with -->
 <!-- sum types and combinators, and try to motivate the way Rust does error handling -->
 <!-- incrementally. As such, programmers with experience in other expressive type -->
 <!-- systems may want to jump around. -->
-この章はとても長くなります。
+このセクションはとても長くなります。
 というのは、直和型(sum type) とコンビネータから始めることで、Rustにおけるエラーハンドリングを徐々に改善していくための動機を与えるからです。
 このような構成ですので、もしすでに他の表現力豊かな型システムの経験があるプログラマでしたら、あちこち拾い読みしたくなるかもしれません。
 
@@ -187,8 +187,8 @@ fn main() {
 実はパニックは `unwrap` の呼び出しの中に埋め込まれているのです。
 
 <!-- To “unwrap” something in Rust is to say, “Give me the result of the -->
-<!-- computation, and if there was an error, just panic and stop the program.” -->
-<!-- It would be better if we just showed the code for unwrapping because it is so -->
+<!-- computation, and if there was an error, panic and stop the program.” -->
+<!-- It would be better if we showed the code for unwrapping because it is so -->
 <!-- simple, but to do that, we will first need to explore the `Option` and `Result` -->
 <!-- types. Both of these types have a method called `unwrap` defined on them. -->
 Rustでなにかを「アンラップする」とき、こう言っているのと同じです。
@@ -238,7 +238,7 @@ fn find(haystack: &str, needle: char) -> Option<usize> {
 }
 ```
 
-<!-- Notice that when this function finds a matching character, it doesn't just -->
+<!-- Notice that when this function finds a matching character, it doesn't only -->
 <!-- return the `offset`. Instead, it returns `Some(offset)`. `Some` is a variant or -->
 <!-- a *value constructor* for the `Option` type. You can think of it as a function -->
 <!-- with the type `fn<T>(value: T) -> Option<T>`. Correspondingly, `None` is also a -->
@@ -284,7 +284,7 @@ fn main() {
 実のところ、場合分けが、`Option<T>` に格納された値を取り出すための唯一の方法なのです。
 これは、`Option<T>` が `Some(t)` ではなく `None` だったとき、プログラマであるあなたが、このケースに対処しなければならないことを意味します。
 
-<!-- But wait, what about `unwrap`,which we used [`previously`](#code-unwrap-double)? -->
+<!-- But wait, what about `unwrap`, which we used [previously](#code-unwrap-double)? -->
 <!-- There was no case analysis there! Instead, the case analysis was put inside the -->
 <!-- `unwrap` method for you. You could define it yourself if you want: -->
 でも、ちょっと待ってください。 [さっき](#code-unwrap-double) 使った `unwrap` はどうだったでしょうか？
@@ -330,7 +330,7 @@ impl<T> Option<T> {
 <!-- not all file names have a `.` in them, so it's possible that the file name has -->
 <!-- no extension. This *possibility of absence* is encoded into the types using -->
 <!-- `Option<T>`. In other words, the compiler will force us to address the -->
-<!-- possibility that an extension does not exist. In our case, we just print out a -->
+<!-- possibility that an extension does not exist. In our case, we only print out a -->
 <!-- message saying as such. -->
 [先ほどの例](#code-option-ex-string-find) では、ファイル名から拡張子を見つけるために `find` をどのように使うかを見ました。
 当然ながら全てのファイル名に `.` があるわけではなく、拡張子のないファイル名もあり得ます。
@@ -377,7 +377,7 @@ fn extension_explicit(file_name: &str) -> Option<&str> {
 
 <!-- In fact, the case analysis in `extension_explicit` follows a very common -->
 <!-- pattern: *map* a function on to the value inside of an `Option<T>`, unless the -->
-<!-- option is `None`, in which case, just return `None`. -->
+<!-- option is `None`, in which case, return `None`. -->
 実は `extension_explicit` での場合分けは、ごく一般的なパターンである、`Option<T>` への *map* の適用に当てはめられます。
 これは、もしオプションが `None` なら `None` を返し、そうでなけれは、オプションの中の値に関数を適用する、というパターンです。
 
@@ -397,7 +397,12 @@ fn map<F, T, A>(option: Option<T>, f: F) -> Option<A> where F: FnOnce(T) -> A {
 ```
 
 <!-- Indeed, `map` is [defined as a method][2] on `Option<T>` in the standard library. -->
+<!-- As a method, it has a slightly different signature: methods take `self`, `&self`, -->
+<!-- or `&mut self` as their first argument. -->
+
 もちろん `map` は、標準のライブラリの `Option<T>` で [メソッドとして定義されています][2]。
+メソッドなので、少し違うシグネチャを持っています。
+メソッドは第一引数に `self` 、 `&self` あるいは `&mut self` を取ります。
 
 <!-- Armed with our new combinator, we can rewrite our `extension_explicit` method -->
 <!-- to get rid of the case analysis: -->
@@ -434,6 +439,10 @@ fn unwrap_or<T>(option: Option<T>, default: T) -> T {
     }
 }
 ```
+
+<!-- Like with `map` above, the standard library implementation is a method instead -->
+<!-- of a free function. -->
+上記の `map` と同じように、標準ライブラリの実装はただの関数ではなくメソッドになっています。
 
 <!-- The trick here is that the default value must have the same type as the value -->
 <!-- that might be inside the `Option<T>`. Using it is dead simple in our case: -->
@@ -503,16 +512,34 @@ fn file_name(file_path: &str) -> Option<&str> {
 }
 ```
 
-<!-- You might think that we could just use the `map` combinator to reduce the case -->
-<!-- analysis, but its type doesn't quite fit. Namely, `map` takes a function that -->
-<!-- does something only with the inner value. The result of that function is then -->
-<!-- *always* [rewrapped with `Some`](#code-option-map). Instead, we need something -->
-<!-- like `map`, but which allows the caller to return another `Option`. Its generic -->
-<!-- implementation is even simpler than `map`: -->
+<!-- You might think that we could use the `map` combinator to reduce the case -->
+<!-- analysis, but its type doesn't quite fit... -->
 場合分けを減らすために単に `map` コンビネータを使えばいいと思うかもしれませんが、型にうまく適合しません。
-なぜなら `map` が引数にとる関数は、中の値だけに適用されるからです。
+
+```rust,ignore
+fn file_path_ext(file_path: &str) -> Option<&str> {
+    file_name(file_path).map(|x| extension(x)) //Compilation error
+}
+```
+
+<!-- The `map` function here wraps the value returned by the `extension` function -->
+<!-- inside an `Option<_>` and since the `extension` function itself returns an -->
+<!-- `Option<&str>` the expression `file_name(file_path).map(|x| extension(x))` -->
+<!-- actually returns an `Option<Option<&str>>`. -->
+ここの `map` 関数は `Option<_>` 内で `extension` 関数が返した値をラップしていますが `extension` 関数自身が `Option<&str>` を返すので、式 `file_name(file_path).map(|x| extension(x))` は実際は `Option<Option<&str>>` を返すのです。
+
+<!-- But since `file_path_ext` just returns `Option<&str>` (and not -->
+<!-- `Option<Option<&str>>`) we get a compilation error. -->
+しかしながら `file_path_ext` は（`Option<Option<&str>>` ではなく）ただの `Option<&str>` を返すのでコンパイルエラーとなるのです。
+
+<!-- The result of the function taken by map as input is *always* [rewrapped with -->
+<!-- `Some`](#code-option-map). Instead, we need something like `map`, but which -->
+<!-- allows the caller to return a `Option<_>` directly without wrapping it in -->
+<!-- another `Option<_>`. -->
 そして関数が返した値は *必ず* [`Some` でラップされ直します](#code-option-map) 。
-つまりこの代わりに、 `map` に似ていながら、呼び出し元が別の `Option` を返せるしくみが必要です。
+つまりこの代わりに、 `map` に似た、しかし新たに `Option<_>` で包まずに直接呼び出し元に常に `Option<_>` を返すものが必要です。
+
+<!-- Its generic implementation is even simpler than `map`: -->
 これの汎用的な実装は `map` よりもシンプルです：
 
 ```rust
@@ -535,6 +562,11 @@ fn file_path_ext(file_path: &str) -> Option<&str> {
     file_name(file_path).and_then(extension)
 }
 ```
+
+<!-- Side note: Since `and_then` essentially works like `map` but returns an -->
+<!-- `Option<_>` instead of an `Option<Option<_>>` it is known as `flatmap` in some -->
+<!-- other languages. -->
+補足: `and_then` は基本的に `map` のように振舞いますが `Option<Option_>>` の代わりに `Option<_>` を返すので `flatmap` と呼ぶ言語もあります。
 
 <!-- The `Option` type has many other combinators [defined in the standardy
 <!-- library][5]. It is a good idea to skim this list and familiarize -->
@@ -906,12 +938,12 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!-- `Option` and a `Result`? Or what if you have a `Result<T, Error1>` and a
 <!-- `Result<T, Error2>`? Handling *composition of distinct error types* is the next
 <!-- challenge in front of us, and it will be the major theme throughout the rest of
-<!-- this chapter. -->
+<!-- this section. -->
 これまで見てきたエラーハンドリングでは、 `Option<T>` または `Result<T, SomeError>` が1つあるだけでした。
 ではもし `Option` と `Result` の両方があったらどうなるでしょうか？
 あるいは、`Result<T, Error1>` と `Result<T, Error2>` があったら？
 *異なるエラー型の組み合わせ* を扱うことが、いま目の前にある次なる課題です。
-またこれが、この章の残りの大半に共通する、主要なテーマとなります。
+またこれが、このセクションの残りの大半に共通する、主要なテーマとなります。
 
 <!-- ## Composing `Option` and `Result` -->
 ## `Option` と `Result` を合成する
@@ -930,8 +962,8 @@ fn double_number(number_str: &str) -> Result<i32> {
 そんなときは、明示的な場合分けに頼るしかないのでしょうか？
 それとも、コンビネータを使い続けることができるのでしょうか？
 
-<!-- For now, let's revisit one of the first examples in this chapter: -->
-ここで、この章の最初の方にあった例に戻ってみましょう：
+<!-- For now, let's revisit one of the first examples in this section: -->
+ここで、このセクションの最初の方にあった例に戻ってみましょう：
 
 ```rust,should_panic
 use std::env;
@@ -955,12 +987,12 @@ fn main() {
 <!-- with both an `Option` and a `Result`, the solution is *usually* to convert the -->
 <!-- `Option` to a `Result`. In our case, the absence of a command line parameter -->
 <!-- (from `env::args()`) means the user didn't invoke the program correctly. We -->
-<!-- could just use a `String` to describe the error. Let's try: -->
+<!-- could use a `String` to describe the error. Let's try: -->
 ここでの問題は `argv.nth(1)` が `Option` を返すのに、 `arg.parse()` は `Result` を返すことです。
 これらを直接合成することはできません。
 `Option` と `Result` の両方に出会ったときの *通常の* 解決策は `Option` を `Result` に変換することです。
 この例で（`env::args()` が）コマンドライン引数を返さなかったということは、ユーザーがプログラムを正しく起動しなかったことを意味します。
-エラーの理由を示すために、単純に `String` を使うこともできます。
+エラーの理由を示すために、 `String` を使うこともできます。
 試してみましょう：
 
 <span id="code-error-double-string"></span>
@@ -1009,7 +1041,7 @@ fn ok_or<T, E>(option: Option<T>, err: E) -> Result<T, E> {
 
 <!-- The other new combinator used here is -->
 <!-- [`Result::map_err`](../std/result/enum.Result.html#method.map_err). -->
-<!-- This is just like `Result::map`, except it maps a function on to the *error* -->
+<!-- This is like `Result::map`, except it maps a function on to the *error* -->
 <!-- portion of a `Result` value. If the `Result` is an `Ok(...)` value, then it is -->
 <!-- returned unmodified. -->
 ここで使った、もう一つの新しいコンビネータは [`Result::map_err`](../std/result/enum.Result.html#method.map_err) です。
@@ -1199,7 +1231,7 @@ fn main() {
 例えば、一番最後の `map` の呼び出しは、`Ok(...)` の値（ `i32` 型）に `2` を掛けます。
 もし、これより前にエラーが起きたなら、この操作は `map` の定義に従ってスキップされます。
 
-<!-- `map_err` is the trick that makes all of this work. `map_err` is just like -->
+<!-- `map_err` is the trick that makes all of this work. `map_err` is like -->
 <!-- `map`, except it applies a function to the `Err(...)` value of a `Result`. In -->
 <!-- this case, we want to convert all of our errors to one type: `String`. Since -->
 <!-- both `io::Error` and `num::ParseIntError` implement `ToString`, we can call the -->
@@ -1256,7 +1288,7 @@ fn main() {
 }
 ```
 
-<!-- Reasonable people can disagree over whether this code is better that the code -->
+<!-- Reasonable people can disagree over whether this code is better than the code -->
 <!-- that uses combinators, but if you aren't familiar with the combinator approach, -->
 <!-- this code looks simpler to read to me. It uses explicit case analysis with -->
 <!-- `match` and `if let`. If an error occurs, it simply stops executing the -->
@@ -1280,7 +1312,7 @@ fn main() {
 ## `try!` マクロ
 
 <!-- A cornerstone of error handling in Rust is the `try!` macro. The `try!` macro -->
-<!-- abstracts case analysis just like combinators, but unlike combinators, it also -->
+<!-- abstracts case analysis like combinators, but unlike combinators, it also -->
 <!-- abstracts *control flow*. Namely, it can abstract the *early return* pattern -->
 <!-- seen above. -->
 Rustでのエラー処理の基礎となるのは `try!` マクロです。
@@ -1834,7 +1866,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 <!-- limitation remains: `Box<Error>` is opaque. (N.B. This isn't entirely -->
 <!-- true because Rust does have runtime reflection, which is useful in -->
 <!-- some scenarios that are [beyond the scope of this -->
-<!-- chapter](https://crates.io/crates/error).) -->
+<!-- section](https://crates.io/crates/error).) -->
 あとひとつ、些細なことが残っています：
 `Box<Error>` 型は *オペーク* なのです。
 もし `Box<Error>` を呼び出し元に返すと、呼び出し元では背後のエラー型が何であるかを、（簡単には）調べられません。
@@ -1843,7 +1875,7 @@ fn file_double<P: AsRef<Path>>(file_path: P) -> Result<i32, Box<Error>> {
 しかし `Box<Error>` が不透明であるという制限は残ります。
 （注意：これは完全な真実ではありません。
 なぜならRustでは実行時のリフレクションができるからです。
-この方法が有効なシナリオもありますが、[この章で扱う範囲を超えています](https://crates.io/crates/error) ）
+この方法が有効なシナリオもありますが、[このセクションで扱う範囲を超えています](https://crates.io/crates/error) ）
 
 <!-- It's time to revisit our custom `CliError` type and tie everything together. -->
 では、私たちの独自のエラー型 `CliError` に戻って、全てを一つにまとめ上げましょう。
@@ -2010,7 +2042,7 @@ impl From<num::ParseFloatError> for CliError {
 <!-- [`ErrorKind`](../std/io/enum.ErrorKind.html)) or keep it hidden (like -->
 <!-- [`ParseIntError`](../std/num/struct.ParseIntError.html)). Regardless -->
 <!-- of how you do it, it's usually good practice to at least provide some -->
-<!-- information about the error beyond just its `String` -->
+<!-- information about the error beyond its `String` -->
 <!-- representation. But certainly, this will vary depending on use cases. -->
 もし、あなたのライブラリがカスタマイズされたエラーを報告しなければならないなら、恐らく、独自のエラー型を定義するべきでしょう。
 エラーの表現を表にさらすか（例： [`ErrorKind`](../std/io/enum.ErrorKind.html) ） 、隠しておくか（例： [`ParseIntError`](../std/num/struct.ParseIntError.html) ）は、あなたの自由です。
@@ -2049,11 +2081,11 @@ impl From<num::ParseFloatError> for CliError {
 <!-- # Case study: A program to read population data -->
 # ケーススタディ：人口データを読み込むプログラム
 
-<!-- This chapter was long, and depending on your background, it might be -->
+<!-- This section was long, and depending on your background, it might be -->
 <!-- rather dense. While there is plenty of example code to go along with -->
 <!-- the prose, most of it was specifically designed to be pedagogical. So, -->
 <!-- we're going to do something new: a case study. -->
-この章は長かったですね。
+このセクションは長かったですね。
 あなたのバックグラウンドにもよりますが、内容が少し濃すぎたかもしれません。
 たくさんのコード例に、散文的な説明が添えられる形で進行しましたが、これは主に学習を助けるために、あえてこう構成されていたのでした。
 次はなにか新しいことをしましょう。ケーススタディです。
@@ -2069,7 +2101,7 @@ impl From<num::ParseFloatError> for CliError {
 <!-- The data we'll be using comes from the [Data Science -->
 <!-- Toolkit][11]. I've prepared some data from it for this exercise. You -->
 <!-- can either grab the [world population data][12] (41MB gzip compressed, -->
-<!-- 145MB uncompressed) or just the [US population data][13] (2.2MB gzip -->
+<!-- 145MB uncompressed) or only the [US population data][13] (2.2MB gzip -->
 <!-- compressed, 7.2MB uncompressed). -->
 ここで使うデータは [データサイエンスツールキット][11] から取得したものです。
 これを元に演習で使うデータを準備しましたので、2つのファイルのどちらかをダウンロードしてください：
@@ -2089,9 +2121,9 @@ impl From<num::ParseFloatError> for CliError {
 
 <!-- We're not going to spend a lot of time on setting up a project with -->
 <!-- Cargo because it is already covered well in [the Cargo -->
-<!-- chapter](../book/hello-cargo.html) and [Cargo's documentation][14]. -->
+<!-- section](getting-started.html#hello-cargo) and [Cargo's documentation][14]. -->
 <!-- 訳者コメント：hello-cargo.htmlがリンク切れのため、リンク先を変更しました。 -->
-Cargoを使ってプロジェクトをセットアップしますが、その方法はすでに [Hello, Cargo!](../book/getting-started.html#hello-cargo) と [Cargoのドキュメント][14] でカバーされていますので、ここでは簡単に説明します。
+Cargoを使ってプロジェクトをセットアップしますが、その方法はすでに [Hello, Cargo!](getting-started.html#hello-cargo) と [Cargoのドキュメント][14] でカバーされていますので、ここでは簡単に説明します。
 
 <!-- To get started from scratch, run `cargo new --bin city-pop` and make sure your -->
 <!-- `Cargo.toml` looks something like this: -->
@@ -2155,7 +2187,7 @@ fn print_usage(program: &str, opts: Options) {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let program = args[0].clone();
+    let program = &args[0];
 
     let mut opts = Options::new();
     opts.optflag("h", "help", "Show this usage message.");
@@ -2168,10 +2200,10 @@ fn main() {
         print_usage(&program, opts);
         return;
     }
-    let data_path = args[1].clone();
-    let city = args[2].clone();
+    let data_path = &args[1];
+    let city = &args[2];
 
-#     // Do stuff with information
+#    // Do stuff with information
     // 情報を元にいろいろなことをする
 }
 ```
@@ -2225,6 +2257,8 @@ Rustは私たちにエラーハンドリングが明示的であることを（ 
 （ファイルの先頭に `extern crate csv;` を追加することを忘れずに。）
 
 ```rust,ignore
+use std::fs::File;
+
 # // This struct represents the data in each row of the CSV file.
 # // Type based decoding absolves us of a lot of the nitty gritty error
 # // handling, like parsing strings as integers or floats.
@@ -2255,7 +2289,7 @@ fn print_usage(program: &str, opts: Options) {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let program = args[0].clone();
+    let program = &args[0];
 
     let mut opts = Options::new();
     opts.optflag("h", "help", "Show this usage message.");
@@ -2267,25 +2301,24 @@ fn main() {
 
     if matches.opt_present("h") {
         print_usage(&program, opts);
-		return;
-	}
+        return;
+    }
 
-	let data_file = args[1].clone();
-	let data_path = Path::new(&data_file);
-	let city = args[2].clone();
+    let data_path = &args[1];
+    let city: &str = &args[2];
 
-	let file = fs::File::open(data_path).unwrap();
-	let mut rdr = csv::Reader::from_reader(file);
+    let file = File::open(data_path).unwrap();
+    let mut rdr = csv::Reader::from_reader(file);
 
-	for row in rdr.decode::<Row>() {
-		let row = row.unwrap();
+    for row in rdr.decode::<Row>() {
+        let row = row.unwrap();
 
-		if row.city == city {
-			println!("{}, {}: {:?}",
-				row.city, row.country,
-				row.population.expect("population count"));
-		}
-	}
+        if row.city == city {
+            println!("{}, {}: {:?}",
+                row.city, row.country,
+                row.population.expect("population count"));
+        }
+    }
 }
 ```
 
@@ -2298,7 +2331,7 @@ fn main() {
 ここで、エラーの概要を把握しましょう。
 まずは明白なところ、つまり `unwrap` が呼ばれている3ヶ所から始めます：
 
-<!-- 1. [`fs::File::open`](../std/fs/struct.File.html#method.open) -->
+<!-- 1. [`File::open`](../std/fs/struct.File.html#method.open) -->
 <!--    can return an -->
 <!--    [`io::Error`](../std/io/struct.Error.html). -->
 <!-- 2. [`csv::Reader::decode`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode) -->
@@ -2309,7 +2342,7 @@ fn main() {
 <!--    can produce a -->
 <!--    [`csv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html). -->
 <!-- 3. If `row.population` is `None`, then calling `expect` will panic. -->
-1. [`fs::File::open`](../std/fs/struct.File.html#method.open) が [`io::Error`](../std/io/struct.Error.html) を返すかもしれない。
+1. [`File::open`](../std/fs/struct.File.html#method.open) が [`io::Error`](../std/io/struct.Error.html) を返すかもしれない。
 2. [`csv::Reader::decode`](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.decode) は1度に1件のレコードをデコードし、 [レコードのデコード](http://burntsushi.net/rustdoc/csv/struct.DecodedRecords.html) （`Iterator` の impl の `Item` 関連型を見てください）は [`csv::Error`](http://burntsushi.net/rustdoc/csv/enum.Error.html) を起こすかもしれない。
 3. もし `row.population` が `None` なら、 `expect` の呼び出しはパニックする。
 
@@ -2341,7 +2374,7 @@ fn main() {
 
 <!-- [Previously](#the-limits-of-combinators) we started refactoring our code by -->
 <!-- changing the type of our function from `T` to `Result<T, OurErrorType>`. In -->
-<!-- this case, `OurErrorType` is just `Box<Error>`. But what's `T`? And can we add -->
+<!-- this case, `OurErrorType` is only `Box<Error>`. But what's `T`? And can we add -->
 <!-- a return type to `main`? -->
 [以前](#コンビネータの限界) コードのリファクタリングを、関数の型を `T` から `Result<T, 私たちのエラー型>` に変更することから始めました。
 ここでは `私たちのエラー型` は単に `Box<Error>` です。
@@ -2366,6 +2399,8 @@ fn main() {
 また、人口のカウントがない場合は、いまは単にその行を無視することに注意してください。
 
 ```rust,ignore
+use std::path::Path;
+
 struct Row {
 #     // unchanged
     // 変更なし
@@ -2387,7 +2422,7 @@ fn print_usage(program: &str, opts: Options) {
 
 fn search<P: AsRef<Path>>(file_path: P, city: &str) -> Vec<PopulationCount> {
     let mut found = vec![];
-    let file = fs::File::open(file_path).unwrap();
+    let file = File::open(file_path).unwrap();
     let mut rdr = csv::Reader::from_reader(file);
     for row in rdr.decode::<Row>() {
         let row = row.unwrap();
@@ -2407,27 +2442,26 @@ fn search<P: AsRef<Path>>(file_path: P, city: &str) -> Vec<PopulationCount> {
 }
 
 fn main() {
-	let args: Vec<String> = env::args().collect();
-	let program = args[0].clone();
+    let args: Vec<String> = env::args().collect();
+    let program = &args[0];
 
-	let mut opts = Options::new();
-	opts.optflag("h", "help", "Show this usage message.");
+    let mut opts = Options::new();
+    opts.optflag("h", "help", "Show this usage message.");
 
-	let matches = match opts.parse(&args[1..]) {
-		Ok(m)  => { m }
-		Err(e) => { panic!(e.to_string()) }
-	};
-	if matches.opt_present("h") {
-		print_usage(&program, opts);
-		return;
-	}
+    let matches = match opts.parse(&args[1..]) {
+        Ok(m)  => { m }
+        Err(e) => { panic!(e.to_string()) }
+    };
+    if matches.opt_present("h") {
+        print_usage(&program, opts);
+        return;
+    }
 
-	let data_file = args[1].clone();
-	let data_path = Path::new(&data_file);
-	let city = args[2].clone();
-	for pop in search(&data_path, &city) {
-		println!("{}, {}: {:?}", pop.city, pop.country, pop.count);
-	}
+    let data_path = &args[1];
+    let city = &args[2];
+    for pop in search(data_path, city) {
+        println!("{}, {}: {:?}", pop.city, pop.country, pop.count);
+    }
 }
 
 ```
@@ -2452,11 +2486,16 @@ fn main() {
 やってみましょう：
 
 ```rust,ignore
+use std::error::Error;
+
+# // The rest of the code before this is unchanged
+// ここ以前の他のコードに変更なし
+
 fn search<P: AsRef<Path>>
          (file_path: P, city: &str)
          -> Result<Vec<PopulationCount>, Box<Error+Send+Sync>> {
     let mut found = vec![];
-    let file = try!(fs::File::open(file_path));
+    let file = try!(File::open(file_path));
     let mut rdr = csv::Reader::from_reader(file);
     for row in rdr.decode::<Row>() {
         let row = try!(row);
@@ -2568,7 +2607,7 @@ match search(&data_file, &city) {
 
 ```rust,ignore
 fn print_usage(program: &str, opts: Options) {
-	println!("{}", opts.usage(&format!("Usage: {} [options] <city>", program)));
+    println!("{}", opts.usage(&format!("Usage: {} [options] <city>", program)));
 }
 ```
 <!-- The next part is going to be only a little harder: -->
@@ -2581,17 +2620,22 @@ opts.optopt("f", "file", "Choose an input file, instead of using STDIN.", "NAME"
 opts.optflag("h", "help", "Show this usage message.");
 ...
 let file = matches.opt_str("f");
-let data_file = file.as_ref().map(Path::new);
+let data_file = &file.as_ref().map(Path::new);
 
 let city = if !matches.free.is_empty() {
-	matches.free[0].clone()
+    &matches.free[0]
 } else {
-	print_usage(&program, opts);
-	return;
+    print_usage(&program, opts);
+    return;
 };
 
-for pop in search(&data_file, &city) {
-	println!("{}, {}: {:?}", pop.city, pop.country, pop.count);
+match search(data_file, city) {
+    Ok(pops) => {
+        for pop in pops {
+            println!("{}, {}: {:?}", pop.city, pop.country, pop.count);
+        }
+    }
+    Err(err) => println!("{}", err)
 }
 ...
 ```
@@ -2620,7 +2664,7 @@ for pop in search(&data_file, &city) {
 <!-- But how can we use the same code over both types? There's actually a -->
 <!-- couple ways we could go about this. One way is to write `search` such -->
 <!-- that it is generic on some type parameter `R` that satisfies -->
-<!-- `io::Read`. Another way is to just use trait objects: -->
+<!-- `io::Read`. Another way is to use trait objects: -->
 `search` の修正は少し厄介です。
 `csv` トレイトは [`io::Read` を実装している型](http://burntsushi.net/rustdoc/csv/struct.Reader.html#method.from_reader) からなら、いずれかを問わず、パーサーを構築できます。
 しかし両方の型に同じコードが使えるのでしょうか？
@@ -2629,13 +2673,18 @@ for pop in search(&data_file, &city) {
 もうひとつの方法は、以下のように、トレイトオブジェクトを使うことです：
 
 ```rust,ignore
+use std::io;
+
+# // The rest of the code before this is unchanged
+// ここ以前の他のコードに変更なし
+
 fn search<P: AsRef<Path>>
          (file_path: &Option<P>, city: &str)
          -> Result<Vec<PopulationCount>, Box<Error+Send+Sync>> {
     let mut found = vec![];
     let input: Box<io::Read> = match *file_path {
         None => Box::new(io::stdin()),
-        Some(ref file_path) => Box::new(try!(fs::File::open(file_path))),
+        Some(ref file_path) => Box::new(try!(File::open(file_path))),
     };
     let mut rdr = csv::Reader::from_reader(input);
 #     // The rest remains unchanged!
@@ -2689,6 +2738,18 @@ impl Error for CliError {
             CliError::NotFound => "not found",
         }
     }
+
+    fn cause(&self) -> Option<&error::Error> {
+        match *self {            
+            CliError::Io(ref err) => Some(err),
+            CliError::Parse(ref err) => Some(err),
+#            // Our custom error doesn't have an underlying cause, but we could
+#            // modify it so that it does.
+            // 今回の自前のエラーは下流の原因となるエラーは持っていませんが
+            // そのように変更することも可能です。
+            CliError::NotFound() => None,
+        }
+    }
 }
 ```
 
@@ -2737,7 +2798,7 @@ fn search<P: AsRef<Path>>
     let mut found = vec![];
     let input: Box<io::Read> = match *file_path {
         None => Box::new(io::stdin()),
-        Some(ref file_path) => Box::new(try!(fs::File::open(file_path))),
+        Some(ref file_path) => Box::new(try!(File::open(file_path))),
     };
     let mut rdr = csv::Reader::from_reader(input);
     for row in rdr.decode::<Row>() {
@@ -2819,7 +2880,7 @@ opts.optflag("q", "quiet", "Silences errors and warnings.");
 ...
 ```
 
-<!-- Now we just need to implement our “quiet” functionality. This requires us to -->
+<!-- Now we only need to implement our “quiet” functionality. This requires us to -->
 <!-- tweak the case analysis in `main`: -->
 後は「quiet」機能を実装するだけです。
 `main` 関数の場合分けを少し修正します：
@@ -2859,16 +2920,16 @@ match search(&args.arg_data_path, &args.arg_city) {
 <!-- # The Short Story -->
 # まとめ
 
-<!-- Since this chapter is long, it is useful to have a quick summary for error -->
+<!-- Since this section is long, it is useful to have a quick summary for error -->
 <!-- handling in Rust. These are some good “rules of thumb." They are emphatically -->
 <!-- *not* commandments. There are probably good reasons to break every one of these -->
 <!-- heuristics! -->
-この章は長いので、Rustにおけるエラー処理について簡単にまとめたほうがいいでしょう。
+このセクションは長いので、Rustにおけるエラー処理について簡単にまとめたほうがいいでしょう。
 そこには「大まかな法則」が存在しますが、これらは命令的なものでは断固として *ありません* 。
 それぞれのヒューリスティックを破るだけの十分な理由もあり得ます！
 
 <!-- * If you're writing short example code that would be overburdened by error -->
-<!--   handling, it's probably just fine to use `unwrap` (whether that's -->
+<!--   handling, it's probably fine to use `unwrap` (whether that's -->
 <!--   [`Result::unwrap`](../std/result/enum.Result.html#method.unwrap), -->
 <!--   [`Option::unwrap`](../std/option/enum.Option.html#method.unwrap) -->
 <!--   or preferably -->
@@ -2904,7 +2965,7 @@ match search(&args.arg_data_path, &args.arg_city) {
 <!--   found a healthy mix of `try!` and combinators to be quite appealing. -->
 <!--   `and_then`, `map` and `unwrap_or` are my favorites. -->
 * もし短いサンプルコードを書いていて、エラーハンドリングが重荷になるようなら、 `unwrap` を使っても大丈夫かもしれません（ [`Result::unwrap`](../std/result/enum.Result.html#method.unwrap), [`Option::unwrap`](../std/option/enum.Option.html#method.unwrap), [`Option::expect`](../std/option/enum.Option.html#method.expect) のいずれかが使えます）。
-  あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、この章を紹介してください！）
+  あなたのコードを参考にする人は、正しいエラーハンドリングについて知っているべきです。（そうでなければ、このセクションを紹介してください！）
 * もし即興のプログラムを書いているなら `unwrap` を使うことに罪悪感を持たなくてもいいでしょう。
   ただし警告があります：もしそれが最終的に他の人たちの手に渡るなら、彼らが貧弱なエラーメッセージに動揺してもおかしくありません。
 * もし即興のプログラムを書いていて、パニックすることに、どうしても後ろめたさを感じるなら、エラー型として `String` か `Box<Error + Send + Sync>` のいずれかを使ってください（ `Box<Error + Send + Sync>` は [`From` 実装がある](../std/convert/trait.From.html) ので使えます）。
