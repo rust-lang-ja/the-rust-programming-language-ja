@@ -324,7 +324,7 @@ fn main() {
 これは内部の参照カウントがスレッドセーフに管理されていないのでデータ競合を起こし得るからです。
 
 <!-- To solve this, we'll use `Arc<T>`, Rust's standard atomic reference count type. -->
-この問題を解決するために、 `Arc<T>` を使います。Rustの標準のアトミックなリファレンスカウント型です。
+この問題を解決するために、 `Arc<T>` を使います。Rustの標準のアトミックな参照カウント型です。
 
 <!-- The Atomic part means `Arc<T>` can safely be accessed from multiple threads. -->
 <!-- To do this the compiler guarantees that mutations of the internal count use -->
