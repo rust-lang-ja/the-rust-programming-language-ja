@@ -378,10 +378,12 @@ LOG(state)
 
 ```text
 const char *state = "reticulating splines";
-int state = get_log_state();
-if (state > 0) {
-    printf("log(%d): %s\n", state, state);
-}
+{
+    int state = get_log_state();
+    if (state > 0) {
+        printf("log(%d): %s\n", state, state);
+    }
+ }
 ```
 
 <!-- The second variable named `state` shadows the first one.  This is a problem -->
@@ -437,10 +439,9 @@ fn main() {
 }
 ```
 
-<!-- Instead you need to pass the variable name into the invocation, so it’s tagged -->
-<!-- with the right syntax context. -->
-代わりに変数名を呼出時に渡す必要があります、
-呼出時に渡す事で正しい構文コンテキストでタグ付けされます。
+<!-- Instead you need to pass the variable name into the invocation, so that it’s -->
+<!-- tagged with the right syntax context. -->
+呼出時に渡す事で正しい構文コンテキストでタグ付けされるように、代わりに変数名を呼出時に渡す必要があります。
 
 ```rust
 macro_rules! foo {
@@ -613,7 +614,7 @@ Rustはこの曖昧性を判定するために単純なルールを利用しま�
 <!-- * `ty`: a type. Examples: `i32`; `Vec<(char, String)>`; `&T`. -->
 <!-- * `pat`: a pattern. Examples: `Some(t)`; `(17, 'a')`; `_`. -->
 <!-- * `stmt`: a single statement. Example: `let x = 3`. -->
-<!-- * `block`: a brace-delimited sequence of statements. Example: -->
+<!-- * `block`: a brace-delimited sequence of statements and optionally an expression. Example: -->
 <!--   `{ log(error, "hi"); return 12; }`. -->
 <!-- * `item`: an [item][item]. Examples: `fn foo() { }`; `struct Bar;`. -->
 <!-- * `meta`: a "meta item", as found in attributes. Example: `cfg(target_os = "windows")`. -->
@@ -624,7 +625,7 @@ Rustはこの曖昧性を判定するために単純なルールを利用しま�
 * `ty`: 型。 例: `i32`; `Vec<(char, String)>`; `&T`
 * `pat`: パターン。 例: `Some(t)`; `(17, 'a')`; `_`
 * `stmt`: 単一の文。 例: `let x = 3`
-* `block`: 波括弧で区切られた文のシーケンス。 例: `{ log(error, "hi"); return 12 }`
+* `block`: 波括弧で区切られた文のシーケンスと場合によっては式も付く。 例: `{ log(error, "hi"); return 12 }`
 * `item`: [アイテム][item]。 例: `fn foo() { }`; `struct Bar;`
 * `meta`: アトリビュートで見られるような「メタアイテム」。 例: `cfg(target_os = "windows")`
 * `tt`: 単一のトークンの木
@@ -632,13 +633,13 @@ Rustはこの曖昧性を判定するために単純なルールを利用しま�
 <!-- There are additional rules regarding the next token after a metavariable: -->
 またメタ変数の次のトークンについて以下のルールが存在します:
 
-<!-- * `expr` variables may only be followed by one of: `=> , ;` -->
-<!-- * `ty` and `path` variables may only be followed by one of: `=> , : = > as` -->
-<!-- * `pat` variables may only be followed by one of: `=> , = if in` -->
+<!-- * `expr` and `stmt` variables may only be followed by one of: `=> , ;` -->
+<!-- * `ty` and `path` variables may only be followed by one of: `=> , = | ; : > [ { as where` -->
+<!-- * `pat` variables may only be followed by one of: `=> , = | if in` -->
 <!-- * Other variables may be followed by any token. -->
-* `expr` 変数は `=> , ;` のどれか一つのみが次に現れます
-* `ty` と `path` 変数は `=> , : = > as` のどれか一つのみが次に現れます
-* `pat` 変数は `=> , = if in` のどれか一つのみが次に現れます
+* `expr` 変数と `stmt` 変数は `=> , ;` のどれか一つのみが次に現れます
+* `ty` と `path` 変数は `=> , = | ; : > [ { as where` のどれか一つのみが次に現れます
+* `pat` 変数は `=> , = | if in` のどれか一つのみが次に現れます
 * その他の変数は任意のトークンが次に現れます
 
 <!-- These rules provide some flexibility for Rust’s syntax to evolve without -->
@@ -646,15 +647,15 @@ Rustはこの曖昧性を判定するために単純なルールを利用しま�
 これらのルールは既存のマクロを破壊すること無くRustの構文を拡張するための自由度を与えます。
 
 <!-- The macro system does not deal with parse ambiguity at all. For example, the -->
-<!-- grammar `$($t:ty)* $e:expr` will always fail to parse, because the parser would -->
-<!-- be forced to choose between parsing `$t` and parsing `$e`. Changing the -->
+<!-- grammar `$($i:ident)* $e:expr` will always fail to parse, because the parser would -->
+<!-- be forced to choose between parsing `$i` and parsing `$e`. Changing the -->
 <!-- invocation syntax to put a distinctive token in front can solve the problem. In -->
-<!-- this case, you can write `$(T $t:ty)* E $e:exp`. -->
+<!-- this case, you can write `$(I $i:ident)* E $e:expr`. -->
 マクロシステムはパースの曖昧さについては何も対処しません。
-例えば、 `$($t:ty)* $e:expr` は常にパースが失敗します、
-なぜならパーサーは `$t` をパースするか、 `$e` をパースするかを選ぶことを強制されるためです。
+例えば、 `$($i:ident)* $e:expr` は常にパースが失敗します、
+なぜならパーサーは `$i` をパースするか、 `$e` をパースするかを選ぶことを強制されるためです。
 呼出構文を変更して識別可能なトークンを先頭につけることでこの問題は回避することができます。
-そのようにする場合、例えば `$(T $t:ty)* E $e:exp` のように書くことができます。
+そのようにする場合、例えば `$(I $i:ident)* E $e:expr` のように書くことができます。
 
 [item]: ../reference.html#items
 
@@ -821,10 +822,9 @@ macro_rules! inc {
 
 
 <!-- To keep this system simple and correct, `#[macro_use] extern crate ...` may -->
-<!-- only appear at the root of your crate, not inside `mod`. This ensures that -->
-<!-- `$crate` is a single identifier. -->
+<!-- only appear at the root of your crate, not inside `mod`. -->
 このシステムを簡潔で正しく保つために、 `#[macro_use] extern crate ...` はクレートのルートにしか登場せず、
-`mod` の中には現れません。これは `$crate` が単一の識別子を持つことを確実にします。
+`mod` の中には現れません。
 
 
 <!-- # The deep end -->
