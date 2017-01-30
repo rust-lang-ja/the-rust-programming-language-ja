@@ -131,6 +131,59 @@ fn main() {
 }
 ```
 
+<!-- As closures can capture variables from their environment, we can also try to -->
+<!-- bring some data into the other thread: -->
+クロージャは環境から変数を捕捉出来るので、スレッドにデータを取り込もうとすることも出来ます。
+
+
+```rust,ignore
+use std::thread;
+
+fn main() {
+    let x = 1;
+    thread::spawn(|| {
+        println!("x is {}", x);
+    });
+}
+```
+
+<!-- However, this gives us an error: -->
+しかし、これはエラーです。
+
+```text
+5:19: 7:6 error: closure may outlive the current function, but it
+                 borrows `x`, which is owned by the current function
+...
+5:19: 7:6 help: to force the closure to take ownership of `x` (and any other referenced variables),
+          use the `move` keyword, as shown:
+      thread::spawn(move || {
+          println!("x is {}", x);
+      });
+```
+
+<!-- This is because by default closures capture variables by reference, and thus the -->
+<!-- closure only captures a _reference to `x`_. This is a problem, because the -->
+<!-- thread may outlive the scope of `x`, leading to a dangling pointer. -->
+これはクロージャはデフォルトで変数を参照で捕捉するためクロージャは _`x` への参照_ のみを捕捉するからです。
+これは問題です。なぜならスレッドは `x` のスコープよに長生きするかもしれないのでダングリングポインタを招きかねません。
+
+<!-- To fix this, we use a `move` closure as mentioned in the error message. `move` -->
+<!-- closures are explained in depth [here](closures.html#move-closures); basically -->
+<!-- they move variables from their environment into themselves. -->
+これを直すにはエラーメッセージにあるように `move` クロージャを使います。
+`move` クロージャは [こちら](closures.html#move-closures) で詳細に説明されていますが、基本的には変数を環境からクロージャへムーブします。
+
+```rust
+use std::thread;
+
+fn main() {
+    let x = 1;
+    thread::spawn(move || {
+        println!("x is {}", x);
+    });
+}
+```
+
 <!-- Many languages have the ability to execute threads, but it's wildly unsafe. -->
 <!-- There are entire books about how to prevent errors that occur from shared -->
 <!-- mutable state. Rust helps out with its type system here as well, by preventing -->
@@ -169,9 +222,9 @@ shared mutable state がとてもとても悪いものであるということ�
 ポインタの誤った使用の防止には [所有権のシステム](ownership.html) が役立ちますが、このシステムはデータ競合を排除する際にも同様に一役買います。
 データ競合は、並行性のバグの中で最悪なものの一つです。
 
-<!-- As an example, here is a Rust program that would have a data race in many -->
+<!-- As an example, here is a Rust program that could have a data race in many -->
 <!-- languages. It will not compile: -->
-例として、多くの言語で起こるようなデータ競合を含んだRustプログラムをあげます。
+例として、多くの言語で起こりうるようなデータ競合を含んだRustプログラムをあげます。
 これは、コンパイルが通りません。
 
 ```ignore
@@ -201,32 +254,88 @@ fn main() {
 ```
 
 <!-- Rust knows this wouldn't be safe! If we had a reference to `data` in each -->
-<!-- thread, and the thread takes ownership of the reference, we'd have three -->
-<!-- owners! -->
+<!-- thread, and the thread takes ownership of the reference, we'd have three owners! -->
+<!-- `data` gets moved out of `main` in the first call to `spawn()`, so subsequent -->
+<!-- calls in the loop cannot use this variable. -->
 Rustはこれが安全でないだろうと知っているのです!
 もし、各スレッドに `data` への参照があり、スレッドごとにその参照の所有権があるとしたら、３人の所有者がいることになってしまうのです!
+`data` は最初の `spawn` の呼び出しで `main` からムーブしてしまっているので、ループ内の続く呼び出しはこの変数を使えないのです。
 
-<!-- So, we need some type that lets us have more than one reference to a value and -->
-<!-- that we can share between threads, that is it must implement `Sync`. -->
-そのため、１つの値に対して２つ以上の参照を持てるようにして、スレッド間で共有できるような型が必要です。
-そして、その型は `Sync` を実装していなければなりません。
+<!-- Note that this specific example will not cause a data race since different array -->
+<!-- indices are being accessed. But this can't be determined at compile time, and in -->
+<!-- a similar situation where `i` is a constant or is random, you would have a data -->
+<!-- race. -->
+この例では配列の異ったインデックスにアクセスしているのでデータ競合は起きません。
+しかしこの分離性はコンパイル時に決定出来ませんし `i` が定数や乱数だった時にデータ競合が起きます。
 
-<!-- We'll use `Arc<T>`, Rust's standard atomic reference count type, which -->
-<!-- wraps a value up with some extra runtime bookkeeping which allows us to -->
-<!-- share the ownership of the value between multiple references at the same time. -->
-Rustの標準アトミック参照カウント型である `Arc<T>` を使いましょう。
-これは複数の参照間で値の所有権を同時に共有できるように、値を特別な実行時の管理用データでくるむものです。
+<!-- So, we need some type that lets us have more than one owning reference to a -->
+<!-- value. Usually, we'd use `Rc<T>` for this, which is a reference counted type -->
+<!-- that provides shared ownership. It has some runtime bookkeeping that keeps track -->
+<!-- of the number of references to it, hence the "reference count" part of its name. -->
+そのため、１つの値に対して２つ以上の所有権を持った参照を持てるような型が必要です。
+通常、この用途には `Rc<T>` を使います。これは所有権の共有を提供する参照カウントの型です。
+実行時にある程度の管理コストを払って、値への参照の数をカウントします。
+なので名前に参照カウント(reference count) が付いているのです。
 
-<!-- The bookkeeping consists of a count of how many of these references exist to -->
-<!-- the value, hence the reference count part of the name. -->
-その管理用データには、値への参照がいくつ存在しているかというカウントが記録されています。
-すなわち名前の「参照カウント」の部分にあたります。
+<!-- Calling `clone()` on an `Rc<T>` will return a new owned reference and bump the -->
+<!-- internal reference count. We create one of these for each thread: -->
+`Rc<T>` に対して `clone()` を呼ぶと新たな所有権を持った参照を返し、内部の参照カウント数を増やします。
+スレッドそれぞれで `clone()` を取ります:
+
+```ignore
+use std::thread;
+use std::time::Duration;
+use std::rc::Rc;
+
+fn main() {
+    let mut data = Rc::new(vec![1, 2, 3]);
+
+    for i in 0..3 {
+#        // create a new owned reference
+        // 所有権を持った参照を新たに作る
+        let data_ref = data.clone();
+
+#        // use it in a thread
+        // スレッド内でそれを使う
+        thread::spawn(move || {
+            data_ref[i] += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+```
+
+<!-- This won't work, however, and will give us the error: -->
+これは動作せず、以下のようなエラーを出します:
+
+```text
+13:9: 13:22 error: the trait bound `alloc::rc::Rc<collections::vec::Vec<i32>> : core::marker::Send`
+            is not satisfied
+...
+13:9: 13:22 note: `alloc::rc::Rc<collections::vec::Vec<i32>>`
+            cannot be sent between threads safely
+```
+
+<!-- As the error message mentions, `Rc` cannot be sent between threads safely. This -->
+<!-- is because the internal reference count is not maintained in a thread safe -->
+<!-- matter and can have a data race. -->
+エラーメッセージで言及があるように、 `Rc` は安全に別のスレッドに送ることが出来ません。
+これは内部の参照カウントがスレッドセーフに管理されていないのでデータ競合を起こし得るからです。
+
+<!-- To solve this, we'll use `Arc<T>`, Rust's standard atomic reference count type. -->
+この問題を解決するために、 `Arc<T>` を使います。Rustの標準のアトミックな参照カウント型です。
 
 <!-- The Atomic part means `Arc<T>` can safely be accessed from multiple threads. -->
 <!-- To do this the compiler guarantees that mutations of the internal count use -->
 <!-- indivisible operations which can't have data races. -->
 「アトミック」という部分は `Arc<T>` が複数スレッドから安全にアクセスできることを意味しています。
 このためにコンパイラは、内部のカウントの更新には、データ競合が起こりえない分割不能な操作が用いられることを保証します。
+
+
+<!-- In essence, `Arc<T>` is a type that lets us share ownership of data _across -->
+<!-- threads_. -->
+要点は `Arc<T>` は _スレッド間_ で所有権を共有可能にする型ということです。
 
 ```ignore
 use std::thread;
@@ -247,9 +356,9 @@ fn main() {
 }
 ```
 
-<!-- We now call `clone()` on our `Arc<T>`, which increases the internal count. -->
+<!-- Similarly to last time, we use `clone()` to create a new owned handle. -->
 <!-- This handle is then moved into the new thread. -->
-ここで `Arc<T>` について `clone()` を呼んで、内部のカウントを増やしています。
+前回と同様に `clone()` を使って所有権を持った新たなハンドルを作っています。
 そして、このハンドルは新たなスレッドに移動されます。
 
 <!-- And... still gives us an error. -->
@@ -262,20 +371,26 @@ fn main() {
                              ^~~~
 ```
 
-<!-- `Arc<T>` assumes one more property about its contents to ensure that it is safe -->
-<!-- to share across threads: it assumes its contents are `Sync`. This is true for -->
-<!-- our value if it's immutable, but we want to be able to mutate it, so we need -->
-<!-- something else to persuade the borrow checker we know what we're doing. -->
-`Arc<T>` はスレッドをまたいだ共有を安全にするために、その中身に対してもう一つの仮定をおいています。
-それは、中身が `Sync` であるという仮定です。
-この仮定は値がイミュータブルであるときは真になりますが、今回は値を変化できるようにしたいです。
-そのため、借用チェッカに対し、我々は自分たちが何をやっているかを知っています、と説得するための何かが必要になります。
+<!-- `Arc<T>` by default has immutable contents. It allows the _sharing_ of data -->
+<!-- between threads, but shared mutable data is unsafe and when threads are -->
+<!-- involved can cause data races! -->
+`Arc<T>` が保持する値はデフォルトでイミュータブルです。
+スレッド間での _共有_ はしてくれますがスレッドが絡んだ時の共有されたミュータブルなデータはデータ競合を引き起こし得ます。
 
-<!-- It looks like we need some type that allows us to safely mutate a shared value, -->
-<!-- for example a type that can ensure only one thread at a time is able to -->
-<!-- mutate the value inside it at any one time. -->
-共有された値を安全に変更できるようにするための型が必要そうです。
-例えば、どの時点においても、同時に一つのスレッドのなかでしか値は変更できないということを保証できる型です。
+<!-- Usually when we wish to make something in an immutable position mutable, we use -->
+<!-- `Cell<T>` or `RefCell<T>` which allow safe mutation via runtime checks or -->
+<!-- otherwise (see also: [Choosing Your Guarantees](choosing-your-guarantees.html)). -->
+<!-- However, similar to `Rc`, these are not thread safe. If we try using these, we -->
+<!-- will get an error about these types not being `Sync`, and the code will fail to -->
+<!-- compile. -->
+通常イミュータブルな位置のものをミュータブルにしたい時は `Cell<T>` 又は `RefCell<T>` が実行時のチェックあるいは他の方法で安全に変更する手段を提供してくれる（参考: [保障を選ぶ](choosing-your-guarantees.html)）のでそれを使います。
+しかしながら `Rc` と同じくこれらはスレッドセーフではありません。
+これらを使おうとすると `Sync` でない旨のエラーが出てコンパイルに失敗します。
+
+<!-- It looks like we need some type that allows us to safely mutate a shared value -->
+<!-- across threads, for example a type that can ensure only one thread at a time is -->
+<!-- able to mutate the value inside it at any one time. -->
+スレッド間で共有された値を安全に変更出来る型、例えばどの瞬間でも同時に1スレッドしか内容の値を変更できないことを保障する型が必要そうです。
 
 <!-- For that, we can use the `Mutex<T>` type! -->
 そのためには、 `Mutex<T>` 型を使うことができます!
@@ -307,9 +422,24 @@ fn main() {
 among the threads. -->
 `i` の値はクロージャへ束縛(コピー)されるだけで、スレッド間で共有されるわけではないことに注意してください。
 
-<!-- Also note that [`lock`](../std/sync/struct.Mutex.html#method.lock) method of -->
+<!-- We're "locking" the mutex here. A mutex (short for "mutual exclusion"), as -->
+<!-- mentioned, only allows one thread at a time to access a value. When we wish to -->
+<!-- access the value, we use `lock()` on it. This will "lock" the mutex, and no -->
+<!-- other thread will be able to lock it (and hence, do anything with the value) -->
+<!-- until we're done with it. If a thread attempts to lock a mutex which is already -->
+<!-- locked, it will wait until the other thread releases the lock. -->
+ここではmutexを「ロック」しているのです。
+mutex（「mutual exclusion（訳注: 相互排他）」の略）は前述の通り同時に1つのスレッドからのアクセスしか許しません。
+値にアクセスしようと思ったら、 `lock()` を使います。これは値を使い終わるまでmutexを「ロック」して他のどのスレッドもロック出来ない（そして値に対して何も出来ない）ようにします。
+もし既にロックされているmutexをロックしようとすると別のスレッドがロックを解放するまで待ちます。
+
+<!-- The lock "release" here is implicit; when the result of the lock (in this case, -->
+<!-- `data`) goes out of scope, the lock is automatically released. -->
+ここでの「解放」は暗黙的です。ロックの結果（この場合は `data`）がスコープを出ると、ロックは自動で解放されます
+
+<!-- Note that [`lock`](../std/sync/struct.Mutex.html#method.lock) method of -->
 <!-- [`Mutex`](../std/sync/struct.Mutex.html) has this signature: -->
-また、[`Mutex`](../std/sync/struct.Mutex.html) の [`lock`](../std/sync/struct.Mutex.html#method.lock) メソッドは以下のシグネチャを持つことにも注意してください。
+[`Mutex`](../std/sync/struct.Mutex.html)の[`lock`](../std/sync/struct.Mutex.html#method.lock)メソッドは次のシグネチャを持つことを気をつけて下さい。
 
 ```ignore
 fn lock(&self) -> LockResult<MutexGuard<T>>
@@ -340,7 +470,7 @@ thread::spawn(move || {
 ```
 
 <!-- First, we call `lock()`, which acquires the mutex's lock. Because this may fail, -->
-<!-- it returns an `Result<T, E>`, and because this is just an example, we `unwrap()` -->
+<!-- it returns a `Result<T, E>`, and because this is just an example, we `unwrap()` -->
 <!-- it to get a reference to the data. Real code would have more robust error handling -->
 <!-- here. We're then free to mutate it, since we have the lock. -->
 まず、 `lock()` を呼び、mutex のロックを獲得します。
@@ -381,6 +511,10 @@ use std::sync::mpsc;
 fn main() {
     let data = Arc::new(Mutex::new(0));
 
+#    // `tx` is the "transmitter" or "sender"
+#    // `rx` is the "receiver"
+    // `tx` は送信（transmitter）
+    // `rx` は受信（receiver）
     let (tx, rx) = mpsc::channel();
 
     for _ in 0..10 {
@@ -400,14 +534,14 @@ fn main() {
 }
 ```
 
-<!-- We use the `mpsc::channel()` method to construct a new channel. We just `send` -->
+<!-- We use the `mpsc::channel()` method to construct a new channel. We `send` -->
 <!-- a simple `()` down the channel, and then wait for ten of them to come back. -->
 `mpsc::channel()` メソッドを使って、新たなチャネルを生成しています。
-そして、ただの `()` をチャネルを通じて単に `send` し、それが１０個戻ってくるのを待機します。
+そして、ただの `()` をチャネルを通じて `send` し、それが１０個戻ってくるのを待機します。
 
-<!-- While this channel is just sending a generic signal, we can send any data that -->
+<!-- While this channel is sending a generic signal, we can send any data that -->
 <!-- is `Send` over the channel! -->
-このチャネルはただシグナルを送っているだけですが、 `Send` であるデータならばなんでもこのチャネルを通じて送れます!
+このチャネルはシグナルを送っているだけですが、 `Send` であるデータならばなんでもこのチャネルを通じて送れます!
 
 ```rust
 use std::thread;

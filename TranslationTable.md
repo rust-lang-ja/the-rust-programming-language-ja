@@ -115,6 +115,7 @@
 | lifetime parameter             | ライフタイムパラメータ
 | link                           | リンク
 | lint                           | リント
+| lock                           | ロック
 | mangling                       | マングリング
 | match                          | マッチ
 | memory                         | メモリ
@@ -133,6 +134,7 @@
 | option                         | オプション
 | output lifetime                | 出力ライフタイム
 | overflow                       | オーバーフロー
+| owned                          | 所有権を持った
 | owner                          | 所有者
 | ownership                      | 所有権
 | panic                          | パニック
