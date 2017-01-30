@@ -273,8 +273,9 @@ Rustはこれが安全でないだろうと知っているのです!
 <!-- that provides shared ownership. It has some runtime bookkeeping that keeps track -->
 <!-- of the number of references to it, hence the "reference count" part of its name. -->
 そのため、１つの値に対して２つ以上の所有権を持った参照を持てるような型が必要です。
-通常、この用途には `Rc<T>` を使います。これは所有権の共有を提供するリファレンスカウントの型です。
-実行時にある程度の管理コストを払って、値への参照の数をカウントします。なのでリファレンスカウントなのです。
+通常、この用途には `Rc<T>` を使います。これは所有権の共有を提供する参照カウントの型です。
+実行時にある程度の管理コストを払って、値への参照の数をカウントします。
+なので名前に参照カウント(reference count) が付いているのです。
 
 <!-- Calling `clone()` on an `Rc<T>` will return a new owned reference and bump the -->
 <!-- internal reference count. We create one of these for each thread: -->
@@ -334,7 +335,7 @@ fn main() {
 
 <!-- In essence, `Arc<T>` is a type that lets us share ownership of data _across -->
 <!-- threads_. -->
-要点は `Arc<T>` は _スレッド間_ で所有権を共有可能にする方ということです。
+要点は `Arc<T>` は _スレッド間_ で所有権を共有可能にする型ということです。
 
 ```ignore
 use std::thread;
