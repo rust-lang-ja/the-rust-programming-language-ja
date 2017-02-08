@@ -845,8 +845,8 @@ fn double_number(number_str: &str) -> Result<i32> {
 <!-- However, `unwrap` can still be used judiciously. What exactly justifies use of -->
 <!-- `unwrap` is somewhat of a grey area and reasonable people can disagree. I'll -->
 <!-- summarize some of my *opinions* on the matter. -->
-しかしながら `unwrap` を使うのが懸命なこともあります。
-どんな場合が `unwrap` の使用を正当化できるのかについては、グレーな部分があり、人によって意見が分かれます。
+しかしながら `unwrap` を使うのが賢明なこともあります。
+どんな場合に `unwrap` の使用を正当化できるのかについては、グレーな部分があり、人によって意見が分かれます。
 ここで、この問題についての、私の *個人的な意見* をまとめたいと思います。
 
 <!-- * **In examples and quick 'n' dirty code.** Sometimes you're writing examples -->
