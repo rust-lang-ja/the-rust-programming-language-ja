@@ -158,10 +158,18 @@ LinuxかMacを使っているなら、ターミナルを開いて、以下のよ
 $ curl -sSf https://static.rust-lang.org/rustup.sh | sh
 ```
 
+> 訳注: (Rust 1.14.0 以降)
+>
+> rustup のインストール方法は変更されました。代わりに以下を入力して下さい。
+>
+> ```bash
+> curl https://sh.rustup.rs -sSf | sh
+> ```
+
 <!-- This will download a script, and start the installation. If it all goes well, -->
 <!-- you’ll see this appear: -->
 このコマンドでスクリプトをダウンロードしインストールを始めます。
-全てが上手くいったら、以下のように表示されるはずです。
+全てが上手くいったなら、以下のように表示されるはずです。
 
 ```text
 Rust is ready to roll.
@@ -173,6 +181,18 @@ Rust is ready to roll.
 > ```text
 > Rustを使う準備ができました。
 > ```
+>
+> (Rust 1.14.0 以降)
+>
+> 全てがうまくいったなら、以下のように表示されるはずです。
+>
+> ```text
+> Rust is installed now. Great!
+> ```
+>
+> ```text
+> Rust はたった今インストールされました。すばらしい！
+> ```
 
 <!-- From here, press `y` for ‘yes’, and then follow the rest of the prompts. -->
 ここで「はい」の意味で `y` を押しましょう。そして以後の画面の指示に従ってください。
@@ -181,8 +201,20 @@ Rust is ready to roll.
 ## Windowsでのインストール
 
 <!-- If you're on Windows, please download the appropriate [installer][install-page]. -->
-Windowsを使っているなら適切な[インストーラ][install-page]をダウンロードしてください。
+Windowsを使っているなら適切な [インストーラ][install-page] をダウンロードしてください。
 
+> 訳注: (Rust 1.14.0 以降)
+>
+> <!-- Installing on Windows is nearly as easy: download and run -->
+> <!-- [rustup-init.exe]. It will start the installation in a console and -->
+> <!-- present the above message on success. -->
+> Windows にインストールするのは同じくらい簡単です。 [rustup-init.exe] をダウンロードし実行して下さい。コンソールにてインストールが始まり、成功すれば前述のメッセージが出ているでしょう。
+>
+> <!-- For other installation options and information, visit the [install] -->
+> <!-- page of the Rust website. -->
+> 他のインストールオプションや情報については、Rust のウェブサイトの [インストール][install-page] ページにアクセスして下さい。
+
+[rustup-init.exe]: https://win.rustup.rs
 [install-page]: https://www.rust-lang.org/install.html
 
 <!-- ## Uninstalling -->
@@ -200,6 +232,14 @@ $ sudo /usr/local/lib/rustlib/uninstall.sh
 <!-- If we used the Windows installer, we can re-run the `.msi` and it will give us -->
 <!-- an uninstall option. -->
 Windowsのインストーラを使ったなら `.msi` をもう一度実行すれば、アンインストールのオプションが出てきます。
+
+> 訳注: (Rust 1.14.0 以降)
+>
+> Rust のアンインストール方法も変更されています。以下のコマンドを入力して下さい。
+>
+> ```bash
+> rustup self uninstall
+> ```
 
 <!-- ## Troubleshooting -->
 ## トラブルシューティング
