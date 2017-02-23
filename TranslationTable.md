@@ -119,6 +119,7 @@
 | lint                           | リント
 | mangling                       | マングリング
 | match                          | マッチ
+| match guards                   | マッチガード
 | memory                         | メモリ
 | method                         | メソッド
 | monomorphization               | 単相化
