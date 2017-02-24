@@ -20,6 +20,7 @@
 | antipattern                    | アンチパターン
 | application                    | アプリケーション
 | arity                          | アリティ
+| (マッチの)arm                  | 腕
 | array                          | 配列
 | assignment                     | 代入
 | associated -                   | 関連-
@@ -44,6 +45,7 @@
 | command line                   | コマンドライン
 | compile-time error             | コンパイル時エラー
 | compiler                       | コンパイラ
+| compound data type             | 複合データ型
 | composable                     | 合成可能
 | computer science               | コンピュータサイエンス
 | concurrency                    | 並行性
@@ -118,6 +120,7 @@
 | lock                           | ロック
 | mangling                       | マングリング
 | match                          | マッチ
+| match guards                   | マッチガード
 | memory                         | メモリ
 | method                         | メソッド
 | monomorphization               | 単相化
