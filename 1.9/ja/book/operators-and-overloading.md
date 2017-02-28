@@ -9,7 +9,7 @@ Rustは制限された形式での演算子オーバーロードを提供して�
 型同士の間の演算子をサポートするためのトレイトが存在し、それらを実装することで演算子をオーバーロードできます。
 
 <!-- For example, the `+` operator can be overloaded with the `Add` trait: -->
-例えば、 `+` の演算子は `Add` トレイトを利用することでオーバーロードできます:
+たとえば、 `+` の演算子は `Add` トレイトでオーバーロードできます:
 
 ```rust
 use std::ops::Add;
@@ -54,7 +54,7 @@ fn main() {
 
 <!-- Implementing these traits follows a pattern. Let’s look at [`Add`][add] in more -->
 <!-- detail: -->
-それらのトレイトの実装はパターンに従います。
+それらのトレイトの実装は、ある一つのパターンに従います。
 [`Add`][add] トレイトを詳しく見ていきましょう:
 
 ```rust
@@ -72,8 +72,8 @@ pub trait Add<RHS = Self> {
 <!-- There’s three types in total involved here: the type you `impl Add` for, `RHS`, -->
 <!-- which defaults to `Self`, and `Output`. For an expression `let z = x + y`, `x` -->
 <!-- is the `Self` type, `y` is the RHS, and `z` is the `Self::Output` type. -->
-関連する３つの型が存在します: `impl Add` を実装するもの、 デフォルトが `Self` の `RHS`、 そして `Output` 。
-例えば、式 `let z = x + y` においては `x` は `Self` 型 `y` は RHS、 `z` は `Self::Output` 型となります。
+関連する３つの型が存在します: `impl Add` を実装するもの、 デフォルトが `Self` の `RHS`、 そして `Output` です。
+たとえば、式 `let z = x + y` においては `x` は `Self` 型 `y` は RHS、 `z` は `Self::Output` 型となります。
 
 ```rust
 # struct Point;
@@ -102,7 +102,7 @@ let x: f64 = p + 2i32;
 
 <!-- Now that we know how operator traits are defined, we can define our `HasArea` -->
 <!-- trait and `Square` struct from the [traits chapter][traits] more generically: -->
-オペレータトレイトがどのように定義されているかについて学びましたので、[トレイトについての章][traits] の `HasArea` トレイトと `Square` 構造体をさらに一般的に定義することができます:
+オペレータトレイトがどのように定義されているかを学びましたので、[トレイトについての章][traits] の `HasArea` トレイトと `Square` 構造体をさらに一般的に定義できます:
 
 [traits]: traits.html
 
@@ -140,7 +140,7 @@ fn main() {
 <!-- For `HasArea` and `Square`, we declare a type parameter `T` and replace -->
 <!-- `f64` with it. The `impl` needs more involved modifications: -->
 `HasArea` と `Square` について、型パラメータ `T` を宣言し `f64` で置換しました。
-`impl` はさらに関連するモディフィケーシを必要とします:
+`impl` はさらに関連する修正を必要とします:
 
 ```ignore
 impl<T> HasArea<T> for Square<T>
