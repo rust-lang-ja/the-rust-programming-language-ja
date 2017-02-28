@@ -52,7 +52,7 @@ trait Graph {
 ```
 
 <!-- Now, our clients can be abstract over a given `Graph`: -->
-こうすると、利用者側では、個々の `Graph` をより抽象的なものとして扱えます:
+こうすると、使う側では、個々の `Graph` をより抽象的なものとして扱えます:
 
 ```rust,ignore
 fn distance<G: Graph>(graph: &G, start: &G::N, end: &G::N) -> u32 { ... }
@@ -88,7 +88,7 @@ trait Graph {
 <!-- if we wanted our `N` type to implement `Display`, so we can print the nodes out, -->
 <!-- we could do this: -->
 これらの `type` 宣言は、関数で利用できるものと同じものが全て利用できます。
-たとえば、頂点を表示するために、`N` 型に `Display` を実装してほしい場合は、以下のように指定できます:
+たとえば、頂点を表示するため `N` 型には `Display` を実装してほしいなら、以下のように指定できます:
 
 ```rust
 use std::fmt;
@@ -142,7 +142,8 @@ impl Graph for MyGraph {
 <!-- `struct`s, one for the graph, one for the node, and one for the edge. If it made -->
 <!-- more sense to use a different type, that would work as well, we’re going to -->
 <!-- use `struct`s for all three here. -->
-この少し単純すぎる実装は、常に `true` と空の `Vec<Edge>` を返しますが、どのように定義したら良いかのアイデアをくれます。
+この、いささか単純過ぎる実装では、常に `true` と空の `Vec<Edge>` を返します。
+しかし、関連型をどう定義したらよいのかを教えてくれます。
 まず、はじめに3つの `struct` が必要です。
 グラフのためにひとつ、頂点のためにひとつ、辺のためにひとつです。
 もし異なる型を利用するのが適切ならば、そうしても構いません。
