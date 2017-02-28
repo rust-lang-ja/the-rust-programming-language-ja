@@ -10,7 +10,7 @@
 ほとんどの型はコンパイル時に知れる、バイト数で測った、サイズがあります。
 たとえば、 `i32` 型は、32ビット(4バイト)というサイズです。
 しかしながら、表現のためには便利であってもサイズが定まっていない型が存在します。
-そのような型を 「サイズ不定」又は「動的サイズ」型と呼びます。
+そのような型を 「サイズ不定」または「動的サイズ」型と呼びます。
 一例を上げると `[T]` 型は 一定のサイズの`T` のシーケンスを意味していますが、その要素数については規定されていないため、サイズは不定となります。
 
 <!-- Rust understands a few of these types, but they have some restrictions. There -->
@@ -23,7 +23,7 @@ Rustはいくつかのそのような型を扱うことができますが、そ�
 <!-- 3. Only the last field in a `struct` may have a dynamically sized type; the -->
 <!--    other fields must not. Enum variants must not have dynamically sized types as -->
 <!--    data. -->
-1. サイズ不定型はポインタを通してのみ操作することができます。
+1. サイズ不定型はポインタを通してのみ操作できます。
    たとえば、 `&[T]` は大丈夫ですが、 `[T]` はそうではありません。
 2. 変数や引数は動的なサイズを持つことはできません。
 3. `struct` の最後のフィールドのみ、動的なサイズを持つことが許されます。
@@ -48,7 +48,7 @@ impl<T> Foo for [T] {
 ```
 
 <!-- Instead, you would have to write: -->
-このように書く代わりに、以下のように書く必要があることになるでしょう:
+このように書く代わりに、以下のように書くことになるでしょう:
 
 ```rust,ignore
 impl Foo for &str {
@@ -79,5 +79,5 @@ struct Foo<T: ?Sized> {
 <!-- lets us match more kinds, not less. It’s almost like every `T` implicitly has -->
 <!-- `T: Sized`, and the `?` undoes this default. -->
 `?` は 「Tは `Sized` かもしれない」と読みます。
-これは `?` が特別な境界: より小さいカインドとマッチするのではなく、より大きいカインドとマッチする ということを意味しています。
-これは、すべての `T` は暗黙的に `T : Sized` という制限がかけられていて、 `?` はその制限を解除するというようなものです。
+これは `?` が特別な境界であり、より小さいカインドとマッチするのではなく、より大きいカインドとマッチする ことを意味しています。
+これは、すべての `T` は暗黙的に `T : Sized` という制限がかけられていて、 `?` はその制限を解除するようなものです。
