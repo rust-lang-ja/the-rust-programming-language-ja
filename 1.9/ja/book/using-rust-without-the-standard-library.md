@@ -8,15 +8,14 @@
 <!-- don’t want to use the standard library via an attribute: `#![no_std]`. -->
 Rustの標準ライブラリは多くの便利な機能を提供している一方で、スレッド、ネットワーク、ヒープアロケーション、その他の多くの機能をホストシステムが提供していることを前提としています。
 一方で、それらの機能を提供していないシステムも存在します。
-しかし、Rustはそれらの上でも利用することができます！
+しかし、Rustはそれらの上でも利用できます！
 それは、Rustに標準ライブラリを利用しないということを `#![no_std]` アトリビュートを利用して伝えることで可能となります。
-
 
 <!-- > Note: This feature is technically stable, but there are some caveats. For -->
 <!-- > one, you can build a `#![no_std]` _library_ on stable, but not a _binary_. -->
 <!-- > For details on binaries without the standard library, see [the nightly -->
 <!-- > chapter on `#![no_std]`](no-stdlib.html) -->
-> メモ: このフィーチャーは技術的には安定していますが、いくつか注意点が有ります。
+> メモ: このフィーチャーは技術的には安定していますが、いくつか注意点があります。
 > 例えば、 `#![no_std]` を含んだ _ライブラリ_ は 安定版でビルド可能ですが、 _バイナリ_ はビルド不可能です。
 > 標準ライブラリを利用しないバイナリについては [`#![no_std]` についての不安定版のドキュメント](no-stdlib.html) を確認してください。
 
