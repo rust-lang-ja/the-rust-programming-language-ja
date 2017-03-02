@@ -3,8 +3,8 @@
 
 <!-- Functions are great, but if you want to call a bunch of them on some data, it -->
 <!-- can be awkward. Consider this code: -->
-関数は素晴らしいのですが、幾つかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。
-以下のコードについて考えてみます。
+関数は素晴らしいのですが、いくつかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。
+以下のコードについて考えてみましょう。
 
 ```rust,ignore
 baz(bar(foo));
@@ -14,7 +14,7 @@ baz(bar(foo));
 <!-- order that the functions would get called in, that’s inside-out: ‘foo bar baz’. -->
 <!-- Wouldn’t it be nice if we could do this instead? -->
 私たちはこれを左から右へ、「baz bar foo」と読むことになりますが、関数が呼び出される順番は異なり、内側から外へ「foo bar baz」となります。
-もし代わりにこうできたらいいとは思いませんか?
+もし代わりにこうできたらいいとは思いませんか？
 
 ```rust,ignore
 foo.bar().baz();
@@ -22,7 +22,7 @@ foo.bar().baz();
 
 <!-- Luckily, as you may have guessed with the leading question, you can! Rust provides -->
 <!-- the ability to use this ‘method call syntax’ via the `impl` keyword. -->
-最初の質問でもう分かっているかもしれませんが、幸いにもこれは可能です！
+誘導的な質問でもう分かったかもしれませんが、幸いにもこれは可能です！
 Rustは `impl` キーワードによってこの「メソッド呼び出し構文」の機能を提供しています。
 
 <!-- # Method calls -->
@@ -67,15 +67,16 @@ fn main() {
 <!-- other parameter. Because we know it’s a `Circle`, we can access the `radius` -->
 <!-- like we would with any other `struct`. -->
 メソッドに渡す特別な第1引数として、 `self` 、 `&self` 、 `&mut self` という3つの変形があります。
-第一引数は `foo.bar()` に於ける `foo` だと考えて下さい。
-3つの変形は `foo` が成り得る3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。
+第一引数は `foo.bar()` における `foo` だと考えて下さい。
+3つの変形は `foo` がなりうる3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。
 `area` では `&self` を受け取っているため、他の引数と同じように扱えます。
 引数が `Circle` であるのは分かっていますから、他の `struct` でするように `radius` へアクセスできます。
 
 <!-- We should default to using `&self`, as you should prefer borrowing over taking -->
 <!-- ownership, as well as taking immutable references over mutable ones. Here’s an -->
 <!-- example of all three variants: -->
-所有権を渡すよりも借用を好んで使うべきなのは勿論のこと、ミュータブルな参照よりもイミュータブルな参照を渡すべきですから、 `&self` を常用すべきです。以下が3種類全ての例です。
+所有権を渡すよりも借用を好んで使うべきなのはもちろんのこと、ミュータブルな参照よりもイミュータブルな参照を渡すべきですから、 `&self` を常用すべきです。
+以下が3種類全ての例です。
 
 ```rust
 struct Circle {
@@ -101,8 +102,8 @@ impl Circle {
 
 <!--You can use as many `impl` blocks as you’d like. The previous example could -->
 <!-- have also been written like this: -->
-好きな数だけ `impl` ブロックを使用することができます。
-前述の例は以下のように書くこともできるでしょう。
+好きな数だけ `impl` ブロックを使用できます。
+前述の例は以下のようにも書けるでしょう。
 
 ```rust
 struct Circle {
@@ -168,7 +169,7 @@ fn main() {
 ```
 
 <!-- Check the return type: -->
-以下の返す型を確認して下さい。
+返す型を確認しましょう。
 
 ```rust
 # struct Circle;
@@ -179,15 +180,15 @@ fn grow(&self, increment: f64) -> Circle {
 
 <!-- We say we’re returning a `Circle`. With this method, we can grow a new -->
 <!-- `Circle` to any arbitrary size. -->
-単に `Circle` を返しているだけです。
-このメソッドにより、私たちは新しい `Circle` を任意の大きさに拡大することができます。
+`Circle` を返すと言っています。
+このメソッドにより、任意の大きさへ拡大した新しい `Circle` が得られます。
 
 <!-- # Associated functions -->
 # 関連関数
 
 <!-- You can also define associated functions that do not take a `self` parameter. -->
 <!-- Here’s a pattern that’s very common in Rust code: -->
-あなたは `self` を引数に取らない関連関数を定義することもできます。
+関連関数という `self` を引数に取らない関数も定義できます。
 以下のパターンはRustのコードにおいて非常にありふれた物です。
 
 ```rust
@@ -218,7 +219,7 @@ fn main() {
 <!-- methods’. -->
 この「関連関数」(associated function)は新たに `Circle` を構築します。
 この関数は `ref.method()` ではなく、 `Struct::function()` という構文で呼び出されることに注意して下さい。
-幾つかの言語では、関連関数を「静的メソッド」(static methods)と呼んでいます。
+いくつかの言語では、関連関数を「静的メソッド」(static methods)と呼んでいます。
 
 <!-- # Builder Pattern -->
 # Builderパターン
@@ -228,9 +229,11 @@ fn main() {
 <!-- and `y` attributes will be `0.0`, and the `radius` will be `1.0`. Rust doesn’t -->
 <!-- have method overloading, named arguments, or variable arguments. We employ -->
 <!-- the builder pattern instead. It looks like this: -->
-ユーザが `Circle` を作成できるようにしつつも、書き換えたいプロパティだけを設定すれば良いようにしたいとしましょう。
-もし指定が無ければ `x` と `y` が `0.0` 、 `radius` が `1.0` であるものとします。
-Rustはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がない代わりにBuilderパターンを採用しており、それは以下のようになります。
+ユーザが `Circle` を作成する際、関心のあるプロパティだけを指定すれば良いようにしたいとしましょう。
+指定がなければ `x` と `y` は `0.0` 、 `radius` は `1.0` になります。
+Rustにはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がありません。
+代わりにBuilderパターンを採用しましょう。
+以下のようになります。
 
 ```rust
 struct Circle {
@@ -295,10 +298,10 @@ fn main() {
 <!-- our final `Circle` from the builder. Now, we’ve used the type system to enforce -->
 <!-- our concerns: we can use the methods on `CircleBuilder` to constrain making -->
 <!-- `Circle`s in any way we choose. -->
-ここではもう1つの `struct` である `CircleBuilder` を作成しています。
-その中にBuilderメソッドを定義しました。
+ここでは `CircleBuilder` というもう1つの `struct` を作成しています。
+それに対して私たちのBuilderメソッドを定義しました。
 また `Circle` に `area()` メソッドを定義しました。
 そして `CircleBuilder` にもう1つ `finalize()` というメソッドを作りました。
 このメソッドはBuilderから最終的な `Circle` を作成します。
-さて、先程の要求を実施するために型システムを使いました。
-`CircleBuilder` のメソッドを好きなように組み合わせ、作る `Circle` への制約を与えることができます。
+さて、先ほどの要求を実施するために型システムを使いました。
+`CircleBuilder` のメソッドを好きなように組み合わせ、作成する `Circle` への制約を与えられます。
