@@ -6,10 +6,10 @@
 <!-- between types, there’s a specific trait that you can implement, which then -->
 <!-- overloads the operator. -->
 Rustは制限された形式での演算子オーバーロードを提供しており、オーバーロード可能な演算子がいくつか存在します。
-型同士の間の演算子をサポートするためのトレイトが存在し、それらを実装することで演算子をオーバーロードすることができます。
+型同士の間の演算子をサポートするためのトレイトが存在し、それらを実装することで演算子をオーバーロードできます。
 
 <!-- For example, the `+` operator can be overloaded with the `Add` trait: -->
-例えば、 `+` の演算子は `Add` トレイトを利用することでオーバーロードすることができます:
+たとえば、 `+` の演算子は `Add` トレイトでオーバーロードできます:
 
 ```rust
 use std::ops::Add;
@@ -40,13 +40,13 @@ fn main() {
 
 <!-- In `main`, we can use `+` on our two `Point`s, since we’ve implemented -->
 <!-- `Add<Output=Point>` for `Point`. -->
-`main` 中で、２つの `Point` に対して `+` を使うことができます、
+`main` 中で、２つの `Point` に対して `+` を使えます。
 これは `Point` に対して `Add<Output=Point>` を実装したためです。
 
 <!-- There are a number of operators that can be overloaded this way, and all of -->
 <!-- their associated traits live in the [`std::ops`][stdops] module. Check out its -->
 <!-- documentation for the full list. -->
-同じ方法でオーバーロード可能な演算子が多数あります、
+同じ方法でオーバーロード可能な演算子が多数あります。
 それらに対応したトレイトは [`std::ops`][stdops] モジュール内に存在します。
 全てのオーバーロード可能な演算子と対応するトレイトについては [`std::ops`][stdops] のドキュメントを読んで確認して下さい。
 
@@ -54,7 +54,8 @@ fn main() {
 
 <!-- Implementing these traits follows a pattern. Let’s look at [`Add`][add] in more -->
 <!-- detail: -->
-それらのトレイトの実装はパターンに従います。 [`Add`][add] トレイトを詳しく見ていきましょう:
+それらのトレイトの実装は、ある一つのパターンに従います。
+[`Add`][add] トレイトを詳しく見ていきましょう:
 
 ```rust
 # mod foo {
@@ -71,8 +72,8 @@ pub trait Add<RHS = Self> {
 <!-- There’s three types in total involved here: the type you `impl Add` for, `RHS`, -->
 <!-- which defaults to `Self`, and `Output`. For an expression `let z = x + y`, `x` -->
 <!-- is the `Self` type, `y` is the RHS, and `z` is the `Self::Output` type. -->
-関連する３つの型が存在します: `impl Add` を実装するもの、 デフォルトが `Self` の `RHS`、 そして `Output` 。
-例えば、式 `let z = x + y` においては `x` は `Self` 型 `y` は RHS、 `z` は `Self::Output` 型となります。
+関連する３つの型が存在します: `impl Add` を実装するもの、 デフォルトが `Self` の `RHS`、 そして `Output` です。
+たとえば、式 `let z = x + y` においては `x` は `Self` 型 `y` は RHS、 `z` は `Self::Output` 型となります。
 
 ```rust
 # struct Point;
@@ -101,8 +102,7 @@ let x: f64 = p + 2i32;
 
 <!-- Now that we know how operator traits are defined, we can define our `HasArea` -->
 <!-- trait and `Square` struct from the [traits chapter][traits] more generically: -->
-オペレータトレイトがどのように定義されているかについて学びましたので、
-[トレイトについての章][traits] の `HasArea` トレイトと `Square` 構造体をさらに一般的に定義することができます:
+オペレータトレイトがどのように定義されているかを学びましたので、[トレイトについての章][traits] の `HasArea` トレイトと `Square` 構造体をさらに一般的に定義できます:
 
 [traits]: traits.html
 
@@ -137,10 +137,10 @@ fn main() {
 }
 ```
 
-<!-- For `HasArea` and `Square`, we just declare a type parameter `T` and replace -->
+<!-- For `HasArea` and `Square`, we declare a type parameter `T` and replace -->
 <!-- `f64` with it. The `impl` needs more involved modifications: -->
 `HasArea` と `Square` について、型パラメータ `T` を宣言し `f64` で置換しました。
-`impl` はさらに関連するモディフィケーションを必要とします:
+`impl` はさらに関連する修正を必要とします:
 
 ```ignore
 impl<T> HasArea<T> for Square<T>
@@ -154,5 +154,6 @@ impl<T> HasArea<T> for Square<T>
 <!-- Rust doesn't try to move `self.side` into the return value. -->
 `area` メソッドは辺を掛けることが可能なことを必要としています。
 そのため型 `T` が `std::ops::Mul` を実装していなければならないと宣言しています。
-上で説明した `Add` と同様に、`Mul` は `Output` パラメータを取ります: 数値を掛け算した時に型が変わらないことを知っていますので、 `Output` も `T` と設定します。
+上で説明した `Add` と同様に、`Mul` は `Output` パラメータを取ります:
+数値を掛け算した時に型が変わらないことを知っていますので、 `Output` も `T` と設定します。
 また `T` は、Rustが `self.side` を返り値にムーブするのを試みないようにコピーをサポートしている必要があります。
