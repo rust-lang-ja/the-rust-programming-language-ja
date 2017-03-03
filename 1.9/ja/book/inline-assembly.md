@@ -3,11 +3,9 @@
 
 <!-- For extremely low-level manipulations and performance reasons, one -->
 <!-- might wish to control the CPU directly. Rust supports using inline -->
-<!-- assembly to do this via the `asm!` macro. The syntax roughly matches -->
-<!-- that of GCC & Clang: -->
+<!-- assembly to do this via the `asm!` macro. -->
 極めて低レベルな技巧やパフォーマンス上の理由から、CPUを直接コントロールしたいと思う人もいるでしょう。
-Rustはそのような処理を行うためにインラインアセンブリを `asm!` マクロによってサポートしています。
-インラインアセンブリの構文はGCCやClangのものとおおまかに一致しています。
+Rustはそのような処理を行うために、インラインアセンブリを `asm!` マクロによってサポートしています。
 
 ```ignore
 # // asm!(assembly template
@@ -25,11 +23,11 @@ asm!(アセンブリのテンプレート
 
 <!-- Any use of `asm` is feature gated (requires `#![feature(asm)]` on the -->
 <!-- crate to allow) and of course requires an `unsafe` block. -->
-`asm` のいかなる利用もフィーチャーゲートの対象です(利用するには `#![feature(asm)]` がクレートに必要になります)、
+`asm` のいかなる利用もフィーチャーゲートの対象です（利用するには `#![feature(asm)]` がクレートに必要になります）。
 そしてもちろん `unsafe` ブロックも必要です。
 
-<!-- > **Note**: the examples here are given in x86/x86-64 assembly, but -->
-<!-- > all platforms are supported. -->
+<!-- &gt; **Note**: the examples here are given in x86/x86-64 assembly, but -->
+<!-- &gt; all platforms are supported. -->
 > **メモ**: ここでの例はx86/x86-64のアセンブリで示されますが、すべてのプラットフォームがサポートされています。
 
 <!-- ## Assembly template -->
@@ -37,7 +35,7 @@ asm!(アセンブリのテンプレート
 
 <!-- The `assembly template` is the only required parameter and must be a -->
 <!-- literal string (i.e. `""`) -->
-`アセンブリテンプレート` のみが要求されるパラメータであり、文字列リテラル (例: "") である必要があります。
+`アセンブリテンプレート` のみが要求されるパラメータであり、文字列リテラル (例: `""`) である必要があります。
 
 ```rust
 #![feature(asm)]
@@ -66,7 +64,7 @@ fn main() {
 
 <!-- Output operands, input operands, clobbers and options are all optional -->
 <!-- but you must add the right number of `:` if you skip them: -->
-出力オペランド、入力オペランド、破壊されるデータ、オプションはすべて省略可能ですが、省略する場合は `:` を正しい数書く必要が有ります。
+出力オペランド、入力オペランド、破壊されるデータ、オプションはすべて省略可能ですが、省略する場合でも正しい数の `:` を書く必要があります。
 
 ```rust
 # #![feature(asm)]
@@ -126,8 +124,8 @@ fn main() {
 <!-- you want, and you are required to put the specific size of the -->
 <!-- operand. This is useful for very low level programming, where -->
 <!-- which register you use is important: -->
-もし本当のオペランドをここで利用したい場合、 波括弧 `{}` で利用したいレジスタの周りを囲む必要があり、また、オペランドの特有のサイズを置く必要があります。
-これは、どのレジスタを利用するかが重要になる低レベルなプログラミングで有用です。
+もし本当のオペランドをここで利用したい場合、波括弧 `{}` で利用したいレジスタの周りを囲む必要があり、また、オペランドの特有のサイズを書く必要があります。
+これは、どのレジスタを利用するかが重要となる、ごく低レベルのプログラミングで有用です。
 
 ```rust
 # #![feature(asm)]
@@ -146,9 +144,8 @@ result
 <!-- different values so we use the clobbers list to indicate to the -->
 <!-- compiler not to assume any values loaded into those registers will -->
 <!-- stay valid. -->
-幾つかのインストラクションは異なる値を持っている可能性のあるレジスタを変更する事があります、
-そのため、コンパイラがそれらのレジスタに格納された値が処理後にも有効であると思わないように、
-破壊されるデータのリストを利用します。
+いくつかのインストラクションは異なる値を持っている可能性のあるレジスタを変更する事があります。
+そのため、コンパイラがそれらのレジスタに格納された値が処理後にも有効であると思わないように、破壊されるデータのリストを利用します。
 
 ```rust
 # #![feature(asm)]
@@ -164,13 +161,13 @@ asm!("mov $$0x200, %eax" : /* 出力なし */ : /* 入力無し */ : "{eax}");
 <!-- Input and output registers need not be listed since that information -->
 <!-- is already communicated by the given constraints. Otherwise, any other -->
 <!-- registers used either implicitly or explicitly should be listed. -->
-入力と出力のレジスタは変更される可能性があることが制約によってすでに伝わっているためにリストに載せる必要はありません。
+入力と出力のレジスタは変更される可能性があることが制約によってすでに伝わっているために、リストに載せる必要はありません。
 それ以外では、その他の暗黙的、明示的に利用されるレジスタをリストに載せる必要があります。
 
 <!-- If the assembly changes the condition code register `cc` should be -->
 <!-- specified as one of the clobbers. Similarly, if the assembly modifies -->
 <!-- memory, `memory` should also be specified. -->
-もしアセンブリが条件コードを変更する場合レジスタ `cc` も破壊されるデータのリストに指定する必要があります。
+もしアセンブリが条件コードを変更する場合、レジスタ `cc` も破壊されるデータのリストに指定する必要があります。
 同様に、もしアセンブリがメモリを変更する場合 `memory` もリストに指定する必要があります。
 
 <!-- ## Options -->
@@ -180,7 +177,7 @@ asm!("mov $$0x200, %eax" : /* 出力なし */ : /* 入力無し */ : "{eax}");
 <!-- separated literal strings (i.e. `:"foo", "bar", "baz"`). It's used to -->
 <!-- specify some extra info about the inline assembly: -->
 最後のセクション、 `options` はRust特有のものです。
-`options` の形式は、コンマで区切られた文字列リテラルのリスト(例: `:"foo", "bar", "baz"`)です。
+`options` の形式は、コンマで区切られた文字列リテラルのリスト（例: `:"foo", "bar", "baz"`）です。
 これはインラインアセンブリについての追加の情報を指定するために利用されます:
 
 <!-- Current valid options are: -->
@@ -193,7 +190,7 @@ asm!("mov $$0x200, %eax" : /* 出力なし */ : /* 入力無し */ : "{eax}");
 <!--    the compiler to insert its usual stack alignment code-->
 <!-- 3. *intel* - use intel syntax instead of the default AT&T.-->
 1. *volatile* - このオプションを指定することは、gcc/clangで `__asm__ __volatile__ (...)` を指定することと類似しています。
-2. *alignstack* - いくつかのインストラクションはスタックが決まった方式(例: SSE)でアラインされていることを期待しています、
+2. *alignstack* - いくつかのインストラクションはスタックが決まった方式（例: SSE）でアラインされていることを期待しています。
    このオプションを指定することはコンパイラに通常のスタックをアラインメントするコードの挿入を指示します。
 3. *intel* - デフォルトのAT&T構文の代わりにインテル構文を利用することを意味しています。
 
@@ -216,7 +213,7 @@ println!("eax is currently {}", result);
 <!-- inline assembler expressions][llvm-docs], so be sure to check out [their -->
 <!-- documentation as well][llvm-docs] for more information about clobbers, -->
 <!-- constraints, etc. -->
-現在の `asm!` マクロの実装は [LLVMのインラインアセンブリ表現][llvm-docs] への直接的なバインディングです、
+現在の `asm!` マクロの実装は [LLVMのインラインアセンブリ表現][llvm-docs] への直接的なバインディングです。
 そのため破壊されるデータのリストや、制約、その他の情報について [LLVMのドキュメント][llvm-docs] を確認してください。
 
 [llvm-docs]: http://llvm.org/docs/LangRef.html#inline-assembler-expressions
