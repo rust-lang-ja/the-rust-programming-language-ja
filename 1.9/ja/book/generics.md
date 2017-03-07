@@ -57,7 +57,7 @@ let x: Option<f64> = Some(5);
 <!-- That doesn’t mean we can’t make `Option<T>`s that hold an `f64`! They have -->
 <!-- to match up: -->
 これは `f64` を保持する `Option<T>` が作れないという意味ではありませんからね！
-リテラルと宣言の型をぴったり合わせなければなりません。
+リテラルと宣言の型を合わせなければなりません。
 
 ```rust
 let x: Option<i32> = Some(5);
