@@ -14,7 +14,7 @@ Rustでは、ジェネリクスを用いてこれを実現しています。
 <!-- Anyway, enough type theory, let’s check out some generic code. Rust’s -->
 <!-- standard library provides a type, `Option<T>`, that’s generic: -->
 さて、型理論はもう十分です。
-続いてジェネリックなコードを幾つか見ていきましょう。
+続いてジェネリックなコードをいくつか見ていきましょう。
 Rustが標準ライブラリで提供している型 `Option<T>` はジェネリックです。
 
 ```rust
@@ -66,7 +66,7 @@ let y: Option<f64> = Some(5.0f64);
 
 <!-- This is just fine. One definition, multiple uses. -->
 これだけで結構です。
-1つの定義で、多くの用途が得られます。
+1つの定義で、多くの用途に対応できます。
 
 <!-- Generics don’t have to only be generic over one type. Consider another type from Rust’s standard library that’s similar, `Result<T, E>`: -->
 ジェネリクスにおいてジェネリックな型は1つまで、といった制限はありません。
