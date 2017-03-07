@@ -4,7 +4,7 @@
 <!-- Functions are great, but if you want to call a bunch of them on some data, it -->
 <!-- can be awkward. Consider this code: -->
 関数は素晴らしいのですが、いくつかのデータに対し複数の関数をまとめて呼び出したい時、困ったことになります。
-以下のコードについて考えてみましょう。
+以下のコードについて考えてみます。
 
 ```rust,ignore
 baz(bar(foo));
@@ -22,7 +22,7 @@ foo.bar().baz();
 
 <!-- Luckily, as you may have guessed with the leading question, you can! Rust provides -->
 <!-- the ability to use this ‘method call syntax’ via the `impl` keyword. -->
-誘導的な質問でもう分かったかもしれませんが、幸いにもこれは可能です！
+誘導的な質問だったので分かったかもしれませんが、幸いにもこれは可能です！
 Rustは `impl` キーワードによってこの「メソッド呼び出し構文」の機能を提供しています。
 
 <!-- # Method calls -->
@@ -66,16 +66,16 @@ fn main() {
 <!-- Because we took the `&self` parameter to `area`, we can use it like any -->
 <!-- other parameter. Because we know it’s a `Circle`, we can access the `radius` -->
 <!-- like we would with any other `struct`. -->
-メソッドに渡す特別な第1引数として、 `self` 、 `&self` 、 `&mut self` という3つの変形があります。
+メソッドに渡す特別な第1引数には、 `self` 、 `&self` 、 `&mut self` という3つのバリエーションがあります。
 第一引数は `foo.bar()` における `foo` だと考えて下さい。
-3つの変形は `foo` がなりうる3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。
+これら3つのバリエーションは `foo` がなりうる3種類の状態に対応しており、それぞれ `self` がスタック上の値である場合、 `&self` が参照である場合、 `&mut self` がミュータブルな参照である場合となっています。
 `area` では `&self` を受け取っているため、他の引数と同じように扱えます。
-引数が `Circle` であるのは分かっていますから、他の `struct` でするように `radius` へアクセスできます。
+それが `Circle` であるのは分かっていますから、他の `struct` でするように `radius` へアクセスできます。
 
 <!-- We should default to using `&self`, as you should prefer borrowing over taking -->
 <!-- ownership, as well as taking immutable references over mutable ones. Here’s an -->
 <!-- example of all three variants: -->
-所有権を渡すよりも借用を好んで使うべきなのはもちろんのこと、ミュータブルな参照よりもイミュータブルな参照を渡すべきですから、 `&self` を常用すべきです。
+所有権を渡すよりも借用を好んで使うべきなのはもちろんのこと、ミュータブルな参照よりもイミュータブルな参照を渡すべきですから、基本は `&self` を使うべきです。
 以下が3種類全ての例です。
 
 ```rust
@@ -169,7 +169,7 @@ fn main() {
 ```
 
 <!-- Check the return type: -->
-返す型を確認しましょう。
+戻り値の型を確認しましょう。
 
 ```rust
 # struct Circle;
@@ -181,7 +181,7 @@ fn grow(&self, increment: f64) -> Circle {
 <!-- We say we’re returning a `Circle`. With this method, we can grow a new -->
 <!-- `Circle` to any arbitrary size. -->
 `Circle` を返すと言っています。
-このメソッドにより、任意の大きさへ拡大した新しい `Circle` が得られます。
+このメソッドにより、任意の大きさへと拡大した、新たな `Circle` が得られます。
 
 <!-- # Associated functions -->
 # 関連関数
@@ -189,7 +189,7 @@ fn grow(&self, increment: f64) -> Circle {
 <!-- You can also define associated functions that do not take a `self` parameter. -->
 <!-- Here’s a pattern that’s very common in Rust code: -->
 関連関数という `self` を引数に取らない関数も定義できます。
-以下のパターンはRustのコードにおいて非常にありふれた物です。
+以下のパターンはRustのコードにおいて、とてもよく使われています。
 
 ```rust
 struct Circle {
@@ -229,8 +229,8 @@ fn main() {
 <!-- and `y` attributes will be `0.0`, and the `radius` will be `1.0`. Rust doesn’t -->
 <!-- have method overloading, named arguments, or variable arguments. We employ -->
 <!-- the builder pattern instead. It looks like this: -->
-ユーザが `Circle` を作成する際、関心のあるプロパティだけを指定すれば良いようにしたいとしましょう。
-指定がなければ `x` と `y` は `0.0` 、 `radius` は `1.0` になります。
+ユーザが `Circle` を作成する際、関心のあるプロパティだけを指定できるようにしたいとしましょう。
+指定がなければ `x` と `y` は `0.0` 、 `radius` は `1.0` にします。
 Rustにはメソッドのオーバーロードや名前付き引数、可変個引数といった機能がありません。
 代わりにBuilderパターンを採用しましょう。
 以下のようになります。
@@ -298,10 +298,10 @@ fn main() {
 <!-- our final `Circle` from the builder. Now, we’ve used the type system to enforce -->
 <!-- our concerns: we can use the methods on `CircleBuilder` to constrain making -->
 <!-- `Circle`s in any way we choose. -->
-ここでは `CircleBuilder` というもう1つの `struct` を作成しています。
-それに対して私たちのBuilderメソッドを定義しました。
+ここでは `CircleBuilder` という、もう1つの `struct` を作成しています。
+それに対してBuilderメソッドを定義しました。
 また `Circle` に `area()` メソッドを定義しました。
 そして `CircleBuilder` にもう1つ `finalize()` というメソッドを作りました。
 このメソッドはBuilderから最終的な `Circle` を作成します。
-さて、先ほどの要求を実施するために型システムを使いました。
-`CircleBuilder` のメソッドを好きなように組み合わせ、作成する `Circle` への制約を与えられます。
+さて、私たちは先ほどの要求を守らせるために型システムを使いました。
+`CircleBuilder` に用意するメソッドによって、作成する `Circle` に、望み通りの制約を与えられます。
