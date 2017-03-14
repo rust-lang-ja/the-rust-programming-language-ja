@@ -648,7 +648,7 @@ fn main() {
 <!-- does the equivalent of a `use rand;` as well, so we can make use of anything -->
 <!-- in the `rand` crate by prefixing it with `rand::`. -->
 まず最初に変更したのは最初の行です。 `extern crate rand` となっています。
-`rand` を `[dependencies]` に宣言したので、 `extern crate` でそれを使うことをRustに伝えれます。
+`rand` を `[dependencies]` に宣言したので、 `extern crate` でそれを使うことをRustに伝えています。
 これはまた、 `use rand;` とするのと同じこともしますので、 `rand` にあるものは `rand::` と前置すれば使えるようになります。
 
 <!-- Next, we added another `use` line: `use rand::Rng`. We’re going to use a -->
