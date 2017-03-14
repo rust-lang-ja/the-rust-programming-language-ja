@@ -265,11 +265,11 @@ fn foo(x: i32) -> i32 {
 あなたがこれまで式ベースの言語を使ったことがなければ、 `return` のない前の定義の方がちょっと変に見えるかもしれません。しかし、それは時間とともに直観的に感じられるようになります。
 
 <!-- ## Diverging functions -->
-## ダイバージング関数
+## 発散する関数
 
 <!-- Rust has some special syntax for ‘diverging functions’, which are functions that -->
 <!-- do not return: -->
-Rustはリターンしない関数、「ダイバージング関数」のための特別な構文をいくつか持っています。
+Rustには「発散する関数」、すなわち値を返さない関数のための特別な構文がいくつかあります。
 
 ```rust
 fn diverges() -> ! {
@@ -283,7 +283,7 @@ fn diverges() -> ! {
 <!-- return, and so it has the type ‘`!`’, which is read ‘diverges’. -->
 `panic!` は既に見てきた `println!` と同様にマクロです。
 `println!` とは違って、 `panic!` は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
-この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「 `!` 」型を持つのです。
+この関数はクラッシュを引き起こすので、決して値を返しません。そのため、この関数は「 `!` 」型を持つのです。「 `!` 」は「発散する（diverges）」と読みます。
 
 <!-- If you add a main function that calls `diverges()` and run it, you’ll get -->
 <!-- some output that looks like this: -->
@@ -356,7 +356,7 @@ stack backtrace:
 ```
 
 <!-- A diverging function can be used as any type: -->
-ダイバージング関数は任意の型としても使えます。
+発散する関数は任意の型としても使えます。
 
 ```should_panic
 # fn diverges() -> ! {
