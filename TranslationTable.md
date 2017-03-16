@@ -65,8 +65,8 @@
 | directory                      | ディレクトリ
 | discriminant                   | 判別子
 | distribution                   | 配布物
-| diverge                        | ダイバージ
-| diverging                      | ダイバージング
+| diverge                        | 発散する
+| diverging                      | 発散する〜（上の diverge を修飾語として使った場合）
 | documentation comment          | ドキュメンテーションコメント
 | documentation test             | ドキュメンテーションテスト
 | early return                   | 早期リターン
