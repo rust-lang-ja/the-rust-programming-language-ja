@@ -555,12 +555,12 @@ Rustはそのためのキーワード <code>return</code> を持っています�
 
 <!--## Diverging functions-->
 
-<h2 id='ダイバージング関数' class='section-header'><a href='#ダイバージング関数'>ダイバージング関数</a></h2>
+<h2 id='発散する関数' class='section-header'><a href='#発散する関数'>発散する関数</a></h2>
 <!--Rust has some special syntax for ‘diverging functions’, which are functions that-->
 
 <!--do not return:-->
 
-<p>Rustはリターンしない関数、「ダイバージング関数」のための特別な構文をいくつか持っています。</p>
+<p>Rustには「発散する関数」、すなわち値を返さない関数のための特別な構文がいくつかあります。</p>
 
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
@@ -581,7 +581,7 @@ Rustはそのためのキーワード <code>return</code> を持っています�
 
 <p><code>panic!</code> は既に見てきた <code>println!</code> と同様にマクロです。
 <code>println!</code> とは違って、 <code>panic!</code> は実行中の現在のスレッドを与えられたメッセージとともにクラッシュさせます。
-この関数はクラッシュを引き起こすので、決してリターンしません。そのため、それは「ダイバージ」と読む、「 <code>!</code> 」型を持つのです。</p>
+この関数はクラッシュを引き起こすので、決して値を返しません。そのため、この関数は「 <code>!</code> 」型を持つのです。「 <code>!</code> 」は「発散する（diverges）」と読みます。</p>
 
 <!--If you add a main function that calls `diverges()` and run it, you’ll get-->
 
@@ -641,7 +641,7 @@ stack backtrace:
 
 <!--A diverging function can be used as any type:-->
 
-<p>ダイバージング関数は任意の型として使うことができます。</p>
+<p>発散する関数は任意の型としても使えます。</p>
 
 <span class='rusttest'>fn main() {
     fn diverges() -&gt; ! {
