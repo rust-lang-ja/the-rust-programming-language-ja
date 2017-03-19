@@ -92,8 +92,8 @@ fn print_sum(x, y) {
 <!-- types while allowing for inference inside of function bodies is a wonderful -->
 <!-- sweet spot between full inference and no inference. -->
 これはよく考えられた設計上の決断です。
-プログラムによる完全な推論は可能ですが、Haskellのようにそれを行っている言語では、しばしば型を明示的にドキュメント化することがベストプラクティスであるとして提案されます。
-私たちは関数に型の宣言を強制する一方で、関数の本文での推論を認めることが完全な推論と推論なしとの間のすばらしいスイートスポットであるということで意見が一致したのです。
+プログラムのすべての箇所で型推論をするという設計も可能ですが、一方で、そのように型推論を行なうHaskellのような言語でも、ドキュメント目的で型を明示するのはよい習慣だと言われています。
+私たちの意見は、関数の型を明示することは強制しつつ、関数本体では型を推論するようにすることが、すべての箇所で型推論をするのとまったく型推論をしないことの間のすばらしいスイートスポットである、というところで一致しています。
 
 <!-- What about returning a value? Here’s a function that adds one to an integer: -->
 戻り値についてはどうでしょうか。
