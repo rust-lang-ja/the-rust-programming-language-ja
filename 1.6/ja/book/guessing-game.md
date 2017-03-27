@@ -163,7 +163,7 @@ fn main() {
 <!-- there are no arguments, and `{` starts the body of the function. Because -->
 <!-- we didn’t include a return type, it’s assumed to be `()`, an empty -->
 <!-- [tuple][tuples]. -->
-以前見たように `main()` 関数がプログラムのエントリーポイントになります。
+以前見たように `main()` 関数がプログラムのエントリポイントになります。
 `fn` 構文で新たな関数を宣言し、 `()` が引数がないことを示し、 `{` が関数の本体部の始まりです。
 返り値の型は書いていないので `()` 、空の[タプル][tuples]として扱われます。
 
