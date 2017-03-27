@@ -99,7 +99,7 @@ Hello, world!
 <!-- Let’s get to it! The first thing we need to do for our guessing game is -->
 <!-- allow our player to input a guess. Put this in your `src/main.rs`: -->
 とりかかりましょう!
-数当てゲームでまずしなければいけないことはプレイヤーに予想値を入力させることです。
+数当てゲームでまずしなければいけないことはプレイヤに予想値を入力させることです。
 これを `src/main.rs` に書きましょう。
 
 
