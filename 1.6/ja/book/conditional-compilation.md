@@ -16,7 +16,7 @@ Rustには `#[cfg]` という特別なアトリビュートがあり、
 ```
 
 <!-- They also have some helpers: -->
-また、以下の様なヘルパーが存在します:
+また、以下の様なヘルパが存在します:
 
 ```rust
 #[cfg(any(unix, windows))]
@@ -30,7 +30,7 @@ Rustには `#[cfg]` という特別なアトリビュートがあり、
 ```
 
 <!-- These can nest arbitrarily: -->
-ヘルパーは以下のように自由にネストすることが可能です:
+ヘルパは以下のように自由にネストすることが可能です:
 
 ```rust
 #[cfg(any(not(unix), all(target_os="macos", target_arch = "powerpc")))]
