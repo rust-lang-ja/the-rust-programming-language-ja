@@ -6,7 +6,7 @@
 <!-- focus. Any time you have a data structure of variable size, things can get -->
 <!-- tricky, and strings are a re-sizable data structure. That being said, Rust’s -->
 <!-- strings also work differently than in some other systems languages, such as C. -->
-文字列は、プログラマーがマスターすべき重要なコンセプトです。
+文字列は、プログラマがマスターすべき重要なコンセプトです。
 Rustの文字列の扱いは、Rust言語がシステムにフォーカスしているため、少し他の言語と異なります。
 動的なサイズを持つデータ構造が有る時、常に物事は複雑になります。
 そして文字列もまたサイズを変更することができるデータ構造です。
