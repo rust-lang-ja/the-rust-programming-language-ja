@@ -834,7 +834,7 @@ macro_rules! inc {
 <!-- full story. Recursive macros are useful for another reason: Each recursive -->
 <!-- invocation gives you another opportunity to pattern-match the macro’s -->
 <!-- arguments. -->
-入門のチャプターで再帰的なマクロについて言及しました、しかしそのチャプターでは詳細について話していませんでした。
+入門のチャプタで再帰的なマクロについて言及しました、しかしそのチャプタでは詳細について話していませんでした。
 再帰的なマクロが便利な他の理由は、それぞれの再帰的な呼出はマクロに与えられた引数にたいしてパターンマッチを行える可能性を与えてくれることです。
 
 <!-- As an extreme example, it is possible, though hardly advisable, to implement -->

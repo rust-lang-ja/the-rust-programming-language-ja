@@ -271,7 +271,7 @@ assert_eq!(5, num);
 <!-- objects][trait-objects]. -->
 Rustにおけるクロージャの実装は他の言語とは少し異なります。
 Rustにおけるクロージャは実質的にトレイトへの糖衣構文です。
-続きの説明を読む前に [トレイト][traits] や [トレイトオブジェクト][trait-objects] についてのチャプターを学ぶ前に読みたくなるでしょう。
+続きの説明を読む前に [トレイト][traits] や [トレイトオブジェクト][trait-objects] についてのチャプタを学ぶ前に読みたくなるでしょう。
 
 [traits]: traits.html
 [trait-objects]: trait-objects.html
