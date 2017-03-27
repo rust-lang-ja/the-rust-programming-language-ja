@@ -17,7 +17,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <!-- encoded as a stream of UTF-8 bytes. All strings are guaranteed to be a valid -->
 <!-- encoding of UTF-8 sequences. Additionally, unlike some systems languages, -->
 <!-- strings are not null-terminated and can contain null bytes. -->
-詳しく見ていきましょう、 「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラー値のシーケンスです。
+詳しく見ていきましょう、 「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラ値のシーケンスです。
 すべての文字列は、正しくエンコードされたUTF-8のシーケンスであることが保証されています。
 また、他のシステム言語とはことなり、文字列はnull終端でなく、nullバイトを含むことが可能です。
 
