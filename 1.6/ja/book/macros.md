@@ -985,7 +985,7 @@ if false {
 <!-- Sometimes, the compiler may make you have a different branch that you know -->
 <!-- will never, ever run. In these cases, use this macro, so that if you end -->
 <!-- up wrong, you’ll get a `panic!` about it. -->
-時々、コンパイラーによって絶対に呼び出されるはずがないと考えているブランチを作成することになる時があります。
+時々、コンパイラによって絶対に呼び出されるはずがないと考えているブランチを作成することになる時があります。
 そういった時には、このマクロを利用しましょう、そうすることでもし何か誤ってしまった時に、 `panic!` で知ることができます。
 
 ```rust
