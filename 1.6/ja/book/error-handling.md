@@ -1213,7 +1213,7 @@ fn main() {
 <!-- important, but they have their limits. Let's try a different approach: early -->
 <!-- returns. -->
 説明し終わった後でも、このコードは難解なままです。
-コンビネータの使い方をマスターすることは重要ですが、コンビネータには限界もあるのです。
+コンビネータの使い方をマスタすることは重要ですが、コンビネータには限界もあるのです。
 次は、早期リターンと呼ばれる、別のアプローチを試してみましょう。
 
 <!-- ## Early returns -->
