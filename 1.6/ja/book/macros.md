@@ -265,7 +265,7 @@ macro_rules! foo {
 <!--    it contains, in lockstep, and -->
 <!-- 2. each `$name` must be under at least as many `$(...)*`s as it was matched -->
 <!--    against. If it is under more, it’ll be duplicated, as appropriate. -->
-1. `$(...)*` は繰り返しの一つの「レイヤー」上で動作し、 レイヤーが含んでいる `$name` について足並みを揃えて動作します。
+1. `$(...)*` は繰り返しの一つの「レイヤ」上で動作し、 レイヤが含んでいる `$name` について足並みを揃えて動作します。
 2. それぞれの `$name` はマッチしたときと同じ個数の `$(...)*` の内側になければなりません。
     もし更に多くの `$(...)*` の中に表われた際には適切に複製されます。
 
