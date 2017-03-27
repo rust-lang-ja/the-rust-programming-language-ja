@@ -265,7 +265,7 @@ fn main() {
     unsafe {
         register_callback(callback);
 # //        trigger_callback(); // Triggers the callback
-        trigger_callback(); // コールバックをトリガーする
+        trigger_callback(); // コールバックをトリガする
     }
 }
 ```
