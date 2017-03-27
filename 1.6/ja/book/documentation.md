@@ -279,7 +279,7 @@ Rustにおいて、関数の回復不可能な誤用（つまり、プログラ�
 <!-- automatically add a `main()` wrapper around your code, using heuristics to attempt -->
 <!-- to put it in the right place. For example: -->
 `fn main()` とかがここでは不要だということに気が付くでしょう。
-`rustdoc` は自動的に `main()` ラッパーをコードの周りに、正しい場所へ配置するためのヒューリスティクスを使って追加します。
+`rustdoc` は自動的に `main()` ラッパをコードの周りに、正しい場所へ配置するためのヒューリスティクスを使って追加します。
 例えば、こうです。
 
 ```rust
