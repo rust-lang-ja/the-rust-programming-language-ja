@@ -380,8 +380,8 @@ fn main() {
 
 <p>これは <code>match</code> 式の腕に似ていますが、Rustの構文木に対してコンパイル時にマッチします。
 セミコロンはケースの末尾でだけ使うことのでき、省略可能です。
-<code>=&gt;</code> の左辺にある「パターン」は「マッチャー」として知られています。
-マッチャーは <a href="../reference.html#macros">小さなマッチャー独自の構文</a> を持っています。</p>
+<code>=&gt;</code> の左辺にある「パターン」は「マッチャ」として知られています。
+マッチャは <a href="../reference.html#macros">小さなマッチャ独自の構文</a> を持っています。</p>
 
 <!-- The matcher `$x:expr` will match any Rust expression, binding that syntax tree -->
 
@@ -393,15 +393,15 @@ fn main() {
 
 <!-- separated by commas. -->
 
-<p>マッチャー <code>$x:expr</code> は任意のRustの式にマッチし、マッチした構文木を「メタ変数」 <code>$x</code> に束縛します。
+<p>マッチャ <code>$x:expr</code> は任意のRustの式にマッチし、マッチした構文木を「メタ変数」 <code>$x</code> に束縛します。
 識別子 <code>expr</code> は「フラグメント指定子」です。全てのフラグメント指定子の一覧はこの章で後ほど紹介します。
-マッチャーを <code>$(...),*</code> で囲むと0個以上のコンマで句切られた式にマッチします。</p>
+マッチャを <code>$(...),*</code> で囲むと0個以上のコンマで句切られた式にマッチします。</p>
 
 <!-- Aside from the special matcher syntax, any Rust tokens that appear in a matcher -->
 
 <!-- must match exactly. For example, -->
 
-<p>特別なマッチャー構文は別にして、マッチャー中に登場するその他の任意のトークンはそれ自身に正確にマッチする必要があります。
+<p>特別なマッチャ構文は別にして、マッチャ中に登場するその他の任意のトークンはそれ自身に正確にマッチする必要があります。
 例えば:</p>
 
 <span class='rusttest'>macro_rules! foo {
@@ -455,7 +455,7 @@ fn main() {
 <!-- example: -->
 
 <p>マクロルールの右辺は大部分が通常のRustの構文です。
-しかし、マッチャーによってキャプチャされた構文を繋げる事ができます。
+しかし、マッチャによってキャプチャされた構文を繋げる事ができます。
 最初に示した <code>vec!</code> の例を見てみましょう:</p>
 
 <span class='rusttest'>fn main() {
@@ -474,7 +474,7 @@ $(
 <!-- repetition in the matcher (more on this in a moment). -->
 
 <p><code>$x</code> にマッチしたそれぞれの式はマクロ展開中に <code>push</code> 文を生成します。
-マクロ展開中の繰り返しはマッチャー中の繰り返しと足並みを揃えて実行されます(これについてはもう少し説明します)。</p>
+マクロ展開中の繰り返しはマッチャ中の繰り返しと足並みを揃えて実行されます(これについてはもう少し説明します)。</p>
 
 <!-- Because `$x` was already declared as matching an expression, we don’t repeat -->
 
@@ -557,7 +557,7 @@ $(
 <!--    against. If it is under more, it’ll be duplicated, as appropriate. -->
 
 <ol>
-<li><code>$(...)*</code> は繰り返しの一つの「レイヤー」上で動作し、 レイヤーが含んでいる <code>$name</code> について足並みを揃えて動作します。</li>
+<li><code>$(...)*</code> は繰り返しの一つの「レイヤ」上で動作し、 レイヤが含んでいる <code>$name</code> について足並みを揃えて動作します。</li>
 <li>それぞれの <code>$name</code> はマッチしたときと同じ個数の <code>$(...)*</code> の内側になければなりません。
 もし更に多くの <code>$(...)*</code> の中に表われた際には適切に複製されます。</li>
 </ol>
@@ -612,7 +612,7 @@ fn main() {
 
 <!-- except `+` or `*`. -->
 
-<p>上のコードはほとんどのマッチャーの構文を利用しています。
+<p>上のコードはほとんどのマッチャの構文を利用しています。
 この例では0個以上にマッチする <code>$(...)*</code> を利用しています、
 1つ以上にマッチさせたい場合は <code>$(...)+</code> を代わりに利用する事ができます。
 また、どちらも補助的に区切りを指定する事ができます。区切りには、 <code>+</code> と <code>*</code> 以外の任意のトークンを指定することが可能です。</p>
@@ -1048,7 +1048,7 @@ Rustはこの曖昧性を判定するために単純なルールを利用しま�
 <!-- * any other single token. -->
 
 <ul>
-<li>マッチャー、 <code>()</code> 、 <code>[]</code> または <code>{}</code> で囲まれたトークンの木、あるいは、</li>
+<li>マッチャ、 <code>()</code> 、 <code>[]</code> または <code>{}</code> で囲まれたトークンの木、あるいは、</li>
 <li>その他の単一のトークン</li>
 </ul>
 
@@ -1056,7 +1056,7 @@ Rustはこの曖昧性を判定するために単純なルールを利用しま�
 
 <!-- which syntactic form it matches. -->
 
-<p>マッチャー内部ではそれぞれのメタ変数はマッチする構文を指定する「フラグメント指定子」を持っています。</p>
+<p>マッチャ内部ではそれぞれのメタ変数はマッチする構文を指定する「フラグメント指定子」を持っています。</p>
 
 <!-- * `ident`: an identifier. Examples: `x`; `foo`. -->
 
@@ -1396,7 +1396,7 @@ fn main() { }
 
 <!-- arguments. -->
 
-<p>入門のチャプターで再帰的なマクロについて言及しました、しかしそのチャプターでは詳細について話していませんでした。
+<p>入門のチャプタで再帰的なマクロについて言及しました、しかしそのチャプタでは詳細について話していませんでした。
 再帰的なマクロが便利な他の理由は、それぞれの再帰的な呼出はマクロに与えられた引数にたいしてパターンマッチを行える可能性を与えてくれることです。</p>
 
 <!-- As an extreme example, it is possible, though hardly advisable, to implement -->
@@ -1621,7 +1621,7 @@ fn foo() -&gt; std::io::Result&lt;()&gt; {
 
 <!-- up wrong, you’ll get a `panic!` about it. -->
 
-<p>時々、コンパイラーによって絶対に呼び出されるはずがないと考えているブランチを作成することになる時があります。
+<p>時々、コンパイラによって絶対に呼び出されるはずがないと考えているブランチを作成することになる時があります。
 そういった時には、このマクロを利用しましょう、そうすることでもし何か誤ってしまった時に、 <code>panic!</code> で知ることができます。</p>
 
 <span class='rusttest'>fn main() {

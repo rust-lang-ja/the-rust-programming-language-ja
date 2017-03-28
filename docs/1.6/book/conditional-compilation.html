@@ -209,7 +209,7 @@ fn bar() {}
 
 <!-- They also have some helpers: -->
 
-<p>また、以下の様なヘルパーが存在します:</p>
+<p>また、以下の様なヘルパが存在します:</p>
 
 <span class='rusttest'>fn main() {
     #[cfg(any(unix, windows))]
@@ -229,7 +229,7 @@ fn not_foo() {}
 
 <!-- These can nest arbitrarily: -->
 
-<p>ヘルパーは以下のように自由にネストすることが可能です:</p>
+<p>ヘルパは以下のように自由にネストすることが可能です:</p>
 
 <span class='rusttest'>fn main() {
     #[cfg(any(not(unix), all(target_os=&quot;macos&quot;, target_arch = &quot;powerpc&quot;)))]
