@@ -108,7 +108,7 @@ Hello, world!
 <!-- Let’s get to it! The first thing we need to do for our guessing game is -->
 <!-- allow our player to input a guess. Put this in your `src/main.rs`: -->
 では作り始めましょう。
-数当てゲームで最初にしないといけないのは、プレイヤーに予想値を入力させることです。
+数当てゲームで最初にしないといけないのは、プレイヤに予想値を入力させることです。
 これを `src/main.rs` に書きましょう。
 
 ```rust,no_run
@@ -167,7 +167,7 @@ fn main() {
 <!-- there are no arguments, and `{` starts the body of the function. Because -->
 <!-- we didn’t include a return type, it’s assumed to be `()`, an empty -->
 <!-- [tuple][tuples]. -->
-すでに見てきたように `main()` 関数がプログラムのエントリーポイントになります。
+すでに見てきたように `main()` 関数がプログラムのエントリポイントになります。
 `fn` 構文は新たな関数を宣言し、 `()` で引数がないことを示し、 `{` が関数本体の始まりです。
 返り値の型は書かなかったので、 `()` 、つまり空の[タプル][tuples]として扱われます。
 

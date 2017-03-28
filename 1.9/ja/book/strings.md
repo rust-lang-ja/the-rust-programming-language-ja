@@ -6,7 +6,7 @@
 <!-- focus. Any time you have a data structure of variable size, things can get -->
 <!-- tricky, and strings are a re-sizable data structure. That being said, Rust’s -->
 <!-- strings also work differently than in some other systems languages, such as C. -->
-文字列は、プログラマーがマスターすべき重要なコンセプトです。
+文字列は、プログラマがマスタすべき重要なコンセプトです。
 Rustの文字列の扱いは、Rust言語がシステムにフォーカスしているため、少し他の言語と異なります。
 動的なサイズを持つデータ構造が有る時、常に物事は複雑になります。
 そして文字列もまたサイズを変更することができるデータ構造です。
@@ -17,7 +17,7 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 <!-- encoded as a stream of UTF-8 bytes. All strings are guaranteed to be a valid -->
 <!-- encoding of UTF-8 sequences. Additionally, unlike some systems languages, -->
 <!-- strings are not null-terminated and can contain null bytes. -->
-詳しく見ていきましょう、 「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラー値のシーケンスです。
+詳しく見ていきましょう、 「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラ値のシーケンスです。
 すべての文字列は、正しくエンコードされたUTF-8のシーケンスであることが保証されています。
 また、他のシステム言語とはことなり、文字列はnull終端でなく、nullバイトを含むことが可能です。
 

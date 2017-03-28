@@ -82,6 +82,6 @@ mod macos_only {
 <!-- create your own attributes, the Rust compiler defines them. -->
 Rustのアトリビュートは様々なことに利用されます。
 すべてのアトリビュートのリストは [リファレンス][reference] に載っています。
-現在は、Rustコンパイラーによって定義されている以外の独自のアトリビュートを作成することは許可されていません。
+現在は、Rustコンパイラによって定義されている以外の独自のアトリビュートを作成することは許可されていません。
 
 [reference]: ../reference.html#attributes

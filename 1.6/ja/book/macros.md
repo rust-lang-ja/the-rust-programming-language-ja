@@ -138,8 +138,8 @@ macro_rules! vec { ... }
 <!-- These have [their own little grammar] within the language. -->
 これは `match` 式の腕に似ていますが、Rustの構文木に対してコンパイル時にマッチします。
 セミコロンはケースの末尾でだけ使うことのでき、省略可能です。
-`=>` の左辺にある「パターン」は「マッチャー」として知られています。
-マッチャーは [小さなマッチャー独自の構文][their own little grammar] を持っています。
+`=>` の左辺にある「パターン」は「マッチャ」として知られています。
+マッチャは [小さなマッチャ独自の構文][their own little grammar] を持っています。
 
 [their own little grammar]: ../reference.html#macros
 
@@ -148,13 +148,13 @@ macro_rules! vec { ... }
 <!-- the full possibilities are enumerated later in this chapter. -->
 <!-- Surrounding the matcher with `$(...),*` will match zero or more expressions, -->
 <!-- separated by commas. -->
-マッチャー `$x:expr` は任意のRustの式にマッチし、マッチした構文木を「メタ変数」 `$x` に束縛します。
+マッチャ `$x:expr` は任意のRustの式にマッチし、マッチした構文木を「メタ変数」 `$x` に束縛します。
 識別子 `expr` は「フラグメント指定子」です。全てのフラグメント指定子の一覧はこの章で後ほど紹介します。
-マッチャーを `$(...),*` で囲むと0個以上のコンマで句切られた式にマッチします。
+マッチャを `$(...),*` で囲むと0個以上のコンマで句切られた式にマッチします。
 
 <!-- Aside from the special matcher syntax, any Rust tokens that appear in a matcher -->
 <!-- must match exactly. For example, -->
-特別なマッチャー構文は別にして、マッチャー中に登場するその他の任意のトークンはそれ自身に正確にマッチする必要があります。
+特別なマッチャ構文は別にして、マッチャ中に登場するその他の任意のトークンはそれ自身に正確にマッチする必要があります。
 例えば:
 
 ```rust
@@ -196,7 +196,7 @@ error: no rules expected the token `z`
 <!-- But we can splice in bits of syntax captured by the matcher. From the original -->
 <!-- example: -->
 マクロルールの右辺は大部分が通常のRustの構文です。
-しかし、マッチャーによってキャプチャされた構文を繋げる事ができます。
+しかし、マッチャによってキャプチャされた構文を繋げる事ができます。
 最初に示した `vec!` の例を見てみましょう:
 
 ```ignore
@@ -209,7 +209,7 @@ $(
 <!-- macro expansion. The repetition in the expansion proceeds in "lockstep" with -->
 <!-- repetition in the matcher (more on this in a moment). -->
 `$x` にマッチしたそれぞれの式はマクロ展開中に `push` 文を生成します。
-マクロ展開中の繰り返しはマッチャー中の繰り返しと足並みを揃えて実行されます(これについてはもう少し説明します)。
+マクロ展開中の繰り返しはマッチャ中の繰り返しと足並みを揃えて実行されます(これについてはもう少し説明します)。
 
 <!-- Because `$x` was already declared as matching an expression, we don’t repeat -->
 <!-- `:expr` on the right-hand side. Also, we don’t include a separating comma as -->
@@ -265,7 +265,7 @@ macro_rules! foo {
 <!--    it contains, in lockstep, and -->
 <!-- 2. each `$name` must be under at least as many `$(...)*`s as it was matched -->
 <!--    against. If it is under more, it’ll be duplicated, as appropriate. -->
-1. `$(...)*` は繰り返しの一つの「レイヤー」上で動作し、 レイヤーが含んでいる `$name` について足並みを揃えて動作します。
+1. `$(...)*` は繰り返しの一つの「レイヤ」上で動作し、 レイヤが含んでいる `$name` について足並みを揃えて動作します。
 2. それぞれの `$name` はマッチしたときと同じ個数の `$(...)*` の内側になければなりません。
     もし更に多くの `$(...)*` の中に表われた際には適切に複製されます。
 
@@ -297,7 +297,7 @@ fn main() {
 <!-- "zero or more" match. Alternatively you can write `$(...)+` for a "one or -->
 <!-- more" match. Both forms optionally include a separator, which can be any token -->
 <!-- except `+` or `*`. -->
-上のコードはほとんどのマッチャーの構文を利用しています。
+上のコードはほとんどのマッチャの構文を利用しています。
 この例では0個以上にマッチする `$(...)*` を利用しています、
 1つ以上にマッチさせたい場合は `$(...)+` を代わりに利用する事ができます。
 また、どちらも補助的に区切りを指定する事ができます。区切りには、 `+` と `*` 以外の任意のトークンを指定することが可能です。
@@ -600,12 +600,12 @@ Rustはこの曖昧性を判定するために単純なルールを利用しま�
 
 <!-- * a sequence of token trees surrounded by matching `()`, `[]`, or `{}`, or -->
 <!-- * any other single token. -->
-* マッチャー、 `()` 、 `[]` または `{}` で囲まれたトークンの木、あるいは、
+* マッチャ、 `()` 、 `[]` または `{}` で囲まれたトークンの木、あるいは、
 * その他の単一のトークン
 
 <!-- Within a matcher, each metavariable has a ‘fragment specifier’, identifying -->
 <!-- which syntactic form it matches. -->
-マッチャー内部ではそれぞれのメタ変数はマッチする構文を指定する「フラグメント指定子」を持っています。
+マッチャ内部ではそれぞれのメタ変数はマッチする構文を指定する「フラグメント指定子」を持っています。
 
 <!-- * `ident`: an identifier. Examples: `x`; `foo`. -->
 <!-- * `path`: a qualified name. Example: `T::SpecialA`. -->
@@ -834,7 +834,7 @@ macro_rules! inc {
 <!-- full story. Recursive macros are useful for another reason: Each recursive -->
 <!-- invocation gives you another opportunity to pattern-match the macro’s -->
 <!-- arguments. -->
-入門のチャプターで再帰的なマクロについて言及しました、しかしそのチャプターでは詳細について話していませんでした。
+入門のチャプタで再帰的なマクロについて言及しました、しかしそのチャプタでは詳細について話していませんでした。
 再帰的なマクロが便利な他の理由は、それぞれの再帰的な呼出はマクロに与えられた引数にたいしてパターンマッチを行える可能性を与えてくれることです。
 
 <!-- As an extreme example, it is possible, though hardly advisable, to implement -->
@@ -985,7 +985,7 @@ if false {
 <!-- Sometimes, the compiler may make you have a different branch that you know -->
 <!-- will never, ever run. In these cases, use this macro, so that if you end -->
 <!-- up wrong, you’ll get a `panic!` about it. -->
-時々、コンパイラーによって絶対に呼び出されるはずがないと考えているブランチを作成することになる時があります。
+時々、コンパイラによって絶対に呼び出されるはずがないと考えているブランチを作成することになる時があります。
 そういった時には、このマクロを利用しましょう、そうすることでもし何か誤ってしまった時に、 `panic!` で知ることができます。
 
 ```rust

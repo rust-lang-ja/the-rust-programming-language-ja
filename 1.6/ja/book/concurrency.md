@@ -354,7 +354,7 @@ thread::spawn(move || {
 <!-- wait but it's more likely we'll either be waiting longer than -->
 <!-- necessary or not long enough, depending on just how much time the -->
 <!-- threads actually take to finish computing when the program runs. -->
-最後の部分で、スレッドが実行されている間、短いタイマーで待機しています。
+最後の部分で、スレッドが実行されている間、短いタイマで待機しています。
 しかし、これはよろしくないです。
 というのも、ちょうどよい待機時間を選んでいた可能性より、必要以上に長い時間待ってしまっていたり、十分に待っていなかったりする可能性の方が高いからです。
 適切な待ち時間というのは、プログラムを実行した際に、実際に計算が終わるまでどれだけの時間がかかったかに依存します。
@@ -362,7 +362,7 @@ thread::spawn(move || {
 <!-- A more precise alternative to the timer would be to use one of the -->
 <!-- mechanisms provided by the Rust standard library for synchronizing -->
 <!-- threads with each other. Let's talk about one of them: channels. -->
-タイマーに代わるより良い選択肢は、Rust標準ライブラリによって提供されている、スレッドがお互いに同期するためのメカニズムを用いることです。
+タイマに代わるより良い選択肢は、Rust標準ライブラリによって提供されている、スレッドがお互いに同期するためのメカニズムを用いることです。
 それでは、そのようなものの一つについて話しましょう。
 チャネルです。
 
