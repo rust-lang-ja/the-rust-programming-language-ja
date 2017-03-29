@@ -318,7 +318,7 @@ not, because neither the trait nor the type are in our code. -->
 <!-- One last thing about traits: generic functions with a trait bound use
 ‘monomorphization’ (mono: one, morph: form), so they are statically dispatched.
 What’s that mean? Check out the chapter on [trait objects][to] for more details. -->
-トレイトに関して最後に1つ。トレイト境界が設定されたジェネリック関数は「単相化」(monomorphization)(mono:単一の、morph:様相)されるため、静的ディスパッチが行われます。一体どういう意味でしょうか？詳細については、 [トレイトオブジェクト][to] の章をチェックしてください。
+トレイトに関して最後に1つ。トレイト境界が設定されたジェネリック関数は「単相化」(monomorphization)（mono: 単一の、morph: 相）されるため、静的ディスパッチが行われます。一体どういう意味でしょうか？詳細については、 [トレイトオブジェクト][to] の章をチェックしてください。
 
 [to]: trait-objects.html
 
