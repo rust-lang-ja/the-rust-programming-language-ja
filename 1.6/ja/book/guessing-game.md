@@ -768,7 +768,7 @@ fn main() {
 <!-- A few new bits here. The first is another `use`. We bring a type called -->
 <!-- `std::cmp::Ordering` into scope. Then, five new lines at the bottom that use -->
 <!-- it: -->
-いくか新しいことがあります。まず、新たに `use` が増えました。 `std::cmp::Ordering` をスコープに導入します。
+いくつか新しいことがあります。まず、新たに `use` が増えました。 `std::cmp::Ordering` をスコープに導入します。
 そして、末尾にそれを使うコードが5行増えてます。
 
 
