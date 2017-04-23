@@ -121,7 +121,7 @@ point = Point3d { y: 1, .. point };
 <!-- This gives `point` a new `y`, but keeps the old `x` and `z` values. It doesn’t
 have to be the same `struct` either, you can use this syntax when making new
 ones, and it will copy the values you don’t specify:-->
-ここでは`point`に新しい`y`を与えていますが、`x`と`z`は古い値を維持します。どれかの`struct`と同じ値を作る他にも、この構文を新たな値の作成に使用でき、明示することなく値のコピーが行えます。
+ここでは`point`に新しい`y`を与えていますが、`x`と`z`は元の値のままです。コピー先は元の構造体と同じである必要はなく、この構文で新しい構造体を作ることもできます。その場合、指定しなかったフィールドは元の構造体からコピーされます。
 
 ```rust
 # struct Point3d {
