@@ -24,17 +24,17 @@ enum is sometimes called a ‘sum type’: the set of possible values of the
 enum is the sum of the sets of possible values for each variant. -->
 各ヴァリアントは、自身に関連するデータを持つこともできます。
 ヴァリアントの定義のための構文は、構造体を定義するのに使われる構文と似ており、
-(unit-like構造体のような) データを持たないヴァリアント、名前付きデータを持つヴァリアント、 (タプル構造体のような) 名前なしデータを持つヴァリアントがありえます。
+（unit-like構造体のような）データを持たないヴァリアント、名前付きデータを持つヴァリアント、（タプル構造体のような）名前なしデータを持つヴァリアントがありえます。
 しかし、別々に構造体を定義する場合とは異なり、 `enum` は一つの型です。
 列挙型の値はどのヴァリアントにもマッチしうるのです。
 このことから、列挙型は「直和型」(sum type) と呼ばれることもあります。
-列挙型としてありうる値の集合は、各ヴァリアントとしてありうる値の集合の和であるためです。
+列挙型としてとりうる値の集合は、各ヴァリアントとしてとりうる値の集合の和であるためです。
 
 <!-- We use the `::` syntax to use the name of each variant: they’re scoped by the name
 of the `enum` itself. This allows both of these to work: -->
 各ヴァリアントの名前を使うためには、 `::` 構文を使います。
 すなわち、ヴァリアントの名前は `enum` 自体の名前によってスコープ化されています。
-これにより、以下は動きます。
+これにより、以下のどちらもうまく動きます。
 
 ```rust
 # enum Message {
@@ -82,7 +82,7 @@ equality yet, but we’ll find out in the [`traits`][traits] section. -->
 こういった操作が許されないことで制限されているように感じられるかもしれませんが、この制限は克服できます。
 それには二つの方法があります。
 一つは等値性を自分で実装する方法、もう一つは次のセクションで学ぶ [`match`][match] 式でヴァリアントのパターンマッチを行う方法です。
-等値性を実装するにはRustについてまだ知るべきことがありますが、 [`トレイト`][traits] のセクションに書いてあります。
+等値性を実装する方法についてはまだ説明していませんが、 [`トレイト`][traits] のセクションに書いてあります。
 
 [match]: match.html
 [if-let]: if-let.html
@@ -120,8 +120,8 @@ let x = foo("Hello, world".to_string());
 [`closures`][closures], we’ll talk about passing functions as arguments to
 other functions. For example, with [`iterators`][iterators], we can do this
 to convert a vector of `String`s into a vector of `Message::Write`s: -->
-また、すぐに役立つことではないのですが、[`クロージャ`][closures] までいくと、関数を他の関数へ引数として渡す話をします。
-例えば、これを [`イテレータ`][iterators] とあわせることで、 `String` のベクタから `Message::Write` へ変換することができます。
+このことは今すぐ役立つことではないのですが、[`クロージャ`][closures] のセクションでは関数を他の関数へ引数として渡す話をします。
+例えば、これを [`イテレータ`][iterators] とあわせることで、 `String` のベクタから `Message::Write` のベクタへ変換することができます。
 
 ```rust
 # enum Message {
