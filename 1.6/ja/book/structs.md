@@ -186,7 +186,7 @@ and with a `struct`, we have actual names. -->
 tuple struct with only one element. We call this the ‘newtype’ pattern, because
 it allows you to create a new type, distinct from that of its contained value
 and expressing its own semantic meaning: -->
-タプル構造体が非常に便利な場合も _あります_ が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。
+ただし、タプル構造体が非常に便利な場合も _あります_。要素が1つだけの場合です。要素の値と区別でき、独自の意味を表現できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。
 
 ```rust
 struct Inches(i32);
@@ -200,13 +200,13 @@ println!("length is {} inches", integer_length);
 <!-- As you can see here, you can extract the inner integer type through a
 destructuring `let`, just as with regular tuples. In this case, the
 `let Inches(integer_length)` assigns `10` to `integer_length`. -->
-上記の通り、 `let` を使って分解することで、標準のタプルと同じように内部の整数型を取り出すことができます。
-このケースでは `let Inches(integer_length)` が `integer_length` へ `10` を束縛します。
+上記の通り、標準のタプルと同じように `let` を使って分解することで内部の整数型を取り出すことができます。
+このケースでは `let Inches(integer_length)` が `integer_length` に `10` を代入します。
 
 # Unit-like 構造体
 
 <!-- You can define a `struct` with no members at all: -->
-あなたは全くメンバを持たない `struct` を定義できます。
+全くメンバを持たない `struct` を定義することもできます。
 
 ```rust
 struct Electron;
@@ -217,7 +217,7 @@ let x = Electron;
 <!-- Such a `struct` is called ‘unit-like’ because it resembles the empty
 tuple, `()`, sometimes called ‘unit’. Like a tuple struct, it defines a
 new type. -->
-空のタプルである `()` は時々 `unit` と呼ばれ、それに似ていることからこのような構造体を `unit-like` と呼んでいます。タプル構造体のように、これは新しい型を定義します。
+このような構造体は「unit-like」であると言われます。空のタプルであり「unit」とも呼ばれる `()` とよく似ているからです。タプル構造体と同様に、 unit-like 構造体も新しい型を定義します。
 
 <!-- This is rarely useful on its own (although sometimes it can serve as a
 marker type), but in combination with other features, it can become
@@ -225,6 +225,6 @@ useful. For instance, a library may ask you to create a structure that
 implements a certain [trait][trait] to handle events. If you don’t have
 any data you need to store in the structure, you can just create a
 unit-like `struct`. -->
-これは単体でもごくまれに役立ちます(もっとも、時々型をマーク代わりとして役立てる程度です)が、他の機能と組み合わせることにより便利になります。例えば、ライブラリはあなたにイベントを処理できる特定の[トレイト][trait]が実装されたストラクチャの作成を要求するかもしれません。もしそのストラクチャの中に保存すべき値が何もなければ、あなたはダミーのデータを作成する必要はなく、ただunit-likeな `struct` を作るだけで良いのです。
+これは単体では滅多に役に立ちません（マーカ型として使える場合もあります）が、他の機能と組み合わせると便利な場合があります。例えば、ライブラリがイベントを処理する特定の[トレイト][trait]を実装する構造体の作成を要求するかもしれません。もしその構造体の中に保存すべき値が何もなければ、単にunit-likeな `struct` を作るだけで良いのです。
 
 [trait]: traits.html
