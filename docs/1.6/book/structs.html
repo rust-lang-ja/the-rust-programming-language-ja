@@ -452,7 +452,7 @@ tuple struct with only one element. We call this the ‘newtype’ pattern, beca
 it allows you to create a new type, distinct from that of its contained value
 and expressing its own semantic meaning: -->
 
-<p>タプル構造体が非常に便利な場合も <em>あります</em> が、1要素で使う場合だけです。タプル構造体の中に入っている値と、それ自体のセマンティックな表現を明確に区別できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。</p>
+<p>ただし、タプル構造体が非常に便利な場合も <em>あります</em>。要素が1つだけの場合です。要素の値と区別でき、独自の意味を表現できるような新しい型を作成できることから、私たちはこれを「newtype」パターンと呼んでいます。</p>
 
 <span class='rusttest'>fn main() {
     struct Inches(i32);
@@ -473,13 +473,13 @@ println!(&quot;length is {} inches&quot;, integer_length);
 destructuring `let`, just as with regular tuples. In this case, the
 `let Inches(integer_length)` assigns `10` to `integer_length`. -->
 
-<p>上記の通り、 <code>let</code> を使って分解することで、標準のタプルと同じように内部の整数型を取り出すことができます。
-このケースでは <code>let Inches(integer_length)</code> が <code>integer_length</code> へ <code>10</code> を束縛します。</p>
+<p>上記の通り、標準のタプルと同じように <code>let</code> を使って分解することで内部の整数型を取り出すことができます。
+このケースでは <code>let Inches(integer_length)</code> が <code>integer_length</code> に <code>10</code> を代入します。</p>
 
 <h1 id='unit-like-構造体' class='section-header'><a href='#unit-like-構造体'>Unit-like 構造体</a></h1>
 <!-- You can define a `struct` with no members at all: -->
 
-<p>あなたは全くメンバを持たない <code>struct</code> を定義できます。</p>
+<p>全くメンバを持たない <code>struct</code> を定義することもできます。</p>
 
 <span class='rusttest'>fn main() {
     struct Electron;
@@ -494,7 +494,7 @@ let x = Electron;
 tuple, `()`, sometimes called ‘unit’. Like a tuple struct, it defines a
 new type. -->
 
-<p>空のタプルである <code>()</code> は時々 <code>unit</code> と呼ばれ、それに似ていることからこのような構造体を <code>unit-like</code> と呼んでいます。タプル構造体のように、これは新しい型を定義します。</p>
+<p>このような構造体は「unit-like」であると言われます。空のタプルであり「unit」とも呼ばれる <code>()</code> とよく似ているからです。タプル構造体と同様に、 unit-like 構造体も新しい型を定義します。</p>
 
 <!-- This is rarely useful on its own (although sometimes it can serve as a
 marker type), but in combination with other features, it can become
@@ -503,7 +503,7 @@ implements a certain [trait][trait] to handle events. If you don’t have
 any data you need to store in the structure, you can just create a
 unit-like `struct`. -->
 
-<p>これは単体でもごくまれに役立ちます(もっとも、時々型をマーク代わりとして役立てる程度です)が、他の機能と組み合わせることにより便利になります。例えば、ライブラリはあなたにイベントを処理できる特定の<a href="traits.html">トレイト</a>が実装されたストラクチャの作成を要求するかもしれません。もしそのストラクチャの中に保存すべき値が何もなければ、あなたはダミーのデータを作成する必要はなく、ただunit-likeな <code>struct</code> を作るだけで良いのです。</p>
+<p>これは単体では滅多に役に立ちません（マーカ型として使える場合もあります）が、他の機能と組み合わせると便利な場合があります。例えば、ライブラリがイベントを処理する特定の<a href="traits.html">トレイト</a>を実装する構造体の作成を要求するかもしれません。もしその構造体の中に保存すべき値が何もなければ、単にunit-likeな <code>struct</code> を作るだけで良いのです。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
