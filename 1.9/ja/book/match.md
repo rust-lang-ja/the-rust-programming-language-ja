@@ -29,11 +29,11 @@ match x {
 <!-- expression will be evaluated. It’s called `match` because of the term ‘pattern -->
 <!-- matching’, which `match` is an implementation of. There’s a [separate section on -->
 <!-- patterns][patterns] that covers all the patterns that are possible here. -->
-`match` は一つの式とその式の値に基づく複数のブランチを引数に取ります。
+`match` は一つの式とその式の値に基づく複数のブランチを取ります。
 一つ一つの「腕」は `val => expression` という形式を取ります。
 値がマッチした時に、対応する腕の式が評価されます。
-このような式が `match` と呼ばれるのは「パターンマッチ」に由来します。
-可能なすべてのパターンについて説明した、[パターンの説明のために書かれたセクション][patterns] が存在します。
+このような式が `match` と呼ばれるのは「パターンマッチ」という用語に由来します。
+[パターン][patterns] のセクションではこの部分に書けるすべてのパターンを説明しています。
 
 [patterns]: patterns.html
 
@@ -59,7 +59,7 @@ Rustは何かしらの値を忘れていると教えてくれています。
 
 <!-- `match` is also an expression, which means we can use it on the right-hand -->
 <!-- side of a `let` binding or directly where an expression is used: -->
-`match` は式でも有ります、これはつまり `let` 束縛の右側や式が使われているところで利用することができるということを意味しています。
+`match` は式でもあります、これはつまり `let` 束縛の右側や式が使われているところで利用することができるということを意味しています。
 
 ```rust
 let x = 5;
@@ -76,7 +76,7 @@ let number = match x {
 
 <!-- Sometimes it’s a nice way of converting something from one type to another; in -->
 <!-- this example the integers are converted to `String`. -->
-`match` はしばしば、ある型からある型へ変換するための良い手段になります。
+このようにして、ある型から他の型への変換がうまく書ける場合があります。
 この例では整数が `String` に変換されています。
 
 <!-- # Matching on enums -->
@@ -118,7 +118,7 @@ fn process_message(msg: Message) {
 <!-- Unlike the previous uses of `match`, you can’t use the normal `if` -->
 <!-- statement to do this. You can use the [`if let`][if-let] statement, -->
 <!-- which can be seen as an abbreviated form of `match`. -->
-上で説明した値に対する `match` の利用とは異なり、列挙型のバリアントに基いた分岐に `if` を用いることはできません。
-列挙型のバリアントに基いた分岐に [`if let`][if-let] 文を用いることが可能です、 `if let` を `match` の短縮形と捉えることができます。
+先ほど説明した値に対する `match` の利用とは異なり、列挙型のバリアントに基いた分岐に `if` を用いることはできません。
+列挙型のバリアントに基いた分岐には [`if let`][if-let] 文を用いることが可能です。 `if let` は `match` の短縮形と捉えることができます。
 
 [if-let]: if-let.html
