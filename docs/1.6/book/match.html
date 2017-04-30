@@ -233,11 +233,11 @@ match x {
 
 <!-- patterns][patterns] that covers all the patterns that are possible here. -->
 
-<p><code>match</code> は一つの式とその式の値に基づく複数のブランチを引数に取ります。
+<p><code>match</code> は一つの式とその式の値に基づく複数のブランチを取ります。
 一つ一つの「腕」は <code>val =&gt; expression</code> という形式を取ります。
 値がマッチした時に、対応する腕の式が評価されます。
-このような式が <code>match</code> と呼ばれるのは「パターンマッチ」に由来します。
-可能なすべてのパターンについて説明した、<a href="patterns.html">パターンの説明のために書かれたセクション</a> が存在します。</p>
+このような式が <code>match</code> と呼ばれるのは「パターンマッチ」という用語に由来します。
+<a href="patterns.html">パターン</a> のセクションではこの部分に書けるすべてのパターンを説明しています。</p>
 
 <!-- So what’s the big advantage? Well, there are a few. First of all, `match` -->
 
@@ -279,7 +279,7 @@ match x {
 
 <!-- side of a `let` binding or directly where an expression is used: -->
 
-<p><code>match</code> は式でも有ります、これはつまり <code>let</code> 束縛の右側や式が使われているところで利用することができるということを意味しています。</p>
+<p><code>match</code> は式でもあります、これはつまり <code>let</code> 束縛の右側や式が使われているところで利用することができるということを意味しています。</p>
 
 <span class='rusttest'>fn main() {
     let x = 5;
@@ -306,7 +306,7 @@ let number = match x {
 
 <!-- Sometimes it’s a nice way of converting something from one type to another. -->
 
-<p><code>match</code> はしばしば、ある型からある型へ変換するための良い手段になります。</p>
+<p>このようにして、ある型から他の型への変換がうまく書ける場合があります。</p>
 
 <!-- # Matching on enums -->
 
@@ -373,8 +373,8 @@ fn process_message(msg: Message) {
 
 <!-- which can be seen as an abbreviated form of `match`. -->
 
-<p>上で説明した値に対する <code>match</code> の利用とは異なり、列挙型のバリアントに基いた分岐に <code>if</code> を用いることはできません。
-列挙型のバリアントに基いた分岐に <a href="if-let.html"><code>if let</code></a> 文を用いることが可能です、 <code>if let</code> を <code>match</code> の短縮形と捉えることができます。</p>
+<p>先ほど説明した値に対する <code>match</code> の利用とは異なり、列挙型のバリアントに基いた分岐に <code>if</code> を用いることはできません。
+列挙型のバリアントに基いた分岐には <a href="if-let.html"><code>if let</code></a> 文を用いることが可能です。 <code>if let</code> は <code>match</code> の短縮形と捉えることができます。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
