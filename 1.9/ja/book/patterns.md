@@ -375,7 +375,7 @@ match x {
 
 <!-- If you use `@` with `|`, you need to make sure the name is bound in each part -->
 <!-- of the pattern: -->
-`@` を `|` と組み合わせて使う場合は、それぞれのパターンで同じ名前が束縛されるか確認する必要があります：
+`@` を `|` と組み合わせて使う場合は、それぞれのパターンで同じ名前が束縛されるようにする必要があります：
 
 ```rust
 let x = 5;
