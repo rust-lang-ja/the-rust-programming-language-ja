@@ -150,7 +150,7 @@
 | platform                       | プラットフォーム
 | pointer                        | ポインタ
 | process                        | プロセス
-| range                          | レンジ
+| range                          | 範囲
 | raw pointer                    | 生ポインタ
 | raw string literal             | 生文字列リテラル
 | re-assignment                  | 再代入
