@@ -198,7 +198,7 @@ let mut a = Point { x: 5, y: 6 };
 
 a.x = 10;
 
-let b = Point { x: 5, y: 6};
+let b = Point { x: 5, y: 6 };
 
 # // b.x = 10; // error: cannot assign to immutable field `b.x`
 b.x = 10; // エラー: イミュータブルなフィールド `b.x` へ代入できない
