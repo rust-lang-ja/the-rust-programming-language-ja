@@ -59,7 +59,7 @@ impl Foo for &str {
 <!-- some point, there are some bugs to fix first) user-defined custom smart -->
 <!-- pointers, can use this `impl`. -->
 このように書いたとすると、このコードは [参照][ref] に対してのみ動作するようになり、他のポインタ型に対しては動作しないことになります。
-`imp for str` のように書くことで、すべてのポインタ、ユーザーの定義した独自のスマートポインタ（いくつかの点についてバグがあるので、それをまずは直さなくてはなりませんが）もこの `impl` を利用可能になります。
+`impl for str` のように書くことで、すべてのポインタ、ユーザーの定義した独自のスマートポインタ（いくつかの点についてバグがあるので、それをまずは直さなくてはなりませんが）もこの `impl` を利用可能になります。
 
 [ref]: references-and-borrowing.html
 
