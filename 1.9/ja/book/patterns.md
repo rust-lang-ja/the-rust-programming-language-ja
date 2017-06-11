@@ -5,7 +5,7 @@
 <!-- bindings][bindings], [match expressions][match], and other places, too. Let’s go -->
 <!-- on a whirlwind tour of all of the things patterns can do!-->
 パターンはRustにおいて極めて一般的です。
-パターンは [変数束縛][bindings], [マッチ文][match] などで使われています。
+パターンは [変数束縛][bindings]、 [マッチ文][match] などで使われています。
 さあ、めくるめくパターンの旅を始めましょう！
 
 [bindings]: variable-bindings.html
@@ -33,7 +33,7 @@ match x {
 <!-- There’s one pitfall with patterns: like anything that introduces a new binding, -->
 <!-- they introduce shadowing. For example: -->
 パターンには一つ落とし穴があります。
-新しい束縛を導入すると、他の束縛を導入するものと同じように、シャドーイングします。
+新しい束縛を導入する他の構文と同様、パターンはシャドーイングをします。
 例えば：
 
 ```rust
@@ -48,7 +48,7 @@ println!("x: {}", x)
 ```
 
 <!-- This prints:-->
-これの結果は以下のようになります：
+これは以下のように出力します。
 
 ```text
 x: c c: c
@@ -60,16 +60,16 @@ x: 1
 <!-- `c`. Notice that the value of `x` outside the scope of the match has no bearing -->
 <!-- on the value of `x` within it. Because we already have a binding named `x`, this -->
 <!-- new `x` shadows it. -->
-別の言い方をすると、 `x =>` はパターンへにマッチし `x` という名前の束縛を導入します。
-この束縛はマッチの腕で有効で、 `c` の値を引き受けます。
-マッチのスコープ外にある `x` は内部での `x` の値に関係していないことに注意して下さい。
-既に `x` は束縛されていたので、この新しい `x` はそれを覆い隠します。
+別の言い方をすると、 `x =>` は値をパターンにマッチさせ、 `x` という名前の束縛を導入します。
+この束縛はマッチの腕内で有効で、値は `c` を取ります。
+このマッチのスコープ外の `x` はスコープ内の `x` の値に何の関係もないことに注意して下さい。
+既に `x` という束縛が存在していたので、新たに導入した `x` は、その古い `x` をシャドーイングします。
 
 <!-- # Multiple patterns -->
 # 複式パターン
 
 <!-- You can match multiple patterns with `|`: -->
-`|` を使うと、複式パターンが導入できます：
+`|` を使うと、複数のパターンにマッチさせることができます：
 
 
 ```rust
@@ -86,11 +86,11 @@ match x {
 これは、 `one or two` を出力します。
 
 <!-- # Destructuring -->
-# デストラクチャリング
+# 分配束縛
 
 <!-- If you have a compound data type, like a [`struct`][struct], you can destructure it -->
 <!-- inside of a pattern: -->
-例えば [`struct`][struct] のような複合データ型があるとき、パターン内でデータを分解することができます。
+[`struct`][struct] のような複合データ型が存在するとき、パターン内でその値を分解することができます。
 
 ```rust
 struct Point {
@@ -124,7 +124,7 @@ match origin {
 ```
 
 <!-- If we only care about some of the values, we don’t have to give them all names: -->
-値の一部だけを扱いたい場合は、値の全てに名前を付ける必要はありません。
+値の一部にだけ興味がある場合は、値のすべてに名前を付ける必要はありません。
 
 ```rust
 struct Point {
@@ -143,7 +143,7 @@ match origin {
 これは `x is 0` を出力します。
 
 <!-- You can do this kind of match on any member, not only the first: -->
-最初のものだけでなく、どのメンバに対してもこの種のマッチを行うことができます。
+最初のメンバだけでなく、どのメンバに対してもこの種のマッチを行うことができます。
 
 ```rust
 struct Point {
@@ -163,7 +163,7 @@ match origin {
 
 <!-- This ‘destructuring’ behavior works on any compound data type, like -->
 <!-- [tuples][tuples] or [enums][enums]. -->
-この「デストラクチャリング(destructuring)」と呼ばれる振る舞いは、 [タプル][tuples] や [列挙型][enums] のような、複合データ型で使用できます。
+この「分配束縛」 (destructuring) と呼ばれる振る舞いは、 [タプル][tuples] や [列挙型][enums] のような、任意の複合データ型で使用できます。
 
 [tuples]: primitive-types.html#tuples
 [enums]: enums.html
@@ -174,7 +174,7 @@ match origin {
 <!-- You can use `_` in a pattern to disregard the type and value.-->
 <!-- For example, here’s a `match` against a `Result<T, E>`: -->
 パターン内の型や値を無視するために `_` を使うことができます。
-例として、 `Result<T, E>` に対して `match` を適用してみましょう：
+例として、 `Result<T, E>` に対して `match` をしてみましょう：
 
 ```rust
 # let some_value: Result<i32, &'static str> = Err("There was an error");
@@ -187,13 +187,13 @@ match some_value {
 <!-- In the first arm, we bind the value inside the `Ok` variant to `value`. But -->
 <!-- in the `Err` arm, we use `_` to disregard the specific error, and print -->
 <!-- a general error message. -->
-最初の部分では `Ok` ヴァリアント内の値を `value` に束縛しています。
-しかし `Err` 部分では、`_` を使って特定のエラーを無視し、一般的なエラーメッセージを表示しています。
+最初の部分では `Ok` ヴァリアント内の値に `value` を束縛しています。
+しかし `Err` 部分では、ヴァリアント内のエラー情報を無視して一般的なエラーメッセージを表示するために `_` を使っています。
 
 <!-- `_` is valid in any pattern that creates a binding. This can be useful to -->
 <!-- ignore parts of a larger structure: -->
-`_` は束縛を伴うどんなパターンにおいても有効です。
-これは大きな構造の一部分を無視する際に有用です。
+`_` は束縛を導入するどのようなパターンにおいても有効です。
+これは大きな構造の一部を無視する際に有用です。
 
 ```rust
 fn coordinate() -> (i32, i32, i32) {
@@ -207,21 +207,21 @@ let (x, _, z) = coordinate();
 
 <!-- Here, we bind the first and last element of the tuple to `x` and `z`, but -->
 <!-- ignore the middle element. -->
-ここでは、タプルの最初と最後の要素を `x` と `z` に結びつけています。
+ここでは、タプルの最初と最後の要素に `x` と `z` を束縛します。
 
 <!-- It’s worth noting that using `_` never binds the value in the first place, -->
 <!-- which means a value may not move: -->
-`_` はそもそも値を束縛しない、つまり値がムーブしないということは特筆に値します。
+`_` はそもそも値に束縛されない、つまり値をムーブしないということは特筆に値します。
 
 ```rust
 let tuple: (u32, String) = (5, String::from("five"));
 
 # // Here, tuple is moved, because the String moved:
-// これだとタプルはムーブします。何故ならStringがムーブしているからです:
+// この場合tupleはムーブされます。何故なら第2要素の文字列がムーブされているからです:
 let (x, _s) = tuple;
 
 # // The next line would give "error: use of partially moved value: `tuple`"
-// この行は「error: use of partially moved value: `tuple`」を出します。
+// 次の行は「error: use of partially moved value: `tuple`」になります。
 // println!("Tuple is: {:?}", tuple);
 
 # // However,
@@ -230,7 +230,7 @@ let (x, _s) = tuple;
 let tuple = (5, String::from("five"));
 
 # // Here, tuple is _not_ moved, as the String was never moved, and u32 is Copy:
-// これだとタプルはムーブ _されません_ 。何故ならStringはムーブされず、u32はCopyだからです:
+// この場合はtupleはムーブ _されません_ 。何故なら第2要素の文字列はムーブされず、第1要素のu32はCopyだからです:
 let (x, _) = tuple;
 
 # // That means this works:
@@ -240,16 +240,16 @@ println!("Tuple is: {:?}", tuple);
 
 <!-- This also means that any temporary variables will be dropped at the end of the -->
 <!-- statement: -->
-また、束縛されていない値は文の終わりでドロップされるということでもあります。
+またこれは、（訳注: 値に束縛されない）一時変数は文の終わりでドロップされるということでもあります。
 
 ```rust
 # // Here, the String created will be dropped immediately, as it’s not bound:
-// 生成されたStringは束縛されていないので即座にドロップされる
+// 生成されたStringは変数を束縛しないので即座にドロップされる
 let _ = String::from("  hello  ").trim();
 ```
 
 <!-- You can also use `..` in a pattern to disregard multiple values: -->
-複数の値を捨てるのには `..` パターンが使えます。
+複数の値を無視するのには `..` パターンが使えます。
 
 ```rust
 enum OptionalTuple {
@@ -272,7 +272,7 @@ match x {
 # ref と ref mut
 
 <!-- If you want to get a [reference][ref], use the `ref` keyword:-->
-もし [リファレンス][ref] を取得したいときは `ref` キーワードを使いましょう。
+[参照][ref] を取得したいときは `ref` キーワードを使いましょう。
 
 ```rust
 let x = 5;
@@ -291,8 +291,8 @@ match x {
 <!-- keyword _creates_ a reference, for use in the pattern. If you need a mutable -->
 <!-- reference, `ref mut` will work in the same way: -->
 ここで `match` 内の `r` は `&i32` 型を持っています。
-言い換えると `ref` キーワードがパターン内で使うリファレンスを _作ります_ 。
-ミュータブルなリファレンスが必要なら、 `ref mut` が同じように動作します。
+言い換えると、 `ref` キーワードはパターン内で使う参照を _作り出します_ 。
+ミュータブルな参照が必要な場合は、同様に `ref mut` を使います。
 
 ```rust
 let mut x = 5;
@@ -303,10 +303,10 @@ match x {
 ```
 
 <!-- # Ranges -->
-# レンジ
+# 範囲
 
 <!-- You can match a range of values with `...`: -->
-`...` で値のレンジのマッチを行うことができます：
+`...` で値の範囲にマッチさせることができます：
 
 ```rust
 let x = 1;
@@ -321,7 +321,7 @@ match x {
 これは `one through five` を出力します。
 
 <!-- Ranges are mostly used with integers and `char`s: -->
-レンジは大体、整数か `char` 型で使われます：
+範囲は多くの場合、整数か `char` 型で使われます：
 
 ```rust
 let x = '💅';
@@ -340,7 +340,7 @@ match x {
 # 束縛
 
 <!-- You can bind values to names with `@`: -->
-`@` で値を名前に束縛することができます。
+`@` で値に名前を束縛することができます。
 
 ```rust
 let x = 1;
@@ -354,7 +354,7 @@ match x {
 <!-- This prints `got a range element 1`. This is useful when you want to -->
 <!-- do a complicated match of part of a data structure: -->
 これは `got a range element 1` を出力します。
-データ構造の一部に対する複雑なマッチが欲しいときに有用です：
+データ構造の一部に対して複雑なマッチングをしたいときに有用です：
 
 ```rust
 #[derive(Debug)]
@@ -371,11 +371,11 @@ match x {
 ```
 
 <!-- This prints `Some("Steve")`: we’ve bound the inner `name` to `a`.-->
-これは `Some("Steve")` を出力します。内側の `name` を `a` に結びつけます。
+これは `Some("Steve")` を出力します。内側の `name` の値への参照に `a` を束縛します。
 
 <!-- If you use `@` with `|`, you need to make sure the name is bound in each part -->
 <!-- of the pattern: -->
-もし `|` で `@` を使うときは、必ずそれぞれのパターンが名前と結びついている必要があります。
+`@` を `|` と組み合わせて使う場合は、それぞれのパターンで同じ名前が束縛されるようにする必要があります：
 
 ```rust
 let x = 5;
@@ -411,7 +411,7 @@ match x {
 これは `Got an int!` を出力します。
 
 <!-- If you’re using `if` with multiple patterns, the `if` applies to both sides: -->
-複式パターンで `if` を使うと、 `if` は両方に適用されます：
+複式パターンで `if` を使うと、 `if` は `|` の両側に適用されます：
 
 ```rust
 let x = 4;
@@ -425,7 +425,7 @@ match x {
 
 <!-- This prints `no`, because the `if` applies to the whole of `4 | 5`, and not to -->
 <!-- only the `5`. In other words, the precedence of `if` behaves like this: -->
-これは `no` を出力します。なぜなら `if` は `4 | 5` 全体に適用されるのであって、 `5` 単独に対してではないからです。つまり `if` 節は以下のように振舞います：
+これは `no` を出力します。なぜなら `if` は `4 | 5` 全体に適用されるのであって、 `5` 単独に対して適用されるのではないからです。つまり `if` 節は以下のように振舞います：
 
 ```text
 (4 | 5) if y => ...
@@ -443,7 +443,7 @@ match x {
 
 <!-- Whew! That’s a lot of different ways to match things, and they can all be -->
 <!-- mixed and matched, depending on what you’re doing: -->
-ふう、マッチには様々な方法があるのですね。やりたいこと次第で、それらを混ぜてマッチさせることもできます：
+ふう、マッチには様々な方法があるのですね。やりたいことに応じて、それらを混ぜてマッチさせることもできます：
 
 ```rust,ignore
 match x {
