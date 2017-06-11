@@ -195,7 +195,7 @@
 <!-- We use them in [variable
 bindings][bindings], [match statements][match], and other places, too.-->
 
-<p>パターンは <a href="variable-bindings.html">変数束縛</a>, <a href="match.html">マッチ文</a> などで使われています。</p>
+<p>パターンは <a href="variable-bindings.html">変数束縛</a>、 <a href="match.html">マッチ文</a> などで使われています。</p>
 
 <!--Let’s go on a whirlwind tour of all of the things patterns can do!-->
 
@@ -231,7 +231,7 @@ match x {
 
 <!-- There’s one pitfall with patterns: like anything that introduces a new binding,they introduce shadowing. For example: -->
 
-<p>パターンには一つ落とし穴があります。新しい束縛を導入すると、他の束縛を導入するものと同じように、シャドーイングします。例えば：</p>
+<p>パターンには一つ落とし穴があります。新しい束縛を導入する他の構文と同様、パターンはシャドーイングをします。例えば：</p>
 
 <span class='rusttest'>fn main() {
     let x = &#39;x&#39;;
@@ -254,7 +254,7 @@ println!(&quot;x: {}&quot;, x)
 
 <!-- This prints:-->
 
-<p>これの結果は以下のようになります：</p>
+<p>これは以下のように出力します。</p>
 
 <pre><code class="language-text">x: c c: c
 x: x
@@ -264,14 +264,14 @@ x: x
 `x` that’s in scope for the match arm. Because we already have a binding named
 `x`, this new `x` shadows it. -->
 
-<p>別の言い方をすると、 <code>x =&gt;</code> はパターンへのマッチだけでなく、マッチの腕内で有効な <code>x</code> という名前の束縛を導入します。既に <code>x</code> は束縛されていたので、この新しい <code>x</code> はそれを覆い隠します。</p>
+<p>別の言い方をすると、 <code>x =&gt;</code> は値をパターンにマッチさせ、マッチの腕内で有効な <code>x</code> という名前の束縛を導入します。既に <code>x</code> という束縛が存在していたので、新たに導入した <code>x</code> は、その古い <code>x</code> をシャドーイングします。</p>
 
 <!-- # Multiple patterns -->
 
 <h1 id='複式パターン' class='section-header'><a href='#複式パターン'>複式パターン</a></h1>
 <!-- You can match multiple patterns with `|`: -->
 
-<p><code>|</code> を使うと、複式パターンが導入できます：</p>
+<p><code>|</code> を使うと、複数のパターンにマッチさせることができます：</p>
 
 <span class='rusttest'>fn main() {
     let x = 1;
@@ -296,11 +296,11 @@ match x {
 
 <!-- # Destructuring -->
 
-<h1 id='デストラクチャリング' class='section-header'><a href='#デストラクチャリング'>デストラクチャリング</a></h1>
+<h1 id='分配束縛' class='section-header'><a href='#分配束縛'>分配束縛</a></h1>
 <!-- If you have a compound data type, like a [`struct`][struct], you can destructure it
 inside of a pattern: -->
 
-<p>例えば <a href="structs.html"><code>struct</code></a> のような複合データ型を作成したいとき、パターン内でデータを分解することができます。</p>
+<p><a href="structs.html"><code>struct</code></a> のような複合データ型が存在するとき、パターン内でその値を分解することができます。</p>
 
 <span class='rusttest'>fn main() {
     struct Point {
@@ -354,7 +354,7 @@ match origin {
 
 <!-- If we only care about some of the values, we don’t have to give them all names: -->
 
-<p>値の一部だけを扱いたい場合は、値の全てに名前を付ける必要はありません。</p>
+<p>値の一部にだけ興味がある場合は、値のすべてに名前を付ける必要はありません。</p>
 
 <span class='rusttest'>fn main() {
     struct Point {
@@ -385,7 +385,7 @@ match origin {
 
 <!-- You can do this kind of match on any member, not just the first:-->
 
-<p>どのメンバに対してもこの種のマッチを行うことができます。たとえ最初ではなくても：</p>
+<p>最初のメンバだけでなく、どのメンバに対してもこの種のマッチを行うことができます。</p>
 
 <span class='rusttest'>fn main() {
     struct Point {
@@ -417,7 +417,7 @@ match origin {
 <!-- This ‘destructuring’ behavior works on any compound data type, like
 [tuples][tuples] or [enums][enums]. -->
 
-<p>この「デストラクチャリング(destructuring)」と呼ばれる振る舞いは、 <a href="primitive-types.html#tuples">タプル</a> や <a href="enums.html">列挙型</a> のような、複合データ型で使用できます。</p>
+<p>この「分配束縛」 (destructuring) と呼ばれる振る舞いは、 <a href="primitive-types.html#tuples">タプル</a> や <a href="enums.html">列挙型</a> のような、任意の複合データ型で使用できます。</p>
 
 <!-- # Ignoring bindings -->
 
@@ -428,7 +428,7 @@ match origin {
 
 <!-- For example, here’s a `match` against a `Result<T, E>`: -->
 
-<p>例として、 <code>Result&lt;T, E&gt;</code> に対して <code>match</code> を適用してみましょう：</p>
+<p>例として、 <code>Result&lt;T, E&gt;</code> に対して <code>match</code> をしてみましょう：</p>
 
 <span class='rusttest'>fn main() {
     let some_value: Result&lt;i32, &amp;&#39;static str&gt; = Err(&quot;There was an error&quot;);
@@ -446,12 +446,12 @@ match some_value {
 in the `Err` arm, we use `_` to disregard the specific error, and just print
 a general error message. -->
 
-<p>最初の部分では <code>Ok</code> ヴァリアント内の値を <code>value</code> に結びつけています。しかし <code>Err</code> 部分では、特定のエラーを避けて、標準的なエラーメッセージを表示するために <code>_</code> を使っています。</p>
+<p>最初の部分では <code>Ok</code> ヴァリアント内の値に <code>value</code> を束縛しています。しかし <code>Err</code> 部分では、ヴァリアント内のエラー情報を無視して一般的なエラーメッセージを表示するために <code>_</code> を使っています。</p>
 
 <!-- `_` is valid in any pattern that creates a binding. This can be useful to
 ignore parts of a larger structure: -->
 
-<p><code>_</code> は束縛を伴うどんなパターンにおいても有効です。これは大きな構造の一部分を無視する際に有用です。</p>
+<p><code>_</code> は束縛を導入するどのようなパターンにおいても有効です。これは大きな構造の一部を無視する際に有用です。</p>
 
 <span class='rusttest'>fn main() {
     fn coordinate() -&gt; (i32, i32, i32) {
@@ -471,7 +471,7 @@ let (x, _, z) = coordinate();
 <!-- Here, we bind the first and last element of the tuple to `x` and `z`, but
 ignore the middle element. -->
 
-<p>ここでは、タプルの最初と最後の要素を <code>x</code> と <code>z</code> に結びつけています。</p>
+<p>ここでは、タプルの最初と最後の要素に <code>x</code> と <code>z</code> を束縛します。</p>
 
 <!-- Similarly, you can use `..` in a pattern to disregard multiple values. -->
 
@@ -511,7 +511,7 @@ match x {
 <h1 id='ref-と-ref-mut' class='section-header'><a href='#ref-と-ref-mut'>ref と ref mut</a></h1>
 <!-- If you want to get a [reference][ref], use the `ref` keyword:-->
 
-<p>もし <a href="references-and-borrowing.html">リファレンス</a> を取得したいときは <code>ref</code> キーワードを使いましょう。</p>
+<p><a href="references-and-borrowing.html">参照</a> を取得したいときは <code>ref</code> キーワードを使いましょう。</p>
 
 <span class='rusttest'>fn main() {
     let x = 5;
@@ -534,7 +534,7 @@ match x {
 keyword _creates_ a reference, for use in the pattern. If you need a mutable
 reference, `ref mut` will work in the same way: -->
 
-<p>ここで <code>match</code> 内の <code>r</code> は <code>&amp;i32</code> 型を持っています。言い換えると <code>ref</code> キーワードがリファレンスを <em>作ります</em> 。</p>
+<p>ここで <code>match</code> 内の <code>r</code> は <code>&amp;i32</code> 型を持っています。言い換えると、 <code>ref</code> キーワードはパターン内で使う参照を <em>作り出します</em> 。ミュータブルな参照が必要な場合は、同様に <code>ref mut</code> を使います。</p>
 
 <span class='rusttest'>fn main() {
     let mut x = 5;
@@ -551,10 +551,10 @@ match x {
 
 <!-- # Ranges -->
 
-<h1 id='レンジ' class='section-header'><a href='#レンジ'>レンジ</a></h1>
+<h1 id='範囲' class='section-header'><a href='#範囲'>範囲</a></h1>
 <!-- You can match a range of values with `...`: -->
 
-<p><code>...</code> で値のレンジのマッチを行うことができます：</p>
+<p><code>...</code> で値の範囲をマッチさせることができます：</p>
 
 <span class='rusttest'>fn main() {
     let x = 1;
@@ -577,7 +577,7 @@ match x {
 
 <!-- Ranges are mostly used with integers and `char`s: -->
 
-<p>レンジは大体、整数か <code>char</code> 型で使われます：</p>
+<p>範囲は多くの場合、整数か <code>char</code> 型で使われます：</p>
 
 <span class='rusttest'>fn main() {
     let x = &#39;💅&#39;;
@@ -605,7 +605,7 @@ match x {
 <h1 id='束縛' class='section-header'><a href='#束縛'>束縛</a></h1>
 <!-- You can bind values to names with `@`: -->
 
-<p><code>@</code> で値を名前と結びつけることができます。</p>
+<p><code>@</code> で値に名前を束縛することができます。</p>
 
 <span class='rusttest'>fn main() {
     let x = 1;
@@ -626,7 +626,7 @@ match x {
 do a complicated match of part of a data structure: -->
 
 <p>これは <code>got a range element 1</code> を出力します。
-データ構造の一部に対する複雑なマッチが欲しいときに有用です：</p>
+データ構造の一部に対して複雑なマッチングをしたいときに有用です：</p>
 
 <span class='rusttest'>fn main() {
     #[derive(Debug)]
@@ -655,12 +655,12 @@ match x {
 
 <!--This prints `Some("Steve")`: we’ve bound the inner `name` to `a`.-->
 
-<p>これは <code>Some(&quot;Steve&quot;)</code> を出力します。内側の <code>name</code> を <code>a</code> に結びつけます。</p>
+<p>これは <code>Some(&quot;Steve&quot;)</code> を出力します。内側の <code>name</code> の値への参照に <code>a</code> を束縛します。</p>
 
 <!-- If you use `@` with `|`, you need to make sure the name is bound in each part
 of the pattern: -->
 
-<p>もし <code>|</code> で <code>@</code> を使うときは、パターンのそれぞれの部分が名前と結びついているか確認する必要があります：</p>
+<p><code>@</code> を <code>|</code> と組み合わせて使う場合は、それぞれのパターンで同じ名前が束縛されるようにする必要があります：</p>
 
 <span class='rusttest'>fn main() {
     let x = 5;
@@ -717,7 +717,7 @@ match x {
 
 <!--If you’re using `if` with multiple patterns, the `if` applies to both sides:-->
 
-<p>複式パターンで <code>if</code> を使うと、 <code>if</code> は両方に適用されます：</p>
+<p>複式パターンで <code>if</code> を使うと、 <code>if</code> は <code>|</code> の両側に適用されます：</p>
 
 <span class='rusttest'>fn main() {
     let x = 4;
@@ -739,7 +739,7 @@ match x {
 <!--This prints `no`, because the `if` applies to the whole of `4 | 5`, and not to
 just the `5`. In other words, the precedence of `if` behaves like this: -->
 
-<p>これは <code>no</code> を出力します。なぜなら <code>if</code> は <code>4 | 5</code> 全体に適用されるのであって、 <code>5</code> 単独に対してではないからです。つまり <code>if</code> 節は以下のように振舞います：</p>
+<p>これは <code>no</code> を出力します。なぜなら <code>if</code> は <code>4 | 5</code> 全体に適用されるのであって、 <code>5</code> 単独に対して適用されるのではないからです。つまり <code>if</code> 節は以下のように振舞います：</p>
 
 <pre><code class="language-text">(4 | 5) if y =&gt; ...
 </code></pre>
@@ -757,7 +757,7 @@ just the `5`. In other words, the precedence of `if` behaves like this: -->
 <!--Whew! That’s a lot of different ways to match things, and they can all be
 mixed and matched, depending on what you’re doing: -->
 
-<p>ふう、マッチには様々な方法があるのですね。やりたいこと次第で、それらを混ぜてマッチさせることもできます：</p>
+<p>ふう、マッチには様々な方法があるのですね。やりたいことに応じて、それらを混ぜてマッチさせることもできます：</p>
 
 <span class='rusttest'>fn main() {
     match x {
