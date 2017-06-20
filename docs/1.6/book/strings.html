@@ -198,11 +198,11 @@
 
 <!-- strings also work differently than in some other systems languages, such as C. -->
 
-<p>文字列は、プログラマがマスタすべき重要なコンセプトです。
-Rustの文字列の扱いは、Rust言語がシステムにフォーカスしているため、少し他の言語と異なります。
-動的なサイズを持つデータ構造が有る時、常に物事は複雑になります。
+<p>文字列は、プログラマがマスタすべき重要な概念です。
+Rustの文字列の扱いは、Rust言語がシステムプログラミングにフォーカスしているため、少し他の言語と異なります。
+動的なサイズを持つデータ構造があるといつも、物事は複雑性を孕みます。
 そして文字列もまたサイズを変更することができるデータ構造です。
-これはつまり、Rustの文字列もまた、Cのような他のシステム言語とは少し異なるということです。</p>
+これはつまり、Rustの文字列もまた、Cのような他のシステム言語とは少し異なる振る舞いをするということです。</p>
 
 <!-- Let’s dig into the details. A ‘string’ is a sequence of Unicode scalar values -->
 
@@ -212,9 +212,9 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 
 <!-- strings are not null-terminated and can contain null bytes. -->
 
-<p>詳しく見ていきましょう、 「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラ値のシーケンスです。
-すべての文字列は、正しくエンコードされたUTF-8のシーケンスであることが保証されています。
-また、他のシステム言語とはことなり、文字列はnull終端でなく、nullバイトを含むことが可能です。</p>
+<p>詳しく見ていきましょう。「文字列」は、UTF-8のバイトストリームとしてエンコードされたユニコードのスカラ値のシーケンスです。
+すべての文字列は、妥当なUTF-8のシーケンスであることが保証されています。
+また、他のシステム言語とは異なり、文字列はnull終端でなく、nullバイトを保持することもできます。</p>
 
 <!-- Rust has two main types of strings: `&str` and `String`. Let’s talk about -->
 
@@ -222,9 +222,9 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 
 <!-- size, and cannot be mutated. It is a reference to a sequence of UTF-8 bytes. -->
 
-<p>Rustは主要な文字列型を二種類持っています: <code>&amp;str</code> と <code>String</code>です。
-まず <code>&amp;str</code> について説明しましょう。 <code>&amp;str</code> は「文字列のスライス」と呼ばれます。
-文字列のスライスは固定のサイズを持ち、変更不可能です。そして、文字列のスライスはUTF-8のバイトシーケンスへの参照です。</p>
+<p>Rustには主要な文字列型が二種類あります。<code>&amp;str</code> と <code>String</code>です。
+まず <code>&amp;str</code> について説明しましょう。 <code>&amp;str</code> は「文字列スライス」と呼ばれます。
+文字列スライスは固定サイズで変更不可能です。文字列スライスはUTF-8のバイトシーケンスへの参照です。</p>
 
 <span class='rusttest'>fn main() {
     let greeting = &quot;Hello there.&quot;; // greeting: &amp;&#39;static str
@@ -241,18 +241,19 @@ Rustの文字列の扱いは、Rust言語がシステムにフォーカスして
 
 <!-- function expecting a string slice will also accept a string literal. -->
 
-<p><code>&quot;Hello there.&quot;</code> は文字列リテラルであり、 <code>&amp;&#39;static str</code> 型を持ちます。
-文字列リテラルは、静的にアロケートされた文字列のスライスであり、これはつまりコンパイルされたプログラム中に保存されており、
-プログラムの実行中全てにわたって存在していることを意味しています。
-どの文字列のスライスを引数として期待している関数も、文字列リテラルを引数に取ることができます。</p>
+<p><code>&quot;Hello there.&quot;</code> は文字列リテラルで、 <code>&amp;&#39;static str</code> 型を持ちます。
+文字列リテラルは、静的にアロケートされた文字列スライスです。これはつまりコンパイルされたプログラム内に保存されていて、
+プログラムの実行中全てにわたって存在しているということです。
+<code>greeting</code>の束縛はこのように静的にアロケートされた文字列を参照しています。
+文字列スライスを引数として期待している関数はすべて文字列リテラルを引数に取ることができます。</p>
 
 <!-- String literals can span multiple lines. There are two forms. The first will -->
 
 <!-- include the newline and the leading spaces: -->
 
-<p>文字列リテラルは複数行に渡ることができます。
-複数行の文字列リテラルを記述する方法は、2つの形式があります。
-一つ目の形式は、改行と行頭の空白を文字列に含む形式です:</p>
+<p>文字列リテラルは複数行にわたることができます。
+複数行文字列リテラルには2つの形式があります。
+一つ目の形式は、改行と行頭の空白を含む形式です:</p>
 
 <span class='rusttest'>fn main() {
     let s = &quot;foo
@@ -267,7 +268,7 @@ assert_eq!(&quot;foo\n        bar&quot;, s);
 
 <!-- The second, with a `\`, trims the spaces and the newline: -->
 
-<p>もう一つは <code>\</code> を用いて、空白と改行を削る形式です:</p>
+<p>もう一つは <code>\</code> を使って空白と改行を削る形式です:</p>
 
 <span class='rusttest'>fn main() {
     let s = &quot;foo\
@@ -288,9 +289,9 @@ assert_eq!(&quot;foobar&quot;, s);
 
 <!-- method. -->
 
-<p>Rustは <code>&amp;str</code> だけでなく、 <code>String</code> というヒープにアロケートされる文字列の形式も持っています。
-この文字列は伸張可能であり、またUTF-8であることが保証されています。
-<code>String</code> は一般的に文字列のスライスをメソッド <code>to_string</code> を用いて変換することで生成されます。</p>
+<p>Rustには <code>&amp;str</code> だけでなく、 <code>String</code> というヒープアロケートされる文字列もあります。
+この文字列は伸張可能であり、またUTF-8であることも保証されています。
+<code>String</code> は一般的に文字列スライスを <code>to_string</code> メソッドで変換することで作成されます。</p>
 
 <span class='rusttest'>fn main() {
     let mut s = &quot;Hello&quot;.to_string(); // mut s: String
@@ -335,9 +336,9 @@ fn main() {
 
 <!-- converted using `&*`. -->
 
-<p>このような変換は <code>&amp;str</code> の代わりに、 <code>&amp;str</code> のトレイトを引数として期待している関数では自動的には行われません。
+<p>このような変換は <code>&amp;str</code> ではなく <code>&amp;str</code> の実装するトレイトを引数として取る関数に対しては自動的には行われません。
 たとえば、 <a href="../std/net/struct.TcpStream.html#method.connect"><code>TcpStream::connect</code></a> は引数として型 <code>ToSocketAddrs</code> を要求しています。
-このような関数には <code>&amp;str</code> は渡せますが、 <code>String</code> は <code>&amp;*</code> を用いて明示的に変換する必要があります。</p>
+このような関数には <code>&amp;str</code> は渡せますが、 <code>String</code> は <code>&amp;*</code> を用いて明示的に変換しなければなりません。</p>
 
 <span class='rusttest'>fn main() {
     use std::net::TcpStream;
@@ -360,15 +361,15 @@ TcpStream::connect(&amp;*addr_string); // addr_string を &amp;str に変換し�
 
 <!-- `String` involves allocating memory. No reason to do that unless you have to! -->
 
-<p><code>String</code> を <code>&amp;str</code> として見るコストは低いですが、<code>&amp;str</code> を <code>String</code> に変換するのはメモリのアロケーションを発生させます。
-必要がなければ、やるべきではないでしょう!</p>
+<p><code>String</code> を <code>&amp;str</code> として見るコストは低いのですが、<code>&amp;str</code> を <code>String</code> に変換するとメモリアロケーションが発生します。
+必要がなければ、やるべきではないでしょう！</p>
 
 <!-- ## Indexing  -->
 
 <h2 id='インデクシング' class='section-header'><a href='#インデクシング'>インデクシング</a></h2>
 <!-- Because strings are valid UTF-8, strings do not support indexing: -->
 
-<p>文字列が正しいUTF-8であるため、文字列はインデクシングをサポートしていません:</p>
+<p>文字列は妥当なUTF-8であるため、文字列はインデクシングをサポートしていません:</p>
 
 <span class='rusttest'>fn main() {
     let s = &quot;hello&quot;;
@@ -393,11 +394,11 @@ println!(&quot;The first letter of s is {}&quot;, s[0]); // エラー!!!
 <!-- individual bytes, or as codepoints:-->
 
 <p>普通、ベクタへの <code>[]</code> を用いたアクセスはとても高速です。
-しかし、UTF-8にエンコードされた文字列中の一つ一つの文字は複数のバイトであることが可能なため、
-文字列のn番の文字を探すためには文字列上を移動していく必要があります。
-そのような作業はとても高コストな演算であり、誤解してはならない点です。
-さらに言えば、「文字」というものはUnicodeにおいては正確に定義されていません。
-文字列を、それぞれのバイトとして見ることも、コードポイントの集まりとして見ることもできるのです。</p>
+しかし、UTF-8でエンコードされた文字列内の文字は複数のバイト対応することがあるため、
+文字列のn番目の文字を探すには文字列上を走査していく必要があります。
+そのような処理はベクタのアクセスに比べると非常に高コストな演算であり、誤解を招きたくなかったのです。
+さらに言えば、上の「文字 (letter)」というのはUnicodeでの定義と厳密には一致しません。
+文字列をバイト列として見るかコードポイント列として見るか選ぶことができます。</p>
 
 <span class='rusttest'>fn main() {
     let hachiko = &quot;忠犬ハチ公&quot;;
@@ -452,12 +453,12 @@ let dog = hachiko.chars().nth(1); // hachiko[1]のような感じで
 
 <!-- This emphasizes that we have to walk from the beginning of the list of `chars`. -->
 
-<p>このコードは、<code>chars</code> のリストの上を移動している事を強調しています。</p>
+<p>このコードは、<code>chars</code> のリストの上を先頭から走査しなければならないことを強調しています。</p>
 
 <h2 id='スライシング' class='section-header'><a href='#スライシング'>スライシング</a></h2>
 <!-- You can get a slice of a string with slicing syntax: -->
 
-<p>文字列のスライスは以下のようにスライス構文を用いて取得することができます:</p>
+<p>文字列スライスは以下のようにスライス構文を使って取得することができます:</p>
 
 <span class='rusttest'>fn main() {
     let dog = &quot;hachiko&quot;;
@@ -490,10 +491,10 @@ character boundary&#39;
 
 <!-- ## Concatenation -->
 
-<h2 id='結合' class='section-header'><a href='#結合'>結合</a></h2>
+<h2 id='連結' class='section-header'><a href='#連結'>連結</a></h2>
 <!-- If you have a `String`, you can concatenate a `&str` to the end of it: -->
 
-<p><code>String</code> が存在するとき、 <code>&amp;str</code> を末尾に結合することができます:</p>
+<p><code>String</code> が存在するとき、 <code>&amp;str</code> を末尾に連結することができます:</p>
 
 <span class='rusttest'>fn main() {
     let hello = &quot;Hello &quot;.to_string();
@@ -508,7 +509,7 @@ let hello_world = hello + world;
 
 <!-- But if you have two `String`s, you need an `&`: -->
 
-<p>しかし、２つの <code>String</code> を結合するには、 <code>&amp;</code> が必要になります:</p>
+<p>しかし、2つの <code>String</code> を連結するには、 <code>&amp;</code> が必要になります:</p>
 
 <span class='rusttest'>fn main() {
     let hello = &quot;Hello &quot;.to_string();
@@ -526,7 +527,7 @@ let hello_world = hello + &amp;world;
 <!-- feature called ‘[`Deref` coercions][dc]’. -->
 
 <p>これは、 <code>&amp;String</code> が自動的に <code>&amp;str</code> に型強制されるためです。
-このフィーチャーは 「 <a href="deref-coercions.html"><code>Deref</code> による型強制</a> 」と呼ばれています。</p>
+このフィーチャは 「 <a href="deref-coercions.html"><code>Deref</code> による型強制</a> 」と呼ばれています。</p>
 
     <script type="text/javascript">
         window.playgroundUrl = "https://play.rust-lang.org";
