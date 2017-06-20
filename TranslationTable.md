@@ -180,6 +180,7 @@
 | standard library               | 標準ライブラリ
 | string                         | 文字列
 | string interpolation           | 文字列インターポーレーション
+| string slice                   | 文字列スライス
 | struct                         | 構造体
 | structure                      | ストラクチャ
 | sum type                       | 直和型
