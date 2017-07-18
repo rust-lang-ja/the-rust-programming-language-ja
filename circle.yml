@@ -66,4 +66,5 @@ deployment:
       # are updated from 1.6.
       - rm -rf docs/1.9
       - ./tools/circleci/push-to-master.sh
+      - ./tools/circleci/trigger-trpl-pdf-ja.sh
       # - ./tools/circleci/publish-to-gh-pages.sh
