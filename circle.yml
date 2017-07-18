@@ -58,13 +58,13 @@ test:
 
 deployment:
   publish:
-    branch: master
+    branch: [master, triggering-trpl-ja-pdf]
     commands:
       - git config user.name "Tatsuya Kawano (CircleCI)"
       - git config user.email "tatsuya@hibaridb.org"
       # Do not publish 1.9 to gh-pages until all (or most of) the contents
       # are updated from 1.6.
       - rm -rf docs/1.9
-      - ./tools/circleci/push-to-master.sh
+      # - ./tools/circleci/push-to-master.sh
       - ./tools/circleci/trigger-trpl-pdf-ja.sh
       # - ./tools/circleci/publish-to-gh-pages.sh
