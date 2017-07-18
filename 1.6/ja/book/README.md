@@ -71,7 +71,7 @@ Rustは高級言語のような抽象化も含めた「ゼロコスト抽象化�
 本書を生成するのに使われたソースは以下から入手出来ます
 [GitHub][book].
 
-[book]: https://github.com/rust-lang/rust/tree/master/src/doc/book
+[book]: https://github.com/rust-lang/book/tree/master/first-edition/src
 
 > 訳注: 日本語の翻訳文書は以下から入手出来ます。
 > [GitHub][bookja].
