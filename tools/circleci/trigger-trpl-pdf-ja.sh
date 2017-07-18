@@ -17,15 +17,20 @@
 #     To obtain a Travis auth token, follow the instructions on:
 #     https://docs.travis-ci.com/user/triggering-builds/
 #
+# - TRPL_JA_PDF_GITHUB_ORG (Optional):
+#     The GitHub organization or user name of trpl-ja-pdf, default to
+#    `rust-lanu-ja`. To override it, define this variable at
+#    CirildCI's web console or in circle.yml.
+#
 # - TRPL_JA_PDF_GITHUB_REPO (Optional):
 #     The GitHub repository name of trpl-ja-pdf, default to
 #     `trpl-ja-pdf`. To override it, define this variable at
 #     CircleCI's web console or in circle.yml.
 #
-# - TRPL_JA_PDF_GITHUB_ORG (Optional):
-#     The GitHub organization or user name of trpl-ja-pdf, default to
-#    `rust-lanu-ja`. To override it, define this variable at
-#    CirildCI's web console or in circle.yml.
+# - TRPL_JA_PDF_GITHUB_BRANCH (Optional):
+#     The GitHub branch of trpl-ja-pdf, default to `master`. To
+#     override it, define this variable at CircleCI's web console or
+#     in circle.yml.
 
 set -e
 
@@ -36,37 +41,41 @@ if [ -z "${TRPL_JA_PDF_TRAVIS_AUTH_TOKEN+x}" ]; then
     exit 1
 fi
 
-GITHUB_REPO=${TRPL_JA_PDF_GITHUB_REPO:-tarpl-ja-pdf}
 GITHUB_ORG=${TRPL_JA_PDF_GITHUB_ORG:-rust-lang-ja}
+GITHUB_REPO=${TRPL_JA_PDF_GITHUB_REPO:-trpl-ja-pdf}
+GITHUB_BRANCH=${TRPL_JA_PDF_GITHUB_BRANCH:-master}
 
 set -u
 
 # Get the revision of current branch.
 REVISION=$(git rev-parse --short HEAD)
 
-BUILD_PARAMS='{
+BUILD_PARAMS=$(cat <<EOF
+{
   "request": {
-    "branch": "master"
+    "branch": "${GITHUB_BRANCH}",
     "message": "automatic build triggered by trpl-ja commit ${REVISION}"
   }
-}'
+}
+EOF
+)
 
-echo "Triggering a build on Travis CI for ${GITHUB_ORG}/${GITHUB_REPO}."
+echo "Triggering a build on Travis CI for ${GITHUB_BRANCH} branch of ${GITHUB_ORG}/${GITHUB_REPO}."
 
-set +e
-curl -s -X POST \
+HTTP_RESPONSE=$(curl -s -X POST \
+     -w " - HTTP Status %{http_code}" \
      -H "Content-Type: application/json" \
      -H "Accept: application/json" \
      -H "Travis-API-Version: 3" \
      -H "Authorization: token ${TRPL_JA_PDF_TRAVIS_AUTH_TOKEN}" \
      -d "$BUILD_PARAMS" \
-        https://api.travis-ci.org/repo/${GITHUB_ORG}%2F${GITHUB_REPO}/requests
-RET=$?
-set -e
+        https://api.travis-ci.org/repo/${GITHUB_ORG}%2F${GITHUB_REPO}/requests)
 
-if [ $RET -eq 0 ]; then
-    echo "Successfully triggered the Travis CI build."
+if [[ "x_${HTTP_RESPONSE}" =~ "HTTP Status 202" ]]; then
+    echo "Successfully triggered the Travis CI build:"
+    echo "${HTTP_RESPONSE}"
 else
-    echo "Failed to trigger the Travis CI build."
+    echo "Failed to trigger the Travis CI build:"
+    echo "${HTTP_RESPONSE}"
     exit 1
 fi
