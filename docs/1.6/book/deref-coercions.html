@@ -288,7 +288,7 @@ foo(&amp;owned);
 
 <!-- type implements `Deref<Target=T>`, so this works: -->
 
-<p>以上です! このルールはRustが自動的に変換を行う唯一の箇所の一つです。
+<p>以上です! このルールはRustが自動的に変換を行う数少ない箇所の一つです。
 これによって、多くの柔軟性が手にはいります。
 例えば <code>Rc&lt;T&gt;</code> は <code>Deref&lt;Target=T&gt;</code> を実装しているため、以下のコードは正しく動作します:</p>
 
