@@ -65,7 +65,7 @@ foo(&owned);
 <!-- That’s it. This rule is one of the only places in which Rust does an automatic -->
 <!-- conversion for you, but it adds a lot of flexibility. For example, the `Rc<T>` -->
 <!-- type implements `Deref<Target=T>`, so this works: -->
-以上です! このルールはRustが自動的に変換を行う唯一の箇所の一つです。
+以上です! このルールはRustが自動的に変換を行う数少ない箇所の一つです。
 これによって、多くの柔軟性が手にはいります。
 例えば `Rc<T>` は `Deref<Target=T>` を実装しているため、以下のコードは正しく動作します:
 
