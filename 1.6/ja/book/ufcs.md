@@ -152,4 +152,4 @@ fn main() {
 
 <!-- Using the angle bracket syntax lets you call the trait method instead of the -->
 <!-- inherent one. -->
-山括弧構文を用いることでトレイトのメソッドを継承されたメソッドの代わりに呼び出すことができます。
+山括弧構文を用いることでトレイトのメソッドを固有メソッドの代わりに呼び出すことができます。
