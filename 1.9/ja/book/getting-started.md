@@ -822,7 +822,7 @@ $ cargo build
 <!-- a new project! Cargo can quickly make a bare-bones project directory that you -->
 <!-- can start developing in right away. -->
 新たなプロジェクトを始めるのに先の手順を毎回踏む必要はありません!
-Cargoで即座に開発を始められる骨組だけのプロジェクトを素早く作ることができます。
+Cargoを使って、即座に開発を始められる骨組だけのプロジェクトを素早く作ることができます。
 
 <!-- To start a new project with Cargo, enter `cargo new` at the command line: -->
 Cargoで新たなプロジェクトを始めるには、 `cargo new` をコマンドラインに入力します。
