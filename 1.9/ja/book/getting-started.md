@@ -558,7 +558,7 @@ Rustは、プログラムをコンパイルして、それを別の誰かに渡�
 <!-- and make it easy to share your code with other people and projects. Next, I'll -->
 <!-- introduce you to a tool called Cargo, which will help you write real-world Rust -->
 <!-- programs. -->
-単純なプログラムなら単に `rustc` でコンパイルすれば十分ですが、プロジェクトが大きくなるにつれて、プロジェクトの全てのオプションを管理したり、他の人やプロジェクトと容易に共有できるようにしたくなるでしょう。
+単純なプログラムなら単に `rustc` でコンパイルすれば十分ですが、プロジェクトが大きくなるにつれて、プロジェクトの全てのオプションを管理したり、コードを他の人やプロジェクトと容易に共有できるようにしたくなるでしょう。
 次は現実世界のRustプログラムを書く手助けになる、Cargoというツールを紹介します。
 
 <!-- # Hello, Cargo! -->
