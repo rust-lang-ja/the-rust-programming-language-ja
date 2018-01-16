@@ -508,7 +508,7 @@ $ rustc main.rs
 <!-- `gcc` or `clang`. After compiling successfully, Rust should output a binary -->
 <!-- executable, which you can see on Linux or OSX by entering the `ls` command in -->
 <!-- your shell as follows: -->
-CまたはC++のバックグラウンドを持つならこれが `gcc` や `clang` に似ていことに気付くでしょう。
+CまたはC++のバックグラウンドを持つならこれが `gcc` や `clang` に似ていることに気付くでしょう。
 コンパイルが成功したら、Rustは実行可能バイナリを出力したはずです。
 LinuxかOSXなら以下のように `ls` コマンドで確認できます。
 
