@@ -748,7 +748,7 @@ Hello, world!
 
 <!-- Cargo checks to see if any of your project’s files have been modified, and only -->
 <!-- rebuilds your project if they’ve changed since the last time you built it. -->
-Cargoはプロジェクトのファイルのどれかが変更されていないか確認し、最後にビルドしてから変更されたファイルがあるときにだけプロジェクトを再度ビルドします。
+Cargoはプロジェクトのファイルのどれかが変更されていないか確認し、最後のビルドから変更されたファイルがあるときにだけプロジェクトを再度ビルドします。
 
 <!-- With simple projects, Cargo doesn't bring a whole lot over just using `rustc`, -->
 <!-- but it will become useful in the future. This is especially true when you start -->
