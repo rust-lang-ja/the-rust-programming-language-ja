@@ -886,7 +886,7 @@ Cargoが「Hello World!」を生成したのでコードを書き始められま
 <!-- this book, and the rest of your time with Rust. Now that you’ve got the tools -->
 <!-- down, we'll cover more about the Rust language itself. -->
 この章はこれ以後の本書、そしてあなたがRustを書いていく上で役に立つ基本を扱いました。
-ツールについては一歩踏み出したので、これ以降は、Rust言語自体を扱っていきます。
+ツールについては基本を習得できたので、これ以降は、Rust言語自体を扱っていきます。
 
 <!-- You have two options: Dive into a project with ‘[Tutorial: Guessing Game][guessinggame]’, or -->
 <!-- start from the bottom and work your way up with ‘[Syntax and -->
