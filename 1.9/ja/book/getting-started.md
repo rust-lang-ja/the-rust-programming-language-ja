@@ -317,14 +317,14 @@ WindowsではRustをインストールした所の `share/doc` ディレクト�
 <!-- print the text “Hello, world!” to the screen, and in this section, we'll follow -->
 <!-- that tradition. -->
 Rustをインストールしたので最初のRustのプログラムを書いていきましょう。
-新しい言語を学ぶ時に「Hello, world!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
+新しい言語を学ぶ時に「Hello, world!」と画面に表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
 
 <!-- The nice thing about starting with such a simple program is that you can -->
 <!-- quickly verify that your compiler is installed, and that it's working properly. -->
 <!-- Printing information to the screen is also a pretty common thing to do, so -->
 <!-- practicing it early on is good. -->
 このように小さなプログラムから始める利点は、コンパイラがインストールされていて、正しく動くことを素早く確認できることです。
-情報をスクリーンに表示することも非常によくやるので、早い内に練習しておくのが良いです。
+情報を画面に表示することも非常によくやるので、早い内に練習しておくのが良いです。
 
 
 <!-- &gt; Note: This book assumes basic familiarity with the command line. Rust itself -->
@@ -450,7 +450,7 @@ Rustは全ての関数の本体部に波括弧を要求します。
 <!-- This line does all of the work in this little program: it prints text to the -->
 <!-- screen. There are a number of details that are important here. The first is -->
 <!-- that it’s indented with four spaces, not tabs. -->
-この行が今回の小さなプログラムの全てを担っています。これがテキストをスクリーンに印字するのです。
+この行が今回の小さなプログラムの全てを担っています。これがテキストを画面に印字するのです。
 ここに重要な詳細がいくつもあります。1つ目はインデントが4スペースであり、タブでない点です。
 
 <!-- The second important part is the `println!()` line. This is calling a Rust -->
@@ -472,7 +472,7 @@ Rustのマクロについては、後の章で詳細に議論しますが、今�
 <!-- prints the string to the screen. Easy enough! -->
 次は 文字列の `"Hello, world"` です。
 システムプログラミング言語では文字列は驚くほど複雑なトピックで、これは *[静的に確保された][statically allocated]* 文字列です。
-文字列をスクリーンに印字してくれる `println!` にこれを引数として渡します。簡単ですね！
+文字列を画面に印字してくれる `println!` にこれを引数として渡します。簡単ですね！
 
 [statically allocated]: the-stack-and-the-heap.html
 
