@@ -735,7 +735,7 @@ Hello, world!
 <!-- the file hasn’t changed, and so it just ran the binary. If you'd modified your -->
 <!-- source code, Cargo would have rebuilt the project before running it, and you -->
 <!-- would have seen something like this: -->
-この例でプロジェクトを再度ビルドしていないことに注意してください。
+今度はプロジェクトがビルドされなかったことに注意してください。
 Cargoはファイルが変更されていないことが分かるので、バイナリの実行だけを行います。
 ソースコードを修正していたら、Cargoは実行する前にプロジェクトを再度ビルドし、あなたはこのようなものを目にしたことでしょう。
 
