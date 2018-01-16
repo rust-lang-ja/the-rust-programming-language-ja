@@ -636,7 +636,7 @@ $ rm main  # Windowsなら'del main.exe'になります
 <!-- *hello_world*) for READMEs, license information, and anything else not related -->
 <!-- to your code. In this way, using Cargo helps you keep your projects nice and -->
 <!-- tidy. There's a place for everything, and everything is in its place. -->
-Cargoはソースファイルが *src* ディレクトリにあることを期待しているので、まずそうしましょう。
+Cargoはソースファイルが *src* ディレクトリにあることを要求するので、まずそうしましょう。
 READMEやライセンス情報、他のコードに関係ないものは、プロジェクト(このケースでは *hello_world*)直下に残したままになります。
 このように、Cargoを使うことで、プロジェクトを綺麗に整頓された状態を保てます。
 すべてのものには場所があり、すべてが自身の場所に収まります。
