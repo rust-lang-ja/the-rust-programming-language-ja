@@ -807,7 +807,7 @@ Cargoは *Cargo.lock* でアプリケーションの依存を追跡します。
 <!-- use for the rest of your Rust career. In fact, you can expect to start -->
 <!-- virtually all Rust projects with some variation on the following commands: -->
 このプロジェクトはとてもシンプルですが、これからRustを使っていく上で実際に使うことになるツール類を色々使っています。
-実際、事実上全てのRustプロジェクトで、以下のコマンドの変形を使うことになります。
+実際、事実上全てのRustプロジェクトに取り掛かる際に、以下のコマンドの変形を使うことになります。
 
 ```bash
 $ git clone someurl.com/foo
