@@ -317,14 +317,14 @@ WindowsではRustをインストールした所の `share/doc` ディレクト�
 <!-- print the text “Hello, world!” to the screen, and in this section, we'll follow -->
 <!-- that tradition. -->
 Rustをインストールしたので最初のRustのプログラムを書いていきましょう。
-新しい言語を学ぶ時に「Hello, world!」とスクリーンに表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
+新しい言語を学ぶ時に「Hello, world!」と画面に表示する小さなプログラムを書くのが伝統で、このセクションでもそれに従います。
 
 <!-- The nice thing about starting with such a simple program is that you can -->
 <!-- quickly verify that your compiler is installed, and that it's working properly. -->
 <!-- Printing information to the screen is also a pretty common thing to do, so -->
 <!-- practicing it early on is good. -->
 このように小さなプログラムから始める利点は、コンパイラがインストールされていて、正しく動くことを素早く確認できることです。
-情報をスクリーンに表示することも非常によくやるので、早い内に練習しておくのが良いです。
+情報を画面に表示することも非常によくやるので、早い内に練習しておくのが良いです。
 
 
 <!-- &gt; Note: This book assumes basic familiarity with the command line. Rust itself -->
@@ -450,7 +450,7 @@ Rustは全ての関数の本体部に波括弧を要求します。
 <!-- This line does all of the work in this little program: it prints text to the -->
 <!-- screen. There are a number of details that are important here. The first is -->
 <!-- that it’s indented with four spaces, not tabs. -->
-この行が今回の小さなプログラムの全てを担っています。これがテキストをスクリーンに印字するのです。
+この行が今回の小さなプログラムの全てを担っています。これがテキストを画面に印字するのです。
 ここに重要な詳細がいくつもあります。1つ目はインデントが4スペースであり、タブでない点です。
 
 <!-- The second important part is the `println!()` line. This is calling a Rust -->
@@ -472,7 +472,7 @@ Rustのマクロについては、後の章で詳細に議論しますが、今�
 <!-- prints the string to the screen. Easy enough! -->
 次は 文字列の `"Hello, world"` です。
 システムプログラミング言語では文字列は驚くほど複雑なトピックで、これは *[静的に確保された][statically allocated]* 文字列です。
-文字列をスクリーンに印字してくれる `println!` にこれを引数として渡します。簡単ですね！
+文字列を画面に印字してくれる `println!` にこれを引数として渡します。簡単ですね！
 
 [statically allocated]: the-stack-and-the-heap.html
 
@@ -508,7 +508,7 @@ $ rustc main.rs
 <!-- `gcc` or `clang`. After compiling successfully, Rust should output a binary -->
 <!-- executable, which you can see on Linux or OSX by entering the `ls` command in -->
 <!-- your shell as follows: -->
-CまたはC++のバックグラウンドを持つならこれが `gcc` や `clang` に似ていことに気付くでしょう。
+CまたはC++の経験をお持ちなら、これが `gcc` や `clang` に似ていることに気付くでしょう。
 コンパイルが成功したら、Rustは実行可能バイナリを出力したはずです。
 LinuxかOSXなら以下のように `ls` コマンドで確認できます。
 
@@ -558,7 +558,7 @@ Rustは、プログラムをコンパイルして、それを別の誰かに渡�
 <!-- and make it easy to share your code with other people and projects. Next, I'll -->
 <!-- introduce you to a tool called Cargo, which will help you write real-world Rust -->
 <!-- programs. -->
-単純なプログラムなら単に `rustc` でコンパイルすれば十分ですが、プロジェクトが大きくなるにつれて、プロジェクトの全てのオプションを管理したり、他の人やプロジェクトと容易に共有できるようにしたくなるでしょう。
+単純なプログラムなら単に `rustc` でコンパイルすれば十分ですが、プロジェクトが大きくなるにつれて、プロジェクトの全てのオプションを管理したり、コードを他の人やプロジェクトと容易に共有できるようにしたくなるでしょう。
 次は現実世界のRustプログラムを書く手助けになる、Cargoというツールを紹介します。
 
 <!-- # Hello, Cargo! -->
@@ -636,7 +636,7 @@ $ rm main  # Windowsなら'del main.exe'になります
 <!-- *hello_world*) for READMEs, license information, and anything else not related -->
 <!-- to your code. In this way, using Cargo helps you keep your projects nice and -->
 <!-- tidy. There's a place for everything, and everything is in its place. -->
-Cargoはソースファイルが *src* ディレクトリにあることを期待しているので、まずそうしましょう。
+Cargoはソースファイルが *src* ディレクトリにあることを要求するので、まずそうしましょう。
 READMEやライセンス情報、他のコードに関係ないものは、プロジェクト(このケースでは *hello_world*)直下に残したままになります。
 このように、Cargoを使うことで、プロジェクトを綺麗に整頓された状態を保てます。
 すべてのものには場所があり、すべてが自身の場所に収まります。
@@ -735,7 +735,7 @@ Hello, world!
 <!-- the file hasn’t changed, and so it just ran the binary. If you'd modified your -->
 <!-- source code, Cargo would have rebuilt the project before running it, and you -->
 <!-- would have seen something like this: -->
-この例でプロジェクトを再度ビルドしていないことに注意してください。
+今度はプロジェクトがビルドされなかったことに注意してください。
 Cargoはファイルが変更されていないことが分かるので、バイナリの実行だけを行います。
 ソースコードを修正していたら、Cargoは実行する前にプロジェクトを再度ビルドし、あなたはこのようなものを目にしたことでしょう。
 
@@ -748,7 +748,7 @@ Hello, world!
 
 <!-- Cargo checks to see if any of your project’s files have been modified, and only -->
 <!-- rebuilds your project if they’ve changed since the last time you built it. -->
-Cargoはプロジェクトのファイルのどれかが変更されていないか確認し、最後にビルドしてから変更されたファイルがあるときにだけプロジェクトを再度ビルドします。
+Cargoはプロジェクトのファイルのどれかが変更されていないか確認し、最後のビルドから変更されたファイルがあるときにだけプロジェクトを再度ビルドします。
 
 <!-- With simple projects, Cargo doesn't bring a whole lot over just using `rustc`, -->
 <!-- but it will become useful in the future. This is especially true when you start -->
@@ -807,7 +807,7 @@ Cargoは *Cargo.lock* でアプリケーションの依存を追跡します。
 <!-- use for the rest of your Rust career. In fact, you can expect to start -->
 <!-- virtually all Rust projects with some variation on the following commands: -->
 このプロジェクトはとてもシンプルですが、これからRustを使っていく上で実際に使うことになるツール類を色々使っています。
-実際、事実上全てのRustプロジェクトで、以下のコマンドの変形を使うことになります。
+実際、事実上全てのRustプロジェクトに取り掛かる際に、以下のようなコマンドを使うことになります。
 
 ```bash
 $ git clone someurl.com/foo
@@ -822,7 +822,7 @@ $ cargo build
 <!-- a new project! Cargo can quickly make a bare-bones project directory that you -->
 <!-- can start developing in right away. -->
 新たなプロジェクトを始めるのに先の手順を毎回踏む必要はありません!
-Cargoで即座に開発を始められる骨組だけのプロジェクトを素早く作ることができます。
+Cargoを使って、即座に開発を始められる骨組だけのプロジェクトを素早く作ることができます。
 
 <!-- To start a new project with Cargo, enter `cargo new` at the command line: -->
 Cargoで新たなプロジェクトを始めるには、 `cargo new` をコマンドラインに入力します。
@@ -886,7 +886,7 @@ Cargoが「Hello World!」を生成したのでコードを書き始められま
 <!-- this book, and the rest of your time with Rust. Now that you’ve got the tools -->
 <!-- down, we'll cover more about the Rust language itself. -->
 この章はこれ以後の本書、そしてあなたがRustを書いていく上で役に立つ基本を扱いました。
-ツールについては一歩踏み出したので、これ以降は、Rust言語自体を扱っていきます。
+ツールについては基本を習得できたので、これ以降は、Rust言語自体を扱っていきます。
 
 <!-- You have two options: Dive into a project with ‘[Tutorial: Guessing Game][guessinggame]’, or -->
 <!-- start from the bottom and work your way up with ‘[Syntax and -->
@@ -896,8 +896,8 @@ Cargoが「Hello World!」を生成したのでコードを書き始められま
 
 2つの選択肢があります。
 [チュートリアル：数当てゲーム][guessinggame]でプロジェクトを体験するか、[シンタックスとセマンティクス][syntax]でボトムアップに進んでいくかです。
-経験豊富なシステムプログラマなら「チュートリアル：数当てゲーム」が好みでしょうが、動的なバックグラウンドを持つ人なら他方が馴染むでしょう。
-違う人同士違う学び方をするのです!自分に合ったものを選びましょう。
+経験豊富なシステムプログラマなら「チュートリアル：数当てゲーム」を好むでしょうが、動的なバックグラウンドを持つ人なら他方が馴染むでしょう。
+人それぞれ学び方は違います!自分に合ったものを選びましょう。
 
 [guessinggame]: guessing-game.html
 [syntax]: syntax-and-semantics.html
