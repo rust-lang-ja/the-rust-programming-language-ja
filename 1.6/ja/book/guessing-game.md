@@ -257,7 +257,7 @@ let mut bar = 5; // ミュータブル
 <!-- This function is named `new()`, because it creates a new, empty `String`. -->
 <!-- You’ll find a `new()` function on many types, as it’s a common name for making -->
 <!-- a new value of some kind. -->
-この関数は新たな空の `String` を作るので `new()` の名付けられています。
+この関数は新たな空の `String` を作るので `new()` と名付けられています。
 `new()` 関数はある種の新たな値を作るのによく使われる名前なので様々な型でこの関数を見るでしょう。
 
 
