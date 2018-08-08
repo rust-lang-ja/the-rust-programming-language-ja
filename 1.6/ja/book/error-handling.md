@@ -2483,7 +2483,7 @@ fn search<P: AsRef<Path>>
 > 訳注：
 >
 > No matching cities with a population were found.：<br/>
-> 条件に合う人口データ付きの街は見つかりませんでした。
+> 条件に合う人口データ付きの都市は見つかりませんでした。
 
 <!-- Instead of `x.unwrap()`, we now have `try!(x)`. Since our function returns a -->
 <!-- `Result<T, E>`, the `try!` macro will return early from the function if an -->
