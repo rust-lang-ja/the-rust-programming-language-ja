@@ -8,6 +8,8 @@ RUSTDOC ?= rustdoc
 BASE_DIR=$(VERSION)/$(LANG)
 TARGET_DIR=docs/$(VERSION)
 
+RUSTLIB=$(shell rustc --print sysroot)/lib
+
 DOCS := index \
     complement-lang-faq complement-design-faq complement-project-faq \
     rustdoc reference grammar
@@ -58,19 +60,19 @@ $(TARGET_DIR)/book/index.html: $(wildcard $(BASE_DIR)/book/*.md) | $(TARGET_DIR)
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/book/*.md"
 	rm -rf $(TARGET_DIR)/book
-	$(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/book
+	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/book
 
 $(TARGET_DIR)/nomicon/index.html: $(wildcard $(BASE_DIR)/nomicon/*.md) | $(TARGET_DIR)
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/nomicon/*.md"
 	rm -rf $(TARGET_DIR)/nomicon
-	$(RUSTBOOK) build $(BASE_DIR)/nomicon $(TARGET_DIR)/nomicon
+	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/nomicon $(TARGET_DIR)/nomicon
 
 $(TARGET_DIR)/style/index.html: $(wildcard $(BASE_DIR)/style/*.md) | $(TARGET_DIR)
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/style/*.md"
 	rm -rf $(TARGET_DIR)/style
-	$(RUSTBOOK) build $(BASE_DIR)/style $(TARGET_DIR)/style
+        LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/style $(TARGET_DIR)/style
 
 $(TARGET_DIR):
 	@echo ""
