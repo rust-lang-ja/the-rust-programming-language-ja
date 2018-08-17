@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This script pushes the contents of `./public` directory to
+# This script pushes the contents of `./docs` directory to
 # `origin/master` branch.
 #
 # Requirements:
@@ -12,11 +12,17 @@
 
 set -e
 
+if [ "x_$CIRCLE_BRANCH" != "x_master" ]; then
+  echo "This commit was made against the $CIRCLE_BRANCH and not the master. Aborting."
+  exit 4
+fi
+
 # Get the revision of this branch (master branch)
 REVISION=$(git rev-parse --short HEAD)
 
 # If there are anything to commit, do `git commit` and `git push`
-git add docs
+# -f flag is needed as docs is listed in .gitignore
+git add -f docs
 set +e
 ret=$(git status | grep -q 'nothing to commit'; echo $?)
 set -e

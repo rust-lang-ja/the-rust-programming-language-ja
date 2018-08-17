@@ -4,6 +4,7 @@ jobs:
   build:
     docker:
       - image: quay.io/rust-lang-ja/circleci:trpl1
+    parallelism: 1
     steps:
       - checkout
       - run: rustc --version --verbose
@@ -11,7 +12,7 @@ jobs:
       - run:
           name: Building 1.9 book
           command: make clean all VERSION=1.9
-      - run: 
+      - run:
           name: Building 1.6 book
           command: make clean all VERSION=1.6
       - run:
@@ -46,22 +47,13 @@ jobs:
           path: /tmp/docs-1.6.txz
           destination: docs-1.6.txz
       - run: rm -rf /tmp/1.6 /tmp/docs-1.6.txz
+      - deploy:
+          name: If master branch, publish to GitHub Page
+          command: |
+            if [ "x_${CIRCLE_BRANCH}" == "x_master" ]; then
+              git config user.name "bn-e (CircleCI)"
+              git config user.email "bn-e@hibaridb.org"
+              ./tools/circleci/push-to-master.sh
+              # ./tools/circleci/trigger-trpl-pdf-ja.sh
+            fi
 
-workflows:
-  version: 2
-  build_and_publish:
-    jobs:
-    - build
-
-# deployment:
-#   publish:
-#     branch: master
-#     commands:
-#       - git config user.name "Tatsuya Kawano (CircleCI)"
-#       - git config user.email "tatsuya@hibaridb.org"
-#       # Do not publish 1.9 to gh-pages until all (or most of) the contents
-#       # are updated from 1.6.
-#       - rm -rf docs/1.9
-#       - ./tools/circleci/push-to-master.sh
-#       - ./tools/circleci/trigger-trpl-pdf-ja.sh
-#       # - ./tools/circleci/publish-to-gh-pages.sh
