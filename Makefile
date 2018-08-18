@@ -72,7 +72,7 @@ $(TARGET_DIR)/style/index.html: $(wildcard $(BASE_DIR)/style/*.md) | $(TARGET_DI
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/style/*.md"
 	rm -rf $(TARGET_DIR)/style
-        LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/style $(TARGET_DIR)/style
+	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/style $(TARGET_DIR)/style
 
 $(TARGET_DIR):
 	@echo ""
