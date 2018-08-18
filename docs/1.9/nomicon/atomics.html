@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>Atomics</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='meet-safe-and-unsafe.html'><b>2.</b> Meet Safe and Unsafe</a>
+<ul class='section'>
+<li><a  href='safe-unsafe-meaning.html'><b>2.1.</b> How Safe and Unsafe Interact</a>
+</li>
+<li><a  href='working-with-unsafe.html'><b>2.2.</b> Working with Unsafe</a>
+</li>
+</ul>
+</li>
+<li><a  href='data.html'><b>3.</b> Data Layout</a>
+<ul class='section'>
+<li><a  href='repr-rust.html'><b>3.1.</b> repr(Rust)</a>
+</li>
+<li><a  href='exotic-sizes.html'><b>3.2.</b> Exotically Sized Types</a>
+</li>
+<li><a  href='other-reprs.html'><b>3.3.</b> Other reprs</a>
+</li>
+</ul>
+</li>
+<li><a  href='ownership.html'><b>4.</b> Ownership</a>
+<ul class='section'>
+<li><a  href='references.html'><b>4.1.</b> References</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.2.</b> Lifetimes</a>
+</li>
+<li><a  href='lifetime-mismatch.html'><b>4.3.</b> Limits of Lifetimes</a>
+</li>
+<li><a  href='lifetime-elision.html'><b>4.4.</b> Lifetime Elision</a>
+</li>
+<li><a  href='unbounded-lifetimes.html'><b>4.5.</b> Unbounded Lifetimes</a>
+</li>
+<li><a  href='hrtb.html'><b>4.6.</b> Higher-Rank Trait Bounds</a>
+</li>
+<li><a  href='subtyping.html'><b>4.7.</b> Subtyping and Variance</a>
+</li>
+<li><a  href='dropck.html'><b>4.8.</b> Drop Check</a>
+</li>
+<li><a  href='phantom-data.html'><b>4.9.</b> PhantomData</a>
+</li>
+<li><a  href='borrow-splitting.html'><b>4.10.</b> Splitting Borrows</a>
+</li>
+</ul>
+</li>
+<li><a  href='conversions.html'><b>5.</b> Type Conversions</a>
+<ul class='section'>
+<li><a  href='coercions.html'><b>5.1.</b> Coercions</a>
+</li>
+<li><a  href='dot-operator.html'><b>5.2.</b> The Dot Operator</a>
+</li>
+<li><a  href='casts.html'><b>5.3.</b> Casts</a>
+</li>
+<li><a  href='transmutes.html'><b>5.4.</b> Transmutes</a>
+</li>
+</ul>
+</li>
+<li><a  href='uninitialized.html'><b>6.</b> Uninitialized Memory</a>
+<ul class='section'>
+<li><a  href='checked-uninit.html'><b>6.1.</b> Checked</a>
+</li>
+<li><a  href='drop-flags.html'><b>6.2.</b> Drop Flags</a>
+</li>
+<li><a  href='unchecked-uninit.html'><b>6.3.</b> Unchecked</a>
+</li>
+</ul>
+</li>
+<li><a  href='obrm.html'><b>7.</b> Ownership Based Resource Management</a>
+<ul class='section'>
+<li><a  href='constructors.html'><b>7.1.</b> Constructors</a>
+</li>
+<li><a  href='destructors.html'><b>7.2.</b> Destructors</a>
+</li>
+<li><a  href='leaking.html'><b>7.3.</b> Leaking</a>
+</li>
+</ul>
+</li>
+<li><a  href='unwinding.html'><b>8.</b> Unwinding</a>
+<ul class='section'>
+<li><a  href='exception-safety.html'><b>8.1.</b> Exception Safety</a>
+</li>
+<li><a  href='poisoning.html'><b>8.2.</b> Poisoning</a>
+</li>
+</ul>
+</li>
+<li><a  href='concurrency.html'><b>9.</b> Concurrency</a>
+<ul class='section'>
+<li><a  href='races.html'><b>9.1.</b> Races</a>
+</li>
+<li><a  href='send-and-sync.html'><b>9.2.</b> Send and Sync</a>
+</li>
+<li><a class='active' href='atomics.html'><b>9.3.</b> Atomics</a>
+</li>
+</ul>
+</li>
+<li><a  href='vec.html'><b>10.</b> Implementing Vec</a>
+<ul class='section'>
+<li><a  href='vec-layout.html'><b>10.1.</b> Layout</a>
+</li>
+<li><a  href='vec-alloc.html'><b>10.2.</b> Allocating</a>
+</li>
+<li><a  href='vec-push-pop.html'><b>10.3.</b> Push and Pop</a>
+</li>
+<li><a  href='vec-dealloc.html'><b>10.4.</b> Deallocating</a>
+</li>
+<li><a  href='vec-deref.html'><b>10.5.</b> Deref</a>
+</li>
+<li><a  href='vec-insert-remove.html'><b>10.6.</b> Insert and Remove</a>
+</li>
+<li><a  href='vec-into-iter.html'><b>10.7.</b> IntoIter</a>
+</li>
+<li><a  href='vec-raw.html'><b>10.8.</b> RawVec</a>
+</li>
+<li><a  href='vec-drain.html'><b>10.9.</b> Drain</a>
+</li>
+<li><a  href='vec-zsts.html'><b>10.10.</b> Handling Zero-Sized Types</a>
+</li>
+<li><a  href='vec-final.html'><b>10.11.</b> Final Code</a>
+</li>
+</ul>
+</li>
+<li><a  href='arc-and-mutex.html'><b>11.</b> Implementing Arc and Mutex</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">Atomics</h1>
+    <p>Rust pretty blatantly just inherits C11&#39;s memory model for atomics. This is not
+due to this model being particularly excellent or easy to understand. Indeed,
+this model is quite complex and known to have <a href="http://plv.mpi-sws.org/c11comp/popl15.pdf">several flaws</a>.
+Rather, it is a pragmatic concession to the fact that <em>everyone</em> is pretty bad
+at modeling atomics. At very least, we can benefit from existing tooling and
+research around C.</p>
+
+<p>Trying to fully explain the model in this book is fairly hopeless. It&#39;s defined
+in terms of madness-inducing causality graphs that require a full book to
+properly understand in a practical way. If you want all the nitty-gritty
+details, you should check out <a href="http://www.open-std.org/jtc1/sc22/wg14/www/standards.html#9899">C&#39;s specification (Section 7.17)</a>.
+Still, we&#39;ll try to cover the basics and some of the problems Rust developers
+face.</p>
+
+<p>The C11 memory model is fundamentally about trying to bridge the gap between the
+semantics we want, the optimizations compilers want, and the inconsistent chaos
+our hardware wants. <em>We</em> would like to just write programs and have them do
+exactly what we said but, you know, fast. Wouldn&#39;t that be great?</p>
+
+<h1 id='compiler-reordering' class='section-header'><a href='#compiler-reordering'>Compiler Reordering</a></h1>
+<p>Compilers fundamentally want to be able to do all sorts of crazy transformations
+to reduce data dependencies and eliminate dead code. In particular, they may
+radically change the actual order of events, or make events never occur! If we
+write something like</p>
+
+<span class='rusttest'>fn main() {
+    x = 1;
+y = 3;
+x = 2;
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>3</span>;
+<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>2</span>;</pre>
+
+<p>The compiler may conclude that it would be best if your program did</p>
+
+<span class='rusttest'>fn main() {
+    x = 2;
+y = 3;
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>2</span>;
+<span class='ident'>y</span> <span class='op'>=</span> <span class='number'>3</span>;</pre>
+
+<p>This has inverted the order of events and completely eliminated one event.
+From a single-threaded perspective this is completely unobservable: after all
+the statements have executed we are in exactly the same state. But if our
+program is multi-threaded, we may have been relying on <code>x</code> to actually be
+assigned to 1 before <code>y</code> was assigned. We would like the compiler to be
+able to make these kinds of optimizations, because they can seriously improve
+performance. On the other hand, we&#39;d also like to be able to depend on our
+program <em>doing the thing we said</em>.</p>
+
+<h1 id='hardware-reordering' class='section-header'><a href='#hardware-reordering'>Hardware Reordering</a></h1>
+<p>On the other hand, even if the compiler totally understood what we wanted and
+respected our wishes, our hardware might instead get us in trouble. Trouble
+comes from CPUs in the form of memory hierarchies. There is indeed a global
+shared memory space somewhere in your hardware, but from the perspective of each
+CPU core it is <em>so very far away</em> and <em>so very slow</em>. Each CPU would rather work
+with its local cache of the data and only go through all the anguish of
+talking to shared memory only when it doesn&#39;t actually have that memory in
+cache.</p>
+
+<p>After all, that&#39;s the whole point of the cache, right? If every read from the
+cache had to run back to shared memory to double check that it hadn&#39;t changed,
+what would the point be? The end result is that the hardware doesn&#39;t guarantee
+that events that occur in the same order on <em>one</em> thread, occur in the same
+order on <em>another</em> thread. To guarantee this, we must issue special instructions
+to the CPU telling it to be a bit less smart.</p>
+
+<p>For instance, say we convince the compiler to emit this logic:</p>
+
+<pre><code class="language-text">initial state: x = 0, y = 1
+
+THREAD 1        THREAD2
+y = 3;          if x == 1 {
+x = 1;              y *= 2;
+                }
+</code></pre>
+
+<p>Ideally this program has 2 possible final states:</p>
+
+<ul>
+<li><code>y = 3</code>: (thread 2 did the check before thread 1 completed)</li>
+<li><code>y = 6</code>: (thread 2 did the check after thread 1 completed)</li>
+</ul>
+
+<p>However there&#39;s a third potential state that the hardware enables:</p>
+
+<ul>
+<li><code>y = 2</code>: (thread 2 saw <code>x = 1</code>, but not <code>y = 3</code>, and then overwrote <code>y = 3</code>)</li>
+</ul>
+
+<p>It&#39;s worth noting that different kinds of CPU provide different guarantees. It
+is common to separate hardware into two categories: strongly-ordered and weakly-
+ordered. Most notably x86/64 provides strong ordering guarantees, while ARM
+provides weak ordering guarantees. This has two consequences for concurrent
+programming:</p>
+
+<ul>
+<li><p>Asking for stronger guarantees on strongly-ordered hardware may be cheap or
+even free because they already provide strong guarantees unconditionally.
+Weaker guarantees may only yield performance wins on weakly-ordered hardware.</p></li>
+<li><p>Asking for guarantees that are too weak on strongly-ordered hardware is
+more likely to <em>happen</em> to work, even though your program is strictly
+incorrect. If possible, concurrent algorithms should be tested on
+weakly-ordered hardware.</p></li>
+</ul>
+
+<h1 id='data-accesses' class='section-header'><a href='#data-accesses'>Data Accesses</a></h1>
+<p>The C11 memory model attempts to bridge the gap by allowing us to talk about the
+<em>causality</em> of our program. Generally, this is by establishing a <em>happens
+before</em> relationship between parts of the program and the threads that are
+running them. This gives the hardware and compiler room to optimize the program
+more aggressively where a strict happens-before relationship isn&#39;t established,
+but forces them to be more careful where one is established. The way we
+communicate these relationships are through <em>data accesses</em> and <em>atomic
+accesses</em>.</p>
+
+<p>Data accesses are the bread-and-butter of the programming world. They are
+fundamentally unsynchronized and compilers are free to aggressively optimize
+them. In particular, data accesses are free to be reordered by the compiler on
+the assumption that the program is single-threaded. The hardware is also free to
+propagate the changes made in data accesses to other threads as lazily and
+inconsistently as it wants. Most critically, data accesses are how data races
+happen. Data accesses are very friendly to the hardware and compiler, but as
+we&#39;ve seen they offer <em>awful</em> semantics to try to write synchronized code with.
+Actually, that&#39;s too weak.</p>
+
+<p><strong>It is literally impossible to write correct synchronized code using only data
+accesses.</strong></p>
+
+<p>Atomic accesses are how we tell the hardware and compiler that our program is
+multi-threaded. Each atomic access can be marked with an <em>ordering</em> that
+specifies what kind of relationship it establishes with other accesses. In
+practice, this boils down to telling the compiler and hardware certain things
+they <em>can&#39;t</em> do. For the compiler, this largely revolves around re-ordering of
+instructions. For the hardware, this largely revolves around how writes are
+propagated to other threads. The set of orderings Rust exposes are:</p>
+
+<ul>
+<li>Sequentially Consistent (SeqCst)</li>
+<li>Release</li>
+<li>Acquire</li>
+<li>Relaxed</li>
+</ul>
+
+<p>(Note: We explicitly do not expose the C11 <em>consume</em> ordering)</p>
+
+<p>TODO: negative reasoning vs positive reasoning? TODO: &quot;can&#39;t forget to
+synchronize&quot;</p>
+
+<h1 id='sequentially-consistent' class='section-header'><a href='#sequentially-consistent'>Sequentially Consistent</a></h1>
+<p>Sequentially Consistent is the most powerful of all, implying the restrictions
+of all other orderings. Intuitively, a sequentially consistent operation
+cannot be reordered: all accesses on one thread that happen before and after a
+SeqCst access stay before and after it. A data-race-free program that uses
+only sequentially consistent atomics and data accesses has the very nice
+property that there is a single global execution of the program&#39;s instructions
+that all threads agree on. This execution is also particularly nice to reason
+about: it&#39;s just an interleaving of each thread&#39;s individual executions. This
+does not hold if you start using the weaker atomic orderings.</p>
+
+<p>The relative developer-friendliness of sequential consistency doesn&#39;t come for
+free. Even on strongly-ordered platforms sequential consistency involves
+emitting memory fences.</p>
+
+<p>In practice, sequential consistency is rarely necessary for program correctness.
+However sequential consistency is definitely the right choice if you&#39;re not
+confident about the other memory orders. Having your program run a bit slower
+than it needs to is certainly better than it running incorrectly! It&#39;s also
+mechanically trivial to downgrade atomic operations to have a weaker
+consistency later on. Just change <code>SeqCst</code> to <code>Relaxed</code> and you&#39;re done! Of
+course, proving that this transformation is <em>correct</em> is a whole other matter.</p>
+
+<h1 id='acquire-release' class='section-header'><a href='#acquire-release'>Acquire-Release</a></h1>
+<p>Acquire and Release are largely intended to be paired. Their names hint at their
+use case: they&#39;re perfectly suited for acquiring and releasing locks, and
+ensuring that critical sections don&#39;t overlap.</p>
+
+<p>Intuitively, an acquire access ensures that every access after it stays after
+it. However operations that occur before an acquire are free to be reordered to
+occur after it. Similarly, a release access ensures that every access before it
+stays before it. However operations that occur after a release are free to be
+reordered to occur before it.</p>
+
+<p>When thread A releases a location in memory and then thread B subsequently
+acquires <em>the same</em> location in memory, causality is established. Every write
+that happened before A&#39;s release will be observed by B after its release.
+However no causality is established with any other threads. Similarly, no
+causality is established if A and B access <em>different</em> locations in memory.</p>
+
+<p>Basic use of release-acquire is therefore simple: you acquire a location of
+memory to begin the critical section, and then release that location to end it.
+For instance, a simple spinlock might look like:</p>
+
+<span class='rusttest'>use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
+use std::thread;
+
+fn main() {
+    let lock = Arc::new(AtomicBool::new(false)); // value answers &quot;am I locked?&quot;
+
+    // ... distribute lock to threads somehow ...
+
+    // Try to acquire the lock by setting it to true
+    while lock.compare_and_swap(false, true, Ordering::Acquire) { }
+    // broke out of the loop, so we successfully acquired the lock!
+
+    // ... scary data accesses ...
+
+    // ok we&#39;re done, release the lock
+    lock.store(false, Ordering::Release);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>atomic</span>::{<span class='ident'>AtomicBool</span>, <span class='ident'>Ordering</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>lock</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>AtomicBool</span>::<span class='ident'>new</span>(<span class='boolvalue'>false</span>)); <span class='comment'>// value answers &quot;am I locked?&quot;</span>
+
+    <span class='comment'>// ... distribute lock to threads somehow ...</span>
+
+    <span class='comment'>// Try to acquire the lock by setting it to true</span>
+    <span class='kw'>while</span> <span class='ident'>lock</span>.<span class='ident'>compare_and_swap</span>(<span class='boolvalue'>false</span>, <span class='boolvalue'>true</span>, <span class='ident'>Ordering</span>::<span class='ident'>Acquire</span>) { }
+    <span class='comment'>// broke out of the loop, so we successfully acquired the lock!</span>
+
+    <span class='comment'>// ... scary data accesses ...</span>
+
+    <span class='comment'>// ok we&#39;re done, release the lock</span>
+    <span class='ident'>lock</span>.<span class='ident'>store</span>(<span class='boolvalue'>false</span>, <span class='ident'>Ordering</span>::<span class='ident'>Release</span>);
+}</pre>
+
+<p>On strongly-ordered platforms most accesses have release or acquire semantics,
+making release and acquire often totally free. This is not the case on
+weakly-ordered platforms.</p>
+
+<h1 id='relaxed' class='section-header'><a href='#relaxed'>Relaxed</a></h1>
+<p>Relaxed accesses are the absolute weakest. They can be freely re-ordered and
+provide no happens-before relationship. Still, relaxed operations are still
+atomic. That is, they don&#39;t count as data accesses and any read-modify-write
+operations done to them occur atomically. Relaxed operations are appropriate for
+things that you definitely want to happen, but don&#39;t particularly otherwise care
+about. For instance, incrementing a counter can be safely done by multiple
+threads using a relaxed <code>fetch_add</code> if you&#39;re not using the counter to
+synchronize any other accesses.</p>
+
+<p>There&#39;s rarely a benefit in making an operation relaxed on strongly-ordered
+platforms, since they usually provide release-acquire semantics anyway. However
+relaxed operations can be cheaper on weakly-ordered platforms.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

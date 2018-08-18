@@ -1,0 +1,1955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>スタックとヒープ</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a class='active' href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">スタックとヒープ</h1>
+    <!-- % The Stack and the Heap -->
+
+<!--
+As a systems language, Rust operates at a low level. If you’re coming from a
+high-level language, there are some aspects of systems programming that you may
+not be familiar with. The most important one is how memory works, with a stack
+and a heap. If you’re familiar with how C-like languages use stack allocation,
+this chapter will be a refresher. If you’re not, you’ll learn about this more
+general concept, but with a Rust-y focus.
+-->
+
+<p>Rustはシステム言語なので、低水準の操作を行います。
+もしあなたが高水準言語を使ってきたのであれば、システムプログラミングのいくつかの側面をよく知らないかもしれません。
+一番重要なのは、スタックとヒープと関連してメモリがどのように機能するかということです。
+もしC言語のような言語でスタックアロケーションをどのように使っているかをよく知っているのであれば、この章は復習になるでしょう。
+そうでなければ、このより一般的な概念について、Rust流の焦点の絞り方ではありますが、学んでゆくことになるでしょう。</p>
+
+<!--
+As with most things, when learning about them, we’ll use a simplified model to
+start. This lets you get a handle on the basics, without getting bogged down
+with details which are, for now, irrelevant. The examples we’ll use aren’t 100%
+accurate, but are representative for the level we’re trying to learn at right
+now. Once you have the basics down, learning more about how allocators are
+implemented, virtual memory, and other advanced topics will reveal the leaks in
+this particular abstraction.
+-->
+
+<p>ほとんどの物事と同様に、それらについて学ぶにあたって、まず簡略化したモデルを使って始めましょう。
+そうすることで、今は無関係な枝葉末節に足を取られることなく、基本を把握できます。
+これから使う例示は100%正確ではありませんが、現時点で学ぼうとするレベルのための見本になっています。
+ひとたび基本を飲み込めば、アロケータがどう実装されているかや仮想メモリなどの発展的なトピックを学ぶことによって、この特殊な抽象モデルが取り漏らしているものが明らかになるでしょう。</p>
+
+<h1 id='メモリ管理' class='section-header'><a href='#メモリ管理'>メモリ管理</a></h1>
+<!--# Memory management-->
+
+<!--
+These two terms are about memory management. The stack and the heap are
+abstractions that help you determine when to allocate and deallocate memory.
+-->
+
+<p>これら2つの用語はメモリ管理についてのものです。スタックとヒープは、いつメモリをアロケート・デアロケートするのかを決定するのを助ける抽象化です。</p>
+
+<!--
+Here’s a high-level comparison:
+-->
+
+<p>大まかに比較してみましょう:</p>
+
+<!--
+The stack is very fast, and is where memory is allocated in Rust by default.
+But the allocation is local to a function call, and is limited in size. The
+heap, on the other hand, is slower, and is explicitly allocated by your
+program. But it’s effectively unlimited in size, and is globally accessible.
+-->
+
+<p>スタックはとても高速で、Rustにおいてデフォルトでメモリが確保される場所です。
+しかし、このアロケーションはひとつの関数呼び出しに限られた局所的なもので、サイズに制限があります。
+一方、ヒープはより遅く、プログラムによって明示的にアロケートされます。
+しかし、事実上サイズに制限がなく、広域的にアクセス可能です。</p>
+
+<h1 id='スタック' class='section-header'><a href='#スタック'>スタック</a></h1>
+<!--# The Stack-->
+
+<!--
+Let’s talk about this Rust program:
+-->
+
+<p>次のRustプログラムについて話しましょう:</p>
+
+<span class='rusttest'>fn main() {
+    let x = 42;
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>42</span>;
+}</pre>
+
+<!--
+This program has one variable binding, `x`. This memory needs to be allocated
+from somewhere. Rust ‘stack allocates’ by default, which means that basic
+values ‘go on the stack’. What does that mean?
+-->
+
+<p>このプログラムは変数 <code>x</code> の束縛をひとつ含んでいます。
+このメモリはどこかからアロケートされる必要があります。
+Rustはデフォルトで「スタックアロケート」、すなわち基本的な値を「スタックに置く」ということをします。
+それはどういう意味でしょうか。</p>
+
+<!--
+Well, when a function gets called, some memory gets allocated for all of its
+local variables and some other information. This is called a ‘stack frame’, and
+for the purpose of this tutorial, we’re going to ignore the extra information
+and only consider the local variables we’re allocating. So in this case, when
+`main()` is run, we’ll allocate a single 32-bit integer for our stack frame.
+This is automatically handled for you, as you can see; we didn’t have to write
+any special Rust code or anything.
+-->
+
+<p>関数が呼び出されたとき、関数中のローカル変数とそのほかの多少の情報のためにメモリがいくらかアロケートされます。
+これを「スタックフレーム」と呼びますが、このチュートリアルにおいては、余分な情報は無視して、アロケートするローカル変数だけを考えることにします。
+なので今回の場合は、 <code>main()</code> が実行されるとき、スタックフレームとして32ビット整数をただ1つアロケートすることになります。
+これは、見ての通り自動的に取り扱われるので、特別なRustコードか何かを書く必要はありません。</p>
+
+<!--
+When the function exits, its stack frame gets deallocated. This happens
+automatically as well.
+-->
+
+<p>関数が終了するとき、スタックフレームはデアロケートされます。これもアロケーションと同様自動的に行われます。</p>
+
+<!--
+That’s all there is for this simple program. The key thing to understand here
+is that stack allocation is very, very fast. Since we know all the local
+variables we have ahead of time, we can grab the memory all at once. And since
+we’ll throw them all away at the same time as well, we can get rid of it very
+fast too.
+-->
+
+<p>これが、この単純なプログラムにあるものすべてです。
+ここで理解する鍵となるのは、スタックアロケーションはとても、とても高速だということです。
+ローカル変数はすべて事前にわかっているので、メモリを一度に確保できます。
+また、破棄するときも同様に、変数をすべて同時に破棄できるので、こちらもとても高速に済みます。</p>
+
+<!--
+The downside is that we can’t keep values around if we need them for longer
+than a single function. We also haven’t talked about what the word, ‘stack’,
+means. To do that, we need a slightly more complicated example:
+-->
+
+<p>この話でよくないことは、単一の関数を超えて値が必要でも、その値を保持しつづけられないことです。
+また、「スタック」が何を意味するのかについてまだ話していませんでした。
+その点について見るために、もう少し複雑な例が必要です。</p>
+
+<span class='rusttest'>fn foo() {
+    let y = 5;
+    let z = 100;
+}
+
+fn main() {
+    let x = 42;
+
+    foo();
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>foo</span>() {
+    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>5</span>;
+    <span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='number'>100</span>;
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>42</span>;
+
+    <span class='ident'>foo</span>();
+}</pre>
+
+<!--
+This program has three variables total: two in `foo()`, one in `main()`. Just
+as before, when `main()` is called, a single integer is allocated for its stack
+frame. But before we can show what happens when `foo()` is called, we need to
+visualize what’s going on with memory. Your operating system presents a view of
+memory to your program that’s pretty simple: a huge list of addresses, from 0
+to a large number, representing how much RAM your computer has. For example, if
+you have a gigabyte of RAM, your addresses go from `0` to `1,073,741,823`. That
+number comes from 2<sup>30</sup>, the number of bytes in a gigabyte. [^gigabyte]
+-->
+
+<p>このプログラムには変数が <code>foo()</code> に2つ、 <code>main()</code> に1つで、全部で3つあります。
+前の例と同様に <code>main()</code> が呼び出されたときは1つの整数がスタックフレームとしてアロケートされます。
+しかし、 <code>foo()</code> が呼び出されたときに何が起こるかを話す前に、まずメモリ上に何が置いてあるかを図示する必要があります。
+オペレーティングシステムは、メモリをプログラムに対してとてもシンプルなものとして見せています。それは、0からコンピュータが搭載しているRAMの容量を表現する大きな数までのアドレスの巨大なリストです。
+たとえば、もしあなたのコンピュータに1ギガバイトのRAMがのっていれば、アドレスは<code>0</code>から<code>1,073,741,823</code>になります。
+この数値は、1ギガバイトのバイト数である2<sup>30</sup>から来ています。<sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup></p>
+
+<!-- [^gigabyte]: ‘Gigabyte’ can mean two things: 10^9, or 2^30. The SI standard resolved this by stating that ‘gigabyte’ is 10^9, and ‘gibibyte’ is 2^30. However, very few people use this terminology, and rely on context to differentiate. We follow in that tradition here. -->
+
+<!--
+This memory is kind of like a giant array: addresses start at zero and go
+up to the final number. So here’s a diagram of our first stack frame:
+-->
+
+<p>このメモリは巨大な配列のようなものです。すなわち、アドレスは0から始まり、最後の番号まで続いています。そして、これが最初のスタックフレームの図です:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+We’ve got `x` located at address `0`, with the value `42`.
+-->
+
+<p>この図から、 <code>x</code> はアドレス <code>0</code> に置かれ、その値は <code>42</code> だとわかります。</p>
+
+<!--
+When `foo()` is called, a new stack frame is allocated:
+-->
+
+<p><code>foo()</code> が呼び出されると、新しいスタックフレームがアロケートされます:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>2</td>
+<td>z</td>
+<td>100</td>
+</tr>
+<tr>
+<td>1</td>
+<td>y</td>
+<td>5</td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Because `0` was taken by the first frame, `1` and `2` are used for `foo()`’s
+stack frame. It grows upward, the more functions we call.
+-->
+
+<p><code>0</code> は最初のフレームに取られているので、 <code>1</code> と <code>2</code> が <code>foo()</code> のスタックフレームのために使われます。
+これは、関数呼び出しが行われるたびに上に伸びていきます。</p>
+
+<!--
+There are some important things we have to take note of here. The numbers 0, 1,
+and 2 are all solely for illustrative purposes, and bear no relationship to the
+address values the computer will use in reality. In particular, the series of
+addresses are in reality going to be separated by some number of bytes that
+separate each address, and that separation may even exceed the size of the
+value being stored.
+-->
+
+<p>ここで注意しなければならない重要なことがいくつかあります。
+<code>0</code>, <code>1</code>, <code>2</code> といった番号は単に解説するためのもので、コンピュータが実際に使うアドレス値とは関係がありません。
+特に、連続したアドレスは、実際にはそれぞれ数バイトずつ隔てられていて、その間隔は格納されている値のサイズより大きいこともあります。</p>
+
+<!--
+After `foo()` is over, its frame is deallocated:
+-->
+
+<p><code>foo()</code> が終了した後、そのフレームはデアロケートされます:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+And then, after `main()`, even this last value goes away. Easy!
+-->
+
+<p>そして <code>main()</code> の後には、残っている値も消えてなくなります。簡単ですね!</p>
+
+<!--
+It’s called a ‘stack’ because it works like a stack of dinner plates: the first
+plate you put down is the last plate to pick back up. Stacks are sometimes
+called ‘last in, first out queues’ for this reason, as the last value you put
+on the stack is the first one you retrieve from it.
+-->
+
+<p>「スタック」という名は、積み重ねたディナープレート（a stack of dinner plates）のように働くことに由来します。
+最初に置かれたプレートは、最後に取り去られるプレートです。
+そのため、スタックはしばしば「last in, first out queues」（訳注: 最後に入ったものが最初に出るキュー、LIFOと略記される）と呼ばれ、最後にスタックに積んだ値は最初にスタックから取り出す値になります。</p>
+
+<!--
+Let’s try a three-deep example:
+-->
+
+<p>3段階の深さの例を見てみましょう:</p>
+
+<span class='rusttest'>fn italic() {
+    let i = 6;
+}
+
+fn bold() {
+    let a = 5;
+    let b = 100;
+    let c = 1;
+
+    italic();
+}
+
+fn main() {
+    let x = 42;
+
+    bold();
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>italic</span>() {
+    <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='number'>6</span>;
+}
+
+<span class='kw'>fn</span> <span class='ident'>bold</span>() {
+    <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='number'>5</span>;
+    <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='number'>100</span>;
+    <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='number'>1</span>;
+
+    <span class='ident'>italic</span>();
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>42</span>;
+
+    <span class='ident'>bold</span>();
+}</pre>
+
+<!--
+We have some kooky function names to make the diagrams clearer.
+-->
+
+<p>分かりやすいようにちょと変な名前をつけています。</p>
+
+<!--
+Okay, first, we call `main()`:
+-->
+
+<p>それでは、まず、 <code>main()</code> を呼び出します:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Next up, `main()` calls `bold()`:
+-->
+
+<p>次に、 <code>main()</code> は <code>bold()</code> を呼び出します:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>c</strong></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>b</strong></td>
+<td><strong>100</strong></td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>a</strong></td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+And then `bold()` calls `italic()`:
+-->
+
+<p>そして <code>bold()</code> は <code>italic()</code> を呼び出します:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><em>4</em></td>
+<td><em>i</em></td>
+<td><em>6</em></td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>c</strong></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>b</strong></td>
+<td><strong>100</strong></td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>a</strong></td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Whew! Our stack is growing tall.
+-->
+
+<p>ふう、スタックが高く伸びましたね。</p>
+
+<!--
+After `italic()` is over, its frame is deallocated, leaving just `bold()` and
+`main()`:
+-->
+
+<p><code>italic()</code> が終了した後、そのフレームはデアロケートされて <code>bold()</code> と <code>main()</code> だけが残ります:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>c</strong></td>
+<td><strong>1</strong></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td><strong>b</strong></td>
+<td><strong>100</strong></td>
+</tr>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>a</strong></td>
+<td><strong>5</strong></td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+And then `bold()` ends, leaving just `main()`:
+-->
+
+<p>そして <code>bold()</code> が終了すると <code>main()</code> だけが残ります:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+And then we’re done. Getting the hang of it? It’s like piling up dishes: you
+add to the top, you take away from the top.
+-->
+
+<p>ついに、やりとげました。コツをつかみましたか? 皿を積み重ねるようなものです。
+つまり、一番上に追加し、一番上から取るんです。</p>
+
+<h1 id='ヒープ' class='section-header'><a href='#ヒープ'>ヒープ</a></h1>
+<!--# The Heap-->
+
+<!--
+Now, this works pretty well, but not everything can work like this. Sometimes,
+you need to pass some memory between different functions, or keep it alive for
+longer than a single function’s execution. For this, we can use the heap.
+-->
+
+<p>さて、このやり方は結構うまくいくのですが、すべてがこのようにいくわけではありません。
+ときには、メモリを異なる関数間でやりとりしたり、1回の関数実行より長く保持する必要があります。
+そのためには、ヒープを使います。</p>
+
+<!--
+In Rust, you can allocate memory on the heap with the [`Box<T>` type][box].
+Here’s an example:
+-->
+
+<p>Rustでは、<a href="../std/boxed/index.html"><code>Box&lt;T&gt;</code> 型</a>を使うことで、メモリをヒープ上にアロケートできます。</p>
+
+<span class='rusttest'>fn main() {
+    let x = Box::new(5);
+    let y = 42;
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>5</span>);
+    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>42</span>;
+}</pre>
+
+<!--
+Here’s what happens in memory when `main()` is called:
+-->
+
+<p><code>main()</code> が呼び出されたとき、メモリは次のようになります:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>y</td>
+<td>42</td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>??????</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+We allocate space for two variables on the stack. `y` is `42`, as it always has
+been, but what about `x`? Well, `x` is a `Box<i32>`, and boxes allocate memory
+on the heap. The actual value of the box is a structure which has a pointer to
+‘the heap’. When we start executing the function, and `Box::new()` is called,
+it allocates some memory for the heap, and puts `5` there. The memory now looks
+like this:
+-->
+
+<p>2つの変数のために、スタック上に領域がアロケートされます。
+通常通り、 <code>y</code> は <code>42</code> になりますが、 <code>x</code> はどうなるのでしょうか?
+<code>x</code> は <code>Box&lt;i32&gt;</code> 型で、ボックスはヒープ上のメモリをアロケートします。
+このボックスの実際の値は、「ヒープ」へのポインタを持ったストラクチャです。
+関数の実行が開始され、 <code>Box::new()</code> が呼び出されると、ヒープ上のメモリがいくらかアロケートされ、そこに <code>5</code> が置かれます。
+すると、メモリはこんな感じになります:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>1</td>
+<td>y</td>
+<td>42</td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+We have (2<sup>30</sup>) - 1 addresses in our hypothetical computer with 1GB of RAM. And since
+our stack grows from zero, the easiest place to allocate memory is from the
+other end. So our first value is at the highest place in memory. And the value
+of the struct at `x` has a [raw pointer][rawpointer] to the place we’ve
+allocated on the heap, so the value of `x` is (2<sup>30</sup>) - 1, the memory
+location we’ve asked for.
+-->
+
+<p>今考えている1GBのRAMを備えた仮想のコンピュータには (2<sup>30</sup>) - 1 のアドレスがあります。
+また、スタックはゼロから伸びていますから、メモリをアロケートするのに一番楽なのは、反対側の端の場所です。
+ですから、最初の値はメモリのうち番号が一番大きい場所に置かれます。
+そして、 <code>x</code> にある構造体はヒープ上にアロケートした場所への<a href="raw-pointers.html">生ポインタ</a>を持っているので、 <code>x</code> の値は、今求めた位置 (2<sup>30</sup>) - 1 です。</p>
+
+<!--
+We haven’t really talked too much about what it actually means to allocate and
+deallocate memory in these contexts. Getting into very deep detail is out of
+the scope of this tutorial, but what’s important to point out here is that
+the heap isn’t a stack that grows from the opposite end. We’ll have an
+example of this later in the book, but because the heap can be allocated and
+freed in any order, it can end up with ‘holes’. Here’s a diagram of the memory
+layout of a program which has been running for a while now:
+-->
+
+<p>ここまでの話では、メモリをアロケート・デアロケートするということのこの文脈における意味を過剰に語ることはありませんでした。
+詳細を深く掘り下げるのはこのチュートリアルの目的範囲外なのですが、ここで重要なこととして指摘したいのは、ヒープは単にメモリの反対側から伸びるスタックなのではないということです。
+後ほど例を見ていきますが、ヒープはアロケート・デアロケートをどの順番にしてもよく、その結果「穴」のある状態になります。
+次の図は、とあるプログラムをしばらく実行していたときのメモリレイアウトです。</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>(2<sup>30</sup>) - 2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(2<sup>30</sup>) - 3</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(2<sup>30</sup>) - 4</td>
+<td></td>
+<td>42</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>3</td>
+<td>y</td>
+<td>→ (2<sup>30</sup>) - 4</td>
+</tr>
+<tr>
+<td>2</td>
+<td>y</td>
+<td>42</td>
+</tr>
+<tr>
+<td>1</td>
+<td>y</td>
+<td>42</td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+In this case, we’ve allocated four things on the heap, but deallocated two of
+them. There’s a gap between (2<sup>30</sup>) - 1 and (2<sup>30</sup>) - 4 which isn’t
+currently being used. The specific details of how and why this happens depends
+on what kind of strategy you use to manage the heap. Different programs can use
+different ‘memory allocators’, which are libraries that manage this for you.
+Rust programs use [jemalloc][jemalloc] for this purpose.
+-->
+
+<p>この場合では、4つのものをヒープにアロケートしていますが、2つはすでにデアロケートされています。
+アドレス (2<sup>30</sup>) - 1 と (2<sup>30</sup>) - 4 の間には、現在使われていない隙間があります。このような隙間がなぜ、どのように起きるかの詳細は、どのようなヒープ管理戦略を使っているかによります。
+異なるブログラムには異なる「メモリアロケータ」というメモリを管理するライブラリを使うことができます。
+Rustのプログラムはこの用途に<a href="http://www.canonware.com/jemalloc/">jemalloc</a>を使います。</p>
+
+<!--
+Anyway, back to our example. Since this memory is on the heap, it can stay
+alive longer than the function which allocates the box. In this case, however,
+it doesn’t.[^moving] When the function is over, we need to free the stack frame
+for `main()`. `Box<T>`, though, has a trick up its sleeve: [Drop][drop]. The
+implementation of `Drop` for `Box` deallocates the memory that was allocated
+when it was created. Great! So when `x` goes away, it first frees the memory
+allocated on the heap:
+-->
+
+<p>ともかく、私たちのプログラムの例に戻ります。
+この（訳注: <code>x</code> のポインタが指す）メモリはヒープ上にあるので、ボックスをアロケートした関数よりも長い間生存しつづけることができます。
+しかし、この例ではそうではありません。<sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup>
+関数が終了したとき、 <code>main()</code> のためのスタックフレームを解放する必要があります。
+しかし、<code>Box&lt;T&gt;</code>には隠れた仕掛け、<a href="drop.html">Drop</a>があります。
+<code>Drop</code>トレイトの<code>Box</code>への実装は、ボックスが作られたときにアロケートされたメモリをデアロケートします。すばらしい!
+なので <code>x</code> が解放されるときには先にヒープ上にアロケートされたメモリを解放します。</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>y</td>
+<td>42</td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>??????</td>
+</tr>
+</tbody>
+</table>
+
+<!-- [^moving]: We can make the memory live longer by transferring ownership, -->
+
+<!--            sometimes called ‘moving out of the box’. More complex examples will -->
+
+<!--            be covered later. -->
+
+<!-- 訳注: 元の表現は「ボックスからのムーブアウト」だが、誤りなので修正した。 -->
+
+<!--
+And then the stack frame goes away, freeing all of our memory.
+-->
+
+<p>その後スタックフレームが無くなることで、全てのメモリが解放されます。</p>
+
+<h1 id='引数と借用' class='section-header'><a href='#引数と借用'>引数と借用</a></h1>
+<!--# Arguments and borrowing-->
+
+<!--
+We’ve got some basic examples with the stack and the heap going, but what about
+function arguments and borrowing? Here’s a small Rust program:
+-->
+
+<p>ここまででスタックとヒープの基本的な例をいくつか学び進めましたが、関数の引数と借用についてはどうでしょうか?
+ここに小さなRustプログラムがあります:</p>
+
+<span class='rusttest'>fn foo(i: &amp;i32) {
+    let z = 42;
+}
+
+fn main() {
+    let x = 5;
+    let y = &amp;x;
+
+    foo(y);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>i</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>) {
+    <span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='number'>42</span>;
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>x</span>;
+
+    <span class='ident'>foo</span>(<span class='ident'>y</span>);
+}</pre>
+
+<!--
+When we enter `main()`, memory looks like this:
+-->
+
+<p>処理が <code>main()</code> に入ると、メモリはこんな感じになります:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td>y</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+`x` is a plain old `5`, and `y` is a reference to `x`. So its value is the
+memory location that `x` lives at, which in this case is `0`.
+-->
+
+<p><code>x</code> は普通の <code>5</code> で、 <code>y</code> は <code>x</code> への参照です。そのため、 <code>y</code> の値は <code>x</code> のメモリ上の位置で、今回は <code>0</code> です。</p>
+
+<!--
+What about when we call `foo()`, passing `y` as an argument?
+-->
+
+<p>引数として <code>y</code> を渡している関数 <code>foo()</code> の呼び出しはどうなるのでしょうか?</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>3</td>
+<td>z</td>
+<td>42</td>
+</tr>
+<tr>
+<td>2</td>
+<td>i</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>y</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>x</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Stack frames aren’t only for local bindings, they’re for arguments too. So in
+this case, we need to have both `i`, our argument, and `z`, our local variable
+binding. `i` is a copy of the argument, `y`. Since `y`’s value is `0`, so is
+`i`’s.
+-->
+
+<p>スタックフレームは単にローカルな束縛のために使われるだけでなく、引数のためにも使われます。
+なので、この例では、引数の <code>i</code> とローカル変数の束縛 <code>z</code> の両方が必要です。
+<code>i</code> は引数 <code>y</code> のコピーです。
+<code>y</code> の値は <code>0</code> ですから、 <code>i</code> の値も <code>0</code> になります。</p>
+
+<!--
+This is one reason why borrowing a variable doesn’t deallocate any memory: the
+value of a reference is a pointer to a memory location. If we got rid of
+the underlying memory, things wouldn’t work very well.
+-->
+
+<p>これは、変数を借用してもどのメモリもデアロケートされることがないことのひとつの理由になっています。
+つまり、参照の値はメモリ上の位置を示すポインタです。
+もしポインタが指しているメモリを取り去ってしまうと、ことが立ちゆかなくなってしまうでしょう。</p>
+
+<h1 id='複雑な例' class='section-header'><a href='#複雑な例'>複雑な例</a></h1>
+<!--# A complex example-->
+
+<!--
+Okay, let’s go through this complex program step-by-step:
+-->
+
+<p>それでは、次の複雑な例をステップ・バイ・ステップでやっていきましょう:</p>
+
+<span class='rusttest'>fn foo(x: &amp;i32) {
+    let y = 10;
+    let z = &amp;y;
+
+    baz(z);
+    bar(x, z);
+}
+
+fn bar(a: &amp;i32, b: &amp;i32) {
+    let c = 5;
+    let d = Box::new(5);
+    let e = &amp;d;
+
+    baz(e);
+}
+
+fn baz(f: &amp;i32) {
+    let g = 100;
+}
+
+fn main() {
+    let h = 3;
+    let i = Box::new(20);
+    let j = &amp;h;
+
+    foo(j);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>foo</span>(<span class='ident'>x</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>) {
+    <span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>10</span>;
+    <span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>y</span>;
+
+    <span class='ident'>baz</span>(<span class='ident'>z</span>);
+    <span class='ident'>bar</span>(<span class='ident'>x</span>, <span class='ident'>z</span>);
+}
+
+<span class='kw'>fn</span> <span class='ident'>bar</span>(<span class='ident'>a</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>, <span class='ident'>b</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>) {
+    <span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='number'>5</span>;
+    <span class='kw'>let</span> <span class='ident'>d</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>5</span>);
+    <span class='kw'>let</span> <span class='ident'>e</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>d</span>;
+
+    <span class='ident'>baz</span>(<span class='ident'>e</span>);
+}
+
+<span class='kw'>fn</span> <span class='ident'>baz</span>(<span class='ident'>f</span>: <span class='kw-2'>&amp;</span><span class='ident'>i32</span>) {
+    <span class='kw'>let</span> <span class='ident'>g</span> <span class='op'>=</span> <span class='number'>100</span>;
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>h</span> <span class='op'>=</span> <span class='number'>3</span>;
+    <span class='kw'>let</span> <span class='ident'>i</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>20</span>);
+    <span class='kw'>let</span> <span class='ident'>j</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>h</span>;
+
+    <span class='ident'>foo</span>(<span class='ident'>j</span>);
+}</pre>
+
+<!--
+First, we call `main()`:
+-->
+
+<p>まず、<code>main()</code>を呼び出します:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+We allocate memory for `j`, `i`, and `h`. `i` is on the heap, and so has a
+value pointing there.
+-->
+
+<!-- 訳注: 原文の「`i` はヒープ上にあるので」は誤りなので、「..が束縛されるボックスが確保する領域..」を追記した。 -->
+
+<p><code>j</code>, <code>i</code>, <code>h</code> のためのメモリをアロケートします。
+<code>i</code> が束縛されるボックスが確保する領域はヒープ上にあるので、 <code>i</code> はそこを指す値を持っています。</p>
+
+<!--
+Next, at the end of `main()`, `foo()` gets called:
+-->
+
+<p>つぎに、 <code>main()</code> の最後で、 <code>foo()</code> が呼び出されます:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>5</td>
+<td>z</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>x</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Space gets allocated for `x`, `y`, and `z`. The argument `x` has the same value
+as `j`, since that’s what we passed it in. It’s a pointer to the `0` address,
+since `j` points at `h`.
+-->
+
+<p><code>x</code>, <code>y</code>, <code>z</code>のための空間が確保されます。
+引数 <code>x</code> は、渡された <code>j</code> と同じ値を持ちます。
+<code>j</code> は <code>h</code> を指しているので、値は <code>0</code> アドレスを指すポインタです。</p>
+
+<!--
+Next, `foo()` calls `baz()`, passing `z`:
+-->
+
+<p>つぎに、 <code>foo()</code> は <code>baz()</code> を呼び出し、 <code>z</code> を渡します:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>7</td>
+<td>g</td>
+<td>100</td>
+</tr>
+<tr>
+<td>6</td>
+<td>f</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>z</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>x</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+We’ve allocated memory for `f` and `g`. `baz()` is very short, so when it’s
+over, we get rid of its stack frame:
+-->
+
+<p><code>f</code> と <code>g</code> のためにメモリを確保しました。
+<code>baz()</code> はとても短いので、 <code>baz()</code> の実行が終わったときに、そのスタックフレームを取り除きます。</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>5</td>
+<td>z</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>x</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Next, `foo()` calls `bar()` with `x` and `z`:
+-->
+
+<p>次に、 <code>foo()</code> は <code>bar()</code> を <code>x</code> と <code>z</code> を引数にして呼び出します:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>(2<sup>30</sup>) - 2</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>10</td>
+<td>e</td>
+<td>→ 9</td>
+</tr>
+<tr>
+<td>9</td>
+<td>d</td>
+<td>→ (2<sup>30</sup>) - 2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>c</td>
+<td>5</td>
+</tr>
+<tr>
+<td>7</td>
+<td>b</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>6</td>
+<td>a</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>z</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>x</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+We end up allocating another value on the heap, and so we have to subtract one
+from (2<sup>30</sup>) - 1. It’s easier to write that than `1,073,741,822`. In any
+case, we set up the variables as usual.
+-->
+
+<p>その結果、ヒープに値をもうひとつアロケートすることになるので、(2<sup>30</sup>) - 1から1を引かなくてはなりません。
+そうすることは、 <code>1,073,741,822</code> と書くよりは簡単です。
+いずれにせよ、いつものように変数を準備します。</p>
+
+<!--
+At the end of `bar()`, it calls `baz()`:
+-->
+
+<p><code>bar()</code> の最後で、 <code>baz()</code> を呼び出します:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>(2<sup>30</sup>) - 2</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>12</td>
+<td>g</td>
+<td>100</td>
+</tr>
+<tr>
+<td>11</td>
+<td>f</td>
+<td>→ (2<sup>30</sup>) - 2</td>
+</tr>
+<tr>
+<td>10</td>
+<td>e</td>
+<td>→ 9</td>
+</tr>
+<tr>
+<td>9</td>
+<td>d</td>
+<td>→ (2<sup>30</sup>) - 2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>c</td>
+<td>5</td>
+</tr>
+<tr>
+<td>7</td>
+<td>b</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>6</td>
+<td>a</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>z</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>x</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+With this, we’re at our deepest point! Whew! Congrats for following along this
+far.
+-->
+
+<p>こうして、一番深い所までやってきました! ふう! ここまで長い過程をたどってきて、お疲れ様でした。</p>
+
+<!--
+After `baz()` is over, we get rid of `f` and `g`:
+-->
+
+<p><code>baz()</code> が終わったあとは、 <code>f</code> と <code>g</code> を取り除きます:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>(2<sup>30</sup>) - 2</td>
+<td></td>
+<td>5</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>10</td>
+<td>e</td>
+<td>→ 9</td>
+</tr>
+<tr>
+<td>9</td>
+<td>d</td>
+<td>→ (2<sup>30</sup>) - 2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>c</td>
+<td>5</td>
+</tr>
+<tr>
+<td>7</td>
+<td>b</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>6</td>
+<td>a</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>z</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>x</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Next, we return from `bar()`. `d` in this case is a `Box<T>`, so it also frees
+what it points to: (2<sup>30</sup>) - 2.
+-->
+
+<p>次に、 <code>bar()</code> から戻ります。
+ここで <code>d</code> は <code>Box&lt;T&gt;</code> 型なので、 <code>d</code> が指している (2<sup>30</sup>) - 2 も一緒に解放されます。</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>5</td>
+<td>z</td>
+<td>→ 4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>y</td>
+<td>10</td>
+</tr>
+<tr>
+<td>3</td>
+<td>x</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+And after that, `foo()` returns:
+-->
+
+<p>その後、 <code>foo()</code> から戻ります:</p>
+
+<table>
+<thead>
+<tr>
+<th>Address</th>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>(2<sup>30</sup>) - 1</td>
+<td></td>
+<td>20</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td>2</td>
+<td>j</td>
+<td>→ 0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>i</td>
+<td>→ (2<sup>30</sup>) - 1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>h</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+And then, finally, `main()`, which cleans the rest up. When `i` is `Drop`ped,
+it will clean up the last of the heap too.
+-->
+
+<p>そして最後に <code>main()</code> から戻るところで、残っているものを除去します。
+<code>i</code> が <code>Drop</code> されるとき、ヒープの最後の残りも除去されます。</p>
+
+<h1 id='他の言語では何をしているのか' class='section-header'><a href='#他の言語では何をしているのか'>他の言語では何をしているのか?</a></h1>
+<!--# What do other languages do?-->
+
+<!--
+Most languages with a garbage collector heap-allocate by default. This means
+that every value is boxed. There are a number of reasons why this is done, but
+they’re out of scope for this tutorial. There are some possible optimizations
+that don’t make it true 100% of the time, too. Rather than relying on the stack
+and `Drop` to clean up memory, the garbage collector deals with the heap
+instead.
+-->
+
+<p>ガベージコレクタを備えた多くの言語はデフォルトでヒープアロケートします。
+つまり、すべての値がボックス化されています。
+そうなっている理由がいくつかあるのですが、それはこのチュートリアルの範囲外です。
+また、そのことが100%真であると言えなくなるような最適化もいくつか行われることがあります。
+メモリの解放のためにスタックと <code>Drop</code> を頼りにするかわりに、ガベージコレクタがヒープを取り扱います。</p>
+
+<h1 id='どちらを使えばいいのか' class='section-header'><a href='#どちらを使えばいいのか'>どちらを使えばいいのか?</a></h1>
+<!--# Which to use?-->
+
+<!--
+So if the stack is faster and easier to manage, why do we need the heap? A big
+reason is that Stack-allocation alone means you only have 'Last In First Out (LIFO)' semantics for
+reclaiming storage. Heap-allocation is strictly more general, allowing storage
+to be taken from and returned to the pool in arbitrary order, but at a
+complexity cost.
+-->
+
+<p>スタックのほうが速くて管理しやすいというのであれば、なぜヒープが要るのでしょうか?
+大きな理由のひとつは、スタックアロケーションだけしかないということはストレージの再利用に「Last In First Out（LIFO）（訳注: 後入れ先出し）」セマンティクスをとるしかないということだからです。
+ヒープアロケーションは厳密により普遍的で、ストレージを任意の順番でプールから取得したり、プールに返却することが許されているのですが、よりコストがかさみます。</p>
+
+<!--
+Generally, you should prefer stack allocation, and so, Rust stack-allocates by
+default. The LIFO model of the stack is simpler, at a fundamental level. This
+has two big impacts: runtime efficiency and semantic impact.
+-->
+
+<p>一般的にはスタックアロケーションを選ぶべきで、そのためRustはデフォルトでスタックアロケートします。
+スタックのLIFOモデルはより単純で、基本的なレベルに置かれています。
+このことは、実行時の効率性と意味論に大きな影響を与えています。</p>
+
+<h2 id='実行時の効率性' class='section-header'><a href='#実行時の効率性'>実行時の効率性</a></h2>
+<!--## Runtime Efficiency-->
+
+<!--
+Managing the memory for the stack is trivial: The machine
+increments or decrements a single value, the so-called “stack pointer”.
+Managing memory for the heap is non-trivial: heap-allocated memory is freed at
+arbitrary points, and each block of heap-allocated memory can be of arbitrary
+size, so the memory manager must generally work much harder to
+identify memory for reuse.
+-->
+
+<p>スタックのメモリを管理するのは些細なことです: 機械は「スタックポインタ」と呼ばれる単一の値を増減します。
+ヒープのメモリを管理するのは些細なことではありません: ヒープアロケートされたメモリは任意の時点で解放され、またヒープアロケートされたそれぞれのブロックは任意のサイズになりうるので、一般的にメモリマネージャは再利用するメモリを特定するためにより多くの仕事をします。</p>
+
+<!--
+If you’d like to dive into this topic in greater detail, [this paper][wilson]
+is a great introduction.
+-->
+
+<p>この事柄についてより詳しいことを知りたいのであれば、<a href="http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.143.4688">こちらの論文</a>がよいイントロダクションになっています。</p>
+
+<h2 id='意味論への影響' class='section-header'><a href='#意味論への影響'>意味論への影響</a></h2>
+<!--## Semantic impact-->
+
+<!--
+Stack-allocation impacts the Rust language itself, and thus the developer’s
+mental model. The LIFO semantics is what drives how the Rust language handles
+automatic memory management. Even the deallocation of a uniquely-owned
+heap-allocated box can be driven by the stack-based LIFO semantics, as
+discussed throughout this chapter. The flexibility (i.e. expressiveness) of non
+LIFO-semantics means that in general the compiler cannot automatically infer at
+compile-time where memory should be freed; it has to rely on dynamic protocols,
+potentially from outside the language itself, to drive deallocation (reference
+counting, as used by `Rc<T>` and `Arc<T>`, is one example of this).
+-->
+
+<p>スタックアロケーションはRustの言語自体へ影響を与えており、したがって開発者のメンタルモデルにも影響しています。
+Rust言語がどのように自動メモリ管理を取り扱うかは、LIFOセマンティクスに従っています。
+ヒープアロケートされユニークに所有されたボックスのデアロケーションさえも、スタックベースのLIFOセマンティクスに従っていることは、この章を通して論じてきたとおりです。
+非LIFOセマンティクスの柔軟性（すなわち表現能力）は一般的に、いつメモリが解放されるべきなのかをコンパイラがコンパイル時に自動的に推論できなくなることを意味するので、デアロケーションを制御するために、ときに言語自体の外部に由来するかもしれない、動的なプロトコルに頼らなければなりません。（<code>Rc&lt;T&gt;</code> や <code>Arc&lt;T&gt;</code> が使っている参照カウントはその一例です。）</p>
+
+<!--
+When taken to the extreme, the increased expressive power of heap allocation
+comes at the cost of either significant runtime support (e.g. in the form of a
+garbage collector) or significant programmer effort (in the form of explicit
+memory management calls that require verification not provided by the Rust
+compiler).
+-->
+
+<p>突き詰めれば、ヒープアロケーションによって増大した表現能力は（例えばガベージコレクタという形の）著しい実行時サポートか、（Rustコンパイラが提供していないような検証を必要とする明示的なメモリ管理呼び出しという形の）著しいプログラマの努力のいずれかのコストを引き起こすのです。</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p>「ギガバイト」が指すものには、 10<sup>9</sup> と 2<sup>30</sup> の2つがありえます。国際単位系 SI では「ギガバイト」は 10<sup>9</sup> を、「ギビバイト」は 2<sup>30</sup> を指すと決めることで、この問題を解決しています。しかしながら、このような用語法を使う人はとても少なく、文脈で両者を区別しています。ここでは、その慣習に則っています。&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p>（「変数からのムーブアウト」とも呼ばれることもある）所有権の移動によって、メモリをより長い間生存させられます。
+       より複雑な例は後ほど解説します。&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

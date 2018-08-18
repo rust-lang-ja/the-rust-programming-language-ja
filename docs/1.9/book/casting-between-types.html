@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>型間のキャスト</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a class='active' href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">型間のキャスト</h1>
+    <!-- % Casting Between Types -->
+
+<!-- Rust, with its focus on safety, provides two different ways of casting
+different types between each other. The first, `as`, is for safe casts.
+In contrast, `transmute` allows for arbitrary casting, and is one of the
+most dangerous features of Rust! -->
+
+<p>Rustは安全性に焦点を合わせており、異なる型の間を互いにキャストするために二つの異なる方法を提供しています。
+一つは <code>as</code> であり、これは安全なキャストに使われます。
+逆に <code>transmute</code> は任意のキャストに使え、Rustにおける最も危険なフィーチャの一つです!</p>
+
+<!-- # Coercion -->
+
+<h1 id='型強制' class='section-header'><a href='#型強制'>型強制</a></h1>
+<!-- Coercion between types is implicit and has no syntax of its own, but can
+be spelled out with [`as`](#explicit-coercions). -->
+
+<p>型強制は暗黙に行われ、それ自体に構文はありませんが、<a href="#%E6%98%8E%E7%A4%BA%E7%9A%84%E5%9E%8B%E5%BC%B7%E5%88%B6"><code>as</code></a> で書くこともできます。</p>
+
+<!-- Coercion occurs in `let`, `const`, and `static` statements; in
+function call arguments; in field values in struct initialization; and in a
+function result. -->
+
+<p>型強制が現れるのは、 <code>let</code> ・ <code>const</code> ・ <code>static</code> 文、関数呼び出しの引数、構造体初期化の際のフィールド値、そして関数の結果です。</p>
+
+<!-- The most common case of coercion is removing mutability from a reference: -->
+
+<p>一番よくある型強制は、参照からミュータビリティを取り除くものです。</p>
+
+<!-- * `&mut T` to `&T` -->
+
+<ul>
+<li><code>&amp;mut T</code> から <code>&amp;T</code> へ</li>
+</ul>
+
+<!-- An analogous conversion is to remove mutability from a
+[raw pointer](raw-pointers.html): -->
+
+<p>似たような変換としては、 <a href="raw-pointers.html">生ポインタ</a> からミュータビリティを取り除くものがあります。</p>
+
+<!-- * `*mut T` to `*const T` -->
+
+<ul>
+<li><code>*mut T</code> から <code>*const T</code> へ</li>
+</ul>
+
+<!-- References can also be coerced to raw pointers: -->
+
+<p>参照も同様に、生ポインタへ型強制できます。</p>
+
+<!-- * `&T` to `*const T` -->
+
+<ul>
+<li><code>&amp;T</code> から <code>*const T</code> へ</li>
+</ul>
+
+<!-- * `&mut T` to `*mut T` -->
+
+<ul>
+<li><code>&amp;mut T</code> から <code>*mut T</code> へ</li>
+</ul>
+
+<!-- Custom coercions may be defined using [`Deref`](deref-coercions.html). -->
+
+<p><a href="deref-coercions.html"><code>Deref</code></a> によって、カスタマイズされた型強制が定義されることもあります。</p>
+
+<!-- Coercion is transitive. -->
+
+<p>型強制は推移的です。</p>
+
+<!-- # `as` -->
+
+<h1 id='as' class='section-header'><a href='#as'><code>as</code></a></h1>
+<!-- The `as` keyword does safe casting: -->
+
+<p><code>as</code> というキーワードは安全なキャストを行います。</p>
+
+<span class='rusttest'>fn main() {
+    let x: i32 = 5;
+
+let y = x as i64;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>x</span> <span class='kw'>as</span> <span class='ident'>i64</span>;</pre>
+
+<!-- There are three major categories of safe cast: explicit coercions, casts
+between numeric types, and pointer casts. -->
+
+<p>安全なキャストは大きく三つに分類されます。
+明示的型強制、数値型間のキャスト、そして、ポインタキャストです。</p>
+
+<!-- Casting is not transitive: even if `e as U1 as U2` is a valid
+expression, `e as U2` is not necessarily so (in fact it will only be valid if
+`U1` coerces to `U2`). -->
+
+<p>キャストは推移的ではありません。
+<code>e as U1 as U2</code> が正しい式であったとしても、 <code>e as U2</code> が必ずしも正しいとは限らないのです。
+(実際、この式が正しくなるのは、 <code>U1</code> が <code>U2</code> へ型強制されるときのみです。)</p>
+
+<!-- ## Explicit coercions -->
+
+<h2 id='明示的型強制' class='section-header'><a href='#明示的型強制'>明示的型強制</a></h2>
+<!-- A cast `e as U` is valid if `e` has type `T` and `T` *coerces* to `U`. -->
+
+<p><code>e as U</code> というキャストは、 <code>e</code> が型 <code>T</code> を持ち、かつ <code>T</code> が <code>U</code> に <em>型強制</em> されるとき、有効です。</p>
+
+<!-- ## Numeric casts -->
+
+<h2 id='数値キャスト' class='section-header'><a href='#数値キャスト'>数値キャスト</a></h2>
+<!-- A cast `e as U` is also valid in any of the following cases: -->
+
+<p><code>e as U</code> というキャストは、以下のどの場合でも有効です。</p>
+
+<!-- * `e` has type `T` and `T` and `U` are any numeric types; *numeric-cast* -->
+
+<!-- * `e` is a C-like enum (with no data attached to the variants),
+    and `U` is an integer type; *enum-cast* -->
+
+<!-- * `e` has type `bool` or `char` and `U` is an integer type; *prim-int-cast* -->
+
+<!-- * `e` has type `u8` and `U` is `char`; *u8-char-cast* -->
+
+<ul>
+<li><code>e</code> が型 <code>T</code> を持ち、 <code>T</code> と <code>U</code> が数値型であるとき; <em>numeric-cast</em></li>
+<li><code>e</code> が C-likeな列挙型であり(つまり、ヴァリアントがデータを持っておらず)、 <code>U</code> が整数型であるとき; <em>enum-cast</em></li>
+<li><code>e</code> の型が <code>bool</code> か <code>char</code> であり、 <code>U</code> が整数型であるとき; <em>prim-int-cast</em></li>
+<li><code>e</code> が型 <code>u8</code> を持ち、 <code>U</code> が <code>char</code> であるとき; <em>u8-char-cast</em></li>
+</ul>
+
+<!-- For example -->
+
+<p>例えば、</p>
+
+<span class='rusttest'>fn main() {
+    let one = true as u8;
+let at_sign = 64 as char;
+let two_hundred = -56i8 as u8;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>one</span> <span class='op'>=</span> <span class='boolvalue'>true</span> <span class='kw'>as</span> <span class='ident'>u8</span>;
+<span class='kw'>let</span> <span class='ident'>at_sign</span> <span class='op'>=</span> <span class='number'>64</span> <span class='kw'>as</span> <span class='ident'>char</span>;
+<span class='kw'>let</span> <span class='ident'>two_hundred</span> <span class='op'>=</span> <span class='op'>-</span><span class='number'>56i8</span> <span class='kw'>as</span> <span class='ident'>u8</span>;</pre>
+
+<!-- The semantics of numeric casts are: -->
+
+<p>数値キャストのセマンティクスは以下の通りです。</p>
+
+<!-- * Casting between two integers of the same size (e.g. i32 -> u32) is a no-op
+* Casting from a larger integer to a smaller integer (e.g. u32 -> u8) will
+  truncate
+* Casting from a smaller integer to a larger integer (e.g. u8 -> u32) will
+    * zero-extend if the source is unsigned
+    * sign-extend if the source is signed
+* Casting from a float to an integer will round the float towards zero
+    * **[NOTE: currently this will cause Undefined Behavior if the rounded
+      value cannot be represented by the target integer type][float-int]**.
+      This includes Inf and NaN. This is a bug and will be fixed.
+* Casting from an integer to float will produce the floating point
+  representation of the integer, rounded if necessary (rounding strategy
+  unspecified)
+* Casting from an f32 to an f64 is perfect and lossless
+* Casting from an f64 to an f32 will produce the closest possible value
+  (rounding strategy unspecified)
+    * **[NOTE: currently this will cause Undefined Behavior if the value
+      is finite but larger or smaller than the largest or smallest finite
+      value representable by f32][float-float]**. This is a bug and will
+      be fixed. -->
+
+<ul>
+<li>サイズの同じ二つの整数間のキャスト (例えば、i32 -&gt; u32) は何も行いません</li>
+<li>サイズの大きい整数から小さい整数へのキャスト (例えば、u32 -&gt; u8) では切り捨てを行います</li>
+<li>サイズの小さい整数から大きい整数へのキャスト (例えば、u8 -&gt; u32) では、
+
+<ul>
+<li>元の整数が符号無しならば、ゼロ拡張を行います</li>
+<li>元の整数が符号付きならば、符号拡張を行います</li>
+</ul></li>
+<li>浮動小数点数から整数へのキャストでは、0方向への丸めを行います
+
+<ul>
+<li><strong><a href="https://github.com/rust-lang/rust/issues/10184">注意: 現在、丸められた値がキャスト先の整数型で扱えない場合、このキャストは未定義動作を引き起こします。</a></strong>
+これには Inf や NaN も含まれます。
+これはバグであり、修正される予定です。</li>
+</ul></li>
+<li>整数から浮動小数点数へのキャストでは、必要に応じて丸めが行われて、その整数を表す浮動小数点数がつくられます
+(丸め戦略は指定されていません)</li>
+<li>f32 から f64 へのキャストは完全で精度は落ちません</li>
+<li>f64 から f32 へのキャストでは、表現できる最も近い値がつくられます
+(丸め戦略は指定されていません)
+
+<ul>
+<li><strong><a href="https://github.com/rust-lang/rust/issues/15536">注意: 現在、値が有限でありながらf32 で表現できる最大(最小)の有限値より大きい(小さい)場合、このキャストは未定義動作を引き起こします。</a></strong>
+これはバグであり、修正される予定です。</li>
+</ul></li>
+</ul>
+
+<!-- ## Pointer casts -->
+
+<h2 id='ポインタキャスト' class='section-header'><a href='#ポインタキャスト'>ポインタキャスト</a></h2>
+<!-- Perhaps surprisingly, it is safe to cast [raw pointers](raw-pointers.html) to and
+from integers, and to cast between pointers to different types subject to
+some constraints. It is only unsafe to dereference the pointer: -->
+
+<p>驚くかもしれませんが、いくつかの制約のもとで、 <a href="raw-pointers.html">生ポインタ</a> と整数の間のキャストや、ポインタと他の型の間のキャストは安全です。
+安全でないのはポインタの参照外しだけなのです。</p>
+
+<span class='rusttest'>fn main() {
+    // let a = 300 as *const char; // a pointer to location 300
+let a = 300 as *const char; // 300番地へのポインタ
+let b = a as u32;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> <span class='number'>300</span> <span class='kw'>as</span> <span class='op'>*</span><span class='kw'>const</span> <span class='ident'>char</span>; <span class='comment'>// 300番地へのポインタ</span>
+<span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>a</span> <span class='kw'>as</span> <span class='ident'>u32</span>;</pre>
+
+<!-- `e as U` is a valid pointer cast in any of the following cases: -->
+
+<p><code>e as U</code> が正しいポインタキャストであるのは、以下の場合です。</p>
+
+<!-- * `e` has type `*T`, `U` has type `*U_0`, and either `U_0: Sized` or
+  `unsize_kind(T) == unsize_kind(U_0)`; a *ptr-ptr-cast*  -->
+
+<ul>
+<li><code>e</code> が型 <code>*T</code> を持ち、 <code>U</code> が <code>*U_0</code> であり、 <code>U_0: Sized</code> または <code>unsize_kind(T) == unsize_kind(U_0)</code> である場合; <em>ptr-ptr-cast</em></li>
+</ul>
+
+<!-- * `e` has type `*T` and `U` is a numeric type, while `T: Sized`; *ptr-addr-cast* -->
+
+<ul>
+<li><code>e</code> が型 <code>*T</code> を持ち、 <code>U</code> が数値型で、 <code>T: Sized</code> である場合; <em>ptr-addr-cast</em></li>
+</ul>
+
+<!-- * `e` is an integer and `U` is `*U_0`, while `U_0: Sized`; *addr-ptr-cast* -->
+
+<ul>
+<li><code>e</code> が整数、<code>U</code> が <code>*U_0</code> であり、 <code>U_0: Sized</code> である場合; <em>addr-ptr-cast</em></li>
+</ul>
+
+<!-- * `e` has type `&[T; n]` and `U` is `*const T`; *array-ptr-cast* -->
+
+<ul>
+<li><code>e</code> が型 <code>&amp;[T; n]</code> を持ち、 <code>U</code> が <code>*const T</code> である場合; <em>array-ptr-cast</em></li>
+</ul>
+
+<!-- * `e` is a function pointer type and `U` has type `*T`,
+  while `T: Sized`; *fptr-ptr-cast* -->
+
+<ul>
+<li><code>e</code> が関数ポインタ型であり、 <code>U</code> が <code>*T</code> であって、<code>T: Sized</code> の場合; <em>fptr-ptr-cast</em></li>
+</ul>
+
+<!-- * `e` is a function pointer type and `U` is an integer; *fptr-addr-cast* -->
+
+<ul>
+<li><code>e</code> が関数ポインタ型であり、 <code>U</code> が整数型である場合; <em>fptr-addr-cast</em></li>
+</ul>
+
+<h1 id='transmute' class='section-header'><a href='#transmute'><code>transmute</code></a></h1>
+<!-- `as` only allows safe casting, and will for example reject an attempt to
+cast four bytes into a `u32`: -->
+
+<p><code>as</code> は安全なキャストしか許さず、例えば4つのバイト値を <code>u32</code> へキャストすることはできません。</p>
+
+<span class='rusttest'>fn main() {
+    let a = [0u8, 0u8, 0u8, 0u8];
+
+// let b = a as u32; // four eights makes 32
+let b = a as u32; // 4つの8で32になる
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>0u8</span>, <span class='number'>0u8</span>, <span class='number'>0u8</span>, <span class='number'>0u8</span>];
+
+<span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>a</span> <span class='kw'>as</span> <span class='ident'>u32</span>; <span class='comment'>// 4つの8で32になる</span></pre>
+
+<!-- This errors with: -->
+
+<p>これは以下のようなメッセージがでて、エラーになります。</p>
+
+<!-- ```text
+error: non-scalar cast: `[u8; 4]` as `u32`
+let b = a as u32; // four eights makes 32
+        ^~~~~~~~
+``` -->
+
+<pre><code class="language-text">error: non-scalar cast: `[u8; 4]` as `u32`
+let b = a as u32; // 4つの8で32になる
+        ^~~~~~~~
+</code></pre>
+
+<!-- This is a ‘non-scalar cast’ because we have multiple values here: the four
+elements of the array. These kinds of casts are very dangerous, because they
+make assumptions about the way that multiple underlying structures are
+implemented. For this, we need something more dangerous. -->
+
+<p>これは「non-scalar cast」であり、複数の値、つまり配列の4つの要素、があることが原因です。
+この種類のキャストはとても危険です。
+なぜなら、複数の裏に隠れた構造がどう実装されているかについて仮定をおいているからです。
+そのためもっと危険なものが必要になります。</p>
+
+<!-- The `transmute` function is provided by a [compiler intrinsic][intrinsics], and
+what it does is very simple, but very scary. It tells Rust to treat a value of
+one type as though it were another type. It does this regardless of the
+typechecking system, and just completely trusts you. -->
+
+<p><code>transmute</code> 関数は <a href="intrinsics.html">コンパイラ intrinsic</a> によって提供されており、やることはとてもシンプルながら、とても恐ろしいです。
+この関数は、Rustに対し、ある型の値を他の型であるかのように扱うように伝えます。
+これは型検査システムに関係なく行われ、完全に使用者頼みです。</p>
+
+<!-- In our previous example, we know that an array of four `u8`s represents a `u32`
+properly, and so we want to do the cast. Using `transmute` instead of `as`,
+Rust lets us: -->
+
+<p>先ほどの例では、4つの <code>u8</code> からなる配列が ちゃんと <code>u32</code> を表していることを知った上で、キャストを行おうとしました。
+これは、<code>as</code> の代わりに <code>transmute</code> を使うことで、次のように書けます。</p>
+
+<span class='rusttest'>fn main() {
+    use std::mem;
+
+unsafe {
+    let a = [0u8, 0u8, 0u8, 0u8];
+
+    let b = mem::transmute::&lt;[u8; 4], u32&gt;(a);
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+
+<span class='kw'>unsafe</span> {
+    <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>0u8</span>, <span class='number'>0u8</span>, <span class='number'>0u8</span>, <span class='number'>0u8</span>];
+
+    <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>transmute</span>::<span class='op'>&lt;</span>[<span class='ident'>u8</span>; <span class='number'>4</span>], <span class='ident'>u32</span><span class='op'>&gt;</span>(<span class='ident'>a</span>);
+}</pre>
+
+<!-- We have to wrap the operation in an `unsafe` block for this to compile
+successfully. Technically, only the `mem::transmute` call itself needs to be in
+the block, but it's nice in this case to enclose everything related, so you
+know where to look. In this case, the details about `a` are also important, and
+so they're in the block. You'll see code in either style, sometimes the context
+is too far away, and wrapping all of the code in `unsafe` isn't a great idea. -->
+
+<p>コンパイルを成功させるために、この操作は <code>unsafe</code> ブロックでくるんであります。
+技術的には、 <code>mem::transmute</code> の呼び出しのみをブロックに入れればいいのですが、今回はどこを見ればよいかわかるよう、関連するもの全部を囲んでいます。
+この例では <code>a</code> に関する詳細も重要であるため、ブロックにいれてあります。
+ただ、文脈が離れすぎているときは、こう書かないこともあるでしょう。
+そういうときは、コード全体を <code>unsafe</code> でくるむことは良い考えではないのです。</p>
+
+<!-- While `transmute` does very little checking, it will at least make sure that
+the types are the same size. This errors: -->
+
+<p><code>transmute</code> はほとんどチェックを行わないのですが、最低限、型同士が同じサイズかの確認はします。
+そのため、次の例はエラーになります。</p>
+
+<span class='rusttest'>fn main() {
+    use std::mem;
+
+unsafe {
+    let a = [0u8, 0u8, 0u8, 0u8];
+
+    let b = mem::transmute::&lt;[u8; 4], u64&gt;(a);
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>mem</span>;
+
+<span class='kw'>unsafe</span> {
+    <span class='kw'>let</span> <span class='ident'>a</span> <span class='op'>=</span> [<span class='number'>0u8</span>, <span class='number'>0u8</span>, <span class='number'>0u8</span>, <span class='number'>0u8</span>];
+
+    <span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>mem</span>::<span class='ident'>transmute</span>::<span class='op'>&lt;</span>[<span class='ident'>u8</span>; <span class='number'>4</span>], <span class='ident'>u64</span><span class='op'>&gt;</span>(<span class='ident'>a</span>);
+}</pre>
+
+<!-- with: -->
+
+<p>エラーメッセージはこうです。</p>
+
+<pre><code class="language-text">error: transmute called with differently sized types: [u8; 4] (32 bits) to u64
+(64 bits)
+</code></pre>
+
+<!-- Other than that, you're on your own! -->
+
+<p>ただそれ以外に関しては、自己責任です!</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

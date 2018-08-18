@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>ドキュメント</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a class='active' href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">ドキュメント</h1>
+    <!--  % Documentation  -->
+
+<!-- Documentation is an important part of any software project, and it's -->
+
+<!-- first-class in Rust. Let's talk about the tooling Rust gives you to -->
+
+<!-- document your project. -->
+
+<p>ドキュメントはどんなソフトウェアプロジェクトにとっても重要な部分であり、Rustにおいてはファーストクラスです。
+プロジェクトのドキュメントを作成するために、Rustが提供するツールについて話しましょう。</p>
+
+<!-- ## About `rustdoc` -->
+
+<h2 id='rustdoc-について' class='section-header'><a href='#rustdoc-について'><code>rustdoc</code> について</a></h2>
+<!-- The Rust distribution includes a tool, `rustdoc`, that generates documentation. -->
+
+<!-- `rustdoc` is also used by Cargo through `cargo doc`. -->
+
+<p>Rustの配布物には <code>rustdoc</code> というドキュメントを生成するツールが含まれています。
+<code>rustdoc</code> は <code>cargo doc</code> によってCargoでも使われます。</p>
+
+<!-- Documentation can be generated in two ways: from source code, and from -->
+
+<!-- standalone Markdown files. -->
+
+<p>ドキュメントは2通りの方法で生成することができます。ソースコードから、そして単体のMarkdownファイルからです。</p>
+
+<!-- ## Documenting source code -->
+
+<h2 id='ソースコードのドキュメントの作成' class='section-header'><a href='#ソースコードのドキュメントの作成'>ソースコードのドキュメントの作成</a></h2>
+<!-- The primary way of documenting a Rust project is through annotating the source -->
+
+<!-- code. You can use documentation comments for this purpose: -->
+
+<p>Rustのプロジェクトでドキュメントを書く1つ目の方法は、ソースコードに注釈を付けることで行います。
+ドキュメンテーションコメントはこの目的のために使うことができます。</p>
+
+<span class='rusttest'>fn main() {
+    /// Constructs a new `Rc&lt;T&gt;`.
+/// 新しい`Rc&lt;T&gt;`の生成
+///
+/// # Examples
+///
+/// ```
+/// use std::rc::Rc;
+///
+/// let five = Rc::new(5);
+/// ```
+pub fn new(value: T) -&gt; Rc&lt;T&gt; {
+  // implementation goes here
+    // 実装が続く
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// 新しい`Rc&lt;T&gt;`の生成</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span>
+<span class='kw'>pub</span> <span class='kw'>fn</span> <span class='ident'>new</span>(<span class='ident'>value</span>: <span class='ident'>T</span>) <span class='op'>-&gt;</span> <span class='ident'>Rc</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='comment'>// 実装が続く</span>
+}</pre>
+
+<!-- This code generates documentation that looks [like this][rc-new]. I've left the -->
+
+<!-- implementation out, with a regular comment in its place. -->
+
+<p>このコードは<a href="https://doc.rust-lang.org/nightly/std/rc/struct.Rc.html#method.new">このような</a>見た目のドキュメントを生成します。
+実装についてはそこにある普通のコメントのとおり、省略しています。</p>
+
+<!-- The first thing to notice about this annotation is that it uses -->
+
+<!-- `///` instead of `//`. The triple slash -->
+
+<!-- indicates a documentation comment. -->
+
+<p>この注釈について注意すべき1つ目のことは、 <code>//</code> の代わりに <code>///</code> が使われていることです。
+3連スラッシュはドキュメンテーションコメントを示します。</p>
+
+<!-- Documentation comments are written in Markdown. -->
+
+<p>ドキュメンテーションコメントはMarkdownで書きます。</p>
+
+<!-- Rust keeps track of these comments, and uses them when generating -->
+
+<!-- documentation. This is important when documenting things like enums: -->
+
+<p>Rustはそれらのコメントを把握し、ドキュメントを生成するときにそれらを使います。
+このことは次のように列挙型のようなもののドキュメントを作成するときに重要です。</p>
+
+<span class='rusttest'>fn main() {
+    /// The `Option` type. See [the module level documentation](index.html) for more.
+/// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照
+enum Option&lt;T&gt; {
+  /// No value
+    /// 値なし
+    None,
+  /// Some value `T`
+    /// `T`型の何らかの値
+    Some(T),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照</span>
+<span class='kw'>enum</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='doccomment'>/// 値なし</span>
+    <span class='prelude-val'>None</span>,
+    <span class='doccomment'>/// `T`型の何らかの値</span>
+    <span class='prelude-val'>Some</span>(<span class='ident'>T</span>),
+}</pre>
+
+<!-- The above works, but this does not: -->
+
+<p>上記の例は動きますが、これは動きません。</p>
+
+<span class='rusttest'>fn main() {
+    /// The `Option` type. See [the module level documentation](index.html) for more.
+/// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照
+enum Option&lt;T&gt; {
+  /// None, /// No value
+    None, /// 値なし
+  /// Some(T), /// Some value `T`
+    Some(T), /// `T`型の何らかの値
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// `Option`型。詳細は[モジュールレベルドキュメント](index.html)を参照</span>
+<span class='kw'>enum</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='prelude-val'>None</span>, <span class='doccomment'>/// 値なし</span>
+    <span class='prelude-val'>Some</span>(<span class='ident'>T</span>), <span class='doccomment'>/// `T`型の何らかの値</span>
+}</pre>
+
+<!-- You'll get an error: -->
+
+<p>次のようにエラーが発生します。</p>
+
+<pre><code class="language-text">hello.rs:4:1: 4:2 error: expected ident, found `}`
+hello.rs:4 }
+           ^
+</code></pre>
+
+<!-- This [unfortunate error](https://github.com/rust-lang/rust/issues/22547) is -->
+
+<!-- correct; documentation comments apply to the thing after them, and there's -->
+
+<!-- nothing after that last comment. -->
+
+<p>この <a href="https://github.com/rust-lang/rust/issues/22547">残念なエラー</a> は正しいのです。ドキュメンテーションコメントはそれらの後のものに適用されるところ、その最後のコメントの後には何もないからです。</p>
+
+<!-- ### Writing documentation comments -->
+
+<h3 id='ドキュメンテーションコメントの記述' class='section-header'><a href='#ドキュメンテーションコメントの記述'>ドキュメンテーションコメントの記述</a></h3>
+<!-- Anyway, let's cover each part of this comment in detail: -->
+
+<p>とりあえず、このコメントの各部分を詳細にカバーしましょう。</p>
+
+<span class='rusttest'>fn main() {
+    /// Constructs a new `Rc&lt;T&gt;`.
+/// 新しい`Rc&lt;T&gt;`の生成
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// 新しい`Rc&lt;T&gt;`の生成</span></pre>
+
+<!-- The first line of a documentation comment should be a short summary of its -->
+
+<!-- functionality. One sentence. Just the basics. High level. -->
+
+<p>ドキュメンテーションコメントの最初の行は、その機能の短いサマリにすべきです。
+一文で。
+基本だけを。
+高レベルから。</p>
+
+<span class='rusttest'>fn main() {
+    ///
+/// Other details about constructing `Rc&lt;T&gt;`s, maybe describing complicated
+/// semantics, maybe additional options, all kinds of stuff.
+/// `Rc&lt;T&gt;`の生成についてのその他の詳細。例えば、複雑なセマンティクスの説明、
+/// 追加のオプションなどあらゆる種類のもの
+///
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// `Rc&lt;T&gt;`の生成についてのその他の詳細。例えば、複雑なセマンティクスの説明、</span>
+<span class='doccomment'>/// 追加のオプションなどあらゆる種類のもの</span>
+<span class='doccomment'>///</span></pre>
+
+<!-- Our original example had just a summary line, but if we had more things to say, -->
+
+<!-- we could have added more explanation in a new paragraph. -->
+
+<p>この例にはサマリしかありませんが、もしもっと書くべきことがあれば、新しい段落にもっと多くの説明を追加することができます。</p>
+
+<!-- #### Special sections -->
+
+<h4 id='特別なセクション' class='section-header'><a href='#特別なセクション'>特別なセクション</a></h4>
+<!-- Next, are special sections. These are indicated with a header, `#`. There -->
+
+<!-- are four kinds of headers that are commonly used. They aren't special syntax, -->
+
+<!-- just convention, for now. -->
+
+<p>次は特別なセクションです。
+それらには <code>#</code> が付いていて、ヘッダであることを示しています。
+一般的には、4種類のヘッダが使われます。
+今のところそれらは特別な構文ではなく、単なる慣習です。</p>
+
+<span class='rusttest'>fn main() {
+    /// # Panics
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Panics</span></pre>
+
+<!-- Unrecoverable misuses of a function (i.e. programming errors) in Rust are -->
+
+<!-- usually indicated by panics, which kill the whole current thread at the very -->
+
+<!-- least. If your function has a non-trivial contract like this, that is -->
+
+<!-- detected/enforced by panics, documenting it is very important. -->
+
+<p>Rustにおいて、関数の回復不可能な誤用（つまり、プログラミングエラー）は普通、パニックによって表現されます。パニックは、少なくとも現在のスレッド全体の息の根を止めてしまいます。
+もし関数にこのような、パニックによって検出されたり強制されたりするような自明でない取決めがあるときには、ドキュメントを作成することは非常に重要です。</p>
+
+<span class='rusttest'>fn main() {
+    /// # Errors
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Errors</span></pre>
+
+<!-- If your function or method returns a `Result<T, E>`, then describing the -->
+
+<!-- conditions under which it returns `Err(E)` is a nice thing to do. This is -->
+
+<!-- slightly less important than `Panics`, because failure is encoded into the type -->
+
+<!-- system, but it's still a good thing to do. -->
+
+<p>もし関数やメソッドが <code>Result&lt;T, E&gt;</code> を戻すのであれば、それが <code>Err(E)</code> を戻したときの状況をドキュメントで説明するのはよいことです。
+これは <code>Panics</code> のときに比べると重要性は少し下です。失敗は型システムによってコード化されますが、それでもまだそうすることはよいことだからです。</p>
+
+<span class='rusttest'>fn main() {
+    /// # Safety
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Safety</span></pre>
+
+<!-- If your function is `unsafe`, you should explain which invariants the caller is -->
+
+<!-- responsible for upholding. -->
+
+<p>もし関数が <code>unsafe</code> であれば、呼出元が動作を続けるためにはどの不変条件について責任を持つべきなのかを説明すべきです。</p>
+
+<span class='rusttest'>fn main() {
+    /// # Examples
+///
+/// ```
+/// use std::rc::Rc;
+///
+/// let five = Rc::new(5);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- Fourth, `Examples`. Include one or more examples of using your function or -->
+
+<!-- method, and your users will love you for it. These examples go inside of -->
+
+<!-- code block annotations, which we'll talk about in a moment, and can have -->
+
+<!-- more than one section: -->
+
+<p>4つ目は <code>Examples</code> です。
+関数やメソッドの使い方の例を1つ以上含めてください。そうすればユーザから愛されることでしょう。
+それらの例はコードブロック注釈内に入れます。コードブロック注釈についてはすぐ後で話しますが、それらは1つ以上のセクションを持つことができます。</p>
+
+<span class='rusttest'>fn main() {
+    /// # Examples
+///
+/// Simple `&amp;str` patterns:
+/// 単純な`&amp;str`パターン
+///
+/// ```
+/// let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lamb&quot;.split(&#39; &#39;).collect();
+/// assert_eq!(v, vec![&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;]);
+/// ```
+///
+/// More complex patterns with a lambda:
+/// ラムダを使ったもっと複雑なパターン
+///
+/// ```
+/// let v: Vec&lt;&amp;str&gt; = &quot;abc1def2ghi&quot;.split(|c: char| c.is_numeric()).collect();
+/// assert_eq!(v, vec![&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// 単純な`&amp;str`パターン</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// let v: Vec&lt;&amp;str&gt; = &quot;Mary had a little lamb&quot;.split(&#39; &#39;).collect();</span>
+<span class='doccomment'>/// assert_eq!(v, vec![&quot;Mary&quot;, &quot;had&quot;, &quot;a&quot;, &quot;little&quot;, &quot;lamb&quot;]);</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ラムダを使ったもっと複雑なパターン</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// let v: Vec&lt;&amp;str&gt; = &quot;abc1def2ghi&quot;.split(|c: char| c.is_numeric()).collect();</span>
+<span class='doccomment'>/// assert_eq!(v, vec![&quot;abc&quot;, &quot;def&quot;, &quot;ghi&quot;]);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- Let's discuss the details of these code blocks. -->
+
+<p>それらのコードブロックの詳細について議論しましょう。</p>
+
+<!-- #### Code block annotations -->
+
+<h4 id='コードブロック注釈' class='section-header'><a href='#コードブロック注釈'>コードブロック注釈</a></h4>
+<!-- To write some Rust code in a comment, use the triple graves: -->
+
+<p>コメント内にRustのコードを書くためには、3連バッククオートを使います。</p>
+
+<span class='rusttest'>fn main() {
+    /// ```
+/// println!(&quot;Hello, world&quot;);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// println!(&quot;Hello, world&quot;);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- If you want something that's not Rust code, you can add an annotation: -->
+
+<p>もしRustのコードではないものを書きたいのであれば、注釈を追加することができます。</p>
+
+<span class='rusttest'>fn main() {
+    /// ```c
+/// printf(&quot;Hello, world\n&quot;);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```c</span>
+<span class='doccomment'>/// printf(&quot;Hello, world\n&quot;);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- This will highlight according to whatever language you're showing off. -->
+
+<!-- If you're only showing plain text, choose `text`. -->
+
+<p>これは、使われている言語が何であるかに応じてハイライトされます。
+もし単なるプレーンテキストを書いているのであれば、 <code>text</code> を選択してください。</p>
+
+<!-- It's important to choose the correct annotation here, because `rustdoc` uses it -->
+
+<!-- in an interesting way: It can be used to actually test your examples in a -->
+
+<!-- library crate, so that they don't get out of date. If you have some C code but -->
+
+<!-- `rustdoc` thinks it's Rust because you left off the annotation, `rustdoc` will -->
+
+<!-- complain when trying to generate the documentation. -->
+
+<p>ここでは正しい注釈を選ぶことが重要です。なぜなら、 <code>rustdoc</code> はそれを興味深い方法で使うからです。それらが実際のコードと不整合を起こさないように、ライブラリクレート内で実際にあなたの例をテストするために使うのです。
+もし例の中にCのコードが含まれているのに、あなたが注釈を付けるのを忘れてしまい、 <code>rustdoc</code> がそれをRustのコードだと考えてしまえば、 <code>rustdoc</code> はドキュメントを生成しようとするときに怒るでしょう。</p>
+
+<!-- ## Documentation as tests -->
+
+<h2 id='テストとしてのドキュメント' class='section-header'><a href='#テストとしてのドキュメント'>テストとしてのドキュメント</a></h2>
+<!-- Let's discuss our sample example documentation: -->
+
+<p>次のようなドキュメントにおける例について議論しましょう。</p>
+
+<span class='rusttest'>fn main() {
+    /// ```
+/// println!(&quot;Hello, world&quot;);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// println!(&quot;Hello, world&quot;);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- You'll notice that you don't need a `fn main()` or anything here. `rustdoc` will -->
+
+<!-- automatically add a `main()` wrapper around your code, using heuristics to attempt -->
+
+<!-- to put it in the right place. For example: -->
+
+<p><code>fn main()</code> とかがここでは不要だということに気が付くでしょう。
+<code>rustdoc</code> は自動的に <code>main()</code> ラッパをコードの周りに、正しい場所へ配置するためのヒューリスティクスを使って追加します。
+例えば、こうです。</p>
+
+<span class='rusttest'>fn main() {
+    /// ```
+/// use std::rc::Rc;
+///
+/// let five = Rc::new(5);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- This will end up testing: -->
+
+<p>これが、テストのときには結局こうなります。</p>
+
+<span class='rusttest'>fn main() {
+    use std::rc::Rc;
+    let five = Rc::new(5);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
+    <span class='kw'>let</span> <span class='ident'>five</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='number'>5</span>);
+}</pre>
+
+<!-- Here's the full algorithm rustdoc uses to preprocess examples: -->
+
+<p>これがrustdocが例の前処理に使うアルゴリズムの全てです。</p>
+
+<!-- 1. Any leading `#![foo]` attributes are left intact as crate attributes. -->
+
+<!-- 2. Some common `allow` attributes are inserted, including -->
+
+<!--    `unused_variables`, `unused_assignments`, `unused_mut`, -->
+
+<!--    `unused_attributes`, and `dead_code`. Small examples often trigger -->
+
+<!--    these lints. -->
+
+<!-- 3. If the example does not contain `extern crate`, then `extern crate -->
+
+<!--    <mycrate>;` is inserted (note the lack of `#[macro_use]`). -->
+
+<!-- 4. Finally, if the example does not contain `fn main`, the remainder of the -->
+
+<!--    text is wrapped in `fn main() { your_code }`. -->
+
+<ol>
+<li>前の方にある全ての <code>#![foo]</code> アトリビュートは、そのままクレートのアトリビュートとして置いておく</li>
+<li><code>unused_variables</code> 、 <code>unused_assignments</code> 、 <code>unused_mut</code> 、 <code>unused_attributes</code> 、 <code>dead_code</code> などのいくつかの一般的な <code>allow</code> アトリビュートを追加する。
+小さな例はしばしばこれらのリントに引っ掛かる</li>
+<li>もしその例が <code>extern crate</code> を含んでいなければ、 <code>extern crate &lt;mycrate&gt;;</code> を挿入する（ <code>#[macro_use]</code> がないことに注意する）</li>
+<li>最後に、もし例が <code>fn main</code> を含んでいなければ、テキストの残りの部分を <code>fn main() { your_code }</code> で囲む</li>
+</ol>
+
+<!-- This generated `fn main` can be a problem! If you have `extern crate` or a `mod` -->
+
+<!-- statements in the example code that are referred to by `use` statements, they will -->
+
+<!-- fail to resolve unless you include at least `fn main() {}` to inhibit step 4. -->
+
+<!-- `#[macro_use] extern crate` also does not work except at the crate root, so when -->
+
+<!-- testing macros an explicit `main` is always required. It doesn't have to clutter -->
+
+<!-- up your docs, though -- keep reading! -->
+
+<p>こうして生成された <code>fn main</code> は問題になり得ます!
+もし <code>use</code> 文によって参照される例のコードに <code>extern crate</code> 文や <code>mod</code> 文が入っていれば、それらはステップ4を抑制するために少なくとも <code>fn main() {}</code> を含んでいない限り失敗します。
+<code>#[macro_use] extern crate</code> も同様に、クレートのルート以外では動作しません。そのため、マクロのテストには明示的な <code>main</code> が常に必要なのです。
+しかし、ドキュメントを散らかす必要はありません……続きを読みましょう!</p>
+
+<!-- Sometimes this algorithm isn't enough, though. For example, all of these code samples -->
+
+<!-- with `///` we've been talking about? The raw text: -->
+
+<p>しかし、これでは不十分なことがときどきあります。
+例えば、今まで話してきた全ての <code>///</code> の付いたコード例はどうだったでしょうか。
+生のテキストはこうなっています。</p>
+
+<pre><code class="language-text">/// 何らかのドキュメント
+# fn foo() {}
+</code></pre>
+
+<!-- looks different than the output: -->
+
+<p>それは出力とは違って見えます。</p>
+
+<span class='rusttest'>fn main() {
+    /// Some documentation.
+/// 何らかのドキュメント
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// 何らかのドキュメント</span></pre>
+
+<!-- Yes, that's right: you can add lines that start with `# `, and they will -->
+
+<!-- be hidden from the output, but will be used when compiling your code. You -->
+
+<!-- can use this to your advantage. In this case, documentation comments need -->
+
+<!-- to apply to some kind of function, so if I want to show you just a -->
+
+<!-- documentation comment, I need to add a little function definition below -->
+
+<!-- it. At the same time, it's only there to satisfy the compiler, so hiding -->
+
+<!-- it makes the example more clear. You can use this technique to explain -->
+
+<!-- longer examples in detail, while still preserving the testability of your -->
+
+<!-- documentation. -->
+
+<p>そうです。正解です。 <code>#</code> で始まる行を追加することで、コードをコンパイルするときには使われるけれども、出力はされないというようにすることができます。
+これは都合のよいように使うことができます。
+この場合、ドキュメンテーションコメントそのものを見せたいので、ドキュメンテーションコメントを何らかの関数に適用する必要があります。そのため、その後に小さい関数定義を追加する必要があります。
+同時に、それは単にコンパイラを満足させるためだけのものなので、それを隠すことで、例がすっきりするのです。
+長い例を詳細に説明する一方、テスト可能性を維持するためにこのテクニックを使うことができます。</p>
+
+<!-- For example, imagine that we wanted to document this code: -->
+
+<p>例えば、このコードをドキュメントに書きたいとします。</p>
+
+<span class='rusttest'>fn main() {
+    let x = 5;
+let y = 6;
+println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>;
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>);</pre>
+
+<!-- We might want the documentation to end up looking like this: -->
+
+<p>最終的にはこのように見えるドキュメントが欲しいのかもしれません。</p>
+
+<!-- > First, we set `x` to five: -->
+
+<blockquote>
+<p>まず、<code>x</code>に5をセットする</p>
+
+<span class='rusttest'>fn main() {
+    let x = 5;
+let y = 6;
+println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;</pre>
+
+<!-- > Next, we set `y` to six: -->
+
+<p>次に、<code>y</code>に6をセットする</p>
+
+<span class='rusttest'>fn main() {
+    let x = 5;
+let y = 6;
+println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='number'>6</span>;</pre>
+
+<!-- > Finally, we print the sum of `x` and `y`: -->
+
+<p>最後に、<code>x</code>と<code>y</code>との合計を出力する</p>
+
+<span class='rusttest'>fn main() {
+    let x = 5;
+let y = 6;
+println!(&quot;{}&quot;, x + y);
+}</span><pre class='rust rust-example-rendered'>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>y</span>);</pre>
+</blockquote>
+
+<!-- To keep each code block testable, we want the whole program in each block, but -->
+
+<!-- we don't want the reader to see every line every time.  Here's what we put in -->
+
+<!-- our source code: -->
+
+<p>各コードブロックをテスト可能な状態にしておくために、各ブロックにはプログラム全体が必要です。しかし、読者には全ての行を毎回見せたくはありません。
+ソースコードに挿入するものはこれです。</p>
+
+<pre><code class="language-text">    まず、`x`に5をセットする
+
+    ```rust
+    let x = 5;
+    # let y = 6;
+    # println!(&quot;{}&quot;, x + y);
+    ```
+
+    次に、`y`に6をセットする
+
+    ```rust
+    # let x = 5;
+    let y = 6;
+    # println!(&quot;{}&quot;, x + y);
+    ```
+
+    最後に、`x`と`y`との合計を出力する
+
+    ```rust
+    # let x = 5;
+    # let y = 6;
+    println!(&quot;{}&quot;, x + y);
+    ```
+</code></pre>
+
+<!-- By repeating all parts of the example, you can ensure that your example still -->
+
+<!-- compiles, while only showing the parts that are relevant to that part of your -->
+
+<!-- explanation. -->
+
+<p>例の全体を繰り返すことで、例がちゃんとコンパイルされることを保証する一方、説明に関係する部分だけを見せることができます。</p>
+
+<!-- ### Documenting macros -->
+
+<h3 id='マクロのドキュメントの作成' class='section-header'><a href='#マクロのドキュメントの作成'>マクロのドキュメントの作成</a></h3>
+<!-- Here’s an example of documenting a macro: -->
+
+<p>これはマクロのドキュメントの例です。</p>
+
+<span class='rusttest'>/// Panic with a given message unless an expression evaluates to true.
+/// 式がtrueと評価されない限り、与えられたメッセージとともにパニックする
+///
+/// # Examples
+///
+/// ```
+/// # #[macro_use] extern crate foo;
+/// # fn main() {
+/// panic_unless!(1 + 1 == 2, “Math is broken.”);
+/// # }
+/// ```
+///
+/// ```should_panic
+/// # #[macro_use] extern crate foo;
+/// # fn main() {
+/// panic_unless!(true == false, “I’m broken.”);
+/// # }
+/// ```
+#[macro_export]
+macro_rules! panic_unless {
+    ($condition:expr, $($rest:expr),+) =&gt; ({ if ! $condition { panic!($($rest),+); } });
+}
+fn main() {}
+</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// 式がtrueと評価されない限り、与えられたメッセージとともにパニックする</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// # #[macro_use] extern crate foo;</span>
+<span class='doccomment'>/// # fn main() {</span>
+<span class='doccomment'>/// panic_unless!(1 + 1 == 2, “Math is broken.”);</span>
+<span class='doccomment'>/// # }</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```should_panic</span>
+<span class='doccomment'>/// # #[macro_use] extern crate foo;</span>
+<span class='doccomment'>/// # fn main() {</span>
+<span class='doccomment'>/// panic_unless!(true == false, “I’m broken.”);</span>
+<span class='doccomment'>/// # }</span>
+<span class='doccomment'>/// ```</span>
+<span class='attribute'>#[<span class='ident'>macro_export</span>]</span>
+<span class='macro'>macro_rules</span><span class='macro'>!</span> <span class='ident'>panic_unless</span> {
+    (<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>condition</span>:<span class='ident'>expr</span>, $(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>:<span class='ident'>expr</span>),<span class='op'>+</span>) <span class='op'>=&gt;</span> ({ <span class='kw'>if</span> <span class='op'>!</span> <span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>condition</span> { <span class='macro'>panic</span><span class='macro'>!</span>($(<span class='macro-nonterminal'>$</span><span class='macro-nonterminal'>rest</span>),<span class='op'>+</span>); } });
+}</pre>
+
+<!-- You’ll note three things: we need to add our own `extern crate` line, so that -->
+
+<!-- we can add the `#[macro_use]` attribute. Second, we’ll need to add our own -->
+
+<!-- `main()` as well (for reasons discussed above). Finally, a judicious use of -->
+
+<!-- `#` to comment out those two things, so they don’t show up in the output. -->
+
+<p>3つのことに気が付くでしょう。 <code>#[macro_use]</code> アトリビュートを追加するために、自分で <code>extern crate</code> 行を追加しなければなりません。
+2つ目に、 <code>main()</code> も自分で追加する必要があります（理由は前述しました）。
+最後に、それらの2つが出力されないようにコメントアウトするという <code>#</code> の賢い使い方です。</p>
+
+<!-- Another case where the use of `#` is handy is when you want to ignore -->
+
+<!-- error handling. Lets say you want the following, -->
+
+<p><code>#</code> の使うと便利な場所のもう1つのケースは、エラーハンドリングを無視したいときです。
+次のようにしたいとしましょう。</p>
+
+<span class='rusttest'>fn main() {
+    /// use std::io;
+/// let mut input = String::new();
+/// try!(io::stdin().read_line(&amp;mut input));
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// use std::io;</span>
+<span class='doccomment'>/// let mut input = String::new();</span>
+<span class='doccomment'>/// try!(io::stdin().read_line(&amp;mut input));</span></pre>
+
+<!-- The problem is that `try!` returns a `Result<T, E>` and test functions -->
+
+<!-- don't return anything so this will give a mismatched types error. -->
+
+<p>問題は <code>try!</code> が <code>Result&lt;T, E&gt;</code> を返すところ、テスト関数は何も返さないことで、これは型のミスマッチエラーを起こします。</p>
+
+<span class='rusttest'>fn main() {
+    /// A doc test using try!
+/// try!を使ったドキュメンテーションテスト
+///
+/// ```
+/// use std::io;
+/// # fn foo() -&gt; io::Result&lt;()&gt; {
+/// let mut input = String::new();
+/// try!(io::stdin().read_line(&amp;mut input));
+/// # Ok(())
+/// # }
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// try!を使ったドキュメンテーションテスト</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::io;</span>
+<span class='doccomment'>/// # fn foo() -&gt; io::Result&lt;()&gt; {</span>
+<span class='doccomment'>/// let mut input = String::new();</span>
+<span class='doccomment'>/// try!(io::stdin().read_line(&amp;mut input));</span>
+<span class='doccomment'>/// # Ok(())</span>
+<span class='doccomment'>/// # }</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- You can get around this by wrapping the code in a function. This catches -->
+
+<!-- and swallows the `Result<T, E>` when running tests on the docs. This -->
+
+<!-- pattern appears regularly in the standard library. -->
+
+<p>これは関数内のコードをラッピングすることで回避できます。
+これはドキュメント上のテストが実行されるときに <code>Result&lt;T, E&gt;</code> を捕まえて飲み込みます。
+このパターンは標準ライブラリ内でよく現れます。</p>
+
+<!-- ### Running documentation tests -->
+
+<h3 id='ドキュメンテーションテストの実行' class='section-header'><a href='#ドキュメンテーションテストの実行'>ドキュメンテーションテストの実行</a></h3>
+<!-- To run the tests, either: -->
+
+<p>テストを実行するには、次のどちらかを使います。</p>
+
+<pre><code class="language-bash">$ rustdoc --test path/to/my/crate/root.rs
+# or
+$ cargo test
+</code></pre>
+
+<!-- That's right, `cargo test` tests embedded documentation too. **However, -->
+
+<!-- `cargo test` will not test binary crates, only library ones.** This is -->
+
+<!-- due to the way `rustdoc` works: it links against the library to be tested, -->
+
+<!-- but with a binary, there’s nothing to link to. -->
+
+<p>正解です。 <code>cargo test</code> は組み込まれたドキュメントもテストします。
+<strong>しかし、<code>cargo test</code>がテストするのはライブラリクレートだけで、バイナリクレートはテストしません。</strong>
+これは <code>rustdoc</code> の動き方によるものです。それはテストするためにライブラリをリンクしますが、バイナリには何もリンクするものがないからです。</p>
+
+<!-- There are a few more annotations that are useful to help `rustdoc` do the right -->
+
+<!-- thing when testing your code: -->
+
+<p><code>rustdoc</code> がコードをテストするときに正しく動作するのを助けるために便利な注釈があと少しあります。</p>
+
+<span class='rusttest'>fn main() {
+    /// ```ignore
+/// fn foo() {
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```ignore</span>
+<span class='doccomment'>/// fn foo() {</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- The `ignore` directive tells Rust to ignore your code. This is almost never -->
+
+<!-- what you want, as it's the most generic. Instead, consider annotating it -->
+
+<!-- with `text` if it's not code, or using `#`s to get a working example that -->
+
+<!-- only shows the part you care about. -->
+
+<p><code>ignore</code> ディレクティブはRustにコードを無視するよう指示します。
+これはあまりに汎用的なので、必要になることはほとんどありません。
+もしそれがコードではなければ、代わりに <code>text</code> の注釈を付けること、又は問題となる部分だけが表示された、動作する例を作るために <code>#</code> を使うことを検討してください。</p>
+
+<span class='rusttest'>fn main() {
+    /// ```should_panic
+/// assert!(false);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```should_panic</span>
+<span class='doccomment'>/// assert!(false);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- `should_panic` tells `rustdoc` that the code should compile correctly, but -->
+
+<!-- not actually pass as a test. -->
+
+<p><code>should_panic</code> は、そのコードは正しくコンパイルされるべきではあるが、実際にテストとして成功する必要まではないということを <code>rustdoc</code> に教えます。</p>
+
+<span class='rusttest'>fn main() {
+    /// ```no_run
+/// loop {
+///     println!(&quot;Hello, world&quot;);
+/// }
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// ```no_run</span>
+<span class='doccomment'>/// loop {</span>
+<span class='doccomment'>///     println!(&quot;Hello, world&quot;);</span>
+<span class='doccomment'>/// }</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- The `no_run` attribute will compile your code, but not run it. This is -->
+
+<!-- important for examples such as "Here's how to start up a network service," -->
+
+<!-- which you would want to make sure compile, but might run in an infinite loop! -->
+
+<p><code>no_run</code> アトリビュートはコードをコンパイルしますが、実行はしません。
+これは「これはネットワークサービスを開始する方法です」というような例や、コンパイルされることは保証したいけれども、無限ループになってしまうような例にとって重要です!</p>
+
+<!-- ### Documenting modules -->
+
+<h3 id='モジュールのドキュメントの作成' class='section-header'><a href='#モジュールのドキュメントの作成'>モジュールのドキュメントの作成</a></h3>
+<!-- Rust has another kind of doc comment, `//!`. This comment doesn't document the next item, but the enclosing item. In other words: -->
+
+<p>Rustには別の種類のドキュメンテーションコメント、 <code>//!</code> があります。
+このコメントは次に続く要素のドキュメントではなく、それを囲っている要素のドキュメントです。
+言い換えると、こうです。</p>
+
+<span class='rusttest'>fn main() {
+    mod foo {
+  //! This is documentation for the `foo` module.
+    //! これは`foo`モジュールのドキュメントである
+    //!
+    //! # Examples
+
+    // ...
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>mod</span> <span class='ident'>foo</span> {
+    <span class='doccomment'>//! これは`foo`モジュールのドキュメントである</span>
+    <span class='doccomment'>//!</span>
+    <span class='doccomment'>//! # Examples</span>
+
+    <span class='comment'>// ...</span>
+}</pre>
+
+<!-- This is where you'll see `//!` used most often: for module documentation. If -->
+
+<!-- you have a module in `foo.rs`, you'll often open its code and see this: -->
+
+<p><code>//!</code> を頻繁に見る場所がここ、モジュールドキュメントです。
+もし <code>foo.rs</code> 内にモジュールを持っていれば、しばしばそのコードを開くとこれを見るでしょう。</p>
+
+<span class='rusttest'>fn main() {
+    //! A module for using `foo`s.
+//! `foo`で使われるモジュール
+//!
+//! The `foo` module contains a lot of useful functionality blah blah blah
+//! `foo`モジュールに含まれているたくさんの便利な関数などなど
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>//! `foo`で使われるモジュール</span>
+<span class='doccomment'>//!</span>
+<span class='doccomment'>//! `foo`モジュールに含まれているたくさんの便利な関数などなど</span></pre>
+
+<!-- ### Documentation comment style -->
+
+<h3 id='ドキュメンテーションコメントのスタイル' class='section-header'><a href='#ドキュメンテーションコメントのスタイル'>ドキュメンテーションコメントのスタイル</a></h3>
+<!-- Check out [RFC 505][rfc505] for full conventions around the style and format of -->
+
+<!-- documentation. -->
+
+<p>ドキュメントのスタイルや書式についての全ての慣習を知るには <a href="https://github.com/rust-lang/rfcs/blob/master/text/0505-api-comment-conventions.md">RFC 505</a> をチェックしてください。</p>
+
+<!-- ## Other documentation -->
+
+<h2 id='その他のドキュメント' class='section-header'><a href='#その他のドキュメント'>その他のドキュメント</a></h2>
+<!-- All of this behavior works in non-Rust source files too. Because comments -->
+
+<!-- are written in Markdown, they're often `.md` files. -->
+
+<p>ここにある振舞いは全て、Rust以外のソースコードファイルでも働きます。
+コメントはMarkdownで書かれるので、しばしば <code>.md</code> ファイルになります。</p>
+
+<!-- When you write documentation in Markdown files, you don't need to prefix -->
+
+<!-- the documentation with comments. For example: -->
+
+<p>ドキュメントをMarkdownファイルに書くとき、ドキュメントにコメントのプレフィックスを付ける必要はありません。
+例えば、こうする必要はありません。</p>
+
+<span class='rusttest'>fn main() {
+    /// # Examples
+///
+/// ```
+/// use std::rc::Rc;
+///
+/// let five = Rc::new(5);
+/// ```
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// # Examples</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// ```</span>
+<span class='doccomment'>/// use std::rc::Rc;</span>
+<span class='doccomment'>///</span>
+<span class='doccomment'>/// let five = Rc::new(5);</span>
+<span class='doccomment'>/// ```</span></pre>
+
+<!-- is -->
+
+<p>これは、こうします。</p>
+
+<pre><code class="language-markdown"># Examples
+
+```
+use std::rc::Rc;
+
+let five = Rc::new(5);
+```
+</code></pre>
+
+<!-- when it's in a Markdown file. There is one wrinkle though: Markdown files need -->
+
+<!-- to have a title like this: -->
+
+<p>Markdownファイルの中ではこうします。
+ただし、1つだけ新しいものがあります。Markdownファイルではこのように題名を付けなければなりません。</p>
+
+<pre><code class="language-markdown"># % The title
+% タイトル
+
+# This is the example documentation.
+これはサンプルのドキュメントです。
+</code></pre>
+
+<!-- This `%` line needs to be the very first line of the file. -->
+
+<p>この <code>%</code> 行はそのファイルの一番先頭の行に書く必要があります。</p>
+
+<!-- ## `doc` attributes -->
+
+<h2 id='doc-アトリビュート' class='section-header'><a href='#doc-アトリビュート'><code>doc</code> アトリビュート</a></h2>
+<!-- At a deeper level, documentation comments are syntactic sugar for documentation -->
+
+<!-- attributes: -->
+
+<p>もっと深いレベルで言えは、ドキュメンテーションコメントはドキュメントアトリビュートの糖衣構文です。</p>
+
+<span class='rusttest'>fn main() {
+    /// this
+fn foo() {}
+
+#[doc=&quot;this&quot;]
+fn bar() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// this</span>
+
+<span class='attribute'>#[<span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot;this&quot;</span>]</span></pre>
+
+<!-- are the same, as are these: -->
+
+<p>これらは同じもので、次のものも同じものです。</p>
+
+<span class='rusttest'>fn main() {
+    //! this
+
+#![doc=&quot;this&quot;]
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>//! this</span>
+
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span><span class='op'>=</span><span class='string'>&quot;this&quot;</span>]</span></pre>
+
+<!-- You won't often see this attribute used for writing documentation, but it -->
+
+<!-- can be useful when changing some options, or when writing a macro. -->
+
+<p>このアトリビュートがドキュメントを書くために使われているのを見ることはそんなにないでしょう。しかし、これは何らかのオプションを変更したり、マクロを書いたりするときに便利です。</p>
+
+<!-- ### Re-exports -->
+
+<h3 id='再エクスポート' class='section-header'><a href='#再エクスポート'>再エクスポート</a></h3>
+<!-- `rustdoc` will show the documentation for a public re-export in both places: -->
+
+<p><code>rustdoc</code> はパブリックな再エクスポートがなされた場合に、両方の場所にドキュメントを表示します。</p>
+
+<span class='rusttest'>fn main() {
+    extern crate foo;
+
+pub use foo::bar;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>foo</span>;
+
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>foo</span>::<span class='ident'>bar</span>;</pre>
+
+<!-- This will create documentation for `bar` both inside the documentation for the -->
+
+<!-- crate `foo`, as well as the documentation for your crate. It will use the same -->
+
+<!-- documentation in both places. -->
+
+<p>これは <code>bar</code> のドキュメントをクレートのドキュメントの中に生成するのと同様に、 <code>foo</code> クレートのドキュメントの中にも生成します。
+同じドキュメントが両方の場所で使われます。</p>
+
+<!-- This behavior can be suppressed with `no_inline`: -->
+
+<p>この振舞いは <code>no_inline</code> で抑制することができます。</p>
+
+<span class='rusttest'>fn main() {
+    extern crate foo;
+
+#[doc(no_inline)]
+pub use foo::bar;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>extern</span> <span class='kw'>crate</span> <span class='ident'>foo</span>;
+
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>no_inline</span>)]</span>
+<span class='kw'>pub</span> <span class='kw'>use</span> <span class='ident'>foo</span>::<span class='ident'>bar</span>;</pre>
+
+<!-- ## Missing documentation -->
+
+<h2 id='ドキュメントの不存在' class='section-header'><a href='#ドキュメントの不存在'>ドキュメントの不存在</a></h2>
+<!-- Sometimes you want to make sure that every single public thing in your project -->
+
+<!-- is documented, especially when you are working on a library. Rust allows you to -->
+
+<!-- to generate warnings or errors, when an item is missing documentation. -->
+
+<!-- To generate warnings you use `warn`: -->
+
+<p>ときどき、プロジェクト内の公開されている全てのものについて、ドキュメントが作成されていることを確認したいことがあります。これは特にライブラリについて作業をしているときにあります。
+Rustでは、要素にドキュメントがないときに警告やエラーを生成することができます。
+警告を生成するためには、 <code>warn</code> を使います。</p>
+
+<span class='rusttest'>fn main() {
+    #![warn(missing_docs)]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>warn</span>(<span class='ident'>missing_docs</span>)]</span></pre>
+
+<!-- And to generate errors you use `deny`: -->
+
+<p>そしてエラーを生成するとき、 <code>deny</code> を使います。</p>
+
+<span class='rusttest'>fn main() {
+    #![deny(missing_docs)]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>deny</span>(<span class='ident'>missing_docs</span>)]</span></pre>
+
+<!-- There are cases where you want to disable these warnings/errors to explicitly -->
+
+<!-- leave something undocumented. This is done by using `allow`: -->
+
+<p>何かを明示的にドキュメント化されていないままにするため、それらの警告やエラーを無効にしたい場合があります。
+これは <code>allow</code> を使えば可能です。</p>
+
+<span class='rusttest'>fn main() {
+    #[allow(missing_docs)]
+struct Undocumented;
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#[<span class='ident'>allow</span>(<span class='ident'>missing_docs</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>Undocumented</span>;</pre>
+
+<!-- You might even want to hide items from the documentation completely: -->
+
+<p>ドキュメントから要素を完全に見えなくしたいこともあるかもしれません。</p>
+
+<span class='rusttest'>fn main() {
+    #[doc(hidden)]
+struct Hidden;
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#[<span class='ident'>doc</span>(<span class='ident'>hidden</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>Hidden</span>;</pre>
+
+<!-- ### Controlling HTML -->
+
+<h3 id='htmlの制御' class='section-header'><a href='#htmlの制御'>HTMLの制御</a></h3>
+<!-- You can control a few aspects of the HTML that `rustdoc` generates through the -->
+
+<!-- `#![doc]` version of the attribute: -->
+
+<p><code>rustdoc</code> の生成するHTMLのいくつかの外見は、 <code>#![doc]</code> アトリビュートを通じて制御することができます。</p>
+
+<span class='rusttest'>fn main() {
+    #![doc(html_logo_url = &quot;https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png&quot;,
+       html_favicon_url = &quot;https://www.rust-lang.org/favicon.ico&quot;,
+       html_root_url = &quot;https://doc.rust-lang.org/&quot;)]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>html_logo_url</span> <span class='op'>=</span> <span class='string'>&quot;https://www.rust-lang.org/logos/rust-logo-128x128-blk-v2.png&quot;</span>,
+       <span class='ident'>html_favicon_url</span> <span class='op'>=</span> <span class='string'>&quot;https://www.rust-lang.org/favicon.ico&quot;</span>,
+       <span class='ident'>html_root_url</span> <span class='op'>=</span> <span class='string'>&quot;https://doc.rust-lang.org/&quot;</span>)]</span></pre>
+
+<!-- This sets a few different options, with a logo, favicon, and a root URL. -->
+
+<p>これは、複数の異なったオプション、つまりロゴ、お気に入りアイコン、ルートのURLをセットします。</p>
+
+<!-- ### Configuring documentation tests -->
+
+<h3 id='ドキュメンテーションテストの設定' class='section-header'><a href='#ドキュメンテーションテストの設定'>ドキュメンテーションテストの設定</a></h3>
+<!-- You can also configure the way that `rustdoc` tests your documentation examples -->
+
+<!-- through the `#![doc(test(..))]` attribute. -->
+
+<p><code>rustdoc</code> がドキュメントの例をテストする方法は、 <code>#[doc(test(..))]</code> アトリビュートを通じて設定することができます。</p>
+
+<span class='rusttest'>fn main() {
+    #![doc(test(attr(allow(unused_variables), deny(warnings))))]
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#<span class='op'>!</span>[<span class='ident'>doc</span>(<span class='ident'>test</span>(<span class='ident'>attr</span>(<span class='ident'>allow</span>(<span class='ident'>unused_variables</span>), <span class='ident'>deny</span>(<span class='ident'>warnings</span>))))]</span></pre>
+
+<!-- This allows unused variables within the examples, but will fail the test for any -->
+
+<!-- other lint warning thrown. -->
+
+<p>これによって例の中の使われていない値は許されるようになりますが、その他の全てのリントの警告に対してテストは失敗するようになるでしょう。</p>
+
+<!-- ## Generation options -->
+
+<h2 id='生成オプション' class='section-header'><a href='#生成オプション'>生成オプション</a></h2>
+<!-- `rustdoc` also contains a few other options on the command line, for further customization: -->
+
+<p><code>rustdoc</code> はさらなるカスタマイズのために、その他にもコマンドラインのオプションをいくつか持っています。</p>
+
+<!-- - `--html-in-header FILE`: includes the contents of FILE at the end of the -->
+
+<!--   `<head>...</head>` section. -->
+
+<!-- - `--html-before-content FILE`: includes the contents of FILE directly after -->
+
+<!--   `<body>`, before the rendered content (including the search bar). -->
+
+<!-- - `--html-after-content FILE`: includes the contents of FILE after all the rendered content. -->
+
+<ul>
+<li><code>--html-in-header FILE</code> : FILEの内容を <code>&lt;head&gt;...&lt;/head&gt;</code> セクションの末尾に加える</li>
+<li><code>--html-before-content FILE</code> : FILEの内容を <code>&lt;body&gt;</code> の直後、レンダリングされた内容（検索バーを含む）の直前に加える</li>
+<li><code>--html-after-content FILE</code> : FILEの内容を全てのレンダリングされた内容の後に加える</li>
+</ul>
+
+<!-- ## Security note -->
+
+<h2 id='セキュリティ上の注意' class='section-header'><a href='#セキュリティ上の注意'>セキュリティ上の注意</a></h2>
+<!-- The Markdown in documentation comments is placed without processing into -->
+
+<!-- the final webpage. Be careful with literal HTML: -->
+
+<p>ドキュメンテーションコメント内のMarkdownは最終的なウェブページの中に無修正で挿入されます。
+リテラルのHTMLには注意してください。</p>
+
+<span class='rusttest'>fn main() {
+    /// &lt;script&gt;alert(document.cookie)&lt;/script&gt;
+fn foo() {}
+}</span><pre class='rust rust-example-rendered'>
+<span class='doccomment'>/// &lt;script&gt;alert(document.cookie)&lt;/script&gt;</span></pre>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

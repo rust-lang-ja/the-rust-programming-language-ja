@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>保証を選ぶ</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a class='active' href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">保証を選ぶ</h1>
+    <!--% Choosing your Guarantees-->
+
+<!--One important feature of Rust is that it lets us control the costs and guarantees-->
+
+<!--of a program.-->
+
+<p>Rustの重要な特長の1つは、プログラムのコストと保証を制御することができるということです。</p>
+
+<!--There are various &ldquo;wrapper type&rdquo; abstractions in the Rust standard library which embody-->
+
+<!--a multitude of tradeoffs between cost, ergonomics, and guarantees. Many let one choose between-->
+
+<!--run time and compile time enforcement. This section will explain a few selected abstractions in-->
+
+<!--detail.-->
+
+<p>Rustの標準ライブラリには、様々な「ラッパ型」の抽象があり、それらはコスト、エルゴノミクス、保証の間の多数のトレードオフをまとめています。
+それらのトレードオフの多くでは実行時とコンパイル時のどちらかを選ばせてくれます。
+このセクションでは、いくつかの抽象を選び、詳細に説明します。</p>
+
+<!--Before proceeding, it is highly recommended that one reads about [ownership][ownership] and-->
+
+<!--[borrowing][borrowing] in Rust.-->
+
+<p>先に進む前に、Rustにおける <a href="ownership.html">所有権</a> と <a href="references-and-borrowing.html">借用</a> について読んでおくことを強く推奨します。</p>
+
+<!--# Basic pointer types-->
+
+<h1 id='基本的なポインタ型' class='section-header'><a href='#基本的なポインタ型'>基本的なポインタ型</a></h1>
+<h2 id='boxt' class='section-header'><a href='#boxt'><code>Box&lt;T&gt;</code></a></h2>
+<!--[`Box<T>`][box] is an &ldquo;owned&rdquo; pointer, or a &ldquo;box&rdquo;. While it can hand-->
+
+<!--out references to the contained data, it is the only owner of the data. In particular, consider-->
+
+<!--the following:-->
+
+<p><a href="../std/boxed/struct.Box.html"><code>Box&lt;T&gt;</code></a> は「所有される」ポインタ、すなわち「ボックス」です。
+ボックスは中身のデータへの参照を渡すことができますが、ボックスだけがそのデータの唯一の所有者です。
+特に、次のことを考えましょう。</p>
+
+<span class='rusttest'>fn main() {
+    let x = Box::new(1);
+let y = x;
+// x no longer accessible here
+// ここではもうxにアクセスできない
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='number'>1</span>);
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='ident'>x</span>;
+<span class='comment'>// ここではもうxにアクセスできない</span></pre>
+
+<!--Here, the box was _moved_ into `y`. As `x` no longer owns it, the compiler will no longer allow the-->
+
+<!--programmer to use `x` after this. A box can similarly be moved _out_ of a function by returning it.-->
+
+<p>ここで、そのボックスは <code>y</code> に <em>ムーブ</em> されました。
+<code>x</code> はもはやそれを所有していないので、これ以降、コンパイラはプログラマが <code>x</code> を使うことを許しません。
+同様に、ボックスはそれを返すことで関数の <em>外</em> にムーブさせることもできます。</p>
+
+<!--When a box (that hasn't been moved) goes out of scope, destructors are run. These destructors take-->
+
+<!--care of deallocating the inner data.-->
+
+<p>（ムーブされていない）ボックスがスコープから外れると、デストラクタが実行されます。
+それらのデストラクタは中身のデータを解放して片付けます。</p>
+
+<!--This is a zero-cost abstraction for dynamic allocation. If you want to allocate some memory on the-->
+
+<!--heap and safely pass around a pointer to that memory, this is ideal. Note that you will only be-->
+
+<!--allowed to share references to this by the regular borrowing rules, checked at compile time.-->
+
+<p>これは動的割当てのゼロコスト抽象化です。
+もしヒープにメモリを割り当てたくて、そのメモリへのポインタを安全に取り回したいのであれば、これは理想的です。
+コンパイル時にチェックされる通常の借用のルールに基づいてこれへの参照を共有することが許されているだけだということに注意しましょう。</p>
+
+<!--## `&T` and `&mut T`-->
+
+<h2 id='t-と-mut-t' class='section-header'><a href='#t-と-mut-t'><code>&amp;T</code> と <code>&amp;mut T</code></a></h2>
+<!--These are immutable and mutable references respectively. They follow the &ldquo;read-write lock&rdquo;-->
+
+<!--pattern, such that one may either have only one mutable reference to some data, or any number of-->
+
+<!--immutable ones, but not both. This guarantee is enforced at compile time, and has no visible cost at-->
+
+<!--runtime. In most cases these two pointer types suffice for sharing cheap references between sections-->
+
+<!--of code.-->
+
+<p>参照にはイミュータブルな参照とミュータブルな参照がそれぞれあります。
+それらは「読み書きロック」パターンに従います。それは、あるデータへのミュータブルな参照を1つだけ持つこと、又は複数のイミュータブルな参照を持つことはあり得るが、その両方を持つことはあり得ないということです。
+この保証はコンパイル時に強制され、目に見えるような実行時のコストは発生しません。
+多くの場合、それら2つのポインタ型は低コストの参照をコードのセクション間で共有するには十分です。</p>
+
+<!--These pointers cannot be copied in such a way that they outlive the lifetime associated with them.-->
+
+<p>それらのポインタを関連付けられているライフタイムを超えて有効になるような方法でコピーすることはできません。</p>
+
+<!--## `*const T` and `*mut T`-->
+
+<h2 id='const-t-と-mut-t' class='section-header'><a href='#const-t-と-mut-t'><code>*const T</code> と <code>*mut T</code></a></h2>
+<!-- These are C-like raw pointers with no lifetime or ownership attached to them. They point to -->
+
+<!--some location in memory with no other restrictions. The only guarantee that these provide is that-->
+
+<!--they cannot be dereferenced except in code marked `unsafe`.-->
+
+<p>関連付けられたライフタイムや所有権を持たない、C的な生ポインタがあります。
+それらはメモリのある場所を何の制約もなく指示します。
+それらの提供する唯一の保証は、 <code>unsafe</code> であるとマークされたコードの外ではそれらが参照を外せないということです。</p>
+
+<!--These are useful when building safe, low cost abstractions like `Vec<T>`, but should be avoided in-->
+
+<!--safe code.-->
+
+<p>それらは <code>Vec&lt;T&gt;</code> のような安全で低コストな抽象を構築するときには便利ですが、安全なコードの中では避けるべきです。</p>
+
+<h2 id='rct' class='section-header'><a href='#rct'><code>Rc&lt;T&gt;</code></a></h2>
+<!--This is the first wrapper we will cover that has a runtime cost.-->
+
+<p>これは、本書でカバーする中では初めての、実行時にコストの発生するラッパです。</p>
+
+<!--[`Rc<T>`][rc] is a reference counted pointer. In other words, this lets us have multiple "owning"-->
+
+<!--pointers to the same data, and the data will be dropped (destructors will be run) when all pointers-->
+
+<!--are out of scope.-->
+
+<p><a href="../std/rc/struct.Rc.html"><code>Rc&lt;T&gt;</code></a> は参照カウンタを持つポインタです。
+言い換えると、これを使えば、あるデータを「所有する」複数のポインタを持つことができるようになるということです。そして、全てのポインタがスコープから外れたとき、そのデータは削除されます（デストラクタが実行されます）。</p>
+
+<!--Internally, it contains a shared &ldquo;reference count&rdquo; (also called &ldquo;refcount&rdquo;),-->
+
+<!--which is incremented each time the `Rc` is cloned, and decremented each time one of the `Rc`s goes-->
+
+<!--out of scope. The main responsibility of `Rc<T>` is to ensure that destructors are called for shared-->
+
+<!--data.-->
+
+<p>内部的には、それは共有「参照カウント」（「refcount」とも呼ばれます）を持っています。それは、 <code>Rc</code> がクローンされる度に1増加し、 <code>Rc</code> がスコープから外れる度に1減少します。
+<code>Rc&lt;T&gt;</code> の主な役割は、共有データのデストラクタが呼び出されることを保証することです。</p>
+
+<!--The internal data here is immutable, and if a cycle of references is created, the data will be-->
+
+<!--leaked. If we want data that doesn't leak when there are cycles, we need a garbage collector.-->
+
+<p>ここでの中身のデータはイミュータブルで、もし循環参照が起きてしまったら、そのデータはメモリリークを起こすでしょう。
+もし循環してもメモリリークを起こさないデータを求めるのであれば、ガーベジコレクタが必要です。</p>
+
+<!--#### Guarantees-->
+
+<h4 id='保証' class='section-header'><a href='#保証'>保証</a></h4>
+<!--The main guarantee provided here is that the data will not be destroyed until all references to it-->
+
+<!--are out of scope.-->
+
+<p>ここで提供される主な保証は、それに対する全ての参照がスコープから外れるまではデータが破壊されないということです。</p>
+
+<!--This should be used when we wish to dynamically allocate and share some data (read-only) between-->
+
+<!--various portions of your program, where it is not certain which portion will finish using the pointer-->
+
+<!--last. It's a viable alternative to `&T` when `&T` is either impossible to statically check for-->
+
+<!--correctness, or creates extremely unergonomic code where the programmer does not wish to spend the-->
+
+<!--development cost of working with.-->
+
+<p>これは（読込専用の）あるデータを動的に割り当て、プログラムの様々な部分で共有したいときで、どの部分が最後にポインタを使い終わるのかがはっきりしないときに使われるべきです。
+それは <code>&amp;T</code> が正しさを静的にチェックすることが不可能なとき、又はプログラマがそれを使うために開発コストを費やすことを望まないような極めて非エルゴノミックなコードを作っているときに、 <code>&amp;T</code> の有望な代替品です。</p>
+
+<!--This pointer is _not_ thread safe, and Rust will not let it be sent or shared with other threads.-->
+
+<!--This lets one avoid the cost of atomics in situations where they are unnecessary.-->
+
+<p>このポインタはスレッドセーフでは <em>ありません</em> 。Rustはそれを他のスレッドに対して送ったり共有したりはさせません。
+これによって、それらが不要な状況でのアトミック性のためのコストを省くことができます。</p>
+
+<!--There is a sister smart pointer to this one, `Weak<T>`. This is a non-owning, but also non-borrowed,-->
+
+<!--smart pointer. It is also similar to `&T`, but it is not restricted in lifetime&mdash;a `Weak<T>`-->
+
+<!--can be held on to forever. However, it is possible that an attempt to access the inner data may fail-->
+
+<!--and return `None`, since this can outlive the owned `Rc`s. This is useful for cyclic-->
+
+<!--data structures and other things.-->
+
+<p>これの姉妹に当たるスマートポインタとして、 <code>Weak&lt;T&gt;</code> があります。
+これは所有せず、借用もしないスマートポインタです。
+それは <code>&amp;T</code> とも似ていますが、ライフタイムによる制約がありません。 <code>Weak&lt;T&gt;</code> は永遠に有効であり続けることができます。
+しかし、これは所有する <code>Rc</code> のライフタイムを超えて有効である可能性があるため、中身のデータへのアクセスが失敗し、 <code>None</code> を返すという可能性があります。
+これは循環するデータ構造やその他のものについて便利です。</p>
+
+<!--#### Cost-->
+
+<h4 id='コスト' class='section-header'><a href='#コスト'>コスト</a></h4>
+<!--As far as memory goes, `Rc<T>` is a single allocation, though it will allocate two extra words (i.e.-->
+
+<!--two `usize` values) as compared to a regular `Box<T>` (for "strong" and "weak" refcounts).-->
+
+<p>メモリに関する限り、 <code>Rc&lt;T&gt;</code> の割当ては1回です。ただし、普通の <code>Box&lt;T&gt;</code> と比べると
+（「強い」参照カウントと「弱い」参照カウントのために）、2ワード余分（つまり、2つの <code>usize</code> の値）に割り当てます。</p>
+
+<!--`Rc<T>` has the computational cost of incrementing/decrementing the refcount whenever it is cloned-->
+
+<!--or goes out of scope respectively. Note that a clone will not do a deep copy, rather it will simply-->
+
+<!--increment the inner reference count and return a copy of the `Rc<T>`.-->
+
+<p><code>Rc&lt;T&gt;</code> では、それをクローンしたりそれがスコープから外れたりする度に参照カウントを増減するための計算コストが掛かります。
+クローンはディープコピーではなく、それが単に内部の参照カウントを1増加させ、 <code>Rc&lt;T&gt;</code> のコピーを返すだけだということに注意しましょう。</p>
+
+<!--# Cell types-->
+
+<h1 id='セル型' class='section-header'><a href='#セル型'>セル型</a></h1>
+<!--`Cell`s provide interior mutability. In other words, they contain data which can be manipulated even-->
+
+<!--if the type cannot be obtained in a mutable form (for example, when it is behind an `&`-ptr or-->
+
+<!--`Rc<T>`).-->
+
+<p><code>Cell</code> は内的ミュータビリティを提供します。
+言い換えると、型がミュータブルな形式を持てないものであったとしても（例えば、それが <code>&amp;</code> ポインタや <code>Rc&lt;T&gt;</code> の参照先であるとき）、操作できるデータを持つということです。</p>
+
+<!--[The documentation for the `cell` module has a pretty good explanation for these][cell-mod].-->
+
+<p><a href="../std/cell/"><code>cell</code>モジュールのドキュメントには、それらについての非常によい説明があります</a> 。</p>
+
+<!--These types are _generally_ found in struct fields, but they may be found elsewhere too.-->
+
+<p>それらの型は <em>一般的には</em> 構造体のフィールドで見られますが、他の場所でも見られるかもしれません。</p>
+
+<h2 id='cellt' class='section-header'><a href='#cellt'><code>Cell&lt;T&gt;</code></a></h2>
+<!--[`Cell<T>`][cell] is a type that provides zero-cost interior mutability, but only for `Copy` types.-->
+
+<!--Since the compiler knows that all the data owned by the contained value is on the stack, there's-->
+
+<!--no worry of leaking any data behind references (or worse!) by simply replacing the data.-->
+
+<p><a href="../std/cell/struct.Cell.html"><code>Cell&lt;T&gt;</code></a> はゼロコストで内的ミュータビリティを提供するものですが、 <code>Copy</code> 型のためだけのものです。
+コンパイラは含まれている値によって所有されている全てのデータがスタック上にあることを認識しています。そのため、単純にデータが置き換えられることによって参照先のデータがメモリリークを起こす（又はもっと悪いことも!）心配はありません。</p>
+
+<!--It is still possible to violate your own invariants using this wrapper, so be careful when using it.-->
+
+<!--If a field is wrapped in `Cell`, it's a nice indicator that the chunk of data is mutable and may not-->
+
+<!--stay the same between the time you first read it and when you intend to use it.-->
+
+<p>このラッパを使うことで、維持されている不変性に違反してしまう可能性もあるので、それを使うときには注意しましょう。
+もしフィールドが <code>Cell</code> でラップされているならば、そのデータの塊はミュータブルで、最初にそれを読み込んだときとそれを使おうと思ったときで同じままだとは限らないということのよい目印になります。</p>
+
+<span class='rusttest'>fn main() {
+    use std::cell::Cell;
+
+let x = Cell::new(1);
+let y = &amp;x;
+let z = &amp;x;
+x.set(2);
+y.set(3);
+z.set(4);
+println!(&quot;{}&quot;, x.get());
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>Cell</span>;
+
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>Cell</span>::<span class='ident'>new</span>(<span class='number'>1</span>);
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>x</span>;
+<span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='ident'>x</span>;
+<span class='ident'>x</span>.<span class='ident'>set</span>(<span class='number'>2</span>);
+<span class='ident'>y</span>.<span class='ident'>set</span>(<span class='number'>3</span>);
+<span class='ident'>z</span>.<span class='ident'>set</span>(<span class='number'>4</span>);
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>.<span class='ident'>get</span>());</pre>
+
+<!--Note that here we were able to mutate the same value from various immutable references.-->
+
+<p>ここでは同じ値を様々なイミュータブルな参照から変更できるということに注意しましょう。</p>
+
+<!--This has the same runtime cost as the following:-->
+
+<p>これには次のものと同じ実行時のコストが掛かります。</p>
+
+<span class='rusttest'>fn main() {
+    let mut x = 1;
+let y = &amp;mut x;
+let z = &amp;mut x;
+x = 2;
+*y = 3;
+*z = 4;
+println!(&quot;{}&quot;, x);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;
+<span class='kw'>let</span> <span class='ident'>z</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>x</span>;
+<span class='ident'>x</span> <span class='op'>=</span> <span class='number'>2</span>;
+<span class='op'>*</span><span class='ident'>y</span> <span class='op'>=</span> <span class='number'>3</span>;
+<span class='op'>*</span><span class='ident'>z</span> <span class='op'>=</span> <span class='number'>4</span>;
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);</pre>
+
+<!--but it has the added benefit of actually compiling successfully.-->
+
+<p>しかし、それには実際に正常にコンパイルできるという追加の利点があります。</p>
+
+<!--#### Guarantees-->
+
+<h4 id='保証-1' class='section-header'><a href='#保証-1'>保証</a></h4>
+<!--This relaxes the &ldquo;no aliasing with mutability&rdquo; restriction in places where it's-->
+
+<!--unnecessary. However, this also relaxes the guarantees that the restriction provides; so if your-->
+
+<!--invariants depend on data stored within `Cell`, you should be careful.-->
+
+<p>これは「ミュータブルなエイリアスはない」という制約を、それが不要な場所において緩和します。
+しかし、これはその制約が提供する保証をも緩和してしまいます。もし不変条件が <code>Cell</code> に保存されているデータに依存しているのであれば、注意すべきです。</p>
+
+<!--This is useful for mutating primitives and other `Copy` types when there is no easy way of-->
+
+<!--doing it in line with the static rules of `&` and `&mut`.-->
+
+<p>これは <code>&amp;</code> や <code>&amp;mut</code> の静的なルールの下では簡単な方法がない場合に、プリミティブやその他の <code>Copy</code> 型を変更するのに便利です。</p>
+
+<!--`Cell` does not let you obtain interior references to the data, which makes it safe to freely-->
+
+<!--mutate.-->
+
+<p><code>Cell</code> によって安全な方法で自由に変更できるようなデータへの内部の参照を得られるわけではありません。</p>
+
+<!--#### Cost-->
+
+<h4 id='コスト-1' class='section-header'><a href='#コスト-1'>コスト</a></h4>
+<!--There is no runtime cost to using `Cell<T>`, however if you are using it to wrap larger (`Copy`)-->
+
+<!--structs, it might be worthwhile to instead wrap individual fields in `Cell<T>` since each write is-->
+
+<!--otherwise a full copy of the struct.-->
+
+<p><code>Cell&lt;T&gt;</code> の使用に実行時のコストは掛かりません。ただし、もしそれを大きな（ <code>Copy</code> の）構造体をラップするために使っているのであれば、代わりに個々のフィールドを <code>Cell&lt;T&gt;</code> でラップする方がよいかもしれません。そうしなければ、各書込みが構造体の完全コピーを発生させることになるからです。</p>
+
+<h2 id='refcellt' class='section-header'><a href='#refcellt'><code>RefCell&lt;T&gt;</code></a></h2>
+<!--[`RefCell<T>`][refcell] also provides interior mutability, but isn't restricted to `Copy` types.-->
+
+<p><a href="../std/cell/struct.RefCell.html"><code>RefCell&lt;T&gt;</code></a> もまた内的ミュータビリティを提供するものですが、 <code>Copy</code> 型に限定されません。</p>
+
+<!--Instead, it has a runtime cost. `RefCell<T>` enforces the read-write lock pattern at runtime (it's-->
+
+<!--like a single-threaded mutex), unlike `&T`/`&mut T` which do so at compile time. This is done by the-->
+
+<!--`borrow()` and `borrow_mut()` functions, which modify an internal reference count and return smart-->
+
+<!--pointers which can be dereferenced immutably and mutably respectively. The refcount is restored when-->
+
+<!--the smart pointers go out of scope. With this system, we can dynamically ensure that there are never-->
+
+<!--any other borrows active when a mutable borrow is active. If the programmer attempts to make such a-->
+
+<!--borrow, the thread will panic.-->
+
+<p>その代わり、それには実行時のコストが掛かります。
+<code>RefCell&lt;T&gt;</code> は読み書きロックパターンを実行時に（シングルスレッドのミューテックスのように）強制します。この点が、それをコンパイル時に行う <code>&amp;T</code> や <code>&amp;mut T</code> とは異なります。
+これは <code>borrow()</code> 関数と <code>borrow_mut()</code> 関数によって行われます。それらは内部の参照カウントを変更し、それぞれイミュータブル、ミュータブルに参照を外すことのできるスマートポインタを戻します。
+参照カウントはスマートポインタがスコープから外れたときに元に戻されます。
+このシステムによって、ミュータブルな借用が有効なときには決してその他の借用が有効にならないということを動的に保証することができます。
+もしプログラマがそのような借用を作ろうとすれば、スレッドはパニックするでしょう。</p>
+
+<span class='rusttest'>fn main() {
+    use std::cell::RefCell;
+
+let x = RefCell::new(vec![1,2,3,4]);
+{
+    println!(&quot;{:?}&quot;, *x.borrow())
+}
+
+{
+    let mut my_ref = x.borrow_mut();
+    my_ref.push(1);
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>cell</span>::<span class='ident'>RefCell</span>;
+
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>RefCell</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>,<span class='number'>2</span>,<span class='number'>3</span>,<span class='number'>4</span>]);
+{
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='op'>*</span><span class='ident'>x</span>.<span class='ident'>borrow</span>())
+}
+
+{
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>my_ref</span> <span class='op'>=</span> <span class='ident'>x</span>.<span class='ident'>borrow_mut</span>();
+    <span class='ident'>my_ref</span>.<span class='ident'>push</span>(<span class='number'>1</span>);
+}</pre>
+
+<!--Similar to `Cell`, this is mainly useful for situations where it's hard or impossible to satisfy the-->
+
+<!--borrow checker. Generally we know that such mutations won't happen in a nested form, but it's good-->
+
+<!--to check.-->
+
+<p><code>Cell</code> と同様に、これは主に、借用チェッカを満足させることが困難、又は不可能な状況で便利です。
+一般的に、そのような変更はネストした形式では発生しないと考えられますが、それをチェックすることはよいことです。</p>
+
+<!--For large, complicated programs, it becomes useful to put some things in `RefCell`s to make things-->
+
+<!-- simpler. For example, a lot of the maps in the `ctxt` struct in the Rust compiler internals -->
+
+<!--are inside this wrapper. These are only modified once (during creation, which is not right after-->
+
+<!--initialization) or a couple of times in well-separated places. However, since this struct is-->
+
+<!--pervasively used everywhere, juggling mutable and immutable pointers would be hard (perhaps-->
+
+<!--impossible) and probably form a soup of `&`-ptrs which would be hard to extend. On the other hand,-->
+
+<!--the `RefCell` provides a cheap (not zero-cost) way of safely accessing these. In the future, if-->
+
+<!--someone adds some code that attempts to modify the cell when it's already borrowed, it will cause a-->
+
+<!--(usually deterministic) panic which can be traced back to the offending borrow.-->
+
+<p>大きく複雑なプログラムにとって、物事を単純にするために何かを <code>RefCell</code> の中に入れることは便利です。
+例えば、Rustコンパイラの内部の<code>ctxt</code>構造体にあるたくさんのマップはこのラッパの中にあります。
+それらは（初期化の直後ではなく生成の過程で）一度だけ変更されるか、又はきれいに分離された場所で数回変更されます。
+しかし、この構造体はあらゆる場所で全般的に使われているので、ミュータブルなポインタとイミュータブルなポインタとをジャグリング的に扱うのは難しく（あるいは不可能で）、おそらく拡張の困難な <code>&amp;</code> ポインタのスープになってしまいます。
+一方、 <code>RefCell</code> はそれらにアクセスするための（ゼロコストではありませんが）低コストの方法です。
+将来、もし誰かが既に借用されたセルを変更しようとするコードを追加すれば、それは（普通は確定的に）パニックを引き起こすでしょう。これは、その違反した借用まで遡り得ます。</p>
+
+<!--Similarly, in Servo's DOM there is a lot of mutation, most of which is local to a DOM type, but some-->
+
+<!--of which crisscrosses the DOM and modifies various things. Using `RefCell` and `Cell` to guard all-->
+
+<!--mutation lets us avoid worrying about mutability everywhere, and it simultaneously highlights the-->
+
+<!--places where mutation is _actually_ happening.-->
+
+<p>同様に、ServoのDOMではたくさんの変更が行われるようになっていて、そのほとんどはDOM型にローカルです。しかし、複数のDOMに縦横無尽にまたがり、様々なものを変更するものもあります。
+全ての変更をガードするために <code>RefCell</code> と <code>Cell</code> を使うことで、あらゆる場所でのミュータビリティについて心配する必要がなくなり、それは同時に、変更が <em>実際に</em> 起こっている場所を強調してくれます。</p>
+
+<!--Note that `RefCell` should be avoided if a mostly simple solution is possible with `&` pointers.-->
+
+<p>もし <code>&amp;</code> ポインタを使ってもっと単純に解決できるのであれば、 <code>RefCell</code> は避けるべきであるということに注意しましょう。</p>
+
+<!--#### Guarantees-->
+
+<h4 id='保証-2' class='section-header'><a href='#保証-2'>保証</a></h4>
+<!--`RefCell` relaxes the _static_ restrictions preventing aliased mutation, and replaces them with-->
+
+<!--_dynamic_ ones. As such the guarantees have not changed.-->
+
+<p><code>RefCell</code> はミュータブルなエイリアスを作らせないという <em>静的な</em> 制約を緩和し、それを <em>動的な</em> 制約に置き換えます。
+そのため、その保証は変わりません。</p>
+
+<!--#### Cost-->
+
+<h4 id='コスト-2' class='section-header'><a href='#コスト-2'>コスト</a></h4>
+<!--`RefCell` does not allocate, but it contains an additional "borrow state"-->
+
+<!--indicator (one word in size) along with the data.-->
+
+<p><code>RefCell</code> は割当てを行いませんが、データとともに（サイズ1ワードの）追加の「借用状態」の表示を持っています。</p>
+
+<!--At runtime each borrow causes a modification/check of the refcount.-->
+
+<p>実行時には、各借用が参照カウントの変更又はチェックを発生させます。</p>
+
+<!--# Synchronous types-->
+
+<h1 id='同期型' class='section-header'><a href='#同期型'>同期型</a></h1>
+<!--Many of the types above cannot be used in a threadsafe manner. Particularly, `Rc<T>` and-->
+
+<!--`RefCell<T>`, which both use non-atomic reference counts (_atomic_ reference counts are those which-->
+
+<!--can be incremented from multiple threads without causing a data race), cannot be used this way. This-->
+
+<!--makes them cheaper to use, but we need thread safe versions of these too. They exist, in the form of-->
+
+<!--`Arc<T>` and `Mutex<T>`/`RwLock<T>`-->
+
+<p>前に挙げた型の多くはスレッドセーフな方法で使うことができません。
+特に <code>Rc&lt;T&gt;</code> と <code>RefCell&lt;T&gt;</code> は両方とも非アトミックな参照カウント（ <em>アトミックな</em> 参照カウントとは、データ競合を発生させることなく複数のスレッドから増加させることができるもののことです）を使っていて、スレッドセーフな方法で使うことができません。
+これによってそれらを低コストで使うことができるのですが、それらのスレッドセーフなバージョンも必要です。
+それらは <code>Arc&lt;T&gt;</code> 、 <code>Mutex&lt;T&gt;</code> 、 <code>RwLock&lt;T&gt;</code> という形式で存在します。</p>
+
+<!--Note that the non-threadsafe types _cannot_ be sent between threads, and this is checked at compile-->
+
+<!--time.-->
+
+<p>非スレッドセーフな型はスレッド間で送ることが <em>できません</em> 。
+これはコンパイル時にチェックされます。</p>
+
+<!--There are many useful wrappers for concurrent programming in the [sync][sync] module, but only the-->
+
+<!--major ones will be covered below.-->
+
+<p><a href="../std/sync/index.html">sync</a> モジュールには並行プログラミングのための便利なラッパがたくさんありますが、以下では有名なものだけをカバーします。</p>
+
+<h2 id='arct' class='section-header'><a href='#arct'><code>Arc&lt;T&gt;</code></a></h2>
+<!-- [`Arc<T>`][arc] is a version of `Rc<T>` that uses an atomic reference count (hence, "Arc"). -->
+
+<!--This can be sent freely between threads.-->
+
+<p><a href="../std/sync/struct.Arc.html"><code>Arc&lt;T&gt;</code></a> はアトミックな参照カウントを使う <code>Rc&lt;T&gt;</code> の別バージョンです（そのため、「Arc」なのです）。
+これはスレッド間で自由に送ることができます。</p>
+
+<!--C++'s `shared_ptr` is similar to `Arc`, however in the case of C++ the inner data is always mutable.-->
+
+<!--For semantics similar to that from C++, we should use `Arc<Mutex<T>>`, `Arc<RwLock<T>>`, or-->
+
+<!--`Arc<UnsafeCell<T>>`[^4] (`UnsafeCell<T>` is a cell type that can be used to hold any data and has-->
+
+<!--no runtime cost, but accessing it requires `unsafe` blocks). The last one should only be used if we-->
+
+<!--are certain that the usage won't cause any memory unsafety. Remember that writing to a struct is not-->
+
+<!--an atomic operation, and many functions like `vec.push()` can reallocate internally and cause unsafe-->
+
+<!--behavior, so even monotonicity may not be enough to justify `UnsafeCell`.-->
+
+<p>C++の <code>shared_ptr</code> は <code>Arc</code> と似ていますが、C++の場合、中身のデータは常にミュータブルです。
+C++と同じセマンティクスで使うためには、 <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> 、 <code>Arc&lt;RwLock&lt;T&gt;&gt;</code> 、 <code>Arc&lt;UnsafeCell&lt;T&gt;&gt;</code> を使うべきです <sup id="fnref1"><a href="#fn1" rel="footnote">1</a></sup> （ <code>UnsafeCell&lt;T&gt;</code> はどんなデータでも持つことができ、実行時のコストも掛かりませんが、それにアクセスするためには <code>unsafe</code> ブロックが必要というセル型です）。
+最後のものは、その使用がメモリをアンセーフにしないことを確信している場合にだけ使うべきです。
+次のことを覚えましょう。構造体に書き込むのはアトミックな作業ではなく、<code>vec.push()</code>のような多くの関数は内部でメモリの再割当てを行い、アンセーフな挙動を引き起こす可能性があります。そのため単純な操作であるということだけでは <code>UnsafeCell</code> を正当化するには十分ではありません。</p>
+
+<!--[^4]: `Arc<UnsafeCell<T>>` actually won't compile since `UnsafeCell<T>` isn't `Send` or `Sync`, but we can wrap it in a type and implement `Send`/`Sync` for it manually to get `Arc<Wrapper<T>>` where `Wrapper` is `struct Wrapper<T>(UnsafeCell<T>)`.-->
+
+<!--#### Guarantees-->
+
+<h4 id='保証-3' class='section-header'><a href='#保証-3'>保証</a></h4>
+<!--Like `Rc`, this provides the (thread safe) guarantee that the destructor for the internal data will-->
+
+<!--be run when the last `Arc` goes out of scope (barring any cycles).-->
+
+<p><code>Rc</code> のように、これは最後の <code>Arc</code> がスコープから外れたときに（循環がなければ）中身のデータのためのデストラクタが実行されることを（スレッドセーフに）保証します。</p>
+
+<!--#### Cost-->
+
+<h4 id='コスト-3' class='section-header'><a href='#コスト-3'>コスト</a></h4>
+<!--This has the added cost of using atomics for changing the refcount (which will happen whenever it is-->
+
+<!--cloned or goes out of scope). When sharing data from an `Arc` in a single thread, it is preferable-->
+
+<!--to share `&` pointers whenever possible.-->
+
+<p>これには参照カウントの変更（これは、それがクローンされたりスコープから外れたりする度に発生します）にアトミック性を使うための追加のコストが掛かります。
+シングルスレッドにおいて、データを <code>Arc</code> から共有するのであれば、可能な場合は <code>&amp;</code> ポインタを共有する方が適切です。</p>
+
+<!--## `Mutex<T>` and `RwLock<T>`-->
+
+<h2 id='mutext-と-rwlockt' class='section-header'><a href='#mutext-と-rwlockt'><code>Mutex&lt;T&gt;</code> と <code>RwLock&lt;T&gt;</code></a></h2>
+<!--[`Mutex<T>`][mutex] and [`RwLock<T>`][rwlock] provide mutual-exclusion via RAII guards (guards are-->
+
+<!--objects which maintain some state, like a lock, until their destructor is called). For both of-->
+
+<!--these, the mutex is opaque until we call `lock()` on it, at which point the thread will block-->
+
+<!--until a lock can be acquired, and then a guard will be returned. This guard can be used to access-->
+
+<!--the inner data (mutably), and the lock will be released when the guard goes out of scope.-->
+
+<p><a href="../std/sync/struct.Mutex.html"><code>Mutex&lt;T&gt;</code></a> と <a href="../std/sync/struct.RwLock.html"><code>RwLock&lt;T&gt;</code></a> はRAIIガード（ガードとは、ロックのようにそれらのデストラクタが呼び出されるまである状態を保持するオブジェクトのことです）による相互排他を提供します。
+それらの両方とも、その <code>lock()</code> を呼び出すまでミューテックスは不透明です。その時点で、スレッドはロックが得られ、ガードが戻されるまでブロックします。
+このガードを使うことで、中身のデータに（ミュータブルに）アクセスできるようになり、ロックはガードがスコープから外れたときに解放されます。</p>
+
+<span class='rusttest'>fn main() {
+    {
+    let guard = mutex.lock();
+  // guard dereferences mutably to the inner type
+    // ガードがミュータブルに内部の型への参照を外す
+    *guard += 1;
+// } // lock released when destructor runs
+} // デストラクタが実行されるときにロックは解除される
+}</span><pre class='rust rust-example-rendered'>
+{
+    <span class='kw'>let</span> <span class='ident'>guard</span> <span class='op'>=</span> <span class='ident'>mutex</span>.<span class='ident'>lock</span>();
+    <span class='comment'>// ガードがミュータブルに内部の型への参照を外す</span>
+    <span class='op'>*</span><span class='ident'>guard</span> <span class='op'>+=</span> <span class='number'>1</span>;
+} <span class='comment'>// デストラクタが実行されるときにロックは解除される</span></pre>
+
+<!--`RwLock` has the added benefit of being efficient for multiple reads. It is always safe to have-->
+
+<!--multiple readers to shared data as long as there are no writers; and `RwLock` lets readers acquire a-->
+
+<!--"read lock". Such locks can be acquired concurrently and are kept track of via a reference count.-->
+
+<!--Writers must obtain a "write lock" which can only be obtained when all readers have gone out of-->
+
+<!--scope.-->
+
+<p><code>RwLock</code>には複数の読込みを効率化するという追加の利点があります。
+それはライタのない限り常に、共有されたデータに対する複数のリーダを安全に持つことができます。そして、<code>RwLock</code>によってリーダは「読込みロック」を取得できます。
+このようなロックは並行に取得することができ、参照カウントによって追跡することができます。
+ライタは「書込みロック」を取得する必要があります。「書込みロック」はすべてのリーダがスコープから外れたときにだけ取得できます。</p>
+
+<!--#### Guarantees-->
+
+<h4 id='保証-4' class='section-header'><a href='#保証-4'>保証</a></h4>
+<!--Both of these provide safe shared mutability across threads, however they are prone to deadlocks.-->
+
+<!--Some level of additional protocol safety can be obtained via the type system.-->
+
+<p>それらのどちらもスレッド間での安全で共有されたミュータビリティを提供しますが、それらはデッドロックしがちです。
+型システムによって、ある程度の追加のプロトコルの安全性を得ることができます。</p>
+
+<!--#### Costs-->
+
+<h4 id='コスト-4' class='section-header'><a href='#コスト-4'>コスト</a></h4>
+<!--These use internal atomic-like types to maintain the locks, which are pretty costly (they can block-->
+
+<!--all memory reads across processors till they're done). Waiting on these locks can also be slow when-->
+
+<!--there's a lot of concurrent access happening.-->
+
+<p>それらはロックを保持するために内部でアトミック的な型を使います。それにはかなりコストが掛かります（それらは仕事が終わるまで、プロセッサ中のメモリ読込み全てをブロックする可能性があります）。
+たくさんの並行なアクセスが起こる場合には、それらのロックを待つことが遅くなる可能性があります。</p>
+
+<!--# Composition-->
+
+<h1 id='合成' class='section-header'><a href='#合成'>合成</a></h1>
+<!--A common gripe when reading Rust code is with types like `Rc<RefCell<Vec<T>>>` (or even more-->
+
+<!--complicated compositions of such types). It's not always clear what the composition does, or why the-->
+
+<!--author chose one like this (and when one should be using such a composition in one's own code)-->
+
+<p>Rustのコードを読むときに一般的な悩みは、 <code>Rc&lt;RefCell&lt;Vec&lt;T&gt;&gt;&gt;</code> のような型（又はそのような型のもっと複雑な合成）です。
+その合成が何をしているのか、なぜ作者はこんなものを選んだのか（そして、自分のコード内でいつこんな合成を使うべきなのか）ということは、常に明らかなわけではありません。</p>
+
+<!--Usually, it's a case of composing together the guarantees that you need, without paying for stuff-->
+
+<!--that is unnecessary.-->
+
+<p>普通、それは不要なコストを支払うことなく、必要とする保証を互いに組み合わせた場合です。</p>
+
+<!--For example, `Rc<RefCell<T>>` is one such composition. `Rc<T>` itself can't be dereferenced mutably;-->
+
+<!--because `Rc<T>` provides sharing and shared mutability can lead to unsafe behavior, so we put-->
+
+<!--`RefCell<T>` inside to get dynamically verified shared mutability. Now we have shared mutable data,-->
+
+<!--but it's shared in a way that there can only be one mutator (and no readers) or multiple readers.-->
+
+<p>例えば、 <code>Rc&lt;RefCell&lt;T&gt;&gt;</code> はそのような合成の1つです。
+<code>Rc&lt;T&gt;</code> そのものはミュータブルに参照を外すことができません。 <code>Rc&lt;T&gt;</code> は共有を提供し、共有されたミュータビリティはアンセーフな挙動に繋がる可能性があります。そのため、動的に証明された共有されたミュータビリティを得るために、 <code>RefCell&lt;T&gt;</code> を中に入れます。
+これで共有されたミュータブルなデータを持つことになりますが、それは（リーダはなしで）ライタが1つだけ、又はリーダが複数という方法で共有することになります。</p>
+
+<!--Now, we can take this a step further, and have `Rc<RefCell<Vec<T>>>` or `Rc<Vec<RefCell<T>>>`. These-->
+
+<!--are both shareable, mutable vectors, but they're not the same.-->
+
+<p>今度は、これをさらに次の段階に進めると、 <code>Rc&lt;RefCell&lt;Vec&lt;T&gt;&gt;&gt;</code> や <code>Rc&lt;Vec&lt;RefCell&lt;T&gt;&gt;&gt;</code> を持つことができます。
+それらは両方とも共有できるミュータブルなベクタですが、同じではありません。</p>
+
+<!--With the former, the `RefCell<T>` is wrapping the `Vec<T>`, so the `Vec<T>` in its entirety is-->
+
+<!--mutable. At the same time, there can only be one mutable borrow of the whole `Vec` at a given time.-->
+
+<!--This means that your code cannot simultaneously work on different elements of the vector from-->
+
+<!--different `Rc` handles. However, we are able to push and pop from the `Vec<T>` at will. This is-->
+
+<!-- similar to a `&mut Vec<T>` with the borrow checking done at runtime. -->
+
+<p>1つ目について、 <code>RefCell&lt;T&gt;</code> は <code>Vec&lt;T&gt;</code> をラップしているので、その <code>Vec&lt;T&gt;</code> 全体がミュータブルです。
+同時に、それらは特定の時間において <code>Vec</code> 全体の唯一のミュータブルな借用になり得ます。
+これは、コードがそのベクタの別の要素について、別の <code>Rc</code> ハンドルから同時には操作できないということを意味します。
+しかし、 <code>Vec&lt;T&gt;</code> に対するプッシュやポップは好きなように行うことができます。
+これは借用チェックが実行時に行われるという点で <code>&amp;mut Vec&lt;T&gt;</code> と同様です。</p>
+
+<!--With the latter, the borrowing is of individual elements, but the overall vector is immutable. Thus,-->
+
+<!--we can independently borrow separate elements, but we cannot push or pop from the vector. This is-->
+
+<!-- similar to a `&mut [T]`[^3], but, again, the borrow checking is at runtime. -->
+
+<p>2つ目について、借用は個々の要素に対して行われますが、ベクタ全体がイミュータブルになります。
+そのため、異なる要素を別々に借用することができますが、ベクタに対するプッシュやポップを行うことはできません。
+これは <code>&amp;mut [T]</code><sup id="fnref2"><a href="#fn2" rel="footnote">2</a></sup> と同じですが、やはり借用チェックは実行時に行われます。</p>
+
+<!--In concurrent programs, we have a similar situation with `Arc<Mutex<T>>`, which provides shared-->
+
+<!--mutability and ownership.-->
+
+<p>並行プログラムでは、 <code>Arc&lt;Mutex&lt;T&gt;&gt;</code> と似た状況に置かれます。それは共有されたミュータビリティと所有権を提供します。</p>
+
+<!--When reading code that uses these, go in step by step and look at the guarantees/costs provided.-->
+
+<p>それらを使ったコードを読むときには、1行1行進み、提供される保証とコストを見ましょう。</p>
+
+<!--When choosing a composed type, we must do the reverse; figure out which guarantees we want, and at-->
+
+<!--which point of the composition we need them. For example, if there is a choice between-->
+
+<!--`Vec<RefCell<T>>` and `RefCell<Vec<T>>`, we should figure out the tradeoffs as done above and pick-->
+
+<!--one.-->
+
+<p>合成された型を選択するときには、その逆に考えなければなりません。必要とする保証が何であるか、必要とする合成がどの点にあるのかを理解しましょう。
+例えば、もし <code>Vec&lt;RefCell&lt;T&gt;&gt;</code> と <code>RefCell&lt;Vec&lt;T&gt;&gt;</code> のどちらかを選ぶのであれば、前の方で行ったようにトレードオフを理解し、選ばなければなりません。</p>
+
+<!--[^3]: `&[T]` and `&mut [T]` are _slices_; they consist of a pointer and a length and can refer to a portion of a vector or array. `&mut [T]` can have its elements mutated, however its length cannot be touched.-->
+
+<p><code>&amp;mut [T]</code> ではその要素を変更できますが、その長さは変更することができません。</p>
+
+<div class="footnotes">
+<hr>
+<ol>
+
+<li id="fn1">
+<p><code>Arc&lt;UnsafeCell&lt;T&gt;&gt;</code> は <code>Send</code> や <code>Sync</code> ではないため、実際にはコンパイルできません。しかし、 <code>Arc&lt;Wrapper&lt;T&gt;&gt;</code> を得るために、手動でそれを <code>Send</code> と <code>Sync</code> を実装した型でラップすることができます。ここでの <code>Wrapper</code> は <code>struct Wrapper&lt;T&gt;(UnsafeCell&lt;T&gt;)</code> です。&nbsp;<a href="#fnref1" rev="footnote">&#8617;</a></p>
+</li>
+
+<li id="fn2">
+<p><code>&amp;[T]</code> と <code>&amp;mut [T]</code> は <em>スライス</em> です。それらはポインタと長さを持ち、ベクタや配列の一部を参照することができます。&nbsp;<a href="#fnref2" rev="footnote">&#8617;</a></p>
+</li>
+
+</ol>
+</div>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

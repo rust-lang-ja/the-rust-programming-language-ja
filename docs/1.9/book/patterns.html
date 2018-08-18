@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>パターン</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a class='active' href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">パターン</h1>
+    <!-- % Patterns -->
+
+<!-- Patterns are quite common in Rust. We use them in [variable -->
+
+<!-- bindings][bindings], [match expressions][match], and other places, too. Let’s go -->
+
+<!-- on a whirlwind tour of all of the things patterns can do!-->
+
+<p>パターンはRustにおいて極めて一般的です。
+パターンは <a href="variable-bindings.html">変数束縛</a>、 <a href="match.html">マッチ文</a> などで使われています。
+さあ、めくるめくパターンの旅を始めましょう！</p>
+
+<!-- A quick refresher: you can match against literals directly, and `_` acts as an
+‘any’ case: -->
+
+<p>簡単な復習：リテラルに対しては直接マッチ出来ます。
+また、 <code>_</code> は「任意の」ケースとして振る舞います。</p>
+
+<span class='rusttest'>fn main() {
+    let x = 1;
+
+match x {
+    1 =&gt; println!(&quot;one&quot;),
+    2 =&gt; println!(&quot;two&quot;),
+    3 =&gt; println!(&quot;three&quot;),
+    _ =&gt; println!(&quot;anything&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='number'>1</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;one&quot;</span>),
+    <span class='number'>2</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;two&quot;</span>),
+    <span class='number'>3</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;three&quot;</span>),
+    _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
+}</pre>
+
+<!-- This prints `one`. -->
+
+<p>これは <code>one</code> を表示します。</p>
+
+<!-- There’s one pitfall with patterns: like anything that introduces a new binding, -->
+
+<!-- they introduce shadowing. For example: -->
+
+<p>パターンには一つ落とし穴があります。
+新しい束縛を導入する他の構文と同様、パターンはシャドーイングをします。
+例えば：</p>
+
+<span class='rusttest'>fn main() {
+    let x = 1;
+let c = &#39;c&#39;;
+
+match c {
+    x =&gt; println!(&quot;x: {} c: {}&quot;, x, c),
+}
+
+println!(&quot;x: {}&quot;, x)
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+<span class='kw'>let</span> <span class='ident'>c</span> <span class='op'>=</span> <span class='string'>&#39;c&#39;</span>;
+
+<span class='kw'>match</span> <span class='ident'>c</span> {
+    <span class='ident'>x</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x: {} c: {}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>c</span>),
+}
+
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x: {}&quot;</span>, <span class='ident'>x</span>)</pre>
+
+<!-- This prints:-->
+
+<p>これは以下のように出力します。</p>
+
+<pre><code class="language-text">x: c c: c
+x: 1
+</code></pre>
+
+<!-- In other words, `x =>` matches the pattern and introduces a new binding named -->
+
+<!-- `x`. This new binding is in scope for the match arm and takes on the value of -->
+
+<!-- `c`. Notice that the value of `x` outside the scope of the match has no bearing -->
+
+<!-- on the value of `x` within it. Because we already have a binding named `x`, this -->
+
+<!-- new `x` shadows it. -->
+
+<p>別の言い方をすると、 <code>x =&gt;</code> は値をパターンにマッチさせ、 <code>x</code> という名前の束縛を導入します。
+この束縛はマッチの腕内で有効で、値は <code>c</code> を取ります。
+このマッチのスコープ外の <code>x</code> はスコープ内の <code>x</code> の値に何の関係もないことに注意して下さい。
+既に <code>x</code> という束縛が存在していたので、新たに導入した <code>x</code> は、その古い <code>x</code> をシャドーイングします。</p>
+
+<!-- # Multiple patterns -->
+
+<h1 id='複式パターン' class='section-header'><a href='#複式パターン'>複式パターン</a></h1>
+<!-- You can match multiple patterns with `|`: -->
+
+<p><code>|</code> を使うと、複数のパターンにマッチさせることができます：</p>
+
+<span class='rusttest'>fn main() {
+    let x = 1;
+
+match x {
+    1 | 2 =&gt; println!(&quot;one or two&quot;),
+    3 =&gt; println!(&quot;three&quot;),
+    _ =&gt; println!(&quot;anything&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='number'>1</span> <span class='op'>|</span> <span class='number'>2</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;one or two&quot;</span>),
+    <span class='number'>3</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;three&quot;</span>),
+    _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
+}</pre>
+
+<!--This prints `one or two`.-->
+
+<p>これは、 <code>one or two</code> を出力します。</p>
+
+<!-- # Destructuring -->
+
+<h1 id='分配束縛' class='section-header'><a href='#分配束縛'>分配束縛</a></h1>
+<!-- If you have a compound data type, like a [`struct`][struct], you can destructure it -->
+
+<!-- inside of a pattern: -->
+
+<p><a href="structs.html"><code>struct</code></a> のような複合データ型が存在するとき、パターン内でその値を分解することができます。</p>
+
+<span class='rusttest'>fn main() {
+    struct Point {
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { x, y } =&gt; println!(&quot;({},{})&quot;, x, y),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+
+<span class='kw'>match</span> <span class='ident'>origin</span> {
+    <span class='ident'>Point</span> { <span class='ident'>x</span>, <span class='ident'>y</span> } <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;({},{})&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>),
+}</pre>
+
+<!-- We can use `:` to give a value a different name.-->
+
+<p>値に別の名前を付けたいときは、 <code>:</code> を使うことができます。</p>
+
+<span class='rusttest'>fn main() {
+    struct Point {
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { x: x1, y: y1 } =&gt; println!(&quot;({},{})&quot;, x1, y1),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+
+<span class='kw'>match</span> <span class='ident'>origin</span> {
+    <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='ident'>x1</span>, <span class='ident'>y</span>: <span class='ident'>y1</span> } <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;({},{})&quot;</span>, <span class='ident'>x1</span>, <span class='ident'>y1</span>),
+}</pre>
+
+<!-- If we only care about some of the values, we don’t have to give them all names: -->
+
+<p>値の一部にだけ興味がある場合は、値のすべてに名前を付ける必要はありません。</p>
+
+<span class='rusttest'>fn main() {
+    struct Point {
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { x, .. } =&gt; println!(&quot;x is {}&quot;, x),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+
+<span class='kw'>match</span> <span class='ident'>origin</span> {
+    <span class='ident'>Point</span> { <span class='ident'>x</span>, .. } <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is {}&quot;</span>, <span class='ident'>x</span>),
+}</pre>
+
+<!-- This prints `x is 0`. -->
+
+<p>これは <code>x is 0</code> を出力します。</p>
+
+<!-- You can do this kind of match on any member, not only the first: -->
+
+<p>最初のメンバだけでなく、どのメンバに対してもこの種のマッチを行うことができます。</p>
+
+<span class='rusttest'>fn main() {
+    struct Point {
+    x: i32,
+    y: i32,
+}
+
+let origin = Point { x: 0, y: 0 };
+
+match origin {
+    Point { y, .. } =&gt; println!(&quot;y is {}&quot;, y),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span> {
+    <span class='ident'>x</span>: <span class='ident'>i32</span>,
+    <span class='ident'>y</span>: <span class='ident'>i32</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+
+<span class='kw'>match</span> <span class='ident'>origin</span> {
+    <span class='ident'>Point</span> { <span class='ident'>y</span>, .. } <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;y is {}&quot;</span>, <span class='ident'>y</span>),
+}</pre>
+
+<!-- This prints `y is 0`. -->
+
+<p>これは <code>y is 0</code> を出力します。</p>
+
+<!-- This ‘destructuring’ behavior works on any compound data type, like -->
+
+<!-- [tuples][tuples] or [enums][enums]. -->
+
+<p>この「分配束縛」 (destructuring) と呼ばれる振る舞いは、 <a href="primitive-types.html#tuples">タプル</a> や <a href="enums.html">列挙型</a> のような、任意の複合データ型で使用できます。</p>
+
+<!-- # Ignoring bindings -->
+
+<h1 id='束縛の無視' class='section-header'><a href='#束縛の無視'>束縛の無視</a></h1>
+<!-- You can use `_` in a pattern to disregard the type and value.-->
+
+<!-- For example, here’s a `match` against a `Result<T, E>`: -->
+
+<p>パターン内の型や値を無視するために <code>_</code> を使うことができます。
+例として、 <code>Result&lt;T, E&gt;</code> に対して <code>match</code> をしてみましょう：</p>
+
+<span class='rusttest'>fn main() {
+    let some_value: Result&lt;i32, &amp;&#39;static str&gt; = Err(&quot;There was an error&quot;);
+match some_value {
+    Ok(value) =&gt; println!(&quot;got a value: {}&quot;, value),
+    Err(_) =&gt; println!(&quot;an error occurred&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>match</span> <span class='ident'>some_value</span> {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>value</span>) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a value: {}&quot;</span>, <span class='ident'>value</span>),
+    <span class='prelude-val'>Err</span>(_) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;an error occurred&quot;</span>),
+}</pre>
+
+<!-- In the first arm, we bind the value inside the `Ok` variant to `value`. But -->
+
+<!-- in the `Err` arm, we use `_` to disregard the specific error, and print -->
+
+<!-- a general error message. -->
+
+<p>最初の部分では <code>Ok</code> ヴァリアント内の値に <code>value</code> を束縛しています。
+しかし <code>Err</code> 部分では、ヴァリアント内のエラー情報を無視して一般的なエラーメッセージを表示するために <code>_</code> を使っています。</p>
+
+<!-- `_` is valid in any pattern that creates a binding. This can be useful to -->
+
+<!-- ignore parts of a larger structure: -->
+
+<p><code>_</code> は束縛を導入するどのようなパターンにおいても有効です。
+これは大きな構造の一部を無視する際に有用です。</p>
+
+<span class='rusttest'>fn main() {
+    fn coordinate() -&gt; (i32, i32, i32) {
+    // generate and return some sort of triple tuple
+    // 3要素のタプルを生成して返す
+(1, 2, 3)
+}
+
+let (x, _, z) = coordinate();
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>coordinate</span>() <span class='op'>-&gt;</span> (<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>) {
+    <span class='comment'>// 3要素のタプルを生成して返す</span>
+}
+
+<span class='kw'>let</span> (<span class='ident'>x</span>, _, <span class='ident'>z</span>) <span class='op'>=</span> <span class='ident'>coordinate</span>();</pre>
+
+<!-- Here, we bind the first and last element of the tuple to `x` and `z`, but -->
+
+<!-- ignore the middle element. -->
+
+<p>ここでは、タプルの最初と最後の要素に <code>x</code> と <code>z</code> を束縛します。</p>
+
+<!-- It’s worth noting that using `_` never binds the value in the first place, -->
+
+<!-- which means a value may not move: -->
+
+<p><code>_</code> はそもそも値に束縛されない、つまり値をムーブしないということは特筆に値します。</p>
+
+<span class='rusttest'>fn main() {
+    let tuple: (u32, String) = (5, String::from(&quot;five&quot;));
+
+// Here, tuple is moved, because the String moved:
+// この場合tupleはムーブされます。何故なら第2要素の文字列がムーブされているからです:
+let (x, _s) = tuple;
+
+// The next line would give &quot;error: use of partially moved value: `tuple`&quot;
+// 次の行は「error: use of partially moved value: `tuple`」になります。
+// println!(&quot;Tuple is: {:?}&quot;, tuple);
+
+// However,
+// しかしながら、
+
+let tuple = (5, String::from(&quot;five&quot;));
+
+// Here, tuple is _not_ moved, as the String was never moved, and u32 is Copy:
+// この場合はtupleはムーブ _されません_ 。何故なら第2要素の文字列はムーブされず、第1要素のu32はCopyだからです:
+let (x, _) = tuple;
+
+// That means this works:
+// つまりこれは動きます:
+println!(&quot;Tuple is: {:?}&quot;, tuple);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>tuple</span>: (<span class='ident'>u32</span>, <span class='ident'>String</span>) <span class='op'>=</span> (<span class='number'>5</span>, <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;five&quot;</span>));
+
+<span class='comment'>// この場合tupleはムーブされます。何故なら第2要素の文字列がムーブされているからです:</span>
+<span class='kw'>let</span> (<span class='ident'>x</span>, <span class='ident'>_s</span>) <span class='op'>=</span> <span class='ident'>tuple</span>;
+
+<span class='comment'>// 次の行は「error: use of partially moved value: `tuple`」になります。</span>
+<span class='comment'>// println!(&quot;Tuple is: {:?}&quot;, tuple);</span>
+
+<span class='comment'>// しかしながら、</span>
+
+<span class='kw'>let</span> <span class='ident'>tuple</span> <span class='op'>=</span> (<span class='number'>5</span>, <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;five&quot;</span>));
+
+<span class='comment'>// この場合はtupleはムーブ _されません_ 。何故なら第2要素の文字列はムーブされず、第1要素のu32はCopyだからです:</span>
+<span class='kw'>let</span> (<span class='ident'>x</span>, _) <span class='op'>=</span> <span class='ident'>tuple</span>;
+
+<span class='comment'>// つまりこれは動きます:</span>
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Tuple is: {:?}&quot;</span>, <span class='ident'>tuple</span>);</pre>
+
+<!-- This also means that any temporary variables will be dropped at the end of the -->
+
+<!-- statement: -->
+
+<p>またこれは、（訳注: 値に束縛されない）一時変数は文の終わりでドロップされるということでもあります。</p>
+
+<span class='rusttest'>fn main() {
+    // Here, the String created will be dropped immediately, as it’s not bound:
+// 生成されたStringは変数を束縛しないので即座にドロップされる
+let _ = String::from(&quot;  hello  &quot;).trim();
+}</span><pre class='rust rust-example-rendered'>
+<span class='comment'>// 生成されたStringは変数を束縛しないので即座にドロップされる</span>
+<span class='kw'>let</span> _ <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>from</span>(<span class='string'>&quot;  hello  &quot;</span>).<span class='ident'>trim</span>();</pre>
+
+<!-- You can also use `..` in a pattern to disregard multiple values: -->
+
+<p>複数の値を無視するのには <code>..</code> パターンが使えます。</p>
+
+<span class='rusttest'>fn main() {
+    enum OptionalTuple {
+    Value(i32, i32, i32),
+    Missing,
+}
+
+let x = OptionalTuple::Value(5, -2, 3);
+
+match x {
+    OptionalTuple::Value(..) =&gt; println!(&quot;Got a tuple!&quot;),
+    OptionalTuple::Missing =&gt; println!(&quot;No such luck.&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>enum</span> <span class='ident'>OptionalTuple</span> {
+    <span class='ident'>Value</span>(<span class='ident'>i32</span>, <span class='ident'>i32</span>, <span class='ident'>i32</span>),
+    <span class='ident'>Missing</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>OptionalTuple</span>::<span class='ident'>Value</span>(<span class='number'>5</span>, <span class='op'>-</span><span class='number'>2</span>, <span class='number'>3</span>);
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='ident'>OptionalTuple</span>::<span class='ident'>Value</span>(..) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Got a tuple!&quot;</span>),
+    <span class='ident'>OptionalTuple</span>::<span class='ident'>Missing</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;No such luck.&quot;</span>),
+}</pre>
+
+<!--This prints `Got a tuple!`. -->
+
+<p>これは <code>Got a tuple!</code> を出力します。</p>
+
+<!-- # ref and ref mut -->
+
+<h1 id='ref-と-ref-mut' class='section-header'><a href='#ref-と-ref-mut'>ref と ref mut</a></h1>
+<!-- If you want to get a [reference][ref], use the `ref` keyword:-->
+
+<p><a href="references-and-borrowing.html">参照</a> を取得したいときは <code>ref</code> キーワードを使いましょう。</p>
+
+<span class='rusttest'>fn main() {
+    let x = 5;
+
+match x {
+    ref r =&gt; println!(&quot;Got a reference to {}&quot;, r),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='kw-2'>ref</span> <span class='ident'>r</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Got a reference to {}&quot;</span>, <span class='ident'>r</span>),
+}</pre>
+
+<!-- This prints `Got a reference to 5`. -->
+
+<p>これは <code>Got a reference to 5</code> を出力します。</p>
+
+<!-- Here, the `r` inside the `match` has the type `&i32`. In other words, the `ref` -->
+
+<!-- keyword _creates_ a reference, for use in the pattern. If you need a mutable -->
+
+<!-- reference, `ref mut` will work in the same way: -->
+
+<p>ここで <code>match</code> 内の <code>r</code> は <code>&amp;i32</code> 型を持っています。
+言い換えると、 <code>ref</code> キーワードはパターン内で使う参照を <em>作り出します</em> 。
+ミュータブルな参照が必要な場合は、同様に <code>ref mut</code> を使います。</p>
+
+<span class='rusttest'>fn main() {
+    let mut x = 5;
+
+match x {
+    ref mut mr =&gt; println!(&quot;Got a mutable reference to {}&quot;, mr),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='kw-2'>ref</span> <span class='kw-2'>mut</span> <span class='ident'>mr</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Got a mutable reference to {}&quot;</span>, <span class='ident'>mr</span>),
+}</pre>
+
+<!-- # Ranges -->
+
+<h1 id='範囲' class='section-header'><a href='#範囲'>範囲</a></h1>
+<!-- You can match a range of values with `...`: -->
+
+<p><code>...</code> で値の範囲にマッチさせることができます：</p>
+
+<span class='rusttest'>fn main() {
+    let x = 1;
+
+match x {
+    1 ... 5 =&gt; println!(&quot;one through five&quot;),
+    _ =&gt; println!(&quot;anything&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;one through five&quot;</span>),
+    _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
+}</pre>
+
+<!-- This prints `one through five`. -->
+
+<p>これは <code>one through five</code> を出力します。</p>
+
+<!-- Ranges are mostly used with integers and `char`s: -->
+
+<p>範囲は多くの場合、整数か <code>char</code> 型で使われます：</p>
+
+<span class='rusttest'>fn main() {
+    let x = &#39;💅&#39;;
+
+match x {
+    &#39;a&#39; ... &#39;j&#39; =&gt; println!(&quot;early letter&quot;),
+    &#39;k&#39; ... &#39;z&#39; =&gt; println!(&quot;late letter&quot;),
+    _ =&gt; println!(&quot;something else&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='string'>&#39;💅&#39;</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='string'>&#39;a&#39;</span> ... <span class='string'>&#39;j&#39;</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;early letter&quot;</span>),
+    <span class='string'>&#39;k&#39;</span> ... <span class='string'>&#39;z&#39;</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;late letter&quot;</span>),
+    _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;something else&quot;</span>),
+}</pre>
+
+<!-- This prints `something else`. -->
+
+<p>これは <code>something else</code> を出力します。</p>
+
+<!-- # Bindings -->
+
+<h1 id='束縛' class='section-header'><a href='#束縛'>束縛</a></h1>
+<!-- You can bind values to names with `@`: -->
+
+<p><code>@</code> で値に名前を束縛することができます。</p>
+
+<span class='rusttest'>fn main() {
+    let x = 1;
+
+match x {
+    e @ 1 ... 5 =&gt; println!(&quot;got a range element {}&quot;, e),
+    _ =&gt; println!(&quot;anything&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='ident'>e</span> @ <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
+    _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
+}</pre>
+
+<!-- This prints `got a range element 1`. This is useful when you want to -->
+
+<!-- do a complicated match of part of a data structure: -->
+
+<p>これは <code>got a range element 1</code> を出力します。
+データ構造の一部に対して複雑なマッチングをしたいときに有用です：</p>
+
+<span class='rusttest'>fn main() {
+    #[derive(Debug)]
+struct Person {
+    name: Option&lt;String&gt;,
+}
+
+let name = &quot;Steve&quot;.to_string();
+let x: Option&lt;Person&gt; = Some(Person { name: Some(name) });
+match x {
+    Some(Person { name: ref a @ Some(_), .. }) =&gt; println!(&quot;{:?}&quot;, a),
+    _ =&gt; {}
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='attribute'>#[<span class='ident'>derive</span>(<span class='ident'>Debug</span>)]</span>
+<span class='kw'>struct</span> <span class='ident'>Person</span> {
+    <span class='ident'>name</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>String</span><span class='op'>&gt;</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>name</span> <span class='op'>=</span> <span class='string'>&quot;Steve&quot;</span>.<span class='ident'>to_string</span>();
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>Person</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='ident'>Person</span> { <span class='ident'>name</span>: <span class='prelude-val'>Some</span>(<span class='ident'>name</span>) });
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='prelude-val'>Some</span>(<span class='ident'>Person</span> { <span class='ident'>name</span>: <span class='kw-2'>ref</span> <span class='ident'>a</span> @ <span class='prelude-val'>Some</span>(_), .. }) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>a</span>),
+    _ <span class='op'>=&gt;</span> {}
+}</pre>
+
+<!-- This prints `Some("Steve")`: we’ve bound the inner `name` to `a`.-->
+
+<p>これは <code>Some(&quot;Steve&quot;)</code> を出力します。内側の <code>name</code> の値への参照に <code>a</code> を束縛します。</p>
+
+<!-- If you use `@` with `|`, you need to make sure the name is bound in each part -->
+
+<!-- of the pattern: -->
+
+<p><code>@</code> を <code>|</code> と組み合わせて使う場合は、それぞれのパターンで同じ名前が束縛されるようにする必要があります：</p>
+
+<span class='rusttest'>fn main() {
+    let x = 5;
+
+match x {
+    e @ 1 ... 5 | e @ 8 ... 10 =&gt; println!(&quot;got a range element {}&quot;, e),
+    _ =&gt; println!(&quot;anything&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='ident'>e</span> @ <span class='number'>1</span> ... <span class='number'>5</span> <span class='op'>|</span> <span class='ident'>e</span> @ <span class='number'>8</span> ... <span class='number'>10</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;got a range element {}&quot;</span>, <span class='ident'>e</span>),
+    _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;anything&quot;</span>),
+}</pre>
+
+<!-- # Guards -->
+
+<h1 id='ガード' class='section-header'><a href='#ガード'>ガード</a></h1>
+<!-- You can introduce ‘match guards’ with `if`: -->
+
+<p><code>if</code> を使うことで「マッチガード」を導入することができます：</p>
+
+<span class='rusttest'>fn main() {
+    enum OptionalInt {
+    Value(i32),
+    Missing,
+}
+
+let x = OptionalInt::Value(5);
+
+match x {
+    OptionalInt::Value(i) if i &gt; 5 =&gt; println!(&quot;Got an int bigger than five!&quot;),
+    OptionalInt::Value(..) =&gt; println!(&quot;Got an int!&quot;),
+    OptionalInt::Missing =&gt; println!(&quot;No such luck.&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>enum</span> <span class='ident'>OptionalInt</span> {
+    <span class='ident'>Value</span>(<span class='ident'>i32</span>),
+    <span class='ident'>Missing</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='ident'>OptionalInt</span>::<span class='ident'>Value</span>(<span class='number'>5</span>);
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='ident'>OptionalInt</span>::<span class='ident'>Value</span>(<span class='ident'>i</span>) <span class='kw'>if</span> <span class='ident'>i</span> <span class='op'>&gt;</span> <span class='number'>5</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Got an int bigger than five!&quot;</span>),
+    <span class='ident'>OptionalInt</span>::<span class='ident'>Value</span>(..) <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Got an int!&quot;</span>),
+    <span class='ident'>OptionalInt</span>::<span class='ident'>Missing</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;No such luck.&quot;</span>),
+}</pre>
+
+<!-- This prints `Got an int!`. -->
+
+<p>これは <code>Got an int!</code> を出力します。</p>
+
+<!-- If you’re using `if` with multiple patterns, the `if` applies to both sides: -->
+
+<p>複式パターンで <code>if</code> を使うと、 <code>if</code> は <code>|</code> の両側に適用されます：</p>
+
+<span class='rusttest'>fn main() {
+    let x = 4;
+let y = false;
+
+match x {
+    4 | 5 if y =&gt; println!(&quot;yes&quot;),
+    _ =&gt; println!(&quot;no&quot;),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>4</span>;
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='number'>4</span> <span class='op'>|</span> <span class='number'>5</span> <span class='kw'>if</span> <span class='ident'>y</span> <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;yes&quot;</span>),
+    _ <span class='op'>=&gt;</span> <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;no&quot;</span>),
+}</pre>
+
+<!-- This prints `no`, because the `if` applies to the whole of `4 | 5`, and not to -->
+
+<!-- only the `5`. In other words, the precedence of `if` behaves like this: -->
+
+<p>これは <code>no</code> を出力します。なぜなら <code>if</code> は <code>4 | 5</code> 全体に適用されるのであって、 <code>5</code> 単独に対して適用されるのではないからです。つまり <code>if</code> 節は以下のように振舞います：</p>
+
+<pre><code class="language-text">(4 | 5) if y =&gt; ...
+</code></pre>
+
+<!--not this: -->
+
+<p>次のようには解釈されません：</p>
+
+<pre><code class="language-text">4 | (5 if y) =&gt; ...
+</code></pre>
+
+<!-- # Mix and Match -->
+
+<h1 id='混ぜてマッチ' class='section-header'><a href='#混ぜてマッチ'>混ぜてマッチ</a></h1>
+<!-- Whew! That’s a lot of different ways to match things, and they can all be -->
+
+<!-- mixed and matched, depending on what you’re doing: -->
+
+<p>ふう、マッチには様々な方法があるのですね。やりたいことに応じて、それらを混ぜてマッチさせることもできます：</p>
+
+<span class='rusttest'>fn main() {
+    match x {
+    Foo { x: Some(ref name), y: None } =&gt; ...
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>match</span> <span class='ident'>x</span> {
+    <span class='ident'>Foo</span> { <span class='ident'>x</span>: <span class='prelude-val'>Some</span>(<span class='kw-2'>ref</span> <span class='ident'>name</span>), <span class='ident'>y</span>: <span class='prelude-val'>None</span> } <span class='op'>=&gt;</span> ...
+}</pre>
+
+<!-- Patterns are very powerful. Make good use of them. -->
+
+<p>パターンはとても強力です。上手に使いましょう。</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

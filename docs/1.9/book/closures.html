@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>クロージャ</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a class='active' href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">クロージャ</h1>
+    <!-- % Closures -->
+
+<!-- Sometimes it is useful to wrap up a function and _free variables_ for better -->
+
+<!-- clarity and reuse. The free variables that can be used come from the -->
+
+<!-- enclosing scope and are ‘closed over’ when used in the function. From this, we -->
+
+<!-- get the name ‘closures’ and Rust provides a really great implementation of -->
+
+<!-- them, as we’ll see. -->
+
+<p>しばしば、関数と <em>自由変数</em> を一つにまとめておくことがコードの明確さや再利用に役立つ場合が有ります。
+自由変数は外部のスコープから来て、関数中で使われるときに「閉じ込め」られます。
+そのためそのようなまとまりを「クロージャ」と呼び、
+Rustはこれから見ていくようにクロージャの非常に良い実装を提供しています。</p>
+
+<!-- # Syntax -->
+
+<h1 id='構文' class='section-header'><a href='#構文'>構文</a></h1>
+<!-- Closures look like this: -->
+
+<p>クロージャは以下のような見た目です:</p>
+
+<span class='rusttest'>fn main() {
+    let plus_one = |x: i32| x + 1;
+
+assert_eq!(2, plus_one(1));
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>plus_one</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>2</span>, <span class='ident'>plus_one</span>(<span class='number'>1</span>));</pre>
+
+<!-- We create a binding, `plus_one`, and assign it to a closure. The closure’s -->
+
+<!-- arguments go between the pipes (`|`), and the body is an expression, in this -->
+
+<!-- case, `x + 1`. Remember that `{ }` is an expression, so we can have multi-line -->
+
+<!-- closures too: -->
+
+<p>束縛 <code>plus_one</code> を作成し、クロージャを代入しています。
+クロージャの引数はパイプ( <code>|</code> )の間に書きます、そしてクロージャの本体は式です、
+この場合は <code>x + 1</code> がそれに当たります。
+<code>{ }</code> が式であることを思い出して下さい、 そのため複数行のクロージャを作成することも可能です:</p>
+
+<span class='rusttest'>fn main() {
+    let plus_two = |x| {
+    let mut result: i32 = x;
+
+    result += 1;
+    result += 1;
+
+    result
+};
+
+assert_eq!(4, plus_two(2));
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>plus_two</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>result</span>: <span class='ident'>i32</span> <span class='op'>=</span> <span class='ident'>x</span>;
+
+    <span class='ident'>result</span> <span class='op'>+=</span> <span class='number'>1</span>;
+    <span class='ident'>result</span> <span class='op'>+=</span> <span class='number'>1</span>;
+
+    <span class='ident'>result</span>
+};
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>4</span>, <span class='ident'>plus_two</span>(<span class='number'>2</span>));</pre>
+
+<!-- You’ll notice a few things about closures that are a bit different from regular -->
+
+<!-- named functions defined with `fn`. The first is that we did not need to -->
+
+<!-- annotate the types of arguments the closure takes or the values it returns. We -->
+
+<!-- can: -->
+
+<p>いくつかクロージャと通常の <code>fn</code> で定義される関数との間の違いに気がつくことでしょう。
+一つ目はクロージャの引数や返り値の型を示す必要が無いことです。
+型を以下のように示すことも可能です:</p>
+
+<span class='rusttest'>fn main() {
+    let plus_one = |x: i32| -&gt; i32 { x + 1 };
+
+assert_eq!(2, plus_one(1));
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>plus_one</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='op'>-&gt;</span> <span class='ident'>i32</span> { <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span> };
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>2</span>, <span class='ident'>plus_one</span>(<span class='number'>1</span>));</pre>
+
+<!-- But we don’t have to. Why is this? Basically, it was chosen for ergonomic -->
+
+<!-- reasons. While specifying the full type for named functions is helpful with -->
+
+<!-- things like documentation and type inference, the full type signatures of -->
+
+<!-- closures are rarely documented since they’re anonymous, and they don’t cause -->
+
+<!-- the kinds of error-at-a-distance problems that inferring named function types -->
+
+<!-- can. -->
+
+<p>しかし、このように型を示す必要はありません。
+なぜでしょう？一言で言えば、これは使いやすさのためです。
+名前の有る関数の型を全て指定するのはドキュメンテーションや型推論の役に立ちますが、
+クロージャの型は殆ど示されません、これはクロージャたちが匿名であり、
+さらに名前付きの関数が引き起こすと思われるような定義から離れた箇所で発生するエラーの要因ともならないためです。</p>
+
+<!-- The second is that the syntax is similar, but a bit different. I’ve added -->
+
+<!-- spaces here for easier comparison: -->
+
+<p>通常の関数との違いの二つ目は、構文が大部分は似ていますがほんの少しだけ違うという点です。
+比較がしやすいようにスペースを適宜補って以下に示します:</p>
+
+<span class='rusttest'>fn main() {
+    fn  plus_one_v1   (x: i32) -&gt; i32 { x + 1 }
+let plus_one_v2 = |x: i32| -&gt; i32 { x + 1 };
+let plus_one_v3 = |x: i32|          x + 1  ;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span>  <span class='ident'>plus_one_v1</span>   (<span class='ident'>x</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> { <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span> }
+<span class='kw'>let</span> <span class='ident'>plus_one_v2</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='op'>-&gt;</span> <span class='ident'>i32</span> { <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span> };
+<span class='kw'>let</span> <span class='ident'>plus_one_v3</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span>          <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>1</span>  ;</pre>
+
+<!-- Small differences, but they’re similar. -->
+
+<p>小さな違いは有りますが殆どの部分は同じです。</p>
+
+<!-- # Closures and their environment -->
+
+<h1 id='クロージャとクロージャの環境' class='section-header'><a href='#クロージャとクロージャの環境'>クロージャとクロージャの環境</a></h1>
+<!-- The environment for a closure can include bindings from its enclosing scope in -->
+
+<!-- addition to parameters and local bindings. It looks like this: -->
+
+<p>クロージャの環境は引数やローカルな束縛に加えてクロージャを囲んでいるスコープ中の束縛を含むことができます。
+例えば以下のようになります:</p>
+
+<span class='rusttest'>fn main() {
+    let num = 5;
+let plus_num = |x: i32| x + num;
+
+assert_eq!(10, plus_num(5));
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+<span class='kw'>let</span> <span class='ident'>plus_num</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>;
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10</span>, <span class='ident'>plus_num</span>(<span class='number'>5</span>));</pre>
+
+<!-- This closure, `plus_num`, refers to a `let` binding in its scope: `num`. More -->
+
+<!-- specifically, it borrows the binding. If we do something that would conflict -->
+
+<!-- with that binding, we get an error. Like this one: -->
+
+<p>クロージャ <code>plus_num</code> はスコープ内の <code>let</code> 束縛 <code>num</code> を参照しています。
+より厳密に言うと、クロージャ <code>plus_num</code> は束縛を借用しています。
+もし、この束縛と衝突する処理を行うとエラーが発生します。
+例えば、以下のようなコードでは:</p>
+
+<span class='rusttest'>fn main() {
+    let mut num = 5;
+let plus_num = |x: i32| x + num;
+
+let y = &amp;mut num;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+<span class='kw'>let</span> <span class='ident'>plus_num</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>;
+
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>num</span>;</pre>
+
+<!-- Which errors with: -->
+
+<p>以下のエラーを発生させます:</p>
+
+<pre><code class="language-text">error: cannot borrow `num` as mutable because it is also borrowed as immutable
+    let y = &amp;mut num;
+                 ^~~
+note: previous borrow of `num` occurs here due to use in closure; the immutable
+  borrow prevents subsequent moves or mutable borrows of `num` until the borrow
+  ends
+    let plus_num = |x| x + num;
+                   ^~~~~~~~~~~
+note: previous borrow ends here
+fn main() {
+    let mut num = 5;
+    let plus_num = |x| x + num;
+
+    let y = &amp;mut num;
+}
+^
+</code></pre>
+
+<!-- A verbose yet helpful error message! As it says, we can’t take a mutable borrow -->
+
+<!-- on `num` because the closure is already borrowing it. If we let the closure go -->
+
+<!-- out of scope, we can: -->
+
+<p>冗長ですが役に立つエラーメッセージです!
+エラーが示しているように、クロージャが既に <code>num</code> を借用しているために、
+<code>num</code> の変更可能な借用を取得することはできません。
+もしクロージャがスコープ外になるようにした場合以下のようにできます:</p>
+
+<span class='rusttest'>fn main() {
+    let mut num = 5;
+{
+    let plus_num = |x: i32| x + num;
+
+// } // plus_num goes out of scope, borrow of num ends
+} // plus_numがスコープ外に出て、numの借用が終わります
+
+let y = &amp;mut num;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+{
+    <span class='kw'>let</span> <span class='ident'>plus_num</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>;
+
+} <span class='comment'>// plus_numがスコープ外に出て、numの借用が終わります</span>
+
+<span class='kw'>let</span> <span class='ident'>y</span> <span class='op'>=</span> <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>num</span>;</pre>
+
+<!-- If your closure requires it, however, Rust will take ownership and move -->
+
+<!-- the environment instead. This doesn’t work: -->
+
+<p>もしクロージャが <code>num</code> を要求した場合、Rustは借用する代わりに環境の所有権を取りムーブします。
+そのため、以下のコードは動作しません:</p>
+
+<span class='rusttest'>fn main() {
+    let nums = vec![1, 2, 3];
+
+let takes_nums = || nums;
+
+println!(&quot;{:?}&quot;, nums);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>nums</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
+
+<span class='kw'>let</span> <span class='ident'>takes_nums</span> <span class='op'>=</span> <span class='op'>||</span> <span class='ident'>nums</span>;
+
+<span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{:?}&quot;</span>, <span class='ident'>nums</span>);</pre>
+
+<!-- We get this error: -->
+
+<p>このコードは以下の様なエラーを発生させます:</p>
+
+<pre><code class="language-text">note: `nums` moved into closure environment here because it has type
+  `[closure(()) -&gt; collections::vec::Vec&lt;i32&gt;]`, which is non-copyable
+let takes_nums = || nums;
+                 ^~~~~~~
+</code></pre>
+
+<!-- `Vec<T>` has ownership over its contents, and therefore, when we refer to it -->
+
+<!-- in our closure, we have to take ownership of `nums`. It’s the same as if we’d -->
+
+<!-- passed `nums` to a function that took ownership of it. -->
+
+<p><code>Vec&lt;T&gt;</code> はその要素に対する所有権を持っています、
+それゆえそれらの要素をクロージャ内で参照した場合、 <code>nums</code> の所有権を取ることになります。
+これは <code>nums</code>を <code>nums</code> の所有権を取る関数に渡した場合と同じです。</p>
+
+<!-- ## `move` closures -->
+
+<h2 id='move-クロージャ' class='section-header'><a href='#move-クロージャ'><code>move</code> クロージャ</a></h2>
+<!-- We can force our closure to take ownership of its environment with the `move` -->
+
+<!-- keyword: -->
+
+<p><code>move</code> キーワードを用いることで、クロージャに環境の所有権を取得することを強制することができます。</p>
+
+<span class='rusttest'>fn main() {
+    let num = 5;
+
+let owns_num = move |x: i32| x + num;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+<span class='kw'>let</span> <span class='ident'>owns_num</span> <span class='op'>=</span> <span class='kw'>move</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>;</pre>
+
+<!-- Now, even though the keyword is `move`, the variables follow normal move semantics. -->
+
+<!-- In this case, `5` implements `Copy`, and so `owns_num` takes ownership of a copy -->
+
+<!-- of `num`. So what’s the difference? -->
+
+<p>このようにすると <code>move</code> というキーワードにもかかわらず、変数は通常のmoveのセマンティクスに従います。
+この場合、 <code>5</code> は <code>Copy</code> を実装しています、
+そのため <code>owns_num</code> は <code>num</code> のコピーの所有権を取得します。
+では、なにが異なるのでしょうか？</p>
+
+<span class='rusttest'>fn main() {
+    let mut num = 5;
+
+{
+    let mut add_num = |x: i32| num += x;
+
+    add_num(5);
+}
+
+assert_eq!(10, num);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+{
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>add_num</span> <span class='op'>=</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='ident'>num</span> <span class='op'>+=</span> <span class='ident'>x</span>;
+
+    <span class='ident'>add_num</span>(<span class='number'>5</span>);
+}
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10</span>, <span class='ident'>num</span>);</pre>
+
+<!-- So in this case, our closure took a mutable reference to `num`, and then when -->
+
+<!-- we called `add_num`, it mutated the underlying value, as we’d expect. We also -->
+
+<!-- needed to declare `add_num` as `mut` too, because we’re mutating its -->
+
+<!-- environment. -->
+
+<p>このケースでは、クロージャは <code>num</code> の変更可能な参照を取得し、 <code>add_num</code> を呼び出した時、期待通りに <code>num</code> の値を変更します。
+またクロージャ <code>add_num</code> はその環境を変更するため <code>mut</code> として宣言する必要があります。</p>
+
+<!-- If we change to a `move` closure, it’s different: -->
+
+<p>もしクロージャを <code>move</code> に変更した場合、結果が異なります:</p>
+
+<span class='rusttest'>fn main() {
+    let mut num = 5;
+
+{
+    let mut add_num = move |x: i32| num += x;
+
+    add_num(5);
+}
+
+assert_eq!(5, num);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+{
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>add_num</span> <span class='op'>=</span> <span class='kw'>move</span> <span class='op'>|</span><span class='ident'>x</span>: <span class='ident'>i32</span><span class='op'>|</span> <span class='ident'>num</span> <span class='op'>+=</span> <span class='ident'>x</span>;
+
+    <span class='ident'>add_num</span>(<span class='number'>5</span>);
+}
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>5</span>, <span class='ident'>num</span>);</pre>
+
+<!-- We only get `5`. Rather than taking a mutable borrow out on our `num`, we took -->
+
+<!-- ownership of a copy. -->
+
+<p>結果は <code>5</code> になります。
+<code>num</code> の変更可能な借用を取得するのではなく、 <code>num</code> のコピーの所有権を取得します。</p>
+
+<!-- Another way to think about `move` closures: they give a closure its own stack -->
+
+<!-- frame.  Without `move`, a closure may be tied to the stack frame that created -->
+
+<!-- it, while a `move` closure is self-contained. This means that you cannot -->
+
+<!-- generally return a non-`move` closure from a function, for example. -->
+
+<p><code>move</code> クロージャを捉えるもう一つの観点は: <code>move</code> クロージャは独自のスタックフレームを持っているという点です。
+<code>move</code> クロージャは自己従属していますが、 <code>move</code> でないクロージャはクロージャを作成したスタックフレームと紐付いています。
+これは一般的に、<code>move</code> でないクロージャを関数から返すことはできないということを意味しています。</p>
+
+<!-- But before we talk about taking and returning closures, we should talk some -->
+
+<!-- more about the way that closures are implemented. As a systems language, Rust -->
+
+<!-- gives you tons of control over what your code does, and closures are no -->
+
+<!-- different. -->
+
+<p>クロージャを引数や返り値にすることについて説明する間に、クロージャの実装についてもう少し説明する必要があります。
+システム言語としてRustはコードの動作についてコントロールする方法を大量に提供しています、
+そしてそれはクロージャも例外ではありません。</p>
+
+<!-- # Closure implementation -->
+
+<h1 id='クロージャの実装' class='section-header'><a href='#クロージャの実装'>クロージャの実装</a></h1>
+<!-- Rust’s implementation of closures is a bit different than other languages. They -->
+
+<!-- are effectively syntax sugar for traits. You’ll want to make sure to have read -->
+
+<!-- the [traits][traits] section before this one, as well as the section on [trait -->
+
+<!-- objects][trait-objects]. -->
+
+<p>Rustにおけるクロージャの実装は他の言語とは少し異なります。
+Rustにおけるクロージャは実質的にトレイトへの糖衣構文です。
+続きの説明を読む前に <a href="traits.html">トレイト</a> や <a href="trait-objects.html">トレイトオブジェクト</a> についてのセクションを読みたくなるでしょう。</p>
+
+<!-- Got all that? Good. -->
+
+<p>よろしいですか？ では、続きを説明いたします。</p>
+
+<!-- The key to understanding how closures work under the hood is something a bit -->
+
+<!-- strange: Using `()` to call a function, like `foo()`, is an overloadable -->
+
+<!-- operator. From this, everything else clicks into place. In Rust, we use the -->
+
+<!-- trait system to overload operators. Calling functions is no different. We have -->
+
+<!-- three separate traits to overload with: -->
+
+<p>クロージャの内部的な動作を理解するための鍵は少し変わっています: 関数を呼び出すのに <code>()</code> を 例えば <code>foo()</code> の様に使いますが、この <code>()</code> はオーバーロード可能な演算子です。
+この事実から残りの全てを正しく理解することができます。
+Rustでは、トレイトを演算子のオーバーロードに利用します。
+それは関数の呼び出しも例外ではありません。
+<code>()</code> をオーバーロードするのに利用可能な、3つの異なるトレイトが存在します:</p>
+
+<span class='rusttest'>fn main() {
+    mod foo {
+pub trait Fn&lt;Args&gt; : FnMut&lt;Args&gt; {
+    extern &quot;rust-call&quot; fn call(&amp;self, args: Args) -&gt; Self::Output;
+}
+
+pub trait FnMut&lt;Args&gt; : FnOnce&lt;Args&gt; {
+    extern &quot;rust-call&quot; fn call_mut(&amp;mut self, args: Args) -&gt; Self::Output;
+}
+
+pub trait FnOnce&lt;Args&gt; {
+    type Output;
+
+    extern &quot;rust-call&quot; fn call_once(self, args: Args) -&gt; Self::Output;
+}
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>Fn</span><span class='op'>&lt;</span><span class='ident'>Args</span><span class='op'>&gt;</span> : <span class='ident'>FnMut</span><span class='op'>&lt;</span><span class='ident'>Args</span><span class='op'>&gt;</span> {
+    <span class='kw'>extern</span> <span class='string'>&quot;rust-call&quot;</span> <span class='kw'>fn</span> <span class='ident'>call</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>, <span class='ident'>args</span>: <span class='ident'>Args</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Output</span>;
+}
+
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>FnMut</span><span class='op'>&lt;</span><span class='ident'>Args</span><span class='op'>&gt;</span> : <span class='ident'>FnOnce</span><span class='op'>&lt;</span><span class='ident'>Args</span><span class='op'>&gt;</span> {
+    <span class='kw'>extern</span> <span class='string'>&quot;rust-call&quot;</span> <span class='kw'>fn</span> <span class='ident'>call_mut</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>, <span class='ident'>args</span>: <span class='ident'>Args</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Output</span>;
+}
+
+<span class='kw'>pub</span> <span class='kw'>trait</span> <span class='ident'>FnOnce</span><span class='op'>&lt;</span><span class='ident'>Args</span><span class='op'>&gt;</span> {
+    <span class='kw'>type</span> <span class='ident'>Output</span>;
+
+    <span class='kw'>extern</span> <span class='string'>&quot;rust-call&quot;</span> <span class='kw'>fn</span> <span class='ident'>call_once</span>(<span class='self'>self</span>, <span class='ident'>args</span>: <span class='ident'>Args</span>) <span class='op'>-&gt;</span> <span class='self'>Self</span>::<span class='ident'>Output</span>;
+}</pre>
+
+<!-- You’ll notice a few differences between these traits, but a big one is `self`: -->
+
+<!-- `Fn` takes `&self`, `FnMut` takes `&mut self`, and `FnOnce` takes `self`. This -->
+
+<!-- covers all three kinds of `self` via the usual method call syntax. But we’ve -->
+
+<!-- split them up into three traits, rather than having a single one. This gives us -->
+
+<!-- a large amount of control over what kind of closures we can take. -->
+
+<p>これらのトレイトの間のいくつかの違いに気がつくことでしょう、しかし大きな違いは <code>self</code> についてです:
+<code>Fn</code> は <code>&amp;self</code> を引数に取ります、 <code>FnMut</code> は <code>&amp;mut self</code> を引数に取ります、そして <code>FnOnce</code> は <code>self</code> を引数に取ります。
+これは通常のメソッド呼び出しにおける <code>self</code> のすべての種類をカバーしています。
+しかし、これら <code>self</code> の各種類を一つの大きなトレイトにまとめるのではなく異なるトレイトに分けています。
+このようにすることで、どのような種類のクロージャを取るのかについて多くをコントロールすることができます。</p>
+
+<!-- The `|| {}` syntax for closures is sugar for these three traits. Rust will -->
+
+<!-- generate a struct for the environment, `impl` the appropriate trait, and then -->
+
+<!-- use it. -->
+
+<p>クロージャの構文 <code>|| {}</code> は上述の3つのトレイトへの糖衣構文です。
+Rustは環境用の構造体を作成し、 適切なトレイトを <code>impl</code> し、それを利用します。</p>
+
+<!-- # Taking closures as arguments -->
+
+<h1 id='クロージャを引数に取る' class='section-header'><a href='#クロージャを引数に取る'>クロージャを引数に取る</a></h1>
+<!-- Now that we know that closures are traits, we already know how to accept and -->
+
+<!-- return closures: the same as any other trait! -->
+
+<p>クロージャが実際にはトレイトであることを学んだので、
+クロージャを引数としたり返り値としたりする方法を既に知っていることになります: 通常のトレイトと全く同様に行うのです!</p>
+
+<!-- This also means that we can choose static vs dynamic dispatch as well. First, -->
+
+<!-- let’s write a function which takes something callable, calls it, and returns -->
+
+<!-- the result: -->
+
+<p>これは、静的ディスパッチと動的ディスパッチを選択することができるということも意味しています。
+手始めに呼び出し可能な何かを引数にとり、それを呼び出し、結果を返す関数を書いてみましょう:</p>
+
+<span class='rusttest'>fn main() {
+    fn call_with_one&lt;F&gt;(some_closure: F) -&gt; i32
+    where F : Fn(i32) -&gt; i32 {
+
+    some_closure(1)
+}
+
+let answer = call_with_one(|x| x + 2);
+
+assert_eq!(3, answer);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>call_with_one</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>some_closure</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>
+    <span class='kw'>where</span> <span class='ident'>F</span> : <span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+
+    <span class='ident'>some_closure</span>(<span class='number'>1</span>)
+}
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>call_with_one</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>2</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>3</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- We pass our closure, `|x| x + 2`, to `call_with_one`. It does what it -->
+
+<!-- suggests: it calls the closure, giving it `1` as an argument. -->
+
+<p>クロージャ <code>|x| x + 2</code> を <code>call_with_one</code> に渡しました。
+<code>call_with_one</code> はその関数名から推測される処理を行います: クロージャに <code>1</code> を与えて呼び出します。</p>
+
+<!-- Let’s examine the signature of `call_with_one` in more depth: -->
+
+<p><code>call_with_one</code> のシグネチャを詳細に見ていきましょう:</p>
+
+<span class='rusttest'>fn main() {
+    fn call_with_one&lt;F&gt;(some_closure: F) -&gt; i32
+   where F : Fn(i32) -&gt; i32 {
+   some_closure(1) }
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>call_with_one</span><span class='op'>&lt;</span><span class='ident'>F</span><span class='op'>&gt;</span>(<span class='ident'>some_closure</span>: <span class='ident'>F</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span></pre>
+
+<!-- We take one parameter, and it has the type `F`. We also return a `i32`. This part -->
+
+<!-- isn’t interesting. The next part is: -->
+
+<p>型 <code>F</code> の引数を１つ取り、返り値として <code>i32</code> を返します。
+この部分は特に注目には値しません。次の部分は:</p>
+
+<span class='rusttest'>fn main() {
+    fn call_with_one&lt;F&gt;(some_closure: F) -&gt; i32
+    where F : Fn(i32) -&gt; i32 {
+  some_closure(1) }
+}</span><pre class='rust rust-example-rendered'>
+    <span class='kw'>where</span> <span class='ident'>F</span> : <span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {</pre>
+
+<!-- Because `Fn` is a trait, we can bound our generic with it. In this case, our -->
+
+<!-- closure takes a `i32` as an argument and returns an `i32`, and so the generic -->
+
+<!-- bound we use is `Fn(i32) -> i32`. -->
+
+<p><code>Fn</code> がトレイトであるために、ジェネリックの境界として <code>Fn</code> を指定することができます。
+この場合はクロージャは <code>i32</code> を引数として取り、 <code>i32</code> を返します、そのため
+ジェネリックの境界として <code>Fn(i32) -&gt; i32</code> を指定します。</p>
+
+<!-- There’s one other key point here: because we’re bounding a generic with a -->
+
+<!-- trait, this will get monomorphized, and therefore, we’ll be doing static -->
+
+<!-- dispatch into the closure. That’s pretty neat. In many languages, closures are -->
+
+<!-- inherently heap allocated, and will always involve dynamic dispatch. In Rust, -->
+
+<!-- we can stack allocate our closure environment, and statically dispatch the -->
+
+<!-- call. This happens quite often with iterators and their adapters, which often -->
+
+<!-- take closures as arguments. -->
+
+<p>キーポイントがほかにもあります: ジェネリックをトレイトで境界を指定したために、
+この関数は単相化され、静的ディスパッチをクロージャに対して行います。これはとても素敵です。
+多くの言語では、クロージャは常にヒープにアロケートされ、常に動的ディスパッチが行われます。
+Rustではスタックにクロージャの環境をアロケートし、呼び出しを静的ディスパッチすることができます。
+これは、しばしばクロージャを引数として取る、イテレータやそれらのアダプタにおいて頻繁に行われます。</p>
+
+<!-- Of course, if we want dynamic dispatch, we can get that too. A trait object -->
+
+<!-- handles this case, as usual: -->
+
+<p>もちろん、動的ディスパッチを行いたいときは、そうすることもできます。
+そのような場合もトレイトオブジェクトが通常どおりに対応します:</p>
+
+<span class='rusttest'>fn main() {
+    fn call_with_one(some_closure: &amp;Fn(i32) -&gt; i32) -&gt; i32 {
+    some_closure(1)
+}
+
+let answer = call_with_one(&amp;|x| x + 2);
+
+assert_eq!(3, answer);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>call_with_one</span>(<span class='ident'>some_closure</span>: <span class='kw-2'>&amp;</span><span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='ident'>some_closure</span>(<span class='number'>1</span>)
+}
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>call_with_one</span>(<span class='kw-2'>&amp;</span><span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='number'>2</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>3</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- Now we take a trait object, a `&Fn`. And we have to make a reference -->
+
+<!-- to our closure when we pass it to `call_with_one`, so we use `&||`. -->
+
+<p>トレイトオブジェクト <code>&amp;Fn</code> を引数にとります。
+また <code>call_with_one</code> にクロージャを渡すときに参照を利用するようにしました、
+そのため <code>&amp;||</code> を利用しています。</p>
+
+<!-- # Function pointers and closures -->
+
+<h1 id='関数ポインタとクロージャ' class='section-header'><a href='#関数ポインタとクロージャ'>関数ポインタとクロージャ</a></h1>
+<!-- A function pointer is kind of like a closure that has no environment. As such, -->
+
+<!-- you can pass a function pointer to any function expecting a closure argument, -->
+
+<!-- and it will work: -->
+
+<p>関数ポインタは環境を持たないクロージャのようなものです。
+そのため、クロージャを引数として期待している関数に関数ポインタを渡すことができます。</p>
+
+<span class='rusttest'>fn main() {
+    fn call_with_one(some_closure: &amp;Fn(i32) -&gt; i32) -&gt; i32 {
+    some_closure(1)
+}
+
+fn add_one(i: i32) -&gt; i32 {
+    i + 1
+}
+
+let f = add_one;
+
+let answer = call_with_one(&amp;f);
+
+assert_eq!(2, answer);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>call_with_one</span>(<span class='ident'>some_closure</span>: <span class='kw-2'>&amp;</span><span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='ident'>some_closure</span>(<span class='number'>1</span>)
+}
+
+<span class='kw'>fn</span> <span class='ident'>add_one</span>(<span class='ident'>i</span>: <span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+    <span class='ident'>i</span> <span class='op'>+</span> <span class='number'>1</span>
+}
+
+<span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>add_one</span>;
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>call_with_one</span>(<span class='kw-2'>&amp;</span><span class='ident'>f</span>);
+
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>2</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- In this example, we don’t strictly need the intermediate variable `f`, -->
+
+<!-- the name of the function works just fine too: -->
+
+<p>この例では、中間の変数 <code>f</code> が必ずしも必要なわけではありません、関数名を指定することでもきちんと動作します:</p>
+
+<span class='rusttest'>fn main() {
+    let answer = call_with_one(&amp;add_one);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>call_with_one</span>(<span class='kw-2'>&amp;</span><span class='ident'>add_one</span>);</pre>
+
+<!-- # Returning closures -->
+
+<h1 id='クロージャを返す' class='section-header'><a href='#クロージャを返す'>クロージャを返す</a></h1>
+<!-- It’s very common for functional-style code to return closures in various -->
+
+<!-- situations. If you try to return a closure, you may run into an error. At -->
+
+<!-- first, it may seem strange, but we’ll figure it out. Here’s how you’d probably -->
+
+<!-- try to return a closure from a function: -->
+
+<p>関数を用いたスタイルのコードでは、クロージャを返すことは非常によく見られます。
+もし、クロージャを返すことを試みた場合、エラーが発生します。これは一見奇妙に思われますが、理解することができます。
+以下は、関数からクロージャを返すことを試みた場合のコードです:</p>
+
+<span class='rusttest'>fn main() {
+    fn factory() -&gt; (Fn(i32) -&gt; i32) {
+    let num = 5;
+
+    |x| x + num
+}
+
+let f = factory();
+
+let answer = f(1);
+assert_eq!(6, answer);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>factory</span>() <span class='op'>-&gt;</span> (<span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>) {
+    <span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>
+}
+
+<span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>factory</span>();
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>f</span>(<span class='number'>1</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- This gives us these long, related errors: -->
+
+<p>このコードは以下の長いエラーを発生させます:</p>
+
+<pre><code class="language-text">error: the trait bound `core::ops::Fn(i32) -&gt; i32 : core::marker::Sized` is not satisfied [E0277]
+fn factory() -&gt; (Fn(i32) -&gt; i32) {
+                ^~~~~~~~~~~~~~~~
+note: `core::ops::Fn(i32) -&gt; i32` does not have a constant size known at compile-time
+fn factory() -&gt; (Fn(i32) -&gt; i32) {
+                ^~~~~~~~~~~~~~~~
+error: the trait bound `core::ops::Fn(i32) -&gt; i32 : core::marker::Sized` is not satisfied [E0277]
+let f = factory();
+    ^
+note: `core::ops::Fn(i32) -&gt; i32` does not have a constant size known at compile-time
+let f = factory();
+    ^
+</code></pre>
+
+<!-- In order to return something from a function, Rust needs to know what -->
+
+<!-- size the return type is. But since `Fn` is a trait, it could be various -->
+
+<!-- things of various sizes: many different types can implement `Fn`. An easy -->
+
+<!-- way to give something a size is to take a reference to it, as references -->
+
+<!-- have a known size. So we’d write this: -->
+
+<p>関数から何かを返すにあたって、Rustは返り値の型のサイズを知る必要があります。
+しかし、 <code>Fn</code> はトレイトであるため、そのサイズや種類は多岐にわたることになります: 多くの異なる型が <code>Fn</code> を実装できます。
+何かにサイズを与える簡単な方法は、それに対する参照を取得する方法です、参照は既知のサイズを持っています。
+そのため、以下のように書くことができます:</p>
+
+<span class='rusttest'>fn main() {
+    fn factory() -&gt; &amp;(Fn(i32) -&gt; i32) {
+    let num = 5;
+
+    |x| x + num
+}
+
+let f = factory();
+
+let answer = f(1);
+assert_eq!(6, answer);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>factory</span>() <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span>(<span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>) {
+    <span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>
+}
+
+<span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>factory</span>();
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>f</span>(<span class='number'>1</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- But we get another error: -->
+
+<p>しかし、他のエラーが発生してしまいます:</p>
+
+<pre><code class="language-text">error: missing lifetime specifier [E0106]
+fn factory() -&gt; &amp;(Fn(i32) -&gt; i32) {
+                ^~~~~~~~~~~~~~~~~
+</code></pre>
+
+<!-- Right. Because we have a reference, we need to give it a lifetime. But -->
+
+<!-- our `factory()` function takes no arguments, so -->
+
+<!-- [elision](lifetimes.html#lifetime-elision) doesn’t kick in here. Then what -->
+
+<!-- choices do we have? Try `'static`: -->
+
+<p>ふむ。これはリファレンスを利用したので、ライフタイムを指定する必要が有るためです。
+しかし、 <code>factory()</code> 関数は引数を何も取りません、
+そのため <a href="lifetimes.html#lifetime-elision">ライフタイムの省略</a> は実施されません。
+では、どのような選択肢が有るのでしょうか？ <code>&#39;static</code> を試してみましょう:</p>
+
+<span class='rusttest'>fn main() {
+    fn factory() -&gt; &amp;&#39;static (Fn(i32) -&gt; i32) {
+    let num = 5;
+
+    |x| x + num
+}
+
+let f = factory();
+
+let answer = f(1);
+assert_eq!(6, answer);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>factory</span>() <span class='op'>-&gt;</span> <span class='kw-2'>&amp;</span><span class='lifetime'>&#39;static</span> (<span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span>) {
+    <span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>
+}
+
+<span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>factory</span>();
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>f</span>(<span class='number'>1</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- But we get another error: -->
+
+<p>しかし、以下の別のエラーが発生します:</p>
+
+<pre><code class="language-text">error: mismatched types:
+ expected `&amp;&#39;static core::ops::Fn(i32) -&gt; i32`,
+    found `[closure@&lt;anon&gt;:7:9: 7:20]`
+(expected &amp;-ptr,
+    found closure) [E0308]
+         |x| x + num
+         ^~~~~~~~~~~
+
+</code></pre>
+
+<!-- This error is letting us know that we don’t have a `&'static Fn(i32) -> i32`, -->
+
+<!-- we have a `[closure@<anon>:7:9: 7:20]`. Wait, what? -->
+
+<p>このエラーは <code>&amp;&#39;static Fn(i32) -&gt; i32</code> ではなく、
+ <code>[closure@&lt;anon&gt;:7:9: 7:20]</code> を使ってしまっているということを伝えています。
+ちょっと待ってください、一体これはどういう意味でしょう？</p>
+
+<!-- Because each closure generates its own environment `struct` and implementation -->
+
+<!-- of `Fn` and friends, these types are anonymous. They exist solely for -->
+
+<!-- this closure. So Rust shows them as `closure@<anon>`, rather than some -->
+
+<!-- autogenerated name. -->
+
+<p>それぞれのクロージャはそれぞれの環境用の <code>struct</code> を生成し、
+<code>Fn</code> やそれに準ずるものを実装するため、それぞれの型は匿名となります。
+それらの型はそれらのクロージャのためだけに存在します。
+そのためRustはそれらの型を自動生成された名前の代わりに <code>closure@&lt;anon&gt;</code> と表示します。</p>
+
+<!-- The error also points out that the return type is expected to be a reference, -->
+
+<!-- but what we are trying to return is not. Further, we cannot directly assign a -->
+
+<!-- `'static` lifetime to an object. So we'll take a different approach and return -->
+
+<!-- a ‘trait object’ by `Box`ing up the `Fn`. This _almost_ works: -->
+
+<p>また、このエラーは返り値の型が参照であることを期待しているが、
+上のコードではそうなっていないということについても指摘しています。
+もうちょっというと、直接的に <code>&#39;static</code> ライフタイムをオブジェクトに割り当てることはできません。
+そこで、<code>Fn</code> をボックス化することで「トレイトオブジェクト」を返すという方法を取ります。
+そうすると、動作するまであと一歩のところまで来ます:</p>
+
+<span class='rusttest'>fn factory() -&gt; Box&lt;Fn(i32) -&gt; i32&gt; {
+    let num = 5;
+
+    Box::new(|x| x + num)
+}
+fn main() {
+let f = factory();
+
+let answer = f(1);
+assert_eq!(6, answer);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>factory</span>() <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span><span class='op'>&gt;</span> {
+    <span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>)
+}
+<span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>factory</span>();
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>f</span>(<span class='number'>1</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- There’s just one last problem: -->
+
+<p>最後に残されたエラーは以下のとおりです:</p>
+
+<pre><code class="language-text">error: closure may outlive the current function, but it borrows `num`,
+which is owned by the current function [E0373]
+Box::new(|x| x + num)
+         ^~~~~~~~~~~
+</code></pre>
+
+<!-- Well, as we discussed before, closures borrow their environment. And in this -->
+
+<!-- case, our environment is based on a stack-allocated `5`, the `num` variable -->
+
+<!-- binding. So the borrow has a lifetime of the stack frame. So if we returned -->
+
+<!-- this closure, the function call would be over, the stack frame would go away, -->
+
+<!-- and our closure is capturing an environment of garbage memory! With one last -->
+
+<!-- fix, we can make this work: -->
+
+<p>以前説明したように、クロージャはその環境を借用します。
+今回の場合は、環境はスタックにアロケートされた <code>5</code> に束縛された <code>num</code> からできていることから、
+環境の借用はスタックフレームと同じライフタイムを持っています。
+そのため、もしこのクロージャを返り値とした場合、
+そのあと <code>factory()</code> 関数の処理は終了し、スタックフレームが取り除かれクロージャはゴミとなったメモリを参照することになります!
+上のコードに最後の修正を施すことによって動作させることができるようになります:</p>
+
+<span class='rusttest'>fn factory() -&gt; Box&lt;Fn(i32) -&gt; i32&gt; {
+    let num = 5;
+
+    Box::new(move |x| x + num)
+}
+fn main() {
+let f = factory();
+
+let answer = f(1);
+assert_eq!(6, answer);
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>factory</span>() <span class='op'>-&gt;</span> <span class='ident'>Box</span><span class='op'>&lt;</span><span class='ident'>Fn</span>(<span class='ident'>i32</span>) <span class='op'>-&gt;</span> <span class='ident'>i32</span><span class='op'>&gt;</span> {
+    <span class='kw'>let</span> <span class='ident'>num</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+    <span class='ident'>Box</span>::<span class='ident'>new</span>(<span class='kw'>move</span> <span class='op'>|</span><span class='ident'>x</span><span class='op'>|</span> <span class='ident'>x</span> <span class='op'>+</span> <span class='ident'>num</span>)
+}
+<span class='kw'>let</span> <span class='ident'>f</span> <span class='op'>=</span> <span class='ident'>factory</span>();
+
+<span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>f</span>(<span class='number'>1</span>);
+<span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>6</span>, <span class='ident'>answer</span>);</pre>
+
+<!-- By making the inner closure a `move Fn`, we create a new stack frame for our -->
+
+<!-- closure. By `Box`ing it up, we’ve given it a known size, allowing it to -->
+
+<!-- escape our stack frame. -->
+
+<p><code>factory()</code> 内のクロージャを <code>move Fn</code> にすることで、新しいスタックフレームをクロージャのために生成します。
+そしてボックス化することによって、既知のサイズとなり、現在のスタックフレームから抜けることが可能になります。</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

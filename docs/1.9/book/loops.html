@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>ループ</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a class='active' href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">ループ</h1>
+    <!-- % Loops -->
+
+<!-- Rust currently provides three approaches to performing some kind of iterative activity. They are: `loop`, `while` and `for`. Each approach has its own set of uses. -->
+
+<p>現在、Rustは、なんらかの繰り返しを伴う処理に対して、3種類の手法: <code>loop</code>, <code>while</code>, <code>for</code> を提供しています。
+各アプローチにはそれぞれの使い方があります。</p>
+
+<h2 id='loop' class='section-header'><a href='#loop'>loop</a></h2>
+<!-- The infinite `loop` is the simplest form of loop available in Rust. Using the keyword `loop`, Rust provides a way to loop indefinitely until some terminating statement is reached. Rust's infinite `loop`s look like this: -->
+
+<p>Rustで使えるループのなかで最もシンプルな形式が、無限 <code>loop</code> です。Rustのキーワード <code>loop</code> によって、
+何らかの終了状態に到達するまで 延々とループし続ける手段を提供します。Rustの無限 <code>loop</code> は次の通りです:</p>
+
+<span class='rusttest'>fn main() {
+    loop {
+    println!(&quot;Loop forever!&quot;);
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>loop</span> {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Loop forever!&quot;</span>);
+}</pre>
+
+<h2 id='while' class='section-header'><a href='#while'>while</a></h2>
+<!-- Rust also has a `while` loop. It looks like this: -->
+
+<p>Rustには <code>while</code> ループもあります。次の通りです:</p>
+
+<span class='rusttest'>fn main() {
+    let mut x = 5; // mut x: i32
+let mut done = false; // mut done: bool
+
+while !done {
+    x += x - 3;
+
+    println!(&quot;{}&quot;, x);
+
+    if x % 5 == 0 {
+        done = true;
+    }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>; <span class='comment'>// mut x: i32</span>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>done</span> <span class='op'>=</span> <span class='boolvalue'>false</span>; <span class='comment'>// mut done: bool</span>
+
+<span class='kw'>while</span> <span class='op'>!</span><span class='ident'>done</span> {
+    <span class='ident'>x</span> <span class='op'>+=</span> <span class='ident'>x</span> <span class='op'>-</span> <span class='number'>3</span>;
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);
+
+    <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>%</span> <span class='number'>5</span> <span class='op'>==</span> <span class='number'>0</span> {
+        <span class='ident'>done</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+    }
+}</pre>
+
+<!-- `while` loops are the correct choice when you’re not sure how many times -->
+
+<!-- you need to loop. -->
+
+<p>何回ループする必要があるか明らかではない状況では、<code>while</code> ループは正しい選択です。</p>
+
+<!-- If you need an infinite loop, you may be tempted to write this: -->
+
+<p>無限ループの必要があるとき、次のように書きたくなるかもしれません:</p>
+
+<span class='rusttest'>fn main() {
+    while true {
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>while</span> <span class='boolvalue'>true</span> {</pre>
+
+<!-- However, `loop` is far better suited to handle this case: -->
+
+<p>しかし、 <code>loop</code>は、 こういった場合に はるかに適しています。</p>
+
+<span class='rusttest'>fn main() {
+    loop {
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>loop</span> {</pre>
+
+<!-- Rust’s control-flow analysis treats this construct differently than a `while -->
+
+<!-- true`, since we know that it will always loop. In general, the more information -->
+
+<!-- we can give to the compiler, the better it can do with safety and code -->
+
+<!-- generation, so you should always prefer `loop` when you plan to loop -->
+
+<!-- infinitely. -->
+
+<p>Rustの制御フロー解析では、必ずループすると知っていることから、これを <code>while true</code> とは異なる構造として扱います。
+一般に、コンパイラへ与える情報量が多いほど、安全性が高くより良いコード生成につながるため、
+無限にループするつもりであれば、常に <code>loop</code> を使うべきです。</p>
+
+<h2 id='for' class='section-header'><a href='#for'>for</a></h2>
+<!-- The `for` loop is used to loop a particular number of times. Rust’s `for` loops -->
+
+<!-- work a bit differently than in other systems languages, however. Rust’s `for` -->
+
+<!-- loop doesn’t look like this “C-style” `for` loop: -->
+
+<p>特定の回数だけループするときには <code>for</code> ループを使います。しかし、Rustの <code>for</code> ループは他のシステムプログラミング言語のそれとは少し異なる働きをします。 Rustの <code>for</code> ループは、次のような「Cスタイル」 <code>for</code> ループとは似ていません:</p>
+
+<pre><code class="language-c">for (x = 0; x &lt; 10; x++) {
+    printf( &quot;%d\n&quot;, x );
+}
+</code></pre>
+
+<!-- Instead, it looks like this: -->
+
+<p>代わりに、このように書きます:</p>
+
+<span class='rusttest'>fn main() {
+    for x in 0..10 {
+    println!(&quot;{}&quot;, x); // x: i32
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>); <span class='comment'>// x: i32</span>
+}</pre>
+
+<!-- In slightly more abstract terms, -->
+
+<p>もう少し抽象的な用語を使うと、</p>
+
+<span class='rusttest'>fn main() {
+    for var in expression {
+    code
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>for</span> <span class='ident'>var</span> <span class='kw'>in</span> <span class='ident'>expression</span> {
+    <span class='ident'>code</span>
+}</pre>
+
+<!-- The expression is an item that can be converted into an [iterator] using -->
+
+<!-- [`IntoIterator`]. The iterator gives back a series of elements. Each element is -->
+
+<!-- one iteration of the loop. That value is then bound to the name `var`, which is -->
+
+<!-- valid for the loop body. Once the body is over, the next value is fetched from -->
+
+<!-- the iterator, and we loop another time. When there are no more values, the `for` -->
+
+<!-- loop is over. -->
+
+<p>式(expression)は<a href="../std/iter/trait.IntoIterator.html"><code>IntoIterator</code></a>を用いて<a href="iterators.html">イテレータ</a>へと変換することができるアイテムです。
+イテレータは一連の要素を返します。それぞれの要素がループの1回の反復になります。 その値は、ループ本体に有効な名前, <code>var</code> に束縛されています。いったんループ本体を抜けると、次の値がイテレータから取り出され、次のループ処理を行います。それ以上の値が存在しない時は、<code>for</code> ループは終了します。</p>
+
+<!-- In our example, `0..10` is an expression that takes a start and an end position, -->
+
+<!-- and gives an iterator over those values. The upper bound is exclusive, though, -->
+
+<!-- so our loop will print `0` through `9`, not `10`. -->
+
+<p>この例では、<code>0..10</code> が開始と終了位置をとる式であり、同範囲の値を返すイテレータを与えます。
+上限はその値自身を含まないため、このループは <code>0</code> から <code>9</code> までを表示します。 <code>10</code> ではありません。</p>
+
+<!-- Rust does not have the “C-style” `for` loop on purpose. Manually controlling -->
+
+<!-- each element of the loop is complicated and error prone, even for experienced C -->
+
+<!-- developers. -->
+
+<p>Rustでは意図的に「Cスタイル」 <code>for</code> ループを持ちません。経験豊富なC言語の開発者でさえ、
+ループの各要素を手動で制御することは複雑であり、また間違いを犯しやすいのです。</p>
+
+<!-- ### Enumerate -->
+
+<h3 id='列挙' class='section-header'><a href='#列挙'>列挙</a></h3>
+<!-- When you need to keep track of how many times you already looped, you can use the `.enumerate()` function. -->
+
+<p>ループの中で何回目の繰り返しかを把握する必要がある時、 <code>.enumerate()</code> 関数が使えます。</p>
+
+<!-- #### On ranges: -->
+
+<h4 id='レンジを対象に' class='section-header'><a href='#レンジを対象に'>レンジを対象に:</a></h4>
+<span class='rusttest'>fn main() {
+    for (i,j) in (5..10).enumerate() {
+    println!(&quot;i = {} and j = {}&quot;, i, j);
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>for</span> (<span class='ident'>i</span>,<span class='ident'>j</span>) <span class='kw'>in</span> (<span class='number'>5</span>..<span class='number'>10</span>).<span class='ident'>enumerate</span>() {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;i = {} and j = {}&quot;</span>, <span class='ident'>i</span>, <span class='ident'>j</span>);
+}</pre>
+
+<!-- Outputs: -->
+
+<p>出力:</p>
+
+<pre><code class="language-text">i = 0 and j = 5
+i = 1 and j = 6
+i = 2 and j = 7
+i = 3 and j = 8
+i = 4 and j = 9
+</code></pre>
+
+<!-- Don't forget to add the parentheses around the range. -->
+
+<p>レンジを括弧で囲うのを忘れないで下さい。</p>
+
+<!-- #### On iterators: -->
+
+<h4 id='イテレータを対象に' class='section-header'><a href='#イテレータを対象に'>イテレータを対象に:</a></h4>
+<span class='rusttest'>fn main() {
+    let lines = &quot;hello\nworld&quot;.lines();
+
+for (linenumber, line) in lines.enumerate() {
+    println!(&quot;{}: {}&quot;, linenumber, line);
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>lines</span> <span class='op'>=</span> <span class='string'>&quot;hello\nworld&quot;</span>.<span class='ident'>lines</span>();
+
+<span class='kw'>for</span> (<span class='ident'>linenumber</span>, <span class='ident'>line</span>) <span class='kw'>in</span> <span class='ident'>lines</span>.<span class='ident'>enumerate</span>() {
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}: {}&quot;</span>, <span class='ident'>linenumber</span>, <span class='ident'>line</span>);
+}</pre>
+
+<!-- Outputs: -->
+
+<p>出力:</p>
+
+<pre><code class="language-text">0: hello
+1: world
+</code></pre>
+
+<!-- ## Ending iteration early -->
+
+<h2 id='反復の早期終了' class='section-header'><a href='#反復の早期終了'>反復の早期終了</a></h2>
+<!-- Let’s take a look at that `while` loop we had earlier: -->
+
+<p>さきほどの <code>while</code> ループを見てみましょう:</p>
+
+<span class='rusttest'>fn main() {
+    let mut x = 5;
+let mut done = false;
+
+while !done {
+    x += x - 3;
+
+    println!(&quot;{}&quot;, x);
+
+    if x % 5 == 0 {
+        done = true;
+    }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>done</span> <span class='op'>=</span> <span class='boolvalue'>false</span>;
+
+<span class='kw'>while</span> <span class='op'>!</span><span class='ident'>done</span> {
+    <span class='ident'>x</span> <span class='op'>+=</span> <span class='ident'>x</span> <span class='op'>-</span> <span class='number'>3</span>;
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);
+
+    <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>%</span> <span class='number'>5</span> <span class='op'>==</span> <span class='number'>0</span> {
+        <span class='ident'>done</span> <span class='op'>=</span> <span class='boolvalue'>true</span>;
+    }
+}</pre>
+
+<!-- We had to keep a dedicated `mut` boolean variable binding, `done`, to know -->
+
+<!-- when we should exit out of the loop. Rust has two keywords to help us with -->
+
+<!-- modifying iteration: `break` and `continue`. -->
+
+<p>ループを終了する時を知るために、、専用の <code>mut</code>であるboolean変数束縛, <code>done</code> を使わなければなりませんでした。
+Rustには反復の変更を手伝けする2つのキーワード: <code>break</code> と <code>continue</code> があります。</p>
+
+<!-- In this case, we can write the loop in a better way with `break`: -->
+
+<p>この例では、 <code>break</code> を使ってループを記述した方が良いでしょう:</p>
+
+<span class='rusttest'>fn main() {
+    let mut x = 5;
+
+loop {
+    x += x - 3;
+
+    println!(&quot;{}&quot;, x);
+
+    if x % 5 == 0 { break; }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>5</span>;
+
+<span class='kw'>loop</span> {
+    <span class='ident'>x</span> <span class='op'>+=</span> <span class='ident'>x</span> <span class='op'>-</span> <span class='number'>3</span>;
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);
+
+    <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>%</span> <span class='number'>5</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>break</span>; }
+}</pre>
+
+<!-- We now loop forever with `loop` and use `break` to break out early. Issuing an explicit `return` statement will also serve to terminate the loop early. -->
+
+<p>ここでは <code>loop</code> による永久ループと 早期にループを抜けるため <code>break</code> を使っています。
+明示的な <code>return</code> 文の発行でもループを早期に終了します。</p>
+
+<!-- `continue` is similar, but instead of ending the loop, goes to the next -->
+
+<!-- iteration. This will only print the odd numbers: -->
+
+<p><code>continue</code> も似ていますが、ループを終了させるのではなく、次の反復へと進めます。
+これは奇数だけを表示するでしょう:</p>
+
+<span class='rusttest'>fn main() {
+    for x in 0..10 {
+    if x % 2 == 0 { continue; }
+
+    println!(&quot;{}&quot;, x);
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+    <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>continue</span>; }
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>x</span>);
+}</pre>
+
+<!-- ## Loop labels -->
+
+<h2 id='ループラベル' class='section-header'><a href='#ループラベル'>ループラベル</a></h2>
+<!-- You may also encounter situations where you have nested loops and need to -->
+
+<!-- specify which one your `break` or `continue` statement is for. Like most -->
+
+<!-- other languages, by default a `break` or `continue` will apply to innermost -->
+
+<!-- loop. In a situation where you would like to `break` or `continue` for one -->
+
+<!-- of the outer loops, you can use labels to specify which loop the `break` or -->
+
+<!--  `continue` statement applies to. This will only print when both `x` and `y` are -->
+
+<!--  odd: -->
+
+<p>入れ子のループがあり、<code>break</code> や <code>continue</code> 文がどのループに対応するか指定する必要がある、
+そのような状況に出会うかもしれません。大抵の他言語と同様に、 デフォルトで <code>break</code> や <code>continue</code> は最内ループに適用されます。
+外側のループに <code>break</code> や <code>continue</code> を使いたいという状況では、 <code>break</code> や <code>continue</code> 文の適用先を指定するラベルを使えます。これは <code>x</code> と <code>y</code> 両方がともに奇数のときだけ表示を行います:</p>
+
+<span class='rusttest'>fn main() {
+    &#39;outer: for x in 0..10 {
+    &#39;inner: for y in 0..10 {
+//    if x % 2 == 0 { continue &#39;outer; } // continues the loop over x
+        if x % 2 == 0 { continue &#39;outer; } // x のループを継続
+//    if y % 2 == 0 { continue &#39;inner; } // continues the loop over y
+        if y % 2 == 0 { continue &#39;inner; } // y のループを継続
+        println!(&quot;x: {}, y: {}&quot;, x, y);
+    }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='lifetime'>&#39;outer</span>: <span class='kw'>for</span> <span class='ident'>x</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+    <span class='lifetime'>&#39;inner</span>: <span class='kw'>for</span> <span class='ident'>y</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+        <span class='kw'>if</span> <span class='ident'>x</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>continue</span> <span class='lifetime'>&#39;outer</span>; } <span class='comment'>// x のループを継続</span>
+        <span class='kw'>if</span> <span class='ident'>y</span> <span class='op'>%</span> <span class='number'>2</span> <span class='op'>==</span> <span class='number'>0</span> { <span class='kw'>continue</span> <span class='lifetime'>&#39;inner</span>; } <span class='comment'>// y のループを継続</span>
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x: {}, y: {}&quot;</span>, <span class='ident'>x</span>, <span class='ident'>y</span>);
+    }
+}</pre>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>The Rust Design FAQ</title>
+
+    <link rel="stylesheet" type="text/css" href="rust.css">
+
+    <link rel="shortcut icon" href="https://www.rust-lang.org/favicon.ico">
+
+
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    <div id="versioninfo">
+  <img src="https://www.rust-lang.org/logos/rust-logo-32x32-blk.png" width="32" height="32" alt><br>
+  <span class="white-sticker"><a href="https://www.rust-lang.org">Rust</a> 1.9</span><br>
+  <a href="https://github.com/rust-lang/rust/commit/"
+    class="hash white-sticker"></a>
+</div>
+
+
+    <h1 class="title">The Rust Design FAQ</h1>
+    <nav id="TOC"><ul>
+<li><a href="#semantics">1 Semantics</a><ul>
+<li><a href="#data-layout-is-unspecified">1.1 Data layout is unspecified</a><ul></ul></li>
+<li><a href="#there-is-no-gc">1.2 There is no GC</a><ul></ul></li>
+<li><a href="#non-sync-static-mut-is-unsafe">1.3 Non-<code>Sync</code> <code>static mut</code> is unsafe</a><ul>
+<li><a href="#if-mutable-static-items-that-implement-sync-are-safe-why-is-taking-mut-sharable-unsafe">1.3.1 If mutable static items that implement <code>Sync</code> are safe, why is taking &amp;mut SHARABLE unsafe?</a><ul></ul></li></ul></li>
+<li><a href="#there-is-no-life-before-or-after-main-no-static-ctorsdtors">1.4 There is no life before or after main (no static ctors/dtors)</a><ul></ul></li>
+<li><a href="#the-language-does-not-require-a-runtime">1.5 The language does not require a runtime</a><ul></ul></li>
+<li><a href="#match-must-be-exhaustive">1.6 <code>match</code> must be exhaustive</a><ul></ul></li>
+<li><a href="#no-guaranteed-tail-call-optimization">1.7 No guaranteed tail-call optimization</a><ul></ul></li>
+<li><a href="#no-constructors">1.8 No constructors</a><ul></ul></li>
+<li><a href="#no-copy-constructors">1.9 No copy constructors</a><ul></ul></li>
+<li><a href="#no-move-constructors">1.10 No move constructors</a><ul></ul></li></ul></li>
+<li><a href="#syntax">2 Syntax</a><ul>
+<li><a href="#macros-require-balanced-delimiters">2.1 Macros require balanced delimiters</a><ul></ul></li>
+<li><a href="#--for-function-return-type">2.2 <code>-&gt;</code> for function return type</a><ul></ul></li>
+<li><a href="#why-is-let-used-to-introduce-variables">2.3 Why is <code>let</code> used to introduce variables?</a><ul></ul></li>
+<li><a href="#why-no---x-or-x">2.4 Why no <code>--x</code> or <code>x++</code>?</a><ul></ul></li></ul></li></ul></nav><p>This document describes decisions that were arrived at after lengthy discussion and
+experimenting with alternatives. Please do not propose reversing them unless
+you have a new, extremely compelling argument. Note that this document
+specifically talks about the <em>language</em> and not any library or implementation.</p>
+
+<p>A few general guidelines define the philosophy:</p>
+
+<ul>
+<li><a href="http://en.wikipedia.org/wiki/Memory_safety">Memory safety</a> must never be compromised</li>
+<li><a href="http://en.wikipedia.org/wiki/Abstraction_%28computer_science%29">Abstraction</a> should be zero-cost, while still maintaining safety</li>
+<li>Practicality is key</li>
+</ul>
+
+<h1 id='semantics' class='section-header'><a href='#semantics'>1 Semantics</a></h1>
+<h2 id='data-layout-is-unspecified' class='section-header'><a href='#data-layout-is-unspecified'>1.1 Data layout is unspecified</a></h2>
+<p>In the general case, <code>enum</code> and <code>struct</code> layout is undefined. This allows the
+compiler to potentially do optimizations like re-using padding for the
+discriminant, compacting variants of nested enums, reordering fields to remove
+padding, etc. <code>enum</code>s which carry no data (&quot;C-like&quot;) are eligible to have a
+defined representation. Such <code>enum</code>s are easily distinguished in that they are
+simply a list of names that carry no data:</p>
+
+<span class='rusttest'>fn main() {
+    enum CLike {
+    A,
+    B = 32,
+    C = 34,
+    D
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>enum</span> <span class='ident'>CLike</span> {
+    <span class='ident'>A</span>,
+    <span class='ident'>B</span> <span class='op'>=</span> <span class='number'>32</span>,
+    <span class='ident'>C</span> <span class='op'>=</span> <span class='number'>34</span>,
+    <span class='ident'>D</span>
+}</pre>
+
+<p>The <a href="reference.html#ffi-attributes">repr attribute</a> can be applied to such <code>enum</code>s to give them the same
+representation as a primitive. This allows using Rust <code>enum</code>s in FFI where C
+<code>enum</code>s are also used, for most use cases. The attribute can also be applied
+to <code>struct</code>s to get the same layout as a C struct would.</p>
+
+<h2 id='there-is-no-gc' class='section-header'><a href='#there-is-no-gc'>1.2 There is no GC</a></h2>
+<p>A language that requires a GC is a language that opts into a larger, more
+complex runtime than Rust cares for. Rust is usable on bare metal with no
+extra runtime. Additionally, garbage collection is frequently a source of
+non-deterministic behavior. Rust provides the tools to make using a GC
+possible and even pleasant, but it should not be a requirement for
+implementing the language.</p>
+
+<h2 id='non-sync-static-mut-is-unsafe' class='section-header'><a href='#non-sync-static-mut-is-unsafe'>1.3 Non-<code>Sync</code> <code>static mut</code> is unsafe</a></h2>
+<p>Types which are <a href="core/marker/trait.Sync.html"><code>Sync</code></a> are thread-safe when multiple shared
+references to them are used concurrently. Types which are not <code>Sync</code> are not
+thread-safe, and thus when used in a global require unsafe code to use.</p>
+
+<h3 id='if-mutable-static-items-that-implement-sync-are-safe-why-is-taking-mut-sharable-unsafe' class='section-header'><a href='#if-mutable-static-items-that-implement-sync-are-safe-why-is-taking-mut-sharable-unsafe'>1.3.1 If mutable static items that implement <code>Sync</code> are safe, why is taking &amp;mut SHARABLE unsafe?</a></h3>
+<p>Having multiple aliasing <code>&amp;mut T</code>s is never allowed. Due to the nature of
+globals, the borrow checker cannot possibly ensure that a static obeys the
+borrowing rules, so taking a mutable reference to a static is always unsafe.</p>
+
+<h2 id='there-is-no-life-before-or-after-main-no-static-ctorsdtors' class='section-header'><a href='#there-is-no-life-before-or-after-main-no-static-ctorsdtors'>1.4 There is no life before or after main (no static ctors/dtors)</a></h2>
+<p>Globals can not have a non-constant-expression constructor and cannot have a
+destructor at all. This is an opinion of the language. Static constructors are
+undesirable because they can slow down program startup. Life before main is
+often considered a misfeature, never to be used. Rust helps this along by just
+not having the feature.</p>
+
+<p>See <a href="http://yosefk.com/c++fqa/ctors.html#fqa-10.12">the C++ FQA</a>  about the &quot;static initialization order fiasco&quot;, and
+<a href="http://ericlippert.com/2013/02/06/static-constructors-part-one/">Eric Lippert&#39;s blog</a> for the challenges in C#, which also has this
+feature.</p>
+
+<p>A nice replacement is <a href="https://crates.io/crates/lazy_static">lazy_static</a>.</p>
+
+<h2 id='the-language-does-not-require-a-runtime' class='section-header'><a href='#the-language-does-not-require-a-runtime'>1.5 The language does not require a runtime</a></h2>
+<p>See the above entry on GC. Requiring a runtime limits the utility of the
+language, and makes it undeserving of the title &quot;systems language&quot;. All Rust
+code should need to run is a stack.</p>
+
+<h2 id='match-must-be-exhaustive' class='section-header'><a href='#match-must-be-exhaustive'>1.6 <code>match</code> must be exhaustive</a></h2>
+<p><code>match</code> being exhaustive has some useful properties. First, if every
+possibility is covered by the <code>match</code>, adding further variants to the <code>enum</code>
+in the future will prompt a compilation failure, rather than runtime panic.
+Second, it makes cost explicit. In general, the only safe way to have a
+non-exhaustive match would be to panic the thread if nothing is matched, though
+it could fall through if the type of the <code>match</code> expression is <code>()</code>. This sort
+of hidden cost and special casing is against the language&#39;s philosophy. It&#39;s
+easy to ignore all unspecified cases by using the <code>_</code> wildcard:</p>
+
+<span class='rusttest'>fn main() {
+    match val.do_something() {
+    Cat(a) =&gt; { /* ... */ }
+    _      =&gt; { /* ... */ }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>match</span> <span class='ident'>val</span>.<span class='ident'>do_something</span>() {
+    <span class='ident'>Cat</span>(<span class='ident'>a</span>) <span class='op'>=&gt;</span> { <span class='comment'>/* ... */</span> }
+    _      <span class='op'>=&gt;</span> { <span class='comment'>/* ... */</span> }
+}</pre>
+
+<p><a href="https://github.com/rust-lang/rust/issues/3101">#3101</a> is the issue that proposed making this the only behavior, with
+rationale and discussion.</p>
+
+<h2 id='no-guaranteed-tail-call-optimization' class='section-header'><a href='#no-guaranteed-tail-call-optimization'>1.7 No guaranteed tail-call optimization</a></h2>
+<p>In general, tail-call optimization is not guaranteed: see <a href="https://mail.mozilla.org/pipermail/rust-dev/2013-April/003557.html">here</a> for a
+detailed explanation with references. There is a <a href="https://github.com/rust-lang/rfcs/pull/81">proposed extension</a> that
+would allow tail-call elimination in certain contexts. The compiler is still
+free to optimize tail-calls <a href="http://llvm.org/docs/CodeGenerator.html#sibling-call-optimization">when it pleases</a>, however.</p>
+
+<h2 id='no-constructors' class='section-header'><a href='#no-constructors'>1.8 No constructors</a></h2>
+<p>Functions can serve the same purpose as constructors without adding any
+language complexity.</p>
+
+<h2 id='no-copy-constructors' class='section-header'><a href='#no-copy-constructors'>1.9 No copy constructors</a></h2>
+<p>Types which implement <a href="core/marker/trait.Copy.html"><code>Copy</code></a>, will do a standard C-like &quot;shallow copy&quot;
+with no extra work (similar to &quot;plain old data&quot; in C++). It is impossible to
+implement <code>Copy</code> types that require custom copy behavior. Instead, in Rust
+&quot;copy constructors&quot; are created by implementing the <a href="core/clone/trait.Clone.html"><code>Clone</code></a> trait,
+and explicitly calling the <code>clone</code> method. Making user-defined copy operators
+explicit surfaces the underlying complexity, forcing the developer to opt-in
+to potentially expensive operations.</p>
+
+<h2 id='no-move-constructors' class='section-header'><a href='#no-move-constructors'>1.10 No move constructors</a></h2>
+<p>Values of all types are moved via <code>memcpy</code>. This makes writing generic unsafe
+code much simpler since assignment, passing and returning are known to never
+have a side effect like unwinding.</p>
+
+<h1 id='syntax' class='section-header'><a href='#syntax'>2 Syntax</a></h1>
+<h2 id='macros-require-balanced-delimiters' class='section-header'><a href='#macros-require-balanced-delimiters'>2.1 Macros require balanced delimiters</a></h2>
+<p>This is to make the language easier to parse for machines. Since the body of a
+macro can contain arbitrary tokens, some restriction is needed to allow simple
+non-macro-expanding lexers and parsers. This comes in the form of requiring
+that all delimiters be balanced.</p>
+
+<h2 id='--for-function-return-type' class='section-header'><a href='#--for-function-return-type'>2.2 <code>-&gt;</code> for function return type</a></h2>
+<p>This is to make the language easier to parse for humans, especially in the face
+of higher-order functions. <code>fn foo&lt;T&gt;(f: fn(i32): i32, fn(T): U): U</code> is not
+particularly easy to read.</p>
+
+<h2 id='why-is-let-used-to-introduce-variables' class='section-header'><a href='#why-is-let-used-to-introduce-variables'>2.3 Why is <code>let</code> used to introduce variables?</a></h2>
+<p>Instead of the term &quot;variable&quot;, we use &quot;variable bindings&quot;. The
+simplest way for creating a binding is by using the <code>let</code> syntax.
+Other ways include <code>if let</code>, <code>while let</code>, and <code>match</code>. Bindings also
+exist in function argument positions.</p>
+
+<p>Bindings always happen in pattern matching positions, and it&#39;s also Rust&#39;s way
+to declare mutability. One can also re-declare mutability of a binding in
+pattern matching. This is useful to avoid unnecessary <code>mut</code> annotations. An
+interesting historical note is that Rust comes, syntactically, most closely
+from ML, which also uses <code>let</code> to introduce bindings.</p>
+
+<p>See also <a href="https://mail.mozilla.org/pipermail/rust-dev/2014-January/008319.html">a long thread</a> on renaming <code>let mut</code> to <code>var</code>.</p>
+
+<h2 id='why-no---x-or-x' class='section-header'><a href='#why-no---x-or-x'>2.4 Why no <code>--x</code> or <code>x++</code>?</a></h2>
+<p>Preincrement and postincrement, while convenient, are also fairly complex. They
+require knowledge of evaluation order, and often lead to subtle bugs and
+undefined behavior in C and C++. <code>x = x + 1</code> or <code>x += 1</code> is only slightly
+longer, but unambiguous.</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org/";
+    </script>
+    <footer><p>
+Copyright &copy; 2011-2015 The Rust Project Developers. Licensed under the
+<a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License, Version 2.0</a>
+or the <a href="http://opensource.org/licenses/MIT">MIT license</a>, at your option.
+</p><p>
+This file may not be copied, modified, or distributed except according to those terms.
+</p></footer>
+<script type="text/javascript" src="playpen.js"></script>
+
+
+</body>
+</html>

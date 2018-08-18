@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>共通の関数呼び出し構文</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a class='active' href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">共通の関数呼び出し構文</h1>
+    <!-- % Universal Function Call Syntax -->
+
+<!-- Sometimes, functions can have the same names. Consider this code: -->
+
+<p>しばしば、同名の関数が存在する時があります。たとえば、以下のコードでは:</p>
+
+<span class='rusttest'>fn main() {
+    trait Foo {
+    fn f(&amp;self);
+}
+
+trait Bar {
+    fn f(&amp;self);
+}
+
+struct Baz;
+
+impl Foo for Baz {
+    fn f(&amp;self) { println!(&quot;Baz’s impl of Foo&quot;); }
+}
+
+impl Bar for Baz {
+    fn f(&amp;self) { println!(&quot;Baz’s impl of Bar&quot;); }
+}
+
+let b = Baz;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>trait</span> <span class='ident'>Foo</span> {
+    <span class='kw'>fn</span> <span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>);
+}
+
+<span class='kw'>trait</span> <span class='ident'>Bar</span> {
+    <span class='kw'>fn</span> <span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>);
+}
+
+<span class='kw'>struct</span> <span class='ident'>Baz</span>;
+
+<span class='kw'>impl</span> <span class='ident'>Foo</span> <span class='kw'>for</span> <span class='ident'>Baz</span> {
+    <span class='kw'>fn</span> <span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Baz’s impl of Foo&quot;</span>); }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Bar</span> <span class='kw'>for</span> <span class='ident'>Baz</span> {
+    <span class='kw'>fn</span> <span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) { <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Baz’s impl of Bar&quot;</span>); }
+}
+
+<span class='kw'>let</span> <span class='ident'>b</span> <span class='op'>=</span> <span class='ident'>Baz</span>;</pre>
+
+<!-- If we were to try to call `b.f()`, we’d get an error: -->
+
+<p>もしここで、 <code>b.f()</code> を呼びだそうとすると、以下の様なエラーが発生します:</p>
+
+<pre><code class="language-text">error: multiple applicable methods in scope [E0034]
+b.f();
+  ^~~
+note: candidate #1 is defined in an impl of the trait `main::Foo` for the type
+`main::Baz`
+    fn f(&amp;self) { println!(&quot;Baz’s impl of Foo&quot;); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+note: candidate #2 is defined in an impl of the trait `main::Bar` for the type
+`main::Baz`
+    fn f(&amp;self) { println!(&quot;Baz’s impl of Bar&quot;); }
+    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+</code></pre>
+
+<!-- We need a way to disambiguate which method we need. This feature is called -->
+
+<!-- ‘universal function call syntax’, and it looks like this: -->
+
+<p>このような場合は、どのメソッドを呼び出す必要があるのかについて曖昧性を排除する手段が必要です。
+そのようなフィーチャーは 「共通の関数呼び出し構文」と呼ばれ、以下のように書けます:</p>
+
+<span class='rusttest'>fn main() {
+    trait Foo {
+    fn f(&amp;self);
+}
+trait Bar {
+    fn f(&amp;self);
+}
+struct Baz;
+impl Foo for Baz {
+    fn f(&amp;self) { println!(&quot;Baz’s impl of Foo&quot;); }
+}
+impl Bar for Baz {
+    fn f(&amp;self) { println!(&quot;Baz’s impl of Bar&quot;); }
+}
+let b = Baz;
+Foo::f(&amp;b);
+Bar::f(&amp;b);
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>Foo</span>::<span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>);
+<span class='ident'>Bar</span>::<span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>);</pre>
+
+<!-- Let’s break it down. -->
+
+<p>部分的に見ていきましょう。</p>
+
+<span class='rusttest'>fn main() {
+    Foo::
+Bar::
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>Foo</span>::
+<span class='ident'>Bar</span>::</pre>
+
+<!-- These halves of the invocation are the types of the two traits: `Foo` and -->
+
+<!-- `Bar`. This is what ends up actually doing the disambiguation between the two: -->
+
+<!-- Rust calls the one from the trait name you use. -->
+
+<p>まず、呼び出しのこの部分は２つのトレイト <code>Foo</code> と <code>Bar</code> の型を表しています。
+この部分が、実際にどちらのトレイトのメソッドを呼び出しているのかを指定し、曖昧性を排除している箇所になります。</p>
+
+<span class='rusttest'>fn main() {
+    f(&amp;b)
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>f</span>(<span class='kw-2'>&amp;</span><span class='ident'>b</span>)</pre>
+
+<!-- When we call a method like `b.f()` using [method syntax][methodsyntax], Rust -->
+
+<!-- will automatically borrow `b` if `f()` takes `&self`. In this case, Rust will -->
+
+<!-- not, and so we need to pass an explicit `&b`. -->
+
+<p><code>b.f()</code> のように <a href="method-syntax.html">メソッド構文</a> を利用して呼び出した時、Rustは <code>f()</code> が <code>&amp;self</code> を引数に取る場合自動的に <code>b</code> を借用します。
+今回の場合は、そのようには呼び出していないので、明示的に <code>&amp;b</code> を渡してやる必要があります。</p>
+
+<h1 id='山括弧形式' class='section-header'><a href='#山括弧形式'>山括弧形式</a></h1>
+<!-- The form of UFCS we just talked about: -->
+
+<p>すぐ上で説明した、以下のような共通の関数呼び出し構文:</p>
+
+<span class='rusttest'>fn main() {
+    Trait::method(args);
+}</span><pre class='rust rust-example-rendered'>
+<span class='ident'>Trait</span>::<span class='ident'>method</span>(<span class='ident'>args</span>);</pre>
+
+<!-- Is a short-hand. There’s an expanded form of this that’s needed in some -->
+
+<!-- situations: -->
+
+<p>これは短縮形であり、時々必要になる以下の様な展開された形式もあります:</p>
+
+<span class='rusttest'>fn main() {
+    &lt;Type as Trait&gt;::method(args);
+}</span><pre class='rust rust-example-rendered'>
+<span class='op'>&lt;</span><span class='ident'>Type</span> <span class='kw'>as</span> <span class='ident'>Trait</span><span class='op'>&gt;</span>::<span class='ident'>method</span>(<span class='ident'>args</span>);</pre>
+
+<!-- The `<>::` syntax is a means of providing a type hint. The type goes inside -->
+
+<!-- the `<>`s. In this case, the type is `Type as Trait`, indicating that we want -->
+
+<!-- `Trait`’s version of `method` to be called here. The `as Trait` part is -->
+
+<!-- optional if it’s not ambiguous. Same with the angle brackets, hence the -->
+
+<!-- shorter form. -->
+
+<p><code>&lt;&gt;::</code> という構文は型のヒントを意味しており、 <code>&lt;&gt;</code> のなかに型が入ります。
+この場合、型は <code>Type as Trait</code> となり、 <code>Trait</code>のバージョンの <code>method</code> が呼ばれる事を期待していることを意味しています。
+<code>as Trait</code> という部分は、曖昧でない場合は省略可能です。山括弧についても同様に省略可能であり、なので先程のさらに短い形になるのです。</p>
+
+<!-- Here’s an example of using the longer form. -->
+
+<p>長い形式を用いたサンプルコードは以下の通りです:</p>
+
+<span class='rusttest'>trait Foo {
+    fn foo() -&gt; i32;
+}
+
+struct Bar;
+
+impl Bar {
+    fn foo() -&gt; i32 {
+        20
+    }
+}
+
+impl Foo for Bar {
+    fn foo() -&gt; i32 {
+        10
+    }
+}
+
+fn main() {
+    assert_eq!(10, &lt;Bar as Foo&gt;::foo());
+    assert_eq!(20, Bar::foo());
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>trait</span> <span class='ident'>Foo</span> {
+    <span class='kw'>fn</span> <span class='ident'>foo</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span>;
+}
+
+<span class='kw'>struct</span> <span class='ident'>Bar</span>;
+
+<span class='kw'>impl</span> <span class='ident'>Bar</span> {
+    <span class='kw'>fn</span> <span class='ident'>foo</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+        <span class='number'>20</span>
+    }
+}
+
+<span class='kw'>impl</span> <span class='ident'>Foo</span> <span class='kw'>for</span> <span class='ident'>Bar</span> {
+    <span class='kw'>fn</span> <span class='ident'>foo</span>() <span class='op'>-&gt;</span> <span class='ident'>i32</span> {
+        <span class='number'>10</span>
+    }
+}
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>10</span>, <span class='op'>&lt;</span><span class='ident'>Bar</span> <span class='kw'>as</span> <span class='ident'>Foo</span><span class='op'>&gt;</span>::<span class='ident'>foo</span>());
+    <span class='macro'>assert_eq</span><span class='macro'>!</span>(<span class='number'>20</span>, <span class='ident'>Bar</span>::<span class='ident'>foo</span>());
+}</pre>
+
+<!-- Using the angle bracket syntax lets you call the trait method instead of the -->
+
+<!-- inherent one. -->
+
+<p>山括弧構文を用いることでトレイトのメソッドを固有メソッドの代わりに呼び出すことができます。</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>ジェネリクス</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a class='active' href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a  href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">ジェネリクス</h1>
+    <!-- % Generics -->
+
+<!-- Sometimes, when writing a function or data type, we may want it to work for -->
+
+<!-- multiple types of arguments. In Rust, we can do this with generics. -->
+
+<!-- Generics are called ‘parametric polymorphism’ in type theory, -->
+
+<!-- which means that they are types or functions that have multiple forms (‘poly’ -->
+
+<!-- is multiple, ‘morph’ is form) over a given parameter (‘parametric’). -->
+
+<p>時々、関数やデータ型を書いていると、引数が複数の型に対応したものが欲しくなることもあります。
+Rustでは、ジェネリクスを用いてこれを実現しています。
+ジェネリクスは型理論において「パラメトリック多相」(parametric polymorphism)と呼ばれ、与えられたパラメータにより(「parametric」)型もしくは関数が多くの相（「poly」は「多くの」、「morph」は「相（かたち）」を意味します）
+（訳注: ここで「相」は型を指します）を持つことを意味しています。</p>
+
+<!-- Anyway, enough type theory, let’s check out some generic code. Rust’s -->
+
+<!-- standard library provides a type, `Option<T>`, that’s generic: -->
+
+<p>さて、型理論はもう十分です。
+続いてジェネリックなコードをいくつか見ていきましょう。
+Rustが標準ライブラリで提供している型 <code>Option&lt;T&gt;</code> はジェネリックです。</p>
+
+<span class='rusttest'>fn main() {
+    enum Option&lt;T&gt; {
+    Some(T),
+    None,
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>enum</span> <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='prelude-val'>Some</span>(<span class='ident'>T</span>),
+    <span class='prelude-val'>None</span>,
+}</pre>
+
+<!-- The `<T>` part, which you’ve seen a few times before, indicates that this is -->
+
+<!-- a generic data type. Inside the declaration of our `enum`, wherever we see a `T`, -->
+
+<!-- we substitute that type for the same type used in the generic. Here’s an -->
+
+<!-- example of using `Option<T>`, with some extra type annotations: -->
+
+<p><code>&lt;T&gt;</code> の部分は、前に少し見たことがあると思いますが、これがジェネリックなデータ型であることを示しています。
+<code>enum</code> の宣言内であれば、どこでも <code>T</code> を使うことができ、宣言内に登場する同じ型をジェネリック内で <code>T</code> 型に置き換えています。
+型注釈を用いた<code>Option&lt;T&gt;</code>の使用例が以下になります。</p>
+
+<span class='rusttest'>fn main() {
+    let x: Option&lt;i32&gt; = Some(5);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5</span>);</pre>
+
+<!-- In the type declaration, we say `Option<i32>`. Note how similar this looks to -->
+
+<!-- `Option<T>`. So, in this particular `Option`, `T` has the value of `i32`. On -->
+
+<!-- the right-hand side of the binding, we make a `Some(T)`, where `T` is `5`. -->
+
+<!-- Since that’s an `i32`, the two sides match, and Rust is happy. If they didn’t -->
+
+<!-- match, we’d get an error: -->
+
+<p>この型宣言では <code>Option&lt;i32&gt;</code> と書かれています。
+<code>Option&lt;T&gt;</code> の違いに注目して下さい。
+そう、上記の <code>Option</code> では <code>T</code> の値は <code>i32</code> です。
+この束縛の右辺の <code>Some(T)</code> では、 <code>T</code> は <code>5</code> となります。
+それが <code>i32</code> なので、両辺の型が一致するため、Rustは満足します。
+型が不一致であれば、以下のようなエラーが発生します。</p>
+
+<span class='rusttest'>fn main() {
+    let x: Option&lt;f64&gt; = Some(5);
+// error: mismatched types: expected `core::option::Option&lt;f64&gt;`,
+// found `core::option::Option&lt;_&gt;` (expected f64 but found integral variable)
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5</span>);
+<span class='comment'>// error: mismatched types: expected `core::option::Option&lt;f64&gt;`,</span>
+<span class='comment'>// found `core::option::Option&lt;_&gt;` (expected f64 but found integral variable)</span></pre>
+
+<!-- That doesn’t mean we can’t make `Option<T>`s that hold an `f64`! They have -->
+
+<!-- to match up: -->
+
+<p>これは <code>f64</code> を保持する <code>Option&lt;T&gt;</code> が作れないという意味ではありませんからね！
+リテラルと宣言の型を合わせなければなりません。</p>
+
+<span class='rusttest'>fn main() {
+    let x: Option&lt;i32&gt; = Some(5);
+let y: Option&lt;f64&gt; = Some(5.0f64);
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>x</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>i32</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5</span>);
+<span class='kw'>let</span> <span class='ident'>y</span>: <span class='prelude-ty'>Option</span><span class='op'>&lt;</span><span class='ident'>f64</span><span class='op'>&gt;</span> <span class='op'>=</span> <span class='prelude-val'>Some</span>(<span class='number'>5.0f64</span>);</pre>
+
+<!-- This is just fine. One definition, multiple uses. -->
+
+<p>これだけで結構です。
+1つの定義で、多くの用途に対応できます。</p>
+
+<!-- Generics don’t have to only be generic over one type. Consider another type from Rust’s standard library that’s similar, `Result<T, E>`: -->
+
+<p>ジェネリクスにおいてジェネリックな型は1つまで、といった制限はありません。
+Rustの標準ライブラリに入っている類似の型 <code>Result&lt;T, E&gt;</code> について考えてみます。</p>
+
+<span class='rusttest'>fn main() {
+    enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>enum</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>E</span><span class='op'>&gt;</span> {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>T</span>),
+    <span class='prelude-val'>Err</span>(<span class='ident'>E</span>),
+}</pre>
+
+<!-- This type is generic over _two_ types: `T` and `E`. By the way, the capital letters -->
+
+<!-- can be any letter you’d like. We could define `Result<T, E>` as: -->
+
+<p>この型では <code>T</code> と <code>E</code> の <em>2つ</em> がジェネリックです。
+ちなみに、大文字の部分はあなたの好きな文字で構いません。
+もしあなたが望むなら <code>Result&lt;T, E&gt;</code> を、</p>
+
+<span class='rusttest'>fn main() {
+    enum Result&lt;A, Z&gt; {
+    Ok(A),
+    Err(Z),
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>enum</span> <span class='prelude-ty'>Result</span><span class='op'>&lt;</span><span class='ident'>A</span>, <span class='ident'>Z</span><span class='op'>&gt;</span> {
+    <span class='prelude-val'>Ok</span>(<span class='ident'>A</span>),
+    <span class='prelude-val'>Err</span>(<span class='ident'>Z</span>),
+}</pre>
+
+<!-- if we wanted to. Convention says that the first generic parameter should be -->
+
+<!-- `T`, for ‘type’, and that we use `E` for ‘error’. Rust doesn’t care, however. -->
+
+<p>のように定義できます。
+慣習としては、「Type」から第1ジェネリックパラメータは <code>T</code> であるべきですし、「Error」から <code>E</code> を用いるのですが、Rustは気にしません。</p>
+
+<!-- The `Result<T, E>` type is intended to be used to return the result of a -->
+
+<!-- computation, and to have the ability to return an error if it didn’t work out. -->
+
+<p><code>Result&lt;T, E&gt;</code> 型は計算の結果を返すために使われることが想定されており、正常に動作しなかった場合にエラーの値を返す機能を持っています。</p>
+
+<!-- ## Generic functions -->
+
+<h2 id='ジェネリック関数' class='section-header'><a href='#ジェネリック関数'>ジェネリック関数</a></h2>
+<!-- We can write functions that take generic types with a similar syntax: -->
+
+<p>似た構文でジェネリックな型を取る関数を記述できます。</p>
+
+<span class='rusttest'>fn main() {
+    fn takes_anything&lt;T&gt;(x: T) {
+// do something with x
+  // xで何か行う
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>takes_anything</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>) {
+  <span class='comment'>// xで何か行う</span>
+}</pre>
+
+<!-- The syntax has two parts: the `<T>` says “this function is generic over one -->
+
+<!-- type, `T`”, and the `x: T` says “x has the type `T`.” -->
+
+<p>構文は2つのパーツから成ります。
+<code>&lt;T&gt;</code> は「この関数は1つの型、 <code>T</code> に対してジェネリックである」ということであり、 <code>x: T</code> は「xは <code>T</code> 型である」という意味です。</p>
+
+<!-- Multiple arguments can have the same generic type: -->
+
+<p>複数の引数が同じジェネリックな型を持つこともできます。</p>
+
+<span class='rusttest'>fn main() {
+    fn takes_two_of_the_same_things&lt;T&gt;(x: T, y: T) {
+    // ...
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>takes_two_of_the_same_things</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>, <span class='ident'>y</span>: <span class='ident'>T</span>) {
+    <span class='comment'>// ...</span>
+}</pre>
+
+<!-- We could write a version that takes multiple types: -->
+
+<p>複数の型を取るバージョンを記述することも可能です。</p>
+
+<span class='rusttest'>fn main() {
+    fn takes_two_things&lt;T, U&gt;(x: T, y: U) {
+    // ...
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>takes_two_things</span><span class='op'>&lt;</span><span class='ident'>T</span>, <span class='ident'>U</span><span class='op'>&gt;</span>(<span class='ident'>x</span>: <span class='ident'>T</span>, <span class='ident'>y</span>: <span class='ident'>U</span>) {
+    <span class='comment'>// ...</span>
+}</pre>
+
+<!-- ## Generic structs -->
+
+<h2 id='ジェネリック構造体' class='section-header'><a href='#ジェネリック構造体'>ジェネリック構造体</a></h2>
+<!-- You can store a generic type in a `struct` as well: -->
+
+<p>また、 <code>struct</code> 内にジェネリックな型の値を保存することもできます。</p>
+
+<span class='rusttest'>fn main() {
+    struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+let int_origin = Point { x: 0, y: 0 };
+let float_origin = Point { x: 0.0, y: 0.0 };
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>struct</span> <span class='ident'>Point</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='ident'>x</span>: <span class='ident'>T</span>,
+    <span class='ident'>y</span>: <span class='ident'>T</span>,
+}
+
+<span class='kw'>let</span> <span class='ident'>int_origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0</span>, <span class='ident'>y</span>: <span class='number'>0</span> };
+<span class='kw'>let</span> <span class='ident'>float_origin</span> <span class='op'>=</span> <span class='ident'>Point</span> { <span class='ident'>x</span>: <span class='number'>0.0</span>, <span class='ident'>y</span>: <span class='number'>0.0</span> };</pre>
+
+<!-- Similar to functions, the `<T>` is where we declare the generic parameters, -->
+
+<!-- and we then use `x: T` in the type declaration, too. -->
+
+<p>関数と同様に、 <code>&lt;T&gt;</code> がジェネリックパラメータを宣言する場所であり、型宣言において <code>x: T</code> を使うのも同じです。</p>
+
+<!-- When you want to add an implementation for the generic `struct`, you -->
+
+<!-- declare the type parameter after the `impl`: -->
+
+<p>ジェネリックな <code>struct</code> に実装を追加したい場合、 <code>impl</code> の後に型パラメータを宣言します。</p>
+
+<span class='rusttest'>fn main() {
+    struct Point&lt;T&gt; {
+    x: T,
+    y: T,
+}
+
+impl&lt;T&gt; Point&lt;T&gt; {
+    fn swap(&amp;mut self) {
+        std::mem::swap(&amp;mut self.x, &amp;mut self.y);
+    }
+}
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>impl</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> <span class='ident'>Point</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;</span> {
+    <span class='kw'>fn</span> <span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>) {
+        <span class='ident'>std</span>::<span class='ident'>mem</span>::<span class='ident'>swap</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>x</span>, <span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='self'>self</span>.<span class='ident'>y</span>);
+    }
+}</pre>
+
+<!-- So far you’ve seen generics that take absolutely any type. These are useful in -->
+
+<!-- many cases: you’ve already seen `Option<T>`, and later you’ll meet universal -->
+
+<!-- container types like [`Vec<T>`][Vec]. On the other hand, often you want to -->
+
+<!-- trade that flexibility for increased expressive power. Read about [trait -->
+
+<!-- bounds][traits] to see why and how. -->
+
+<p>ここまででありとあらゆる型をとることのできるジェネリクスについて見てきました。
+多くの場合これらは有用です。
+<code>Option&lt;T&gt;</code> は既に見た通りですし、のちに <code>Vec&lt;T&gt;</code> のような普遍的なコンテナ型を知ることになるでしょう。
+一方で、その柔軟性と引き換えに表現力を増加させたくなることもあります。
+それは何故か、そしてその方法を知るためには <a href="traits.html">トレイト境界</a> を読んで下さい。</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>

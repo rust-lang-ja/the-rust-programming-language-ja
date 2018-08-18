@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <title>並行性</title>
+
+    <link rel="stylesheet" type="text/css" href="rustbook.css">
+
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+                <div id="nav">
+                    <button id="toggle-nav">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </button>
+                </div>
+<div id='toc' class='mobile-hidden'>
+<ul class='chapter'>
+<li><a  href='README.html'><b>1.</b> Introduction</a>
+</li>
+<li><a  href='getting-started.html'><b>2.</b> はじめる</a>
+</li>
+<li><a  href='guessing-game.html'><b>3.</b> チュートリアル：数当てゲーム</a>
+</li>
+<li><a  href='syntax-and-semantics.html'><b>4.</b> シンタックスとセマンティクス</a>
+<ul class='section'>
+<li><a  href='variable-bindings.html'><b>4.1.</b> 変数束縛</a>
+</li>
+<li><a  href='functions.html'><b>4.2.</b> 関数</a>
+</li>
+<li><a  href='primitive-types.html'><b>4.3.</b> プリミティブ型</a>
+</li>
+<li><a  href='comments.html'><b>4.4.</b> コメント</a>
+</li>
+<li><a  href='if.html'><b>4.5.</b> if</a>
+</li>
+<li><a  href='loops.html'><b>4.6.</b> ループ</a>
+</li>
+<li><a  href='vectors.html'><b>4.7.</b> ベクタ</a>
+</li>
+<li><a  href='ownership.html'><b>4.8.</b> 所有権</a>
+</li>
+<li><a  href='references-and-borrowing.html'><b>4.9.</b> 参照と借用</a>
+</li>
+<li><a  href='lifetimes.html'><b>4.10.</b> ライフタイム</a>
+</li>
+<li><a  href='mutability.html'><b>4.11.</b> ミュータビリティ</a>
+</li>
+<li><a  href='structs.html'><b>4.12.</b> 構造体</a>
+</li>
+<li><a  href='enums.html'><b>4.13.</b> 列挙型</a>
+</li>
+<li><a  href='match.html'><b>4.14.</b> マッチ</a>
+</li>
+<li><a  href='patterns.html'><b>4.15.</b> パターン</a>
+</li>
+<li><a  href='method-syntax.html'><b>4.16.</b> メソッド構文</a>
+</li>
+<li><a  href='strings.html'><b>4.17.</b> 文字列</a>
+</li>
+<li><a  href='generics.html'><b>4.18.</b> ジェネリクス</a>
+</li>
+<li><a  href='traits.html'><b>4.19.</b> トレイト</a>
+</li>
+<li><a  href='drop.html'><b>4.20.</b> Drop</a>
+</li>
+<li><a  href='if-let.html'><b>4.21.</b> if let</a>
+</li>
+<li><a  href='trait-objects.html'><b>4.22.</b> トレイトオブジェクト</a>
+</li>
+<li><a  href='closures.html'><b>4.23.</b> クロージャ</a>
+</li>
+<li><a  href='ufcs.html'><b>4.24.</b> 共通の関数呼出構文</a>
+</li>
+<li><a  href='crates-and-modules.html'><b>4.25.</b> クレートとモジュール</a>
+</li>
+<li><a  href='const-and-static.html'><b>4.26.</b> `const` と `static`</a>
+</li>
+<li><a  href='attributes.html'><b>4.27.</b> アトリビュート</a>
+</li>
+<li><a  href='type-aliases.html'><b>4.28.</b> `type` エイリアス</a>
+</li>
+<li><a  href='casting-between-types.html'><b>4.29.</b> 型間のキャスト</a>
+</li>
+<li><a  href='associated-types.html'><b>4.30.</b> 関連型</a>
+</li>
+<li><a  href='unsized-types.html'><b>4.31.</b> サイズ不定型</a>
+</li>
+<li><a  href='operators-and-overloading.html'><b>4.32.</b> 演算子とオーバーロード</a>
+</li>
+<li><a  href='deref-coercions.html'><b>4.33.</b> Derefによる型強制</a>
+</li>
+<li><a  href='macros.html'><b>4.34.</b> マクロ</a>
+</li>
+<li><a  href='raw-pointers.html'><b>4.35.</b> 生ポインタ</a>
+</li>
+<li><a  href='unsafe.html'><b>4.36.</b> `unsafe`</a>
+</li>
+</ul>
+</li>
+<li><a  href='effective-rust.html'><b>5.</b> Effective Rust</a>
+<ul class='section'>
+<li><a  href='the-stack-and-the-heap.html'><b>5.1.</b> スタックとヒープ</a>
+</li>
+<li><a  href='testing.html'><b>5.2.</b> テスト</a>
+</li>
+<li><a  href='conditional-compilation.html'><b>5.3.</b> 条件付きコンパイル</a>
+</li>
+<li><a  href='documentation.html'><b>5.4.</b> ドキュメント</a>
+</li>
+<li><a  href='iterators.html'><b>5.5.</b> イテレータ</a>
+</li>
+<li><a class='active' href='concurrency.html'><b>5.6.</b> 並行性</a>
+</li>
+<li><a  href='error-handling.html'><b>5.7.</b> エラーハンドリング</a>
+</li>
+<li><a  href='choosing-your-guarantees.html'><b>5.8.</b> 保証を選ぶ</a>
+</li>
+<li><a  href='ffi.html'><b>5.9.</b> 他言語関数インターフェース</a>
+</li>
+<li><a  href='borrow-and-asref.html'><b>5.10.</b> BorrowとAsRef</a>
+</li>
+<li><a  href='release-channels.html'><b>5.11.</b> リリースチャネル</a>
+</li>
+<li><a  href='using-rust-without-the-standard-library.html'><b>5.12.</b> 標準ライブラリ無しでRustを使う</a>
+</li>
+</ul>
+</li>
+<li><a  href='nightly-rust.html'><b>6.</b> Nightly Rust</a>
+<ul class='section'>
+<li><a  href='compiler-plugins.html'><b>6.1.</b> コンパイラプラグイン</a>
+</li>
+<li><a  href='inline-assembly.html'><b>6.2.</b> インラインアセンブリ</a>
+</li>
+<li><a  href='no-stdlib.html'><b>6.3.</b> No stdlib</a>
+</li>
+<li><a  href='intrinsics.html'><b>6.4.</b> Intrinsic</a>
+</li>
+<li><a  href='lang-items.html'><b>6.5.</b> 言語アイテム</a>
+</li>
+<li><a  href='advanced-linking.html'><b>6.6.</b> 高度なリンキング</a>
+</li>
+<li><a  href='benchmark-tests.html'><b>6.7.</b> ベンチマークテスト</a>
+</li>
+<li><a  href='box-syntax-and-patterns.html'><b>6.8.</b> Box構文とパターン</a>
+</li>
+<li><a  href='slice-patterns.html'><b>6.9.</b> スライスパターン</a>
+</li>
+<li><a  href='associated-constants.html'><b>6.10.</b> 関連定数</a>
+</li>
+<li><a  href='custom-allocators.html'><b>6.11.</b> カスタムアロケータ</a>
+</li>
+</ul>
+</li>
+<li><a  href='glossary.html'><b>7.</b> 用語集</a>
+</li>
+<li><a  href='syntax-index.html'><b>8.</b> 構文の索引</a>
+</li>
+<li><a  href='bibliography.html'><b>9.</b> 関係書目</a>
+</li>
+</ul>
+</div>
+<div id='page-wrapper'>
+<div id='page'>
+
+
+    <h1 class="title">並行性</h1>
+    <!-- % Concurrency -->
+
+<!-- Concurrency and parallelism are incredibly important topics in computer -->
+
+<!-- science, and are also a hot topic in industry today. Computers are gaining more -->
+
+<!-- and more cores, yet many programmers aren't prepared to fully utilize them. -->
+
+<p>並行性と並列性はコンピュータサイエンスにおいて極めて重要なトピックであり、現在では産業界でもホットトピックです。
+コンピュータはどんどん多くのコアを持つようになってきていますが、多くのプログラマはまだそれを十分に使いこなす準備ができていません。</p>
+
+<!-- Rust's memory safety features also apply to its concurrency story too. Even -->
+
+<!-- concurrent Rust programs must be memory safe, having no data races. Rust's type -->
+
+<!-- system is up to the task, and gives you powerful ways to reason about -->
+
+<!-- concurrent code at compile time. -->
+
+<p>Rustのメモリ安全性の機能は、Rustの並行性の話においても適用されます。
+Rustプログラムは並行であっても、メモリ安全でなければならず、データ競合を起こさないのです。
+Rustの型システムはこの問題を扱うことができ、並行なコードをコンパイル時に確かめるための強力な方法を与えます。</p>
+
+<!-- Before we talk about the concurrency features that come with Rust, it's important -->
+
+<!-- to understand something: Rust is low-level enough that the vast majority of -->
+
+<!-- this is provided by the standard library, not by the language. This means that -->
+
+<!-- if you don't like some aspect of the way Rust handles concurrency, you can -->
+
+<!-- implement an alternative way of doing things. -->
+
+<!-- [mio](https://github.com/carllerche/mio) is a real-world example of this -->
+
+<!-- principle in action. -->
+
+<p>Rustが備えている並行性の機能について語る前に、理解しておくべき重要なことがあります。
+それは、Rustは十分にローレベルであるため、その大部分は、言語によってではなく、標準ライブラリによって提供されるということです。
+これは、もしRustの並行性の扱い方に気に入らないところがあれば、代わりの方法を実装できるということを意味します。
+<a href="https://github.com/carllerche/mio">mio</a> はこの原則を行動で示している実例です。</p>
+
+<!-- ## Background: `Send` and `Sync` -->
+
+<h2 id='背景-send-と-sync' class='section-header'><a href='#背景-send-と-sync'>背景: <code>Send</code> と <code>Sync</code></a></h2>
+<!-- Concurrency is difficult to reason about. In Rust, we have a strong, static -->
+
+<!-- type system to help us reason about our code. As such, Rust gives us two traits -->
+
+<!-- to help us make sense of code that can possibly be concurrent. -->
+
+<p>並行性を確かめるのは難しいことです。
+Rustには、コードを確かめるのを支援する強力で静的な型システムがあります。
+そしてRustは、並行になりうるコードの理解を助ける２つのトレイトを提供します。</p>
+
+<h3 id='send' class='section-header'><a href='#send'><code>Send</code></a></h3>
+<!-- The first trait we're going to talk about is -->
+
+<!-- [`Send`](../std/marker/trait.Send.html). When a type `T` implements `Send`, it -->
+
+<!-- indicates that something of this type is able to have ownership transferred -->
+
+<!-- safely between threads. -->
+
+<p>最初に取り上げるトレイトは <a href="../std/marker/trait.Send.html"><code>Send</code></a> です。
+型 <code>T</code> が <code>Send</code> を実装していた場合、 この型のものはスレッド間で安全に受け渡しされる所有権を持てることを意味します。</p>
+
+<!-- This is important to enforce certain restrictions. For example, if we have a -->
+
+<!-- channel connecting two threads, we would want to be able to send some data -->
+
+<!-- down the channel and to the other thread. Therefore, we'd ensure that `Send` was -->
+
+<!-- implemented for that type. -->
+
+<p>これはある種の制約を強制させる際に重要です。
+例えば、もし２つのスレッドをつなぐチャネルがあり、そのチャネルを通じてデータを別のスレッドに送れるようにしたいとします。
+このときには、その型について <code>Send</code> が実装されているかを確かめます。</p>
+
+<!-- In the opposite way, if we were wrapping a library with [FFI][ffi] that isn't -->
+
+<!-- threadsafe, we wouldn't want to implement `Send`, and so the compiler will help -->
+
+<!-- us enforce that it can't leave the current thread. -->
+
+<p>逆に、スレッドセーフでない <a href="ffi.html">FFI</a>  でライブラリを包んでいて、 <code>Send</code> を実装したくなかったとします。
+このときコンパイラは、そのライブラリが現在のスレッドの外にいかないよう強制することを支援してくれるでしょう。</p>
+
+<h3 id='sync' class='section-header'><a href='#sync'><code>Sync</code></a></h3>
+<!-- The second of these traits is called [`Sync`](../std/marker/trait.Sync.html). -->
+
+<!-- When a type `T` implements `Sync`, it indicates that something -->
+
+<!-- of this type has no possibility of introducing memory unsafety when used from -->
+
+<!-- multiple threads concurrently through shared references. This implies that -->
+
+<!-- types which don't have [interior mutability](mutability.html) are inherently -->
+
+<!-- `Sync`, which includes simple primitive types (like `u8`) and aggregate types -->
+
+<!-- containing them. -->
+
+<p>２つ目のトレイトは <a href="../std/marker/trait.Sync.html"><code>Sync</code></a> といいます。
+型 <code>T</code> が <code>Sync</code> を実装していた場合、この型のものは共有された参照を通じて複数スレッドから並行に使われたとしても、必ずメモリ安全であることを意味します。
+そのため、 <a href="mutability.html">interior mutability</a> を持たない型はもともと <code>Sync</code> であるといえます。
+そのような型としては、 <code>u8</code> などの単純なプリミティブ型やそれらを含む合成型などがあります。</p>
+
+<!-- For sharing references across threads, Rust provides a wrapper type called -->
+
+<!-- `Arc<T>`. `Arc<T>` implements `Send` and `Sync` if and only if `T` implements -->
+
+<!-- both `Send` and `Sync`. For example, an object of type `Arc<RefCell<U>>` cannot -->
+
+<!-- be transferred across threads because -->
+
+<!-- [`RefCell`](choosing-your-guarantees.html#refcellt) does not implement -->
+
+<!-- `Sync`, consequently `Arc<RefCell<U>>` would not implement `Send`. -->
+
+<p>スレッドをまたいで参照を共有するために、Rustは <code>Arc&lt;T&gt;</code> というラッパ型を提供しています。
+<code>T</code> が <code>Send</code> と <code>Sync</code> の両方を実装している時かつその時に限り、 <code>Arc&lt;T&gt;</code> は <code>Send</code> と <code>Sync</code> を実装します。
+例えば、型 <code>Arc&lt;RefCell&lt;U&gt;&gt;</code> のオブジェクトをスレッドをまたいで受け渡すことはできません。
+なぜなら、 <a href="choosing-your-guarantees.html#refcellt"><code>RefCell</code></a> は <code>Sync</code> を実装していないため、 <code>Arc&lt;RefCell&lt;U&gt;&gt;</code> は <code>Send</code> を実装しないためです。</p>
+
+<!-- These two traits allow you to use the type system to make strong guarantees -->
+
+<!-- about the properties of your code under concurrency. Before we demonstrate -->
+
+<!-- why, we need to learn how to create a concurrent Rust program in the first -->
+
+<!-- place! -->
+
+<p>これらの２つのトレイトのおかげで、コードの並行性に関する性質を強く保証するのに型システムを使うことができます。
+ただ、それがどうしてかということを示す前に、まずどうやって並行なRustプログラムをつくるかということを学ぶ必要があります!</p>
+
+<!-- ## Threads -->
+
+<h2 id='スレッド' class='section-header'><a href='#スレッド'>スレッド</a></h2>
+<!-- Rust's standard library provides a library for threads, which allow you to -->
+
+<!-- run Rust code in parallel. Here's a basic example of using `std::thread`: -->
+
+<p>Rustの標準ライブラリはスレッドのためのライブラリを提供しており、それによりRustのコードを並列に走らせることができます。
+これが <code>std::thread</code> を使う基本的な例です。</p>
+
+<span class='rusttest'>use std::thread;
+
+fn main() {
+    thread::spawn(|| {
+        println!(&quot;Hello from a thread!&quot;);
+    });
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='op'>||</span> {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;Hello from a thread!&quot;</span>);
+    });
+}</pre>
+
+<!-- The `thread::spawn()` method accepts a [closure](closures.html), which is executed in a -->
+
+<!-- new thread. It returns a handle to the thread, that can be used to -->
+
+<!-- wait for the child thread to finish and extract its result: -->
+
+<p><code>thread::spawn()</code> というメソッドは <a href="closures.html">クロージャ</a> を受け取り、それを新たなスレッドで実行します。
+そして、元のスレッドにハンドルを返します。
+このハンドルは、子スレッドが終了するのを待機しその結果を取り出すのに使うことが出来ます。</p>
+
+<span class='rusttest'>use std::thread;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        &quot;Hello from a thread!&quot;
+    });
+
+    println!(&quot;{}&quot;, handle.join().unwrap());
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>handle</span> <span class='op'>=</span> <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='op'>||</span> {
+        <span class='string'>&quot;Hello from a thread!&quot;</span>
+    });
+
+    <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>handle</span>.<span class='ident'>join</span>().<span class='ident'>unwrap</span>());
+}</pre>
+
+<!-- As closures can capture variables from their environment, we can also try to -->
+
+<!-- bring some data into the other thread: -->
+
+<p>クロージャは環境から変数を捕捉出来るので、スレッドにデータを取り込もうとすることも出来ます。</p>
+
+<span class='rusttest'>use std::thread;
+
+fn main() {
+    let x = 1;
+    thread::spawn(|| {
+        println!(&quot;x is {}&quot;, x);
+    });
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+    <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='op'>||</span> {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is {}&quot;</span>, <span class='ident'>x</span>);
+    });
+}</pre>
+
+<!-- However, this gives us an error: -->
+
+<p>しかし、これはエラーです。</p>
+
+<pre><code class="language-text">5:19: 7:6 error: closure may outlive the current function, but it
+                 borrows `x`, which is owned by the current function
+...
+5:19: 7:6 help: to force the closure to take ownership of `x` (and any other referenced variables),
+          use the `move` keyword, as shown:
+      thread::spawn(move || {
+          println!(&quot;x is {}&quot;, x);
+      });
+</code></pre>
+
+<!-- This is because by default closures capture variables by reference, and thus the -->
+
+<!-- closure only captures a _reference to `x`_. This is a problem, because the -->
+
+<!-- thread may outlive the scope of `x`, leading to a dangling pointer. -->
+
+<p>これはクロージャはデフォルトで変数を参照で捕捉するためクロージャは <em><code>x</code> への参照</em> のみを捕捉するからです。
+これは問題です。なぜならスレッドは <code>x</code> のスコープよに長生きするかもしれないのでダングリングポインタを招きかねません。</p>
+
+<!-- To fix this, we use a `move` closure as mentioned in the error message. `move` -->
+
+<!-- closures are explained in depth [here](closures.html#move-closures); basically -->
+
+<!-- they move variables from their environment into themselves. -->
+
+<p>これを直すにはエラーメッセージにあるように <code>move</code> クロージャを使います。
+<code>move</code> クロージャは <a href="closures.html#move-closures">こちら</a> で詳細に説明されていますが、基本的には変数を環境からクロージャへムーブします。</p>
+
+<span class='rusttest'>use std::thread;
+
+fn main() {
+    let x = 1;
+    thread::spawn(move || {
+        println!(&quot;x is {}&quot;, x);
+    });
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>x</span> <span class='op'>=</span> <span class='number'>1</span>;
+    <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;x is {}&quot;</span>, <span class='ident'>x</span>);
+    });
+}</pre>
+
+<!-- Many languages have the ability to execute threads, but it's wildly unsafe. -->
+
+<!-- There are entire books about how to prevent errors that occur from shared -->
+
+<!-- mutable state. Rust helps out with its type system here as well, by preventing -->
+
+<!-- data races at compile time. Let's talk about how you actually share things -->
+
+<!-- between threads. -->
+
+<p>多くの言語はスレッドを実行できますが、それはひどく危険です。
+shared mutable stateによって引き起こされるエラーをいかに防ぐかを丸々あつかった本もあります。
+Rustはこれについて型システムによって、コンパイル時にデータ競合を防ぐことで支援します。
+それでは、実際にどうやってスレッド間での共有を行うかについて話しましょう。</p>
+
+<blockquote>
+<p>訳注: &quot;shared mutable state&quot; は 「共有されたミュータブルな状態」という意味ですが、定型句として、訳さずそのまま使用しています。</p>
+</blockquote>
+
+<!-- ## Safe Shared Mutable State -->
+
+<h2 id='安全な-shared-mutable-state' class='section-header'><a href='#安全な-shared-mutable-state'>安全な Shared Mutable State</a></h2>
+<!-- Due to Rust's type system, we have a concept that sounds like a lie: "safe
+shared mutable state." Many programmers agree that shared mutable state is
+very, very bad. -->
+
+<p>Rustの型システムのおかげで、「安全な shared mutable state」という嘘のようにきこえる概念があらわれます。
+shared mutable state がとてもとても悪いものであるということについて、多くのプログラマの意見は一致しています。</p>
+
+<!-- Someone once said this: -->
+
+<p>このようなことを言った人がいます。</p>
+
+<blockquote>
+<p>Shared mutable state is the root of all evil. Most languages attempt to deal
+with this problem through the &#39;mutable&#39; part, but Rust deals with it by
+solving the &#39;shared&#39; part.</p>
+
+<p>訳: shared mutable state は諸悪の根源だ。
+多くの言語は <code>mutable</code> の部分を通じてこの問題に対処しようとしている。
+しかし、Rustは <code>shared</code> の部分を解決することで対処する。</p>
+</blockquote>
+
+<!-- The same [ownership system](ownership.html) that helps prevent using pointers -->
+
+<!-- incorrectly also helps rule out data races, one of the worst kinds of -->
+
+<!-- concurrency bugs. -->
+
+<p>ポインタの誤った使用の防止には <a href="ownership.html">所有権のシステム</a> が役立ちますが、このシステムはデータ競合を排除する際にも同様に一役買います。
+データ競合は、並行性のバグの中で最悪なものの一つです。</p>
+
+<!-- As an example, here is a Rust program that could have a data race in many -->
+
+<!-- languages. It will not compile: -->
+
+<p>例として、多くの言語で起こりうるようなデータ競合を含んだRustプログラムをあげます。
+これは、コンパイルが通りません。</p>
+
+<span class='rusttest'>use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let mut data = vec![1, 2, 3];
+
+    for i in 0..3 {
+        thread::spawn(move || {
+            data[i] += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>];
+
+    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>3</span> {
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='ident'>data</span>[<span class='ident'>i</span>] <span class='op'>+=</span> <span class='number'>1</span>;
+        });
+    }
+
+    <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>50</span>));
+}</pre>
+
+<!-- This gives us an error: -->
+
+<p>以下のようなエラーがでます。</p>
+
+<pre><code class="language-text">8:17 error: capture of moved value: `data`
+        data[i] += 1;
+        ^~~~
+</code></pre>
+
+<!-- Rust knows this wouldn't be safe! If we had a reference to `data` in each -->
+
+<!-- thread, and the thread takes ownership of the reference, we'd have three owners! -->
+
+<!-- `data` gets moved out of `main` in the first call to `spawn()`, so subsequent -->
+
+<!-- calls in the loop cannot use this variable. -->
+
+<p>Rustはこれが安全でないだろうと知っているのです!
+もし、各スレッドに <code>data</code> への参照があり、スレッドごとにその参照の所有権があるとしたら、３人の所有者がいることになってしまうのです!
+<code>data</code> は最初の <code>spawn</code> の呼び出しで <code>main</code> からムーブしてしまっているので、ループ内の続く呼び出しはこの変数を使えないのです。</p>
+
+<!-- Note that this specific example will not cause a data race since different array -->
+
+<!-- indices are being accessed. But this can't be determined at compile time, and in -->
+
+<!-- a similar situation where `i` is a constant or is random, you would have a data -->
+
+<!-- race. -->
+
+<p>この例では配列の異ったインデックスにアクセスしているのでデータ競合は起きません。
+しかしこの分離性はコンパイル時に決定出来ませんし <code>i</code> が定数や乱数だった時にデータ競合が起きます。</p>
+
+<!-- So, we need some type that lets us have more than one owning reference to a -->
+
+<!-- value. Usually, we'd use `Rc<T>` for this, which is a reference counted type -->
+
+<!-- that provides shared ownership. It has some runtime bookkeeping that keeps track -->
+
+<!-- of the number of references to it, hence the "reference count" part of its name. -->
+
+<p>そのため、１つの値に対して２つ以上の所有権を持った参照を持てるような型が必要です。
+通常、この用途には <code>Rc&lt;T&gt;</code> を使います。これは所有権の共有を提供する参照カウントの型です。
+実行時にある程度の管理コストを払って、値への参照の数をカウントします。
+なので名前に参照カウント(reference count) が付いているのです。</p>
+
+<!-- Calling `clone()` on an `Rc<T>` will return a new owned reference and bump the -->
+
+<!-- internal reference count. We create one of these for each thread: -->
+
+<p><code>Rc&lt;T&gt;</code> に対して <code>clone()</code> を呼ぶと新たな所有権を持った参照を返し、内部の参照カウント数を増やします。
+スレッドそれぞれで <code>clone()</code> を取ります:</p>
+
+<span class='rusttest'>use std::thread;
+use std::time::Duration;
+use std::rc::Rc;
+
+fn main() {
+    let mut data = Rc::new(vec![1, 2, 3]);
+
+    for i in 0..3 {
+       // create a new owned reference
+        // 所有権を持った参照を新たに作る
+        let data_ref = data.clone();
+
+       // use it in a thread
+        // スレッド内でそれを使う
+        thread::spawn(move || {
+            data_ref[i] += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>rc</span>::<span class='ident'>Rc</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>Rc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]);
+
+    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>3</span> {
+        <span class='comment'>// 所有権を持った参照を新たに作る</span>
+        <span class='kw'>let</span> <span class='ident'>data_ref</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>clone</span>();
+
+        <span class='comment'>// スレッド内でそれを使う</span>
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='ident'>data_ref</span>[<span class='ident'>i</span>] <span class='op'>+=</span> <span class='number'>1</span>;
+        });
+    }
+
+    <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>50</span>));
+}</pre>
+
+<!-- This won't work, however, and will give us the error: -->
+
+<p>これは動作せず、以下のようなエラーを出します:</p>
+
+<pre><code class="language-text">13:9: 13:22 error: the trait bound `alloc::rc::Rc&lt;collections::vec::Vec&lt;i32&gt;&gt; : core::marker::Send`
+            is not satisfied
+...
+13:9: 13:22 note: `alloc::rc::Rc&lt;collections::vec::Vec&lt;i32&gt;&gt;`
+            cannot be sent between threads safely
+</code></pre>
+
+<!-- As the error message mentions, `Rc` cannot be sent between threads safely. This -->
+
+<!-- is because the internal reference count is not maintained in a thread safe -->
+
+<!-- matter and can have a data race. -->
+
+<p>エラーメッセージで言及があるように、 <code>Rc</code> は安全に別のスレッドに送ることが出来ません。
+これは内部の参照カウントがスレッドセーフに管理されていないのでデータ競合を起こし得るからです。</p>
+
+<!-- To solve this, we'll use `Arc<T>`, Rust's standard atomic reference count type. -->
+
+<p>この問題を解決するために、 <code>Arc&lt;T&gt;</code> を使います。Rustの標準のアトミックな参照カウント型です。</p>
+
+<!-- The Atomic part means `Arc<T>` can safely be accessed from multiple threads. -->
+
+<!-- To do this the compiler guarantees that mutations of the internal count use -->
+
+<!-- indivisible operations which can't have data races. -->
+
+<p>「アトミック」という部分は <code>Arc&lt;T&gt;</code> が複数スレッドから安全にアクセスできることを意味しています。
+このためにコンパイラは、内部のカウントの更新には、データ競合が起こりえない分割不能な操作が用いられることを保証します。</p>
+
+<!-- In essence, `Arc<T>` is a type that lets us share ownership of data _across -->
+
+<!-- threads_. -->
+
+<p>要点は <code>Arc&lt;T&gt;</code> は <em>スレッド間</em> で所有権を共有可能にする型ということです。</p>
+
+<span class='rusttest'>use std::thread;
+use std::sync::Arc;
+use std::time::Duration;
+
+fn main() {
+    let mut data = Arc::new(vec![1, 2, 3]);
+
+    for i in 0..3 {
+        let data = data.clone();
+        thread::spawn(move || {
+            data[i] += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>Arc</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]);
+
+    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>3</span> {
+        <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>clone</span>();
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='ident'>data</span>[<span class='ident'>i</span>] <span class='op'>+=</span> <span class='number'>1</span>;
+        });
+    }
+
+    <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>50</span>));
+}</pre>
+
+<!-- Similarly to last time, we use `clone()` to create a new owned handle. -->
+
+<!-- This handle is then moved into the new thread. -->
+
+<p>前回と同様に <code>clone()</code> を使って所有権を持った新たなハンドルを作っています。
+そして、このハンドルは新たなスレッドに移動されます。</p>
+
+<!-- And... still gives us an error. -->
+
+<p>そうすると...
+まだ、エラーがでます。</p>
+
+<pre><code class="language-text">&lt;anon&gt;:11:24 error: cannot borrow immutable borrowed content as mutable
+&lt;anon&gt;:11                    data[i] += 1;
+                             ^~~~
+</code></pre>
+
+<!-- `Arc<T>` by default has immutable contents. It allows the _sharing_ of data -->
+
+<!-- between threads, but shared mutable data is unsafe and when threads are -->
+
+<!-- involved can cause data races! -->
+
+<p><code>Arc&lt;T&gt;</code> が保持する値はデフォルトでイミュータブルです。
+スレッド間での <em>共有</em> はしてくれますがスレッドが絡んだ時の共有されたミュータブルなデータはデータ競合を引き起こし得ます。</p>
+
+<!-- Usually when we wish to make something in an immutable position mutable, we use -->
+
+<!-- `Cell<T>` or `RefCell<T>` which allow safe mutation via runtime checks or -->
+
+<!-- otherwise (see also: [Choosing Your Guarantees](choosing-your-guarantees.html)). -->
+
+<!-- However, similar to `Rc`, these are not thread safe. If we try using these, we -->
+
+<!-- will get an error about these types not being `Sync`, and the code will fail to -->
+
+<!-- compile. -->
+
+<p>通常イミュータブルな位置のものをミュータブルにしたい時は <code>Cell&lt;T&gt;</code> 又は <code>RefCell&lt;T&gt;</code> が実行時のチェックあるいは他の方法で安全に変更する手段を提供してくれる（参考: <a href="choosing-your-guarantees.html">保障を選ぶ</a>）のでそれを使います。
+しかしながら <code>Rc</code> と同じくこれらはスレッドセーフではありません。
+これらを使おうとすると <code>Sync</code> でない旨のエラーが出てコンパイルに失敗します。</p>
+
+<!-- It looks like we need some type that allows us to safely mutate a shared value -->
+
+<!-- across threads, for example a type that can ensure only one thread at a time is -->
+
+<!-- able to mutate the value inside it at any one time. -->
+
+<p>スレッド間で共有された値を安全に変更出来る型、例えばどの瞬間でも同時に1スレッドしか内容の値を変更できないことを保障する型が必要そうです。</p>
+
+<!-- For that, we can use the `Mutex<T>` type! -->
+
+<p>そのためには、 <code>Mutex&lt;T&gt;</code> 型を使うことができます!</p>
+
+<!-- Here's the working version: -->
+
+<p>これが動くバージョンです。</p>
+
+<span class='rusttest'>use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let data = Arc::new(Mutex::new(vec![1, 2, 3]));
+
+    for i in 0..3 {
+        let data = data.clone();
+        thread::spawn(move || {
+            let mut data = data.lock().unwrap();
+            data[i] += 1;
+        });
+    }
+
+    thread::sleep(Duration::from_millis(50));
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>time</span>::<span class='ident'>Duration</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='macro'>vec</span><span class='macro'>!</span>[<span class='number'>1</span>, <span class='number'>2</span>, <span class='number'>3</span>]));
+
+    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>3</span> {
+        <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>clone</span>();
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+            <span class='ident'>data</span>[<span class='ident'>i</span>] <span class='op'>+=</span> <span class='number'>1</span>;
+        });
+    }
+
+    <span class='ident'>thread</span>::<span class='ident'>sleep</span>(<span class='ident'>Duration</span>::<span class='ident'>from_millis</span>(<span class='number'>50</span>));
+}</pre>
+
+<!-- Note that the value of `i` is bound (copied) to the closure and not shared
+among the threads. -->
+
+<p><code>i</code> の値はクロージャへ束縛(コピー)されるだけで、スレッド間で共有されるわけではないことに注意してください。</p>
+
+<!-- We're "locking" the mutex here. A mutex (short for "mutual exclusion"), as -->
+
+<!-- mentioned, only allows one thread at a time to access a value. When we wish to -->
+
+<!-- access the value, we use `lock()` on it. This will "lock" the mutex, and no -->
+
+<!-- other thread will be able to lock it (and hence, do anything with the value) -->
+
+<!-- until we're done with it. If a thread attempts to lock a mutex which is already -->
+
+<!-- locked, it will wait until the other thread releases the lock. -->
+
+<p>ここではmutexを「ロック」しているのです。
+mutex（「mutual exclusion（訳注: 相互排他）」の略）は前述の通り同時に1つのスレッドからのアクセスしか許しません。
+値にアクセスしようと思ったら、 <code>lock()</code> を使います。これは値を使い終わるまでmutexを「ロック」して他のどのスレッドもロック出来ない（そして値に対して何も出来ない）ようにします。
+もし既にロックされているmutexをロックしようとすると別のスレッドがロックを解放するまで待ちます。</p>
+
+<!-- The lock "release" here is implicit; when the result of the lock (in this case, -->
+
+<!-- `data`) goes out of scope, the lock is automatically released. -->
+
+<p>ここでの「解放」は暗黙的です。ロックの結果（この場合は <code>data</code>）がスコープを出ると、ロックは自動で解放されます</p>
+
+<!-- Note that [`lock`](../std/sync/struct.Mutex.html#method.lock) method of -->
+
+<!-- [`Mutex`](../std/sync/struct.Mutex.html) has this signature: -->
+
+<p><a href="../std/sync/struct.Mutex.html"><code>Mutex</code></a>の<a href="../std/sync/struct.Mutex.html#method.lock"><code>lock</code></a>メソッドは次のシグネチャを持つことを気をつけて下さい。</p>
+
+<span class='rusttest'>fn main() {
+    fn lock(&amp;self) -&gt; LockResult&lt;MutexGuard&lt;T&gt;&gt;
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>fn</span> <span class='ident'>lock</span>(<span class='kw-2'>&amp;</span><span class='self'>self</span>) <span class='op'>-&gt;</span> <span class='ident'>LockResult</span><span class='op'>&lt;</span><span class='ident'>MutexGuard</span><span class='op'>&lt;</span><span class='ident'>T</span><span class='op'>&gt;&gt;</span></pre>
+
+<!-- and because `Send` is not implemented for `MutexGuard<T>`, the guard cannot -->
+
+<!-- cross thread boundaries, ensuring thread-locality of lock acquire and release. -->
+
+<p>そして、 <code>Send</code> は <code>MutexGuard&lt;T&gt;</code> に対して実装されていないため、ガードはスレッドの境界をまたげず、ロックの獲得と解放のスレッドローカル性が保証されています。</p>
+
+<!-- Let's examine the body of the thread more closely: -->
+
+<p>それでは、スレッドの中身をさらに詳しく見ていきましょう。</p>
+
+<span class='rusttest'>use std::sync::{Arc, Mutex};
+use std::thread;
+use std::time::Duration;
+fn main() {
+    let data = Arc::new(Mutex::new(vec![1, 2, 3]));
+    for i in 0..3 {
+        let data = data.clone();
+thread::spawn(move || {
+    let mut data = data.lock().unwrap();
+    data[i] += 1;
+});
+    }
+    thread::sleep(Duration::from_millis(50));
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+    <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+    <span class='ident'>data</span>[<span class='ident'>i</span>] <span class='op'>+=</span> <span class='number'>1</span>;
+});</pre>
+
+<!-- First, we call `lock()`, which acquires the mutex's lock. Because this may fail, -->
+
+<!-- it returns a `Result<T, E>`, and because this is just an example, we `unwrap()` -->
+
+<!-- it to get a reference to the data. Real code would have more robust error handling -->
+
+<!-- here. We're then free to mutate it, since we have the lock. -->
+
+<p>まず、 <code>lock()</code> を呼び、mutex のロックを獲得します。
+これは失敗するかもしれないため、<code>Result&lt;T, E&gt;</code> が返されます。
+そして、今回は単なる例なので、データへの参照を得るためにそれを <code>unwrap()</code> します。
+実際のコードでは、ここでもっとちゃんとしたエラーハンドリングをするでしょう。
+そうしたら、ロックを持っているので、自由に値を変更できます。</p>
+
+<!-- Lastly, while the threads are running, we wait on a short timer. But -->
+
+<!-- this is not ideal: we may have picked a reasonable amount of time to -->
+
+<!-- wait but it's more likely we'll either be waiting longer than -->
+
+<!-- necessary or not long enough, depending on just how much time the -->
+
+<!-- threads actually take to finish computing when the program runs. -->
+
+<p>最後の部分で、スレッドが実行されている間、短いタイマで待機しています。
+しかし、これはよろしくないです。
+というのも、ちょうどよい待機時間を選んでいた可能性より、必要以上に長い時間待ってしまっていたり、十分に待っていなかったりする可能性の方が高いからです。
+適切な待ち時間というのは、プログラムを実行した際に、実際に計算が終わるまでどれだけの時間がかかったかに依存します。</p>
+
+<!-- A more precise alternative to the timer would be to use one of the -->
+
+<!-- mechanisms provided by the Rust standard library for synchronizing -->
+
+<!-- threads with each other. Let's talk about one of them: channels. -->
+
+<p>タイマに代わるより良い選択肢は、Rust標準ライブラリによって提供されている、スレッドがお互いに同期するためのメカニズムを用いることです。
+それでは、そのようなものの一つについて話しましょう。
+チャネルです。</p>
+
+<!-- ## Channels -->
+
+<h2 id='チャネル' class='section-header'><a href='#チャネル'>チャネル</a></h2>
+<!-- Here's a version of our code that uses channels for synchronization, rather -->
+
+<!-- than waiting for a specific time: -->
+
+<p>このコードが、適当な時間を待つ代わりに、同期のためにチャネルを使ったバージョンです。</p>
+
+<span class='rusttest'>use std::sync::{Arc, Mutex};
+use std::thread;
+use std::sync::mpsc;
+
+fn main() {
+    let data = Arc::new(Mutex::new(0));
+
+   // `tx` is the &quot;transmitter&quot; or &quot;sender&quot;
+   // `rx` is the &quot;receiver&quot;
+    // `tx` は送信（transmitter）
+    // `rx` は受信（receiver）
+    let (tx, rx) = mpsc::channel();
+
+    for _ in 0..10 {
+        let (data, tx) = (data.clone(), tx.clone());
+
+        thread::spawn(move || {
+            let mut data = data.lock().unwrap();
+            *data += 1;
+
+            tx.send(()).unwrap();
+        });
+    }
+
+    for _ in 0..10 {
+        rx.recv().unwrap();
+    }
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::{<span class='ident'>Arc</span>, <span class='ident'>Mutex</span>};
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>Arc</span>::<span class='ident'>new</span>(<span class='ident'>Mutex</span>::<span class='ident'>new</span>(<span class='number'>0</span>));
+
+    <span class='comment'>// `tx` は送信（transmitter）</span>
+    <span class='comment'>// `rx` は受信（receiver）</span>
+    <span class='kw'>let</span> (<span class='ident'>tx</span>, <span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>mpsc</span>::<span class='ident'>channel</span>();
+
+    <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+        <span class='kw'>let</span> (<span class='ident'>data</span>, <span class='ident'>tx</span>) <span class='op'>=</span> (<span class='ident'>data</span>.<span class='ident'>clone</span>(), <span class='ident'>tx</span>.<span class='ident'>clone</span>());
+
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>data</span> <span class='op'>=</span> <span class='ident'>data</span>.<span class='ident'>lock</span>().<span class='ident'>unwrap</span>();
+            <span class='op'>*</span><span class='ident'>data</span> <span class='op'>+=</span> <span class='number'>1</span>;
+
+            <span class='ident'>tx</span>.<span class='ident'>send</span>(()).<span class='ident'>unwrap</span>();
+        });
+    }
+
+    <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+        <span class='ident'>rx</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>();
+    }
+}</pre>
+
+<!-- We use the `mpsc::channel()` method to construct a new channel. We `send` -->
+
+<!-- a simple `()` down the channel, and then wait for ten of them to come back. -->
+
+<p><code>mpsc::channel()</code> メソッドを使って、新たなチャネルを生成しています。
+そして、ただの <code>()</code> をチャネルを通じて <code>send</code> し、それが１０個戻ってくるのを待機します。</p>
+
+<!-- While this channel is sending a generic signal, we can send any data that -->
+
+<!-- is `Send` over the channel! -->
+
+<p>このチャネルはシグナルを送っているだけですが、 <code>Send</code> であるデータならばなんでもこのチャネルを通じて送れます!</p>
+
+<span class='rusttest'>use std::thread;
+use std::sync::mpsc;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    for i in 0..10 {
+        let tx = tx.clone();
+
+        thread::spawn(move || {
+            let answer = i * i;
+
+            tx.send(answer).unwrap();
+        });
+    }
+
+    for _ in 0..10 {
+        println!(&quot;{}&quot;, rx.recv().unwrap());
+    }
+}
+</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>sync</span>::<span class='ident'>mpsc</span>;
+
+<span class='kw'>fn</span> <span class='ident'>main</span>() {
+    <span class='kw'>let</span> (<span class='ident'>tx</span>, <span class='ident'>rx</span>) <span class='op'>=</span> <span class='ident'>mpsc</span>::<span class='ident'>channel</span>();
+
+    <span class='kw'>for</span> <span class='ident'>i</span> <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+        <span class='kw'>let</span> <span class='ident'>tx</span> <span class='op'>=</span> <span class='ident'>tx</span>.<span class='ident'>clone</span>();
+
+        <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+            <span class='kw'>let</span> <span class='ident'>answer</span> <span class='op'>=</span> <span class='ident'>i</span> <span class='op'>*</span> <span class='ident'>i</span>;
+
+            <span class='ident'>tx</span>.<span class='ident'>send</span>(<span class='ident'>answer</span>).<span class='ident'>unwrap</span>();
+        });
+    }
+
+    <span class='kw'>for</span> _ <span class='kw'>in</span> <span class='number'>0</span>..<span class='number'>10</span> {
+        <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;{}&quot;</span>, <span class='ident'>rx</span>.<span class='ident'>recv</span>().<span class='ident'>unwrap</span>());
+    }
+}</pre>
+
+<!-- Here we create 10 threads, asking each to calculate the square of a number (`i` -->
+
+<!-- at the time of `spawn()`), and then `send()` back the answer over the channel. -->
+
+<p>ここでは、１０個のスレッドを生成し、それぞれに数値 ( <code>spawn()</code> したときの <code>i</code> ) の２乗を計算させ、その答えをチャネルを通じて <code>send()</code> で送り返させています。</p>
+
+<!-- ## Panics -->
+
+<h2 id='パニック' class='section-header'><a href='#パニック'>パニック</a></h2>
+<!-- A `panic!` will crash the currently executing thread. You can use Rust's -->
+
+<!-- threads as a simple isolation mechanism: -->
+
+<p><code>panic!</code> は現在実行中のスレッドをクラッシュさせます。
+Rustのスレッドは独立させるための単純なメカニズムとして使うことができます。</p>
+
+<span class='rusttest'>fn main() {
+    use std::thread;
+
+let handle = thread::spawn(move || {
+    panic!(&quot;oops!&quot;);
+});
+
+let result = handle.join();
+
+assert!(result.is_err());
+}</span><pre class='rust rust-example-rendered'>
+<span class='kw'>use</span> <span class='ident'>std</span>::<span class='ident'>thread</span>;
+
+<span class='kw'>let</span> <span class='ident'>handle</span> <span class='op'>=</span> <span class='ident'>thread</span>::<span class='ident'>spawn</span>(<span class='kw'>move</span> <span class='op'>||</span> {
+    <span class='macro'>panic</span><span class='macro'>!</span>(<span class='string'>&quot;oops!&quot;</span>);
+});
+
+<span class='kw'>let</span> <span class='ident'>result</span> <span class='op'>=</span> <span class='ident'>handle</span>.<span class='ident'>join</span>();
+
+<span class='macro'>assert</span><span class='macro'>!</span>(<span class='ident'>result</span>.<span class='ident'>is_err</span>());</pre>
+
+<!-- `Thread.join()` gives us a `Result` back, which allows us to check if the thread -->
+
+<!-- has panicked or not. -->
+
+<p><code>Thread.join()</code> は <code>Result</code> を返し、これによってスレッドがパニックしたかどうかをチェックできます。</p>
+
+    <script type="text/javascript">
+        window.playgroundUrl = "https://play.rust-lang.org";
+    </script>
+    <script src='rustbook.js'></script>
+<script src='playpen.js'></script>
+</div></div>
+
+
+</body>
+</html>
