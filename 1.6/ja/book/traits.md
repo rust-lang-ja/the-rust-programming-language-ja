@@ -335,7 +335,7 @@ fn foo<T: Clone>(x: T) {
 ```
 
 <!-- If you need more than one bound, you can use `+`: -->
-1つ以上の境界を与えたい場合、 `+` を使えます。
+2つ以上の境界を与えたい場合、 `+` を使えます。
 
 ```rust
 use std::fmt::Debug;
