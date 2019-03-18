@@ -634,9 +634,9 @@ Rustの主要な売りの1つが、参照をいかに安全に簡単に使える
 こうすることだって <em>できました</em></p>
 
 <span class='rusttest'>fn main() {
-        io::stdin().read_line(&amp;mut guess).expect(&quot;failed to read line&quot;);
+        io::stdin().read_line(&amp;mut guess).expect(&quot;Failed to read line&quot;);
 }</span><pre class='rust rust-example-rendered'>
-    <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>).<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);</pre>
+    <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>).<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);</pre>
 
 <!-- But that gets hard to read. So we’ve split it up, two lines for two method -->
 
@@ -990,7 +990,7 @@ fn main() {
     let mut guess = String::new();
 
     io::stdin().read_line(&amp;mut guess)
-        .expect(&quot;failed to read line&quot;);
+        .expect(&quot;Failed to read line&quot;);
 
     println!(&quot;You guessed: {}&quot;, guess);
 }
@@ -1012,7 +1012,7 @@ fn main() {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
 
     <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
-        .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
+        .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);
 
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;You guessed: {}&quot;</span>, <span class='ident'>guess</span>);
 }
@@ -1151,7 +1151,7 @@ fn main() {
     let mut guess = String::new();
 
     io::stdin().read_line(&amp;mut guess)
-        .expect(&quot;failed to read line&quot;);
+        .expect(&quot;Failed to read line&quot;);
 
     println!(&quot;You guessed: {}&quot;, guess);
 
@@ -1180,7 +1180,7 @@ fn main() {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
 
     <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
-        .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
+        .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);
 
     <span class='macro'>println</span><span class='macro'>!</span>(<span class='string'>&quot;You guessed: {}&quot;</span>, <span class='ident'>guess</span>);
 
@@ -1362,7 +1362,7 @@ fn main() {
     let mut guess = String::new();
 
     io::stdin().read_line(&amp;mut guess)
-        .expect(&quot;failed to read line&quot;);
+        .expect(&quot;Failed to read line&quot;);
 
     let guess: u32 = guess.trim().parse()
         .expect(&quot;Please type a number!&quot;);
@@ -1394,7 +1394,7 @@ fn main() {
     <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
 
     <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
-        .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
+        .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);
 
     <span class='kw'>let</span> <span class='ident'>guess</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='ident'>guess</span>.<span class='ident'>trim</span>().<span class='ident'>parse</span>()
         .<span class='ident'>expect</span>(<span class='string'>&quot;Please type a number!&quot;</span>);
@@ -1552,7 +1552,7 @@ fn main() {
         let mut guess = String::new();
 
         io::stdin().read_line(&amp;mut guess)
-            .expect(&quot;failed to read line&quot;);
+            .expect(&quot;Failed to read line&quot;);
 
         let guess: u32 = guess.trim().parse()
             .expect(&quot;Please type a number!&quot;);
@@ -1586,7 +1586,7 @@ fn main() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
 
         <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
-            .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
+            .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);
 
         <span class='kw'>let</span> <span class='ident'>guess</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='ident'>guess</span>.<span class='ident'>trim</span>().<span class='ident'>parse</span>()
             .<span class='ident'>expect</span>(<span class='string'>&quot;Please type a number!&quot;</span>);
@@ -1660,7 +1660,7 @@ fn main() {
         let mut guess = String::new();
 
         io::stdin().read_line(&amp;mut guess)
-            .expect(&quot;failed to read line&quot;);
+            .expect(&quot;Failed to read line&quot;);
 
         let guess: u32 = guess.trim().parse()
             .expect(&quot;Please type a number!&quot;);
@@ -1697,7 +1697,7 @@ fn main() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
 
         <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
-            .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
+            .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);
 
         <span class='kw'>let</span> <span class='ident'>guess</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='ident'>guess</span>.<span class='ident'>trim</span>().<span class='ident'>parse</span>()
             .<span class='ident'>expect</span>(<span class='string'>&quot;Please type a number!&quot;</span>);
@@ -1749,7 +1749,7 @@ fn main() {
         let mut guess = String::new();
 
         io::stdin().read_line(&amp;mut guess)
-            .expect(&quot;failed to read line&quot;);
+            .expect(&quot;Failed to read line&quot;);
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) =&gt; num,
@@ -1788,7 +1788,7 @@ fn main() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
 
         <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
-            .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
+            .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);
 
         <span class='kw'>let</span> <span class='ident'>guess</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>guess</span>.<span class='ident'>trim</span>().<span class='ident'>parse</span>() {
             <span class='prelude-val'>Ok</span>(<span class='ident'>num</span>) <span class='op'>=&gt;</span> <span class='ident'>num</span>,
@@ -1910,7 +1910,7 @@ fn main() {
         let mut guess = String::new();
 
         io::stdin().read_line(&amp;mut guess)
-            .expect(&quot;failed to read line&quot;);
+            .expect(&quot;Failed to read line&quot;);
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) =&gt; num,
@@ -1947,7 +1947,7 @@ fn main() {
         <span class='kw'>let</span> <span class='kw-2'>mut</span> <span class='ident'>guess</span> <span class='op'>=</span> <span class='ident'>String</span>::<span class='ident'>new</span>();
 
         <span class='ident'>io</span>::<span class='ident'>stdin</span>().<span class='ident'>read_line</span>(<span class='kw-2'>&amp;</span><span class='kw-2'>mut</span> <span class='ident'>guess</span>)
-            .<span class='ident'>expect</span>(<span class='string'>&quot;failed to read line&quot;</span>);
+            .<span class='ident'>expect</span>(<span class='string'>&quot;Failed to read line&quot;</span>);
 
         <span class='kw'>let</span> <span class='ident'>guess</span>: <span class='ident'>u32</span> <span class='op'>=</span> <span class='kw'>match</span> <span class='ident'>guess</span>.<span class='ident'>trim</span>().<span class='ident'>parse</span>() {
             <span class='prelude-val'>Ok</span>(<span class='ident'>num</span>) <span class='op'>=&gt;</span> <span class='ident'>num</span>,
