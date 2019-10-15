@@ -14,9 +14,9 @@
 <!-- * ownership, which you’re reading now -->
 <!-- * [borrowing][borrowing], and their associated feature ‘references’ -->
 <!-- * [lifetimes][lifetimes], an advanced concept of borrowing -->
-* 今読んでいる、所有権
-* [借用][borrowing] 、そしてそれらに関連する機能、「参照」
-* 借用のもう一歩進んだ概念、 [ライフタイム][lifetimes]
+* 「所有権」（このページ）
+* 「[借用][borrowing]」と、それに関連する機能である「参照」
+* 借用のもう一歩進んだ概念である 「[ライフタイム][lifetimes]」
 
 <!-- These three chapters are related, and in order. You’ll need all three to fully -->
 <!-- understand the ownership system. -->
