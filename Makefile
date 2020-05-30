@@ -23,6 +23,7 @@ RUSTDOC_DEPS_reference := $(TARGET_DIR)/full-toc.inc
 RUSTDOC_FLAGS_reference := --html-in-header=$(TARGET_DIR)/full-toc.inc
 
 RUSTDOC_HTML_OPTS_NO_CSS = --html-before-content=$(TARGET_DIR)/version_info.html \
+	--html-in-header=$(TARGET_DIR)/head.inc \
 	--html-in-header=$(TARGET_DIR)/favicon.inc \
 	--html-after-content=$(TARGET_DIR)/footer.inc \
 	--markdown-playground-url='https://play.rust-lang.org/'
@@ -60,19 +61,19 @@ $(TARGET_DIR)/book/index.html: $(wildcard $(BASE_DIR)/book/*.md) | $(TARGET_DIR)
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/book/*.md"
 	rm -rf $(TARGET_DIR)/book
-	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/book
+	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build --html-in-header=$(BASE_DIR)/head.inc $(BASE_DIR)/book $(TARGET_DIR)/book
 
 $(TARGET_DIR)/nomicon/index.html: $(wildcard $(BASE_DIR)/nomicon/*.md) | $(TARGET_DIR)
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/nomicon/*.md"
 	rm -rf $(TARGET_DIR)/nomicon
-	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/nomicon $(TARGET_DIR)/nomicon
+	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build --html-in-header=$(BASE_DIR)/head.inc $(BASE_DIR)/nomicon $(TARGET_DIR)/nomicon
 
 $(TARGET_DIR)/style/index.html: $(wildcard $(BASE_DIR)/style/*.md) | $(TARGET_DIR)
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/style/*.md"
 	rm -rf $(TARGET_DIR)/style
-	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/style $(TARGET_DIR)/style
+	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build --html-in-header=$(BASE_DIR)/head.inc $(BASE_DIR)/style $(TARGET_DIR)/style
 
 $(TARGET_DIR):
 	@echo ""
@@ -97,6 +98,10 @@ $(TARGET_DIR)/version_info.html: $(BASE_DIR)/version_info.html.template $(MKFILE
 ######################################################################
 # Docs from rustdoc
 ######################################################################
+
+HTML_DEPS += $(TARGET_DIR)/head.inc
+$(TARGET_DIR)/head.inc: $(BASE_DIR)/head.inc | $(TARGET_DIR)
+	cp -PRp $< $@ 2> /dev/null
 
 HTML_DEPS += $(TARGET_DIR)/rust.css
 $(TARGET_DIR)/rust.css: $(BASE_DIR)/rust.css | $(TARGET_DIR)
