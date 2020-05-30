@@ -23,6 +23,7 @@ RUSTDOC_DEPS_reference := $(TARGET_DIR)/full-toc.inc
 RUSTDOC_FLAGS_reference := --html-in-header=$(TARGET_DIR)/full-toc.inc
 
 RUSTDOC_HTML_OPTS_NO_CSS = --html-before-content=$(TARGET_DIR)/version_info.html \
+	--html-before-content=$(TARGET_DIR)/caveat.inc \
 	--html-in-header=$(TARGET_DIR)/favicon.inc \
 	--html-after-content=$(TARGET_DIR)/footer.inc \
 	--markdown-playground-url='https://play.rust-lang.org/'
@@ -60,7 +61,7 @@ $(TARGET_DIR)/book/index.html: $(wildcard $(BASE_DIR)/book/*.md) | $(TARGET_DIR)
 	@echo ""
 	@echo "== rustbook: Generating HTML from $(BASE_DIR)/book/*.md"
 	rm -rf $(TARGET_DIR)/book
-	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build $(BASE_DIR)/book $(TARGET_DIR)/book
+	LD_LIBRARY_PATH=$(RUSTLIB) $(RUSTBOOK) build --html-before-content=$(TARGET_DIR)/caveat.inc $(BASE_DIR)/book $(TARGET_DIR)/book
 
 $(TARGET_DIR)/nomicon/index.html: $(wildcard $(BASE_DIR)/nomicon/*.md) | $(TARGET_DIR)
 	@echo ""
@@ -100,6 +101,10 @@ $(TARGET_DIR)/version_info.html: $(BASE_DIR)/version_info.html.template $(MKFILE
 
 HTML_DEPS += $(TARGET_DIR)/rust.css
 $(TARGET_DIR)/rust.css: $(BASE_DIR)/rust.css | $(TARGET_DIR)
+	cp -PRp $< $@ 2> /dev/null
+
+HTML_DEPS += $(TARGET_DIR)/caveat.inc
+$(TARGET_DIR)/caveat.inc: $(BASE_DIR)/caveat.inc | $(TARGET_DIR)
 	cp -PRp $< $@ 2> /dev/null
 
 HTML_DEPS += $(TARGET_DIR)/favicon.inc
